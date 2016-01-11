@@ -13,6 +13,16 @@
     <xsl:variable name="year">
       <xsl:call-template name="getVolumeYear" />
     </xsl:variable>
+    <xsl:variable name="catalogReference">
+      <xsl:for-each select="//TEI/HEAD[1]/span">
+        <xsl:value-of select="normalize-space(text())" />
+      </xsl:for-each>
+    </xsl:variable>
+    <xsl:variable name="price">
+      <xsl:for-each select="//TEI/PRICE/PARAGRAPH/span">
+        <xsl:value-of select="normalize-space(text())" />
+      </xsl:for-each>
+    </xsl:variable>
     <xsl:message terminate="no">Writing Series level document <xsl:value-of select="concat($outputDirFileUri, $year, '.xml')"/></xsl:message>
     <xsl:result-document href="{$outputDirFileUri}ML_{$year}.xml">
       <add>
@@ -57,12 +67,14 @@
       <xsl:variable name="item">
         <xsl:for-each select="NUMBER[1]/span"><xsl:value-of select="normalize-space(text())"></xsl:value-of></xsl:for-each>
       </xsl:variable>
-      <xsl:variable name="title"><xsl:apply-templates select="PARAGRAPH/TITLE/*" mode="text" /></xsl:variable>
+      <xsl:variable name="title"><xsl:apply-templates select="METADATA/TITLE/*" mode="text" /></xsl:variable>
       <xsl:message terminate="no">Writing document <xsl:value-of select="concat($outputDirFileUri, $item, '.xml')"/></xsl:message>
       <xsl:result-document href="{$outputDirFileUri}ML_{$item}.xml">
         <add>
           <doc>
             <field name="id">ML_<xsl:value-of select="normalize-space($item)" /></field>
+            <field name="price_facet"><xsl:value-of select="$price" /></field>
+            <field name="catalog_facet"><xsl:value-of select="$catalogReference" /></field> 
             
             <xsl:apply-templates select="current()/*" mode="item-solr"></xsl:apply-templates>
             
@@ -98,6 +110,24 @@
             <xsl:call-template name="parseTorchbearers">
               <xsl:with-param name="fulltext" select="$fulltext" />
             </xsl:call-template>
+            <xsl:call-template name="parsePublishersNotes">
+              <xsl:with-param name="fulltext" select="$fulltext" />
+            </xsl:call-template>
+            <xsl:call-template name="parseDesigner">
+              <xsl:with-param name="fulltext" select="$fulltext" />
+            </xsl:call-template>
+            <xsl:call-template name="parsePrinter">
+              <xsl:with-param name="fulltext" select="$fulltext" />
+            </xsl:call-template>
+            <xsl:call-template name="parseIntroduction">
+              <xsl:with-param name="fulltext" select="$fulltext" />
+            </xsl:call-template>
+            <xsl:call-template name="parseTranslator">
+              <xsl:with-param name="fulltext" select="$fulltext" />
+            </xsl:call-template>
+            <xsl:call-template name="parseIllustrator">
+              <xsl:with-param name="fulltext" select="$fulltext" />
+            </xsl:call-template>
             <field name="fulltext_text" boost="0.2">
               <xsl:value-of select="$fulltext" />
             </field>
@@ -119,6 +149,16 @@
     <field name="language_facet">English</field>
     <field name="has_optional_facet">torchbearer_facet</field>
     <field name="has_optional_facet">ml_number_facet</field>
+    <field name="has_optional_facet">price_facet</field>
+    <field name="has_optional_facet">pub_note_facet</field>
+    <field name="has_optional_facet">designer_facet</field>
+    <field name="has_optional_facet">printer_facet</field>
+    <field name="has_optional_facet">translator_facet</field>
+    <field name="has_optional_facet">introduction_facet</field>
+    <field name="has_optional_facet">illustrator_facet</field>
+    <field name="has_optional_facet">first_published_facet</field>
+    <field name="has_optional_facet">discontinued_facet</field>
+    <field name="has_optional_facet">catalog_facet</field>
   </xsl:template>
   
   <xsl:template name="getVolumeTitle">
@@ -140,6 +180,9 @@
        <xsl:matching-substring>
          <xsl:value-of select="current()" />
        </xsl:matching-substring>
+       <xsl:non-matching-substring>
+         <xsl:message>Head doesn't match "<xsl:value-of select="current()"/>"</xsl:message>
+       </xsl:non-matching-substring>
     </xsl:analyze-string>
   </xsl:template>
   
@@ -173,7 +216,7 @@
     <xsl:text>&lt;/digitized_component_count&gt;</xsl:text>
     <xsl:for-each select="/TEI/BOOK">
       <xsl:variable name="bookID"><xsl:apply-templates select="NUMBER/*" mode="text" /></xsl:variable>
-      <xsl:variable name="bookTitle"><xsl:apply-templates select="PARAGRAPH/TITLE/*" mode="text" /></xsl:variable>
+      <xsl:variable name="bookTitle"><xsl:apply-templates select="METADATA/TITLE/*" mode="text" /></xsl:variable>
       <xsl:text>&lt;component&gt;&lt;id&gt;ML_</xsl:text>
       <xsl:value-of select="normalize-space($bookID)"></xsl:value-of>
       <xsl:text>&lt;/id&gt;&lt;type&gt;item&lt;/type&gt;&lt;unittitle&gt;&lt;![CDATA[</xsl:text>
@@ -232,7 +275,7 @@
     <xsl:apply-templates select="*" mode="item-solr" />
   </xsl:template>
   
-  <xsl:template match="PARAGRAPH[TITLE][ML_NUMBER][DATE_RANGE]" mode="item-solr">
+  <xsl:template match="METADATA[TITLE][ML_NUMBER][DATE_RANGE]" mode="item-solr">
     <xsl:variable name="full_title">
       <xsl:apply-templates select="*/span" mode="text" />
     </xsl:variable>
@@ -273,6 +316,22 @@
   <xsl:template match="DATE_RANGE" mode="item-solr">
     <xsl:variable name="value"><xsl:apply-templates select="*" mode="text" /></xsl:variable>
     <field name="publication_date_range_display"><xsl:value-of select="$value" /></field>
+    <!-- Sample patterns:
+      "1999-2000"
+      "1937–1971; 1982–  "
+      -->
+    <xsl:analyze-string select="$value" regex="(\d\d\d\d).*">
+      <xsl:matching-substring>
+        <field name="first_published_facet"><xsl:value-of select="regex-group(1)" /></field>
+      </xsl:matching-substring>
+    </xsl:analyze-string>
+    
+    <xsl:analyze-string select="$value" regex="[–-](\d\d\d\d)">
+      <xsl:matching-substring>
+        <field name="discontinued_facet"><xsl:value-of select="regex-group(1)" /></field>
+      </xsl:matching-substring>
+    </xsl:analyze-string>
+    
   </xsl:template>
 
 
@@ -285,7 +344,7 @@
     </xsl:for-each>
   </xsl:template>
   
-  <xsl:template match="PARAGRAPH/TITLE" mode="tei">
+  <xsl:template match="METADATA/TITLE" mode="tei">
     <xsl:apply-templates select="*" mode="tei" />
   </xsl:template>
   
@@ -298,6 +357,12 @@
   <xsl:template match="PARAGRAPH" mode="tei">
     <xsl:text>&lt;p&gt;</xsl:text>
       <xsl:apply-templates select="*" mode="tei" />
+    <xsl:text>&lt;/p&gt;</xsl:text>
+  </xsl:template>
+  
+  <xsl:template match="METADATA" mode="tei">
+    <xsl:text>&lt;p&gt;</xsl:text>
+    <xsl:apply-templates select="*" mode="tei" />
     <xsl:text>&lt;/p&gt;</xsl:text>
   </xsl:template>
   
@@ -351,16 +416,85 @@
   </xsl:template>
   
   <!-- Torchbearer processing -->
-  
   <xsl:template name="parseTorchbearers">
     <xsl:param name="fulltext" required="yes" />
-    <xsl:analyze-string select="$fulltext" regex="\[torchbearer ([A-Z]+[0-9]+)">
+    <xsl:analyze-string select="$fulltext" regex="\[torchbearer ([A-Z]*[0-9]*)\]">
       <xsl:matching-substring>
         <field name="torchbearer_facet"><xsl:value-of select="regex-group(1)" /></field>
       </xsl:matching-substring>
     </xsl:analyze-string>
-    <xsl:apply-templates select="*" mode="torchbearer" />
+    <!--<xsl:apply-templates select="*" mode="torchbearer" />-->
   </xsl:template>
   
+  <!-- Publishers note processing -->
+  <xsl:template name="parsePublishersNotes">
+    <xsl:param name="fulltext" required="yes" />
+    <xsl:analyze-string select="$fulltext" regex="pub\. note ([A-Z]*[0-9]*);">
+      <xsl:matching-substring>
+        <field name="pub_note_facet"><xsl:value-of select="regex-group(1)" /></field>
+      </xsl:matching-substring>
+    </xsl:analyze-string>
+  </xsl:template>
+  
+  <!-- Designer Processing -->
+  <xsl:template name="parseDesigner">
+    <xsl:param name="fulltext" required="yes" />
+    <xsl:analyze-string select="$fulltext" regex="Designed by (([A-Z][a-z]* )+[A-Z][a-z]+)[\.,;]">
+      <xsl:matching-substring>
+        <field name="designer_facet"><xsl:value-of select="regex-group(1)" /></field>
+      </xsl:matching-substring>
+    </xsl:analyze-string>
+    <xsl:analyze-string select="$fulltext" regex="Designed by ([A-Z]\. [A-Z]\. [A-Z][a-z]+)\.">
+      <xsl:matching-substring>
+        <field name="designer_facet"><xsl:value-of select="regex-group(1)" /></field>
+      </xsl:matching-substring>
+    </xsl:analyze-string>
+  </xsl:template>
+  
+  <!-- Printer processing -->
+  <xsl:template name="parsePrinter">
+    <xsl:param name="fulltext" required="yes" />
+    <xsl:analyze-string select="$fulltext" regex="printed from ([A-Z].*?) plates">
+      <xsl:matching-substring>
+         <field name="printer_facet"><xsl:value-of select="regex-group(1)" /></field>
+      </xsl:matching-substring>
+    </xsl:analyze-string>
+  </xsl:template>
+  
+  <!-- Introduction processing -->
+  <xsl:template name="parseIntroduction">
+    <xsl:param name="fulltext" required="yes" />
+    <xsl:analyze-string select="$fulltext" regex="INTRODUCTION (\| )?BY (\| )?([ A-Za-z&#192;-&#214;&#216;-&#246;&#248;-&#447;]*?) \|">
+      <xsl:matching-substring>
+        <field name="introduction_facet"><xsl:value-of select="regex-group(3)" /></field>
+      </xsl:matching-substring>
+    </xsl:analyze-string>
+    <xsl:analyze-string select="$fulltext" regex="\| Introduction by (\| )?([ A-Za-z&#192;-&#214;&#216;-&#246;&#248;-&#447;]+?) \|">
+      <xsl:matching-substring>
+        <field name="introduction_facet"><xsl:value-of select="regex-group(2)" /></field>
+      </xsl:matching-substring>
+    </xsl:analyze-string>
+  </xsl:template>
+  
+  <!-- Translator processing -->
+  <xsl:template name="parseTranslator">
+    <xsl:param name="fulltext" required="yes" />
+    <xsl:analyze-string select="$fulltext" regex="TRANSLATED (FROM .*? )?BY (\| )?(.*?) \|">
+      <xsl:matching-substring>
+        <field name="translator_facet"><xsl:value-of select="regex-group(3)" /></field>
+      </xsl:matching-substring>
+    </xsl:analyze-string>
+  </xsl:template>
+
+
+  <!-- Illustrator processing -->
+  <xsl:template name="parseIllustrator">
+    <xsl:param name="fulltext" required="yes" />
+    <xsl:analyze-string select="$fulltext" regex="ILLUSTRATED BY (\| )?(.*?) \|">
+      <xsl:matching-substring>
+        <field name="illustrator_facet"><xsl:value-of select="regex-group(2)" /></field>
+      </xsl:matching-substring>
+    </xsl:analyze-string>
+  </xsl:template>
 
 </xsl:stylesheet>

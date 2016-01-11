@@ -1,5 +1,12 @@
 package edu.virginia.lib.modernlibrary;
 
+import org.apache.solr.client.solrj.SolrServer;
+import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.impl.HttpSolrServer;
+import org.apache.solr.client.solrj.response.FacetField;
+import org.apache.solr.client.solrj.response.FacetField.Count;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.params.ModifiableSolrParams;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -34,14 +41,42 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
+/**
+ * This class' main method generates and publishes solr documents for the 
+ * Modern Library Bibliographies that exist.
+ * 
+ * In order to work in virgo, solr must be reconfigured to expose any of 
+ * the optional facets configured in the XLST.  Furthermore, blacklight's
+ * catalog_controler.rb must also define the facet field, providing a 
+ * human-readable name.
+ *
+ */
 public class ModernLibraryIngest {
 
     public static void main(String [] args) throws Exception {
+        String solrUrl = null;
+        File config = new File("config.properties");
+        if (config.exists()) {
+            Properties p = new Properties();
+            FileInputStream fis = new FileInputStream(config);
+            try {
+                p.load(fis);
+            } finally {
+                fis.close();
+            }
+            solrUrl = p.getProperty("solrUrl");
+        }
+        
         ModernLibraryIngest m = new ModernLibraryIngest();
         File solrDocDir = new File("solr-output");
+        
         m.generateSolrDocs(new File("resources/transmog-xml"), solrDocDir);
-        m.writeSolrDocs(solrDocDir, "http://localhost:8983/solr/collection");
+
+        m.writeSolrDocs(solrDocDir, solrUrl);
+
+        m.summarizeFacets(solrUrl);
     }
 
     private DocumentBuilder b;
@@ -59,6 +94,31 @@ public class ModernLibraryIngest {
 
     }
 
+    public void summarizeFacets(String solrUpdateUrl) throws SolrServerException {
+        SolrServer s = new HttpSolrServer(solrUpdateUrl.substring(0, solrUpdateUrl.indexOf("/update")));
+        final List<String> result = new ArrayList<String>();
+        final ModifiableSolrParams p = new ModifiableSolrParams();
+        p.set("q", new String[] { "*:*"});
+        p.set("rows", 0);
+        p.set("start", 0);
+        p.set("facet", "true");
+        p.set("facet.field", "has_optional_facet");
+        p.set("facet.mincount", 1);
+        QueryResponse response = s.query(p);
+        ArrayList<String> facets = new ArrayList<String>();
+        for (Count c : response.getFacetField("has_optional_facet").getValues()) {
+            facets.add(c.getName()); 
+        }
+        p.set("facet.field", facets.toArray(new String[0]));
+        response = s.query(p);
+        for (FacetField f : response.getFacetFields()) {
+            System.out.println(f.getName());
+            for (Count c : f.getValues()) {
+                System.out.println("  " + c.getName() + " [" + c.getCount() + "]");
+            }
+        }
+    }
+    
     public void writeSolrDocs(File docDir, String solrUpdateUrl) throws IOException {
         for (File f : docDir.listFiles()) {
 			System.out.println("POSTing " + f + " to \"" + solrUpdateUrl + "\".");
@@ -84,6 +144,7 @@ public class ModernLibraryIngest {
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 transmog2Solr.transform(new DOMSource(d), new StreamResult(baos));
             } finally {
+                System.out.println("Closing " + f.getName() + "...");
                 fis.close();
             }
         }
@@ -98,7 +159,7 @@ public class ModernLibraryIngest {
             }
         }
         Collections.sort(series, new Comparator<SolrRecord>() {
-            @Override
+            //@Override
             public int compare(SolrRecord o1, SolrRecord o2) {
                 return o1.getFirstFieldValue("year_multisort_i").compareTo(o2.getFirstFieldValue("year_multisort_i"));
             }
@@ -123,6 +184,16 @@ public class ModernLibraryIngest {
         fields.add(new Field("date_received_facet", dateReceived));
         fields.add(new Field("has_optional_facet", "ml_number_facet"));
         fields.add(new Field("has_optional_facet", "torchbearer_facet"));
+        fields.add(new Field("has_optional_facet", "price_facet"));
+        fields.add(new Field("has_optional_facet", "pub_note_facet"));
+        fields.add(new Field("has_optional_facet", "designer_facet"));
+        fields.add(new Field("has_optional_facet", "printer_facet"));        
+        fields.add(new Field("has_optional_facet", "introduction_facet"));
+        fields.add(new Field("has_optional_facet", "translator_facet"));
+        fields.add(new Field("has_optional_facet", "illustrator_facet"));
+        fields.add(new Field("has_optional_facet", "first_published_facet"));
+        fields.add(new Field("has_optional_facet", "discontinued_facet"));
+        fields.add(new Field("has_optional_facet", "catalog_facet"));
 
         fields.add(new Field("breadcrumbs_display", "<breadcrumbs></breadcrumbs>"));
 
