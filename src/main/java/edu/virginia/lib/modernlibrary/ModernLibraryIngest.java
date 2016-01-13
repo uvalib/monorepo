@@ -6,6 +6,7 @@ import org.apache.solr.client.solrj.impl.HttpSolrServer;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.FacetField.Count;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.params.ModifiableSolrParams;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -35,11 +36,16 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
@@ -77,6 +83,7 @@ public class ModernLibraryIngest {
         m.writeSolrDocs(solrDocDir, solrUrl);
 
         m.summarizeFacets(solrUrl);
+        
     }
 
     private DocumentBuilder b;
@@ -94,6 +101,60 @@ public class ModernLibraryIngest {
 
     }
 
+    public void createMetadataSpreadsheet(String solrUpdateUrl, OutputStream reportOut) throws SolrServerException {
+        PrintWriter p = new PrintWriter(new OutputStreamWriter(reportOut));
+        char delim = ',';
+        p.println("Title" + delim + "Author" + delim + "Illustrator" + delim + "Translator" + delim + "Introducer" + delim + "Designer" + delim + "Printer" + delim + "Publishers Note" + delim + "ML number" + delim + "ML series" + delim + "ML publication date" + delim + "ML catalog reference" + delim + "ML price" + delim + "ML discontinued date" + delim + "Torchbearer");
+        SolrServer s = new HttpSolrServer(solrUpdateUrl.substring(0, solrUpdateUrl.indexOf("/update")));
+        Iterator<SolrDocument> recordIt = ModernLibraryIngest.getRecordsForQuery(s, "*:*");
+        while (recordIt.hasNext()) {
+            SolrDocument doc = recordIt.next();
+            if (!"series".equals(doc.getFirstValue("hierarchy_level_display"))) {
+                p.print("\"" + getFieldValues(doc, "title_display") + "\",");
+                p.print("\"" + getFieldValues(doc, "author_facet") + "\",");
+                p.print("\"" + getFieldValues(doc, "illustrator_facet") + "\",");
+                p.print("\"" + getFieldValues(doc, "translator_facet") + "\",");
+                p.print("\"" + getFieldValues(doc, "introduction_facet") + "\",");
+                p.print("\"" + getFieldValues(doc, "designer_facet") + "\",");
+                p.print("\"" + getFieldValues(doc, "printer_facet") + "\",");
+                p.print("\"" + getFieldValues(doc, "pub_note_facet") + "\",");
+                p.print("\"" + getFieldValues(doc, "ml_number_facet") + "\",");
+                p.print(","); // no Series information yet in index
+                p.print("\"" + getFieldValues(doc, "first_published_facet") + "\",");
+                p.print("\"" + getFieldValues(doc, "catalog_facet") + "\",");
+                p.print("\"" + getFieldValues(doc, "price_facet") + "\",");
+                p.print("\"" + getFieldValues(doc, "discontinued_facet") + "\",");
+                p.print("\"" + getFieldValues(doc, "torchbearer_facet") + "\"");
+                p.println();
+            }
+        }
+        p.flush();
+    }
+    
+    private static String getFieldValues(SolrDocument doc, String fieldName) {
+        Collection<Object> values = doc.getFieldValues(fieldName);
+        if (values == null || values.isEmpty()) {
+            return "";
+        } else {
+            StringBuffer response = new StringBuffer();
+            for (Object v : values) {
+                if (response.length() > 0) {
+                    response.append(", ");
+                }
+                response.append(String.valueOf(v));
+            }
+            return response.toString();
+        }
+    }
+    
+    private String nullToBlank(String value) {
+        if (value == null) {
+            return "";
+        } else {
+            return value;
+        }
+    }
+    
     public void summarizeFacets(String solrUpdateUrl) throws SolrServerException {
         SolrServer s = new HttpSolrServer(solrUpdateUrl.substring(0, solrUpdateUrl.indexOf("/update")));
         final List<String> result = new ArrayList<String>();
@@ -266,5 +327,46 @@ public class ModernLibraryIngest {
         Marshaller m = jc.createMarshaller();
         m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
         m.marshal(r, f);
+    }
+    
+    public static Iterator<SolrDocument> getRecordsForQuery(final SolrServer solr, String query) throws SolrServerException {
+        int start = 0;
+        final ModifiableSolrParams p = new ModifiableSolrParams();
+        p.set("q", new String[] { query });
+        p.set("rows", 100);
+        p.set("start", start);
+        return new Iterator<SolrDocument>() {
+
+            int index = 0;
+            int start = 0;
+            QueryResponse response = null;
+
+            public boolean hasNext() {
+                if (response == null || response.getResults().size() <= index) {
+                    p.set("rows", 100);
+                    p.set("start", start);
+                    try {
+                        response = solr.query(p);
+                        start += response.getResults().size();
+                        index = 0;
+                    } catch (SolrServerException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                return response.getResults().size() > index;
+            }
+
+            public SolrDocument next() {
+                if (!hasNext()) {
+                    throw new IllegalStateException();
+                }
+                return response.getResults().get(index ++);
+            }
+            
+            public void remove() {
+                throw new UnsupportedOperationException();
+            }
+
+        };
     }
 }
