@@ -353,7 +353,13 @@
     <xsl:apply-templates select="*" mode="tei" />
     <xsl:text>&lt;/p&gt;</xsl:text>
   </xsl:template>
-  
+
+  <xsl:template match="UNASSIGNED" mode="tei">
+    <xsl:text>&lt;p&gt;</xsl:text>
+    <xsl:apply-templates select="*" mode="tei" />
+    <xsl:text>&lt;/p&gt;</xsl:text>
+  </xsl:template>
+
   <xsl:template match="PARAGRAPH" mode="tei">
     <xsl:text>&lt;p&gt;</xsl:text>
       <xsl:apply-templates select="*" mode="tei" />
@@ -493,6 +499,21 @@
     <xsl:analyze-string select="$fulltext" regex="ILLUSTRATED BY (\| )?(.*?) \|">
       <xsl:matching-substring>
         <field name="illustrator_facet"><xsl:value-of select="regex-group(2)" /></field>
+      </xsl:matching-substring>
+    </xsl:analyze-string>
+    <xsl:analyze-string select="$fulltext" regex="Decorations by (.*?)\.">
+      <xsl:matching-substring>
+        <field name="illustrator_facet"><xsl:value-of select="regex-group(1)" /></field>
+      </xsl:matching-substring>
+    </xsl:analyze-string>
+    <xsl:analyze-string select="$fulltext" regex="illustrated by ([A-Z][a-z]+( [A-Z][a-z]+)+)">
+      <xsl:matching-substring>
+        <field name="illustrator_facet"><xsl:value-of select="regex-group(1)" /></field>
+      </xsl:matching-substring>
+    </xsl:analyze-string>
+    <xsl:analyze-string select="$fulltext" regex="illustration by ([A-Z][a-z]+( [A-Z][a-z]+)+)">
+      <xsl:matching-substring>
+        <field name="illustrator_facet"><xsl:value-of select="regex-group(1)" /></field>
       </xsl:matching-substring>
     </xsl:analyze-string>
   </xsl:template>

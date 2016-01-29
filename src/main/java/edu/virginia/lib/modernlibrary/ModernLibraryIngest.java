@@ -48,6 +48,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
+import java.util.regex.Pattern;
 
 /**
  * This class' main method generates and publishes solr documents for the 
@@ -82,7 +83,7 @@ public class ModernLibraryIngest {
 
         m.writeSolrDocs(solrDocDir, solrUrl);
 
-        m.summarizeFacets(solrUrl);
+        m.summarizeAndValidateFacets(solrUrl);
         
     }
 
@@ -155,7 +156,8 @@ public class ModernLibraryIngest {
         }
     }
     
-    public void summarizeFacets(String solrUpdateUrl) throws SolrServerException {
+    public void summarizeAndValidateFacets(String solrUpdateUrl) throws SolrServerException {
+        List<String> errors = new ArrayList<String>();
         SolrServer s = new HttpSolrServer(solrUpdateUrl.substring(0, solrUpdateUrl.indexOf("/update")));
         final List<String> result = new ArrayList<String>();
         final ModifiableSolrParams p = new ModifiableSolrParams();
@@ -175,9 +177,19 @@ public class ModernLibraryIngest {
         for (FacetField f : response.getFacetFields()) {
             System.out.println(f.getName());
             for (Count c : f.getValues()) {
+                if (f.getName().equals("ml_number_facet") && !isInteger(c.getName())) {
+                    errors.add("\"" + c.getName() + "\" is not a valid ML number!");
+                }
                 System.out.println("  " + c.getName() + " [" + c.getCount() + "]");
             }
         }
+        for (String error : errors) {
+            System.err.println(error);
+        }
+    }
+    
+    public boolean isInteger(final String value) {
+        return Pattern.compile("\\d+").matcher(value).matches();
     }
     
     public void writeSolrDocs(File docDir, String solrUpdateUrl) throws IOException {
