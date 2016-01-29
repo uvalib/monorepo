@@ -145,6 +145,7 @@
     <field name="feature_facet">suppress_ris_export</field>
     <field name="feature_facet">suppress_refworks_export</field>
     <field name="feature_facet">suppress_endnote_export</field>
+    <field name="feature_facet">is_bibliographic_entry</field>
     <field name="language_display">English</field>
     <field name="language_facet">English</field>
     <field name="has_optional_facet">torchbearer_facet</field>
@@ -349,9 +350,9 @@
   </xsl:template>
   
   <xsl:template match="TITLE" mode="tei">
-    <xsl:text>&lt;p&gt;</xsl:text>
+    <xsl:text>&lt;head&gt;</xsl:text>
     <xsl:apply-templates select="*" mode="tei" />
-    <xsl:text>&lt;/p&gt;</xsl:text>
+    <xsl:text>&lt;/head&gt;</xsl:text>
   </xsl:template>
 
   <xsl:template match="UNASSIGNED" mode="tei">

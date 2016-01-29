@@ -254,6 +254,7 @@ public class ModernLibraryIngest {
         fields.add(new Field("feature_facet", "suppress_ris_export"));
         fields.add(new Field("feature_facet", "suppress_refworks_export"));
         fields.add(new Field("feature_facet", "suppress_endnote_export"));
+        fields.add(new Field("feature_facet", "is_bibliographic_entry"));
         fields.add(new Field("date_received_facet", dateReceived));
         fields.add(new Field("has_optional_facet", "ml_number_facet"));
         fields.add(new Field("has_optional_facet", "torchbearer_facet"));
@@ -267,6 +268,7 @@ public class ModernLibraryIngest {
         fields.add(new Field("has_optional_facet", "first_published_facet"));
         fields.add(new Field("has_optional_facet", "discontinued_facet"));
         fields.add(new Field("has_optional_facet", "catalog_facet"));
+        fields.add(new Field("embedded_tei_display", "<TEI.2><text><body><p>This is some contextual information to describe the bibliography as a whole.  Please feel free to provide text be presented here.</p></body></text><TEI.2>"));
 
         fields.add(new Field("breadcrumbs_display", "<breadcrumbs></breadcrumbs>"));
 
