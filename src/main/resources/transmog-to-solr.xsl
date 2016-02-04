@@ -292,7 +292,8 @@
   </xsl:template>
   
   <xsl:template match="AUTHOR" mode="item-solr">
-    <xsl:variable name="author"><xsl:apply-templates select="*" mode="text" /></xsl:variable>
+    <xsl:variable name="rawauthor"><xsl:apply-templates select="*" mode="text" /></xsl:variable>
+    <xsl:variable name="author"><xsl:call-template name="formatName"><xsl:with-param name="name" select="$rawauthor" /></xsl:call-template></xsl:variable>
     <field name="author_facet"><xsl:value-of select="$author"></xsl:value-of></field>
     <field name="author_text"><xsl:value-of select="$author"></xsl:value-of></field>
     <field name="creator_text"><xsl:value-of select="$author"></xsl:value-of></field>
@@ -300,7 +301,8 @@
   </xsl:template>
   
   <xsl:template match="EDITOR" mode="item-solr">
-    <xsl:variable name="author"><xsl:apply-templates select="*" mode="text" /></xsl:variable>
+    <xsl:variable name="rawauthor"><xsl:apply-templates select="*" mode="text" /></xsl:variable>
+    <xsl:variable name="author"><xsl:call-template name="formatName"><xsl:with-param name="name" select="$rawauthor" /></xsl:call-template></xsl:variable>
     <field name="author_facet"><xsl:value-of select="$author"></xsl:value-of></field>
     <field name="author_text"><xsl:value-of select="$author"></xsl:value-of></field>
     <field name="creator_text"><xsl:value-of select="$author"></xsl:value-of></field>
@@ -526,6 +528,24 @@
         <field name="illustrator_facet"><xsl:value-of select="regex-group(1)" /></field>
       </xsl:matching-substring>
     </xsl:analyze-string>
+  </xsl:template>
+
+  <xsl:template name="formatName">
+    <xsl:param name="name" />
+    <xsl:variable name="parts" select="tokenize(normalize-space($name), ' ')" />
+    <xsl:call-template name="capitalize"><xsl:with-param name="string" select="$parts[last()]" /></xsl:call-template>
+    <xsl:if test="count($parts) &gt; 1"><xsl:text>,</xsl:text></xsl:if>
+    <xsl:for-each select="$parts">
+      <xsl:if test="position() != last()">
+        <xsl:text> </xsl:text>
+        <xsl:call-template name="capitalize"><xsl:with-param name="string" select="." /></xsl:call-template>
+      </xsl:if>
+    </xsl:for-each>
+  </xsl:template>
+  
+  <xsl:template name="capitalize">
+    <xsl:param name="string" />
+    <xsl:value-of select="concat(upper-case(substring($string,1,1)), lower-case(substring($string, 2)))" />
   </xsl:template>
 
 </xsl:stylesheet>
