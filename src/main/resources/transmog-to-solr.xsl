@@ -73,7 +73,9 @@
         <add>
           <doc>
             <field name="id">ML_<xsl:value-of select="normalize-space($item)" /></field>
-            <field name="price_facet"><xsl:value-of select="$price" /></field>
+            <xsl:if test="normalize-space($price) != ''">
+              <field name="price_facet"><xsl:value-of select="$price" /></field>
+            </xsl:if>
             <field name="catalog_facet"><xsl:value-of select="$catalogReference" /></field> 
             
             <xsl:apply-templates select="current()/*" mode="item-solr"></xsl:apply-templates>
@@ -210,7 +212,7 @@
     <xsl:text>&lt;/id&gt;&lt;type&gt;series&lt;/type&gt;&lt;unittitle&gt;&lt;![CDATA[</xsl:text>
     <xsl:value-of select="$title" />
     <xsl:text>]]&gt;&lt;/unittitle&gt;&lt;shortunittitle&gt;&lt;![CDATA[</xsl:text>
-    <xsl:value-of select="$title" />
+    <xsl:value-of select="$year" />
     <xsl:text>]]&gt;&lt;/shortunittitle&gt;&lt;component_count&gt;</xsl:text>
     <xsl:value-of select="count(/TEI/BOOK)" />
     <xsl:text>&lt;/component_count&gt;&lt;digitized_component_count&gt;</xsl:text>
