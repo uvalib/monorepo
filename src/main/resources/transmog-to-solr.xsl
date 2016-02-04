@@ -217,8 +217,8 @@
     <xsl:value-of select="count(/TEI/BOOK)" />
     <xsl:text>&lt;/digitized_component_count&gt;</xsl:text>
     <xsl:for-each select="/TEI/BOOK">
-      <xsl:variable name="bookID"><xsl:apply-templates select="NUMBER/*" mode="text" /></xsl:variable>
-      <xsl:variable name="bookTitle"><xsl:apply-templates select="METADATA/TITLE/*" mode="text" /></xsl:variable>
+      <xsl:variable name="bookID"><xsl:apply-templates select="NUMBER[1]/*" mode="text" /></xsl:variable>
+      <xsl:variable name="bookTitle"><xsl:apply-templates select="METADATA/TITLE[1]/*" mode="text" /></xsl:variable>
       <xsl:text>&lt;component&gt;&lt;id&gt;ML_</xsl:text>
       <xsl:value-of select="normalize-space($bookID)"></xsl:value-of>
       <xsl:text>&lt;/id&gt;&lt;type&gt;item&lt;/type&gt;&lt;unittitle&gt;&lt;![CDATA[</xsl:text>
@@ -292,6 +292,14 @@
   </xsl:template>
   
   <xsl:template match="AUTHOR" mode="item-solr">
+    <xsl:variable name="author"><xsl:apply-templates select="*" mode="text" /></xsl:variable>
+    <field name="author_facet"><xsl:value-of select="$author"></xsl:value-of></field>
+    <field name="author_text"><xsl:value-of select="$author"></xsl:value-of></field>
+    <field name="creator_text"><xsl:value-of select="$author"></xsl:value-of></field>
+    <field name="creator_display"><xsl:value-of select="$author"></xsl:value-of></field>
+  </xsl:template>
+  
+  <xsl:template match="EDITOR" mode="item-solr">
     <xsl:variable name="author"><xsl:apply-templates select="*" mode="text" /></xsl:variable>
     <field name="author_facet"><xsl:value-of select="$author"></xsl:value-of></field>
     <field name="author_text"><xsl:value-of select="$author"></xsl:value-of></field>
