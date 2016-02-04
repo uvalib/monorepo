@@ -35,6 +35,7 @@ import javax.xml.transform.stream.StreamSource;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -204,7 +205,7 @@ public class ModernLibraryIngest {
 
     public void generateSolrDocs(File transmogFiles, File outputDir) throws IOException, SAXException, TransformerException, JAXBException {
         final String dateReceived = new SimpleDateFormat("yyyyMMdd").format(new Date());
-        final String collectionName = "Modern Library Bibliography 1925-1937";
+        final String collectionName = "Modern Library Bibliography 1925-1959";
         final String collectionNameShort = "Modern Library Bibliography";
 
         outputDir.mkdirs();
@@ -269,7 +270,10 @@ public class ModernLibraryIngest {
         fields.add(new Field("has_optional_facet", "discontinued_facet"));
         fields.add(new Field("has_optional_facet", "catalog_facet"));
         fields.add(new Field("embedded_tei_display", "<TEI.2><text><body><p>This is some contextual information to describe the bibliography as a whole.  Please feel free to provide text be presented here.</p></body></text><TEI.2>"));
-
+        fields.add(new Field("date_display", "1925-1959"));
+        fields.add(new Field("format_facet", "Online"));
+        fields.add(new Field("format_facet", "Bibliography"));
+        
         fields.add(new Field("breadcrumbs_display", "<breadcrumbs></breadcrumbs>"));
 
         final StringBuffer hierarchy = new StringBuffer();

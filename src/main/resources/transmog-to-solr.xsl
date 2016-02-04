@@ -5,7 +5,7 @@
   
   <xsl:param name="outputDirFileUri" />
   <xsl:param name="dateReceived" required="yes" />
-  <xsl:param name="collection">Modern Library Bibliography 1925-1937</xsl:param>
+  <xsl:param name="collection">Modern Library Bibliography 1925-1959</xsl:param>
   <xsl:param name="collectionID">ML</xsl:param>
   <xsl:param name="itemVisibility">UNDISCOVERABLE</xsl:param>
   
@@ -148,6 +148,7 @@
     <field name="feature_facet">is_bibliographic_entry</field>
     <field name="language_display">English</field>
     <field name="language_facet">English</field>
+    <field name="format_facet">Bibliographic Entry</field>
     <field name="has_optional_facet">torchbearer_facet</field>
     <field name="has_optional_facet">ml_number_facet</field>
     <field name="has_optional_facet">price_facet</field>
@@ -368,9 +369,9 @@
   </xsl:template>
   
   <xsl:template match="METADATA" mode="tei">
-    <xsl:text>&lt;p&gt;</xsl:text>
+    <xsl:text>&lt;head&gt;</xsl:text>
     <xsl:apply-templates select="*" mode="tei" />
-    <xsl:text>&lt;/p&gt;</xsl:text>
+    <xsl:text>&lt;/head&gt;</xsl:text>
   </xsl:template>
   
   <xsl:template match="HEAD" mode="tei">
