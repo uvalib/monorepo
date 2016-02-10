@@ -8,6 +8,7 @@
   <xsl:param name="collection">Modern Library Bibliography 1925-1959</xsl:param>
   <xsl:param name="collectionID">ML</xsl:param>
   <xsl:param name="itemVisibility">UNDISCOVERABLE</xsl:param>
+  <xsl:param name="mlbAuthor">Neavill, Gordon Barrick</xsl:param>
   <xsl:variable name="nameMapping" select="document('src/main/resources/name-mapping.xml')" />
   <xsl:variable name="printerMapping" select="document('src/main/resources/printer-mapping.xml')" />
   <xsl:variable name="series" select="document('src/main/resources/series-values.xml')" />
@@ -41,6 +42,12 @@
           
           <field name="feature_facet">has_hierarchy</field>
           <field name="hierarchy_level_display">series</field>
+          
+          <field name="author_facet"><xsl:value-of select="$mlbAuthor"></xsl:value-of></field>
+          <field name="author_text"><xsl:value-of select="$mlbAuthor"></xsl:value-of></field>
+          <field name="creator_text"><xsl:value-of select="$mlbAuthor"></xsl:value-of></field>
+          <field name="creator_display"><xsl:value-of select="$mlbAuthor"></xsl:value-of></field>
+          
           <field name="breadcrumbs_display">
             <xsl:call-template name="getVolumeBreadcrumbsDisplay" />
           </field>

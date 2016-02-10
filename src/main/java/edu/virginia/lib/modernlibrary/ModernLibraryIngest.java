@@ -398,6 +398,10 @@ public class ModernLibraryIngest {
         fields.add(new Field("feature_facet", "suppress_endnote_export"));
         fields.add(new Field("feature_facet", "is_bibliographic_entry"));
         fields.add(new Field("date_received_facet", dateReceived));
+        fields.add(new Field("author_facet", "Neavill, Gordon Barrick"));
+        fields.add(new Field("author_text", "Neavill, Gordon Barrick"));
+        fields.add(new Field("creator_text", "Neavill, Gordon Barrick"));
+        fields.add(new Field("creator_display", "Neavill, Gordon Barrick"));
         fields.add(new Field("has_optional_facet", "ml_number_facet"));
         fields.add(new Field("has_optional_facet", "torchbearer_facet"));
         fields.add(new Field("has_optional_facet", "price_facet"));
