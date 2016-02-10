@@ -10,6 +10,7 @@
   <xsl:param name="itemVisibility">UNDISCOVERABLE</xsl:param>
   <xsl:variable name="nameMapping" select="document('src/main/resources/name-mapping.xml')" />
   <xsl:variable name="printerMapping" select="document('src/main/resources/printer-mapping.xml')" />
+  <xsl:variable name="series" select="document('src/main/resources/series-values.xml')" />
   
   <xsl:template match="/">
     <xsl:variable name="year">
@@ -27,9 +28,10 @@
     </xsl:variable>
     <xsl:message terminate="no">Writing Series level document <xsl:value-of select="concat($outputDirFileUri, $year, '.xml')"/></xsl:message>
     <xsl:result-document href="{$outputDirFileUri}ML_{$year}.xml">
+      <xsl:variable name="id">ML_<xsl:value-of select="normalize-space($year)" /></xsl:variable>
       <add>
         <doc>
-          <field name="id">ML_<xsl:value-of select="normalize-space($year)" /></field>
+          <field name="id"><xsl:value-of select="$id"/></field>
           
           <xsl:apply-templates select="/TEI/*" mode="solr" />
           
@@ -43,7 +45,7 @@
             <xsl:call-template name="getVolumeBreadcrumbsDisplay" />
           </field>
           <field name="hierarchy_display"><xsl:call-template name="getVolumeHierarchyDisplay" /></field>
-          
+
           <field name="feature_facet">has_tei</field>
           <field name="embedded_tei_display">
             <xsl:text>&lt;TEI.2&gt;&lt;text&gt;&lt;body&gt;</xsl:text>
@@ -71,10 +73,11 @@
       </xsl:variable>
       <xsl:variable name="title"><xsl:apply-templates select="METADATA/TITLE/*" mode="text" /></xsl:variable>
       <xsl:message terminate="no">Writing document <xsl:value-of select="concat($outputDirFileUri, $item, '.xml')"/></xsl:message>
+      <xsl:variable name="id">ML_<xsl:value-of select="normalize-space($item)" /></xsl:variable>
       <xsl:result-document href="{$outputDirFileUri}ML_{$item}.xml">
         <add>
           <doc>
-            <field name="id">ML_<xsl:value-of select="normalize-space($item)" /></field>
+            <field name="id"><xsl:value-of select="$id"/></field>
             <xsl:if test="normalize-space($price) != ''">
               <field name="price_facet"><xsl:value-of select="$price" /></field>
             </xsl:if>
@@ -83,7 +86,13 @@
             <xsl:apply-templates select="current()/*" mode="item-solr"></xsl:apply-templates>
             
             <xsl:call-template name="applyDefaultFields" />
-            
+
+            <xsl:if test="$series//replacement/entry[id/text() = $id]">
+              <xsl:for-each select="$series//replacement/entry[id/text() = $id]/value">
+                <field name="ml_series_facet"><xsl:value-of select="current()"/></field>
+              </xsl:for-each>
+            </xsl:if>
+
             <field name="year_multisort_i"><xsl:value-of select="$year" /></field>
             <field name="feature_facet">has_hierarchy</field>
             <field name="hierarchy_level_display">item</field>
@@ -165,6 +174,7 @@
     <field name="has_optional_facet">first_published_facet</field>
     <field name="has_optional_facet">discontinued_facet</field>
     <field name="has_optional_facet">catalog_facet</field>
+    <field name="has_optional_facet">ml_series_facet</field>
   </xsl:template>
   
   <xsl:template name="getVolumeTitle">

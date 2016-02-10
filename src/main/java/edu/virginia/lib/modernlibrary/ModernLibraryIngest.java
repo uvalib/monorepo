@@ -2,6 +2,7 @@ package edu.virginia.lib.modernlibrary;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -91,6 +92,7 @@ public class ModernLibraryIngest {
         
         transformCorrectionSpreadsheet(new File("src/main/resources/name-mapping.xlsx"), new File("src/main/resources/name-mapping.xml"));
         transformCorrectionSpreadsheet(new File("src/main/resources/printer-mapping.xlsx"), new File("src/main/resources/printer-mapping.xml"));
+        transformReplacementSpreadsheet(new File("src/main/resources/series-metadata.xlsx"), new File("src/main/resources/series-values.xml"));
         
         File solrDocDir = new File("solr-output");
         
@@ -163,6 +165,84 @@ public class ModernLibraryIngest {
         }
     }
     
+    public void createReplacementSpreadsheet(String solrUpdateUrl, OutputStream reportOut, final String fieldname) throws SolrServerException {
+        PrintWriter p = new PrintWriter(new OutputStreamWriter(reportOut));
+        char delim = ',';
+        p.println("id" + delim + "year" + delim + "title" + delim + fieldname);
+        SolrServer s = new HttpSolrServer(solrUpdateUrl.substring(0, solrUpdateUrl.indexOf("/update")));
+        Iterator<SolrDocument> recordIt = ModernLibraryIngest.getRecordsForQuery(s, "*:*");
+        while (recordIt.hasNext()) {
+            SolrDocument doc = recordIt.next();
+            if (!"series".equals(doc.getFirstValue("hierarchy_level_display"))) {
+                p.print("\"" + getFieldValues(doc, "id") + "\"" + delim);
+                p.print("\"" + getFieldValues(doc, "catalog_facet") + "\"" + delim);
+                p.print("\"" + getFieldValues(doc, "title_display") + "\"");
+                Collection<Object> fields = doc.getFieldValues(fieldname);
+                if (fields != null) {
+                    for (Object value : fields) {
+                        p.print(delim + "\"" + String.valueOf(value) + "\"");
+                    }
+                }
+                p.println();
+            }
+        }
+        p.flush();
+    }
+    
+    /**
+     * Transforms a spreasheet that specifies replacement values for certain fields into 
+     * XML that can be used by the XSLT that generates the solr documents.
+     * <replacement>
+     *   <entry>
+     *     <id>ML_116</find>
+     *     <field>series_facet</field>
+     *     <value>Series 1</value>
+     *     <value>Series 2</value>
+     *   <entry>
+     * </replacement>
+     */
+    private static void transformReplacementSpreadsheet(File xlsx, File xml) throws InvalidFormatException, IOException, XMLStreamException, FactoryConfigurationError {
+        XMLStreamWriter w = XMLOutputFactory.newInstance().createXMLStreamWriter(new FileOutputStream(xml), "UTF-8");
+        try {
+            final OPCPackage pkg = OPCPackage.open(xlsx.getPath());
+            try {
+                final Workbook wb = new XSSFWorkbook(pkg);
+                final Sheet sheet = wb.getSheetAt(0);
+                w.writeStartDocument();
+                w.writeStartElement("replacement");
+                int idCol = 0;
+                String field = null;
+                for (Row r : sheet) {
+                    if (r.getRowNum() == 0) {
+                        field = r.getCell(3).getStringCellValue();
+                    } else {
+                        w.writeStartElement("entry");
+                        w.writeStartElement("id");
+                        w.writeCharacters(r.getCell(idCol).getStringCellValue());
+                        w.writeEndElement();
+                        w.writeStartElement("field");
+                        w.writeCharacters(field);
+                        w.writeEndElement();
+                        for (Cell c : r) {
+                            if (c.getColumnIndex() >= 3) {
+                                w.writeStartElement("value");
+                                w.writeCharacters(c.getStringCellValue());
+                                w.writeEndElement();
+                            }
+                        }
+                        w.writeEndElement();
+                    }
+                }
+                w.writeEndElement();
+                w.writeEndDocument();
+            } finally {
+                pkg.close();
+            }
+        } finally {
+            w.close();
+        }
+    }
+    
     public void createMetadataSpreadsheet(String solrUpdateUrl, OutputStream reportOut) throws SolrServerException {
         PrintWriter p = new PrintWriter(new OutputStreamWriter(reportOut));
         char delim = ',';
@@ -171,7 +251,7 @@ public class ModernLibraryIngest {
         Iterator<SolrDocument> recordIt = ModernLibraryIngest.getRecordsForQuery(s, "*:*");
         while (recordIt.hasNext()) {
             SolrDocument doc = recordIt.next();
-            if (!"series".equals(doc.getFirstValue("hierarchy_level_display"))) {
+            if (!"series".equals(doc.getFirstValue("hierarchy_level_display")) && !"collection".equals(doc.getFirstValue("hierarchy_level_display"))) {
                 p.print("\"" + getFieldValues(doc, "title_display") + "\",");
                 p.print("\"" + getFieldValues(doc, "author_facet") + "\",");
                 p.print("\"" + getFieldValues(doc, "illustrator_facet") + "\",");
@@ -186,7 +266,8 @@ public class ModernLibraryIngest {
                 p.print("\"" + getFieldValues(doc, "catalog_facet") + "\",");
                 p.print("\"" + getFieldValues(doc, "price_facet") + "\",");
                 p.print("\"" + getFieldValues(doc, "discontinued_facet") + "\",");
-                p.print("\"" + getFieldValues(doc, "torchbearer_facet") + "\"");
+                p.print("\"" + getFieldValues(doc, "torchbearer_facet") + "\",");
+                p.print("\"" + getFieldValues(doc, "ml_series_facet") + "\"");
                 p.println();
             }
         }
@@ -329,6 +410,7 @@ public class ModernLibraryIngest {
         fields.add(new Field("has_optional_facet", "first_published_facet"));
         fields.add(new Field("has_optional_facet", "discontinued_facet"));
         fields.add(new Field("has_optional_facet", "catalog_facet"));
+        fields.add(new Field("has_optional_facet", "ml_series_facet"));
         fields.add(new Field("embedded_tei_display", "<TEI.2><text><body><p>This is some contextual information to describe the bibliography as a whole.  Please feel free to provide text be presented here.</p></body></text><TEI.2>"));
         fields.add(new Field("date_display", "1925-1959"));
         fields.add(new Field("format_facet", "Online"));
