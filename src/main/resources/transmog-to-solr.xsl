@@ -8,6 +8,8 @@
   <xsl:param name="collection">Modern Library Bibliography 1925-1959</xsl:param>
   <xsl:param name="collectionID">ML</xsl:param>
   <xsl:param name="itemVisibility">UNDISCOVERABLE</xsl:param>
+  <xsl:variable name="nameMapping" select="document('src/main/resources/name-mapping.xml')" />
+  <xsl:variable name="printerMapping" select="document('src/main/resources/printer-mapping.xml')" />
   
   <xsl:template match="/">
     <xsl:variable name="year">
@@ -461,12 +463,12 @@
     <xsl:param name="fulltext" required="yes" />
     <xsl:analyze-string select="$fulltext" regex="Designed by (([A-Z][a-z]* )+[A-Z][a-z]+)[\.,;]">
       <xsl:matching-substring>
-        <field name="designer_facet"><xsl:value-of select="regex-group(1)" /></field>
+        <field name="designer_facet"><xsl:call-template name="formatName"><xsl:with-param name="name" select="regex-group(1)" /></xsl:call-template></field>
       </xsl:matching-substring>
     </xsl:analyze-string>
     <xsl:analyze-string select="$fulltext" regex="Designed by ([A-Z]\. [A-Z]\. [A-Z][a-z]+)\.">
       <xsl:matching-substring>
-        <field name="designer_facet"><xsl:value-of select="regex-group(1)" /></field>
+        <field name="designer_facet"><xsl:call-template name="formatName"><xsl:with-param name="name" select="regex-group(1)" /></xsl:call-template></field>
       </xsl:matching-substring>
     </xsl:analyze-string>
   </xsl:template>
@@ -476,7 +478,7 @@
     <xsl:param name="fulltext" required="yes" />
     <xsl:analyze-string select="$fulltext" regex="printed from ([A-Z].*?) plates">
       <xsl:matching-substring>
-         <field name="printer_facet"><xsl:value-of select="regex-group(1)" /></field>
+         <field name="printer_facet"><xsl:call-template name="rewritePrinter"><xsl:with-param name="name" select="regex-group(1)" /></xsl:call-template></field>
       </xsl:matching-substring>
     </xsl:analyze-string>
   </xsl:template>
@@ -486,12 +488,12 @@
     <xsl:param name="fulltext" required="yes" />
     <xsl:analyze-string select="$fulltext" regex="INTRODUCTION (\| )?BY (\| )?([ A-Za-z&#192;-&#214;&#216;-&#246;&#248;-&#447;]*?) \|">
       <xsl:matching-substring>
-        <field name="introduction_facet"><xsl:value-of select="regex-group(3)" /></field>
+        <field name="introduction_facet"><xsl:call-template name="formatName"><xsl:with-param name="name" select="regex-group(3)" /></xsl:call-template></field>
       </xsl:matching-substring>
     </xsl:analyze-string>
     <xsl:analyze-string select="$fulltext" regex="\| Introduction by (\| )?([ A-Za-z&#192;-&#214;&#216;-&#246;&#248;-&#447;]+?) \|">
       <xsl:matching-substring>
-        <field name="introduction_facet"><xsl:value-of select="regex-group(2)" /></field>
+        <field name="introduction_facet"><xsl:call-template name="formatName"><xsl:with-param name="name" select="regex-group(2)" /></xsl:call-template></field>
       </xsl:matching-substring>
     </xsl:analyze-string>
   </xsl:template>
@@ -499,9 +501,26 @@
   <!-- Translator processing -->
   <xsl:template name="parseTranslator">
     <xsl:param name="fulltext" required="yes" />
-    <xsl:analyze-string select="$fulltext" regex="TRANSLATED (FROM .*? )?BY (\| )?(.*?) \|">
+    <xsl:analyze-string select="$fulltext" regex="(TRANSLATED (FROM .*? )?BY (\| )?(.*?) \|)">
       <xsl:matching-substring>
-        <field name="translator_facet"><xsl:value-of select="regex-group(3)" /></field>
+        <!--<field name="translator_facet"><xsl:call-template name="formatName"><xsl:with-param name="name" select="regex-group(1)" /></xsl:call-template></field>-->
+        <xsl:variable name="firstPass" select="regex-group(4)" />
+        <xsl:analyze-string select="$firstPass" regex="^(.*?)[;\)].*$">
+          <xsl:matching-substring>
+            <field name="translator_facet"><xsl:call-template name="formatName"><xsl:with-param name="name" select="regex-group(1)"/></xsl:call-template></field>
+          </xsl:matching-substring>
+          <xsl:non-matching-substring>
+            <xsl:analyze-string select="$firstPass" regex="^(.*) [aA][nN][Dd] (.*)$">
+              <xsl:matching-substring>
+                <field name="translator_facet"><xsl:call-template name="formatName"><xsl:with-param name="name" select="regex-group(1)"/></xsl:call-template></field>
+                <field name="translator_facet"><xsl:call-template name="formatName"><xsl:with-param name="name" select="regex-group(2)"/></xsl:call-template></field>
+              </xsl:matching-substring>
+              <xsl:non-matching-substring>
+                <field name="translator_facet"><xsl:call-template name="formatName"><xsl:with-param name="name" select="$firstPass"/></xsl:call-template></field>    
+              </xsl:non-matching-substring>
+            </xsl:analyze-string>
+          </xsl:non-matching-substring>
+        </xsl:analyze-string>
       </xsl:matching-substring>
     </xsl:analyze-string>
   </xsl:template>
@@ -512,42 +531,64 @@
     <xsl:param name="fulltext" required="yes" />
     <xsl:analyze-string select="$fulltext" regex="ILLUSTRATED BY (\| )?(.*?) \|">
       <xsl:matching-substring>
-        <field name="illustrator_facet"><xsl:value-of select="regex-group(2)" /></field>
+        <field name="illustrator_facet"><xsl:call-template name="formatName"><xsl:with-param name="name" select="regex-group(2)" /></xsl:call-template></field>
       </xsl:matching-substring>
     </xsl:analyze-string>
     <xsl:analyze-string select="$fulltext" regex="Decorations by (.*?)\.">
       <xsl:matching-substring>
-        <field name="illustrator_facet"><xsl:value-of select="regex-group(1)" /></field>
+        <field name="illustrator_facet"><xsl:call-template name="formatName"><xsl:with-param name="name" select="regex-group(1)" /></xsl:call-template></field>
       </xsl:matching-substring>
     </xsl:analyze-string>
     <xsl:analyze-string select="$fulltext" regex="illustrated by ([A-Z][a-z]+( [A-Z][a-z]+)+)">
       <xsl:matching-substring>
-        <field name="illustrator_facet"><xsl:value-of select="regex-group(1)" /></field>
+        <field name="illustrator_facet"><xsl:call-template name="formatName"><xsl:with-param name="name" select="regex-group(1)" /></xsl:call-template></field>
       </xsl:matching-substring>
     </xsl:analyze-string>
     <xsl:analyze-string select="$fulltext" regex="illustration by ([A-Z][a-z]+( [A-Z][a-z]+)+)">
       <xsl:matching-substring>
-        <field name="illustrator_facet"><xsl:value-of select="regex-group(1)" /></field>
+        <field name="illustrator_facet"><xsl:call-template name="formatName"><xsl:with-param name="name" select="regex-group(1)" /></xsl:call-template></field>
       </xsl:matching-substring>
     </xsl:analyze-string>
   </xsl:template>
 
   <xsl:template name="formatName">
     <xsl:param name="name" />
-    <xsl:variable name="parts" select="tokenize(normalize-space($name), ' ')" />
-    <xsl:call-template name="capitalize"><xsl:with-param name="string" select="$parts[last()]" /></xsl:call-template>
-    <xsl:if test="count($parts) &gt; 1"><xsl:text>,</xsl:text></xsl:if>
-    <xsl:for-each select="$parts">
-      <xsl:if test="position() != last()">
-        <xsl:text> </xsl:text>
-        <xsl:call-template name="capitalize"><xsl:with-param name="string" select="." /></xsl:call-template>
-      </xsl:if>
-    </xsl:for-each>
+      <xsl:variable name="formatted">
+        <xsl:variable name="parts" select="tokenize(translate(normalize-space($name), '&#x20;&#x9;&#xD;&#xA0;', '    '), ' ')" />
+      <xsl:call-template name="capitalize"><xsl:with-param name="string" select="$parts[last()]" /></xsl:call-template>
+      <xsl:if test="count($parts) &gt; 1"><xsl:text>,</xsl:text></xsl:if>
+      <xsl:for-each select="$parts">
+        <xsl:if test="position() != last()">
+          <xsl:text> </xsl:text>
+          <xsl:call-template name="capitalize"><xsl:with-param name="string" select="." /></xsl:call-template>
+        </xsl:if>
+      </xsl:for-each>
+    </xsl:variable>
+    <xsl:choose>
+      <xsl:when test="$nameMapping//name[find/text() = $formatted]">
+        <xsl:value-of select="$nameMapping//name[find/text() = $formatted]/replacement/text()" />
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$formatted" />
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
   
   <xsl:template name="capitalize">
     <xsl:param name="string" />
     <xsl:value-of select="concat(upper-case(substring($string,1,1)), lower-case(substring($string, 2)))" />
+  </xsl:template>
+
+  <xsl:template name="rewritePrinter">
+    <xsl:param name="name" />
+    <xsl:choose>
+      <xsl:when test="$printerMapping//name[find/text() = $name]">
+        <xsl:value-of select="$printerMapping//name[find/text() = $name]/replacement/text()" />
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$name" />
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
 </xsl:stylesheet>

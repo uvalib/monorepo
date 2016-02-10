@@ -2,3 +2,5 @@
 solr-output
 target
 config.properties
+name-mapping.xml
+printer-mapping.xml

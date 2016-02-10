@@ -1,5 +1,11 @@
 package edu.virginia.lib.modernlibrary;
 
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrServer;
@@ -24,6 +30,10 @@ import javax.xml.bind.annotation.XmlValue;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.stream.FactoryConfigurationError;
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
 import javax.xml.transform.Templates;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
@@ -78,6 +88,10 @@ public class ModernLibraryIngest {
         }
         
         ModernLibraryIngest m = new ModernLibraryIngest();
+        
+        transformCorrectionSpreadsheet(new File("src/main/resources/name-mapping.xlsx"), new File("src/main/resources/name-mapping.xml"));
+        transformCorrectionSpreadsheet(new File("src/main/resources/printer-mapping.xlsx"), new File("src/main/resources/printer-mapping.xml"));
+        
         File solrDocDir = new File("solr-output");
         
         m.generateSolrDocs(new File("resources/transmog-xml"), solrDocDir);
@@ -85,7 +99,7 @@ public class ModernLibraryIngest {
         m.writeSolrDocs(solrDocDir, solrUrl);
 
         m.summarizeAndValidateFacets(solrUrl);
-        
+
     }
 
     private DocumentBuilder b;
@@ -103,6 +117,52 @@ public class ModernLibraryIngest {
 
     }
 
+    /**
+     * Takes a two column spreadsheet and converts it into a mapping file.
+     * <mapping>
+     *   <name>
+     *     <find>Ii, Oscar Hammerstein</find>
+     *     <replacement>Hammerstein, Oscar, II</replacement>
+     *   </name>
+     * </mapping>
+     * @throws FactoryConfigurationError 
+     * @throws XMLStreamException 
+     */
+    private static void transformCorrectionSpreadsheet(File xlsx, File xml) throws InvalidFormatException, IOException, XMLStreamException, FactoryConfigurationError {
+        XMLStreamWriter w = XMLOutputFactory.newInstance().createXMLStreamWriter(new FileOutputStream(xml), "UTF-8");
+        try {
+            final OPCPackage pkg = OPCPackage.open(xlsx.getPath());
+            try {
+                final Workbook wb = new XSSFWorkbook(pkg);
+                final Sheet sheet = wb.getSheetAt(0);
+                w.writeStartDocument();
+                w.writeStartElement("mapping");
+                for (Row r : sheet) {
+                    try {
+                        final String find = r.getCell(0).getStringCellValue();
+                        final String replace = r.getCell(1).getStringCellValue();
+                        w.writeStartElement("name");
+                        w.writeStartElement("find");
+                        w.writeCharacters(find);
+                        w.writeEndElement();
+                        w.writeStartElement("replacement");
+                        w.writeCharacters(replace);
+                        w.writeEndElement();
+                        w.writeEndElement();
+                    } catch (NullPointerException ex) {
+                        System.err.println("Skipping row " + r.getRowNum());
+                    }
+                }
+                w.writeEndElement();
+                w.writeEndDocument();
+            } finally {
+                pkg.close();
+            }
+        } finally {
+            w.close();
+        }
+    }
+    
     public void createMetadataSpreadsheet(String solrUpdateUrl, OutputStream reportOut) throws SolrServerException {
         PrintWriter p = new PrintWriter(new OutputStreamWriter(reportOut));
         char delim = ',';
