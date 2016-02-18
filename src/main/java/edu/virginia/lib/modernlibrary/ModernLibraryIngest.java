@@ -60,6 +60,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -93,7 +94,8 @@ public class ModernLibraryIngest {
         transformCorrectionSpreadsheet(new File("src/main/resources/name-mapping.xlsx"), new File("src/main/resources/name-mapping.xml"));
         transformCorrectionSpreadsheet(new File("src/main/resources/printer-mapping.xlsx"), new File("src/main/resources/printer-mapping.xml"));
         transformReplacementSpreadsheet(new File("src/main/resources/series-metadata.xlsx"), new File("src/main/resources/series-values.xml"));
-        
+        transformJacketImageSpreadsheet(new File("src/main/resources/master-files.xlsx"), new File("src/main/resources/jacket-images.xml"));
+
         File solrDocDir = new File("solr-output");
         
         m.generateSolrDocs(new File("resources/transmog-xml"), solrDocDir);
@@ -101,7 +103,6 @@ public class ModernLibraryIngest {
         m.writeSolrDocs(solrDocDir, solrUrl);
 
         m.summarizeAndValidateFacets(solrUrl);
-
     }
 
     private DocumentBuilder b;
@@ -243,6 +244,54 @@ public class ModernLibraryIngest {
         }
     }
     
+    /**
+     * Transforms a spreasheet that specifies image URLs for a given ML ID into
+     * XML suitable for the XSLT that generates solr documents.
+     * <jackets>
+     *   <image id="298" variation="298b">url to image</image>
+     * </jackets>
+     */
+    private static void transformJacketImageSpreadsheet(File xlsx, File xml) throws InvalidFormatException, IOException, XMLStreamException, FactoryConfigurationError {
+        XMLStreamWriter w = XMLOutputFactory.newInstance().createXMLStreamWriter(new FileOutputStream(xml), "UTF-8");
+        try {
+            final OPCPackage pkg = OPCPackage.open(xlsx.getPath());
+            try {
+                final Workbook wb = new XSSFWorkbook(pkg);
+                final Sheet sheet = wb.getSheetAt(0);
+                w.writeStartDocument();
+                w.writeStartElement("jackets");
+                for (Row r : sheet) {
+                    if (r.getRowNum() == 0) {
+                        // skip this one
+                    } else {
+                        final String variation = getText(r.getCell(1));
+                        Matcher m = Pattern.compile("(\\d+)[a-z]?").matcher(variation);
+                        if (!m.matches()) { 
+                            throw new RuntimeException("Could not parse number for title \"" + variation + "\"!");
+                        }
+                        final String id = m.group(1);
+                        w.writeStartElement("image");
+                        w.writeAttribute("id", id);
+                        w.writeAttribute("variation", variation);
+                        w.writeCharacters(r.getCell(2).getStringCellValue());
+                        w.writeEndElement();
+                    }
+                }
+                w.writeEndElement();
+                w.writeEndDocument();
+            } finally {
+                pkg.close();
+            }
+        } finally {
+            try {
+                w.close();
+            } catch (XMLStreamException ex) {
+                System.err.println("Error closing XML stream!");
+                ex.printStackTrace();
+            }
+        }
+    }
+    
     public void createMetadataSpreadsheet(String solrUpdateUrl, OutputStream reportOut) throws SolrServerException {
         PrintWriter p = new PrintWriter(new OutputStreamWriter(reportOut));
         char delim = ',';
@@ -272,6 +321,14 @@ public class ModernLibraryIngest {
             }
         }
         p.flush();
+    }
+    
+    private static String getText(Cell c) {
+        if (c.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+            return String.valueOf(Math.round(c.getNumericCellValue()));
+        } else {
+            return c.getStringCellValue();
+        }
     }
     
     private static String getFieldValues(SolrDocument doc, String fieldName) {

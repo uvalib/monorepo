@@ -5,3 +5,4 @@ config.properties
 name-mapping.xml
 printer-mapping.xml
 series-values.xml
+jacket-images.xml

@@ -12,6 +12,7 @@
   <xsl:variable name="nameMapping" select="document('src/main/resources/name-mapping.xml')" />
   <xsl:variable name="printerMapping" select="document('src/main/resources/printer-mapping.xml')" />
   <xsl:variable name="series" select="document('src/main/resources/series-values.xml')" />
+  <xsl:variable name="jacketImages" select="document('src/main/resources/jacket-images.xml')" />
   
   <xsl:template match="/">
     <xsl:variable name="year">
@@ -98,6 +99,17 @@
               <xsl:for-each select="$series//replacement/entry[id/text() = $id]/value">
                 <field name="ml_series_facet"><xsl:value-of select="current()"/></field>
               </xsl:for-each>
+            </xsl:if>
+            <xsl:if test="count($jacketImages//jackets/image[@id = normalize-space($item)]) &gt; 0">
+              <field name="feature_facet">ml_jacket_images</field>
+              <field name="jacket_image_json_display">
+                <xsl:text>{</xsl:text>
+                <xsl:for-each select="$jacketImages//jackets/image[@id = normalize-space($item)]">
+                  <xsl:if test="position() != 1"><xsl:text>,</xsl:text></xsl:if>
+                  <xsl:value-of select="concat('&quot;', @variation, '&quot;: &quot;', text(), '&quot;')" />
+                </xsl:for-each>
+                <xsl:text>}</xsl:text>
+              </field>
             </xsl:if>
 
             <field name="year_multisort_i"><xsl:value-of select="$year" /></field>
