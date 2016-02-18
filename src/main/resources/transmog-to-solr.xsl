@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-  version="2.0">
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" version="2.0">
   <xsl:output indent="yes" />
   
   <xsl:param name="outputDirFileUri" />
@@ -182,6 +182,7 @@
     <field name="has_optional_facet">discontinued_facet</field>
     <field name="has_optional_facet">catalog_facet</field>
     <field name="has_optional_facet">ml_series_facet</field>
+    <field name="has_optional_facet">year_in_print_facet</field>
   </xsl:template>
   
   <xsl:template name="getVolumeTitle">
@@ -353,7 +354,7 @@
       "1999-2000"
       "1937–1971; 1982–  "
       -->
-    <xsl:analyze-string select="$value" regex="(\d\d\d\d).*">
+    <xsl:analyze-string select="$value" regex="^(\d\d\d\d).*$">
       <xsl:matching-substring>
         <field name="first_published_facet"><xsl:value-of select="regex-group(1)" /></field>
       </xsl:matching-substring>
@@ -364,6 +365,25 @@
         <field name="discontinued_facet"><xsl:value-of select="regex-group(1)" /></field>
       </xsl:matching-substring>
     </xsl:analyze-string>
+    
+    <xsl:analyze-string select="$value" regex="(\d\d\d\d)[–-](\d\d\d\d)">
+      <xsl:matching-substring>
+        <xsl:variable name="start" select="xs:integer(number(regex-group(1)))" as="xs:integer"/>
+        <xsl:variable name="end" select="xs:integer(number(regex-group(2)))" as="xs:integer" />
+        <xsl:for-each select="$start to $end">
+          <field name="year_in_print_facet"><xsl:value-of select="current()" /></field>  
+        </xsl:for-each>
+      </xsl:matching-substring>
+    </xsl:analyze-string>
+    <xsl:analyze-string select="$value" regex="^.*(\d\d\d\d)[–-]\s*$">
+      <xsl:matching-substring>
+        <xsl:variable name="start" select="xs:integer(number(regex-group(1)))" as="xs:integer"/>
+        <xsl:for-each select="$start to 2016">
+          <field name="year_in_print_facet"><xsl:value-of select="current()" /></field>  
+        </xsl:for-each>
+      </xsl:matching-substring>
+    </xsl:analyze-string>
+    
     
   </xsl:template>
 

@@ -415,6 +415,7 @@ public class ModernLibraryIngest {
         fields.add(new Field("has_optional_facet", "discontinued_facet"));
         fields.add(new Field("has_optional_facet", "catalog_facet"));
         fields.add(new Field("has_optional_facet", "ml_series_facet"));
+        fields.add(new Field("has_optional_facet", "year_in_print_facet"));
         fields.add(new Field("embedded_tei_display", "<TEI.2><text><body><p>This is some contextual information to describe the bibliography as a whole.  Please feel free to provide text be presented here.</p></body></text><TEI.2>"));
         fields.add(new Field("date_display", "1925-1959"));
         fields.add(new Field("format_facet", "Online"));
