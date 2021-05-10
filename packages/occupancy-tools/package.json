@@ -1,0 +1,31 @@
+{
+  "name": "@uvalib/occupancy-tools",
+  "version": "0.0.1",
+  "description": "Tools to help gather occupancy data at the Library",
+  "author": "Doug Chestnut <dougchestnut@users.noreply.github.com>",
+  "homepage": "https://github.com/uvalib/monorepo#readme",
+  "license": "ISC",
+  "main": "occupancy-polling.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uvalib/monorepo.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/uvalib/monorepo/issues"
+  },
+  "dependencies": {
+    "digest-fetch": "^1.1.6",
+    "firebase-admin": "^9.7.0"
+  },
+  "type": "module"
+}
