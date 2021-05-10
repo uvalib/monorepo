@@ -28,5 +28,8 @@
     "firebase-admin": "^9.7.0"
   },
   "type": "module",
-  "gitHead": "5548cd106a637bf2d9386575158193a3ed3939a4"
+  "gitHead": "5548cd106a637bf2d9386575158193a3ed3939a4",
+  "bin": {
+    "occupancy-poller": "./lib/occupancy-poller.js"
+  }
 }

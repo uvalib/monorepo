@@ -1,11 +1,12 @@
 # `occupancy-tools`
 
-> TODO: description
+> Scripts to pull occupancy (and related) data from endpoints into our db
 
 ## Usage
 
 ```
-const occupancyTools = require('occupancy-tools');
-
-// TODO: DEMONSTRATE API
+export GOOGLE_APPLICATION_CREDENTIALS="path/to/keyfile"
+export AXISUSER=user
+export AXISPASS=password
+node lib/occupancy-poller.js
 ```
