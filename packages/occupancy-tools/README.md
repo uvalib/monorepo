@@ -8,5 +8,5 @@
 export GOOGLE_APPLICATION_CREDENTIALS="path/to/keyfile"
 export AXISUSER=user
 export AXISPASS=password
-node lib/occupancy-poller.js
+npx occupancy-poller
 ```

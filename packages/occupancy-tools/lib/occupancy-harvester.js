@@ -30,7 +30,6 @@ export default class OccupancyHarvester {
   fetchOccupancy(){
     let promises = [];
     config.occupancyEstimators.forEach(oe=>{
-      console.log(oe.userId + " " + oe.pass)
       const client = new DigestFetch(oe.userId, oe.pass, { algorithm: 'MD5' })
       promises.push(client.fetch(`http://${oe.domain}/local/occupancy-estimator/.api?live-occupancy.json`)
         .then(res => res.json())
