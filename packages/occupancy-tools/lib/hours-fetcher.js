@@ -18,18 +18,23 @@ export default class HoursFetcher extends OccupancyBase {
         for (const key in locations) {
           const location = locations[key];
           if (location["@type"]==="Library" && hoursKeys[key])
-          promises.push (fetch(this.config.libraryHours.libcalURL+hoursKeys[key]).then(res=>res.json())
-            .then(json=>{
-              console.log("write hours");
-              if (json.openingHoursSpecification)
-                return this._firebaseDB.ref('locations-schemaorg/location/'+key+'/openingHoursSpecification').set(json.openingHoursSpecification);
-              else
-                return Promise.resolve();  
-            }));
+          promises.push ( 
+            fetch(this.config.libraryHours.libcalURL+hoursKeys[key])
+              .then(res=>res.json())
+              .then(json=>{
+                console.log("write hours");
+                if (json.openingHoursSpecification)
+                  return this._firebaseDB.ref('locations-schemaorg/location/'+key+'/openingHoursSpecification')
+                    .set(json.openingHoursSpecification)
+                    .catch((error) => { this._logError(error); });
+                else
+                  return Promise.resolve();  
+              }).catch((error) => { this._logError(error); })
+          );
         }
         return Promise.all(promises);
-      });
+      }).catch((error) => { this._logError(error); });
     
-    });    
+    }).catch((error) => { this._logError(error); });    
   }
 }

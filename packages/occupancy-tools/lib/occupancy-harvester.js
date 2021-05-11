@@ -29,7 +29,7 @@ export default class OccupancyHarvester extends OccupancyBase {
             if (!val) val = {timestamp:null, value:null, totalIn:null, totalOut:null};
             var newval = {};
             if (data.occupancy<0) {
-              console.error(new Error(`The occupancy estimator ${oe.domain} is returning a bad occupancy value: ${data.occupancy}`));
+              this._logError(`The occupancy estimator ${oe.domain} is returning a bad occupancy value: ${data.occupancy}`);
             }
             if (data.occupancy !== val.value) {
               newval.value = data.occupancy;
@@ -46,16 +46,22 @@ export default class OccupancyHarvester extends OccupancyBase {
             var newtimestamp = data.unixtime*1000;
             // log if occupancy changed
             if (loggit) {
-              promises.push( this._firebaseDB.ref(oe.fblogpath+'/'+newtimestamp).set(newval).catch((error) => { console.error(error);}) );
+              promises.push( this._firebaseDB.ref(oe.fblogpath+'/'+newtimestamp).set(newval)
+                .catch((error) => { 
+                  this._logError(error);
+                }) );
             }
             // update main
             newval.timestamp = newtimestamp;
-            promises.push( ref.update(newval).catch((error) => { console.error(error);}) );
+            promises.push( ref.update(newval)
+              .catch((error) => { 
+                this._logError(error);
+              }) );
             console.log(data);
             return Promise.all(promises);
-          }).catch((error) => { console.error(error);});
+          }).catch((error) => { this._logError(error); });
         })
-        .catch(e=>console.error(new Error(`Failed to fetch from endpoint at http://${oe.domain}/local/occupancy-estimator/.api?live-occupancy.json`)))
+        .catch(e=>this._logError(`Failed to fetch from endpoint at http://${oe.domain}/local/occupancy-estimator/.api?live-occupancy.json`) )
       );
     });
     

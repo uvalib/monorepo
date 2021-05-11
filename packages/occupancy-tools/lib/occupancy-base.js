@@ -22,4 +22,8 @@ export default class OccupancyBase {
     return app.database(url);
   }
 
+  _logError(msg){
+    console.error(new Error(msg));  
+  }
+
 }
