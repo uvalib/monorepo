@@ -9,27 +9,14 @@
  * export AXISPASS=password
  */
 
-import admin from 'firebase-admin';
+import OccupancyBase from './occupancy-base.js';
 import DigestFetch from 'digest-fetch';
-import config from './occupancy-config.js';
 
-export default class OccupancyHarvester {
-  constructor(firebaseDBName="uvalib-api-occupancy", axisCreds) {
-    this._firebaseDBName=firebaseDBName;
-    this._firebaseDB = this._setupDB(this._firebaseDBName);
-  }
-
-  _setupDB(name){
-    admin.initializeApp({
-      credential: admin.credential.applicationDefault(),
-      databaseURL: `https://${name}.firebaseio.com`
-    });
-    return admin.database();
-  }
+export default class OccupancyHarvester extends OccupancyBase {
 
   fetchOccupancy(){
     let promises = [];
-    config.occupancyEstimators.forEach(oe=>{
+    this.config.occupancyEstimators.forEach(oe=>{
       const client = new DigestFetch(oe.userId, oe.pass, { algorithm: 'MD5' })
       promises.push(client.fetch(`http://${oe.domain}/local/occupancy-estimator/.api?live-occupancy.json`)
         .then(res => res.json())

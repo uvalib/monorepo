@@ -25,7 +25,9 @@
   },
   "dependencies": {
     "digest-fetch": "^1.1.6",
-    "firebase-admin": "^9.7.0"
+    "firebase-admin": "^9.7.0",
+    "luxon": "^1.26.0",
+    "node-fetch": "^2.6.1"
   },
   "type": "module",
   "gitHead": "5548cd106a637bf2d9386575158193a3ed3939a4",
