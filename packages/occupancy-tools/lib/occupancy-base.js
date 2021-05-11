@@ -22,8 +22,16 @@ export default class OccupancyBase {
     return app.database(url);
   }
 
+  _logInfo(msg){
+    console.info("INFO "+msg);
+  }
+
+  _logWarning(msg){
+    console.warn("WARNING "+msg);
+  }
+
   _logError(msg){
-    console.error(new Error(msg));  
+    console.error(new Error("ERROR "+msg));  
   }
 
 }

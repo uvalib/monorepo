@@ -21,7 +21,7 @@ export default class HoursAnalyzer extends OccupancyBase {
             if (drupalLoc && drupalLoc['field_closure_override'] && drupalLoc['field_closure_override'].length > 0) {
               openagain = DateTime.fromSeconds( drupalLoc['field_closure_override'][0].value );
               if (now <= openagain && location.tempClosed != openagain.toMillis())
-                console.log(`${key} is temp closed till ${openagain}`);
+                this._logInfo(`${key} is temp closed till ${openagain}`);
                 promises.push( 
                     this._firebaseDB.ref('locations-schemaorg/location/'+key+'/tempClosed')
                         .set(openagain.toMillis())
@@ -42,7 +42,7 @@ export default class HoursAnalyzer extends OccupancyBase {
                     this._firebaseDB.ref('locations-schemaorg/location/'+key+'/isOpenNow').set(!!(todays))
                     .catch((error) => { this._logError(error); }) 
                 );
-              console.log(`${key} is currently ${!!(todays)?"open":"closed"}`);
+              this._logInfo(`${key} is currently ${!!(todays)?"open":"closed"}`);
             }        
       
       

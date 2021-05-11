@@ -57,7 +57,7 @@ export default class OccupancyHarvester extends OccupancyBase {
               .catch((error) => { 
                 this._logError(error);
               }) );
-            console.log(data);
+            this._logInfo(`${oe.name} occupancy at ${data.occupancy} currently`);
             return Promise.all(promises);
           }).catch((error) => { this._logError(error); });
         })
