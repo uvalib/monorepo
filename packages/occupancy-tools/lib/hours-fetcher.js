@@ -22,9 +22,9 @@ export default class HoursFetcher extends OccupancyBase {
             fetch(this.config.libraryHours.libcalURL+hoursKeys[key])
               .then(res=>res.json())
               .then(json=>{
-                console.log("write hours");
+                console.log(`Got hours for ${key}`);
                 if (json.openingHoursSpecification)
-                  return this._firebaseDB.ref('locations-schemaorg/location/'+key+'/openingHoursSpecification')
+                  return this._firebaseDB.ref(`locations-schemaorg/location/${key}/openingHoursSpecification`)
                     .set(json.openingHoursSpecification)
                     .catch((error) => { this._logError(error); });
                 else
