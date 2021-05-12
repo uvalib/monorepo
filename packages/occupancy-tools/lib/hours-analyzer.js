@@ -5,6 +5,7 @@ import { DateTime } from 'luxon';
 export default class HoursAnalyzer extends OccupancyBase {
 
   isOpenClosed(){
+    this._logInfo("determining open/closed...");
     var now = DateTime.local();
 
     // fetch libraries from Drupal so that we don't have to wait for overrides to make it to our api
