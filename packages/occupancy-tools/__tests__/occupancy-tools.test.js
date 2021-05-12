@@ -3,5 +3,5 @@
 const occupancyTools = require('..');
 
 describe('occupancy-tools', () => {
-    it('needs tests');
+  it('needs tests');
 });
