@@ -15,6 +15,7 @@ import DigestFetch from 'digest-fetch';
 export default class OccupancyHarvester extends OccupancyBase {
 
   fetchOccupancy(){
+    this._logInfo("fetching occupancy...");
     let promises = [];
     this.config.occupancyEstimators.forEach(oe=>{
       const client = new DigestFetch(oe.userId, oe.pass, { algorithm: 'MD5' })

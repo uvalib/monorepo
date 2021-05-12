@@ -1,1 +1,4 @@
+.idea
 node_modules
+tmp
+packages/occupancy-tools/packaging/scripts/*.ksh

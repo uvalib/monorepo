@@ -8,7 +8,8 @@ export default class HoursFetcher extends OccupancyBase {
   }
 
   fetchHours(){
-    return this._firebaseAPIDB.ref('libraries').once("value",libraries=>{  
+    this._logInfo("fetching hours...");
+    return this._firebaseAPIDB.ref('libraries').once("value",libraries=>{
 
       var hoursKeys = libraries.val().reduce( (a,c)=>{ a[c.slug]=c.libcalID; return a;} ,{} )
     

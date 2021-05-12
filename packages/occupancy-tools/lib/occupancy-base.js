@@ -23,15 +23,15 @@ export default class OccupancyBase {
   }
 
   _logInfo(msg){
-    console.info("INFO "+msg);
+    console.info("INFO: "+msg);
   }
 
   _logWarning(msg){
-    console.warn("WARNING "+msg);
+    console.warn("WARNING: "+msg);
   }
 
   _logError(msg){
-    console.error(new Error("ERROR "+msg));  
+    console.error(new Error("ERROR: "+msg));
   }
 
 }
