@@ -1,5 +1,4 @@
 .idea
 node_modules
 tmp
-packages/occupancy-tools/packaging/scripts/build.ksh
-packages/occupancy-tools/packaging/scripts/shell.ksh
+packages/occupancy-tools/packaging/scripts/*.ksh
