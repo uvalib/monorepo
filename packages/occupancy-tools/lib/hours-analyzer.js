@@ -5,7 +5,7 @@ import { DateTime } from 'luxon';
 export default class HoursAnalyzer extends OccupancyBase {
 
   isOpenClosed(){
-    var now = DateTime.local();
+    var now = DateTime.now().setZone("America/New_York");
 
     // fetch libraries from Drupal so that we don't have to wait for overrides to make it to our api
     return fetch('https://drupal.lib.virginia.edu/libs?_format=json').then(res=>res.json()).then((d)=>{
