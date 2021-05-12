@@ -1,9 +1,9 @@
 {
   "name": "@uvalib/prettier-config",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A Prettier config for the Library",
   "main": "index.json",
   "repository": "git+https://github.com/uvalib/monorepo.git",
   "author": "",
   "license": "MIT"
-  }
+}
