@@ -32,7 +32,7 @@
     "node-fetch": "^2.6.1"
   },
   "type": "module",
-  "gitHead": "5548cd106a637bf2d9386575158193a3ed3939a4",
+  "gitHead": "f14979f7cf719abf517714de8f5391421c7a25ec",
   "bin": {
     "occupancy-poller": "./lib/occupancy-poller.js"
   },

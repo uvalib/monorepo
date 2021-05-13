@@ -19,5 +19,6 @@
   },
   "devDependencies": {
     "@uvalib/prettier-config": "^0.0.3"
-  }
+  },
+  "gitHead": "f14979f7cf719abf517714de8f5391421c7a25ec"
 }
