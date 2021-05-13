@@ -10,7 +10,7 @@ RUN apt update
 # set environment vars
 ENV USER=webservice \
     GROUP=webservice \
-    TZ=UTC
+    TZ="US/Eastern"
 
 # Create the run user and group
 RUN addgroup --quiet --gid 2000 $GROUP && \
