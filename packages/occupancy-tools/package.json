@@ -1,6 +1,6 @@
 {
   "name": "@uvalib/occupancy-tools",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "Tools to help gather occupancy data at the Library",
   "author": "Doug Chestnut <dougchestnut@users.noreply.github.com>",
   "homepage": "https://github.com/uvalib/monorepo#readme",
@@ -25,7 +25,7 @@
     "url": "https://github.com/uvalib/monorepo/issues"
   },
   "dependencies": {
-    "@uvalib/eslint-config": "^0.0.0",
+    "@uvalib/eslint-config": "^0.0.1",
     "digest-fetch": "^1.1.6",
     "firebase-admin": "^9.7.0",
     "luxon": "^1.26.0",
@@ -37,7 +37,7 @@
     "occupancy-poller": "./lib/occupancy-poller.js"
   },
   "devDependencies": {
-    "@uvalib/prettier-config": "^0.0.2",
+    "@uvalib/prettier-config": "^0.0.3",
     "eslint": "^7.26.0"
   }
 }
