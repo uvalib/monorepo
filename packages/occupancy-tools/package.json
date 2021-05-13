@@ -25,6 +25,7 @@
     "url": "https://github.com/uvalib/monorepo/issues"
   },
   "dependencies": {
+    "@uvalib/eslint-config": "^0.0.0",
     "digest-fetch": "^1.1.6",
     "firebase-admin": "^9.7.0",
     "luxon": "^1.26.0",
@@ -36,6 +37,7 @@
     "occupancy-poller": "./lib/occupancy-poller.js"
   },
   "devDependencies": {
-    "@uvalib/prettier-config": "^0.0.2"
+    "@uvalib/prettier-config": "^0.0.2",
+    "eslint": "^7.26.0"
   }
 }
