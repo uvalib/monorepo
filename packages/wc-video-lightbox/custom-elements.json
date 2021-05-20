@@ -2,9 +2,9 @@
   "version": "experimental",
   "tags": [
     {
-      "name": "my-element",
-      "path": "./my-element.js",
-      "description": "An example element.",
+      "name": "uvalib-video-lightbox",
+      "path": "./uvalib-video-lightbox.js",
+      "description": "A simple video lightbox ui component.",
       "attributes": [
         {
           "name": "name",

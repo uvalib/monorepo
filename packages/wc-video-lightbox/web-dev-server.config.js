@@ -7,6 +7,7 @@
 import {legacyPlugin} from '@web/dev-server-legacy';
 
 export default {
+  rootDir: "../../",
   nodeResolve: true,
   preserveSymlinks: true,
   plugins: [

@@ -2,13 +2,17 @@
   "name": "@uvalib/monorepo",
   "private": true,
   "workspaces": [
-	  "packages/*"
+    "packages/*"
   ],
-  "scripts":{
+  "scripts": {
     "test": "lerna run test --stream",
     "publish-all": "lerna publish"
   },
   "devDependencies": {
     "lerna": "^4.0.0"
+  },
+  "dependencies": {
+    "husky": "^6.0.0",
+    "lint-staged": "^11.0.0"
   }
 }
