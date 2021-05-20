@@ -1,6 +1,6 @@
 {
   "name": "@uvalib/prettier-config",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A Prettier config for the Library",
   "main": "index.json",
   "repository": "git+https://github.com/uvalib/monorepo.git",
@@ -11,7 +11,7 @@
     "eslint": "^7.26.0"
   },
   "dependencies": {
-    "@uvalib/eslint-config": "^0.0.1",
+    "@uvalib/eslint-config": "^0.0.2",
     "eslint": "^7.26.0"
   },
   "gitHead": "f14979f7cf719abf517714de8f5391421c7a25ec"
