@@ -19,13 +19,13 @@
     "url": "git+https://github.com/uvalib/monorepo.git"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "prepare": "husky install"
   },
   "bugs": {
     "url": "https://github.com/uvalib/monorepo/issues"
   },
   "dependencies": {
-    "@uvalib/eslint-config": "^0.0.1",
     "digest-fetch": "^1.1.6",
     "firebase-admin": "^9.7.0",
     "luxon": "^1.26.0",
@@ -37,7 +37,15 @@
     "occupancy-poller": "./lib/occupancy-poller.js"
   },
   "devDependencies": {
+    "@uvalib/eslint-config": "^0.0.1",
     "@uvalib/prettier-config": "^0.0.3",
-    "eslint": "^7.26.0"
+    "eslint": "^7.26.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.23.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.3.1"
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix"
   }
 }
