@@ -1,0 +1,199 @@
+// Variables
+//
+// Color system
+$white: #FFFFFF;
+
+$brand-blue-lightest: #87b9d9 !default;
+$brand-blue-lighter: #3395d4 !default;
+$brand-blue-light: #0370b7 !default;
+$brand-blue: #232d4b !default;
+
+$brand-orange-lightest: #ffead6 !default;
+$brand-orange: #e57200 !default;
+$brand-orange-dark: #b35900 !default;
+
+$blue-alt-light: #bfe7f7 !default;
+$blue-alt-lighter: #91D8F2 !default;
+$blue-alt-lightest: #BFE7F7 !default;
+$blue-alt: #007bac !default;
+$blue-alt-dark: #005679 !default;
+$blue-alt-darkest: #141E3C !default;
+
+$teal-lightest: #C8F2F4 !default;
+$teal-light: #5BD7DE !default;
+$teal: #25CAD3 !default;
+$teal-dark: #1DA1A8 !default;
+$teal-darker: #16777C !default;
+
+$green-lightest: #89cc74 !default;
+$green-lighter: #89CC74 !default;
+$green: #62bb46 !default;
+$green-dark: #4e9737 !default;
+
+$red-lightest: #FBCFDA !default;
+$red: #ef3f6b !default;
+$red-emergency: #df1e43 !default;
+$red-darker: #B30000 !default;
+$red-dark: #DF1E43 !default;
+
+$yellow-light: #fef6c8 !default;
+$yellow-lightest: #FEF6C8 !default;
+$yellow: #ecc602 !default;
+$yellow-dark: #b99c02 !default;
+
+$beige: #f7efe1 !default;
+$beige-dark: #c0b298 !default;
+
+$grey-lightest: #f1f1f1 !default;
+$grey-light: #dadada;
+$grey: #808080;
+$grey-dark: #565656;
+$grey-darkest: #2b2b2b;
+
+$text-light: #FFFFFF;
+$text: $grey-dark;
+$text-dark: $grey-darkest;
+
+$accessibility-highlight: $brand-blue-light;
+
+$primary-orange: $brand-orange;
+$color-link: $blue-alt-dark;
+$color-link-darker: $blue-alt-dark;
+$color-primary-text: $grey-dark;
+$color-error: $red-emergency;
+
+$colors: (
+   "brand-blue-lightest": $brand-blue-lightest,
+   "brand-blue-lighter": $brand-blue-lighter,
+   "brand-blue-light": $brand-blue-light,
+   "brand-blue": $brand-blue,
+   
+   "brand-orange-lightest": $brand-orange-lightest,
+   "brand-orange": $brand-orange,
+   "brand-orange-dark": $brand-orange-dark,
+   
+   "blue-alt-light": $blue-alt-light,
+   "blue-alt": $blue-alt,
+   "blue-alt-dark": $blue-alt-dark,
+   "blue-alt-darkest": $blue-alt-darkest,
+   
+   "teal-lightest": $teal-lightest,
+   "teal-light": $teal-light,
+   "teal": $teal,
+   "teal-dark": $teal-dark,
+   "teal-darker": $teal-darker,
+   
+   "green-lightest": $green-lightest,
+   "green": $green,
+   "green-dark": $green-dark,
+   
+   "red-lightest": $red-lightest,
+   "red": $red,
+   "red-emergency": $red-emergency,
+   "red-darker": $red-darker,
+   "red-dark": $red-dark,
+   
+   "yellow-light": $yellow-light,
+   "yellow": $yellow,
+   "yellow-dark": $yellow-dark,
+   
+   "beige": $beige,
+   "beige-dark": $beige-dark,
+   
+   "grey-lightest": $grey-lightest,
+   "grey-light": $grey-light,
+   "grey": $grey,
+   "grey-dark": $grey-dark,
+   "grey-darkest": $grey-darkest
+) !default;
+
+$theme-colors: (
+  "text-light": $text-light,
+  "text": $text,
+  "text-dark": $text-dark, 
+  "primary-orange": $primary-orange,
+  "accessibility-highlight":    $accessibility-highlight,
+  "color-link":  $color-link,
+  "color-link-darker":    $color-link-darker,
+  "color-primary-text":       $grey-dark,
+  "color-error":    $color-error
+) !default;
+
+$background-colors: (
+   "white": $white,
+   "grey-lightest": $grey-lightest
+) !default;
+
+$alert-background-colors: (
+   "alert-level-1": $red-lightest,
+   "alert-level-2": $yellow-lightest,
+   "alert-level-3": $blue-alt-lightest,
+   "alert-level-4": $teal,
+   "regional-alert-informational": $teal-lightest,
+   "regional-alert-warning": $yellow-lightest
+) !default;
+
+$actionable-colors: (
+   "default-button": $blue-alt,
+   "defalut-subtle-button": $blue-alt-lightest,
+   "alertnate-button": $brand-orange,
+   "default-link": $blue-alt-dark,
+   "link-on-dark-background": $blue-alt-lightest
+) !default;
+
+$common-text-colors: (
+   "text-dark": $text-dark,
+   "text": $text,
+   "white": $white
+) !default;
+
+$common-graphical-colors: (
+   "grey-darkest": $grey-darkest,
+   "grey-lightest": $grey-lightest,
+
+) !default;
+
+$primary-colors: (
+   "brand-blue": $brand-blue,
+   "brand-blue-light": $brand-blue-light,
+   "brand-blue-lighter": $brand-blue-lighter,
+   "brand-blue-lightest": $brand-blue-lightest,
+   "brand-orange-dark": $brand-orange-dark,
+   "brand-orange": $brand-orange,
+   "brand-orange-lightest": $brand-orange-lightest
+) !default;
+
+$secondary-colors: (
+   "blue-alt-dark": $blue-alt-dark,
+   "blue-alt": $blue-alt,
+   "blue-alt-light": $blue-alt-light,
+   "blue-alt-lighter": $blue-alt-lighter,
+   "blue-alt-lightest": $blue-alt-lightest,
+   "teal-darker": $teal-darker,
+   "teal-dark": $teal-dark,
+   "teal": $teal,
+   "teal-light": $teal-light,
+   "teal-lightest": $teal-lightest,
+   "green-dark": $green-dark,
+   "green": $green,
+   "green-lighter": $green-lighter,
+   "green-lightest": $green-lightest,
+   "red-darker": $red-darker,
+   "red-dark": $red-dark,
+   "red": $red,
+   "red-lightest": $red-lightest,
+   "yellow-dark": $yellow-dark,
+   "yellow": $yellow,
+   "yellow-lightest": $yellow-lightest
+) !default;
+
+$grey-colors: (
+   "grey-darkest": $grey-darkest,
+   "grey-dark": $grey-dark,
+   "grey": $grey,
+   "grey-light": $grey-light,
+   "grey-lightest": $grey-lightest
+) !default;
+
+// Prefix for :root CSS variables
+$variable-prefix:             uvalib- !default;
