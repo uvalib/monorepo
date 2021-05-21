@@ -21,5 +21,5 @@
     "@uvalib/prettier-config": "^0.0.5",
     "husky": "^6.0.0"
   },
-  "gitHead": "cb5545d49029ab92f56af8d0c8ccd2b3f11f39ff"
+  "gitHead": "15be3dc8cde4758698ab0bb830bf64b0636e9ffa"
 }

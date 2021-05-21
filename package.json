@@ -9,10 +9,10 @@
     "publish-all": "lerna publish"
   },
   "devDependencies": {
-    "lerna": "^4.0.0"
-  },
-  "dependencies": {
+    "lerna": "^4.0.0",
     "husky": "^6.0.0",
     "lint-staged": "^11.0.0"
+  },
+  "dependencies": {
   }
 }

@@ -19,8 +19,7 @@
     "url": "git+https://github.com/uvalib/monorepo.git"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1",
-    "prepare": "husky install"
+    "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "bugs": {
     "url": "https://github.com/uvalib/monorepo/issues"
@@ -32,7 +31,7 @@
     "node-fetch": "^2.6.1"
   },
   "type": "module",
-  "gitHead": "cb5545d49029ab92f56af8d0c8ccd2b3f11f39ff",
+  "gitHead": "15be3dc8cde4758698ab0bb830bf64b0636e9ffa",
   "bin": {
     "occupancy-poller": "./lib/occupancy-poller.js"
   },

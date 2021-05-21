@@ -19,7 +19,6 @@
   },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
-    "prepare": "husky install",
     "build": "sass scss:css",
     "docs": "sassdoc scss",
     "serve-docs": "serve sassdoc"
@@ -38,7 +37,7 @@
     "sass": "^1.33.0",
     "sassdoc": "^2.7.3"
   },
-  "gitHead": "cb5545d49029ab92f56af8d0c8ccd2b3f11f39ff",
+  "gitHead": "15be3dc8cde4758698ab0bb830bf64b0636e9ffa",
   "lint-staged": {
     "*.js": "eslint --cache --fix"
   }
