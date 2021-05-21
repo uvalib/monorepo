@@ -167,7 +167,6 @@ $theme-colors: (
   "color-primary-text":       $grey-dark,
   "color-error":    $color-error
 ) !default;
-@include add('colors', 'theme-colors', $theme-colors);
 
 $background-colors: (
    "white": $white,
