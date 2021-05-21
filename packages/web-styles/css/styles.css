@@ -1,0 +1,18 @@
+/* Error: Undefined mixin.
+ *     ,
+ * 170 | @include add('colors', 'theme-colors', $theme-colors);
+ *     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ *     '
+ *   scss/_variables.scss 170:1  @import
+ *   scss/styles.scss 2:9        root stylesheet */
+
+body::before {
+  font-family: "Source Code Pro", "SF Mono", Monaco, Inconsolata, "Fira Mono",
+      "Droid Sans Mono", monospace, monospace;
+  white-space: pre;
+  display: block;
+  padding: 1em;
+  margin-bottom: 1em;
+  border-bottom: 2px solid black;
+  content: "Error: Undefined mixin.\a     \2577 \a 170 \2502  @include add('colors', 'theme-colors', $theme-colors);\d\a     \2502  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\a     \2575 \a   scss/_variables.scss 170:1  @import\a   scss/styles.scss 2:9        root stylesheet";
+}
