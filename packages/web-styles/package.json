@@ -3,7 +3,7 @@
   "version": "1.0.1",
   "description": "Styles for the Library web",
   "author": "Doug Chestnut <dougchestnut@users.noreply.github.com>",
-  "homepage": "https://github.com/uvalib/monorepo#readme",
+  "homepage": "https://github.com/uvalib/monorepo/packages/web-styles#readme",
   "license": "ISC",
   "main": "lib/web-styles.js",
   "prettier": "@uvalib/prettier-config",
@@ -20,8 +20,9 @@
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
     "prepare": "husky install",
-    "build": "npx sass scss:css",
-    "docs": "npx sassdoc scss --theme herman"
+    "build": "sass scss:css",
+    "docs": "sassdoc scss",
+    "serve-docs": "serve sassdoc"
   },
   "bugs": {
     "url": "https://github.com/uvalib/monorepo/issues"
@@ -29,16 +30,16 @@
   "devDependencies": {
     "@uvalib/eslint-config": "^0.0.2",
     "@uvalib/prettier-config": "^0.0.4",
-    "eslint": "^7.26.0",
-    "sassdoc": "^2.7.3"
+    "sassdoc": "^2.7.3",
+        "eslint": "^7.26.0",
+    "husky": "^6.0.0"
   },
   "dependencies": {
-    "eslint": "^7.26.0",
-    "sass": "^1.32.13",
-    "sassdoc": "^2.7.3",
-    "sassdoc-theme-herman": "^4.0.2"
+
+    "sass": "^1.33.0",
+    "sassdoc": "^2.7.3"
   },
-  "gitHead": "f14979f7cf719abf517714de8f5391421c7a25ec",
+  "gitHead": "cb5545d49029ab92f56af8d0c8ccd2b3f11f39ff",
   "lint-staged": {
     "*.js": "eslint --cache --fix"
   }

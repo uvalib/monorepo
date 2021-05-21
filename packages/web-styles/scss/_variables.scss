@@ -1,65 +1,114 @@
 // Variables
 //
 // Color system
+
+/// @type Color
 $white: #FFFFFF;
 
+/// @type Color
 $brand-blue-lightest: #87b9d9 !default;
+/// @type Color
 $brand-blue-lighter: #3395d4 !default;
+/// @type Color
 $brand-blue-light: #0370b7 !default;
+/// @type Color
 $brand-blue: #232d4b !default;
 
+/// @type Color
 $brand-orange-lightest: #ffead6 !default;
+/// @type Color
 $brand-orange: #e57200 !default;
+/// @type Color
 $brand-orange-dark: #b35900 !default;
 
+/// @type Color
 $blue-alt-light: #bfe7f7 !default;
+/// @type Color
 $blue-alt-lighter: #91D8F2 !default;
+/// @type Color
 $blue-alt-lightest: #BFE7F7 !default;
+/// @type Color
 $blue-alt: #007bac !default;
+/// @type Color
 $blue-alt-dark: #005679 !default;
+/// @type Color
 $blue-alt-darkest: #141E3C !default;
 
+/// @type Color
 $teal-lightest: #C8F2F4 !default;
+/// @type Color
 $teal-light: #5BD7DE !default;
+/// @type Color
 $teal: #25CAD3 !default;
+/// @type Color
 $teal-dark: #1DA1A8 !default;
+/// @type Color
 $teal-darker: #16777C !default;
 
+/// @type Color
 $green-lightest: #89cc74 !default;
+/// @type Color
 $green-lighter: #89CC74 !default;
+/// @type Color
 $green: #62bb46 !default;
+/// @type Color
 $green-dark: #4e9737 !default;
 
+/// @type Color
 $red-lightest: #FBCFDA !default;
+/// @type Color
 $red: #ef3f6b !default;
+/// @type Color
 $red-emergency: #df1e43 !default;
+/// @type Color
 $red-darker: #B30000 !default;
+/// @type Color
 $red-dark: #DF1E43 !default;
 
+/// @type Color
 $yellow-light: #fef6c8 !default;
+/// @type Color
 $yellow-lightest: #FEF6C8 !default;
+/// @type Color
 $yellow: #ecc602 !default;
+/// @type Color
 $yellow-dark: #b99c02 !default;
 
+/// @type Color
 $beige: #f7efe1 !default;
+/// @type Color
 $beige-dark: #c0b298 !default;
 
+/// @type Color
 $grey-lightest: #f1f1f1 !default;
-$grey-light: #dadada;
-$grey: #808080;
-$grey-dark: #565656;
-$grey-darkest: #2b2b2b;
+/// @type Color
+$grey-light: #dadada !default;
+/// @type Color
+$grey: #808080 !default;
+/// @type Color
+$grey-dark: #565656 !default;
+/// @type Color
+$grey-darkest: #2b2b2b !default;
 
+/// @type Color
 $text-light: #FFFFFF;
+/// @type Color
 $text: $grey-dark;
+/// @type Color
 $text-dark: $grey-darkest;
 
+/// @type Color
 $accessibility-highlight: $brand-blue-light;
 
+/// @type Color
 $primary-orange: $brand-orange;
+/// @type Color
 $color-link: $blue-alt-dark;
+/// @type Color
 $color-link-darker: $blue-alt-dark;
+/// @type Color
 $color-primary-text: $grey-dark;
+/// @type Color
 $color-error: $red-emergency;
 
 $colors: (
@@ -118,6 +167,7 @@ $theme-colors: (
   "color-primary-text":       $grey-dark,
   "color-error":    $color-error
 ) !default;
+@include add('colors', 'theme-colors', $theme-colors);
 
 $background-colors: (
    "white": $white,
