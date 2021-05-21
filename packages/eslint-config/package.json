@@ -18,12 +18,10 @@
     "url": "https://github.com/uvalib/monorepo/issues"
   },
   "devDependencies": {
-    "@uvalib/prettier-config": "^0.0.3",
-    "eslint": "^7.26.0"
+        "@uvalib/prettier-config": "^0.0.4",
+    "husky": "^6.0.0"
   },
-  "gitHead": "f14979f7cf719abf517714de8f5391421c7a25ec",
+  "gitHead": "cb5545d49029ab92f56af8d0c8ccd2b3f11f39ff",
   "dependencies": {
-    "@uvalib/prettier-config": "^0.0.4",
-    "eslint": "^7.26.0"
   }
 }

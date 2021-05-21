@@ -7,12 +7,12 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@uvalib/eslint-config": "^0.0.1",
-    "eslint": "^7.26.0"
+        "@uvalib/eslint-config": "^0.0.2",
+    "eslint": "^7.26.0",
+    "husky": "^6.0.0"
   },
   "dependencies": {
-    "@uvalib/eslint-config": "^0.0.2",
-    "eslint": "^7.26.0"
+
   },
-  "gitHead": "f14979f7cf719abf517714de8f5391421c7a25ec"
+  "gitHead": "cb5545d49029ab92f56af8d0c8ccd2b3f11f39ff"
 }
