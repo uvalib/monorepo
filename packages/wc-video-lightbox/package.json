@@ -5,7 +5,7 @@
   "description": "A simple web component that provides a thumb and lightbox interaction given a youtube link",
   "main": "uvalib-video-lightbox.js",
   "module": "uvalib-video-lightbox.js",
-  "exports": "./uvalib-video-lightbox.js",
+  "exports": {"./uvalib-video-lightbox.js":"./uvalib-video-lightbox.js"},
   "prettier": "@uvalib/prettier-config",
   "type": "module",
   "scripts": {
