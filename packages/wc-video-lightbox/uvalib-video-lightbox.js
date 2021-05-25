@@ -1,4 +1,9 @@
 import {LitElement, html, css} from 'lit';
+import '@spectrum-web-components/dialog/sp-dialog-wrapper.js';
+import '@spectrum-web-components/overlay/overlay-trigger.js';
+import '@spectrum-web-components/theme/theme-darkest.js';
+import '@spectrum-web-components/theme/scale-large.js';
+import '@spectrum-web-components/theme/sp-theme.js';
 
 /**
  * A simple Video Lightbox
@@ -11,40 +16,48 @@ export class UVAVideoLightbox extends LitElement {
     return css`
       :host {
         display: block;
-        border: solid 1px gray;
-        padding: 16px;
-        max-width: 800px;
       }
     `;
   }
 
   static get properties() {
     return {
-      /**
-       * The name to say "Hello" to.
-       */
-      name: {type: String},
-
-      /**
-       * The number of times the button has been clicked.
-       */
-      count: {type: Number},
+      youtubeId: {type: String},
+      youtubePlaylistId: {type: String},
+      videoWidth: {type: Number},
+      videoHeight: {type: Number},
+      title: {type: String}
     };
   }
 
   constructor() {
     super();
-    this.name = 'World';
-    this.count = 0;
+    this.videoWidth = 640;
+    this.videoHeight = 360;
+    this.youtubeListType = "";
   }
 
   render() {
     return html`
-      <h1>Hello, ${this.name}!</h1>
-      <button @click=${this._onClick} part="button">
-        Click Count: ${this.count}
-      </button>
-      <slot></slot>
+    <sp-theme color="darkest" scale="large">
+    <div>
+      <overlay-trigger type="modal" placement="none">
+          <sp-dialog-wrapper
+              slot="click-content"
+              headline="${this.title}"
+              dismissable
+              underlay
+          >
+
+          <iframe id="ytplayer" type="text/html" width="${this.videoWidth}" height="${this.videoHeight}"
+  src="${this.youtubePlaylistId?`https://www.youtube.com/embed?listType=playlist&list=${this.youtubePlaylistId}&autoplay=1&origin=${window.location.origin}&rel=0`:`https://www.youtube.com/embed/${this.youtubeId}?autoplay=1&origin=${window.location.origin}&rel=0`}"
+  frameborder="0"></iframe>
+              
+          </sp-dialog-wrapper>
+          <div slot="trigger" variant="primary"><slot></slot></div>
+      </overlay-trigger>
+    </div>
+    </sp-theme>      
     `;
   }
 

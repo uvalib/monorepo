@@ -4,19 +4,18 @@
   <head>
     <meta charset="utf-8" />
     <title>&lt;my-element> Demo</title>
-    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
-    <script src="../node_modules/lit/polyfill-support.js"></script>
-    <script type="module" src="../my-element.js"></script>
+    <script type="module" src="../uvalib-video-lightbox.js"></script>
     <style>
-      p {
+      uvalib-video-lightbox button {
         border: solid 1px blue;
-        padding: 8px;
+        padding: 0;
+        cursor: pointer;
       }
     </style>
   </head>
   <body>
-    <my-element>
-      <p>This is child content</p>
-    </my-element>
-  </body>
+    <uvalib-video-lightbox title="video example" youtubeid="rOCQZ7QnoN0"><img src="https://img.youtube.com/vi/rOCQZ7QnoN0/default.jpg" alt="video thumbnail" /></uvalib-video-lightbox>
+    <uvalib-video-lightbox title="playlist example" youtubeplaylistid="PLmoC3HVFtXYj7h5hD6OjrS0oZuqRozf4H"><img src="https://img.youtube.com/vi/rOCQZ7QnoN0/default.jpg" alt="video thumbnail" /></uvalib-video-lightbox>
+  </body>  
+
 </html>
