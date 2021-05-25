@@ -1,7 +1,7 @@
 {
   "name": "@uvalib/video-lightbox",
   "private": false,
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A simple web component that provides a thumb and lightbox interaction given a youtube link",
   "main": "uvalib-video-lightbox.js",
   "module": "uvalib-video-lightbox.js",
