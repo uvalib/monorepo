@@ -16,7 +16,13 @@ export default class OccupancyHarvester extends OccupancyBase {
   fetchOccupancy() {
     this._logInfo('fetching occupancy...');
     let promises = [];
+try {
     this.config.occupancyEstimators.forEach((oe) => {
+      if (!oe.userId || !oe.pass) {
+        this._logError(`Missing userid and/or password for camera - ${oe.name}`);
+        throw new Error(`Missing userid and/or password`);
+        return;
+      }
       const client = new DigestFetch(oe.userId, oe.pass, { algorithm: 'MD5' });
       promises.push(
         client
@@ -25,6 +31,13 @@ export default class OccupancyHarvester extends OccupancyBase {
           )
           .then((res) => res.json())
           .then((data) => {
+if (oe.fbpath) {
+  if (data.occupancy < 0) {
+    this._logError(
+      `The occupancy estimator ${oe.domain} - ${oe.name} is returning a bad occupancy value: ${data.occupancy}`,
+    );
+    throw new Error(`Count can't be less than zero!!!`);
+  }    
             const ref = this._firebaseDB.ref(oe.fbpath);
             return ref
               .once('value')
@@ -40,11 +53,6 @@ export default class OccupancyHarvester extends OccupancyBase {
                     totalOut: null,
                   };
                 var newval = {};
-                if (data.occupancy < 0) {
-                  this._logError(
-                    `The occupancy estimator ${oe.domain} is returning a bad occupancy value: ${data.occupancy}`,
-                  );
-                }
                 if (data.occupancy !== val.value) {
                   newval.value = data.occupancy;
                   loggit = true;
@@ -84,15 +92,18 @@ export default class OccupancyHarvester extends OccupancyBase {
               .catch((error) => {
                 this._logError(error);
               });
+}              
           })
           .catch((e) =>
             this._logError(
-              `Failed to fetch from endpoint at http://${oe.domain}/local/occupancy-estimator/.api?live-occupancy.json`,
+              `Something went wrong with the occupancy fetch from endpoint at http://${oe.domain}/local/occupancy-estimator/.api?live-occupancy.json`,
             ),
           ),
       );
     });
-
+} catch (e) {
+  this._logError(e);
+}
     return Promise.all(promises);
   }
 }
