@@ -5,7 +5,7 @@
  * export GOOGLE_APPLICATION_CREDENTIALS="/home/user/Downloads/service-account-file.json"
  */
 
-import { admin, app } from './firebase-config.js';
+import {admin, app} from './firebase-config.js';
 import config from './occupancy-config.js';
 
 export default class OccupancyBase {

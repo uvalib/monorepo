@@ -9,4 +9,4 @@ admin.initializeApp({
 
 const app = admin.app();
 
-export { admin, app };
+export {admin, app};

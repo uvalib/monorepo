@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 import OccupancyBase from './occupancy-base.js';
-import { DateTime } from 'luxon';
+import {DateTime} from 'luxon';
 
 export default class HoursAnalyzer extends OccupancyBase {
   isOpenClosed() {

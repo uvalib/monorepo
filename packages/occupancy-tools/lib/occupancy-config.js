@@ -29,7 +29,7 @@ export default {
       pass: process.env.AXISPASS,
       domain: '172.29.12.104',
       name: 'SEL Lower Level Stairwell Exit Door 3 (C048)',
-    },    
+    },
     {
       userId: process.env.AXISUSER,
       pass: process.env.AXISPASS,
@@ -97,6 +97,6 @@ export default {
       pass: process.env.AXISPASS,
       domain: '172.29.5.97',
       name: 'Clemons 100 northern exit (100)',
-    }
+    },
   ],
 };
