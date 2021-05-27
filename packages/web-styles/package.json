@@ -20,7 +20,7 @@
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
     "build": "sass scss:css",
-    "docs": "sassdoc scss",
+    "docs": "sassdoc scss; sassdoc scss --dest=../../docs/web-styles",
     "serve-docs": "serve sassdoc"
   },
   "bugs": {
