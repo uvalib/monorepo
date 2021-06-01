@@ -111,6 +111,10 @@ $color-primary-text: $grey-dark;
 /// @type Color
 $color-error: $red-emergency;
 
+// Yes I know that SassDoc sucks for maps see https://github.com/SassDoc/sassdoc/issues/389
+
+/// Colors currently used by the Virgo web client in App.vue
+/// @type Map
 $colors: (
   'brand-blue-lightest': $brand-blue-lightest,
   'brand-blue-lighter': $brand-blue-lighter,
@@ -148,6 +152,8 @@ $colors: (
   'grey-darkest': $grey-darkest,
 ) !default;
 
+/// Colors currently used by the Virgo web client in App.vue
+/// @type Map
 $theme-colors: (
   'text-light': $text-light,
   'text': $text,
@@ -160,11 +166,25 @@ $theme-colors: (
   'color-error': $color-error,
 ) !default;
 
+/// Colors We use two main colors for backgrounds.
+/// @name Background Colors
+/// @type Map
+/// @prop {color} white [$white] - Primary background
+/// @prop {color} grey-lightest [$grey-lightest] - Used with the `shady` class to highlight designated areas of the content
 $background-colors: (
   'white': $white,
   'grey-lightest': $grey-lightest,
 ) !default;
 
+/// There are five colors used for alert backgrounds
+/// @name Alert Background Colors
+/// @type Map
+/// @prop {color} alert-level-1 [$red-lightest] - Alert Level 1
+/// @prop {color} alert-level-2 [$yellow-lightest] - Alert Level 2 / Regional Alert (Warning) Primary background
+/// @prop {color} alert-level-3 [$blue-alt-lightest] - Alert Level 3
+/// @prop {color} alert-level-4 [$teal] - Alert Level 4
+/// @prop {color} regional-alert-informational [$teal-lightest] - Regional Alert Informational Primary background
+/// @prop {color} regional-alert-warning [$yellow-lightest] - Regional Alert Warning 
 $alert-background-colors: (
   'alert-level-1': $red-lightest,
   'alert-level-2': $yellow-lightest,
@@ -174,6 +194,16 @@ $alert-background-colors: (
   'regional-alert-warning': $yellow-lightest,
 ) !default;
 
+/// Actionable colors are used that include an action (such as moving you forward in the flow). Elements that are not actionable should not be in these colors.
+/// This applies to the Button, Link Button, and Text Link components. Proper use of these colors are defined further in this document in their respective sections.
+/// There are five colors used for actionable colors.
+/// @name Actionalble Colors
+/// @type Map
+/// @prop {color} default-button [$blue-alt] - Default Button
+/// @prop {color} default-subtle-button [$blue-alt-lightest] - Default Subtle Button
+/// @prop {color} alternate-button [$brand-orange] - Alternate Button
+/// @prop {color} default-link [$blue-alt-dark] - Default Link
+/// @prop {color} link-on-dark-background [$blue-alt-lightest] - Link on Dark Background
 $actionable-colors: (
   'default-button': $blue-alt,
   'defalut-subtle-button': $blue-alt-lightest,
@@ -182,17 +212,34 @@ $actionable-colors: (
   'link-on-dark-background': $blue-alt-lightest,
 ) !default;
 
+/// @name Text Comman Color Usage
+/// @type Map
+/// @prop {color} text-dark [$text-dark] - This is used when ADA compliance needs the higher contrast. This is the darkest color that is used for text.
+/// @prop {color} text [$text] - This is the default color for all text on light backgrounds.
+/// @prop {color} white [$white] - This if for text on a dark background.
 $common-text-colors: (
   'text-dark': $text-dark,
   'text': $text,
   'white': $white,
 ) !default;
 
+/// @name Graphical Elements Common Color Usage
+/// @type Map
+/// @prop {color} grey-darkest [$grey-darkest] - This is used for all icons that require a WCAG AAA rating
+/// @prop {color} grey-lightest [$grey-lightest] - This is used for all default borders, horizontal rules, and other separators.
 $common-graphical-colors: (
   'grey-darkest': $grey-darkest,
   'grey-lightest': $grey-lightest,
 ) !default;
 
+/// @name Primary Colors
+/// @type Map
+/// @prop {color} brand-blue [$brand-blue] - 
+/// @prop {color} brand-blue-light [$brand-blue-light] - 
+/// @prop {color} brand-blue-lighter [$brand-blue-lighter] -
+/// @prop {color} brand-orange-dark [$brand-orange-dark] -
+/// @prop {color} brand-orange [$brand-orange] - 
+/// @prop {color} brand-orange-lightest [$brand-orange-lightest] - 
 $primary-colors: (
   'brand-blue': $brand-blue,
   'brand-blue-light': $brand-blue-light,
@@ -203,6 +250,29 @@ $primary-colors: (
   'brand-orange-lightest': $brand-orange-lightest,
 ) !default;
 
+/// @name Secondary Colors
+/// @type Map
+/// @prop {color} blue-alt-dark [$blue-alt-dark] - 
+/// @prop {color} blue-alt [$blue-alt] - 
+/// @prop {color} blue-alt-light [$blue-alt-light] - Reserved for user alerts ONLY.
+/// @prop {color} blue-alt-lighter [$blue-alt-lighter] - 
+/// @prop {color} blue-alt-lightest [$blue-alt-lightest] - 
+/// @prop {color} teal-darker [$teal-darker] - 
+/// @prop {color} teal-dark [$teal-dark] - 
+/// @prop {color} teal [$teal] - Reserved for user alerts ONLY.
+/// @prop {color} teal-light [$teal-light] - 
+/// @prop {color} teal-lightest [$teal-lightest] - Reserved for user alerts ONLY.
+/// @prop {color} green-dark [$green-dark] - 
+/// @prop {color} green [$green] - 
+/// @prop {color} green-lighter [$green-lighter] - 
+/// @prop {color} green-lightest [$green-lightest] - 
+/// @prop {color} red-darker [$red-darker] - Reserved for user alerts ONLY.
+/// @prop {color} red-dark [$red-dark] - Reserved for user alerts ONLY.
+/// @prop {color} red [$red] - Reserved for user alerts ONLY.
+/// @prop {color} red-lightest [$red-lightest] - Reserved for user alerts ONLY.
+/// @prop {color} yellow-dark [$yellow-dark] - 
+/// @prop {color} yellow [$yellow] - 
+/// @prop {color} yellow-lightest [$yellow-lightest] - Reserved for user alerts ONLY.
 $secondary-colors: (
   'blue-alt-dark': $blue-alt-dark,
   'blue-alt': $blue-alt,
@@ -227,6 +297,13 @@ $secondary-colors: (
   'yellow-lightest': $yellow-lightest,
 ) !default;
 
+/// @name Greys
+/// @type Map
+/// @prop {color} grey-darkest [$grey-darkest] - 
+/// @prop {color} grey-dark [$grey-dark] - 
+/// @prop {color} grey [$grey] - 
+/// @prop {color} grey-light [$grey-light] - 
+/// @prop {color} grey-lightest [$grey-lightest] - 
 $grey-colors: (
   'grey-darkest': $grey-darkest,
   'grey-dark': $grey-dark,
@@ -235,5 +312,5 @@ $grey-colors: (
   'grey-lightest': $grey-lightest,
 ) !default;
 
-// Prefix for :root CSS variables
+/// Prefix for :root CSS variables
 $variable-prefix: uvalib- !default;
