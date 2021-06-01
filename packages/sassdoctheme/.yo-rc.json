@@ -1,0 +1,15 @@
+{
+  "generator-sassdoc-theme": {
+    "themeName": "@uvalib/sassdoctheme",
+    "themeEngine": "nunjucks",
+    "author": {
+      "name": "Doug Chestnut"
+    },
+    "themeDesc": "A fancy new SassDoc theme.",
+    "version": "0.0.0",
+    "useExtras": true,
+    "useSass": true,
+    "useSassUtils": true,
+    "useTaskRunner": false
+  }
+}
