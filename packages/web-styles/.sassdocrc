@@ -3,5 +3,5 @@
         "undefined": "General",
         "colors": "Colors"
     },
-    "theme": "uvalibtheme"
+    "theme": "@uvalib/sassdoctheme"
 }

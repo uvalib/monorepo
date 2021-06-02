@@ -1,106 +1,365 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><title>@uvalib/web-styles - v1.1.0</title><link rel="stylesheet" href="assets/css/main.css"><link href="https://fonts.googleapis.com/css?family=Open+Sans:400,500,700" rel="stylesheet" type="text/css"><meta name="viewport" content="width=device-width"><meta content="IE=edge, chrome=1" http-equiv="X-UA-Compatible"><!-- Open Graph tags --><meta property="og:title" content="@uvalib/web-styles - SassDoc"><meta property="og:type" content="website"><meta property="og:description" content="<p>Styles for the Library web</p>
-"><!-- Thanks to Sass-lang.com for the icons --><link href="assets/images/favicon.png" rel="shortcut icon"></head><body><aside class="sidebar" role="nav"><div class="sidebar__header"><h1 class="sidebar__title"><a href="https://github.com/uvalib/monorepo/packages/web-styles#readme">@uvalib/web-styles - v1.1.0</a></h1></div><div class="sidebar__body"><button type="button" class="btn-toggle js-btn-toggle" data-alt="Open all">Close all</button><p class="sidebar__item sidebar__item--heading" data-slug="colors"><a href="#colors">Colors</a></p><div><p class="sidebar__item sidebar__item--sub-heading" data-slug="colors-variable"><a href="#colors-variable">variables</a></p><ul class="list-unstyled"><li class="sidebar__item sassdoc__item" data-group="colors" data-name="white" data-type="variable"><a href="#colors-variable-white">white</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="brand-blue-lightest" data-type="variable"><a href="#colors-variable-brand-blue-lightest">brand-blue-lightest</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="brand-blue-lighter" data-type="variable"><a href="#colors-variable-brand-blue-lighter">brand-blue-lighter</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="brand-blue-light" data-type="variable"><a href="#colors-variable-brand-blue-light">brand-blue-light</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="brand-blue" data-type="variable"><a href="#colors-variable-brand-blue">brand-blue</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="brand-orange-lightest" data-type="variable"><a href="#colors-variable-brand-orange-lightest">brand-orange-lightest</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="brand-orange" data-type="variable"><a href="#colors-variable-brand-orange">brand-orange</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="brand-orange-dark" data-type="variable"><a href="#colors-variable-brand-orange-dark">brand-orange-dark</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="blue-alt-light" data-type="variable"><a href="#colors-variable-blue-alt-light">blue-alt-light</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="blue-alt-lighter" data-type="variable"><a href="#colors-variable-blue-alt-lighter">blue-alt-lighter</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="blue-alt-lightest" data-type="variable"><a href="#colors-variable-blue-alt-lightest">blue-alt-lightest</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="blue-alt" data-type="variable"><a href="#colors-variable-blue-alt">blue-alt</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="blue-alt-dark" data-type="variable"><a href="#colors-variable-blue-alt-dark">blue-alt-dark</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="blue-alt-darkest" data-type="variable"><a href="#colors-variable-blue-alt-darkest">blue-alt-darkest</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="teal-lightest" data-type="variable"><a href="#colors-variable-teal-lightest">teal-lightest</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="teal-light" data-type="variable"><a href="#colors-variable-teal-light">teal-light</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="teal" data-type="variable"><a href="#colors-variable-teal">teal</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="teal-dark" data-type="variable"><a href="#colors-variable-teal-dark">teal-dark</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="teal-darker" data-type="variable"><a href="#colors-variable-teal-darker">teal-darker</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="green-lightest" data-type="variable"><a href="#colors-variable-green-lightest">green-lightest</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="green-lighter" data-type="variable"><a href="#colors-variable-green-lighter">green-lighter</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="green" data-type="variable"><a href="#colors-variable-green">green</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="green-dark" data-type="variable"><a href="#colors-variable-green-dark">green-dark</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="red-lightest" data-type="variable"><a href="#colors-variable-red-lightest">red-lightest</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="red" data-type="variable"><a href="#colors-variable-red">red</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="red-emergency" data-type="variable"><a href="#colors-variable-red-emergency">red-emergency</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="red-darker" data-type="variable"><a href="#colors-variable-red-darker">red-darker</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="red-dark" data-type="variable"><a href="#colors-variable-red-dark">red-dark</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="yellow-light" data-type="variable"><a href="#colors-variable-yellow-light">yellow-light</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="yellow-lightest" data-type="variable"><a href="#colors-variable-yellow-lightest">yellow-lightest</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="yellow" data-type="variable"><a href="#colors-variable-yellow">yellow</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="yellow-dark" data-type="variable"><a href="#colors-variable-yellow-dark">yellow-dark</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="beige" data-type="variable"><a href="#colors-variable-beige">beige</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="beige-dark" data-type="variable"><a href="#colors-variable-beige-dark">beige-dark</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="grey-lightest" data-type="variable"><a href="#colors-variable-grey-lightest">grey-lightest</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="grey-light" data-type="variable"><a href="#colors-variable-grey-light">grey-light</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="grey" data-type="variable"><a href="#colors-variable-grey">grey</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="grey-dark" data-type="variable"><a href="#colors-variable-grey-dark">grey-dark</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="grey-darkest" data-type="variable"><a href="#colors-variable-grey-darkest">grey-darkest</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="text-light" data-type="variable"><a href="#colors-variable-text-light">text-light</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="text" data-type="variable"><a href="#colors-variable-text">text</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="text-dark" data-type="variable"><a href="#colors-variable-text-dark">text-dark</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="accessibility-highlight" data-type="variable"><a href="#colors-variable-accessibility-highlight">accessibility-highlight</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="primary-orange" data-type="variable"><a href="#colors-variable-primary-orange">primary-orange</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="color-link" data-type="variable"><a href="#colors-variable-color-link">color-link</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="color-link-darker" data-type="variable"><a href="#colors-variable-color-link-darker">color-link-darker</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="color-primary-text" data-type="variable"><a href="#colors-variable-color-primary-text">color-primary-text</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="color-error" data-type="variable"><a href="#colors-variable-color-error">color-error</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="colors" data-type="variable"><a href="#colors-variable-colors">colors</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="theme-colors" data-type="variable"><a href="#colors-variable-theme-colors">theme-colors</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="Background Colors" data-type="variable"><a href="#colors-variable-Background Colors">Background Colors</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="Alert Background Colors" data-type="variable"><a href="#colors-variable-Alert Background Colors">Alert Background Colors</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="Actionalble Colors" data-type="variable"><a href="#colors-variable-Actionalble Colors">Actionalble Colors</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="Text Comman Color Usage" data-type="variable"><a href="#colors-variable-Text Comman Color Usage">Text Comman Color Usage</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="Graphical Elements Common Color Usage" data-type="variable"><a href="#colors-variable-Graphical Elements Common Color Usage">Graphical Elements Common Color Usage</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="Primary Colors" data-type="variable"><a href="#colors-variable-Primary Colors">Primary Colors</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="Secondary Colors" data-type="variable"><a href="#colors-variable-Secondary Colors">Secondary Colors</a></li><li class="sidebar__item sassdoc__item" data-group="colors" data-name="Greys" data-type="variable"><a href="#colors-variable-Greys">Greys</a></li></ul></div><p class="sidebar__item sidebar__item--heading" data-slug="undefined"><a href="#undefined">General</a></p><div><p class="sidebar__item sidebar__item--sub-heading" data-slug="undefined-variable"><a href="#undefined-variable">variables</a></p><ul class="list-unstyled"><li class="sidebar__item sassdoc__item" data-group="undefined" data-name="variable-prefix" data-type="variable"><a href="#undefined-variable-variable-prefix">variable-prefix</a></li></ul></div></div></aside><article class="main" role="main"><header class="header" role="banner"><div class="container"><div class="sassdoc__searchbar searchbar"><label for="js-search-input" class="visually-hidden">Search</label><div class="searchbar__form" id="js-search"><input name="search" type="search" class="searchbar__field" autocomplete="off" autofocus id="js-search-input" placeholder="Search"><ul class="searchbar__suggestions" id="js-search-suggestions"></ul></div></div></div></header><section class="main__section"><h1 class="main__heading" id="colors"><div class="container">Colors</div></h1><div class="main__description"><div class="container"><p>Color is used to signal structure on a page, to highlight or emphasize important information or elements, and to display different states of an interface.</p><blockquote><p>Use color intentionally. It&#39;s not decoration. Color is supposed to be functional. For most of our colors, the following points should apply:</p><ul><li>Every color has specific guidelines for meaning. We honor these guidelines in order to maintain consistency across the sites.</li><li>Accessibility is paramount when combining colors. Text should be readable and meet WCAG AA or AAA guidelines.</li><li>Do not add color if it is not needed. Adding too much color is distracting and can lead to cognitive confulsion. Where possible, let the content do the work.</li><li>Color should not convey unique and critical information. <a href="https://webaim.org/articles/contrast/#sc141">WCAG color guidelines</a></li></ul></blockquote></div></div><section class="main__sub-section" id="colors-variable"><h2 class="main__heading--secondary"><div class="container">variables</div></h2><section class="main__item container item" id="colors-variable-white"><h3 class="item__heading"><a class="item__name" href="#variable-white">white</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$white: #ffffff;</code></pre><span class="color-preview--block" style="background: #ffffff;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-brand-blue-lightest"><h3 class="item__heading"><a class="item__name" href="#variable-brand-blue-lightest">brand-blue-lightest</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$brand-blue-lightest: #87b9d9 !default;</code></pre><span class="color-preview--block" style="background: #87b9d9;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-brand-blue-lighter"><h3 class="item__heading"><a class="item__name" href="#variable-brand-blue-lighter">brand-blue-lighter</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$brand-blue-lighter: #3395d4 !default;</code></pre><span class="color-preview--block" style="background: #3395d4;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-brand-blue-light"><h3 class="item__heading"><a class="item__name" href="#variable-brand-blue-light">brand-blue-light</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$brand-blue-light: #0370b7 !default;</code></pre><span class="color-preview--block" style="background: #0370b7;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-brand-blue"><h3 class="item__heading"><a class="item__name" href="#variable-brand-blue">brand-blue</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$brand-blue: #232d4b !default;</code></pre><span class="color-preview--block" style="background: #232d4b;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-brand-orange-lightest"><h3 class="item__heading"><a class="item__name" href="#variable-brand-orange-lightest">brand-orange-lightest</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$brand-orange-lightest: #ffead6 !default;</code></pre><span class="color-preview--block" style="background: #ffead6;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-brand-orange"><h3 class="item__heading"><a class="item__name" href="#variable-brand-orange">brand-orange</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$brand-orange: #e57200 !default;</code></pre><span class="color-preview--block" style="background: #e57200;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-brand-orange-dark"><h3 class="item__heading"><a class="item__name" href="#variable-brand-orange-dark">brand-orange-dark</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$brand-orange-dark: #b35900 !default;</code></pre><span class="color-preview--block" style="background: #b35900;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-blue-alt-light"><h3 class="item__heading"><a class="item__name" href="#variable-blue-alt-light">blue-alt-light</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$blue-alt-light: #bfe7f7 !default;</code></pre><span class="color-preview--block" style="background: #bfe7f7;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-blue-alt-lighter"><h3 class="item__heading"><a class="item__name" href="#variable-blue-alt-lighter">blue-alt-lighter</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$blue-alt-lighter: #91d8f2 !default;</code></pre><span class="color-preview--block" style="background: #91d8f2;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-blue-alt-lightest"><h3 class="item__heading"><a class="item__name" href="#variable-blue-alt-lightest">blue-alt-lightest</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$blue-alt-lightest: #bfe7f7 !default;</code></pre><span class="color-preview--block" style="background: #bfe7f7;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-blue-alt"><h3 class="item__heading"><a class="item__name" href="#variable-blue-alt">blue-alt</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$blue-alt: #007bac !default;</code></pre><span class="color-preview--block" style="background: #007bac;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-blue-alt-dark"><h3 class="item__heading"><a class="item__name" href="#variable-blue-alt-dark">blue-alt-dark</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$blue-alt-dark: #005679 !default;</code></pre><span class="color-preview--block" style="background: #005679;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-blue-alt-darkest"><h3 class="item__heading"><a class="item__name" href="#variable-blue-alt-darkest">blue-alt-darkest</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$blue-alt-darkest: #141e3c !default;</code></pre><span class="color-preview--block" style="background: #141e3c;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-teal-lightest"><h3 class="item__heading"><a class="item__name" href="#variable-teal-lightest">teal-lightest</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$teal-lightest: #c8f2f4 !default;</code></pre><span class="color-preview--block" style="background: #c8f2f4;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-teal-light"><h3 class="item__heading"><a class="item__name" href="#variable-teal-light">teal-light</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$teal-light: #5bd7de !default;</code></pre><span class="color-preview--block" style="background: #5bd7de;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-teal"><h3 class="item__heading"><a class="item__name" href="#variable-teal">teal</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$teal: #25cad3 !default;</code></pre><span class="color-preview--block" style="background: #25cad3;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-teal-dark"><h3 class="item__heading"><a class="item__name" href="#variable-teal-dark">teal-dark</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$teal-dark: #1da1a8 !default;</code></pre><span class="color-preview--block" style="background: #1da1a8;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-teal-darker"><h3 class="item__heading"><a class="item__name" href="#variable-teal-darker">teal-darker</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$teal-darker: #16777c !default;</code></pre><span class="color-preview--block" style="background: #16777c;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-green-lightest"><h3 class="item__heading"><a class="item__name" href="#variable-green-lightest">green-lightest</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$green-lightest: #89cc74 !default;</code></pre><span class="color-preview--block" style="background: #89cc74;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-green-lighter"><h3 class="item__heading"><a class="item__name" href="#variable-green-lighter">green-lighter</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$green-lighter: #89cc74 !default;</code></pre><span class="color-preview--block" style="background: #89cc74;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-green"><h3 class="item__heading"><a class="item__name" href="#variable-green">green</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$green: #62bb46 !default;</code></pre><span class="color-preview--block" style="background: #62bb46;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-green-dark"><h3 class="item__heading"><a class="item__name" href="#variable-green-dark">green-dark</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$green-dark: #4e9737 !default;</code></pre><span class="color-preview--block" style="background: #4e9737;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-red-lightest"><h3 class="item__heading"><a class="item__name" href="#variable-red-lightest">red-lightest</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$red-lightest: #fbcfda !default;</code></pre><span class="color-preview--block" style="background: #fbcfda;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-red"><h3 class="item__heading"><a class="item__name" href="#variable-red">red</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$red: #ef3f6b !default;</code></pre><span class="color-preview--block" style="background: #ef3f6b;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-red-emergency"><h3 class="item__heading"><a class="item__name" href="#variable-red-emergency">red-emergency</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$red-emergency: #df1e43 !default;</code></pre><span class="color-preview--block" style="background: #df1e43;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-red-darker"><h3 class="item__heading"><a class="item__name" href="#variable-red-darker">red-darker</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$red-darker: #b30000 !default;</code></pre><span class="color-preview--block" style="background: #b30000;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-red-dark"><h3 class="item__heading"><a class="item__name" href="#variable-red-dark">red-dark</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$red-dark: #df1e43 !default;</code></pre><span class="color-preview--block" style="background: #df1e43;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-yellow-light"><h3 class="item__heading"><a class="item__name" href="#variable-yellow-light">yellow-light</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$yellow-light: #fef6c8 !default;</code></pre><span class="color-preview--block" style="background: #fef6c8;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-yellow-lightest"><h3 class="item__heading"><a class="item__name" href="#variable-yellow-lightest">yellow-lightest</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$yellow-lightest: #fef6c8 !default;</code></pre><span class="color-preview--block" style="background: #fef6c8;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-yellow"><h3 class="item__heading"><a class="item__name" href="#variable-yellow">yellow</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$yellow: #ecc602 !default;</code></pre><span class="color-preview--block" style="background: #ecc602;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-yellow-dark"><h3 class="item__heading"><a class="item__name" href="#variable-yellow-dark">yellow-dark</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$yellow-dark: #b99c02 !default;</code></pre><span class="color-preview--block" style="background: #b99c02;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-beige"><h3 class="item__heading"><a class="item__name" href="#variable-beige">beige</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$beige: #f7efe1 !default;</code></pre><span class="color-preview--block" style="background: #f7efe1;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-beige-dark"><h3 class="item__heading"><a class="item__name" href="#variable-beige-dark">beige-dark</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$beige-dark: #c0b298 !default;</code></pre><span class="color-preview--block" style="background: #c0b298;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-grey-lightest"><h3 class="item__heading"><a class="item__name" href="#variable-grey-lightest">grey-lightest</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$grey-lightest: #f1f1f1 !default;</code></pre><span class="color-preview--block" style="background: #f1f1f1;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-grey-light"><h3 class="item__heading"><a class="item__name" href="#variable-grey-light">grey-light</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$grey-light: #dadada !default;</code></pre><span class="color-preview--block" style="background: #dadada;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-grey"><h3 class="item__heading"><a class="item__name" href="#variable-grey">grey</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$grey: #808080 !default;</code></pre><span class="color-preview--block" style="background: #808080;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-grey-dark"><h3 class="item__heading"><a class="item__name" href="#variable-grey-dark">grey-dark</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$grey-dark: #565656 !default;</code></pre><span class="color-preview--block" style="background: #565656;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-grey-darkest"><h3 class="item__heading"><a class="item__name" href="#variable-grey-darkest">grey-darkest</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$grey-darkest: #2b2b2b !default;</code></pre><span class="color-preview--block" style="background: #2b2b2b;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-text-light"><h3 class="item__heading"><a class="item__name" href="#variable-text-light">text-light</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$text-light: #ffffff;</code></pre><span class="color-preview--block" style="background: #ffffff;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-text"><h3 class="item__heading"><a class="item__name" href="#variable-text">text</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$text: $grey-dark;</code></pre><span class="color-preview--block" style="background: #565656;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-text-dark"><h3 class="item__heading"><a class="item__name" href="#variable-text-dark">text-dark</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$text-dark: $grey-darkest;</code></pre><span class="color-preview--block" style="background: #2b2b2b;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-accessibility-highlight"><h3 class="item__heading"><a class="item__name" href="#variable-accessibility-highlight">accessibility-highlight</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$accessibility-highlight: $brand-blue-light;</code></pre><span class="color-preview--block" style="background: #0370b7;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-primary-orange"><h3 class="item__heading"><a class="item__name" href="#variable-primary-orange">primary-orange</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$primary-orange: $brand-orange;</code></pre><span class="color-preview--block" style="background: #e57200;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-color-link"><h3 class="item__heading"><a class="item__name" href="#variable-color-link">color-link</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$color-link: $blue-alt-dark;</code></pre><span class="color-preview--block" style="background: #005679;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-color-link-darker"><h3 class="item__heading"><a class="item__name" href="#variable-color-link-darker">color-link-darker</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$color-link-darker: $blue-alt-dark;</code></pre><span class="color-preview--block" style="background: #005679;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-color-primary-text"><h3 class="item__heading"><a class="item__name" href="#variable-color-primary-text">color-primary-text</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$color-primary-text: $grey-dark;</code></pre><span class="color-preview--block" style="background: #565656;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-color-error"><h3 class="item__heading"><a class="item__name" href="#variable-color-error">color-error</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$color-error: $red-emergency;</code></pre><span class="color-preview--block" style="background: #df1e43;"></span></div><h3 class="item__sub-heading">Type</h3><p><code>Color</code></p></section><section class="main__item container item" id="colors-variable-colors"><h3 class="item__heading"><a class="item__name" href="#variable-colors">colors</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$colors: (
-  &#39;brand-blue-lightest&#39;: $brand-blue-lightest,
-  &#39;brand-blue-lighter&#39;: $brand-blue-lighter,
-  &#39;brand-blue-light&#39;: $brand-blue-light,
-  &#39;brand-blue&#39;: $brand-blue,
-  &#39;brand-orange-lightest&#39;: $brand-orange-lightest,
-  &#39;brand-orange&#39;: $brand-orange,
-  &#39;brand-orange-dark&#39;: $brand-orange-dark,
-  &#39;blue-alt-light&#39;: $blue-alt-light,
-  &#39;blue-alt&#39;: $blue-alt,
-  &#39;blue-alt-dark&#39;: $blue-alt-dark,
-  &#39;blue-alt-darkest&#39;: $blue-alt-darkest,
-  &#39;teal-lightest&#39;: $teal-lightest,
-  &#39;teal-light&#39;: $teal-light,
-  &#39;teal&#39;: $teal,
-  &#39;teal-dark&#39;: $teal-dark,
-  &#39;teal-darker&#39;: $teal-darker,
-  &#39;green-lightest&#39;: $green-lightest,
-  &#39;green&#39;: $green,
-  &#39;green-dark&#39;: $green-dark,
-  &#39;red-lightest&#39;: $red-lightest,
-  &#39;red&#39;: $red,
-  &#39;red-emergency&#39;: $red-emergency,
-  &#39;red-darker&#39;: $red-darker,
-  &#39;red-dark&#39;: $red-dark,
-  &#39;yellow-light&#39;: $yellow-light,
-  &#39;yellow&#39;: $yellow,
-  &#39;yellow-dark&#39;: $yellow-dark,
-  &#39;beige&#39;: $beige,
-  &#39;beige-dark&#39;: $beige-dark,
-  &#39;grey-lightest&#39;: $grey-lightest,
-  &#39;grey-light&#39;: $grey-light,
-  &#39;grey&#39;: $grey,
-  &#39;grey-dark&#39;: $grey-dark,
-  &#39;grey-darkest&#39;: $grey-darkest,
-) !default;</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Colors currently used by the Virgo web client in App.vue</p></div><h3 class="item__sub-heading">Type</h3><p><code>Map</code></p></section><section class="main__item container item" id="colors-variable-theme-colors"><h3 class="item__heading"><a class="item__name" href="#variable-theme-colors">theme-colors</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$theme-colors: (
-  &#39;text-light&#39;: $text-light,
-  &#39;text&#39;: $text,
-  &#39;text-dark&#39;: $text-dark,
-  &#39;primary-orange&#39;: $primary-orange,
-  &#39;accessibility-highlight&#39;: $accessibility-highlight,
-  &#39;color-link&#39;: $color-link,
-  &#39;color-link-darker&#39;: $color-link-darker,
-  &#39;color-primary-text&#39;: $grey-dark,
-  &#39;color-error&#39;: $color-error,
-) !default;</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Colors currently used by the Virgo web client in App.vue</p></div><h3 class="item__sub-heading">Type</h3><p><code>Map</code></p></section><section class="main__item container item" id="colors-variable-Background Colors"><h3 class="item__heading"><a class="item__name" href="#variable-Background Colors">Background Colors</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$Background Colors: (
-  &#39;white&#39;: $white,
-  &#39;grey-lightest&#39;: $grey-lightest,
-) !default;</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Colors We use two main colors for backgrounds.</p></div><h3 class="item__sub-heading">Type</h3><p><code>Map</code></p><h3 class="item__sub-heading">Map structure</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">Map key </span>Name</th><th scope="col"><span class="visually-hidden">Map key </span>Description</th><th scope="col"><span class="visually-hidden">Map key </span>Type</th><th scope="col"><span class="visually-hidden">Map key </span>Value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>white</code></th><td data-label="desc"><p>Primary background</p></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #ffffff; color: #000;">$white</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>grey-lightest</code></th><td data-label="desc"><p>Used with the <code>shady</code> class to highlight designated areas of the content</p></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #f1f1f1; color: #000;">$grey-lightest</code></td></tr></tbody></table></section><section class="main__item container item" id="colors-variable-Alert Background Colors"><h3 class="item__heading"><a class="item__name" href="#variable-Alert Background Colors">Alert Background Colors</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$Alert Background Colors: (
-  &#39;alert-level-1&#39;: $red-lightest,
-  &#39;alert-level-2&#39;: $yellow-lightest,
-  &#39;alert-level-3&#39;: $blue-alt-lightest,
-  &#39;alert-level-4&#39;: $teal,
-  &#39;regional-alert-informational&#39;: $teal-lightest,
-  &#39;regional-alert-warning&#39;: $yellow-lightest,
-) !default;</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>There are five colors used for alert backgrounds</p></div><h3 class="item__sub-heading">Type</h3><p><code>Map</code></p><h3 class="item__sub-heading">Map structure</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">Map key </span>Name</th><th scope="col"><span class="visually-hidden">Map key </span>Description</th><th scope="col"><span class="visually-hidden">Map key </span>Type</th><th scope="col"><span class="visually-hidden">Map key </span>Value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>alert-level-1</code></th><td data-label="desc"><p>Alert Level 1</p></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #fbcfda; color: #000;">$red-lightest</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>alert-level-2</code></th><td data-label="desc"><p>Alert Level 2 / Regional Alert (Warning) Primary background</p></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #fef6c8; color: #000;">$yellow-lightest</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>alert-level-3</code></th><td data-label="desc"><p>Alert Level 3</p></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #bfe7f7; color: #000;">$blue-alt-lightest</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>alert-level-4</code></th><td data-label="desc"><p>Alert Level 4</p></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #25cad3; color: #000;">$teal</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>regional-alert-informational</code></th><td data-label="desc"><p>Regional Alert Informational Primary background</p></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #c8f2f4; color: #000;">$teal-lightest</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>regional-alert-warning</code></th><td data-label="desc"><p>Regional Alert Warning</p></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #fef6c8; color: #000;">$yellow-lightest</code></td></tr></tbody></table></section><section class="main__item container item" id="colors-variable-Actionalble Colors"><h3 class="item__heading"><a class="item__name" href="#variable-Actionalble Colors">Actionalble Colors</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$Actionalble Colors: (
-  &#39;default-button&#39;: $blue-alt,
-  &#39;defalut-subtle-button&#39;: $blue-alt-lightest,
-  &#39;alertnate-button&#39;: $brand-orange,
-  &#39;default-link&#39;: $blue-alt-dark,
-  &#39;link-on-dark-background&#39;: $blue-alt-lightest,
-) !default;</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Actionable colors are used that include an action (such as moving you forward in the flow). Elements that are not actionable should not be in these colors. This applies to the Button, Link Button, and Text Link components. Proper use of these colors are defined further in this document in their respective sections. There are five colors used for actionable colors.</p></div><h3 class="item__sub-heading">Type</h3><p><code>Map</code></p><h3 class="item__sub-heading">Map structure</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">Map key </span>Name</th><th scope="col"><span class="visually-hidden">Map key </span>Description</th><th scope="col"><span class="visually-hidden">Map key </span>Type</th><th scope="col"><span class="visually-hidden">Map key </span>Value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>default-button</code></th><td data-label="desc"><p>Default Button</p></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #007bac; color: #fff;">$blue-alt</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>default-subtle-button</code></th><td data-label="desc"><p>Default Subtle Button</p></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #bfe7f7; color: #000;">$blue-alt-lightest</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>alternate-button</code></th><td data-label="desc"><p>Alternate Button</p></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #e57200; color: #000;">$brand-orange</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>default-link</code></th><td data-label="desc"><p>Default Link</p></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #005679; color: #fff;">$blue-alt-dark</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>link-on-dark-background</code></th><td data-label="desc"><p>Link on Dark Background</p></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #bfe7f7; color: #000;">$blue-alt-lightest</code></td></tr></tbody></table></section><section class="main__item container item" id="colors-variable-Text Comman Color Usage"><h3 class="item__heading"><a class="item__name" href="#variable-Text Comman Color Usage">Text Comman Color Usage</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$Text Comman Color Usage: (
-  &#39;text-dark&#39;: $text-dark,
-  &#39;text&#39;: $text,
-  &#39;white&#39;: $white,
-) !default;</code></pre></div><h3 class="item__sub-heading">Type</h3><p><code>Map</code></p><h3 class="item__sub-heading">Map structure</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">Map key </span>Name</th><th scope="col"><span class="visually-hidden">Map key </span>Description</th><th scope="col"><span class="visually-hidden">Map key </span>Type</th><th scope="col"><span class="visually-hidden">Map key </span>Value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>text-dark</code></th><td data-label="desc"><p>This is used when ADA compliance needs the higher contrast. This is the darkest color that is used for text.</p></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #2b2b2b; color: #fff;">$text-dark</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>text</code></th><td data-label="desc"><p>This is the default color for all text on light backgrounds.</p></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #565656; color: #fff;">$text</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>white</code></th><td data-label="desc"><p>This if for text on a dark background.</p></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #ffffff; color: #000;">$white</code></td></tr></tbody></table></section><section class="main__item container item" id="colors-variable-Graphical Elements Common Color Usage"><h3 class="item__heading"><a class="item__name" href="#variable-Graphical Elements Common Color Usage">Graphical Elements Common Color Usage</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$Graphical Elements Common Color Usage: (
-  &#39;grey-darkest&#39;: $grey-darkest,
-  &#39;grey-lightest&#39;: $grey-lightest,
-) !default;</code></pre></div><h3 class="item__sub-heading">Type</h3><p><code>Map</code></p><h3 class="item__sub-heading">Map structure</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">Map key </span>Name</th><th scope="col"><span class="visually-hidden">Map key </span>Description</th><th scope="col"><span class="visually-hidden">Map key </span>Type</th><th scope="col"><span class="visually-hidden">Map key </span>Value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>grey-darkest</code></th><td data-label="desc"><p>This is used for all icons that require a WCAG AAA rating</p></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #2b2b2b; color: #fff;">$grey-darkest</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>grey-lightest</code></th><td data-label="desc"><p>This is used for all default borders, horizontal rules, and other separators.</p></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #f1f1f1; color: #000;">$grey-lightest</code></td></tr></tbody></table></section><section class="main__item container item" id="colors-variable-Primary Colors"><h3 class="item__heading"><a class="item__name" href="#variable-Primary Colors">Primary Colors</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$Primary Colors: (
-  &#39;brand-blue&#39;: $brand-blue,
-  &#39;brand-blue-light&#39;: $brand-blue-light,
-  &#39;brand-blue-lighter&#39;: $brand-blue-lighter,
-  &#39;brand-blue-lightest&#39;: $brand-blue-lightest,
-  &#39;brand-orange-dark&#39;: $brand-orange-dark,
-  &#39;brand-orange&#39;: $brand-orange,
-  &#39;brand-orange-lightest&#39;: $brand-orange-lightest,
-) !default;</code></pre></div><h3 class="item__sub-heading">Type</h3><p><code>Map</code></p><h3 class="item__sub-heading">Map structure</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">Map key </span>Name</th><th scope="col"><span class="visually-hidden">Map key </span>Description</th><th scope="col"><span class="visually-hidden">Map key </span>Type</th><th scope="col"><span class="visually-hidden">Map key </span>Value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>brand-blue</code></th><td data-label="desc">&mdash;<span class="visually-hidden"> none</span></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #232d4b; color: #fff;">$brand-blue</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>brand-blue-light</code></th><td data-label="desc">&mdash;<span class="visually-hidden"> none</span></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #0370b7; color: #fff;">$brand-blue-light</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>brand-blue-lighter</code></th><td data-label="desc">&mdash;<span class="visually-hidden"> none</span></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #3395d4; color: #fff;">$brand-blue-lighter</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>brand-orange-dark</code></th><td data-label="desc">&mdash;<span class="visually-hidden"> none</span></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #b35900; color: #fff;">$brand-orange-dark</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>brand-orange</code></th><td data-label="desc">&mdash;<span class="visually-hidden"> none</span></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #e57200; color: #000;">$brand-orange</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>brand-orange-lightest</code></th><td data-label="desc">&mdash;<span class="visually-hidden"> none</span></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #ffead6; color: #000;">$brand-orange-lightest</code></td></tr></tbody></table></section><section class="main__item container item" id="colors-variable-Secondary Colors"><h3 class="item__heading"><a class="item__name" href="#variable-Secondary Colors">Secondary Colors</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$Secondary Colors: (
-  &#39;blue-alt-dark&#39;: $blue-alt-dark,
-  &#39;blue-alt&#39;: $blue-alt,
-  &#39;blue-alt-light&#39;: $blue-alt-light,
-  &#39;blue-alt-lighter&#39;: $blue-alt-lighter,
-  &#39;blue-alt-lightest&#39;: $blue-alt-lightest,
-  &#39;teal-darker&#39;: $teal-darker,
-  &#39;teal-dark&#39;: $teal-dark,
-  &#39;teal&#39;: $teal,
-  &#39;teal-light&#39;: $teal-light,
-  &#39;teal-lightest&#39;: $teal-lightest,
-  &#39;green-dark&#39;: $green-dark,
-  &#39;green&#39;: $green,
-  &#39;green-lighter&#39;: $green-lighter,
-  &#39;green-lightest&#39;: $green-lightest,
-  &#39;red-darker&#39;: $red-darker,
-  &#39;red-dark&#39;: $red-dark,
-  &#39;red&#39;: $red,
-  &#39;red-lightest&#39;: $red-lightest,
-  &#39;yellow-dark&#39;: $yellow-dark,
-  &#39;yellow&#39;: $yellow,
-  &#39;yellow-lightest&#39;: $yellow-lightest,
-) !default;</code></pre></div><h3 class="item__sub-heading">Type</h3><p><code>Map</code></p><h3 class="item__sub-heading">Map structure</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">Map key </span>Name</th><th scope="col"><span class="visually-hidden">Map key </span>Description</th><th scope="col"><span class="visually-hidden">Map key </span>Type</th><th scope="col"><span class="visually-hidden">Map key </span>Value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>blue-alt-dark</code></th><td data-label="desc">&mdash;<span class="visually-hidden"> none</span></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #005679; color: #fff;">$blue-alt-dark</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>blue-alt</code></th><td data-label="desc">&mdash;<span class="visually-hidden"> none</span></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #007bac; color: #fff;">$blue-alt</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>blue-alt-light</code></th><td data-label="desc"><p>Reserved for user alerts ONLY.</p></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #bfe7f7; color: #000;">$blue-alt-light</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>blue-alt-lighter</code></th><td data-label="desc">&mdash;<span class="visually-hidden"> none</span></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #91d8f2; color: #000;">$blue-alt-lighter</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>blue-alt-lightest</code></th><td data-label="desc">&mdash;<span class="visually-hidden"> none</span></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #bfe7f7; color: #000;">$blue-alt-lightest</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>teal-darker</code></th><td data-label="desc">&mdash;<span class="visually-hidden"> none</span></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #16777c; color: #fff;">$teal-darker</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>teal-dark</code></th><td data-label="desc">&mdash;<span class="visually-hidden"> none</span></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #1da1a8; color: #fff;">$teal-dark</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>teal</code></th><td data-label="desc"><p>Reserved for user alerts ONLY.</p></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #25cad3; color: #000;">$teal</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>teal-light</code></th><td data-label="desc">&mdash;<span class="visually-hidden"> none</span></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #5bd7de; color: #000;">$teal-light</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>teal-lightest</code></th><td data-label="desc"><p>Reserved for user alerts ONLY.</p></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #c8f2f4; color: #000;">$teal-lightest</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>green-dark</code></th><td data-label="desc">&mdash;<span class="visually-hidden"> none</span></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #4e9737; color: #fff;">$green-dark</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>green</code></th><td data-label="desc">&mdash;<span class="visually-hidden"> none</span></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #62bb46; color: #000;">$green</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>green-lighter</code></th><td data-label="desc">&mdash;<span class="visually-hidden"> none</span></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #89cc74; color: #000;">$green-lighter</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>green-lightest</code></th><td data-label="desc">&mdash;<span class="visually-hidden"> none</span></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #89cc74; color: #000;">$green-lightest</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>red-darker</code></th><td data-label="desc"><p>Reserved for user alerts ONLY.</p></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #b30000; color: #fff;">$red-darker</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>red-dark</code></th><td data-label="desc"><p>Reserved for user alerts ONLY.</p></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #df1e43; color: #fff;">$red-dark</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>red</code></th><td data-label="desc"><p>Reserved for user alerts ONLY.</p></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #ef3f6b; color: #fff;">$red</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>red-lightest</code></th><td data-label="desc"><p>Reserved for user alerts ONLY.</p></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #fbcfda; color: #000;">$red-lightest</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>yellow-dark</code></th><td data-label="desc">&mdash;<span class="visually-hidden"> none</span></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #b99c02; color: #000;">$yellow-dark</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>yellow</code></th><td data-label="desc">&mdash;<span class="visually-hidden"> none</span></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #ecc602; color: #000;">$yellow</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>yellow-lightest</code></th><td data-label="desc"><p>Reserved for user alerts ONLY.</p></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #fef6c8; color: #000;">$yellow-lightest</code></td></tr></tbody></table></section><section class="main__item container item" id="colors-variable-Greys"><h3 class="item__heading"><a class="item__name" href="#variable-Greys">Greys</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$Greys: (
-  &#39;grey-darkest&#39;: $grey-darkest,
-  &#39;grey-dark&#39;: $grey-dark,
-  &#39;grey&#39;: $grey,
-  &#39;grey-light&#39;: $grey-light,
-  &#39;grey-lightest&#39;: $grey-lightest,
-) !default;</code></pre></div><h3 class="item__sub-heading">Type</h3><p><code>Map</code></p><h3 class="item__sub-heading">Map structure</h3><table class="item__parameters"><thead><tr><th scope="col"><span class="visually-hidden">Map key </span>Name</th><th scope="col"><span class="visually-hidden">Map key </span>Description</th><th scope="col"><span class="visually-hidden">Map key </span>Type</th><th scope="col"><span class="visually-hidden">Map key </span>Value</th></tr></thead><tbody><tr class="item__parameter"><th scope="row" data-label="name"><code>grey-darkest</code></th><td data-label="desc">&mdash;<span class="visually-hidden"> none</span></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #2b2b2b; color: #fff;">$grey-darkest</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>grey-dark</code></th><td data-label="desc">&mdash;<span class="visually-hidden"> none</span></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #565656; color: #fff;">$grey-dark</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>grey</code></th><td data-label="desc">&mdash;<span class="visually-hidden"> none</span></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #808080; color: #000;">$grey</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>grey-light</code></th><td data-label="desc">&mdash;<span class="visually-hidden"> none</span></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #dadada; color: #000;">$grey-light</code></td></tr><tr class="item__parameter"><th scope="row" data-label="name"><code>grey-lightest</code></th><td data-label="desc">&mdash;<span class="visually-hidden"> none</span></td><td data-label="type"><code>Color</code></td><td data-label="default"><code class="color-preview--inline" style="background: #f1f1f1; color: #000;">$grey-lightest</code></td></tr></tbody></table></section></section></section><section class="main__section"><h1 class="main__heading" id="undefined"><div class="container">General</div></h1><section class="main__sub-section" id="undefined-variable"><h2 class="main__heading--secondary"><div class="container">variables</div></h2><section class="main__item container item" id="undefined-variable-variable-prefix"><h3 class="item__heading"><a class="item__name" href="#variable-variable-prefix">variable-prefix</a></h3><div class="item__code-wrapper"><pre class="item__code language-scss"><code>$variable-prefix: uvalib- !default;</code></pre></div><h3 class="item__sub-heading">Description</h3><div class="item__description"><p>Prefix for :root CSS variables</p></div></section></section></section><footer class="footer" role="contentinfo"><div class="container"><div class="footer__project-info project-info"><!-- Name and URL --> <a class="project-info__name" href="https://github.com/uvalib/monorepo/packages/web-styles#readme">@uvalib/web-styles</a><!-- Version --> <span class="project-info__version">- v1.1.0</span><!-- License --> <span class="project-info__license">, under ISC</span></div><a class="footer__watermark" href="http://sassdoc.com"><img src="assets/images/logo_light_inline.svg" alt="SassDoc Logo"></a></div></footer></article><script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script><script>window.jQuery || document.write('<script src="assets/js/vendor/jquery.min.js"><\/script>')</script><script src="assets/js/main.min.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Your SassDoc Theme</title>
+        <link rel="stylesheet" href="assets/css/main.css" />
+
+        
+    </head>
+
+    <body>
+
+    
+    
+
+    
+
+    
+
+    
+
+    
+    
+    <section>
+        
+        <h1>Colors</h1>
+
+        
+        
+
+        
+        
+        <section>
+            <h2>variable</h2>
+
+            
+            
+
+            
+            <h3>white</h3>
+
+            
+
+            
+            <h3>brand-blue-lightest</h3>
+
+            
+
+            
+            <h3>brand-blue-lighter</h3>
+
+            
+
+            
+            <h3>brand-blue-light</h3>
+
+            
+
+            
+            <h3>brand-blue</h3>
+
+            
+
+            
+            <h3>brand-orange-lightest</h3>
+
+            
+
+            
+            <h3>brand-orange</h3>
+
+            
+
+            
+            <h3>brand-orange-dark</h3>
+
+            
+
+            
+            <h3>blue-alt-light</h3>
+
+            
+
+            
+            <h3>blue-alt-lighter</h3>
+
+            
+
+            
+            <h3>blue-alt-lightest</h3>
+
+            
+
+            
+            <h3>blue-alt</h3>
+
+            
+
+            
+            <h3>blue-alt-dark</h3>
+
+            
+
+            
+            <h3>blue-alt-darkest</h3>
+
+            
+
+            
+            <h3>teal-lightest</h3>
+
+            
+
+            
+            <h3>teal-light</h3>
+
+            
+
+            
+            <h3>teal</h3>
+
+            
+
+            
+            <h3>teal-dark</h3>
+
+            
+
+            
+            <h3>teal-darker</h3>
+
+            
+
+            
+            <h3>green-lightest</h3>
+
+            
+
+            
+            <h3>green-lighter</h3>
+
+            
+
+            
+            <h3>green</h3>
+
+            
+
+            
+            <h3>green-dark</h3>
+
+            
+
+            
+            <h3>red-lightest</h3>
+
+            
+
+            
+            <h3>red</h3>
+
+            
+
+            
+            <h3>red-emergency</h3>
+
+            
+
+            
+            <h3>red-darker</h3>
+
+            
+
+            
+            <h3>red-dark</h3>
+
+            
+
+            
+            <h3>yellow-light</h3>
+
+            
+
+            
+            <h3>yellow-lightest</h3>
+
+            
+
+            
+            <h3>yellow</h3>
+
+            
+
+            
+            <h3>yellow-dark</h3>
+
+            
+
+            
+            <h3>beige</h3>
+
+            
+
+            
+            <h3>beige-dark</h3>
+
+            
+
+            
+            <h3>grey-lightest</h3>
+
+            
+
+            
+            <h3>grey-light</h3>
+
+            
+
+            
+            <h3>grey</h3>
+
+            
+
+            
+            <h3>grey-dark</h3>
+
+            
+
+            
+            <h3>grey-darkest</h3>
+
+            
+
+            
+            <h3>text-light</h3>
+
+            
+
+            
+            <h3>text</h3>
+
+            
+
+            
+            <h3>text-dark</h3>
+
+            
+
+            
+            <h3>accessibility-highlight</h3>
+
+            
+
+            
+            <h3>primary-orange</h3>
+
+            
+
+            
+            <h3>color-link</h3>
+
+            
+
+            
+            <h3>color-link-darker</h3>
+
+            
+
+            
+            <h3>color-primary-text</h3>
+
+            
+
+            
+            <h3>color-error</h3>
+
+            
+
+            
+            <h3>colors</h3>
+
+            
+
+            
+            <h3>theme-colors</h3>
+
+            
+
+            
+            <h3>Background Colors</h3>
+
+            
+
+            
+            <h3>Alert Background Colors</h3>
+
+            
+
+            
+            <h3>Actionalble Colors</h3>
+
+            
+
+            
+            <h3>Text Comman Color Usage</h3>
+
+            
+
+            
+            <h3>Graphical Elements Common Color Usage</h3>
+
+            
+
+            
+            <h3>Primary Colors</h3>
+
+            
+
+            
+            <h3>Secondary Colors</h3>
+
+            
+
+            
+            <h3>Greys</h3>
+
+            
+        </section>
+        
+
+        
+
+    </section>
+    
+    <section>
+        
+        <h1>General</h1>
+
+        
+        
+
+        
+        
+        <section>
+            <h2>variable</h2>
+
+            
+            
+
+            
+            <h3>variable-prefix</h3>
+
+            
+        </section>
+        
+
+        
+
+    </section>
+    
+
+    
+
+    </body>
+</html>
