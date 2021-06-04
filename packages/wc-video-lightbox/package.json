@@ -1,80 +1,55 @@
 {
-  "name": "@uvalib/video-lightbox",
-  "private": false,
-  "version": "0.0.9",
-  "description": "A simple web component that provides a thumb and lightbox interaction given a youtube link",
-  "main": "./uvalib-video-lightbox.js",
-  "module": "./uvalib-video-lightbox.js",
-  "exports": {
-    ".": "./uvalib-video-lightbox.js",
-    "./uvalib-video-lightbox.js": "./uvalib-video-lightbox.js"
-  },
-  "prettier": "@uvalib/prettier-config",
-  "type": "module",
+  "name": "@uvalib/uvalib-video-lightbox",
+  "version": "0.0.0",
+  "description": "Webcomponent uvalib-video-lightbox following open-wc recommendations",
+  "author": "uvalib-video-lightbox",
+  "license": "MIT",
+  "main": "index.js",
+  "module": "index.js",
   "scripts": {
-    "build": "echo \"This is not a TypeScript project, so no need to build.\"",
-    "lint": "npm run lint:lit-analyzer && npm run lint:eslint",
-    "lint:eslint": "eslint '**/*.js'",
-    "lint:lit-analyzer": "lit-analyzer my-element.js",
-    "format": "prettier \"**/*.{cjs,html,js,json,md,ts}\" --ignore-path ./.eslintignore --write",
-    "docs": "npm run docs:clean && npm run analyze && npm run docs:build && npm run docs:assets && npm run docs:gen",
-    "docs:clean": "rimraf docs",
-    "docs:gen": "eleventy --config=.eleventy.cjs",
-    "docs:gen:watch": "eleventy --config=.eleventy.cjs --watch",
-    "docs:build": "rollup -c --file docs/my-element.bundled.js",
-    "docs:assets": "cp node_modules/prismjs/themes/prism-okaidia.css docs/",
-    "docs:serve": "wds --root-dir=docs --node-resolve --watch",
-    "analyze": "wca analyze \"**/*.js\" --outFile custom-elements.json",
-    "serve": "wds --watch",
-    "test": "wtr",
-    "test:watch": "npm run test -- --watch",
-    "checksize": "rollup -c ; cat my-element.bundled.js | gzip -9 | wc -c ; rm my-element.bundled.js"
+    "start": "web-dev-server",
+    "lint": "eslint --ext .js,.html . --ignore-path .gitignore && prettier \"**/*.js\" --check --ignore-path .gitignore",
+    "format": "eslint --ext .js,.html . --fix --ignore-path .gitignore && prettier \"**/*.js\" --write --ignore-path .gitignore",
+    "test": "web-test-runner --coverage",
+    "test:watch": "web-test-runner --watch",
+    "storybook": "web-dev-server -c .storybook/server.mjs",
+    "storybook:build": "build-storybook"
   },
-  "keywords": [
-    "web-components",
-    "lit-element",
-    "javascript",
-    "lit"
-  ],
-  "author": "Google LLC",
-  "license": "BSD-3-Clause",
   "dependencies": {
-    "@spectrum-web-components/dialog": "^0.6.8",
-    "@spectrum-web-components/overlay": "^0.11.6",
-    "@spectrum-web-components/theme": "^0.8.7",
-    "basiclightbox": "^5.0.4",
-    "lit": "^2.0.0-rc.1",
-    "lit-element": "^3.0.0-rc.1"
+    "lit-html": "^1.4.1",
+    "lit-element": "^2.5.1"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^0.12.1",
-    "@11ty/eleventy-plugin-syntaxhighlight": "^3.0.1",
-    "@esm-bundle/chai": "^4.1.5",
-    "@open-wc/testing": "^2.5.32",
-    "@open-wc/testing-karma": "^4.0.9",
-    "@rollup/plugin-node-resolve": "^9.0.0",
-    "@rollup/plugin-replace": "^2.3.3",
-    "@types/mocha": "^7.0.2",
-    "@uvalib/eslint-config": "^0.0.1",
-    "@uvalib/prettier-config": "^0.0.3",
-    "@web/dev-server": "0.0.29",
-    "@web/dev-server-legacy": "^0.1.4",
-    "@web/dev-server-rollup": "^0.2.7",
-    "@web/test-runner": "^0.12.15",
-    "@web/test-runner-mocha": "^0.3.5",
-    "@web/test-runner-playwright": "^0.8.4",
-    "@webcomponents/webcomponentsjs": "^2.5.0",
-    "babel-eslint": "^10.1.0",
-    "deepmerge": "^4.2.2",
-    "eslint": "^6.8.0",
-    "lit-analyzer": "^1.1.10",
-    "mocha": "^7.1.1",
-    "prettier": "^2.0.4",
-    "rimraf": "^3.0.2",
-    "rollup": "^2.28.2",
-    "rollup-plugin-summary": "^1.2.3",
-    "rollup-plugin-terser": "^7.0.2",
-    "web-component-analyzer": "^1.0.3"
+    "@web/dev-server": "^0.1.17",
+    "eslint": "^7.27.0",
+    "@open-wc/eslint-config": "^4.3.0",
+    "prettier": "^2.2.1",
+    "eslint-config-prettier": "^7.2.0",
+    "husky": "^4.3.8",
+    "lint-staged": "^10.5.4",
+    "@web/test-runner": "^0.12.20",
+    "@open-wc/testing": "^2.5.33",
+    "@web/dev-server-storybook": "^0.3.5"
   },
-  "gitHead": "8d1ca669a59574b18d98563c26578cd24448f532"
+  "eslintConfig": {
+    "extends": [
+      "@open-wc/eslint-config",
+      "eslint-config-prettier"
+    ]
+  },
+  "prettier": {
+    "singleQuote": true,
+    "arrowParens": "avoid"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  }
 }
