@@ -19,7 +19,8 @@
   },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
-    "build": "sass scss:css",
+    "build": "yarn build:css && yarn build:js",
+    "build:css": "sass scss:css",
     "build:js": "node ./tools/build-css.mjs",
     "docs": "sassdoc scss; sassdoc scss --dest=../../docs/web-styles",
     "serve-docs": "serve sassdoc"

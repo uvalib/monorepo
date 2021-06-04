@@ -1,0 +1,13 @@
+/// Prefix for :root CSS variables
+$variable-prefix: uvalib- !default;
+
+:host {
+  // Custom variable values only support SassScript inside `#{}`.
+  @each $color, $value in $colors {
+    --#{$variable-prefix}#{$color}: #{$value};
+  }
+
+  @each $color, $value in $theme-colors {
+    --#{$variable-prefix}#{$color}: #{$value};
+  }
+}
