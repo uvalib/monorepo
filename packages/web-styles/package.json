@@ -20,6 +20,7 @@
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
     "build": "sass scss:css",
+    "build:js": "node ./tools/build-css.mjs",
     "docs": "sassdoc scss; sassdoc scss --dest=../../docs/web-styles",
     "serve-docs": "serve sassdoc"
   },
@@ -30,12 +31,21 @@
     "@uvalib/eslint-config": "^0.0.5",
     "@uvalib/prettier-config": "^0.0.7",
     "@uvalib/sassdoctheme": "^0.0.1",
+    "common-tags": "^1.8.0",
+    "cssnano": "^5.0.5",
     "eslint": "^7.26.0",
+    "globby": "^11.0.3",
     "husky": "^6.0.0",
+    "postcss": "^8.3.0",
+    "postcss-focus-visible": "^5.0.0",
+    "postcss-import": "^14.0.2",
+    "postcss-inherit": "^4.1.0",
+    "postcss-preset-env": "^6.7.0",
     "sass": "^1.33.0",
     "sassdoc": "^2.7.3"
   },
   "dependencies": {
+    "lit-element": "^2.5.1",
     "serve": "^11.3.2"
   },
   "gitHead": "8d1ca669a59574b18d98563c26578cd24448f532",
