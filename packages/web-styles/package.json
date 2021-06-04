@@ -29,13 +29,14 @@
   "devDependencies": {
     "@uvalib/eslint-config": "^0.0.5",
     "@uvalib/prettier-config": "^0.0.7",
+    "@uvalib/sassdoctheme": "^0.0.1",
     "eslint": "^7.26.0",
     "husky": "^6.0.0",
-    "sassdoc": "^2.7.3",
-    "@uvalib/sassdoctheme": "^0.0.1",
-    "sass": "^1.33.0"
+    "sass": "^1.33.0",
+    "sassdoc": "^2.7.3"
   },
   "dependencies": {
+    "serve": "^11.3.2"
   },
   "gitHead": "8d1ca669a59574b18d98563c26578cd24448f532",
   "lint-staged": {
