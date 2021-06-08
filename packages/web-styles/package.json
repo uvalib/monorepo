@@ -5,13 +5,16 @@
   "author": "Doug Chestnut <dougchestnut@users.noreply.github.com>",
   "homepage": "https://github.com/uvalib/monorepo/packages/web-styles#readme",
   "license": "ISC",
-  "main": "lib/web-styles.js",
+  "main": "scss/styles.scss",
   "prettier": "@uvalib/prettier-config",
   "directories": {
-    "scss": "scss"
+    "scss": "scss",
+    "css": "css"
   },
   "files": [
-    "scss"
+    "scss/*.scss",
+    "css/*.css",
+    "css/*.js"
   ],
   "repository": {
     "type": "git",
