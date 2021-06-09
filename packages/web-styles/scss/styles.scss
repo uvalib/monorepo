@@ -3,3 +3,16 @@
 
 // Layout & components
 @import 'root';
+
+/// Applies borders, padding, and margin
+/// @group bordersContainersRules
+/// @example markup - Note that apply-border does not style corners. Rounded corners are only used for regional alerts
+///   <div class="apply-border">
+///     This is an example of proper border color and weight when applied to a container.
+///   </div>
+.apply-border {
+    position: relative;
+    padding: .75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: $border;
+}

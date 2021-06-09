@@ -1,4 +1,4 @@
-:root {
+:host {
   --uvalib-brand-blue-lightest: #87b9d9;
   --uvalib-brand-blue-lighter: #3395d4;
   --uvalib-brand-blue-light: #0370b7;
@@ -44,11 +44,4 @@
   --uvalib-color-error: #df1e43;
 }
 
-.apply-border {
-  position: relative;
-  padding: 0.75rem 1.25rem;
-  margin-bottom: 1rem;
-  border: 1px solid #dadada;
-}
-
-/*# sourceMappingURL=styles.css.map */
+/*# sourceMappingURL=component-styles.css.map */

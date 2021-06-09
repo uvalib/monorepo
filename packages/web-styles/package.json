@@ -52,7 +52,7 @@
     "lit-element": "^2.5.1",
     "serve": "^11.3.2"
   },
-  "gitHead": "8d1ca669a59574b18d98563c26578cd24448f532",
+  "gitHead": "2ef45349eb10d3bf7ba98374e8369f488aece051",
   "lint-staged": {
     "*.js": "eslint --cache --fix"
   }
