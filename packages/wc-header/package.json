@@ -1,8 +1,8 @@
 {
-  "name": "@uvalib/uvalib-style",
-  "version": "0.1.0",
-  "description": "Webcomponent uvalib-style following open-wc recommendations",
-  "author": "uvalib-style",
+  "name": "@uvalib/uvalib-header",
+  "version": "1.0.1",
+  "description": "Webcomponent uvalib-header following open-wc recommendations",
+  "author": "uvalib-header",
   "license": "MIT",
   "main": "index.js",
   "module": "index.js",
@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@uvalib/web-styles": "^1.2.0",
+    "headroom.js": "^0.12.0",
     "lit-element": "^2.5.1",
     "lit-html": "^1.4.1"
   },
@@ -52,6 +53,5 @@
       "eslint --fix",
       "prettier --write"
     ]
-  },
-  "gitHead": "2ef45349eb10d3bf7ba98374e8369f488aece051"
+  }
 }
