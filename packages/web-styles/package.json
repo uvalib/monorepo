@@ -22,10 +22,10 @@
   },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
-    "build": "yarn build:css && yarn build:js",
-    "build:css": "sass scss:css",
+    "build": "yarn build:css && yarn build:js && yarn build:docs",
+    "build:css": "sass -I node_modules scss:css",
     "build:js": "node ./tools/build-css.mjs",
-    "docs": "sassdoc scss; sassdoc scss --dest=../../docs/web-styles",
+    "build:docs": "sassdoc scss; sassdoc scss --dest=../../docs/web-styles",
     "serve-docs": "serve sassdoc"
   },
   "bugs": {
@@ -49,6 +49,7 @@
     "sassdoc": "^2.7.3"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-pro": "^5.15.3",
     "lit-element": "^2.5.1",
     "serve": "^11.3.2"
   },

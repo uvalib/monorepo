@@ -6,7 +6,7 @@
 
 Docs created by [SassDoc](http://sassdoc.com/) can be found [here](https://uvalib.github.io/monorepo/web-styles/).
 
-Be sure to run `yarn run docs` to keep the docs up to date as you make changes to the styles in this repo.  The documentation reflects changes to the master branch.
+Docs are kept up to date by running the build `yarn run build`.  The documentation reflects changes to the master branch.
 
 ## Usage
 

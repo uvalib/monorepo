@@ -32,7 +32,7 @@ $brand-orange: #e57200 !default;
 $brand-orange-dark: #b35900 !default;
 
 /// @type Color
-$blue-alt-light: #bfe7f7 !default;
+$blue-alt-light: #55C4EC !default;
 /// @type Color
 $blue-alt-lighter: #91d8f2 !default;
 /// @type Color
@@ -56,7 +56,7 @@ $teal-dark: #1da1a8 !default;
 $teal-darker: #16777c !default;
 
 /// @type Color
-$green-lightest: #89cc74 !default;
+$green-lightest: #DDEFDC !default;
 /// @type Color
 $green-lighter: #89cc74 !default;
 /// @type Color
@@ -69,9 +69,9 @@ $red-lightest: #fbcfda !default;
 /// @type Color
 $red: #ef3f6b !default;
 /// @type Color
-$red-emergency: #df1e43 !default;
-/// @type Color
 $red-darker: #b30000 !default;
+/// @type Color
+$red-emergency: $red-darker !default;
 /// @type Color
 $red-dark: #df1e43 !default;
 
@@ -96,7 +96,7 @@ $grey-light: #dadada !default;
 /// @type Color
 $grey: #808080 !default;
 /// @type Color
-$grey-dark: #565656 !default;
+$grey-dark: #4F4F4F !default;
 /// @type Color
 $grey-darkest: #2b2b2b !default;
 
