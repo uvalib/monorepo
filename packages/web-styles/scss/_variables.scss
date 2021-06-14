@@ -1,5 +1,12 @@
+/// Spacing unit of measure
+$spacing-unit: 1em;
+
+@import 'fonts';
 @import 'color-vars';
 
 /// Borders should be used sparingly and be kept thin, whenever possible. A width of 1px, solid, and grey ($grey-light) is the preferred choice.
 /// @group bordersContainersRules
 $border: 1px solid $grey-light !default;
+
+/// Prefix for :root CSS variables
+$variable-prefix: uvalib- !default;
