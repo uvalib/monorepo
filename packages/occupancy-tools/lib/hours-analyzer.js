@@ -11,6 +11,7 @@ export default class HoursAnalyzer extends OccupancyBase {
     return fetch('https://drupal.lib.virginia.edu/libs?_format=json')
       .then((res) => res.json())
       .then((d) => {
+if (Array.isArray(d)) {        
         return this._firebaseDB
           .ref('locations-schemaorg/location')
           .once('value', (loc) => {
@@ -79,6 +80,9 @@ export default class HoursAnalyzer extends OccupancyBase {
           .catch((error) => {
             this._logError(error);
           });
+} else {
+  this._logError(`Expected an array of libraries from https://drupal.lib.virginia.edu/libs?_format=json but got: ${JSON.stringify(d)}`);
+}
       })
       .catch((error) => {
         this._logError(error);
