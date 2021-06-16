@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      background: black;
+    }
+  </style>
+</head>
+<body>
+  <div id="demo"></div>
+
+  <script type="module">
+    import { html, render } from 'lit-html';
+    import '../uvalib-logos.js';
+
+    const title = 'Hello owc World!';
+    render(
+      html`
+        <uvalib-logos>University of Virginia Library</uvalib-logos>
+      `,
+      document.querySelector('#demo')
+    );
+  </script>
+</body>
+</html>
