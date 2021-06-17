@@ -27,7 +27,7 @@
     "start": "web-dev-server"
   },
   "name": "@uvalib/uvalib-kitchen-sink",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Webcomponent uvalib-kitchen-sink following open-wc recommendations",
   "author": "uvalib-kitchen-sink",
   "license": "MIT",
