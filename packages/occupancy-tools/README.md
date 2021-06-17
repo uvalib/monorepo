@@ -13,6 +13,6 @@ npx occupancy-poller
 
 ## Deployment
 
-First build the service container using [this TeamCity job](https://github.com/uvalib/monorepo/commit/67b2aaff713afdb475b6dbd7d5a645070ed300c1).
+First build the service container using [this TeamCity job](https://teamcity.lib.virginia.edu/buildConfiguration/OccupancyService_BuildImage#all-projects).
 
 Then deploy the container using [this TeamCity job](https://teamcity.lib.virginia.edu/buildConfiguration/OccupancyService_ProductionDeploy#all-projects)
