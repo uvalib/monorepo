@@ -20,7 +20,6 @@ export class UvalibKitchenSink extends LitElement {
         color: #1a2b42;
         max-width: 960px;
         margin: 0 auto;
-        text-align: center;
         background-color: var(--uvalib-kitchen-sink-background-color);
       }
 
@@ -49,11 +48,15 @@ export class UvalibKitchenSink extends LitElement {
       <main>
         <h1>${this.title}</h1>
 
+<h2><a href="https://github.com/uvalib/monorepo/tree/master/packages/eslint-config">eslint-config</a></h2>
+<p>Todo: Placeholder for a cross package eslint config.</p>
+
+<h2>&lt;uvalib-logos&gt;</h2>        
       <playground-ide editable-file-system line-numbers resizable>
 
         <script type="sample/html" filename="index.html">
           <!doctype html>
-          <body>
+          <body style="background-color: black;">
             <script type="module" src="./index.js">&lt;/script>
             <uvalib-logos>University of Virginia Library</uvalib-logos>
           </body>
@@ -64,16 +67,6 @@ export class UvalibKitchenSink extends LitElement {
         </script>
       </playground-ide>
       
-
-        <p>Edit <code>src/UvalibKitchenSink.js</code> and save to reload.</p>
-        <a
-          class="app-link"
-          href="https://open-wc.org/guides/developing-components/code-examples/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Code examples
-        </a>
       </main>
 
       <p class="app-footer">
