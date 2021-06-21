@@ -1,6 +1,6 @@
 {
   "name": "@uvalib/uvalib-logos",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Webcomponent uvalib-logos following open-wc recommendations",
   "author": "uvalib-logos",
   "license": "MIT",
@@ -16,7 +16,7 @@
     "storybook:build": "build-storybook && rimraf ../../docs/wc-logos && cp -r storybook-static ../../docs/wc-logos"
   },
   "dependencies": {
-    "@uvalib/web-styles": "^1.3.2",
+    "@uvalib/web-styles": "^1.3.3",
     "lit-element": "^2.5.1",
     "lit-html": "^1.4.1"
   },
