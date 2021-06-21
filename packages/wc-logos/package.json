@@ -1,6 +1,6 @@
 {
   "name": "@uvalib/uvalib-logos",
-  "version": "0.1.2",
+  "version": "1.0.0",
   "description": "Webcomponent uvalib-logos following open-wc recommendations",
   "author": "uvalib-logos",
   "license": "MIT",
@@ -54,5 +54,5 @@
       "prettier --write"
     ]
   },
-  "gitHead": "eba21660f6cfbceadbc05d53c3bae72707528d98"
+  "gitHead": "51cdd2f1a11d4046ee2bc9fbce9f5b147bfcceb6"
 }
