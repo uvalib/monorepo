@@ -98,7 +98,7 @@ export default class OccupancyHarvester extends OccupancyBase {
             })
             .catch((e) =>
               this._logError(
-                `Something went wrong with the occupancy fetch from endpoint at http://${oe.domain}/local/occupancy-estimator/.api?live-occupancy.json`,
+                `fetch from endpoint at http://${oe.domain}/local/occupancy-estimator/.api?live-occupancy.json: ${e}`
               ),
             ),
         );
