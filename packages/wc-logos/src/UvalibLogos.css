@@ -16,36 +16,20 @@ g#rotunda rect, g#rotunda polygon, g#rotunda path {
   fill: #e57200;
 }
 
-[onecolor] g#rotunda rect, [onecolor] g#rotunda polygon, [onecolor] g#rotunda path {
-  fill: white;
-}
-
-[dark][onecolor] g#rotunda rect, [dark][onecolor] g#rotunda polygon, [dark][onecolor] g#rotunda path {
-  fill: black;
-}
-
 #sepline {
   fill: #ffffff;
 }
 
-[onecolor] #sepline {
-  fill: white;
-}
-
 [dark] #sepline {
-  fill: black;
+  fill: #141e3c;
 }
 
 #uvaletters, #libletters {
   fill: #ffffff;
 }
 
-[onecolor] #uvaletters, [onecolor] #libletters {
-  fill: white;
-}
-
 [dark] #uvaletters, [dark] #libletters {
-  fill: black;
+  fill: #141e3c;
 }
 
 /*# sourceMappingURL=UvalibLogos.css.map */

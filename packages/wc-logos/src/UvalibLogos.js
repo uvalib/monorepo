@@ -7,12 +7,6 @@ export class UvalibLogos extends LitElement {
     return [style];
   }
 
-  static get properties() {
-    return {
-      onecolor: { type: Boolean }
-    };
-  }
-
   constructor() {
     super();
     this.onecolor = false;
@@ -86,7 +80,7 @@ export class UvalibLogos extends LitElement {
 
   render() {
     return html`
-    <svg ?dark="${this._dark}" ?onecolor="${this.onecolor}" role="img" id="library_logo_primary" data-name="library_logo_primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 327.42 73.89">
+    <svg ?dark="${this._dark}" role="img" id="library_logo_primary" data-name="library_logo_primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 327.42 73.89">
       <title>University of Virginia Library</title>
       <desc id="desc">"Horizontal version of the logo"</desc>
       <g>

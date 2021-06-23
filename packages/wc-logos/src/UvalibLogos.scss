@@ -14,29 +14,17 @@
   g#rotunda  rect, g#rotunda polygon, g#rotunda path {
     fill: $brand-orange;
   }
-  [onecolor] g#rotunda  rect, [onecolor] g#rotunda polygon, [onecolor] g#rotunda path {
-    fill: white;
-  }
-  [dark][onecolor] g#rotunda  rect, [dark][onecolor] g#rotunda polygon, [dark][onecolor] g#rotunda path {
-    fill: black;
-  }
 
   #sepline {
     fill: $text-light;
   }
-  [onecolor] #sepline {
-    fill: white;
-  }
   [dark] #sepline {
-    fill: black;
+    fill: $blue-alt-darkest;
   }
 
   #uvaletters, #libletters {
     fill: $text-light;
   }
-  [onecolor] #uvaletters, [onecolor] #libletters {
-    fill: white;
-  }
   [dark] #uvaletters, [dark] #libletters {
-    fill: black;
+    fill: $blue-alt-darkest;
   }

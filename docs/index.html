@@ -57,6 +57,7 @@
           document.querySelector('mwc-switch').addEventListener("change", (e)=>{
             if(e.target.checked) document.body.setAttribute('dark','');
             else document.body.removeAttribute('dark');
+            document.querySelector('uvalib-logos').evalBackgroundColor();
           });
         </script>
       </playground-ide>
