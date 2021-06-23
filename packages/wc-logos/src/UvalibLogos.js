@@ -1,32 +1,10 @@
 import { html, css, LitElement } from 'lit-element';
-import style from '@uvalib/web-styles/css/wc-styles.css.js';
+//import style from '@uvalib/web-styles/css/wc-styles.css.js';
+import style from './UvalibLogos.css.js';
 
 export class UvalibLogos extends LitElement {
   static get styles() {
-    return [
-            style,
-            css`
-            :host {
-              display: inline-block; 
-              padding: 10px 10px 10px 10px;
-              color: var(--uvalib-logos-text-color, #000);
-            }
-            svg { 
-              max-height: 100%;
-              width: 100%;
-              min-height: 20px;
-            }
-            g#rotunda  rect, g#rotunda polygon, g#rotunda path {
-              fill: var(--uvalib-brand-orange);
-            }
-            #sepline {
-              fill: var(--uvalib-text-light);
-            }
-            #uvaletters, #libletters {
-              fill: var(--uvalib-text-light);
-            }
-            `
-            ];
+    return [style];
   }
 
   static get properties() {
