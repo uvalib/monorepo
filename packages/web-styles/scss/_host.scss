@@ -10,4 +10,12 @@ $variable-prefix: uvalib- !default;
   @each $color, $value in $theme-colors {
     --#{$variable-prefix}#{$color}: #{$value};
   }
+
+  @each $font, $value in $fonts {
+    --#{$variable-prefix}#{$font}: #{$value};
+  }
+
+  --#{$variable-prefix}max-width: #{$max-width};
+
+  font-family: var(--uvalib-font-primary);
 }

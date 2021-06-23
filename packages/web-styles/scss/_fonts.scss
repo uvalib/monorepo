@@ -26,6 +26,19 @@ $font-weight-medium: 500;
 $font-weight-demi: 700;
 $font-weight-heavy: 900;
 
+/// Colors currently used by the Virgo web client in App.vue
+/// @type Map
+$fonts: (
+    "font-size-unit":$font-size-unit,
+    "font-primary":$font-primary,
+    "font-decorative":$font-decorative,
+    "font-weight-light":$font-weight-light,
+    "font-weight-book":$font-weight-book,
+    "font-weight-medium":$font-weight-medium,
+    "font-weight-demi":$font-weight-demi,
+    "font-weight-heavy":$font-weight-heavy
+) !default;
+
 @mixin font-base {
     font-family: $font-primary;
     font-weight: $font-weight-light;

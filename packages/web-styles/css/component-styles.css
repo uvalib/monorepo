@@ -1,4 +1,5 @@
 @import url("https://use.typekit.net/tgy5tlj.css");
+/* small media width */
 :host {
   --uvalib-brand-blue-lightest: #87b9d9;
   --uvalib-brand-blue-lighter: #3395d4;
@@ -34,6 +35,7 @@
   --uvalib-grey: #808080;
   --uvalib-grey-dark: #4F4F4F;
   --uvalib-grey-darkest: #2b2b2b;
+  --uvalib-white: #ffffff;
   --uvalib-text-light: #ffffff;
   --uvalib-text: #4F4F4F;
   --uvalib-text-dark: #2b2b2b;
@@ -43,6 +45,16 @@
   --uvalib-color-link-darker: #005679;
   --uvalib-color-primary-text: #4F4F4F;
   --uvalib-color-error: #b30000;
+  --uvalib-font-size-unit: 16px;
+  --uvalib-font-primary: franklin-gothic-urw, arial, sans-serif;
+  --uvalib-font-decorative: bodoni-urw, georgia, serif;
+  --uvalib-font-weight-light: 300;
+  --uvalib-font-weight-book: 400;
+  --uvalib-font-weight-medium: 500;
+  --uvalib-font-weight-demi: 700;
+  --uvalib-font-weight-heavy: 900;
+  --uvalib-max-width: 1200px;
+  font-family: var(--uvalib-font-primary);
 }
 
 /*# sourceMappingURL=component-styles.css.map */

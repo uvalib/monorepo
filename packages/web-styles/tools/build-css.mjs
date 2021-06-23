@@ -18,6 +18,9 @@ import postcss from 'postcss';
 import cssProcessing from './css-processing.cjs';
 import { fileURLToPath } from 'url';
 
+let myArgs = process.argv.slice(2);
+let _cssPath = myArgs[0]? myArgs[0]:'./css/*.css';
+
 const { postCSSPlugins, wrapCSSResult } = cssProcessing;
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const configPath = path.resolve(path.join(__dirname, '..', 'config'));
@@ -37,7 +40,7 @@ export const processCSS = async (cssPath) => {
 };
 
 const buildCSS = async () => {
-    for await (const cssPath of globby.stream(`./css/*.css`)) {
+    for await (const cssPath of globby.stream(_cssPath)) {
         processCSS(cssPath);
     }
 };

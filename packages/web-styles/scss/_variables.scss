@@ -10,3 +10,9 @@ $border: 1px solid $grey-light !default;
 
 /// Prefix for :root CSS variables
 $variable-prefix: uvalib- !default;
+
+$breakpoint-mobile: 768px;
+$breakpoint-tablet: 925px;
+$max-width: 1200px;
+/* small media width */
+@mixin small-viewport { max-width: 30em; };
