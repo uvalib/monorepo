@@ -4,13 +4,13 @@ This webcomponent follows the [open-wc](https://github.com/open-wc/open-wc) reco
 
 ## Installation
 ```bash
-npm i uvalib-footer
+yarn add @uvalib/uvalib-footer
 ```
 
 ## Usage
 ```html
 <script type="module">
-  import 'uvalib-footer/uvalib-footer.js';
+  import '@uvalib/uvalib-footer/uvalib-footer.js';
 </script>
 
 <uvalib-footer></uvalib-footer>
