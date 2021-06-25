@@ -11,19 +11,18 @@
     body {
       margin: 0;
       padding: 0;
-      font-family: sans-serif;
-      background-color: #ededed;
     }
   </style>
   <title>Kitchen Sink example page</title>
 
+  <link rel="stylesheet" href="https://unpkg.com/@uvalib/web-styles/css/styles.css">
   <script type="module" src="module-build/playground-ide.js"></script>
 </head>
 
 <body>
 
     <main>
-        <h1>UVA Library Component Kitchen Sink</h1>
+        <h1>UVA Library Monorepo Kitchen Sink</h1>
 
 <h2><a href="https://github.com/uvalib/monorepo/tree/master/packages/eslint-config">eslint-config</a></h2>
 <p>Todo: Placeholder for a cross package eslint config.</p>
@@ -79,9 +78,27 @@
               </script>
             
               <script type="sample/js" filename="index.js">
-                import '@uvalib/uvalib-footer@1.0.1/uvalib-footer.js';
+                import '@uvalib/uvalib-footer/uvalib-footer.js';
               </script>
-            </playground-ide>      
+            </playground-ide> 
+            
+            <h2><a href="https://github.com/uvalib/monorepo/tree/master/packages/wc-header">&lt;uvalib-header&gt;</a></h2>
+            <div class="storybook-link"><a href="/wc-header/"">Storybook</a></div>    
+            
+                  <playground-ide editable-file-system line-numbers resizable>
+            
+                    <script type="sample/html" filename="index.html">
+                      <!doctype html>
+                      <body>
+                        <script type="module" src="./index.js">&lt;/script>
+                        <uvalib-header></uvalib-header>
+                      </body>
+                    </script>
+                  
+                    <script type="sample/js" filename="index.js">
+                      import '@uvalib/uvalib-header/uvalib-header.js';
+                    </script>
+                  </playground-ide>            
 
       </main>    
 
