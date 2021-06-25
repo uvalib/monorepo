@@ -1,0 +1,19 @@
+@import "@uvalib/web-styles/scss/variables";
+
+:host {
+    display: block;
+    padding: 0;
+    margin: 0;
+}
+
+header {
+    height: 60px;
+    background-color: $brand-blue;
+    padding: 0;
+    margin: 0;
+}
+
+uvalib-logos {
+    height: 43px;
+}
+
