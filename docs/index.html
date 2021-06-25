@@ -34,31 +34,18 @@
 
         <script type="sample/html" filename="index.html">
           <!doctype html>
-          <style>
-            body {
-              background-color: white;
-            }
-            body[dark] {
-              background-color: black;
-            }
-          </style>
-          <body>
+          <body style="background-color: white">
             <script type="module" src="./index.js">&lt;/script>
-            <mwc-formfield label="Dark Background">
-              <mwc-switch></mwc-switch>
-            </mwc-formfield>             
+            <button>Random background color</button>     
             <uvalib-logos>University of Virginia Library</uvalib-logos>
           </body>
         </script>
       
         <script type="sample/js" filename="index.js">
-          import '@material/mwc-switch';
-          import '@material/mwc-formfield';
           import '@uvalib/uvalib-logos/uvalib-logos.js';
           
-          document.querySelector('mwc-switch').addEventListener("change", (e)=>{
-            if(e.target.checked) document.body.setAttribute('dark','');
-            else document.body.removeAttribute('dark');
+          document.querySelector('button').addEventListener("click", (e)=>{
+            document.body.style.backgroundColor = '#' + Math.floor(Math.random()*16777215).toString(16);
             document.querySelector('uvalib-logos').evalBackgroundColor();
           });
         </script>
