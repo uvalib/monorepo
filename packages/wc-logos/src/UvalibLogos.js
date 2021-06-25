@@ -61,8 +61,8 @@ export class UvalibLogos extends LitElement {
     if (!elem) return transparent;
 
     var bg = getComputedStyle(elem).backgroundColor;
-    if (bg === transparent || bg === transparentIE11) {
-        return this.realBackgroundColor(elem.parentElement);
+    if (bg === transparent || bg === transparentIE11) {      
+        return this.realBackgroundColor(elem.parentElement? elem.parentElement: elem.getRootNode()? elem.getRootNode().host: null);
     } else {
         return bg;
     }
@@ -70,6 +70,7 @@ export class UvalibLogos extends LitElement {
 
   evalBackgroundColor() {
     this._backgroundColor = this.realBackgroundColor(this);
+    console.info(`Found the background of the uvalib-logos to be ${this._backgroundColor}`);
     this._dark = this.lightOrDark( this._backgroundColor ) != "dark";
   }
 
