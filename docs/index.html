@@ -85,7 +85,32 @@
                     <script type="sample/js" filename="index.js">
                       import '@uvalib/uvalib-header/uvalib-header.js';
                     </script>
-                  </playground-ide>            
+                  </playground-ide> 
+                  
+                  
+                  <h2><a href="https://github.com/uvalib/monorepo/tree/master/packages/wc-page">&lt;uvalib-page&gt;</a></h2>
+                  <div class="storybook-link"><a href="/wc-page/"">Storybook</a></div>    
+                  
+                        <playground-ide editable-file-system line-numbers resizable>
+                  
+                          <script type="sample/html" filename="index.html">
+                            <!doctype html>
+                            <body>
+                              <script type="module" src="./index.js">&lt;/script>
+                              <uvalib-page>
+                                <h1>Page Title</h1>
+                                <h2>Foo</h2>
+                                <p>Content...</p>
+                                <h2>Bar</h2>
+                                <p>Content...</p>
+                              </uvalib-page>
+                            </body>
+                          </script>
+                        
+                          <script type="sample/js" filename="index.js">
+                            import '@uvalib/uvalib-page/uvalib-page.js';
+                          </script>
+                        </playground-ide>                   
 
       </main>    
 

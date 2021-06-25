@@ -21,6 +21,23 @@ export class UvalibPage extends LitElement {
 //    this.counter = 5;
   }
 
+  connectedCallback() {
+    super.connectedCallback();
+    // ensure that we don't have any padding/margins set in ancestors nodes
+    let nodes = [];
+    let element = this;
+    while(element.parentNode) {
+      nodes.unshift(element.parentNode);
+      element = element.parentNode;
+    }
+    nodes.forEach((e)=>{
+      if (e.style) {
+        e.style.margin="0";
+        e.style.padding="0";
+      }
+    });
+  }
+
 //  __increment() {
 //    this.counter += 1;
 //  }
