@@ -1,6 +1,6 @@
 {
   "name": "@uvalib/uvalib-page",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Webcomponent uvalib-page following open-wc recommendations",
   "author": "uvalib-page",
   "license": "MIT",
