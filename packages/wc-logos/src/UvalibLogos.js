@@ -12,6 +12,12 @@ export class UvalibLogos extends LitElement {
     this.onecolor = false;
   }
 
+  static get properties() {
+    return {
+      _dark: { type: Boolean }
+    };
+  }
+
   lightOrDark(color) {
     var r, g, b;
     // Check the format of the color, HEX or RGB?
