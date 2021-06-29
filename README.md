@@ -28,11 +28,20 @@ lerna run build --stream
 
 This package is a build of [@uvalib/uvalib-page](https://github.com/uvalib/monorepo/tree/master/packages/wc-page) and [@uvalib/web-styles]() that serves as a template for externaly hosted Aeon content.
 
-Some frequent commands
 ```
+# Start a local server
 lerna run start --scope=@uvalib/aeon-template --stream
 ```
+
+## [Occupancy Tools](https://github.com/uvalib/monorepo/tree/master/packages/occupancy-tools)
+
+Scripts to pull occupancy (and related) data from endpoints into our db
 
 ## [Web Styles](https://github.com/uvalib/monorepo/tree/master/packages/web-styles)
 
 This package is where we are building the global UVA Library styles & theme.  All Library web projects should use this project for reference and/or as a dependency.
+
+```
+# See the docs generated from [SassDoc](http://sassdoc.com/)
+lerna run serve-docs --scope=@uvalib/web-styles --stream
+```
