@@ -45,9 +45,9 @@ export class UvalibPage extends LitElement {
   render() {
     return html`
     <div id="container">
-      <uvalib-header></uvalib-header>
+      <uvalib-header><slot name="header"></slot></uvalib-header>
       <main><slot></slot></main>
-      <uvalib-footer></uvalib-footer>
+      <uvalib-footer><slot name="footer"></slot></uvalib-footer>
     </div>
     `;
   }
