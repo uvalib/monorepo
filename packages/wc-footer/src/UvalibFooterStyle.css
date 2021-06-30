@@ -95,7 +95,14 @@ address {
   height: 80px;
   color: #ffffff;
   background-color: #141e3c;
-  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.bottom-bar > div {
+  max-width: 1200px;
+  width: 100%;
 }
 
 .bottom-bar a {

@@ -95,7 +95,14 @@
     height: 80px;
     color: $white;
     background-color: $blue-alt-darkest;
-    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .bottom-bar > div {
+    max-width: $max-width;
+    width: 100%;
   }
   
   .bottom-bar a {

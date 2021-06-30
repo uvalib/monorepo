@@ -83,6 +83,7 @@ export class UvalibFooter extends LitElement {
   </div>
 
   <div class="bottom-bar lib3">
+    <div>
     <slot name="bottom-bar">
 
       <div class="links">
@@ -137,6 +138,7 @@ export class UvalibFooter extends LitElement {
 
       </div>
     </slot>
+    </div>
   </div>
     `;
   }

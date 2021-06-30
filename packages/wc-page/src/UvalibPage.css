@@ -8,17 +8,25 @@
 }
 
 #container {
+  align-items: center;
   min-height: 100vh;
   display: flex;
-  flex-flow: row wrap;
+  flex-direction: column;
 }
 
-#container > * {
-  flex: 1 100%;
+#center {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex: 1;
+}
+
+#sidebar {
+  flex: 0 0 12em;
 }
 
 main {
-  flex-grow: 1;
+  flex: 1;
 }
 
 /*# sourceMappingURL=UvalibPage.css.map */

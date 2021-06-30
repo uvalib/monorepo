@@ -22,7 +22,9 @@ export class UvalibHeader extends LitElement {
   render() {
     return html`  
 <header>
-  <a href="${this.homelink}"><uvalib-logos>University of Virginia Library</uvalib-logos></a>
+  <div id="container">
+    <a href="${this.homelink}"><uvalib-logos>University of Virginia Library</uvalib-logos></a>
+  </div>
 </header>
     `;
   }

@@ -35,7 +35,19 @@ lerna run start --scope=@uvalib/aeon-template --stream
 
 ## [Occupancy Tools](https://github.com/uvalib/monorepo/tree/master/packages/occupancy-tools)
 
-Scripts to pull occupancy (and related) data from endpoints into our db
+Scripts to pull occupancy (and related) data from endpoints into our db.
+
+## [&lt;uvalib-page&gt;](https://github.com/uvalib/monorepo/tree/master/packages/wc-page)
+
+This component provides a quick and easy way to template a Library web page.
+
+```
+# Start a local server
+lerna run start --scope=@uvalib/uvalib-page --stream
+
+# Compile sass
+lerna run build:css --scope=@uvalib/uvalib-page --stream
+```
 
 ## [Web Styles](https://github.com/uvalib/monorepo/tree/master/packages/web-styles)
 

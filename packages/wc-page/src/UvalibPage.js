@@ -8,19 +8,6 @@ export class UvalibPage extends LitElement {
     return style;
   }
 
-  static get properties() {
-    return {
-//      title: { type: String },
-//      counter: { type: Number },
-    };
-  }
-
-  constructor() {
-    super();
-//    this.title = 'Hey there';
-//    this.counter = 5;
-  }
-
   connectedCallback() {
     super.connectedCallback();
     // ensure that we don't have any padding/margins set in ancestors nodes
@@ -38,15 +25,17 @@ export class UvalibPage extends LitElement {
     });
   }
 
-//  __increment() {
-//    this.counter += 1;
-//  }
-
   render() {
     return html`
     <div id="container">
       <uvalib-header><slot name="header"></slot></uvalib-header>
-      <main><slot></slot></main>
+      <div id="center">
+        <main><slot></slot></main>
+        <div id="sidebar">
+          <nav><slot name="side-nav"></slot></nav>
+          <aside><slot name="side-aside"></slot></aside>
+        </div>
+      </div>
       <uvalib-footer><slot name="footer"></slot></uvalib-footer>
     </div>
     `;

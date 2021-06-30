@@ -8,15 +8,23 @@
 }
 
 #container {
+    align-items: center;
     min-height: 100vh;
     display: flex;
-    flex-flow: row wrap;
+    flex-direction: column;
 }
 
-#container > * {
-    flex: 1 100%;
+#center {
+    width: 100%;
+    max-width: $max-width;
+    display: flex;
+    flex: 1;
+}
+
+#sidebar {
+    flex: 0 0 12em;
 }
 
 main {
-    flex-grow: 1;
+    flex: 1;
 }
