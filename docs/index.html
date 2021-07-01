@@ -97,12 +97,10 @@
                             <!doctype html>
                             <body>
                               <script type="module" src="./index.js">&lt;/script>
-                              <uvalib-page>
-                                <h1>Page Title</h1>
-                                <h2>Foo</h2>
-                                <p>Content...</p>
-                                <h2>Bar</h2>
-                                <p>Content...</p>
+                              <uvalib-page .title=${title}>
+                                <div slot="side-aside">Some Aside Content</div>
+                                <div slot="side-nav">Some nav content</div>
+                                some more light-dom
                               </uvalib-page>
                             </body>
                           </script>
@@ -112,6 +110,7 @@
                           </script>
                         </playground-ide>                   
 
+                        
       </main>    
 
 </body>

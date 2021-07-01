@@ -3274,10 +3274,10 @@
     workbox-routing "^6.1.5"
     workbox-strategies "^6.1.5"
 
-"@rocket/cli@^0.9.3":
-  version "0.9.3"
-  resolved "https://registry.yarnpkg.com/@rocket/cli/-/cli-0.9.3.tgz#5b41784eb323e302c1d2a89c15a35e13a43bb966"
-  integrity sha512-099YNhigXMjI6Vj4XJvJY03VF3a3ZCM9rJZe7K0AUKU7sFxHjsWywCL5wrsgWhth0qAsT2Xz2twj8S+T6Ah9Wg==
+"@rocket/cli@^0.9.4":
+  version "0.9.4"
+  resolved "https://registry.yarnpkg.com/@rocket/cli/-/cli-0.9.4.tgz#8e4cb8f47c21ed9270ff5151a7c6aeee88f75a1a"
+  integrity sha512-9XABEmUXBiNO+TVfBUPa2h3+NH25Gq5uC94gf353s9K+sQ/SLeVejlLnsDpSqwbAy1epLjLGMvizzBMKkvJqjg==
   dependencies:
     "@11ty/eleventy" "^0.11.1"
     "@11ty/eleventy-img" "^0.9.0"
@@ -3331,10 +3331,10 @@
     dependency-graph "^0.10.0"
     sax-wasm "^2.0.0"
 
-"@rocket/launch@^0.5.0":
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/@rocket/launch/-/launch-0.5.0.tgz#b5d72949f25181607ec6b927860c43df8d4124d1"
-  integrity sha512-AMcft87JcY3vCDxiY+3aOJ70Z9o7AfTXwci5K6cBA83xlk5X69DjS2qnv6TE0mXQwOKdx9cuRzWWijz3J2o9Lw==
+"@rocket/launch@^0.5.1":
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/@rocket/launch/-/launch-0.5.1.tgz#36482163499eb248c455472e1fee60eca5d9eac2"
+  integrity sha512-7hYfjmw1oCOMVw6e1RGLXuAipqCoAFYnlIXrMgis3OYzhTaGMBMlyYjGFTXyo+RSqe0wEqwlr0vATPLBGyV0Dg==
   dependencies:
     "@rocket/drawer" "^0.1.3"
     "@rocket/navigation" "^0.2.1"
