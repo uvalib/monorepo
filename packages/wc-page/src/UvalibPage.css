@@ -15,18 +15,26 @@
 }
 
 #center {
-  width: 100%;
+  width: 100vw;
   max-width: 1200px;
   display: flex;
   flex: 1;
+  margin-bottom: 4em;
+  flex-wrap: wrap;
 }
 
 #sidebar {
   flex: 0 0 12em;
+  padding-top: 1em;
+  padding-left: 1em;
+  padding-right: 1em;
 }
 
 main {
-  flex: 1;
+  flex: 1 1 40%;
+  padding-top: 1em;
+  padding-left: 1em;
+  padding-right: 1em;
 }
 
 /*# sourceMappingURL=UvalibPage.css.map */

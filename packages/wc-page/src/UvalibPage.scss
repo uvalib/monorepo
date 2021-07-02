@@ -15,16 +15,24 @@
 }
 
 #center {
-    width: 100%;
+    width: 100vw;
     max-width: $max-width;
     display: flex;
     flex: 1;
+    margin-bottom: 4em;
+    flex-wrap: wrap;
 }
 
 #sidebar {
     flex: 0 0 12em;
+    padding-top: $spacing-unit;
+    padding-left: $spacing-unit;
+    padding-right: $spacing-unit;
 }
 
 main {
-    flex: 1;
+    flex: 1 1 40%;
+    padding-top: $spacing-unit;
+    padding-left: $spacing-unit;
+    padding-right: $spacing-unit;
 }
