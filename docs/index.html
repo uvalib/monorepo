@@ -28,6 +28,7 @@
 <h2><a href="https://github.com/uvalib/monorepo/tree/master/packages/eslint-config">eslint-config</a></h2>
 <p>Todo: Placeholder for a cross package eslint config.</p>
 
+
 <h2><a href="https://github.com/uvalib/monorepo/tree/master/packages/wc-logos">&lt;uvalib-logos&gt;</a></h2>
 <div class="storybook-link"><a href="/wc-logos/"">Storybook</a></div>    
 
@@ -52,65 +53,133 @@
         </script>
       </playground-ide>
     
-      <h2><a href="https://github.com/uvalib/monorepo/tree/master/packages/wc-footer">&lt;uvalib-footer&gt;</a></h2>
-      <div class="storybook-link"><a href="/wc-footer/"">Storybook</a></div>    
-      
-            <playground-ide editable-file-system line-numbers resizable>
-      
-              <script type="sample/html" filename="index.html">
-                <!doctype html>
-                <body>
-                  <script type="module" src="./index.js">&lt;/script>
-                  <uvalib-footer></uvalib-footer>
-                </body>
-              </script>
-            
-              <script type="sample/js" filename="index.js">
-                import '@uvalib/uvalib-footer/uvalib-footer.js';
-              </script>
-            </playground-ide> 
-            
-            <h2><a href="https://github.com/uvalib/monorepo/tree/master/packages/wc-header">&lt;uvalib-header&gt;</a></h2>
-            <div class="storybook-link"><a href="/wc-header/"">Storybook</a></div>    
-            
-                  <playground-ide editable-file-system line-numbers resizable>
-            
-                    <script type="sample/html" filename="index.html">
-                      <!doctype html>
-                      <body>
-                        <script type="module" src="./index.js">&lt;/script>
-                        <uvalib-header></uvalib-header>
-                      </body>
-                    </script>
-                  
-                    <script type="sample/js" filename="index.js">
-                      import '@uvalib/uvalib-header/uvalib-header.js';
-                    </script>
-                  </playground-ide> 
-                  
-                  
-                  <h2><a href="https://github.com/uvalib/monorepo/tree/master/packages/wc-page">&lt;uvalib-page&gt;</a></h2>
-                  <div class="storybook-link"><a href="/wc-page/"">Storybook</a></div>    
-                  
-                        <playground-ide editable-file-system line-numbers resizable>
-                  
-                          <script type="sample/html" filename="index.html">
-                            <!doctype html>
-                            <body>
-                              <script type="module" src="./index.js">&lt;/script>
-                              <uvalib-page .title=${title}>
-                                <div slot="side-aside">Some Aside Content</div>
-                                <div slot="side-nav">Some nav content</div>
-                                some more light-dom
-                              </uvalib-page>
-                            </body>
-                          </script>
-                        
-                          <script type="sample/js" filename="index.js">
-                            import '@uvalib/uvalib-page/uvalib-page.js';
-                          </script>
-                        </playground-ide>                   
+<h2><a href="https://github.com/uvalib/monorepo/tree/master/packages/wc-footer">&lt;uvalib-footer&gt;</a></h2>
+<div class="storybook-link"><a href="/wc-footer/"">Storybook</a></div>    
 
+      <playground-ide editable-file-system line-numbers resizable>
+
+        <script type="sample/html" filename="index.html">
+          <!doctype html>
+          <body>
+            <script type="module" src="./index.js">&lt;/script>
+            <uvalib-footer></uvalib-footer>
+          </body>
+        </script>
+      
+        <script type="sample/js" filename="index.js">
+          import '@uvalib/uvalib-footer/uvalib-footer.js';
+        </script>
+      </playground-ide> 
+            
+<h2><a href="https://github.com/uvalib/monorepo/tree/master/packages/wc-header">&lt;uvalib-header&gt;</a></h2>
+<div class="storybook-link"><a href="/wc-header/"">Storybook</a></div>    
+
+      <playground-ide editable-file-system line-numbers resizable>
+
+        <script type="sample/html" filename="index.html">
+          <!doctype html>
+          <body>
+            <script type="module" src="./index.js">&lt;/script>
+            <uvalib-header></uvalib-header>
+          </body>
+        </script>
+      
+        <script type="sample/js" filename="index.js">
+          import '@uvalib/uvalib-header/uvalib-header.js';
+        </script>
+      </playground-ide> 
+                  
+                  
+<h2><a href="https://github.com/uvalib/monorepo/tree/master/packages/wc-page">&lt;uvalib-page&gt;</a></h2>
+<div class="storybook-link"><a href="/wc-page/"">Storybook</a></div>    
+
+      <playground-ide editable-file-system line-numbers resizable>
+
+        <script type="sample/html" filename="index.html">
+          <!doctype html>
+          <body>
+            <script type="module" src="./index.js">&lt;/script>
+            <uvalib-page .title=${title}>
+              <div slot="side-aside">Some Aside Content</div>
+              <div slot="side-nav">Some nav content</div>
+              some more light-dom
+            </uvalib-page>
+          </body>
+        </script>
+      
+        <script type="sample/js" filename="index.js">
+          import '@uvalib/uvalib-page/uvalib-page.js';
+        </script>
+      </playground-ide>                   
+
+<h2><a href="https://github.com/uvalib/monorepo/tree/master/packages/wc-icon">&lt;uvalib-icon&gt;</a></h2>
+<div class="storybook-link"><a href="/wc-icon/"">Storybook</a></div>    
+
+      <playground-ide editable-file-system line-numbers resizable>
+        <script type="sample/importmap">
+          {
+            "imports": {
+              "@webcomponents/scoped-custom-element-registry": "https://unpkg.com/@webcomponents/scoped-custom-element-registry"
+            }
+          }
+        </script>
+        <script type="sample/html" filename="index.html">
+          <!doctype html>
+          <body>
+            <script type="module" src="./index.js">&lt;/script>
+            <uvalib-icon icon-id="uvalib:alerts:exclamationcircle" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:alerts:exclamationtriangle" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:alerts:infocircle" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:alerts:ban" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:alerts:checkcircle" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:brands:facebooksquare" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:brands:instagram" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:brands:twittersquare" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:brands:flickr" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:brands:vimeo" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:brands:youtube" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:general:clock" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:general:commentdots" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:general:usercircle" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:general:bell" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:general:chevroncircleup" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:general:search" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:general:check" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:general:externallinkalt" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:general:searchplus" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:general:university" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:general:plus" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:general:minus" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:general:caretup" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:general:caretdown" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:general:quoteright" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:general:print" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:general:copy" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:general:edit" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:general:trashalt" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:general:download" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:general:calendaralt" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:general:filepdf" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:general:envelope" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:general:bookmark" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:general:windowclose" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:general:timescircle" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:general:pluscircle" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:general:redoalt" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:general:chevrondoubleleft" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:general:chevrondoubleright" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:general:arrowright" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:general:arrowright" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:general:star" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:general:griphorizontal" style="width: 50px; height: 50px;"></uvalib-icon>
+            <uvalib-icon icon-id="uvalib:general:list" style="width: 50px; height: 50px;"></uvalib-icon>
+          </body>
+        </script>
+      
+        <script type="sample/js" filename="index.js">
+          import 'https://www.library.virginia.edu/module-build/uvalib-icon.js';
+        </script>
+      </playground-ide>    
                         
 </uvalib-page>
 
