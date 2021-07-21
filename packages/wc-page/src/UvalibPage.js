@@ -16,6 +16,7 @@ export class UvalibPage extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
+    window.document.body.removeAttribute('unresolved');
     this.hassidebar = false;
     // ensure that we don't have any padding/margins set in ancestors nodes
     let nodes = [];
