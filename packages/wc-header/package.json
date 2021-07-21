@@ -1,6 +1,6 @@
 {
   "name": "@uvalib/uvalib-header",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "Webcomponent uvalib-header following open-wc recommendations",
   "author": "uvalib-header",
   "license": "MIT",
@@ -17,8 +17,8 @@
     "storybook:build": "build-storybook"
   },
   "dependencies": {
-    "@uvalib/uvalib-logos": "^1.0.11",
-    "@uvalib/web-styles": "^1.3.8",
+    "@uvalib/uvalib-logos": "^1.0.12",
+    "@uvalib/web-styles": "^1.3.9",
     "headroom.js": "^0.12.0",
     "lit-element": "^2.5.1",
     "lit-html": "^1.4.1"
