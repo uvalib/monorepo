@@ -1,0 +1,47 @@
+Arguments: 
+  /opt/homebrew/Cellar/node/16.3.0/bin/node /Users/dhc4z/workspace/monorepo/.yarn/releases/yarn-1.23.0-20210103.1434.cjs add --dev rollup
+
+PATH: 
+  /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin/
+
+Yarn version: 
+  1.23.0-20210103.1434
+
+Node version: 
+  16.3.0
+
+Platform: 
+  darwin arm64
+
+Trace: 
+  SyntaxError: /Users/dhc4z/workspace/monorepo/packages/aeon-template/package.json: Unexpected string in JSON at position 270
+      at JSON.parse (<anonymous>)
+      at /Users/dhc4z/workspace/monorepo/.yarn/releases/yarn-1.23.0-20210103.1434.cjs:1098:57
+      at Generator.next (<anonymous>)
+      at step (/Users/dhc4z/workspace/monorepo/.yarn/releases/yarn-1.23.0-20210103.1434.cjs:310:30)
+      at /Users/dhc4z/workspace/monorepo/.yarn/releases/yarn-1.23.0-20210103.1434.cjs:321:13
+
+npm manifest: 
+  {
+    "devDependencies": {
+  
+    },
+    "scripts": {
+  
+    },
+    "name": "@uvalib/aeon-template",
+    "version": "0.0.5",
+    "description": "legacy build for Aeon Templates",
+    "author": "uvalib-aeon",
+    "license": "MIT",
+    "dependencies": {
+      "@uvalib/uvalib-page": "^0.0.7"
+    }
+    "gitHead": "41ff781ef402ca878244ccc8c5c3329224b0041b"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
