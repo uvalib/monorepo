@@ -1,5 +1,6 @@
 import { html, css, LitElement } from 'lit-element';
 import '@uvalib/uvalib-logos/uvalib-logos.js';
+import('@uvalib/uvalib-icon/uvalib-icon.js');
 import style from './UvalibHeader.css.js';
 
 export class UvalibHeader extends LitElement {
@@ -17,13 +18,18 @@ export class UvalibHeader extends LitElement {
   constructor() {
     super();
     this.homelink = "https://library.virginia.edu"
+    this.simple = false;
   }
 
   render() {
     return html`  
 <header>
   <div id="container">
-    <a href="${this.homelink}"><uvalib-logos>University of Virginia Library</uvalib-logos></a>
+    <div><a href="${this.homelink}"><uvalib-logos>University of Virginia Library</uvalib-logos></a></div>
+    <div class="spacer"></div>
+    <div id="topLinks">
+      <a href="${this.homelink}/askalibrarian"><uvalib-icon icon-id="uvalib:general:commentdots"></uvalib-icon> Ask a Librarian</a>
+    </div>
   </div>
 </header>
     `;

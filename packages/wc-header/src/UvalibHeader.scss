@@ -5,6 +5,8 @@
     padding: 0;
     margin: 0;
     width: 100%;
+    font-family: $font-primary;
+    font-weight: $font-weight-medium;
 }
 
 header {
@@ -15,10 +17,30 @@ header {
     background-color: $brand-blue;
     padding: 0;
     margin: 0;
+    color: $white;
 }
 
 #container {
     max-width: $max-width;
     width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#container a {
+    padding: calc(#{$spacing-unit}*0.625);
+}
+
+.spacer {
+    flex: 1;
+}
+
+uvalib-icon {
+    fill: $white;
+}
+
+a, a:link, a:visited { 
+    color: inherit; 
 }
 

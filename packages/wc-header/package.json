@@ -17,6 +17,7 @@
     "storybook:build": "build-storybook"
   },
   "dependencies": {
+    "@uvalib/uvalib-icon": "^0.0.1",
     "@uvalib/uvalib-logos": "^1.0.12",
     "@uvalib/web-styles": "^1.3.9",
     "headroom.js": "^0.12.0",
