@@ -23,7 +23,7 @@
     "storybook": "web-dev-server -c .storybook/server.mjs",
     "storybook:build": "build-storybook",
     "build:css": "sass -I node_modules -I ../../node_modules/ src/UvalibCatalogLight.scss:src/UvalibCatalogLight.css && node ../../node_modules/@uvalib/web-styles/tools/build-css.mjs src/*.css",
-    "build": "npm run build:css && rimraf dist && rollup -c rollup.config.js && rimraf ../../docs && cp -r dist ../../docs",
+    "build": "npm run build:css && rimraf dist && rollup -c rollup.config.js",
     "start:build": "npm run build && web-dev-server --root-dir dist --app-index index.html --open --compatibility none",
     "start": "web-dev-server"
   },
