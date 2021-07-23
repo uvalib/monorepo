@@ -30,14 +30,14 @@
   },
   "private": true,
   "name": "@uvalib/uvalib-catalog-light",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Webcomponent uvalib-catalog-light following open-wc recommendations",
   "author": "uvalib-catalog-light",
   "license": "MIT",
   "dependencies": {
     "@spectrum-web-components/bundle": "^0.22.3",
-    "@uvalib/data-models": "^0.0.0",
-    "@uvalib/uvalib-page": "^0.0.8",
+    "@uvalib/data-models": "^0.0.1",
+    "@uvalib/uvalib-page": "^0.0.9",
     "@uvalib/web-styles": "^1.3.9",
     "lit-element": "^2.5.1",
     "lit-html": "^1.4.1"
