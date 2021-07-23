@@ -16,12 +16,12 @@
     "serve": "serve build"
   },
   "name": "@uvalib/aeon-template",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "legacy build for Aeon Templates",
   "author": "uvalib-aeon",
   "license": "MIT",
   "dependencies": {
-    "@uvalib/uvalib-page": "^0.0.10",
+    "@uvalib/uvalib-page": "^0.0.11",
     "serve": "^12.0.0"
   },
   "gitHead": "a644796716a46036d991b4d9d6fe6d707d1c10b5"

@@ -1,6 +1,6 @@
 {
   "name": "@uvalib/uvalib-page",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "Webcomponent uvalib-page following open-wc recommendations",
   "author": "uvalib-page",
   "license": "MIT",
@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@uvalib/uvalib-footer": "^1.0.7",
-    "@uvalib/uvalib-header": "^1.0.18",
+    "@uvalib/uvalib-header": "^1.0.19",
     "lit-element": "^2.5.1",
     "lit-html": "^1.4.1"
   },
