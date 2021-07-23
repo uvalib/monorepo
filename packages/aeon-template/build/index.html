@@ -46,29 +46,29 @@
 
     var polyfills = [];
 
-    if (!('noModule' in HTMLScriptElement.prototype)) {
+//    if (!('noModule' in HTMLScriptElement.prototype)) {
       polyfills.push(loadScript('./polyfills/regenerator-runtime.ebfd7b154777d0fed9fa79f20e07b8fc.js'));
-    }
+//    }
 
-    if (!('fetch' in window)) {
+//    if (!('fetch' in window)) {
       polyfills.push(loadScript('./polyfills/fetch.a1ad5fb96dc0cb61b9454244c9bd7fe6.js'));
-    }
+//    }
 
-    if (!!Array.prototype.flat) {
+//    if (!!Array.prototype.flat) {
       polyfills.push(loadScript('./polyfills/systemjs.b6ad53205d8657841448f9c91e83f589.js'));
-    }
+//    }
 
-    if (!('attachShadow' in Element.prototype) || !('getRootNode' in Element.prototype) || window.ShadyDOM && window.ShadyDOM.force) {
+//    if (!('attachShadow' in Element.prototype) || !('getRootNode' in Element.prototype) || window.ShadyDOM && window.ShadyDOM.force) {
       polyfills.push(loadScript('./polyfills/webcomponents.ed846db3e7c3b1354dcb129b8858e4d4.js'));
-    }
+//    }
 
-    if (!('noModule' in HTMLScriptElement.prototype) && 'getRootNode' in Element.prototype) {
+//    if (!('noModule' in HTMLScriptElement.prototype) && 'getRootNode' in Element.prototype) {
       polyfills.push(loadScript('./polyfills/custom-elements-es5-adapter.3342b468203af1a14ca005e80d14148f.js'));
-    }
+//    }
 
-    if (!('attachShadow' in Element.prototype)) {
+//    if (!('attachShadow' in Element.prototype)) {
       polyfills.push(loadScript('./polyfills/lit-polyfill-support.f00e6d94b7cf31b9c79908b36cca6ca0.js'));
-    }
+//    }
 
     function loadFiles() {
       if (!!Array.prototype.flat) {
