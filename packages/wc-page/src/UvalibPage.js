@@ -1,6 +1,5 @@
 import { html, css, LitElement } from 'lit-element';
 import '@uvalib/uvalib-header/uvalib-header.js';
-import '@uvalib/uvalib-footer/uvalib-footer.js';
 import style from './UvalibPage.css.js';
 
 export class UvalibPage extends LitElement {
@@ -10,14 +9,20 @@ export class UvalibPage extends LitElement {
 
   static get properties() {
     return {
-      hassidebar: { type: Boolean }
+      hassidebar: { type: Boolean },
+      nofooter: { type: Boolean }
     };
+  }
+
+  constructor() {
+    super();
+    this.nofooter = false;
+    this.hassidebar = false;
   }
 
   connectedCallback() {
     super.connectedCallback();
-    window.document.body.removeAttribute('unresolved');
-    this.hassidebar = false;
+    
     // ensure that we don't have any padding/margins set in ancestors nodes
     let nodes = [];
     let element = this;
@@ -34,7 +39,9 @@ export class UvalibPage extends LitElement {
   }
 
   firstUpdated() {
+    window.document.body.removeAttribute('unresolved');
     this._checkForSideSlotted();
+    if (!this.nofooter) import('@uvalib/uvalib-footer/uvalib-footer.js');
   }
 
   // See if the sidebar has been slotted so that we can display or not
@@ -43,9 +50,6 @@ export class UvalibPage extends LitElement {
       this.shadowRoot.querySelector("#side-nav"),
       this.shadowRoot.querySelector("#side-aside")
     ];
-//    this.hassidebar = 
-//      sideslots[0].assignedNodes()?.length ||
-//      aside[1].assignedNodes()?.length;
     let slotsfilled = false;
     sideslots.forEach(function(s){
       slotsfilled = slotsfilled? slotsfilled:s.assignedNodes()?.length;
@@ -67,7 +71,7 @@ export class UvalibPage extends LitElement {
           <aside><slot id="side-aside" name="side-aside"></slot></aside>
         </div>
       </div>
-      <uvalib-footer><slot name="footer"></slot></uvalib-footer>
+      <uvalib-footer ?hidden="${this.nofooter}"><slot name="footer"></slot></uvalib-footer>
     </div>
     `;
   }
