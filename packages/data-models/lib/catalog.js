@@ -9,6 +9,7 @@ function mappedToID(list) {
 
 export class Pool {
     #config;
+    #lastResults;
     attributes;
     description;
     id;
@@ -17,6 +18,15 @@ export class Pool {
     sortOptions;
     source;
     url;
+    lastResultCount;
+
+    set lastResults(results) {
+        this.#lastResults = results;       
+        this.lastResultCount = (results && results.pagination && results.pagination.total)?results.pagination.total:0;
+    }
+    get lastResults() {
+        return this.#lastResults;
+    }
 
     constructor(config) {
         this.#config = {...poolDefaults, ...config};
@@ -72,7 +82,7 @@ export class Catalog {
         if (Array.isArray(rawPoolResults)) {
             this.poolsPromise.then(pools=>{
                 rawPoolResults.forEach(rawPoolResult=>{
-                    pools[rawPoolResult['pool_id']].lastRssults = rawPoolResult;
+                    pools[rawPoolResult['pool_id']].lastResults = rawPoolResult;
                 }); 
             });
         }
@@ -127,6 +137,7 @@ export class Catalog {
                 this.lastStart = params.start;
                 this.lastRows = params.rows;
                 this.lastPools = data.pools;
+                this.lastResultCount = data.total_hits;
                 this.lastPoolResults = data.pool_results;
                 this.lastRequest = data.request;
                 this.lastSuggestions = data.suggestions
