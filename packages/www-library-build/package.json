@@ -1,0 +1,36 @@
+{
+  "name": "@uvalib/www-library-build",
+  "version": "0.0.0",
+  "description": "www.library.virginia.edu build using 11ty",
+  "author": "Doug Chestnut <dougchestnut@gmail.com>",
+  "homepage": "https://github.com/uvalib/monorepo#readme",
+  "license": "ISC",
+  "main": "lib/www-library-build.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uvalib/monorepo.git"
+  },
+  "scripts": {
+    "build": "npx @11ty/eleventy",
+    "serve": "npx @11ty/eleventy --serve",
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/uvalib/monorepo/issues"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^0.12.1",
+    "@11ty/eleventy-cache-assets": "^2.3.0",
+    "striptags": "^3.2.0"
+  }
+}
