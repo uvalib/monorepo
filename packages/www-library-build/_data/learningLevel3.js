@@ -1,8 +1,10 @@
 const Cache = require("@11ty/eleventy-cache-assets");
+const Image = require("@11ty/eleventy-img");
 
 gmapskey = "AIzaSyBSD75H3-YuH7LDPRWaEFuBRMx1m-tWfo8";
 
-module.exports = async function() {
+module.exports = async ()=>{
+
   // Library Learning API: https://drupal.lib.virginia.edu/rest/learning-items?_format=json
   let json = await Cache("https://drupal.lib.virginia.edu/rest/learning-items?_format=json", {
     duration: "5m", // 5 minutes
@@ -34,11 +36,7 @@ module.exports = async function() {
         'category': _getValue(e.field_category)[0],
         'format': _getValue(e.field_format)[0],
         'length': _getValue(e.field_length)[0],
-        'tags': _getValue(e.field_testing_taxonomy, 'target_uuid'),
-//          'youtube': link && link.includes('youtube') && link.includes('watch')?
-//              link.replace(/.*v\=/,''): null,
-//          'youtubelist': link && link.includes('youtube') && link.includes('list')?
-//              link.replace(/.*list\=/,''): null,
+        'tags': _getValue(e.field_testing_taxonomy, 'target_uuid')
     };
 
     if (link && link.includes('youtube')) {
