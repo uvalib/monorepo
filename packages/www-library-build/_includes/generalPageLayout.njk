@@ -1,0 +1,23 @@
+---
+title: UVA Library
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <script type="module" src="/module-build/uvalib-page.js"></script>
+    <style>
+        [unresolved] {
+            display: none;
+        }
+    </style>
+  </head>
+  <body unresolved>
+    <uvalib-page>
+    {{ content | safe }}
+    </uvalib-page>
+  </body>
+</html>
