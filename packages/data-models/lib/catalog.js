@@ -114,6 +114,7 @@ export class Catalog {
             }).then(res=>res.text())
             .then(data=>{
                 this.#authtoken = data;
+                console.info(`auth token: ${this.#authtoken}`);
                 return this.#authtoken;
             });
     }

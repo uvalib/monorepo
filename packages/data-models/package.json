@@ -20,7 +20,7 @@
   },
   "scripts": {
     "test": "node --experimental-vm-modules ../../node_modules/.bin/jest",
-    "serve": "serve ."
+    "start": "serve ."
   },
   "bugs": {
     "url": "https://github.com/uvalib/monorepo/issues"

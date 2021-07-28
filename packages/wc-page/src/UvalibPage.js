@@ -10,7 +10,9 @@ export class UvalibPage extends LitElement {
   static get properties() {
     return {
       hassidebar: { type: Boolean },
-      nofooter: { type: Boolean }
+      nofooter: { type: Boolean },
+      nolinks: { type: Boolean },
+      nolightdomstyle: { type: Boolean }
     };
   }
 
@@ -18,6 +20,8 @@ export class UvalibPage extends LitElement {
     super();
     this.nofooter = false;
     this.hassidebar = false;
+    this.nolinks = false;
+    this.nolightdomstyle = false;
   }
 
   connectedCallback() {
@@ -36,6 +40,16 @@ export class UvalibPage extends LitElement {
         e.style.padding="0";
       }
     });
+
+    if (!this.nolightdomstyle) {
+      // This is a bit of a no no but ::slotted only affects first level elements in light dom
+      this.lightStyle = document.createElement("link");
+      this.lightStyle.setAttribute('appendedlightdomstyle','');
+      this.lightStyle.setAttribute('rel','stylesheet');
+      this.lightStyle.setAttribute('href','https://unpkg.com/@uvalib/web-styles/css/styles.css');
+      this.appendChild(this.lightStyle);
+    }
+
   }
 
   firstUpdated() {
@@ -63,7 +77,7 @@ export class UvalibPage extends LitElement {
   render() {
     return html`
     <div id="container">
-      <uvalib-header><slot name="header"></slot></uvalib-header>
+      <uvalib-header ?nolinks="${this.nolinks}"><slot name="header"></slot></uvalib-header>
       <div id="center">
         <main><slot></slot></main>
         <div id="sidebar" ?hidden="${!this.hassidebar}">
@@ -71,7 +85,7 @@ export class UvalibPage extends LitElement {
           <aside><slot id="side-aside" name="side-aside"></slot></aside>
         </div>
       </div>
-      <uvalib-footer ?hidden="${this.nofooter}"><slot name="footer"></slot></uvalib-footer>
+      <uvalib-footer ?nolinks="${this.nolinks}" ?hidden="${this.nofooter}"><slot name="footer"></slot></uvalib-footer>
     </div>
     `;
   }

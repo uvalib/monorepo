@@ -2922,6 +2922,14 @@
     estree-walker "^1.0.1"
     picomatch "^2.2.2"
 
+"@rollup/pluginutils@^4.1.0":
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/@rollup/pluginutils/-/pluginutils-4.1.1.tgz#1d4da86dd4eded15656a57d933fda2b9a08d47ec"
+  integrity sha512-clDjivHqWGXi7u+0d2r2sBi4Ie6VLEAzWMIkvJLnDmxoOhBYOTfzGbOQBA32THHm11/LiJbd01tJUpJsbshSWQ==
+  dependencies:
+    estree-walker "^2.0.1"
+    picomatch "^2.2.2"
+
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.14.0.tgz#9fb3a3cf3132328151f353de4632e01e52102bea"
@@ -4087,10 +4095,47 @@
     rollup "^2.35.1"
     whatwg-url "^8.4.0"
 
+"@web/dev-server-rollup@^0.3.7":
+  version "0.3.7"
+  resolved "https://registry.yarnpkg.com/@web/dev-server-rollup/-/dev-server-rollup-0.3.7.tgz#8c3dec584f6eb3b3b92984f3ccbdc2028be91221"
+  integrity sha512-AQwpANEXKMBAHaKYyK8GhKeIEI3TpQoHFAnCfBSFjpuRASyGiqgj15ppvkM2CbZBAJ77ulIIx4IpLBydGNI0VA==
+  dependencies:
+    "@web/dev-server-core" "^0.3.3"
+    chalk "^4.1.0"
+    parse5 "^6.0.1"
+    rollup "^2.35.1"
+    whatwg-url "^8.4.0"
+
 "@web/dev-server-storybook@^0.3.5":
   version "0.3.5"
   resolved "https://registry.yarnpkg.com/@web/dev-server-storybook/-/dev-server-storybook-0.3.5.tgz#881a581721329fee3f1669e395710f9e34ceb87d"
   integrity sha512-Cbw/h2LosJbWvjoBlkONXXLstzw7sxBOZi3MDIT3Q73xdBhQrqQeu87JzJ1V3jYvRGyj/EjaQkKduPNGMDraFg==
+  dependencies:
+    "@babel/core" "^7.12.10"
+    "@babel/generator" "^7.12.11"
+    "@babel/parser" "^7.12.11"
+    "@babel/preset-env" "^7.12.11"
+    "@mdx-js/mdx" "^1.6.22"
+    "@rollup/plugin-babel" "^5.2.2"
+    "@rollup/plugin-node-resolve" "^11.0.1"
+    "@web/dev-server-core" "^0.3.0"
+    "@web/rollup-plugin-html" "^1.3.2"
+    "@web/rollup-plugin-polyfills-loader" "^1.0.3"
+    "@web/storybook-prebuilt" "^0.1.20"
+    babel-plugin-bundled-import-meta "^0.3.2"
+    babel-plugin-template-html-minifier "^4.1.0"
+    globby "^11.0.1"
+    js-string-escape "^1.0.1"
+    lodash "^4.17.20"
+    path-is-inside "^1.0.2"
+    rollup "^2.35.1"
+    rollup-plugin-terser "^7.0.2"
+    storybook-addon-markdown-docs "^1.0.1"
+
+"@web/dev-server-storybook@^0.3.7":
+  version "0.3.7"
+  resolved "https://registry.yarnpkg.com/@web/dev-server-storybook/-/dev-server-storybook-0.3.7.tgz#96b037e98651d4c5c5f1defc9c664a9578a5ce77"
+  integrity sha512-0CLxmmw1vemzK492TAtZTxTdimxlIzvigBxFbOTUNxjxDmzzwDEE+/SP7OwrgLc8nBdMIZcCdzm9+Ha1by6McQ==
   dependencies:
     "@babel/core" "^7.12.10"
     "@babel/generator" "^7.12.11"
@@ -4124,6 +4169,27 @@
     "@web/config-loader" "^0.1.3"
     "@web/dev-server-core" "^0.3.12"
     "@web/dev-server-rollup" "^0.3.5"
+    camelcase "^6.2.0"
+    chalk "^4.1.0"
+    command-line-args "^5.1.1"
+    command-line-usage "^6.1.1"
+    debounce "^1.2.0"
+    deepmerge "^4.2.2"
+    ip "^1.1.5"
+    open "^8.0.2"
+    portfinder "^1.0.28"
+
+"@web/dev-server@^0.1.20":
+  version "0.1.20"
+  resolved "https://registry.yarnpkg.com/@web/dev-server/-/dev-server-0.1.20.tgz#a2b19dc0e1bbd52eb7ddcbf5d7eca7eb9938af26"
+  integrity sha512-jn+X91xfTlTtidQFPp/o9HvbYCdFMGwc7gA8NBHv+PTPSIu79wxQESV2DONKFMyR0RXshMvT3mwQwlIvPEzuBg==
+  dependencies:
+    "@babel/code-frame" "^7.12.11"
+    "@rollup/plugin-node-resolve" "^11.0.1"
+    "@types/command-line-args" "^5.0.0"
+    "@web/config-loader" "^0.1.3"
+    "@web/dev-server-core" "^0.3.12"
+    "@web/dev-server-rollup" "^0.3.7"
     camelcase "^6.2.0"
     chalk "^4.1.0"
     command-line-args "^5.1.1"
@@ -4187,6 +4253,15 @@
     glob "^7.1.6"
     html-minifier-terser "^5.1.1"
     parse5 "^6.0.1"
+
+"@web/rollup-plugin-import-meta-assets@^1.0.7":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@web/rollup-plugin-import-meta-assets/-/rollup-plugin-import-meta-assets-1.0.7.tgz#7048f717e2218a22af547371ffafdc4f534a2eea"
+  integrity sha512-ft44CqITUkNd8stwNb4ZOvrZ8DlPifM821jplksmxRGetg5Lx684oFrpfQJ7mfkU/Sa7B3dI1mHTX0DE52eBwg==
+  dependencies:
+    "@rollup/pluginutils" "^4.1.0"
+    estree-walker "^2.0.2"
+    magic-string "^0.25.7"
 
 "@web/rollup-plugin-polyfills-loader@^1.0.3", "@web/rollup-plugin-polyfills-loader@^1.1.0":
   version "1.1.0"
@@ -6217,6 +6292,11 @@ core-js@^2.4.0:
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.12.tgz#d9333dfa7b065e347cc5682219d6f690859cc2ec"
   integrity sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ==
 
+core-js@^3.1.3:
+  version "3.15.2"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.15.2.tgz#740660d2ff55ef34ce664d7e2455119c5bdd3d61"
+  integrity sha512-tKs41J7NJVuaya8DxIOCnl8QuPHx5/ZVbFo1oKgVl1qHFBBrDctzQGtuLjPpRdNTWmKPH6oEvgN/MUID+l485Q==
+
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
@@ -7520,6 +7600,11 @@ estree-walker@^1.0.1:
   resolved "https://registry.yarnpkg.com/estree-walker/-/estree-walker-1.0.1.tgz#31bc5d612c96b704106b477e6dd5d8aa138cb700"
   integrity sha512-1fMXF3YP4pZZVozF8j/ZLfvnR8NSIljt56UhbZ5PeeDmmGHpgpdwQt7ITlGvYaQukCvuBRMLEiKiYC+oeIg4cg==
 
+estree-walker@^2.0.1, estree-walker@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/estree-walker/-/estree-walker-2.0.2.tgz#52f010178c2a4c117a7757cfe942adb7d2da4cac"
+  integrity sha512-Rfkk/Mp/DL7JVje3u18FxFujQlTNR2q6QfMSMB7AvCBx91NGj/ba3kCfza0f6dVDbw7YlRf/nDrn7pQrCCyQ/w==
+
 esutils@^2.0.2:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/esutils/-/esutils-2.0.3.tgz#74d2eb4de0b8da1293711910d50775b9b710ef64"
@@ -7688,7 +7773,7 @@ fast-deep-equal@^3.1.1, fast-deep-equal@^3.1.3:
   resolved "https://registry.yarnpkg.com/fast-deep-equal/-/fast-deep-equal-3.1.3.tgz#3a7d56b559d6cbc3eb512325244e619a65c6c525"
   integrity sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==
 
-fast-glob@^3.1.1, fast-glob@^3.2.5:
+fast-glob@^3.0.0, fast-glob@^3.1.1, fast-glob@^3.2.5:
   version "3.2.7"
   resolved "https://registry.yarnpkg.com/fast-glob/-/fast-glob-3.2.7.tgz#fd6cb7a2d7e9aa7a7846111e85a196d6b2f766a1"
   integrity sha512-rYGMRwip6lUMvYD3BTScMwT1HtAs2d71SMv66Vrxs0IekGZEjhM0pcMfjQPnknBt2zeCwQMEupiN02ZP4DiT1Q==
@@ -11038,7 +11123,7 @@ lodash.uniq@4.5.0, lodash.uniq@^4.5.0:
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
   integrity sha1-0CJTc662Uq3BvILklFM5qEJ1R3M=
 
-lodash@^4.17.10, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.21, lodash@^4.7.0:
+lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.21, lodash@^4.7.0:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -14467,7 +14552,7 @@ resolve-path@^1.4.0:
     http-errors "~1.6.2"
     path-is-absolute "1.0.1"
 
-resolve@^1.1.7, resolve@^1.10.0, resolve@^1.10.1, resolve@^1.13.1, resolve@^1.14.2, resolve@^1.15.1, resolve@^1.17.0, resolve@^1.19.0, resolve@^1.20.0, resolve@^1.3.2:
+resolve@^1.1.7, resolve@^1.10.0, resolve@^1.10.1, resolve@^1.11.1, resolve@^1.13.1, resolve@^1.14.2, resolve@^1.15.1, resolve@^1.17.0, resolve@^1.19.0, resolve@^1.20.0, resolve@^1.3.2:
   version "1.20.0"
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.20.0.tgz#629a013fb3f70755d6f0b7935cc1c2c5378b1975"
   integrity sha512-wENBPt4ySzg4ybFQW2TT1zMQucPK95HSh/nq2CFTZVOGut2+pQvSsgtda4d26YrYcr067wjbmzOG8byDPBX63A==
@@ -14570,6 +14655,26 @@ rollup-plugin-minify-html-literals@^1.2.6:
     minify-html-literals "^1.3.5"
     rollup-pluginutils "^2.8.2"
 
+rollup-plugin-multi-input@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-multi-input/-/rollup-plugin-multi-input-1.3.1.tgz#07b903b618c005871fea1bd0c4efae7d1aac4fa1"
+  integrity sha512-bPsxHR6dUney7zsCAAlfkq7lbuy5xph2CvUstSv88oqhtRiLWXwVjiA1Gb4HVjC6I9sJI2eZeQlozXa+GXJKDA==
+  dependencies:
+    core-js "^3.1.3"
+    fast-glob "^3.0.0"
+    lodash "^4.17.11"
+
+rollup-plugin-node-resolve@^5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-node-resolve/-/rollup-plugin-node-resolve-5.2.0.tgz#730f93d10ed202473b1fb54a5997a7db8c6d8523"
+  integrity sha512-jUlyaDXts7TW2CqQ4GaO5VJ4PwwaV8VUGA7+km3n6k6xtOEacf61u0VXwN80phY/evMcaS+9eIeJ9MOyDxt5Zw==
+  dependencies:
+    "@types/resolve" "0.0.8"
+    builtin-modules "^3.1.0"
+    is-module "^1.0.0"
+    resolve "^1.11.1"
+    rollup-pluginutils "^2.8.1"
+
 rollup-plugin-summary@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/rollup-plugin-summary/-/rollup-plugin-summary-1.3.0.tgz#bd4a0e4fb20d6041b947304ad3fa7b4d490ccec3"
@@ -14648,6 +14753,13 @@ rollup@^2.53.3:
   version "2.53.3"
   resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.53.3.tgz#14b0e57f0874d4ad23bdbb13050cf70bcd1eabf7"
   integrity sha512-79QIGP5DXz5ZHYnCPi3tLz+elOQi6gudp9YINdaJdjG0Yddubo6JRFUM//qCZ0Bap/GJrsUoEBVdSOc4AkMlRA==
+  optionalDependencies:
+    fsevents "~2.3.2"
+
+rollup@^2.54.0:
+  version "2.54.0"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.54.0.tgz#99ea816e8e9b1c6af3ab957a4e7a8f78dbd87773"
+  integrity sha512-RHzvstAVwm9A751NxWIbGPFXs3zL4qe/eYg+N7WwGtIXVLy1cK64MiU37+hXeFm1jqipK6DGgMi6Z2hhPuCC3A==
   optionalDependencies:
     fsevents "~2.3.2"
 
