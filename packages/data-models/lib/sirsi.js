@@ -67,20 +67,10 @@ export class Sirsi {
 
     fillhold(barcode) {
         let url = `https://qmo3jwybkg.execute-api.us-east-1.amazonaws.com/production/library/fillholdreader/${barcode}`;
+        let now = new Date();
         return (!this.authenticated)?
-            Promise.resolve({error_messages:["not authenticated"]}):
-            (this.dummyMode)?
-                Promise.resolve({hold:{
-                    "error_messages": [],
-                    "title": "Developmental cascades : building the infant mind",
-                    "author": "Oakes, Lisa M., 1963- author.",
-                    "item_id": "X032591695",
-                    "user_full_name": "Reighart, Renee Allison",
-                    "user_id": "rar6u",
-                    "pickup_location": "CLEMONS"
-                  },user:{
-                      
-                  }}):
+            Promise.resolve({timestamp: now, hold: {error_messages:["not authenticated"]} }):
+            (!this.dummyMode)?
                 fetch(url, {
                     method: 'POST',
                     mode: 'cors',
@@ -90,9 +80,33 @@ export class Sirsi {
                     }
                 }).then(res=>res.json())
                 .then(data=>{
+                    data.timestamp = now;
                     this.#lastfillhold = data;
                     return data;
-                });
+                }):
+                ( barcode === 'error' )?
+                    Promise.resolve({
+                        "timestamp": now,
+                        "hold": {
+                            "error_messages": [
+                                "No hold for this item."
+                            ],
+                            "title": "Interview with Walter N. Ridley [videorecording] / April 10, 1989",
+                            "author": "Ridley, Walter Nathaniel, 1910-1996.",
+                            "item_id": "X032396510"
+                        }
+                    }):
+                    Promise.resolve({
+                        timestamp: now,
+                        hold:{
+                        "error_messages": [],
+                        "title": "Developmental cascades : building the infant mind",
+                        "author": "Oakes, Lisa M., 1963- author.",
+                        "item_id": "X032591695",
+                        "user_full_name": "Reighart, Renee Allison",
+                        "user_id": "rar6u",
+                        "pickup_location": "CLEMONS"
+                    },user:{"UserName":"rar6u","ExternalUserId":"rar6u","LastName":"Reighart","FirstName":"Renee","SSN":"","Status":"Faculty","EMailAddress":"rar6u@virginia.edu","Phone":"434-555-5555","Department":"Library","NVTGC":"ILL","NotificationMethod":"Electronic","DeliveryMethod":"Hold for Pickup","LoanDeliveryMethod":"Hold for Pickup","LastChangedDate":"2018-11-06T10:20:39","AuthorizedUsers":"","Cleared":"Yes","Web":true,"Address":"","Address2":"","City":"","State":"","Zip":"","Site":null,"ExpirationDate":"2019-11-06T10:20:39","Number":"","UserRequestLimit":0,"Organization":"","Fax":"Dept","ShippingAcctNo":null,"ArticleBillingCategory":"","LoanBillingCategory":"","Country":"Ivy Cottage","SAddress":null,"SAddress2":null,"SCity":null,"SState":null,"SZip":null,"SCountry":null,"RSSID":"1149","AuthType":"Default","UserInfo1":"Library","UserInfo2":null,"UserInfo3":null,"UserInfo4":null,"UserInfo5":null,"MobilePhone":null}});
     }
 
 }

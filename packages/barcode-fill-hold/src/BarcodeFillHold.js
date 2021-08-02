@@ -52,7 +52,7 @@ export class BarcodeFillHold extends LitElement {
         justify-content: flex-start;
         max-width: 960px;
         margin: 0 auto;
-        text-align: center;
+/*        text-align: center; */
       }
       #printView {
         display:none;
@@ -62,6 +62,13 @@ export class BarcodeFillHold extends LitElement {
       }
       sp-accordion {
         padding-top: 25px;
+      }
+      sp-popover {
+        z-index: 10;
+        position: absolute;
+      }
+      [hidden] {
+        display: none !important;
       }
 
       @media print {
@@ -88,7 +95,7 @@ export class BarcodeFillHold extends LitElement {
     this.working = false;
     this._userID = '';
     this._userPass = '';
-    this.dummyMode = true;
+    this.dummyMode = false;
     this.sirsi = new Sirsi({dummyMode:this.dummyMode});
     this.holdRequests = [];
 
@@ -103,6 +110,21 @@ export class BarcodeFillHold extends LitElement {
       </div>
       <main>
         <sp-theme scale="large" color="${this.dummyMode? "dark":"light"}">
+        <sp-popover placement="top-start" dialog>
+            <sp-dialog size="medium" dismissable @close="${this._closeDialog}">
+                <h2 slot="heading">Disclaimer</h2>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                tempor incididunt ut labore et dolore magna aliqua. Auctor augue mauris
+                augue neque gravida. Libero volutpat sed ornare arcu. Quisque egestas diam
+                in arcu cursus euismod quis viverra. Posuere ac ut consequat semper viverra
+                nam libero justo laoreet. Enim ut tellus elementum sagittis vitae et leo
+                duis ut. Neque laoreet suspendisse interdum consectetur libero id faucibus
+                nisl. Diam volutpat commodo sed egestas egestas. Dolor magna eget est lorem
+                ipsum dolor. Vitae suscipit tellus mauris a diam maecenas sed. Turpis in eu
+                mi bibendum neque egestas congue. Rhoncus est pellentesque elit ullamcorper
+                dignissim cras lobortis.
+            </sp-dialog>
+          </sp-popover>
           <div class="logo"></div>
           <h1>${this.title}</h1>
           <div><sp-switch label="Dummy Mode ${this.dummyMode? "On":"Off"}" @change="${()=>{this.dummyMode=!this.dummyMode}}" value="${this.dummyMode?"on":"off"}" ?checked="${this.dummyMode}">Dummy Mode ${this.dummyMode? "On":"Off"}</sp-switch></div>
@@ -130,6 +152,7 @@ export class BarcodeFillHold extends LitElement {
             </sp-accordion>
           </div>
           <sp-underlay ?open="${this.working}"></sp-underlay>
+          
         </sp-theme>
       </main>
     `;
@@ -151,6 +174,7 @@ export class BarcodeFillHold extends LitElement {
           console.log(res);
           if (res.hold.error_messages.length > 0) {
             // Process the errors
+            this.shadowRoot.querySelector('sp-popover').setAttribute('open','');
           } else {
             this.shadowRoot.getElementById('barcode').value = "";
             this.lastBarcodeResult = res;
@@ -189,10 +213,19 @@ export class BarcodeFillHold extends LitElement {
   _formatPrint(res) {
     this.shadowRoot.getElementById('printView').innerHTML = `
     <dl>
-        <dt>Title</dt>
-        <dd>${res.hold.title}</dd>
+${res.hold.title? `<dt>Title</dt><dd>${res.hold.title}</dd>`:''}
+${res.hold.author? `<dt>Author</dt><dd>${res.hold.author}</dd>`:''}
+${res.hold.item_id? `<dt>Item ID</dt><dd>${res.hold.item_id}</dd>`:''}
+${res.hold.pickup_location? `<dt>Pickup Location</dt><dd>${res.hold.pickup_location}</dd>`:''}
+${res.hold.pickup_location? `<dt>Pickup Location</dt><dd>${res.hold.pickup_location}</dd>`:''}
+${res.hold.user_full_name? `<dt>Patron</dt><dd>${res.hold.user_full_name} (${res.hold.user_id})</dd>`:''}
+
     </dl>  
     `;
+  }
+  _closeDialog() {
+    this.shadowRoot.querySelector('sp-popover').removeAttribute('open');
+    this.working = false;
   }
 
 }
