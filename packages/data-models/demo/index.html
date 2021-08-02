@@ -13,8 +13,14 @@
         code.innerHTML += `${str}<br />`;
     }
 
+    import {Sirsi} from "../lib/sirsi.js";
     import {Catalog} from "../lib/catalog.js";
     async function demo() {
+
+        let sirsi = new Sirsi({dummyMode:true});
+        sirsi.authorize("dhc4z", "foobar")
+          .then(token=>writeOutLn(`Got a sirsi token of ${token}`));
+
         let cat = new Catalog({devMode:true});
         writeOutLn('Getting a listing of result pools:');
         await cat.poolsPromise.then(pools=>{

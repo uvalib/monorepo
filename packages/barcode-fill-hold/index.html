@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="Description" content="Put your description here.">
+  <base href="/">
+
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+    }
+    [unresolved] {
+      display: none;
+    }
+    uvalib-page::part(uvalib-footer) {
+      display: none;
+    }
+    @media print {
+      body{
+            width: 5cm !important;
+            height: 50% !important;
+            margin: 0 !important;
+            overflow: hidden !important;
+      }
+      uvalib-page::part(uvalib-header) {
+        display: none !important;
+      }
+    }
+  </style>
+  <title>barcode-fill-hold</title>
+</head>
+
+<body>
+<!--  <uvalib-page nolinks> -->
+    <barcode-fill-hold></barcode-fill-hold>
+<!--  </uvalib-page> 
+
+  <script type="module">
+    import '@uvalib/uvalib-page/uvalib-page.js';
+  </script> -->
+  <script type="module" src="./src/barcode-fill-hold.js"></script>
+</body>
+
+</html>

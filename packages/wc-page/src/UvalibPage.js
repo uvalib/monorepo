@@ -10,7 +10,6 @@ export class UvalibPage extends LitElement {
   static get properties() {
     return {
       hassidebar: { type: Boolean },
-      nofooter: { type: Boolean },
       nolinks: { type: Boolean },
       nolightdomstyle: { type: Boolean }
     };
@@ -77,7 +76,7 @@ export class UvalibPage extends LitElement {
   render() {
     return html`
     <div id="container">
-      <uvalib-header ?nolinks="${this.nolinks}"><slot name="header"></slot></uvalib-header>
+      <uvalib-header part="uvalib-header" ?nolinks="${this.nolinks}"><slot name="header"></slot></uvalib-header>
       <div id="center">
         <main><slot></slot></main>
         <div id="sidebar" ?hidden="${!this.hassidebar}">
@@ -85,7 +84,7 @@ export class UvalibPage extends LitElement {
           <aside><slot id="side-aside" name="side-aside"></slot></aside>
         </div>
       </div>
-      <uvalib-footer ?nolinks="${this.nolinks}" ?hidden="${this.nofooter}"><slot name="footer"></slot></uvalib-footer>
+      <uvalib-footer part="uvalib-footer" ?nolinks="${this.nolinks}"><slot name="footer"></slot></uvalib-footer>
     </div>
     `;
   }

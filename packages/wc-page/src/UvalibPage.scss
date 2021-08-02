@@ -36,3 +36,7 @@ main {
     padding-left: $spacing-unit;
     padding-right: $spacing-unit;
 }
+
+@media print {
+    main {display: none !important}
+}
