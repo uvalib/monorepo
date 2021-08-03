@@ -35,6 +35,7 @@
     "@spectrum-web-components/bundle": "^0.22.3",
     "@uvalib/data-models": "^0.0.3",
     "@uvalib/uvalib-page": "^0.0.11",
+    "date-fns": "^2.23.0",
     "lit-element": "^2.5.1",
     "lit-html": "^1.4.1"
   },

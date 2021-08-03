@@ -2,6 +2,7 @@ import { LitElement, html, css } from 'lit-element';
 import '@uvalib/uvalib-page/uvalib-page.js';
 import '@spectrum-web-components/bundle/elements.js';
 import {Sirsi} from "@uvalib/data-models/lib/sirsi.js";
+import { formatRelative, formatISO9075 } from 'date-fns';
 
 export class BarcodeFillHold extends LitElement {
   static get properties() {
@@ -12,7 +13,10 @@ export class BarcodeFillHold extends LitElement {
       _userID: { type: String },
       _userPass: { type: String },
       dummyMode: { type:Boolean },
-      holdRequests: { type:Array }
+      autoPrint: { type: Boolean },
+      holdRequests: { type:Array },
+      _dialogHeading: { type:String },
+      _dialogBody: {type: String}
     };
   }
 
@@ -112,22 +116,14 @@ export class BarcodeFillHold extends LitElement {
         <sp-theme scale="large" color="${this.dummyMode? "dark":"light"}">
         <sp-popover placement="top-start" dialog>
             <sp-dialog size="medium" dismissable @close="${this._closeDialog}">
-                <h2 slot="heading">Disclaimer</h2>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                tempor incididunt ut labore et dolore magna aliqua. Auctor augue mauris
-                augue neque gravida. Libero volutpat sed ornare arcu. Quisque egestas diam
-                in arcu cursus euismod quis viverra. Posuere ac ut consequat semper viverra
-                nam libero justo laoreet. Enim ut tellus elementum sagittis vitae et leo
-                duis ut. Neque laoreet suspendisse interdum consectetur libero id faucibus
-                nisl. Diam volutpat commodo sed egestas egestas. Dolor magna eget est lorem
-                ipsum dolor. Vitae suscipit tellus mauris a diam maecenas sed. Turpis in eu
-                mi bibendum neque egestas congue. Rhoncus est pellentesque elit ullamcorper
-                dignissim cras lobortis.
+                <h2 id="dialogHeading" slot="heading">${this._dialogHeading}</h2>
+                <div id="dialogBody">${this._dialogBody}</div>
             </sp-dialog>
           </sp-popover>
           <div class="logo"></div>
           <h1>${this.title}</h1>
-          <div><sp-switch label="Dummy Mode ${this.dummyMode? "On":"Off"}" @change="${()=>{this.dummyMode=!this.dummyMode}}" value="${this.dummyMode?"on":"off"}" ?checked="${this.dummyMode}">Dummy Mode ${this.dummyMode? "On":"Off"}</sp-switch></div>
+          <div><sp-switch label="Dummy Mode ${this.dummyMode? "On":"Off"}" @change="${()=>{this.dummyMode=!this.dummyMode}}" value="${this.dummyMode?"on":"off"}" ?checked="${this.dummyMode}">Dummy Mode ${this.dummyMode? "On":"Off"}</sp-switch> ${(this.dummyMode)?"(Try 'error' or 'override')":''}</div>
+          <div><sp-switch label="Auto Print ${this.autoPrint? "On":"Off"}" @change="${()=>{this.autoPrint=!this.autoPrint}}" value="${this.autoPrint?"on":"off"}" ?checked="${this.autoPrint}">Auto Print ${this.autoPrint? "On":"Off"}</sp-switch></div>          
 
           <div id="login" ?hidden="${this.authenticated}">
             <sp-field-label for="userid">Sirsi Staff UserID</sp-field-label>
@@ -144,9 +140,22 @@ export class BarcodeFillHold extends LitElement {
             <sp-textfield @keyup="${this._trackBarcodeEnter}" @change="${(e)=>this.lastBarcode=e.target.value}" id="barcode" placeholder="Enter Barcode for Hold"></sp-textfield>
 
             <sp-accordion>
-              ${this.holdRequests.map(res => html`
+              ${this.holdRequests.map((res,index) => html`
                 <sp-accordion-item label="${res.hold.title}">
-                    <div>buttons to do something</div>
+                    <div>
+                      <sp-button-group index="${index}">
+                        ${(!res.printed)? html`
+                          <sp-button @click="${(e)=>{this._printByIndex(e.target.parentNode.getAttribute('index'))}}">Print</sp-button>
+                        `: html`
+                          <sp-button @click="${(e)=>{this._printByIndex(e.target.parentNode.getAttribute('index'))}}">Print Again</sp-button>
+                          <sp-button @click="${(e)=>{this._clearByIndex(e.target.parentNode.getAttribute('index'))}}" variant="secondary">Clear</sp-button>
+                        `}
+<!--
+                        <sp-button @click="${function(){this._closeDialog(); this._processBarcode(true);}.bind(this) }">Continue</sp-button>
+                        <sp-button @click="${this._closeDialog}" variant="secondary">Cancel</sp-button>
+-->                        
+                      </sp-button-group>
+                    </div>
                 </sp-accordion-item>
               `)}
             </sp-accordion>
@@ -165,25 +174,47 @@ export class BarcodeFillHold extends LitElement {
   }
   _trackBarcodeEnter(e){ 
     if (e.keyCode === 13 && this.authenticated) {
+      this._processBarcode();
+    }
+  }
+  _processBarcode(override=false){ 
       console.log(`we have a barcode '${this.lastBarcode}'!`);
+      this.latestSubmissionDate = new Date();
       this.working = true;
       // submit the barcode and process the result
-      this.sirsi.fillhold(this.lastBarcode)
+      this.sirsi.fillhold(this.lastBarcode, override)
         .then(res=>{
           console.log(`we got a result`);
           console.log(res);
           if (res.hold.error_messages.length > 0) {
-            // Process the errors
+            if (res.hold.error_messages.find(m=>m.code&&m.code=="itemHasMultiplePieces")) {
+              this._dialogHeading = "Override?";
+              this._dialogBody = html`
+                ${res.hold.error_messages.map(m=>m.message).join("<br />")}
+                <sp-button-group>
+                  <sp-button @click="${function(){this._closeDialog(); this._processBarcode(true);}.bind(this) }">Continue</sp-button>
+                  <sp-button @click="${this._closeDialog}" variant="secondary">Cancel</sp-button>
+                </sp-button-group>
+              `;
+            }
+            else {
+              this._dialogHeading = "Error";
+              this._dialogBody = res.hold.error_messages.join("<br />");
+            }
             this.shadowRoot.querySelector('sp-popover').setAttribute('open','');
           } else {
             this.shadowRoot.getElementById('barcode').value = "";
             this.lastBarcodeResult = res;
-            this._formatPrint(res);
+            if (this.autoPrint) {
+              this._formatPrint(res);
+              res.printed = true;
+              window.print();
+            } else {
+              this.working = false;
+            }
             this.holdRequests.push(res);
-            window.print();
           }
         });
-    }
   }
   _handleLogin(){
     if ( this._userID && this._userPass ) {
@@ -210,22 +241,40 @@ export class BarcodeFillHold extends LitElement {
     console.log('print dialog closed');
     this.working = false;
   }
+  _clearByIndex(index) {
+    this.holdRequests.splice(index,1);
+    this.holdRequests = this.holdRequests.slice(); // get a shallow copy to notify 
+  }
+  _printByIndex(index) {
+    if (this.holdRequests[index]) {
+      this._formatPrint(this.holdRequests[index]);
+      this.holdRequests[index].printed = true;
+      window.print();
+    }
+  }
   _formatPrint(res) {
     this.shadowRoot.getElementById('printView').innerHTML = `
     <dl>
-${res.hold.title? `<dt>Title</dt><dd>${res.hold.title}</dd>`:''}
-${res.hold.author? `<dt>Author</dt><dd>${res.hold.author}</dd>`:''}
-${res.hold.item_id? `<dt>Item ID</dt><dd>${res.hold.item_id}</dd>`:''}
-${res.hold.pickup_location? `<dt>Pickup Location</dt><dd>${res.hold.pickup_location}</dd>`:''}
-${res.hold.pickup_location? `<dt>Pickup Location</dt><dd>${res.hold.pickup_location}</dd>`:''}
-${res.hold.user_full_name? `<dt>Patron</dt><dd>${res.hold.user_full_name} (${res.hold.user_id})</dd>`:''}
-
+    ${res.timestamp? `<dt>Timestamp</dt><dd>${formatISO9075(res.timestamp)}</dd>`:''}
+    ${res.hold.user_full_name? `<dt>Patron</dt><dd>${res.hold.user_full_name} (${res.hold.user_id})</dd>`:''}
+    ${res.hold.pickup_location? `<dt>Pickup Location</dt><dd>${res.hold.pickup_location}</dd>`:''}
+    ${res.hold.item_id? `<dt>Item ID</dt><dd>${res.hold.item_id}</dd>`:''}
+    ${res.user.Department? `<dt>Department</dt><dd>${res.user.Department}</dd>`:''}
+    ${res.user.Country? `<dt>Country</dt><dd>${res.user.Country}</dd>`:''}
+    ${res.user.Organization? `<dt>Organization</dt><dd>${res.user.Organization}</dd>`:''}
+    ${res.user.Status? `<dt>Status</dt><dd>${res.user.Status}</dd>`:''}
+    ${res.user.Fax? `<dt>Fax</dt><dd>${res.user.Fax}</dd>`:''}
     </dl>  
     `;
   }
   _closeDialog() {
     this.shadowRoot.querySelector('sp-popover').removeAttribute('open');
     this.working = false;
+  }
+  _resetForm() {
+    let input = this.shadowRoot.getElementById('barcode')
+    input.value = "";
+    input.focus();
   }
 
 }
