@@ -36,7 +36,8 @@ EXPOSE 80
 CMD /home/webservice/entry.sh
 
 # Move in necessary assets
-#COPY packages/uvalib-catalog-light/packaging/data/container_bash_profile /home/webservice/.profile
+COPY packages/uvalib-catalog-light/packaging/data/container_bash_profile /root/.profile
+COPY packages/uvalib-catalog-light/packaging/conf/lighttpd.conf /etc/lighttpd/lighttpd.conf
 COPY packages/uvalib-catalog-light/packaging/scripts/entry.sh /home/webservice/entry.sh
 COPY --from=builder /build/packages/uvalib-catalog-light/dist/ /var/www/localhost/htdocs/
 
