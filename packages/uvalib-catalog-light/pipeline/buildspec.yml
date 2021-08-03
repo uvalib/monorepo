@@ -24,7 +24,7 @@ phases:
 
   build:
     commands:
-      - docker build -f packages/uvalib-catalog-light/packages/Dockerfile -t $CONTAINER_IMAGE:latest --build-arg BUILD_TAG=$BUILD_VERSION --build-arg FONT_AWESOME_TOKEN=$FONT_AWESOME_TOKEN .
+      - docker build -f packages/uvalib-catalog-light/packaging/Dockerfile -t $CONTAINER_IMAGE:latest --build-arg BUILD_TAG=$BUILD_VERSION .
       - docker tag $CONTAINER_IMAGE:latest $CONTAINER_REGISTRY/$CONTAINER_IMAGE:latest
       - docker tag $CONTAINER_IMAGE:latest $CONTAINER_REGISTRY/$CONTAINER_IMAGE:build-$BUILD_VERSION
       - docker tag $CONTAINER_IMAGE:latest $CONTAINER_REGISTRY/$CONTAINER_IMAGE:$COMMIT_TAG
