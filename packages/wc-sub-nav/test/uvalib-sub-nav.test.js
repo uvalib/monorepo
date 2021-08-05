@@ -18,7 +18,9 @@ describe('UvalibSubNav', () => {
   });
 
   it('can override the title via attribute', async () => {
-    const el = await fixture(html`<uvalib-sub-nav title="attribute title"></uvalib-sub-nav>`);
+    const el = await fixture(
+      html`<uvalib-sub-nav title="attribute title"></uvalib-sub-nav>`
+    );
 
     expect(el.title).to.equal('attribute title');
   });

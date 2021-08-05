@@ -5,7 +5,9 @@ import '../src/uvalib-catalog-light.js';
 describe('UvalibCatalogLight', () => {
   let element;
   beforeEach(async () => {
-    element = await fixture(html`<uvalib-catalog-light></uvalib-catalog-light>`);
+    element = await fixture(
+      html`<uvalib-catalog-light></uvalib-catalog-light>`
+    );
   });
 
   it('renders a h1', () => {

@@ -10,21 +10,21 @@ export class UvalibStyle extends LitElement {
           display: block;
           color: var(--uvalib-brand-blue);
         }
-      `
+      `,
     ];
   }
 
   static get properties() {
     return {
-//      title: { type: String },
-//      counter: { type: Number },
+      //      title: { type: String },
+      //      counter: { type: Number },
     };
   }
 
   constructor() {
     super();
-  //  this.title = 'Hey there';
-  //  this.counter = 5;
+    //  this.title = 'Hey there';
+    //  this.counter = 5;
   }
 
   //__increment() {
@@ -32,12 +32,10 @@ export class UvalibStyle extends LitElement {
   //}
 
   render() {
-    return html`
-      <slot></slot>
-    `;
-//    return html`
-//      <h2>${this.title} Nr. ${this.counter}!</h2>
-//      <button @click=${this.__increment}>increment</button>
-//    `;
+    return html` <slot></slot> `;
+    //    return html`
+    //      <h2>${this.title} Nr. ${this.counter}!</h2>
+    //      <button @click=${this.__increment}>increment</button>
+    //    `;
   }
 }

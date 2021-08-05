@@ -12,7 +12,8 @@ export default {
 function Template({ title, backgroundColor }) {
   return html`
     <barcode-fill-hold
-      style="--barcode-fill-hold-background-color: ${backgroundColor || 'white'}"
+      style="--barcode-fill-hold-background-color: ${backgroundColor ||
+      'white'}"
       .title=${title}
     >
     </barcode-fill-hold>

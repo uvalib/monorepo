@@ -1,7 +1,4 @@
-'use strict';
+"use strict";
 
-// These are site alerts 
-export class alerts {
-
-}
-
+// These are site alerts
+export class alerts {}

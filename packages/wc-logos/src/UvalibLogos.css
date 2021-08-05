@@ -1,4 +1,4 @@
-@import url("https://use.typekit.net/tgy5tlj.css");
+@import url('https://use.typekit.net/tgy5tlj.css');
 /* small media width */
 :host {
   display: inline-block;
@@ -13,7 +13,9 @@ svg {
   height: 100%;
 }
 
-g#rotunda rect, g#rotunda polygon, g#rotunda path {
+g#rotunda rect,
+g#rotunda polygon,
+g#rotunda path {
   fill: #e57200;
 }
 
@@ -25,11 +27,13 @@ g#rotunda rect, g#rotunda polygon, g#rotunda path {
   fill: #141e3c;
 }
 
-#uvaletters, #libletters {
+#uvaletters,
+#libletters {
   fill: #ffffff;
 }
 
-[dark] #uvaletters, [dark] #libletters {
+[dark] #uvaletters,
+[dark] #libletters {
   fill: #141e3c;
 }
 

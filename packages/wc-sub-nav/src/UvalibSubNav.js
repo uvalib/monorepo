@@ -8,18 +8,18 @@ export class UvalibSubNav extends LitElement {
 
   static get properties() {
     return {
-      title: { type: String }
+      title: { type: String },
     };
   }
 
   render() {
     return html`
-    <div id="content">
-    <h4>${this.title}</h4>
-    <ul>
-      <slot></slot>
-    </ul>
-    </div>
+      <div id="content">
+        <h4>${this.title}</h4>
+        <ul>
+          <slot></slot>
+        </ul>
+      </div>
     `;
   }
 }

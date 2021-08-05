@@ -30,7 +30,8 @@
   },
   "devDependencies": {
     "jest": "^27.0.6",
-    "jest-fetch-mock": "^3.0.3"
+    "jest-fetch-mock": "^3.0.3",
+    "prettier": "^2.3.2"
   },
   "gitHead": "a644796716a46036d991b4d9d6fe6d707d1c10b5"
 }

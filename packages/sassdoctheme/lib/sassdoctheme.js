@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
 module.exports = sassdoctheme;
 
 function sassdoctheme() {
-    // TODO
+  // TODO
 }

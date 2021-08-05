@@ -4,13 +4,13 @@
  * See <https://github.com/themeleon/themeleon>.
  * See <https://github.com/tj/consolidate.js>.
  */
-var themeleon = require('themeleon')().use('consolidate');
+var themeleon = require("themeleon")().use("consolidate");
 
 /**
  * Utility function we will use to merge a default configuration
  * with the user object.
  */
-var extend = require('extend');
+var extend = require("extend");
 
 /**
  * SassDoc extras (providing Markdown and other filters, and different way to
@@ -18,7 +18,7 @@ var extend = require('extend');
  *
  * See <https://github.com/SassDoc/sassdoc-extras>.
  */
-var extras = require('sassdoc-extras');
+var extras = require("sassdoc-extras");
 
 /**
  * The theme function. You can directly export it like this:
@@ -35,13 +35,13 @@ var theme = themeleon(__dirname, function (t) {
    * Copy the assets folder from the theme's directory in the
    * destination directory.
    */
-  t.copy('assets');
+  t.copy("assets");
 
   /**
    * Render `views/index.nunjucks` with the theme's context (`ctx` below)
    * as `index.html` in the destination directory.
    */
-  t.nunjucks('views/index.nunjucks', 'index.html');
+  t.nunjucks("views/index.nunjucks", "index.html");
 });
 
 /**
@@ -55,14 +55,14 @@ var theme = themeleon(__dirname, function (t) {
 module.exports = function (dest, ctx) {
   var def = {
     display: {
-      access: ['public', 'private'],
+      access: ["public", "private"],
       alias: false,
       watermark: true,
     },
     groups: {
-      'undefined': 'General',
+      undefined: "General",
     },
-    'shortcutIcon': 'http://sass-lang.com/favicon.ico',
+    shortcutIcon: "http://sass-lang.com/favicon.ico",
   };
 
   // Apply default values for groups and display.

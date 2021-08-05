@@ -1,42 +1,44 @@
-@import "@uvalib/web-styles/scss/variables";
+@import '@uvalib/web-styles/scss/variables';
 
 :host {
-    display: block;
-    padding: 0;
-    margin: 0;
-    min-height: 100vh;
+  display: block;
+  padding: 0;
+  margin: 0;
+  min-height: 100vh;
 }
 
 #container {
-    align-items: center;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 #center {
-    width: 100vw;
-    max-width: $max-width;
-    display: flex;
-    flex: 1;
-    margin-bottom: 4em;
-    flex-wrap: wrap;
+  width: 100vw;
+  max-width: $max-width;
+  display: flex;
+  flex: 1;
+  margin-bottom: 4em;
+  flex-wrap: wrap;
 }
 
 #sidebar {
-    flex: 0 0 12em;
-    padding-top: $spacing-unit;
-    padding-left: $spacing-unit;
-    padding-right: $spacing-unit;
+  flex: 0 0 12em;
+  padding-top: $spacing-unit;
+  padding-left: $spacing-unit;
+  padding-right: $spacing-unit;
 }
 
 main {
-    flex: 1 1 40%;
-    padding-top: $spacing-unit;
-    padding-left: $spacing-unit;
-    padding-right: $spacing-unit;
+  flex: 1 1 40%;
+  padding-top: $spacing-unit;
+  padding-left: $spacing-unit;
+  padding-right: $spacing-unit;
 }
 
 @media print {
-    main {display: none !important}
+  main {
+    display: none !important;
+  }
 }

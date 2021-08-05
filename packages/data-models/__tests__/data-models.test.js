@@ -1,17 +1,17 @@
-'use strict';
-import { enableFetchMocks } from 'jest-fetch-mock';
+"use strict";
+import { enableFetchMocks } from "jest-fetch-mock";
 enableFetchMocks();
 
-import {catalog} from '../lib/data-models.js';
+import { catalog } from "../lib/data-models.js";
 
-describe("catalog", ()=>{
-    let cat;
-    beforeAll(()=>{
-        cat = new catalog();
-    });
+describe("catalog", () => {
+  let cat;
+  beforeAll(() => {
+    cat = new catalog();
+  });
 
-    // Did we get authenticated?
-    test("hasauth", ()=>{
-        expect(cat.isAuthenticated());
-    });
+  // Did we get authenticated?
+  test("hasauth", () => {
+    expect(cat.isAuthenticated());
+  });
 });

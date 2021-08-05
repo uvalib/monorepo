@@ -1,1 +1,1 @@
-import '@uvalib/uvalib-page/uvalib-page.js';
+import "@uvalib/uvalib-page/uvalib-page.js";

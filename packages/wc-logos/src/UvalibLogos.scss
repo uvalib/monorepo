@@ -1,31 +1,35 @@
-@import "@uvalib/web-styles/scss/variables";
+@import '@uvalib/web-styles/scss/variables';
 
 :host {
-    display: inline-block; 
-    padding: 10px 10px 10px 10px;
-    color: #000;
-    height: 43px;
-  }
-  svg { 
-    max-height: 74px;
-    min-height: 20px;
-    height: 100%;
-  }
+  display: inline-block;
+  padding: 10px 10px 10px 10px;
+  color: #000;
+  height: 43px;
+}
+svg {
+  max-height: 74px;
+  min-height: 20px;
+  height: 100%;
+}
 
-  g#rotunda  rect, g#rotunda polygon, g#rotunda path {
-    fill: $brand-orange;
-  }
+g#rotunda rect,
+g#rotunda polygon,
+g#rotunda path {
+  fill: $brand-orange;
+}
 
-  #sepline {
-    fill: $text-light;
-  }
-  [dark] #sepline {
-    fill: $blue-alt-darkest;
-  }
+#sepline {
+  fill: $text-light;
+}
+[dark] #sepline {
+  fill: $blue-alt-darkest;
+}
 
-  #uvaletters, #libletters {
-    fill: $text-light;
-  }
-  [dark] #uvaletters, [dark] #libletters {
-    fill: $blue-alt-darkest;
-  }
+#uvaletters,
+#libletters {
+  fill: $text-light;
+}
+[dark] #uvaletters,
+[dark] #libletters {
+  fill: $blue-alt-darkest;
+}

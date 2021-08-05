@@ -8,6 +8,7 @@ See https://uvalib.github.io/monorepo/ for an overview of the packages and their
 This repo makes use of [Lerna](https://github.com/lerna/lerna) to aid with development and maintaince of multiple [npm.js](https://www.npmjs.com/settings/uvalib/packages) packages.
 
 Some Global command usage
+
 ```
 # Link local packages together and install remaining package dependencies
 # Useful if yarn dependencies get a bit scrambled between packages
@@ -51,7 +52,7 @@ lerna run build:css --scope=@uvalib/uvalib-page --stream
 
 ## [Web Styles](https://github.com/uvalib/monorepo/tree/master/packages/web-styles)
 
-This package is where we are building the global UVA Library styles & theme.  All Library web projects should use this project for reference and/or as a dependency.
+This package is where we are building the global UVA Library styles & theme. All Library web projects should use this project for reference and/or as a dependency.
 
 ```
 # See the docs generated from [SassDoc](http://sassdoc.com/)

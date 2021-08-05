@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
-const wwwLibraryBuild = require('..');
+const wwwLibraryBuild = require("..");
 
-describe('@uvalib/www-library-build', () => {
-    it('needs tests');
+describe("@uvalib/www-library-build", () => {
+  it("needs tests");
 });

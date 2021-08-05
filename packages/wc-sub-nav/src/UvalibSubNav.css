@@ -1,9 +1,9 @@
-@import url("https://use.typekit.net/tgy5tlj.css");
+@import url('https://use.typekit.net/tgy5tlj.css');
 /* small media width */
 :host {
   display: block;
   background-color: #f1f1f1;
-  padding-bottom: calc(1em*.75);
+  padding-bottom: calc(1em * 0.75);
 }
 
 a {

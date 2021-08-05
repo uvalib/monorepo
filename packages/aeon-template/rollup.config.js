@@ -1,23 +1,23 @@
 // Import rollup plugins
-import html from '@web/rollup-plugin-html';
-import polyfillsLoader from '@web/rollup-plugin-polyfills-loader';
-import {copy} from '@web/rollup-plugin-copy';
-import resolve from '@rollup/plugin-node-resolve';
-import {getBabelOutputPlugin} from '@rollup/plugin-babel';
-import {terser} from 'rollup-plugin-terser';
-import minifyHTML from 'rollup-plugin-minify-html-literals';
-import summary from 'rollup-plugin-summary';
+import html from "@web/rollup-plugin-html";
+import polyfillsLoader from "@web/rollup-plugin-polyfills-loader";
+import { copy } from "@web/rollup-plugin-copy";
+import resolve from "@rollup/plugin-node-resolve";
+import { getBabelOutputPlugin } from "@rollup/plugin-babel";
+import { terser } from "rollup-plugin-terser";
+import minifyHTML from "rollup-plugin-minify-html-literals";
+import summary from "rollup-plugin-summary";
 
 // Configure an instance of @web/rollup-plugin-html
 const htmlPlugin = html({
-  rootDir: './',
+  rootDir: "./",
   flattenOutput: false,
 });
 
 export default {
   // Entry point for application build; can specify a glob to build multiple
   // HTML files for non-SPA app
-  input: 'index.html',
+  input: "index.html",
   plugins: [
     htmlPlugin,
     // Resolve bare module specifiers to relative paths
@@ -33,13 +33,13 @@ export default {
     // lit/polyfill-support) and dynamically loads modern vs. legacy builds
     polyfillsLoader({
       modernOutput: {
-        name: 'modern',
+        name: "modern",
       },
       // Feature detection for loading legacy bundles
       legacyOutput: {
-        name: 'legacy',
-        test: '!!Array.prototype.flat',
-        type: 'systemjs',
+        name: "legacy",
+        test: "!!Array.prototype.flat",
+        type: "systemjs",
       },
       // List of polyfills to inject (each has individual feature detection)
       polyfills: {
@@ -52,8 +52,8 @@ export default {
         // required for interfacing with the webcomponents polyfills
         custom: [
           {
-            name: 'lit-polyfill-support',
-            path: '../../node_modules/lit/polyfill-support.js',
+            name: "lit-polyfill-support",
+            path: "../../node_modules/lit/polyfill-support.js",
             test: "!('attachShadow' in Element.prototype)",
             module: false,
           },
@@ -73,31 +73,31 @@ export default {
   output: [
     {
       // Modern JS bundles (no JS compilation, ES module output)
-      format: 'esm',
-      chunkFileNames: '[name]-[hash].js',
-      entryFileNames: '[name]-[hash].js',
-      dir: 'build',
-      plugins: [htmlPlugin.api.addOutput('modern')],
+      format: "esm",
+      chunkFileNames: "[name]-[hash].js",
+      entryFileNames: "[name]-[hash].js",
+      dir: "build",
+      plugins: [htmlPlugin.api.addOutput("modern")],
     },
     {
       // Legacy JS bundles (ES5 compilation and SystemJS module output)
-      format: 'esm',
-      chunkFileNames: 'legacy-[name]-[hash].js',
-      entryFileNames: 'legacy-[name]-[hash].js',
-      dir: 'build',
+      format: "esm",
+      chunkFileNames: "legacy-[name]-[hash].js",
+      entryFileNames: "legacy-[name]-[hash].js",
+      dir: "build",
       plugins: [
-        htmlPlugin.api.addOutput('legacy'),
+        htmlPlugin.api.addOutput("legacy"),
         // Uses babel to compile JS to ES5 and modules to SystemJS
         getBabelOutputPlugin({
           compact: true,
           presets: [
             [
-              '@babel/preset-env',
+              "@babel/preset-env",
               {
                 targets: {
-                  ie: '11',
+                  ie: "11",
                 },
-                modules: 'systemjs',
+                modules: "systemjs",
               },
             ],
           ],

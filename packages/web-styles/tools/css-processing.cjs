@@ -12,40 +12,40 @@ governing permissions and limitations under the License.
 const stripIndent = require('common-tags').stripIndents;
 
 const postCSSPlugins = (resourcePath) => {
-    const postCSSImportConfig = {};
-    if (resourcePath) {
-        postCSSImportConfig['root'] = resourcePath;
-    }
-    return [
-        require('postcss-import')(postCSSImportConfig),
-        require('postcss-inherit')(),
-        require('postcss-preset-env')({
-            browsers: [
-                'last 2 Chrome versions',
-                'last 2 Firefox versions',
-                'last 4 Safari versions',
-                'last 4 iOS versions',
-            ],
-            stage: 2,
-            features: {
-                'nesting-rules': true,
-            },
-        }),
-        // minify the css with cssnano presets
-        require('cssnano')({
-            preset: [
-                'default',
-                {
-                    svgo: false,
-                },
-            ],
-        }),
-        require('postcss-focus-visible')(),
-    ];
+  const postCSSImportConfig = {};
+  if (resourcePath) {
+    postCSSImportConfig['root'] = resourcePath;
+  }
+  return [
+    require('postcss-import')(postCSSImportConfig),
+    require('postcss-inherit')(),
+    require('postcss-preset-env')({
+      browsers: [
+        'last 2 Chrome versions',
+        'last 2 Firefox versions',
+        'last 4 Safari versions',
+        'last 4 iOS versions',
+      ],
+      stage: 2,
+      features: {
+        'nesting-rules': true,
+      },
+    }),
+    // minify the css with cssnano presets
+    require('cssnano')({
+      preset: [
+        'default',
+        {
+          svgo: false,
+        },
+      ],
+    }),
+    require('postcss-focus-visible')(),
+  ];
 };
 
 const wrapCSSResult = (content) => {
-    return stripIndent`
+  return stripIndent`
         import { css } from 'lit-element';
         export default css\`
             ${content}
@@ -53,4 +53,4 @@ const wrapCSSResult = (content) => {
     `;
 };
 
-module.exports = { postCSSPlugins, wrapCSSResult };
+module.exports = {postCSSPlugins, wrapCSSResult};

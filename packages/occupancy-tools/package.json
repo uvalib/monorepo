@@ -44,7 +44,8 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.3.1",
     "husky": "^6.0.0",
-    "jest": "^27.0.6"
+    "jest": "^27.0.6",
+    "prettier": "^2.3.2"
   },
   "lint-staged": {
     "*.js": "eslint --cache --fix"

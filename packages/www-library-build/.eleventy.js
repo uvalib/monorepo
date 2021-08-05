@@ -4,7 +4,7 @@ async function imageShortcode(src, alt, sizes) {
   let metadata = await Image(src, {
     widths: [300, 600],
     formats: ["avif", "webp", "jpeg"],
-    outputDir: "./_site/img/"
+    outputDir: "./_site/img/",
   });
 
   let imageAttributes = {
@@ -16,11 +16,11 @@ async function imageShortcode(src, alt, sizes) {
 
   // You bet we throw an error on missing alt in `imageAttributes` (alt="" works okay)
   return Image.generateHTML(metadata, imageAttributes, {
-    whitespaceMode: "inline"
+    whitespaceMode: "inline",
   });
 }
 
-module.exports = function(eleventyConfig) {
+module.exports = function (eleventyConfig) {
   eleventyConfig.addNunjucksAsyncShortcode("image", imageShortcode);
   eleventyConfig.addLiquidShortcode("image", imageShortcode);
   eleventyConfig.addJavaScriptFunction("image", imageShortcode);

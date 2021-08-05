@@ -11,7 +11,7 @@ export class UvalibPage extends LitElement {
     return {
       hassidebar: { type: Boolean },
       nolinks: { type: Boolean },
-      nolightdomstyle: { type: Boolean }
+      nolightdomstyle: { type: Boolean },
     };
   }
 
@@ -25,30 +25,32 @@ export class UvalibPage extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    
+
     // ensure that we don't have any padding/margins set in ancestors nodes
     let nodes = [];
     let element = this;
-    while(element.parentNode) {
+    while (element.parentNode) {
       nodes.unshift(element.parentNode);
       element = element.parentNode;
     }
-    nodes.forEach((e)=>{
+    nodes.forEach(e => {
       if (e.style) {
-        e.style.margin="0";
-        e.style.padding="0";
+        e.style.margin = '0';
+        e.style.padding = '0';
       }
     });
 
     if (!this.nolightdomstyle) {
       // This is a bit of a no no but ::slotted only affects first level elements in light dom
-      this.lightStyle = document.createElement("link");
-      this.lightStyle.setAttribute('appendedlightdomstyle','');
-      this.lightStyle.setAttribute('rel','stylesheet');
-      this.lightStyle.setAttribute('href','https://unpkg.com/@uvalib/web-styles/css/styles.css');
+      this.lightStyle = document.createElement('link');
+      this.lightStyle.setAttribute('appendedlightdomstyle', '');
+      this.lightStyle.setAttribute('rel', 'stylesheet');
+      this.lightStyle.setAttribute(
+        'href',
+        'https://unpkg.com/@uvalib/web-styles/css/styles.css'
+      );
       this.appendChild(this.lightStyle);
     }
-
   }
 
   firstUpdated() {
@@ -60,32 +62,41 @@ export class UvalibPage extends LitElement {
   // See if the sidebar has been slotted so that we can display or not
   _checkForSideSlotted() {
     let sideslots = [
-      this.shadowRoot.querySelector("#side-nav"),
-      this.shadowRoot.querySelector("#side-aside")
+      this.shadowRoot.querySelector('#side-nav'),
+      this.shadowRoot.querySelector('#side-aside'),
     ];
     let slotsfilled = false;
-    sideslots.forEach(function(s){
-      slotsfilled = slotsfilled? slotsfilled:s.assignedNodes()?.length;
-      s.addEventListener('slotchange', function(e){
-        this._checkForSideSlotted();
-      }.bind(this));
-    }.bind(this));
+    sideslots.forEach(
+      function (s) {
+        slotsfilled = slotsfilled ? slotsfilled : s.assignedNodes()?.length;
+        s.addEventListener(
+          'slotchange',
+          function (e) {
+            this._checkForSideSlotted();
+          }.bind(this)
+        );
+      }.bind(this)
+    );
     this.hassidebar = slotsfilled;
   }
 
   render() {
     return html`
-    <div id="container">
-      <uvalib-header part="uvalib-header" ?nolinks="${this.nolinks}"><slot name="header"></slot></uvalib-header>
-      <div id="center">
-        <main><slot></slot></main>
-        <div id="sidebar" ?hidden="${!this.hassidebar}">
-          <nav><slot id="side-nav" name="side-nav"></slot></nav>
-          <aside><slot id="side-aside" name="side-aside"></slot></aside>
+      <div id="container">
+        <uvalib-header part="uvalib-header" ?nolinks="${this.nolinks}"
+          ><slot name="header"></slot
+        ></uvalib-header>
+        <div id="center">
+          <main><slot></slot></main>
+          <div id="sidebar" ?hidden="${!this.hassidebar}">
+            <nav><slot id="side-nav" name="side-nav"></slot></nav>
+            <aside><slot id="side-aside" name="side-aside"></slot></aside>
+          </div>
         </div>
+        <uvalib-footer part="uvalib-footer" ?nolinks="${this.nolinks}"
+          ><slot name="footer"></slot
+        ></uvalib-footer>
       </div>
-      <uvalib-footer part="uvalib-footer" ?nolinks="${this.nolinks}"><slot name="footer"></slot></uvalib-footer>
-    </div>
     `;
   }
 }

@@ -18,7 +18,9 @@ describe('UvalibStyle', () => {
   });
 
   it('can override the title via attribute', async () => {
-    const el = await fixture(html`<uvalib-style title="attribute title"></uvalib-style>`);
+    const el = await fixture(
+      html`<uvalib-style title="attribute title"></uvalib-style>`
+    );
 
     expect(el.title).to.equal('attribute title');
   });

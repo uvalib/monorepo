@@ -18,7 +18,9 @@ describe('UvalibIcon', () => {
   });
 
   it('can override the title via attribute', async () => {
-    const el = await fixture(html`<uvalib-icon title="attribute title"></uvalib-icon>`);
+    const el = await fixture(
+      html`<uvalib-icon title="attribute title"></uvalib-icon>`
+    );
 
     expect(el.title).to.equal('attribute title');
   });

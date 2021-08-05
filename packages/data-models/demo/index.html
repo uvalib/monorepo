@@ -1,54 +1,71 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en-GB">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-  <link rel="stylesheet" href="https://unpkg.com/@uvalib/web-styles/css/styles.css">
-</head>
-<body>
-  <code></code>
-  <script type="module">
-    let code = document.querySelector('code');
-    function writeOutLn(str) {
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, minimum-scale=1"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@uvalib/web-styles/css/styles.css"
+    />
+  </head>
+  <body>
+    <code></code>
+    <script type="module">
+      let code = document.querySelector("code");
+      function writeOutLn(str) {
         code.innerHTML += `${str}<br />`;
-    }
+      }
 
-    import {Sirsi} from "../lib/sirsi.js";
-    import {Catalog} from "../lib/catalog.js";
-    async function demo() {
+      import { Sirsi } from "../lib/sirsi.js";
+      import { Catalog } from "../lib/catalog.js";
+      async function demo() {
+        let sirsi = new Sirsi({ dummyMode: true });
+        sirsi
+          .authorize("dhc4z", "foobar")
+          .then((token) => writeOutLn(`Got a sirsi token of ${token}`));
 
-        let sirsi = new Sirsi({dummyMode:true});
-        sirsi.authorize("dhc4z", "foobar")
-          .then(token=>writeOutLn(`Got a sirsi token of ${token}`));
-
-        let cat = new Catalog({devMode:true});
-        writeOutLn('Getting a listing of result pools:');
-        await cat.poolsPromise.then(pools=>{
-            for (const id in pools) {
-                const pool = pools[id];
-                writeOutLn(`pool ${pool.id} with a name of ${pool.name}`)
-            }
+        let cat = new Catalog({ devMode: true });
+        writeOutLn("Getting a listing of result pools:");
+        await cat.poolsPromise.then((pools) => {
+          for (const id in pools) {
+            const pool = pools[id];
+            writeOutLn(`pool ${pool.id} with a name of ${pool.name}`);
+          }
         });
 
         writeOutLn("-----------------------------------------------");
         writeOutLn('Getting some results for search of "The Book of Three":');
-        await cat.fetchResults({rows:1, keyword:"The Book of Three"}).then(res=>{
-                console.log(res)
-                writeOutLn(`We got ${res.total_hits} hits in ${res.total_time_ms} milliseconds`);
-                writeOutLn("Here are the first results from each pool:")
-                res['pool_results'].forEach(pool=>pool['group_list'][0]['record_list'].forEach(item=>writeOutLn(item.fields.find(r=>r.name.indexOf("title")>-1).value)  ) );
-        });
+        await cat
+          .fetchResults({ rows: 1, keyword: "The Book of Three" })
+          .then((res) => {
+            console.log(res);
+            writeOutLn(
+              `We got ${res.total_hits} hits in ${res.total_time_ms} milliseconds`
+            );
+            writeOutLn("Here are the first results from each pool:");
+            res["pool_results"].forEach((pool) =>
+              pool["group_list"][0]["record_list"].forEach((item) =>
+                writeOutLn(
+                  item.fields.find((r) => r.name.indexOf("title") > -1).value
+                )
+              )
+            );
+          });
         writeOutLn("-----------------------------------------------");
-        writeOutLn('Getting a listing of result pools again (from last request this time):');
-        await cat.poolsPromise.then(pools=>{
-            for (const id in pools) {
-                const pool = pools[id];
-                writeOutLn(`pool ${pool.id} with a name of ${pool.name}`)
-            }
+        writeOutLn(
+          "Getting a listing of result pools again (from last request this time):"
+        );
+        await cat.poolsPromise.then((pools) => {
+          for (const id in pools) {
+            const pool = pools[id];
+            writeOutLn(`pool ${pool.id} with a name of ${pool.name}`);
+          }
         });
-    }
-    demo();
-
-  </script>
-</body>
+      }
+      demo();
+    </script>
+  </body>
 </html>

@@ -15,4 +15,6 @@ $breakpoint-mobile: 768px;
 $breakpoint-tablet: 925px;
 $max-width: 1200px;
 /* small media width */
-@mixin small-viewport { max-width: 30em; };
+@mixin small-viewport {
+  max-width: 30em;
+} ;

@@ -12,7 +12,8 @@ export default {
 function Template({ title, backgroundColor }) {
   return html`
     <uvalib-catalog-light
-      style="--uvalib-catalog-light-background-color: ${backgroundColor || 'white'}"
+      style="--uvalib-catalog-light-background-color: ${backgroundColor ||
+      'white'}"
       .title=${title}
     >
     </uvalib-catalog-light>

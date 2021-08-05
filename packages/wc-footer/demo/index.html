@@ -1,31 +1,32 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en-GB">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, minimum-scale=1"
+    />
 
-  <style>
-    body {
-      background: #fafafa;
-    }
-  </style>
-</head>
-<body>
-  <div id="demo"></div>
+    <style>
+      body {
+        background: #fafafa;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="demo"></div>
 
-  <script type="module">
-    import { html, render } from 'lit-html';
-    import '../uvalib-footer.js';
+    <script type="module">
+      import { html, render } from 'lit-html';
+      import '../uvalib-footer.js';
 
-    const title = 'Hello owc World!';
-    render(
-      html`
-        <uvalib-footer .title=${title}>
-          some more light-dom
-        </uvalib-footer>
-      `,
-      document.querySelector('#demo')
-    );
-  </script>
-</body>
+      const title = 'Hello owc World!';
+      render(
+        html`
+          <uvalib-footer .title=${title}> some more light-dom </uvalib-footer>
+        `,
+        document.querySelector('#demo')
+      );
+    </script>
+  </body>
 </html>

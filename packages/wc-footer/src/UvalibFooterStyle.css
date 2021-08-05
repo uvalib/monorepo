@@ -1,4 +1,4 @@
-@import url("https://use.typekit.net/tgy5tlj.css");
+@import url('https://use.typekit.net/tgy5tlj.css');
 /* small media width */
 :host {
   box-sizing: border-box;
@@ -27,7 +27,7 @@
   font-size: 14px;
   padding-top: 20px;
   background-color: #ffffff;
-  color: #4F4F4F;
+  color: #4f4f4f;
   padding: 10px !important;
   border-radius: 3px;
 }
@@ -54,7 +54,7 @@ ul li a:hover {
 }
 
 h3 {
-  font-family: "franklin-gothic-urw", arial, sans-serif;
+  font-family: 'franklin-gothic-urw', arial, sans-serif;
   font-weight: 400;
   text-transform: none;
   color: #ffffff;
@@ -70,7 +70,7 @@ h3 {
   margin-left: 0;
   border: none;
   font-weight: bold;
-  font-size: calc( 16px*1.125);
+  font-size: calc(16px * 1.125);
 }
 
 /*

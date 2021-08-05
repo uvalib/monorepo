@@ -18,7 +18,9 @@ describe('UvalibFooter', () => {
   });
 
   it('can override the title via attribute', async () => {
-    const el = await fixture(html`<uvalib-footer title="attribute title"></uvalib-footer>`);
+    const el = await fixture(
+      html`<uvalib-footer title="attribute title"></uvalib-footer>`
+    );
 
     expect(el.title).to.equal('attribute title');
   });

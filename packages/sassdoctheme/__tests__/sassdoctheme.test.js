@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
-const sassdoctheme = require('..');
+const sassdoctheme = require("..");
 
-describe('@uvalib/sassdoctheme', () => {
-    it('needs tests');
+describe("@uvalib/sassdoctheme", () => {
+  it("needs tests");
 });

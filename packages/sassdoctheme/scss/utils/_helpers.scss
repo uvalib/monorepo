@@ -1,12 +1,9 @@
-
 /// Float clearing helper.
 /// @param {Bool} $extend [true] - Whether or not extend a placeholder.
 @mixin clearfix($extend: true) {
   @if $extend {
     @extend %clearfix;
-  }
-
-  @else {
+  } @else {
     &:after {
       content: "";
       display: table;
@@ -15,13 +12,11 @@
   }
 }
 
-
 /// Clearfix helper
 /// @requires {mixin} clearfix
 %clearfix {
   @include clearfix($extend: false);
 }
-
 
 /// Accessibility hiding helper.
 /// @param {Bool} $extend [true] - Whether or not extend a placeholder.
@@ -29,9 +24,7 @@
 @mixin visually-hidden($extend: true) {
   @if $extend {
     @extend %visually-hidden;
-  }
-
-  @else {
+  } @else {
     @include size(1px);
     position: absolute;
     padding: 0;
@@ -41,7 +34,6 @@
     border: 0;
   }
 }
-
 
 /// Accessibility hiding helper.
 /// @requires {mixin} visually-hidden

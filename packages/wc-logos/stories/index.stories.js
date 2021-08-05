@@ -4,14 +4,11 @@ import '../uvalib-logos.js';
 export default {
   title: 'wc-logos',
   component: 'uvalib-logos',
-  argTypes: {
-  },
+  argTypes: {},
 };
 
-function Template({  }) {
-  return html`
-    <uvalib-logos></uvalib-logos>
-  `;
+function Template({}) {
+  return html` <uvalib-logos></uvalib-logos> `;
 }
 
 export const Regular = Template.bind({});
