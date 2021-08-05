@@ -17,8 +17,8 @@ function mappedToID(list) {
 }
 
 export class Pool {
-  _config;
-  _lastResults;
+  #config;
+  #lastResults;
   attributes;
   description;
   id;
@@ -30,34 +30,33 @@ export class Pool {
   lastResultCount;
 
   set lastResults(results) {
-    this._lastResults = results;
+    this.#lastResults = results;
     this.lastResultCount =
       results && results.pagination && results.pagination.total
         ? results.pagination.total
         : 0;
   }
   get lastResults() {
-    return this._lastResults;
+    return this.#lastResults;
   }
 
   constructor(config) {
-    this._config = { ...poolDefaults, ...config };
-    this.attributes = this._config.attributes;
-    this.description = this._config.description;
-    this.id = this._config.id;
-    this.mode = this._config.mode;
-    this.name = this._config.name;
-    this.sortOptions = this._config["sort_options"];
-    this.source = this._config.source;
-    this.url = this._config.url;
-
+    this.#config = { ...poolDefaults, ...config };
+    this.attributes = this.#config.attributes;
+    this.description = this.#config.description;
+    this.id = this.#config.id;
+    this.mode = this.#config.mode;
+    this.name = this.#config.name;
+    this.sortOptions = this.#config["sort_options"];
+    this.source = this.#config.source;
+    this.url = this.#config.url;
   }
 
   fetchResults(config) {
     let params = { ...searchDefaults, ...config };
     return this.authorize().then((token) => {
-      // Lets get some results for this pool
-//      return fetch(`${this._host}${searchPath}`, {
+      // Lets get some results
+//      return fetch(`${this.#host}${searchPath}`, {
 //        method: "POST",
 //        headers: {
 //          "Content-Type": "application/json",
@@ -85,10 +84,10 @@ export class Pool {
 }
 
 export class Catalog {
-  _authtoken;
-  _config;
-  _host;
-  _lastPools;
+  #authtoken;
+  #config;
+  #host;
+  #lastPools;
   lastKeyword;
   lastStart;
   lastRows;
@@ -96,8 +95,8 @@ export class Catalog {
   lastSuggestions;
 
   constructor(config) {
-    this._config = { ...defaults, ...config };
-    this.devMode = this._config.devMode;
+    this.#config = { ...defaults, ...config };
+    this.devMode = this.#config.devMode;
   }
 
   // Getters/Setters
@@ -105,21 +104,21 @@ export class Catalog {
     if (!!val) {
       // ToDo:  I don't think that this is the dev url (don't think it matters as this is read only currently)
       console.info("dev mode is true");
-      this._host = "https://search-ws.internal.lib.virginia.edu";
+      this.#host = "https://search-ws.internal.lib.virginia.edu";
     } else {
       console.info("dev mode is false");
-      this._host = "https://search-ws.internal.lib.virginia.edu";
+      this.#host = "https://search-ws.internal.lib.virginia.edu";
     }
   }
 
   set lastPools(rawPools) {
     if (Array.isArray(rawPools)) {
-      this._lastPools = rawPools.map((p) => new Pool(p));
+      this.#lastPools = rawPools.map((p) => new Pool(p));
     }
   }
 
   get lastPools() {
-    return this._lastPools;
+    return this.#lastPools;
   }
 
   set lastPoolResults(rawPoolResults) {
@@ -143,13 +142,13 @@ export class Catalog {
   }
 
   get authenticated() {
-    return !!this._authtoken;
+    return !!this.#authtoken;
   }
 
   authorize() {
     return this.authenticated
       ? // If we have a token we are authorized already, just return the token in an empty promise
-        Promise.resolve(this._authtoken)
+        Promise.resolve(this.#authtoken)
       : // Get an auth token if we don't already have one
         fetch("https://search.lib.virginia.edu/authorize", {
           method: "POST",
@@ -158,16 +157,16 @@ export class Catalog {
         })
           .then((res) => res.text())
           .then((data) => {
-            this._authtoken = data;
-            console.info(`auth token: ${this._authtoken}`);
-            return this._authtoken;
+            this.#authtoken = data;
+            console.info(`auth token: ${this.#authtoken}`);
+            return this.#authtoken;
           });
   }
 
   fetchResults(config) {
     let params = { ...searchDefaults, ...config };
     return this.authorize().then((token) => {
-      return fetch(`${this._host}${searchPath}`, {
+      return fetch(`${this.#host}${searchPath}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
