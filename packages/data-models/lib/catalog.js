@@ -1,6 +1,6 @@
 const searchPath = "/api/search";
 const defaults = { devMode: false };
-const searchDefaults = { start: 0, rows: 5, keyword: "" };
+const searchDefaults = { start: 0, rows: 5, keyword: "", debug: false, verbose: false };
 const poolDefaults = {
   attributes: [],
   description: "",
@@ -17,8 +17,8 @@ function mappedToID(list) {
 }
 
 export class Pool {
-  #config;
-  #lastResults;
+  _config;
+  _lastResults;
   attributes;
   description;
   id;
@@ -30,34 +30,65 @@ export class Pool {
   lastResultCount;
 
   set lastResults(results) {
-    this.#lastResults = results;
+    this._lastResults = results;
     this.lastResultCount =
       results && results.pagination && results.pagination.total
         ? results.pagination.total
         : 0;
   }
   get lastResults() {
-    return this.#lastResults;
+    return this._lastResults;
   }
 
   constructor(config) {
-    this.#config = { ...poolDefaults, ...config };
-    this.attributes = this.#config.attributes;
-    this.description = this.#config.description;
-    this.id = this.#config.id;
-    this.mode = this.#config.mode;
-    this.name = this.#config.name;
-    this.sortOptions = this.#config["sort_options"];
-    this.source = this.#config.source;
-    this.url = this.#config.url;
+    this._config = { ...poolDefaults, ...config };
+    this.attributes = this._config.attributes;
+    this.description = this._config.description;
+    this.id = this._config.id;
+    this.mode = this._config.mode;
+    this.name = this._config.name;
+    this.sortOptions = this._config["sort_options"];
+    this.source = this._config.source;
+    this.url = this._config.url;
+
+  }
+
+  fetchResults(config) {
+    let params = { ...searchDefaults, ...config };
+    return this.authorize().then((token) => {
+      // Lets get some results for this pool
+//      return fetch(`${this._host}${searchPath}`, {
+//        method: "POST",
+//        headers: {
+//          "Content-Type": "application/json",
+//          Authorization: `Bearer ${token}`,
+//        },
+//        body: JSON.stringify({
+//          query: `keyword: {${params.keyword}}`,
+//          pagination: { start: params.start, rows: params.rows },
+//        }),
+//      })
+//        .then((res) => res.json())
+//        .then((data) => {
+//          this.lastKeyword = params.keyword;
+//          this.lastStart = params.start;
+//          this.lastRows = params.rows;
+//          this.lastPools = data.pools;
+//          this.lastResultCount = data.total_hits;
+//          this.lastPoolResults = data.pool_results;
+//          this.lastRequest = data.request;
+//          this.lastSuggestions = data.suggestions;
+//          return data;
+//        });
+    });
   }
 }
 
 export class Catalog {
-  #authtoken;
-  #config;
-  #host;
-  #lastPools;
+  _authtoken;
+  _config;
+  _host;
+  _lastPools;
   lastKeyword;
   lastStart;
   lastRows;
@@ -65,8 +96,8 @@ export class Catalog {
   lastSuggestions;
 
   constructor(config) {
-    this.#config = { ...defaults, ...config };
-    this.devMode = this.#config.devMode;
+    this._config = { ...defaults, ...config };
+    this.devMode = this._config.devMode;
   }
 
   // Getters/Setters
@@ -74,21 +105,21 @@ export class Catalog {
     if (!!val) {
       // ToDo:  I don't think that this is the dev url (don't think it matters as this is read only currently)
       console.info("dev mode is true");
-      this.#host = "https://search-ws.internal.lib.virginia.edu";
+      this._host = "https://search-ws.internal.lib.virginia.edu";
     } else {
       console.info("dev mode is false");
-      this.#host = "https://search-ws.internal.lib.virginia.edu";
+      this._host = "https://search-ws.internal.lib.virginia.edu";
     }
   }
 
   set lastPools(rawPools) {
     if (Array.isArray(rawPools)) {
-      this.#lastPools = rawPools.map((p) => new Pool(p));
+      this._lastPools = rawPools.map((p) => new Pool(p));
     }
   }
 
   get lastPools() {
-    return this.#lastPools;
+    return this._lastPools;
   }
 
   set lastPoolResults(rawPoolResults) {
@@ -112,13 +143,13 @@ export class Catalog {
   }
 
   get authenticated() {
-    return !!this.#authtoken;
+    return !!this._authtoken;
   }
 
   authorize() {
     return this.authenticated
       ? // If we have a token we are authorized already, just return the token in an empty promise
-        Promise.resolve(this.#authtoken)
+        Promise.resolve(this._authtoken)
       : // Get an auth token if we don't already have one
         fetch("https://search.lib.virginia.edu/authorize", {
           method: "POST",
@@ -127,16 +158,16 @@ export class Catalog {
         })
           .then((res) => res.text())
           .then((data) => {
-            this.#authtoken = data;
-            console.info(`auth token: ${this.#authtoken}`);
-            return this.#authtoken;
+            this._authtoken = data;
+            console.info(`auth token: ${this._authtoken}`);
+            return this._authtoken;
           });
   }
 
   fetchResults(config) {
     let params = { ...searchDefaults, ...config };
     return this.authorize().then((token) => {
-      return fetch(`${this.#host}${searchPath}`, {
+      return fetch(`${this._host}${searchPath}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

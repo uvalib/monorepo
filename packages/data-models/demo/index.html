@@ -42,7 +42,7 @@
             writeOutLn("Bravely attempt a dummy fillhold sirsi request");
             return sirsi.fillhold("5555555dummybarcode5555555").then(res => {
               writeOutDivider('*');
-              writeOutLn(JSON.stringify(res));
+              writeOutLn(`<pre>${JSON.stringify(res, null, 4)}</pre>`);
               writeOutDivider('*');
             })
           })
@@ -50,7 +50,7 @@
             writeOutLn("Next try a dummy fillhold sirsi request for a hold that returns an override");
             return sirsi.fillhold("override").then(res => {
               writeOutDivider('*');
-              writeOutLn(JSON.stringify(res));
+              writeOutLn(`<pre>${JSON.stringify(res, null, 4)}</pre>`);
               writeOutDivider('*');
             })
           })
@@ -58,7 +58,7 @@
             writeOutLn("Next try a dummy fillhold sirsi request for a hold that accepts an override");
             return sirsi.fillhold("override",true).then(res => {
               writeOutDivider('*');
-              writeOutLn(JSON.stringify(res));
+              writeOutLn(`<pre>${JSON.stringify(res, null, 4)}</pre>`);
               writeOutDivider('*');
             })
           })
@@ -66,7 +66,7 @@
             writeOutLn("Next try a dummy fillhold sirsi request for a hold that returns an error");
             return sirsi.fillhold("error").then(res => {
               writeOutDivider('*');
-              writeOutLn(JSON.stringify(res));
+              writeOutLn(`<pre>${JSON.stringify(res, null, 4)}</pre>`);
               writeOutDivider('*');
             })
           })
@@ -82,6 +82,10 @@
                 const pool = pools[id];
                 writeOutLn(`pool ${pool.id} with a name of ${pool.name}`);
               }
+              writeOutDivider();
+              writeOutLn("Here is our Pools object:");
+              writeOutLn(`<pre>${JSON.stringify(pools, null, 4)}</pre>`);
+              writeOutDivider();
             });
 
             writeOutDivider();

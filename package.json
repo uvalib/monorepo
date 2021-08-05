@@ -6,7 +6,8 @@
   ],
   "scripts": {
     "test": "lerna run test --stream",
-    "publish-all": "lerna publish"
+    "publish-all": "lerna publish",
+    "start": "serve docs"
   },
   "devDependencies": {
     "husky": "^6.0.0",
