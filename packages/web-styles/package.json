@@ -1,6 +1,6 @@
 {
   "name": "@uvalib/web-styles",
-  "version": "1.3.10",
+  "version": "1.3.11",
   "description": "Styles for the Library web",
   "author": "Doug Chestnut <dougchestnut@users.noreply.github.com>",
   "homepage": "https://github.com/uvalib/monorepo/packages/web-styles#readme",
@@ -32,9 +32,9 @@
     "url": "https://github.com/uvalib/monorepo/issues"
   },
   "devDependencies": {
-    "@uvalib/eslint-config": "^0.0.6",
-    "@uvalib/prettier-config": "^0.0.8",
-    "@uvalib/sassdoctheme": "^0.0.3",
+    "@uvalib/eslint-config": "^0.0.7",
+    "@uvalib/prettier-config": "^0.0.9",
+    "@uvalib/sassdoctheme": "^0.0.4",
     "common-tags": "^1.8.0",
     "cssnano": "^5.0.5",
     "eslint": "^7.26.0",

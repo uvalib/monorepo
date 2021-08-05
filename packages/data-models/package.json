@@ -1,6 +1,6 @@
 {
   "name": "@uvalib/data-models",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "type": "module",
   "description": "Data bindings to various apis for Library data",
   "author": "Doug Chestnut <dougchestnut@gmail.com>",

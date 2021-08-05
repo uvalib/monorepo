@@ -1,6 +1,6 @@
 {
   "name": "@uvalib/uvalib-video-lightbox",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Webcomponent uvalib-video-lightbox following open-wc recommendations",
   "author": "uvalib-video-lightbox",
   "license": "MIT",

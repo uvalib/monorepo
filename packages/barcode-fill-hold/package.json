@@ -27,14 +27,14 @@
     "start": "web-dev-server"
   },
   "name": "@uvalib/barcode-fill-hold",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Webcomponent barcode-fill-hold following open-wc recommendations",
   "author": "barcode-fill-hold",
   "license": "MIT",
   "dependencies": {
     "@spectrum-web-components/bundle": "^0.22.3",
-    "@uvalib/data-models": "^0.0.4",
-    "@uvalib/uvalib-page": "^0.0.12",
+    "@uvalib/data-models": "^0.0.5",
+    "@uvalib/uvalib-page": "^0.0.13",
     "date-fns": "^2.23.0",
     "lit-element": "^2.5.1",
     "lit-html": "^1.4.1"

@@ -29,15 +29,15 @@
     "start": "web-dev-server"
   },
   "name": "@uvalib/uvalib-catalog-light",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Webcomponent uvalib-catalog-light following open-wc recommendations",
   "author": "uvalib-catalog-light",
   "license": "MIT",
   "dependencies": {
     "@spectrum-web-components/bundle": "^0.22.3",
-    "@uvalib/data-models": "^0.0.4",
-    "@uvalib/uvalib-page": "^0.0.12",
-    "@uvalib/web-styles": "^1.3.10",
+    "@uvalib/data-models": "^0.0.5",
+    "@uvalib/uvalib-page": "^0.0.13",
+    "@uvalib/web-styles": "^1.3.11",
     "lit-element": "^2.5.1",
     "lit-html": "^1.4.1"
   },

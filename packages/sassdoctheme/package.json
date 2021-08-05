@@ -1,7 +1,7 @@
 {
   "name": "@uvalib/sassdoctheme",
   "description": "A fancy new SassDoc theme.",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "keywords": [
     "sassdoc-theme"
   ],
