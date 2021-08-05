@@ -22650,14 +22650,12 @@ System.register(["@uvalib/web-styles/css/wc-styles.css.js"], function () {
                         u = { type: "text", value: "".concat(t, "\n") };
                       if (0 === o) {
                         var l = y(
-                          c
-                            .slice(f + 1, d)
-                            .concat(
-                              Wf({
-                                children: [u],
-                                className: e.properties.className,
-                              })
-                            ),
+                          c.slice(f + 1, d).concat(
+                            Wf({
+                              children: [u],
+                              className: e.properties.className,
+                            })
+                          ),
                           i
                         );
                         s.push(l);

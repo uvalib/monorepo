@@ -26,7 +26,6 @@ phases:
       - cd $CODEBUILD_SRC_DIR/terraform-infrastructure/virgo4.lib.virginia.edu/ecs-tasks/staging/virgo4-client-lite
       - terraform init -no-color
       - terraform apply -no-color -auto-approve
-
 #  post_build:
 #    commands:
 

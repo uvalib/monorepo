@@ -22526,14 +22526,12 @@ System.register([], function () {
                         l = { type: "text", value: "".concat(t, "\n") };
                       if (0 === o) {
                         var u = y(
-                          c
-                            .slice(f + 1, d)
-                            .concat(
-                              Wf$1({
-                                children: [l],
-                                className: e.properties.className,
-                              })
-                            ),
+                          c.slice(f + 1, d).concat(
+                            Wf$1({
+                              children: [l],
+                              className: e.properties.className,
+                            })
+                          ),
                           a
                         );
                         s.push(u);
@@ -65497,14 +65495,12 @@ System.register([], function () {
                       });
                     if (((t[o] = s), 0 !== u.length))
                       throw new Error(
-                        "Unexpected '"
-                          .concat(r.id, "': ")
-                          .concat(
-                            JSON.stringify({
-                              isComponent: i,
-                              nonLeafChildren: u,
-                            })
-                          )
+                        "Unexpected '".concat(r.id, "': ").concat(
+                          JSON.stringify({
+                            isComponent: i,
+                            nonLeafChildren: u,
+                          })
+                        )
                       );
                     return f;
                   })
