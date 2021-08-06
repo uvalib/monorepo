@@ -15,7 +15,10 @@
     <code></code>
     <script type="module">
       let code = document.querySelector("code");
-      let dividerWidth = 50;
+      let dividerWidth = 75;
+      function writeOutJSON(json){
+        writeOutLn(`<pre>${JSON.stringify(json, null, 4)}</pre>`);
+      }
       function writeOutHeader(header){
         writeOutLn();writeOutLn();
         writeOutDivider('#');
@@ -42,7 +45,7 @@
             writeOutLn("Bravely attempt a dummy fillhold sirsi request");
             return sirsi.fillhold("5555555dummybarcode5555555").then(res => {
               writeOutDivider('*');
-              writeOutLn(`<pre>${JSON.stringify(res, null, 4)}</pre>`);
+              writeOutLn(writeOutJSON(res));
               writeOutDivider('*');
             })
           })
@@ -50,7 +53,7 @@
             writeOutLn("Next try a dummy fillhold sirsi request for a hold that returns an override");
             return sirsi.fillhold("override").then(res => {
               writeOutDivider('*');
-              writeOutLn(`<pre>${JSON.stringify(res, null, 4)}</pre>`);
+              writeOutLn(writeOutJSON(res));
               writeOutDivider('*');
             })
           })
@@ -58,7 +61,7 @@
             writeOutLn("Next try a dummy fillhold sirsi request for a hold that accepts an override");
             return sirsi.fillhold("override",true).then(res => {
               writeOutDivider('*');
-              writeOutLn(`<pre>${JSON.stringify(res, null, 4)}</pre>`);
+              writeOutLn(writeOutJSON(res));
               writeOutDivider('*');
             })
           })
@@ -66,7 +69,7 @@
             writeOutLn("Next try a dummy fillhold sirsi request for a hold that returns an error");
             return sirsi.fillhold("error").then(res => {
               writeOutDivider('*');
-              writeOutLn(`<pre>${JSON.stringify(res, null, 4)}</pre>`);
+              writeOutLn(writeOutJSON(res));
               writeOutDivider('*');
             })
           })
@@ -84,7 +87,7 @@
               }
               writeOutDivider();
               writeOutLn("Here is our Pools object:");
-              writeOutLn(`<pre>${JSON.stringify(pools, null, 4)}</pre>`);
+              writeOutLn(writeOutJSON(pools));
               writeOutDivider();
             });
 
@@ -113,12 +116,38 @@
             writeOutLn(
               "Getting a listing of result pools again (from last request this time):"
             );
-            await cat.poolsPromise.then((pools) => {
+            let pools = await cat.poolsPromise.then((pools) => {
               for (const id in pools) {
                 const pool = pools[id];
                 writeOutLn(`pool ${pool.id} with a name of ${pool.name}`);
               }
+              return pools;
             });
+            
+            writeOutHeader("Demo of the Pool (Virgo Pool) library (creating a new Pool instance by name only)");
+            let allPools = await cat.poolsPromise; // Get the Pools from the Catalog
+            let catalogPool = allPools.uva_library; // Get the Pool that you want
+            catalogPool.debug = true;
+            catalogPool.verbose = true;
+            await catalogPool
+              .fetchResults({ rows: 10, keyword: "The Book of Three" })
+              .then((res) => {
+                writeOutLn("Here are the results from the Library Catalog pool:");
+                writeOutLn(
+                  `We got ${res.pagination.total} hits, heres 10:`
+                );
+                writeOutJSON(res);               
+              });
+/*
+            writeOutDivider();
+            writeOutLn("All the pools");
+            for (const id in pools) {
+              writeOutDivider();
+              const pool = pools[id];
+              writeOutLn(writeOutJSON(pool));
+              writeOutDivider();
+            }
+*/            
           });
       };
 
