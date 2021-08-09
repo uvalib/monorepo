@@ -39,6 +39,7 @@ CMD /home/webservice/entry.sh
 COPY packages/uvalib-catalog-light/packaging/data/container_bash_profile /root/.profile
 COPY packages/uvalib-catalog-light/packaging/conf/lighttpd.conf /etc/lighttpd/lighttpd.conf
 COPY packages/uvalib-catalog-light/packaging/scripts/entry.sh /home/webservice/entry.sh
+COPY --from=builder /build/packages/uvalib-catalog-light/env.json.template /home/webservice/env.json.template
 COPY --from=builder /build/packages/uvalib-catalog-light/dist/ /var/www/localhost/htdocs/
 
 # Add the build tag
