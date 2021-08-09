@@ -1,3 +1,4 @@
+import env from '../env.js';
 import { LitElement, html, css } from 'lit-element';
 import style from './UvalibCatalogLight.css.js';
 import { Catalog } from '@uvalib/data-models/lib/catalog.js';
@@ -28,7 +29,7 @@ export class UvalibCatalogLight extends LitElement {
     return html`
       <uvalib-page nofooter class="coral--light">
         <sp-theme scale="large" color="light">
-          <h1>Search</h1>
+          <h1>Search ${env.id}</h1>
           <sp-field-label for="name-0"
             >Search Virgo for books, articles, and more.</sp-field-label
           >
