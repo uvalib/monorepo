@@ -98,7 +98,6 @@
             await cat
               .fetchResults({ rows: 1, keyword: "The Book of Three" })
               .then((res) => {
-                console.log(res);
                 writeOutLn(
                   `We got ${res.total_hits} hits in ${res.total_time_ms} milliseconds`
                 );
@@ -138,7 +137,7 @@
                 );
                 writeOutJSON(res);               
               });
-/*
+
             writeOutDivider();
             writeOutLn("All the pools");
             for (const id in pools) {
@@ -147,7 +146,7 @@
               writeOutLn(writeOutJSON(pool));
               writeOutDivider();
             }
-*/            
+           
           });
       };
 

@@ -1,0 +1,97 @@
+import { ApiBase } from "./api-base.js";
+import { Item } from "./item.js";
+
+const searchPath = "/api/search";
+const defaults = { devMode: false };
+const poolDefaults = {
+  attributes: [],
+  description: "",
+  id: "",
+  mode: "",
+  name: "",
+  sort_options: [],
+  source: "",
+  url: "",
+};
+
+export class Pool extends ApiBase {
+  #config
+  #lastResults;
+  #lastRawResults;
+  attributes;
+  description;
+  id;
+  mode;
+  name;
+  sortOptions;
+  source;
+  url;
+  lastResultCount;
+  verbose;
+  debug;
+
+  set lastResults(results) {
+    if (Array.isArray(results)) {
+      this.#lastRawResults = results;
+      this.#lastResults = results.map(r=>new Item(r));
+      this.lastResultCount =
+        results && results.pagination && results.pagination.total
+          ? results.pagination.total
+          : 0;
+    }
+  }
+  get lastResults() {
+    return this.#lastResults;
+  }
+
+  constructor(config) {
+    super();
+    this.#config = { ...poolDefaults, ...config };
+    this.attributes = this.#config.attributes;
+    this.description = this.#config.description;
+    this.id = this.#config.id;
+    this.mode = this.#config.mode;
+    this.name = this.#config.name;
+    this.sortOptions = this.#config["sort_options"];
+    this.source = this.#config.source;
+    this.url = this.#config.url;
+    this.verbose = this.#config.verbose;
+    this.debug = this.#config.debug;
+    if (!this.url ) {
+      throw "A Pool needs to be initilized with at least a url so we know where to look for stuff";
+    }
+  }
+
+  get _queryparams() {
+    return `${(this.verbose || this.debug)?'?':''}${this.verbose?'verbose=1&':''}${this.debug?'debug=1':''}`;
+  }
+
+
+  fetchResults(config) {
+    let params = { ...this.searchDefaults, ...config };
+    return this.authorize().then((token) => {
+      // Lets get some results 
+      return fetch(`${this.url}${searchPath}${this._queryparams}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          query: `keyword: {${params.keyword}}`,
+          pagination: { start: params.start, rows: params.rows },
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          this.lastKeyword = params.keyword;
+          this.lastStart = params.start;
+          this.lastRows = params.rows;
+          this.lastConfidence = data.confidence;
+          this.lastResultCount = data.total_hits;
+          this.lastResults = data.group_list;  
+          return data;
+        });
+    });
+  }
+}

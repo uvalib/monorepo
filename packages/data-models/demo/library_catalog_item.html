@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, minimum-scale=1"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@uvalib/web-styles/css/styles.css"
+    />
+  </head>
+  <body>
+    <code></code>
+    <script type="module">
+      let code = document.querySelector("code");
+      let dividerWidth = 75;
+      function writeOutJSON(json){
+        writeOutLn(`<pre>${JSON.stringify(json, null, 4)}</pre>`);
+      }
+      function writeOutHeader(header){
+        writeOutLn();writeOutLn();
+        writeOutDivider('#');
+        writeOutLn(header);
+        writeOutDivider('#');
+        writeOutLn();
+      }
+      function writeOutDivider(char = '-') {
+        writeOutLn( new Array(dividerWidth + 1).join( char ) );
+      }
+      function writeOutLn(str="") {
+        code.innerHTML += `${str}<br />`;
+      }
+
+      import { Catalog } from "../lib/catalog.js";
+      let demo = async () => {
+            let catalog = new Catalog();
+            writeOutHeader("Demo of the Pool (Virgo Pool) library (creating a new Pool instance by name only)");
+            let allPools = await catalog.poolsPromise; // Get the Pools from the Catalog
+            let catalogPool = allPools.uva_library; // Get the Pool that you want
+            catalogPool.debug = true;
+            catalogPool.verbose = true;
+            await catalogPool
+              .fetchResults({ rows: 10, keyword: "The Book of Three" })
+              .then((res) => {
+catalogPool.lastResults.forEach(item=>{
+  item.fetchItem();
+})
+              });          
+      };
+
+      demo();
+    </script>
+  </body>
+</html>
