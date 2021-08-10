@@ -43,5 +43,5 @@
     "rollup-plugin-multi-input": "^1.3.1",
     "rollup-plugin-node-resolve": "^5.2.0"
   },
-  "gitHead": "db0835cb06267e6bb7c7247007954971606b11de"
+  "gitHead": "7c0c78247829ffcad1caa515732da8d15749721d"
 }
