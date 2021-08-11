@@ -1,6 +1,7 @@
 import { LitElement, html, css } from 'lit-element';
 import '@uvalib/uvalib-page/uvalib-page.js';
 import '@spectrum-web-components/bundle/elements.js';
+import { Overlay } from '@spectrum-web-components/overlay';
 import { Sirsi } from '@uvalib/data-models/lib/sirsi.js';
 import { formatRelative, formatISO9075 } from 'date-fns';
 
@@ -16,7 +17,7 @@ export class BarcodeFillHold extends LitElement {
       autoPrint: { type: Boolean },
       holdRequests: { type: Array },
       _dialogHeading: { type: String },
-      _dialogBody: { type: String },
+      _dialogBody: { type: String }
     };
   }
 
@@ -24,10 +25,11 @@ export class BarcodeFillHold extends LitElement {
     let oldVal = this._authenticated;
     this._authenticated = val;
     this.requestUpdate('authenticated', oldVal);
-    if (val) {
+    let barcodeform = this.shadowRoot.getElementById('barcodeform');
+    if (val && barcodeform) {
       this.shadowRoot.getElementById('barcodeform').removeAttribute('hidden');
       this.shadowRoot.getElementById('barcode').focus();
-    } else {
+    } else if (barcodeform) {
       this.shadowRoot.getElementById('barcodeform').setAttribute('hidden', '');
     }
   }
@@ -39,6 +41,7 @@ export class BarcodeFillHold extends LitElement {
   set dummyMode(val) {
     let oldVal = this._dummyMode;
     this._dummyMode = val;
+    this.authenticated = false;
     this.requestUpdate('dummyMode', oldVal);
     if (this.sirsi) this.sirsi.dummyMode = val;
   }
@@ -57,9 +60,6 @@ export class BarcodeFillHold extends LitElement {
         max-width: 960px;
         margin: 0 auto;
       }
-      vaadin-virtual-list {
-        margin-top: 15px;
-      }
 
       .hold {
         margin-top: 15px;
@@ -73,9 +73,6 @@ export class BarcodeFillHold extends LitElement {
       }
       sp-button-group {
         padding-top: 15px;
-      }
-      sp-accordion {
-        padding-top: 25px;
       }
       sp-popover {
         z-index: 10;
@@ -100,6 +97,9 @@ export class BarcodeFillHold extends LitElement {
         :host sp-underlay {
           display: none !important;
         }
+        dl {
+          page-break-after: always;
+        }
       }
     `;
   }
@@ -111,6 +111,7 @@ export class BarcodeFillHold extends LitElement {
     this._userID = '';
     this._userPass = '';
     this.dummyMode = false;
+    this.autoPrint = true;
     this.sirsi = new Sirsi({ dummyMode: this.dummyMode });
     this.holdRequests = [];
 
@@ -133,29 +134,41 @@ export class BarcodeFillHold extends LitElement {
           </sp-popover>
           <div class="logo"></div>
           <h1>${this.title}</h1>
-          <div>
-            <sp-switch
-              label="Dummy Mode ${this.dummyMode ? 'On' : 'Off'}"
-              @change="${() => {
-                this.dummyMode = !this.dummyMode;
-              }}"
-              value="${this.dummyMode ? 'on' : 'off'}"
-              ?checked="${this.dummyMode}"
-              >Dummy Mode ${this.dummyMode ? 'On' : 'Off'}</sp-switch
-            >
-            ${this.dummyMode ? "(Try 'error' or 'override')" : ''}
-          </div>
-          <div>
-            <sp-switch
-              label="Auto Print ${this.autoPrint ? 'On' : 'Off'}"
-              @change="${() => {
-                this.autoPrint = !this.autoPrint;
-              }}"
+
+          <sp-button
+          variant="secondary"
+          @click="${e=>{
+            const trigger = e.target;
+            const interaction = 'modal';
+            const content = e.target.nextElementSibling;
+            const options = {
+                offset: 0,
+                placement: 'none',
+                receivesFocus: 'auto',
+            };
+            Overlay.open(
+                trigger, 
+                interaction,
+                content,
+                options
+            );
+          }}
+          ">Options</sp-button>
+      <sp-tray>
+        <sp-dialog size="small" dismissable>
+          <h2 slot="heading">Options</h2>
+          <sp-field-group vertical>          
+            <sp-switch label="Auto Print ${this.autoPrint ? 'On' : 'Off'}"
+              @change="${() => { this.autoPrint = !this.autoPrint; }}"
               value="${this.autoPrint ? 'on' : 'off'}"
-              ?checked="${this.autoPrint}"
-              >Auto Print ${this.autoPrint ? 'On' : 'Off'}</sp-switch
-            >
-          </div>
+              ?checked="${this.autoPrint}">Auto Print ${this.autoPrint ? 'On' : 'Off'}</sp-switch>
+            <sp-switch label="Dummy Mode ${this.dummyMode ? 'On' : 'Off'}"
+              @change="${() => { this.dummyMode = !this.dummyMode; }}"
+              value="${this.dummyMode ? 'on' : 'off'}"
+              ?checked="${this.dummyMode}">Dummy Mode ${this.dummyMode ? 'On' : 'Off'}</sp-switch>
+          </sp-field-group>
+        </sp-dialog>
+      </sp-tray>
 
           <div id="login" ?hidden="${this.authenticated}">
             <sp-field-label for="userid">Sirsi Staff UserID</sp-field-label>
@@ -184,7 +197,7 @@ export class BarcodeFillHold extends LitElement {
           </div>
           <div id="barcodeform" ?hidden="${!this.authenticated}">
             <sp-field-label for="barcode"
-              >Enter Barcode for Hold</sp-field-label
+              >Enter Barcode for Hold ${this.dummyMode ? "(Try 'error' or 'override')" : ''}</sp-field-label
             >
             <sp-textfield
               @keyup="${this._trackBarcodeEnter}"
@@ -192,6 +205,8 @@ export class BarcodeFillHold extends LitElement {
               id="barcode"
               placeholder="Enter Barcode for Hold"
             ></sp-textfield>
+
+            <sp-button @click="${this._printAll}" ?hidden="${!this._isItemsToPrint()}">Print All</sp-button>
 
             <div id="listing">
               ${this.holdRequests.map((item,index)=>html`
@@ -285,16 +300,17 @@ export class BarcodeFillHold extends LitElement {
           `;
         } else {
           this._dialogHeading = 'Error';
-          this._dialogBody = res.hold.error_messages.join('<br />');
+          this._dialogBody = res.hold.error_messages.map(m=>m.message?m.message:m).join('<br />');
         }
         this.shadowRoot.querySelector('sp-popover').setAttribute('open', '');
       } else {
         this.shadowRoot.getElementById('barcode').value = '';
         this.lastBarcodeResult = res;
         if (this.autoPrint) {
-          this._formatPrint(res);
+          this.shadowRoot.getElementById('printView').innerHTML = this._formatPrint(res);
           res.printed = true;
           window.print();
+          this.working = false;
         } else {
           this.working = false;
         }
@@ -320,7 +336,6 @@ export class BarcodeFillHold extends LitElement {
   }
   _beforePrint() {
     console.log('getting ready to print');
-    this.working = true;
   }
   _afterPrint() {
     console.log('print dialog closed');
@@ -332,33 +347,32 @@ export class BarcodeFillHold extends LitElement {
   }
   _printByIndex(index) {
     if (this.holdRequests[index]) {
-      this._formatPrint(this.holdRequests[index]);
+      this.shadowRoot.getElementById('printView').innerHTML = this._formatPrint(this.holdRequests[index]);
       this.holdRequests[index].printed = true;
       window.print();
+      this.holdRequests = this.holdRequests.slice(); // get a shallow copy to notify
+      this.working = false;
     }
   }
+  _isItemsToPrint() {
+    return this.holdRequests.find(i=>i.hold && !i.printed);
+  }
+  _printAll() {
+    this.shadowRoot.getElementById('printView').innerHTML = '';
+    this.holdRequests.filter(r=>!r.printed).forEach(i=>{
+      this.shadowRoot.getElementById('printView').innerHTML += this._formatPrint(i);
+      i.printed = true;
+    });
+    window.print();
+    this.holdRequests = this.holdRequests.slice(); // get a shallow copy to notify
+    this.working - false;
+  }
   _formatPrint(res) {
-    this.shadowRoot.getElementById('printView').innerHTML = `
+    return `
     <dl>
     ${
-      res.timestamp
-        ? `<dt>Timestamp</dt><dd>${formatISO9075(res.timestamp)}</dd>`
-        : ''
-    }
-    ${
-      res.hold.user_full_name
-        ? `<dt>Patron</dt><dd>${res.hold.user_full_name} (${res.hold.user_id})</dd>`
-        : ''
-    }
-    ${
-      res.hold.pickup_location
-        ? `<dt>Pickup Location</dt><dd>${res.hold.pickup_location}</dd>`
-        : ''
-    }
-    ${res.hold.item_id ? `<dt>Item ID</dt><dd>${res.hold.item_id}</dd>` : ''}
-    ${
       res.user.Department
-        ? `<dt>Department</dt><dd>${res.user.Department}</dd>`
+        ? `<dt>Department</dt><dd><strong>${res.user.Department}</strong></dd>`
         : ''
     }
     ${res.user.Country ? `<dt>Country</dt><dd>${res.user.Country}</dd>` : ''}
@@ -367,8 +381,24 @@ export class BarcodeFillHold extends LitElement {
         ? `<dt>Organization</dt><dd>${res.user.Organization}</dd>`
         : ''
     }
-    ${res.user.Status ? `<dt>Status</dt><dd>${res.user.Status}</dd>` : ''}
+    ${res.user.Status ? `<dt>Status</dt><dd><strong>${res.user.Status}</strong></dd>` : ''}
     ${res.user.Fax ? `<dt>Fax</dt><dd>${res.user.Fax}</dd>` : ''}
+    ${
+      res.hold.user_full_name
+        ? `<dt>Patron</dt><dd>${res.hold.user_full_name} (${res.hold.user_id})</dd>`
+        : ''
+    }
+    ${res.hold.item_id ? `<dt>Item ID</dt><dd>${res.hold.item_id}</dd>` : ''}
+    ${
+      res.timestamp
+        ? `<dt>Timestamp</dt><dd>${formatISO9075(res.timestamp)}</dd>`
+        : ''
+    }
+    ${
+      res.hold.pickup_location
+        ? `<dt>Pickup Location</dt><dd>${res.hold.pickup_location}</dd>`
+        : ''
+    }
     </dl>  
     `;
   }
