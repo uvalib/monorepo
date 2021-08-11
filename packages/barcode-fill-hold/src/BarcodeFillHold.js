@@ -56,8 +56,18 @@ export class BarcodeFillHold extends LitElement {
         justify-content: flex-start;
         max-width: 960px;
         margin: 0 auto;
-        /*        text-align: center; */
       }
+      vaadin-virtual-list {
+        margin-top: 15px;
+      }
+
+      .hold {
+        margin-top: 15px;
+      }
+      .hold .title {
+        
+      }
+
       #printView {
         display: none;
       }
@@ -77,6 +87,7 @@ export class BarcodeFillHold extends LitElement {
 
       @media print {
         :host {
+          min-height: inherit !important;
           align-items: left !important;
           text-align: left !important;
         }
@@ -182,13 +193,13 @@ export class BarcodeFillHold extends LitElement {
               placeholder="Enter Barcode for Hold"
             ></sp-textfield>
 
-            <sp-accordion>
-              ${this.holdRequests.map(
-                (res, index) => html`
-                  <sp-accordion-item label="${res.hold.title}">
-                    <div>
-                      <sp-button-group index="${index}">
-                        ${!res.printed
+            <div id="listing">
+              ${this.holdRequests.map((item,index)=>html`
+                <div class="hold">
+                  <div class="title">#${index+1}: ${item.hold.title}</div>
+                  <div>
+                    <sp-button-group index="${index}">
+                        ${!item.printed
                           ? html`
                               <sp-button
                                 @click="${e => {
@@ -218,20 +229,13 @@ export class BarcodeFillHold extends LitElement {
                                 >Clear</sp-button
                               >
                             `}
-                        <!--
-                        <sp-button @click="${function () {
-                          this._closeDialog();
-                          this._processBarcode(true);
-                        }.bind(this)}">Continue</sp-button>
-                        <sp-button @click="${this
-                          ._closeDialog}" variant="secondary">Cancel</sp-button>
--->
-                      </sp-button-group>
-                    </div>
-                  </sp-accordion-item>
-                `
-              )}
-            </sp-accordion>
+                    </sp-button-group>
+                  </div>
+                </div>
+                <hr />
+              `)}
+            </div>
+
           </div>
           <sp-underlay ?open="${this.working}"></sp-underlay>
         </sp-theme>
