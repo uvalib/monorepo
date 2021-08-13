@@ -7,10 +7,7 @@ import '@uvalib/uvalib-button/uvalib-button.js';
 export class UvalibCatalogLightResults extends observeState(LitElement) {
   static get properties() {
     return {
-      searching: {type: Boolean},
-      basicSearch: {type: Boolean},
-      hasresults: {type: Boolean},
-      iskiosk: {type: Boolean}
+      showSummary: {type:Boolean}
     };
   }
 
@@ -23,32 +20,38 @@ export class UvalibCatalogLightResults extends observeState(LitElement) {
   }
 
   constructor() {
-    super();
-    this.searching = false;
-    this.basicSearch = true;
-    this.hasresult = false;
-    this.iskiosk = false;
+   super();
+   this.showSummary = true;
   }
 
   firstUpdated() {
   }
 
+  _resetSearch() {
+   catalogState.searching=false;
+   catalogState.basicSearch=true;
+   catalogState.hasresults=false;
+   catalogState.userSearched=false;
+   catalogState.rawQueryString="";
+   catalogState.pools=null;
+  }
+
   render() {
     return html`
-<div ?hidden="${!this.hasresults}" tabindex="-1" id="results-container" class="search-results" aria-describedby="search-summary">
-    <div class="results-header" role="heading" aria-level="2">
-       <template v-if="showSummary">
-          <div id="search-summary" class="summary">
-             <div class="query">Showing {{$utils.formatNum(total)}} results for:</div>
-             <div class="qs">{{queryString}}</div>
-          </div>
-          <span class="buttons" role="toolbar">
-             <V4Button mode="text" @click="resetSearch" >Reset Search</V4Button>
-             <SaveSearch v-if="isSignedIn"/>
-             <SignInRequired v-else id="save-signin-modal" act="save-search"/>
-          </span>
-       </template>
-    </div>
+<div ?hidden="${!catalogState.hasresults}" tabindex="-1" id="results-container" class="search-results" aria-describedby="search-summary">
+   <div class="results-header" role="heading" aria-level="2">
+      ${(this.showSummary && catalogState.pools)? html`
+         <div id="search-summary" class="summary">
+            <div class="query">Showing ${catalogState.pools.uva_library.lastResultCount.toLocaleString()} results for:</div>
+            <div class="qs">keyword: ${catalogState.pools.uva_library.lastKeyword}</div>
+         </div>
+         <span class="buttons" role="toolbar">
+            <uvalib-button mode="text" @click="${this._resetSearch}" >Reset Search</uvalib-button>
+            <SaveSearch v-if="isSignedIn"/>
+            <SignInRequired v-else id="save-signin-modal" act="save-search"/>
+         </span>      
+      `:''}
+   </div>
 
     <div class="results-wrapper" >
        <FacetSidebar />

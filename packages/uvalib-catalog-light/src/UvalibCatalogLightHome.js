@@ -50,6 +50,7 @@ export class UvalibCatalogLightHome extends observeState(LitElement) {
       catalogState.pools = {...catalogState.pools, lastTs:new Date() };
       catalogState.hasresults = catalogState.pools.uva_library.lastResults.length > 0;
       catalogState.searching = false;
+console.log(catalogState.pools.uva_library)      
     });
   }
 
@@ -68,6 +69,7 @@ export class UvalibCatalogLightHome extends observeState(LitElement) {
             type="text"
             id="search"
             placeholder="Search Virgo for books, articles, and more"
+            .value="${catalogState.rawQueryString}"
           >
           <uvalib-button @click="${this._submitSearch}" class="search" mode="primary">Search</uvalib-button>
       </div>

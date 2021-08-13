@@ -31,13 +31,11 @@ export class Pool extends ApiBase {
   debug;
 
   set lastResults(results) {
-    if (Array.isArray(results)) {
-      this.#lastRawResults = results;
-      this.#lastResults = results.map(r=>new Item(r));
-      this.lastResultCount =
-        results && results.pagination && results.pagination.total
-          ? results.pagination.total
-          : 0;
+    if (results.group_list) {
+      this.lastConfidence = results.confidence;
+      this.lastResultCount = results.pagination.total;
+      this.#lastRawResults = results.group_list;
+      this.#lastResults = results.group_list.map(r=>new Item(r));
     }
   }
   get lastResults() {
@@ -84,12 +82,11 @@ export class Pool extends ApiBase {
       })
         .then((res) => res.json())
         .then((data) => {
+console.log(data);      
           this.lastKeyword = params.keyword;
           this.lastStart = params.start;
           this.lastRows = params.rows;
-          this.lastConfidence = data.confidence;
-          this.lastResultCount = data.total_hits;
-          this.lastResults = data.group_list;  
+          this.lastResults = data;  
           return data;
         });
     });
