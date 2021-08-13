@@ -1,0 +1,5 @@
+import { css } from 'lit-element';
+export default css`
+@import url("https://use.typekit.net/tgy5tlj.css");.scroll-to-top{fill:#e57200;align-items:center;background-color:#fff;border:2px solid #e57200;border-radius:50%;bottom:30px;box-shadow:0 2px 2px 0 rgba(0,0,0,.14);box-sizing:border-box;color:#e57200;cursor:pointer;display:flex;flex-basis:auto;flex-direction:column;font-size:2.9em;font-weight:100;height:56px;justify-content:center;min-width:0;opacity:0;padding:0 0 4px;position:fixed;right:25px;transition:opacity .25s ease-in-out;width:56px;z-index:9999}.scroll-to-top[show]{opacity:1}.scroll-to-top:hover{fill:#fff;background-color:#e57200;color:#fff}@media screen and (max-width:768px){.scroll-to-top{fill:#e57200;background-color:#fff;border:3px solid #e57200;bottom:45px;color:#e57200;cursor:pointer;font-size:2em;font-weight:100;padding:0 12px;position:fixed;right:5px}}
+/*# sourceMappingURL=src/UvalibScrollToTop.css.map */
+`;

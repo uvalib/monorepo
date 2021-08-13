@@ -18,8 +18,8 @@ import postcss from 'postcss';
 import cssProcessing from './css-processing.cjs';
 import {fileURLToPath} from 'url';
 
-let myArgs = process.argv.slice(2);
-let _cssPath = myArgs[0] ? myArgs[0] : './css/*.css';
+
+//let _cssPath = myArgs[0] ? myArgs[0] : './css/*.css';
 
 const {postCSSPlugins, wrapCSSResult} = cssProcessing;
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -39,10 +39,16 @@ export const processCSS = async (cssPath) => {
   fs.writeFileSync(cssPath + '.js', wrappedCSS, 'utf-8');
 };
 
-const buildCSS = async () => {
+const buildCSS = async (_cssPath) => {
+  console.log(_cssPath)
   for await (const cssPath of globby.stream(_cssPath)) {
     processCSS(cssPath);
   }
 };
 
-buildCSS();
+//buildCSS();
+let myArgs = process.argv.slice(2);
+myArgs.forEach(_cssPath => {
+console.log(_cssPath);  
+  buildCSS(_cssPath);
+});
