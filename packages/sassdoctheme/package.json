@@ -16,6 +16,8 @@
   },
   "gitHead": "7c0c78247829ffcad1caa515732da8d15749721d",
   "devDependencies": {
-    "prettier": "^2.3.2"
+    "prettier": "^2.3.2",
+    "rimraf": "^3.0.2",
+    "sass": "^1.37.5"
   }
 }

@@ -32,6 +32,8 @@
     "@11ty/eleventy": "^0.12.1",
     "@11ty/eleventy-cache-assets": "^2.3.0",
     "prettier": "^2.3.2",
+    "rimraf": "^3.0.2",
+    "sass": "^1.37.5",
     "striptags": "^3.2.0"
   },
   "dependencies": {

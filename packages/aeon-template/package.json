@@ -7,10 +7,12 @@
     "@web/rollup-plugin-polyfills-loader": "^1.1.0",
     "prettier": "^2.3.2",
     "regenerator-runtime": "^0.13.7",
+    "rimraf": "^3.0.2",
     "rollup": "^2.53.2",
     "rollup-plugin-minify-html-literals": "^1.2.6",
     "rollup-plugin-summary": "^1.3.0",
-    "rollup-plugin-terser": "^7.0.2"
+    "rollup-plugin-terser": "^7.0.2",
+    "sass": "^1.37.5"
   },
   "scripts": {
     "build": "cp ../../node_modules/@uvalib/web-styles/css/styles.css style.css && rollup -c",
