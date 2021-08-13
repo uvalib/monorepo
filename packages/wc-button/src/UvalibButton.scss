@@ -1,0 +1,77 @@
+@import '@uvalib/web-styles/scss/variables';
+
+button.text-button {
+    border: none;
+    background: none;
+    padding: 0;
+    font-weight: 500;
+    color: var(--color-link);
+    cursor: pointer;
+    display: inline-block;
+    &:hover {
+       opacity: 1;
+       text-decoration: underline;
+    }
+    &:focus {
+       @include be-accessible();
+    }
+ }
+ 
+ button.v4-button.icon-button {
+    border: none;
+    background: none;
+    padding:2px;
+    margin:0;
+    outline: none;
+    &:focus {
+       @include be-accessible();
+    }
+ }
+ .link-button {
+   border-radius: 5px;
+   font-weight: normal;
+   text-transform: uppercase;
+   background-color: var(--uvalib-brand-orange);
+   color: white;
+   border: none;
+   padding: 10px 12px;
+    &:hover  {
+       background-color: var(--uvalib-grey-light);
+       color: var(--uvalib-text-dark);
+    }
+    &:focus {
+       @include be-accessible();
+    }
+ }
+ .pure-button.pure-button-primary, .pure-button.pure-button-small {
+    background-color: var(--uvalib-brand-blue-light);
+    border: 1px solid var(--uvalib-brand-blue-light);
+    &:hover {
+       background-color: var(--uvalib-brand-blue-lighter);
+       border: 1px solid var(--uvalib-brand-blue-lighter);
+       transition: all 0.3s ease;
+    }
+ }
+ 
+ .pure-button.pure-button-tertiary {
+    background-color: var(--uvalib-grey-lightest);
+    border: 1px solid var(--uvalib-grey);
+    color: black;
+ }
+ .pure-button.pure-button-tertiary:hover {
+    background-color: var(--uvalib-grey-light);
+ }
+ .pure-button.pure-button-primary,
+ .pure-button.pure-button-small,
+ .pure-button.pure-button-tertiary {
+    margin: 0 0 5px 10px;
+    border-radius: 5px;
+    font-weight: normal;
+    &:focus {
+       @include be-accessible();
+    }
+ }
+ .pure-button.disabled {
+    cursor: default;
+    opacity: 0.25;
+ }
