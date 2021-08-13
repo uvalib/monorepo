@@ -2,12 +2,13 @@ import { LitElement, html, css } from 'lit-element';
 import style from './UvalibCatalogLightHome.css.js';
 import { catalogState } from './UvalibCatalogLightState.js';
 import { observeState } from 'lit-element-state';
+import { Catalog } from '@uvalib/data-models/lib/catalog.js';
 import '@uvalib/uvalib-button/uvalib-button.js';
 
 export class UvalibCatalogLightHome extends observeState(LitElement) {
   static get properties() {
     return {
-
+      catalog: {type: Object}
     };
   }
 
@@ -25,6 +26,13 @@ export class UvalibCatalogLightHome extends observeState(LitElement) {
     catalogState.basicSearch = true;
     catalogState.hasresults = false;
     catalogState.iskiosk = false;
+    this._setupCatalog();
+  }
+
+  _setupCatalog(dev=false) {
+    this.catalog = new Catalog();
+    this.catalog.poolsPromise
+      .then(pools=> catalogState.pools=pools);       
   }
 
   firstUpdated() {
@@ -35,7 +43,14 @@ export class UvalibCatalogLightHome extends observeState(LitElement) {
   }
 
   _submitSearch(e) {
-    console.log("search submitted");
+    catalogState.rawQueryString = this.shadowRoot.getElementById('search').value;
+    catalogState.userSearched = true;
+    catalogState.searching = true;
+    catalogState.pools.uva_library.fetchResults({ rows: 10, keyword: catalogState.rawQueryString }).then(res => {
+      catalogState.pools = {...catalogState.pools, lastTs:new Date() };
+      catalogState.hasresults = catalogState.pools.uva_library.lastResults.length > 0;
+      catalogState.searching = false;
+    });
   }
 
   render() {

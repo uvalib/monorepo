@@ -1,8 +1,10 @@
 import { LitElement, html, css } from 'lit-element';
 import style from './UvalibCatalogLightResults.css.js';
+import { catalogState } from './UvalibCatalogLightState.js';
+import { observeState } from 'lit-element-state';
 import '@uvalib/uvalib-button/uvalib-button.js';
 
-export class UvalibCatalogLightResults extends LitElement {
+export class UvalibCatalogLightResults extends observeState(LitElement) {
   static get properties() {
     return {
       searching: {type: Boolean},
@@ -34,7 +36,6 @@ export class UvalibCatalogLightResults extends LitElement {
   render() {
     return html`
 <div ?hidden="${!this.hasresults}" tabindex="-1" id="results-container" class="search-results" aria-describedby="search-summary">
-    <SearchSuggestions />
     <div class="results-header" role="heading" aria-level="2">
        <template v-if="showSummary">
           <div id="search-summary" class="summary">
@@ -59,7 +60,7 @@ export class UvalibCatalogLightResults extends LitElement {
              >
                 <span>
                    <span class="pool">{{r.pool.name}}</span>
-                   <span :aria-label="`has ${r.total} results`" class="total">({{$utils.formatNum(r.total) || '0'}})</span>
+                   <span :aria-label="${`has r.total results`}" class="total">({{$utils.formatNum(r.total) || '0'}})</span>
                 </span>
              </V4Button>
              <V4Select v-if="results.length > maxTabs" :selections="otherSources" v-bind:attached="false" pad="4px 8px"

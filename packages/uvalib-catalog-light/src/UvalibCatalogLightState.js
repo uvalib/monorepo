@@ -7,7 +7,9 @@ class UvalibCatalogLightState extends LitState {
             basicSearch:true,
             hasresults:false,
             iskiosk:false,
-            authorizing:false
+            authorizing:false,
+            userSearched:false,
+            rawQueryString:""
         };
     }
 }
