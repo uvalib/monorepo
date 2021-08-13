@@ -12,6 +12,7 @@ export class Item extends ApiBase {
     this.raw_item = raw;
     this.fields = {};
     this.id = [];
+    this.title = [];
     // parse things out a bit
     if ( raw.record_list && Array.isArray(raw.record_list) ) {
       this.records = raw.record_list;
@@ -20,6 +21,7 @@ export class Item extends ApiBase {
           rec.fields.forEach(field => {
             this.fields[field.name] = field;
             if (field.name === 'id') this.id.push(field.value);
+            if (field.type === 'title') this.title.push(field.value);
           });
         }        
       });

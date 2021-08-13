@@ -11,6 +11,7 @@ export class UvalibPage extends LitElement {
     return {
       hassidebar: { type: Boolean },
       nolinks: { type: Boolean },
+      nofooter: { type: Boolean },
       nolightdomstyle: { type: Boolean },
     };
   }

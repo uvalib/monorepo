@@ -73,9 +73,6 @@ export class UvalibLogos extends LitElement {
 
   evalBackgroundColor() {
     this._backgroundColor = this.realBackgroundColor(this);
-    console.info(
-      `Found the background of the uvalib-logos to be ${this._backgroundColor}`
-    );
     this._dark = this.lightOrDark(this._backgroundColor) != 'dark';
   }
 
