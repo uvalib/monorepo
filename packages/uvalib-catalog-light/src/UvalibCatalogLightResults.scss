@@ -1,0 +1,151 @@
+@import '@uvalib/web-styles/scss/variables';
+
+::part(other-src) {
+   display: flex;
+   flex-flow: row nowrap;
+   align-items: center;
+   justify-content: flex-start;
+   padding:0;
+   margin:0;
+   .total {
+      margin-left: auto;
+   }
+   .total.error {
+      color: $red-emergency;
+      font-weight: bold;
+   }
+   .pool {
+      margin-right: 5px;
+   }
+}
+
+.results-main {
+   display: inline-block;
+   flex: 1 1 70%;
+}
+
+.search-results  {
+   box-sizing: border-box;
+   outline: 0;
+   background-color: $grey-lightest;
+}
+
+.results-header {
+   display: flex;
+   flex-flow: row wrap;
+   align-content: center;
+   align-items: center;
+   justify-content: space-between;
+   padding-top: 10px;
+   margin-bottom: 10px;
+   .summary {
+      margin: 0 0 0.2vw 0;
+      font-weight: 500;
+      text-align: left;
+      .qs {
+         margin-left:15px;
+         font-style: italic;
+         font-weight: 100;
+      }
+      span {
+         font-size: 0.85em;
+      }
+      .subtotal {
+         display: block;
+         margin: 2px 0 2px 15px;
+      }
+      .query {
+         text-align: left;
+         margin: 0 0 0.2vw 0;
+         font-weight: bold;
+         font-size: 1.1em;
+      }
+   }
+   .buttons {
+      display: flex;
+      flex-flow: row nowrap;
+   }
+}
+
+
+div.pool-tabs {
+   font-weight: bold;
+   margin: 0;
+   text-align: left;
+   display: flex;
+   flex-flow: row wrap;
+   justify-content: flex-start;
+   span.total {
+      display: block;
+      font-size: 0.75em;
+      margin: 0;
+      font-weight: normal;
+   }
+   .v4-select {
+      margin: 0 -1px 2px 0;
+      border-radius: 5px 5px 0 0;
+      flex: 1 1 auto;
+   }
+}
+
+.pool-tabs .pool.v4-button {
+   margin: 0;
+   padding: 8px 8px 10px 8px;
+   border-radius: 5px 5px 0 0;
+   color: $text-dark;
+   border: 1px solid $grey-light;
+   text-align: left;
+   flex: 1 1 auto;
+   background: $white;
+   outline: none;
+   &:focus {
+      z-index: 1;
+      &:focus {
+         @include be-accessible();
+      }
+   }
+}
+.pool.v4-button:first-child {
+  margin-left: 4px;
+}
+.pool.v4-button.showing {
+   background-color: $brand-blue;
+   color: $white;
+}
+.pool.v4-button.disabled.failed {
+   background: $red-emergency;
+   color: white;
+   opacity: 0.5;
+}
+.pool-tabs .pool.v4-button:last-child {
+   margin-right: -1px;
+}
+
+
+@media only screen and (min-width: $breakpoint-mobile) {
+   div.search-results {
+      margin: 0;
+      padding: 0 5vw 20px 5vw;
+   }
+}
+@media only screen and (max-width: $breakpoint-mobile) {
+   div.search-results {
+      margin: 0;
+      padding: 0 2vw 20px 2vw;
+   }
+   .pool.v4-button:first-child {
+      margin-left: -1px;
+   }
+}
+.results-wrapper {
+   display: flex;
+   flex-flow: row wrap;
+   justify-content: space-between;
+}
+.none {
+   flex: 1 1 auto;
+   font-size: 1.5em;
+   font-weight: 500;
+   padding-bottom: 150px;
+   color: $text;
+}

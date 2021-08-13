@@ -5,7 +5,7 @@ button.text-button {
     background: none;
     padding: 0;
     font-weight: 500;
-    color: var(--color-link);
+    color: $color-link;
     cursor: pointer;
     display: inline-block;
     &:hover {
@@ -31,35 +31,35 @@ button.text-button {
    border-radius: 5px;
    font-weight: normal;
    text-transform: uppercase;
-   background-color: var(--uvalib-brand-orange);
-   color: white;
+   background-color: $brand-orange;
+   color: $white;
    border: none;
    padding: 10px 12px;
     &:hover  {
-       background-color: var(--uvalib-grey-light);
-       color: var(--uvalib-text-dark);
+       background-color: $grey-light;
+       color: $text-dark;
     }
     &:focus {
        @include be-accessible();
     }
  }
  .pure-button.pure-button-primary, .pure-button.pure-button-small {
-    background-color: var(--uvalib-brand-blue-light);
-    border: 1px solid var(--uvalib-brand-blue-light);
+    background-color: $brand-blue-light;
+    border: 1px solid $brand-blue-light;
     &:hover {
-       background-color: var(--uvalib-brand-blue-lighter);
-       border: 1px solid var(--uvalib-brand-blue-lighter);
+       background-color: $brand-blue-lighter;
+       border: 1px solid $brand-blue-lighter;
        transition: all 0.3s ease;
     }
  }
  
  .pure-button.pure-button-tertiary {
-    background-color: var(--uvalib-grey-lightest);
-    border: 1px solid var(--uvalib-grey);
-    color: black;
+    background-color: $grey-lightest;
+    border: 1px solid $grey;
+    color: $black;
  }
  .pure-button.pure-button-tertiary:hover {
-    background-color: var(--uvalib-grey-light);
+    background-color: $grey-light;
  }
  .pure-button.pure-button-primary,
  .pure-button.pure-button-small,

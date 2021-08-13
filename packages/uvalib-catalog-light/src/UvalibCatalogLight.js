@@ -1,14 +1,15 @@
-//import 'lit-virtualizer';
 import { LitElement, html, css } from 'lit-element';
 import style from './UvalibCatalogLight.css.js';
+import { catalogState } from './UvalibCatalogLightState.js';
+import { observeState } from 'lit-element-state';
 import '@uvalib/uvalib-page/uvalib-page.js';
 import './uvalib-catalog-light-home.js';
 
 
-export class UvalibCatalogLight extends LitElement {
+export class UvalibCatalogLight extends observeState(LitElement) {
   static get properties() {
     return {
-      authorizing:  {type: Boolean},
+//      authorizing:  {type: Boolean},
       iskiosk: {type: Boolean}
     };
   }
@@ -19,12 +20,10 @@ export class UvalibCatalogLight extends LitElement {
   display: none;
 }    
     `,style];
-    this.authorizing = false;
   }
 
   constructor() {
     super();
-    this.authorizing = false;
     this.iskiosk = false;
   }
 
@@ -32,19 +31,20 @@ export class UvalibCatalogLight extends LitElement {
     // These items should be loaded after everything else
     import('@uvalib/uvalib-spinner/uvalib-spinner.js').then(()=>{
       import('@uvalib/uvalib-scroll-to-top/uvalib-scroll-to-top.js');
-    })    
+    })  
+    catalogState.iskiosk = this.iskiosk;  
   }
 
   render() {
     return html`
 
-<uvalib-spinner ?hidden="${!this.authorizing}" message="Authorizing..." overlay></uvalib-spinner>
+<uvalib-spinner ?hidden="${!catalogState.authorizing}" message="Authorizing..." overlay></uvalib-spinner>
 
 <uvalib-page nofooter nolinks>    
   <div tabindex="-1" id="app" role="application">
     <div tabindex="-1" class="v4-content" id="v4-main">
       <h1>Search</h1>
-      <uvalib-catalog-light-home ?iskiosk="${this.iskiosk}"></uvalib-catalog-light-home>
+      <uvalib-catalog-light-home ?iskiosk="${catalogState.iskiosk}"></uvalib-catalog-light-home>
       <uvalib-scroll-to-top></uvalib-scroll-to-top>
     </div>
   </div>

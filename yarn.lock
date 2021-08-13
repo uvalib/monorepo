@@ -10965,6 +10965,11 @@ listr2@^3.2.2, listr2@^3.8.2:
     through "^2.3.8"
     wrap-ansi "^7.0.0"
 
+lit-element-state@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/lit-element-state/-/lit-element-state-1.7.0.tgz#d3163ef845fcbbc4c0271f3d5a00db364300f863"
+  integrity sha512-QL6HWlQkVU14cQbeWjLP/piXXC6e4oEFiRNjE6ulg6WBQPSu9VhM3oaz0xKIwv8MUPTAYCh1obGdiVajD2SmMw==
+
 lit-element@^2.0.0, lit-element@^2.2.1, lit-element@^2.3.1, lit-element@^2.4.0, lit-element@^2.5.1:
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/lit-element/-/lit-element-2.5.1.tgz#3fa74b121a6cd22902409ae3859b7847d01aa6b6"
