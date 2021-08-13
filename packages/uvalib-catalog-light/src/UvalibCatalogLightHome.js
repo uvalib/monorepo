@@ -32,7 +32,10 @@ export class UvalibCatalogLightHome extends observeState(LitElement) {
   _setupCatalog(dev=false) {
     this.catalog = new Catalog();
     this.catalog.poolsPromise
-      .then(pools=> catalogState.pools=pools);       
+      .then(pools=> {
+        catalogState.pools=pools;
+        catalogState.ready=true;
+      });       
   }
 
   firstUpdated() {
@@ -48,7 +51,7 @@ export class UvalibCatalogLightHome extends observeState(LitElement) {
     catalogState.searching = true;
     catalogState.pools.uva_library.fetchResults({ rows: 10, keyword: catalogState.rawQueryString }).then(res => {
       catalogState.pools = {...catalogState.pools, lastTs:new Date() };
-      catalogState.hasresults = catalogState.pools.uva_library.lastResults.length > 0;
+      catalogState.hasresults = (catalogState.pools.uva_library.lastResults)? catalogState.pools.uva_library.lastResults.length > 0: false;
       catalogState.searching = false;
 console.log(catalogState.pools.uva_library)      
     });
@@ -68,6 +71,7 @@ console.log(catalogState.pools.uva_library)
             autocomplete="off"
             type="text"
             id="search"
+            ?disabled=${!catalogState.ready}
             placeholder="Search Virgo for books, articles, and more"
             .value="${catalogState.rawQueryString}"
           >
