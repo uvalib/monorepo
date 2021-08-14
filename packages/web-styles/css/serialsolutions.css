@@ -1,4 +1,4 @@
-@import url('https://use.typekit.net/tgy5tlj.css');
+@import url("https://use.typekit.net/tgy5tlj.css");
 /* small media width */
 :root {
   --uvalib-brand-blue-lightest: #87b9d9;
@@ -45,10 +45,10 @@
   --uvalib-color-link-darker: #005679;
   --uvalib-color-primary-text: #4f4f4f;
   --uvalib-color-error: #b30000;
-  font-family: 'franklin-gothic-urw', arial, sans-serif;
+  font-family: "franklin-gothic-urw", arial, sans-serif;
   font-weight: 300;
   margin-top: 1em;
-  margin-bottom: calc(1em / 4);
+  margin-bottom: calc(1em/ 4);
   text-transform: none;
   color: #4f4f4f;
 }
@@ -62,45 +62,45 @@
 
 h1,
 .h1 {
-  font-family: 'franklin-gothic-urw', arial, sans-serif;
+  font-family: "franklin-gothic-urw", arial, sans-serif;
   font-weight: 700;
-  font-size: calc(16px * 3.75);
-  line-height: calc(16px * 3.75);
+  font-size: calc(16px* 3.75);
+  line-height: calc(16px* 3.75);
   color: #232d4b;
-  margin-top: calc(1em / 4);
-  margin-bottom: calc(1em / 1.5);
+  margin-top: calc(1em/ 4);
+  margin-bottom: calc(1em/ 1.5);
 }
 
 h2,
 .h2 {
-  font-family: 'franklin-gothic-urw', arial, sans-serif;
+  font-family: "franklin-gothic-urw", arial, sans-serif;
   font-weight: 500;
-  font-size: calc(16px * 2);
-  line-height: calc(16px * 2);
+  font-size: calc(16px* 2);
+  line-height: calc(16px* 2);
   color: #232d4b;
 }
 
 h3,
 .h3 {
-  font-family: 'franklin-gothic-urw', arial, sans-serif;
+  font-family: "franklin-gothic-urw", arial, sans-serif;
   font-weight: 500;
-  font-size: calc(16px * 1.5);
-  line-height: calc(16px * 1.5);
+  font-size: calc(16px* 1.5);
+  line-height: calc(16px* 1.5);
   color: #232d4b;
 }
 
 h4,
 .h4 {
-  font-family: 'franklin-gothic-urw', arial, sans-serif;
+  font-family: "franklin-gothic-urw", arial, sans-serif;
   font-weight: 500;
-  font-size: calc(16px * 1.25);
-  line-height: calc(16px * 1.25);
+  font-size: calc(16px* 1.25);
+  line-height: calc(16px* 1.25);
   color: #232d4b;
 }
 
 h5,
 .h5 {
-  font-family: 'franklin-gothic-urw', arial, sans-serif;
+  font-family: "franklin-gothic-urw", arial, sans-serif;
   font-weight: 500;
   font-size: 16px;
   line-height: 16px;
@@ -109,7 +109,7 @@ h5,
 
 h6,
 .h6 {
-  font-family: 'franklin-gothic-urw', arial, sans-serif;
+  font-family: "franklin-gothic-urw", arial, sans-serif;
   font-weight: 400;
   font-size: 16px;
   line-height: 16px;

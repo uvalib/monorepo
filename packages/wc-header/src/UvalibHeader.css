@@ -1,11 +1,11 @@
-@import url('https://use.typekit.net/tgy5tlj.css');
+@import url("https://use.typekit.net/tgy5tlj.css");
 /* small media width */
 :host {
   display: block;
   padding: 0;
   margin: 0;
   width: 100%;
-  font-family: 'franklin-gothic-urw', arial, sans-serif;
+  font-family: "franklin-gothic-urw", arial, sans-serif;
   font-weight: 500;
 }
 
@@ -29,7 +29,7 @@ header {
 }
 
 #container a {
-  padding: calc(1em * 0.625);
+  padding: calc(1em* 0.625);
 }
 
 .spacer {

@@ -1,4 +1,4 @@
-@import url('https://use.typekit.net/tgy5tlj.css');
+@import url("https://use.typekit.net/tgy5tlj.css");
 /* small media width */
 :host {
   display: block;
@@ -35,6 +35,12 @@ main {
   padding-top: 1em;
   padding-left: 1em;
   padding-right: 1em;
+}
+
+@media print {
+  main {
+    display: none !important;
+  }
 }
 
 /*# sourceMappingURL=UvalibPage.css.map */

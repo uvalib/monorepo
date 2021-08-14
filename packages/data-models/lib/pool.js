@@ -36,6 +36,11 @@ export class Pool extends ApiBase {
       this.lastResultCount = results.pagination.total;
       this.#lastRawResults = results.group_list;
       this.#lastResults = results.group_list.map(r=>new Item(r));
+    } else {
+      this.lastConfidence - (results.confidence)? results.confidence:'';
+      this.lastResultCount = (results.pagination.total)? results.pagination.total: 0;
+      this.#lastRawResults = [];
+      this.#lastResults = [];
     }
   }
   get lastResults() {

@@ -1,9 +1,9 @@
-@import url('https://use.typekit.net/tgy5tlj.css');
+@import url("https://use.typekit.net/tgy5tlj.css");
 /* small media width */
 :host {
   display: block;
   background-color: #f1f1f1;
-  padding-bottom: calc(1em * 0.75);
+  padding-bottom: calc(1em* 0.75);
 }
 
 a {
@@ -57,14 +57,9 @@ a:hover {
   margin-left: 0;
 }
 
-#content ul li {
+::slotted(li) {
   font-size: 1.15em;
   text-indent: -1em;
-}
-
-#content ul li a {
-  display: inline;
-  margin: 0;
 }
 
 /*# sourceMappingURL=UvalibSubNav.css.map */
