@@ -3,6 +3,7 @@ import style from './UvalibCatalogLightPoolResults.css.js';
 import { catalogState } from './UvalibCatalogLightState.js';
 import { observeState } from 'lit-element-state';
 import '@uvalib/uvalib-button/uvalib-button.js';
+import './uvalib-catalog-light-result.js';
 
 export class UvalibCatalogLightPoolResults extends observeState(LitElement) {
   static get properties() {
@@ -19,14 +20,6 @@ export class UvalibCatalogLightPoolResults extends observeState(LitElement) {
     `,style];
   }
 
-  constructor() {
-   super();
-   
-  }
-
-  firstUpdated() {
-  }
-
   render() {
     return html`
 <div class="pool-results">
@@ -38,22 +31,21 @@ export class UvalibCatalogLightPoolResults extends observeState(LitElement) {
          <div class="hits-content" role="list">
             ${catalogState.pools.uva_library.lastResults.map((hit,index)=>html`
                <div role="listitem" class="hit-wrapper">
-                  <SearchHit :pool="selectedResults.pool.id" :count="hit.number" :hit="hit"/>
+                  <uvalib-catalog-light-result .pool="${catalogState.pools.uva_library}" .result="${hit}" .index="${index+1}"></uvalib-catalog-light-result>
                </div>            
             `)}
          </div>
       </div>
       <span role="toolbar"  v-if="selectedResults.hits.length > 0">
-            <V4Button v-if="hasMoreHits" mode="primary" @click="loadMoreResults">
-               <span v-if="loadingMore">
-                  <V4Spinner v-if="loadingMore" color="white"/>
-               </span>
-               <span v-else>Load More Results</span>
-            </V4Button>
+         <uvalib-button ?hidden="${!catalogState.pools || !catalogState.pools.uva_library.hasMoreHits}" mode="primary" @click="loadMoreResults">
+            <span ?hidden="${!catalogState.searching}">
+               <uvalib-spinner color="white"></uvalib-spinner>
+            </span>
+            <span ?hidden="${catalogState.searching}">Load More Results</span>
+         </uvalib-button>
       </span>   
    `:''}
       </div>
     `;
   }
-
 }

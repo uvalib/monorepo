@@ -18,10 +18,6 @@ export class UvalibButton extends LitElement {
     };
   }
 
-  constructor() {
-    super();
-  }
-
   _makeClass(mode){
     return  `${(this.mode==='text')?
               'text-button ':

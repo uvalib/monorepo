@@ -47,6 +47,14 @@ export class Pool extends ApiBase {
     return this.#lastResults;
   }
 
+  get hasMoreHits() {
+    return (!this.lastResultCount || this.lastResultCount<=0)?
+      false:
+      (this.lastResultCount > this.lastResults.length)?
+        true:
+        false;
+  }
+
   constructor(config) {
     super();
     this.#config = { ...poolDefaults, ...config };
