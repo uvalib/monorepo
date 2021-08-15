@@ -5,6 +5,7 @@ import { observeState } from 'lit-element-state';
 import '@uvalib/uvalib-button/uvalib-button.js';
 import './uvalib-catalog-light-result.js';
 
+
 export class UvalibCatalogLightPoolResults extends observeState(LitElement) {
   static get properties() {
     return {
@@ -37,7 +38,7 @@ export class UvalibCatalogLightPoolResults extends observeState(LitElement) {
          </div>
       </div>
       <span role="toolbar"  v-if="selectedResults.hits.length > 0">
-         <uvalib-button ?hidden="${!catalogState.pools || !catalogState.pools.uva_library.hasMoreHits}" mode="primary" @click="loadMoreResults">
+         <uvalib-button ?hidden="${!catalogState.pools || !catalogState.pools.uva_library.hasMoreHits}" mode="primary" @click="${this._moreResults}">
             <span ?hidden="${!catalogState.searching}">
                <uvalib-spinner color="white"></uvalib-spinner>
             </span>
@@ -47,5 +48,15 @@ export class UvalibCatalogLightPoolResults extends observeState(LitElement) {
    `:''}
       </div>
     `;
+  }
+
+  _moreResults(){
+console.log("more results...");     
+      this.dispatchEvent( 
+      new CustomEvent('moreresults', {
+         composed: true,
+         bubbles: true,
+         detail: { }
+      }));
   }
 }

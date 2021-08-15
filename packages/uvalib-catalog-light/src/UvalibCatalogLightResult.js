@@ -37,7 +37,7 @@ export class UvalibCatalogLightResult extends LitElement {
           </span>
         </div>
       </div>
-      <div v-if="hit.header.author_display" class="author-wrapper">
+      <div ?hidden=${!this.result.author} class="author-wrapper">
         ${this.result.author}
         <!--<TruncatedText :id="{hit.identifier}-author"
             :text="hit.header.author_display" :limit="authorTruncateLength" />-->

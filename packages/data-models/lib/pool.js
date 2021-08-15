@@ -18,6 +18,7 @@ export class Pool extends ApiBase {
   #config
   #lastResults;
   #lastRawResults;
+  #queryString;
   attributes;
   description;
   id;
@@ -30,17 +31,29 @@ export class Pool extends ApiBase {
   verbose;
   debug;
 
+  set queryString(qs) {
+    if (qs != this.#queryString) {
+      this.#lastRawResults = [];
+      this.#lastResults = [];
+      this.#queryString = qs;
+    }
+  }
+
+  get queryString() {
+    return this.#queryString;
+  }
+
   set lastResults(results) {
     if (results.group_list) {
       this.lastConfidence = results.confidence;
       this.lastResultCount = results.pagination.total;
-      this.#lastRawResults = results.group_list;
-      this.#lastResults = results.group_list.map(r=>new Item(r));
+      this.#lastRawResults = this.#lastRawResults.concat( results.group_list );
+      this.#lastResults = this.#lastResults.concat( results.group_list.map(r=>new Item(r)) );
     } else {
       this.lastConfidence - (results.confidence)? results.confidence:'';
       this.lastResultCount = (results.pagination.total)? results.pagination.total: 0;
-      this.#lastRawResults = [];
-      this.#lastResults = [];
+//      this.#lastRawResults = [];
+//      this.#lastResults = [];
     }
   }
   get lastResults() {
@@ -68,6 +81,9 @@ export class Pool extends ApiBase {
     this.url = this.#config.url;
     this.verbose = this.#config.verbose;
     this.debug = this.#config.debug;
+    this.#lastRawResults = [];
+    this.#lastResults = [];
+    this.#queryString = "";
     if (!this.url ) {
       throw "A Pool needs to be initilized with at least a url so we know where to look for stuff";
     }
@@ -77,11 +93,17 @@ export class Pool extends ApiBase {
     return `${(this.verbose || this.debug)?'?':''}${this.verbose?'verbose=1&':''}${this.debug?'debug=1':''}`;
   }
 
+  getMore(){
+    return this.fetchResults({ ...this.lastParams, ...{rows: this.lastRows, start: this.lastStart+this.lastRows} })
+  }
 
   fetchResults(config) {
     let params = { ...this.searchDefaults, ...config };
+console.log(params.keyword);    
+    if (params.keyword) this.queryString = params.keyword;
     return this.authorize().then((token) => {
-      // Lets get some results 
+      // Lets get some results
+console.log(this.queryString);       
       return fetch(`${this.url}${searchPath}${this._queryparams}`, {
         method: "POST",
         headers: {
@@ -89,13 +111,14 @@ export class Pool extends ApiBase {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          query: `keyword: {${params.keyword}}`,
+          query: `keyword: {${this.queryString}}`,
           pagination: { start: params.start, rows: params.rows },
         }),
       })
         .then((res) => res.json())
         .then((data) => {
-console.log(data);      
+console.log(data);
+          this.lastParams = params;
           this.lastKeyword = params.keyword;
           this.lastStart = params.start;
           this.lastRows = params.rows;

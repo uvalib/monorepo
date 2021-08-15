@@ -6,6 +6,11 @@ export class Item extends ApiBase {
 
   poolId;
   poolURL;
+  raw_item;
+  fields;
+  id;
+  title;
+  author;
 
   constructor(raw) {
     super();
