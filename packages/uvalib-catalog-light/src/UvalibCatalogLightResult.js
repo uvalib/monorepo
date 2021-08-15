@@ -55,20 +55,20 @@ export class UvalibCatalogLightResult extends LitElement {
             }.bind(this))
             .filter(fieldset=>{
               // already showed title and author
-              if (fieldset[0].type === 'title') return false;
-              else if (fieldset[0].type === 'author') return false;
-              else {
-                // get rid of "optional" fields
-                fieldset.filter(f=>f.display==='optional');
-                return fieldset.length>0;
-              }
+              return (fieldset[0].type === 'title')?false:
+                      (fieldset[0].type === 'author')?false:
+                      (fieldset[0].display === 'optional')?false:
+                        true;
             })
-            .map(fieldset=>{
+            .map(fieldset=>{              
+              let fields = fieldset[0]; 
               // return one field using seperator prop to join values
-              return {name:fieldset[0].name,
-                      type:fieldset[0].type,
-                      label:fieldset[0].label,
-                      value:fieldset.map(f=>f.value).join(fieldset[0].setarator)}
+              return {
+                name:fields.name,
+                type:fields.type,
+                label:fields.label,
+                value:fieldset.map(f=>f.value).join( (fieldset[0].separator)?fieldset[0].separator:':' )
+                    }
             })
             .map(field=>html`
               <dt>${field.label}:</dt>
