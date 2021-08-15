@@ -49,23 +49,35 @@ export class UvalibCatalogLightResult extends LitElement {
       <div class="details">
         <div class="basic">
           <dl class="fields">
-            
-            <template v-for="(field,idx) in hit.basicFields">
-                <template v-if="shouldDisplay(field)">
-                   <dt :key="getKey(field,k{idx})">{{field.label}}:</dt>
-                   <dd :key="getKey(field,v{idx})" >
-                      <TruncatedText :id="{hit.identifier}-{field.name}"
-                         :text="$utils.fieldValueString(field)" :limit="truncateLength"
-                      />
-                   </dd>
-                </template>
-             </template>
-             <template v-if="accessURLField && !isKiosk">
-                <dt class="label">{{accessURLField.label}}:</dt>
-                <dd class="value">
-                   <AccessURLDetails mode="brief" :title="hit.header.title" :pool="pool" :urls="accessURLField.value" />
-                </dd>
-             </template>
+            ${Object.keys(this.result.fields).map(function(fieldName){
+              // convert from object to an array of fields
+              return this.result.fields[fieldName];
+            }.bind(this))
+            .filter(fieldset=>{
+              // already showed title and author
+              if (fieldset[0].type === 'title') return false;
+              else if (fieldset[0].type === 'author') return false;
+              else {
+                // get rid of "optional" fields
+                fieldset.filter(f=>f.display==='optional');
+                return fieldset.length>0;
+              }
+            })
+            .map(fieldset=>{
+              // return one field using seperator prop to join values
+              return {name:fieldset[0].name,
+                      type:fieldset[0].type,
+                      label:fieldset[0].label,
+                      value:fieldset.map(f=>f.value).join(fieldset[0].setarator)}
+            })
+            .map(field=>html`
+              <dt>${field.label}:</dt>
+              <dd>${field.value}
+                 <!--<TruncatedText :id="{hit.identifier}-{field.name}"
+                    :text="$utils.fieldValueString(field)" :limit="truncateLength"
+                 />-->
+              </dd>              
+            `)}
           </dl>
        </div>
        <router-link v-if="hit.cover_image" @mousedown="detailClicked"

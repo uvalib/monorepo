@@ -14,9 +14,9 @@ export class UvalibCatalogLightHome extends observeState(LitElement) {
 
   static get styles() {
     return [css`
-[hidden] {
-  display: none;
-}    
+      [hidden] {
+        display: none;
+      }    
     `,style];
   }
 
@@ -44,20 +44,16 @@ export class UvalibCatalogLightHome extends observeState(LitElement) {
       import('@uvalib/uvalib-spinner/uvalib-spinner.js');
     });
 
-    this.addEventListener('moreresults', function(){
-console.log("attempt to get some more results...")      
+    this.addEventListener('moreresults', function(){      
       this._getMore();
     }.bind(this));
   }
 
   _getMore() {
     catalogState.userSearched = true;
-//    catalogState.searching = true;
     catalogState.pools.uva_library.getMore().then(res => {
       catalogState.pools = {...catalogState.pools, lastTs:new Date() };
-      catalogState.hasresults = (catalogState.pools.uva_library.lastResults)? catalogState.pools.uva_library.lastResults.length > 0: false;
-//      catalogState.searching = false;
-console.log(catalogState.pools.uva_library)          
+      catalogState.hasresults = (catalogState.pools.uva_library.lastResults)? catalogState.pools.uva_library.lastResults.length > 0: false;          
     });
   }
 
@@ -68,8 +64,7 @@ console.log(catalogState.pools.uva_library)
     catalogState.pools.uva_library.fetchResults({ rows: 10, keyword: catalogState.rawQueryString }).then(res => {
       catalogState.pools = {...catalogState.pools, lastTs:new Date() };
       catalogState.hasresults = (catalogState.pools.uva_library.lastResults)? catalogState.pools.uva_library.lastResults.length > 0: false;
-      catalogState.searching = false;
-console.log(catalogState.pools.uva_library)      
+      catalogState.searching = false;     
     });
   }
 

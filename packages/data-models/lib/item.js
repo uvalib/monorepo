@@ -25,7 +25,7 @@ export class Item extends ApiBase {
       raw.record_list.forEach(rec => {
         if ( rec.fields && Array.isArray(rec.fields) ) {
           rec.fields.forEach(field => {
-            this.fields[field.name] = field;
+            this.fields[field.name] = this.fields[field.name] && Array.isArray(this.fields[field.name])? this.fields[field.name].push(field): [field];
             if (field.name === 'id') this.id.push(field.value);
             if (field.type === 'title') this.title.push(field.value);
             if (field.type === 'author') this.author.push(field.value);
