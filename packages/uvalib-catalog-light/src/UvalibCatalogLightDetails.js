@@ -74,30 +74,44 @@ console.log("reset selected search to bring back results");
             <div class="item-view">
               <div class="detail-header">
                 <span class="paging">
-
                   <span class=v4-pager>
-                      <uvalib-button mode="small" ?disabled="${this.item.resultIndex === 0}"  @click="${this._selectLastItem}}" aria-label="previous result">
-                        <uvalib-icon icon-id="uvalib:general:arrowleft" ></uvalib-icon>
-                      </uvalib-button>
-                      <span class="page-info">
-                        ${(this.item.resultIndex+1).toLocaleString()} of ${catalogState.pools.uva_library.lastResultCount.toLocaleString()}
-                      </span>
-                      <uvalib-button mode="small" ?disabled="${this.item.resultIndex < catalogState.pools.uva_library.lastResultCount}" @click="${this._selectNextItem}" aria-label="next result">
-                        <uvalib-icon icon-id="uvalib:general:arrowright"></uvalib-icon>
-                      </uvalib-button>
+                    <uvalib-button mode="small" ?disabled="${this.item.resultIndex === 0}"  @click="${this._selectLastItem}}" aria-label="previous result">
+                      <uvalib-icon icon-id="uvalib:general:arrowleft" ></uvalib-icon>
+                    </uvalib-button>
+                    <span class="page-info">${(this.item.resultIndex+1).toLocaleString()} of ${catalogState.pools.uva_library.lastResultCount.toLocaleString()}</span>
+                    <uvalib-button mode="small" ?disabled="${this.item.resultIndex < catalogState.pools.uva_library.lastResultCount}" @click="${this._selectNextItem}" aria-label="next result">
+                      <uvalib-icon icon-id="uvalib:general:arrowright"></uvalib-icon>
+                    </uvalib-button>
                   </span>
                   <!--<V4Pager :total="selectedResults.total" :page="selectedHit.number"
                         :prevAvailable="prevHitAvailable" :nextAvailable="nextHitAvailable"
                         @next="nextHitClicked" @prior="priorHitClicked"/>-->
 
-                      <div class="back">
-                        <uvalib-button mode="text" @click="${this._clearFocusedItem}">Return to search results</uvalib-button>
-                      </div>
+                  <div class="back">
+                    <uvalib-button mode="text" @click="${this._clearFocusedItem}">Return to search results</uvalib-button>
+                  </div>
                 </span>
+              </div>
+              <div class="details-content">
+
+                <div class="header-wrapper">
+                  <div class="title-wrapper">
+                    <div class="full-title">
+                      <span class="count-wrap">
+                        <span class="count">${(this.item.resultIndex+1).toLocaleString()}</span>
+                      </span>
+                      <span class="hit-title">${this.item.title}</span>
+                    </div>
+                  </div>
+                  <div ?hidden=${!this.item.author} class="author-wrapper">
+                    ${this.item.author}
+                    <!--<TruncatedText :id="{hit.identifier}-author"
+                        :text="hit.header.author_display" :limit="authorTruncateLength" />-->
+                  </div>
                 </div>
-                <div class="details-content">
-                  <SearchHitHeader v-bind:link="false" :hit="details" :pool="details.source" from="DETAIL"/>
-                  <abbr class="unapi-id" :title="details.itemURL"></abbr>
+                <!--<SearchHitHeader v-bind:link="false" :hit="details" :pool="details.source" from="DETAIL"/>-->
+                  
+                <abbr class="unapi-id" :title="details.itemURL"></abbr>
                   <div class="info">
                       <div v-if="itemMessage(details.source)" class="ra-box ra-fiy pad-top" v-html="itemMessage(details.source)">
                       </div>
