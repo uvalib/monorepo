@@ -22,13 +22,19 @@ export class Item extends ApiBase {
     // parse things out a bit  
     this.records = raw.record_list;
     raw.record_list.forEach(rec => {
-      rec.fields.forEach(field => {
-        if (!this.fields[field.name]) this.fields[field.name] = [];
-        this.fields[field.name].push(field);
+      this._upgradeFields(rec.fields);
+      rec.fields.forEach(field=>{
         if (field.name === 'id') this.id.push(field.value);
         if (field.type === 'title') this.title.push(field.value);
         if (field.type === 'author') this.author.push(field.value);
-      });
+      })
+    });
+  }
+
+  _upgradeFields(rawFields){
+    rawFields.forEach(field => {
+      if (!this.fields[field.name]) this.fields[field.name] = [];
+      this.fields[field.name].push(field);
     });
   }
 
@@ -43,10 +49,11 @@ export class Item extends ApiBase {
         }
       })
       .then((res) => res.json())
-      .then((data) => {
-console.log(data)        
-          return data;
-      });
+      .then(function(data){ 
+        this.fields = {};
+        this._upgradeFields(data.fields);   
+        return data;
+      }.bind(this));
     });
   }
 }

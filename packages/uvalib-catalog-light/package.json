@@ -37,6 +37,7 @@
     "@spectrum-web-components/bundle": "^0.22.3",
     "@uvalib/data-models": "^0.0.5",
     "@uvalib/uvalib-button": "^0.0.0",
+    "@uvalib/uvalib-icon": "^0.0.3",
     "@uvalib/uvalib-page": "^0.0.13",
     "@uvalib/uvalib-scroll-to-top": "^0.0.0",
     "@uvalib/uvalib-spinner": "^0.0.0",

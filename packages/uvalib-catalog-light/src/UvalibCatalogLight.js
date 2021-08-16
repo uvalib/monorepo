@@ -43,7 +43,7 @@ export class UvalibCatalogLight extends observeState(LitElement) {
 <uvalib-page nofooter nolinks>    
   <div tabindex="-1" id="app" role="application">
     <div tabindex="-1" class="v4-content" id="v4-main">
-      <h1>Search</h1>
+      <h1 ?hidden="${catalogState.focusedItem}">Search</h1>
       <uvalib-catalog-light-home ?iskiosk="${catalogState.iskiosk}"></uvalib-catalog-light-home>
       <uvalib-scroll-to-top></uvalib-scroll-to-top>
     </div>

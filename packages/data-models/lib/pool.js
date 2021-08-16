@@ -49,6 +49,7 @@ export class Pool extends ApiBase {
       this.lastResultCount = results.pagination.total;
       this.#lastRawResults = this.#lastRawResults.concat( results.group_list );
       this.#lastResults = this.#lastResults.concat( results.group_list.map(r=>new Item(r)) );
+      this.#lastResults.forEach((r,idx)=>{r.resultIndex=idx});
     } else {
       this.lastConfidence - (results.confidence)? results.confidence:'';
       this.lastResultCount = (results.pagination.total)? results.pagination.total: 0;

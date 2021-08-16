@@ -21,6 +21,10 @@ export class UvalibCatalogLightResult extends LitElement {
     `,style];
   }
 
+  _detailClicked(e){
+    this.dispatchEvent(new CustomEvent('itemselected',{composed:true,bubbles:true,detail:{id:this.result.id}}));
+  }
+
   render() {
     return html`
 <div class="inner-hit-wrapper" class="hit">
@@ -79,24 +83,9 @@ export class UvalibCatalogLightResult extends LitElement {
               </dd>              
             `)}
           </dl>
-       </div>
-       <router-link v-if="hit.cover_image" @mousedown="detailClicked"
-          class="img-link" :to="detailsURL"  :aria-label="{hit.header.title}"
-       >
-          <img class="cover-img" v-if="hit.cover_image" aria-label=" " :src="hit.cover_image"/>
-       </router-link>
-    </div>
-    <div class="digital-content">
-       <V4DownloadButton v-if="pdfDownloadURL"
-          icon="far fa-file-pdf" label="Download PDF" :url="pdfDownloadURL"
-          :aria-label="download pdf for {hit.header.title}"
-       />
-       <V4DownloadButton v-if="ocrDownloadURL" icon="far fa-file-alt"
-          label="Download OCR" :url="ocrDownloadURL"
-          :aria-label="download ocr for {hit.header.title}"
-       />
-    </div>
- </div>    
+        </div>
+      </div>
+    </div>    
     <!--<SearchHitDetail :hit="hit" :pool="pool"/>-->
   </div>
 </div>

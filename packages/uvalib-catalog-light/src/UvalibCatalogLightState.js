@@ -11,7 +11,9 @@ class UvalibCatalogLightState extends LitState {
             userSearched:false,
             rawQueryString:"",
             pools:null,
-            ready:false
+            ready:false,
+            hasFocusedItem:false,
+            focusedItem:null
         };
     }
 }

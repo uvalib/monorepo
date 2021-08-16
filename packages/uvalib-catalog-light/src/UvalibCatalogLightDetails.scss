@@ -1,0 +1,157 @@
+@import '@uvalib/web-styles/scss/variables';
+
+details {
+   min-height: 400px;
+   position: relative;
+   margin-top: 2vw;
+   margin-bottom: 10vh;
+   color: $color-primary-text;
+   .working {
+      text-align: center;
+      font-size: 0.9em;
+   }
+   .working img {
+      margin: 30px 0;
+   }
+}
+
+.item-view {
+   div.details-content  {
+      width: 95%;
+      margin: 0 auto;
+      a.link-button {
+         background-color: $brand-blue-light;
+         border: 1px solid $brand-blue-light;
+         color: $white !important;
+         padding: .5em 1em;
+         border-radius: 5px;
+         display: inline-block;
+         margin: 0px 5px 5px 0 ;
+
+         &:hover {
+            background-color: $brand-blue-lighter;
+            border: 1px solid $brand-blue-lighter;
+            transition: all 0.3s ease;
+            text-decoration: none !important;
+         }
+      }
+   }
+
+   .ra-box.ra-fiy.pad-top {
+      margin-top: 20px;
+   }
+
+   dl.fields {
+      grid-template-columns: 0.5fr 2fr;
+      dt.label {
+         white-space: normal;
+      }
+   }
+   .detail-header {
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: center;
+      align-content: center;
+      padding-bottom: 15px;
+      .hidden-spacer, .paging {
+         flex:1;
+      }
+      .paging {
+         flex: 1;
+         display: flex;
+         flex-flow: column;
+         justify-content: flex-end;
+         margin: 0 15px;
+      }
+      .back {
+         text-align: right;
+         margin: 5px 0;
+      }
+   }
+   .icon {
+      margin-left: 5px;
+   }
+   :deep(p) {
+      margin: 8px 0;
+   }
+   .info {
+      margin: 15px 0;
+      border-top: 4px solid $brand-blue;
+   }
+   dl {
+      margin-top: 15px;
+      display: inline-grid;
+      grid-template-columns: max-content 2fr;
+      grid-column-gap: 10px;
+      width: 100%;
+   }
+   dt {
+      font-weight: bold;
+      text-align: right;
+      padding: 4px 8px;
+      white-space: nowrap;
+      vertical-align: top;
+   }
+   dd {
+      margin: 0;
+      width: 100%;
+      max-width: 750px;
+      text-align: left;
+      word-break: break-word;
+      -webkit-hyphens: auto;
+      -moz-hyphens: auto;
+      hyphens: auto;
+      padding: 4px 0px;
+   }
+   .value.more {
+      margin-top: 15px;
+      padding: 15px 0 10px 0;
+      text-align: left;
+   }
+   #marc.accordion-content {
+      margin-left: -6em;
+   }
+   .xml {
+      font-weight: normal;
+      font-size: 0.8em;
+      border: 1px solid $grey-light;
+      padding: 10px;
+      margin: 0;
+      border-top: 0;
+   }
+   .copyright {
+      display: flex;
+      flex-flow: row wrap;
+      align-content: center;
+      align-items: center;
+      img {
+         height: 20px;
+         margin-right: 5px;
+      }
+      .cr-note {
+         margin-left: 25px;
+      }
+   }
+}
+
+.v4-pager {
+   display: flex;
+   flex-flow: row nowrap;
+   justify-content: flex-end;
+   align-content: center;
+   align-items: center;
+   font-size: 16px;
+   font-weight: normal;
+   color: $text;
+   margin: 0, 5px;
+   .page-info {
+      margin: 0 10px;
+      font-size: 12px;
+   }
+   .v4-button {
+      padding: 4px 12px;
+      color: $white;
+      border-radius: 5px;
+      font-weight: normal;
+   }
+}
