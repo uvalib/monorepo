@@ -28,6 +28,7 @@ export class Item extends ApiBase {
         if (field.type === 'title') this.title.push(field.value);
         if (field.type === 'author') this.author.push(field.value);
       })
+
     });
   }
 
@@ -51,7 +52,8 @@ export class Item extends ApiBase {
       .then((res) => res.json())
       .then(function(data){ 
         this.fields = {};
-        this._upgradeFields(data.fields);   
+        this._upgradeFields(data.fields);  
+console.log(this.fields);         
         return data;
       }.bind(this));
     });

@@ -104,79 +104,50 @@ console.log("reset selected search to bring back results");
                     </div>
                   </div>
                   <div ?hidden=${!this.item.author} class="author-wrapper">
-                    ${this.item.author}
+                    ${this.item.author[0]}
                     <!--<TruncatedText :id="{hit.identifier}-author"
                         :text="hit.header.author_display" :limit="authorTruncateLength" />-->
                   </div>
                 </div>
                 <!--<SearchHitHeader v-bind:link="false" :hit="details" :pool="details.source" from="DETAIL"/>-->
                   
-                <abbr class="unapi-id" :title="details.itemURL"></abbr>
-                  <div class="info">
-                      <div v-if="itemMessage(details.source)" class="ra-box ra-fiy pad-top" v-html="itemMessage(details.source)">
-                      </div>
-                      <dl class="fields">
-                        <template v-if="details.header.author">
-                            <dt class="label">{{details.header.author.label}}:</dt>
-                            <dd class="value">
-                              <V4LinksList id="author-links" :inline="true" :links="getBrowseLinks('author', details.header.author.value)" />
-                            </dd>
-                        </template>
-                        <template v-for="(field,idx) in allDisplayFields"  :key="lv{idx}">
-                            <dt class="label">{{field.label}}:</dt>
-                            <dd class="value">
-                              <V4LinksList v-if="field.type == 'subject'" :id="{field.type}-links"
-                                  :links="getBrowseLinks('subject', field.value)" />
-                              <span class="related" v-else-if="field.type=='related-url'">
-                                  <div class="related-item" v-for="(v,idx) in field.value" :key="related-{idx}">
-                                    <a :id="rl-{idx}" class="link-button" :href="v.url" target="_blank">{{v.label}}</a>
-                                  </div>
-                              </span>
-                              <span class="copyright" v-else-if="field.type=='copyright'">
-                                  <img :aria-label="{field.item} icon" :src="copyrightIconSrc(field)">
-                                  <a :href="field.value" target="_blank">{{field.item}}</a>
-                                  <a  v-if="field.name == 'copyright_and_permissions'" class="cr-note"
-                                    href="https://www.library.virginia.edu/policies/use-of-materials" target="_blank"
-                                  >
-                                    More about Rights and Permissions<i style="margin-left:5px;" class="fal fa-external-link-alt"></i>
-                                  </a>
-                              </span>
-                              <TruncatedText v-else :id="{details.identifier}-{field.label}"
-                                  :text="$utils.fieldValueString(field)" :limit="fieldLimit(field)" />
-                            </dd>
-                        </template>
-                        <template v-if="accessURLField && !isKiosk">
-                            <dt class="label">{{accessURLField.label}}:</dt>
-                            <dd class="value">
-                              <AccessURLDetails mode="full" :title="details.header.title" :pool="details.source" :urls="accessURLField.value" />
-                            </dd>
-                        </template>
+                <!--<abbr class="unapi-id" :title="details.itemURL"></abbr>-->
+                <div class="info">
+                  <!--<div v-if="itemMessage(details.source)" class="ra-box ra-fiy pad-top" v-html="itemMessage(details.source)"></div>-->
+                  <dl class="fields">
+                    ${this.item.fields.author && this.item.fields.author.length>0? html`
+                      <dt class="label">${this.item.fields.author[0].label}:</dt>
+                      <dd class="value">
+                        ${this.item.fields.author.map(f=>f.value).join(this.item.fields.author[0].separator)}
+                        <!--<V4LinksList id="author-links" :inline="true" :links="getBrowseLinks('author', details.header.author.value)" />-->
+                      </dd>                    
+                    `:''}
+                    ${Object.keys(this.item.fields).filter(k=>k!='author'&&k!='full_record').map(k=>{
+                      let fieldset = this.item.fields[k];
+                      return html`
+                      <dt class="label">${fieldset[0].label}:</dt>
+                      <dd class="value">
+                          ${fieldset[0].type==='subject'? 
+                            // if type is subject
+                            fieldset.map(f=>f.value).join(fieldset[0].separator):
+                            // else if type is copyright
+                            fieldset[0].type==='copyright'?'':
+                            // else 
+                            fieldset.map(f=>f.value).join(fieldset[0].separator)}
+                            <!--<TruncatedText v-else :id="{details.identifier}-{field.label}"
+                            :text="$utils.fieldValueString(field)" :limit="fieldLimit(field)" />-->
+                      </dd>
+                      `}
+                    )}  
+<!--                    
                         <dt class="label">Citations:</dt>
                         <dd class="value">
                             <CitationsList />
                         </dd>
-                        <template v-if="hasExtLink">
-                            <dd></dd>
-                            <dt class="value more">
-                              <a :href="extDetailURL" target="_blank" @click="extDetailClicked">
-                                  More Details<i style="margin-left:5px;" class="fal fa-external-link-alt"></i>
-                              </a>
-                            </dt>
-                        </template>
+-->
                       </dl>
-                      <template v-if="marcXML">
-                        <AccordionContent class="marc" id="maxc-xml">
-                            <template v-slot:title>MARC XML</template>
-                            <pre class="xml">{{marcXML}}</pre>
-                        </AccordionContent>
-                      </template>
                   </div>
                 </div>
-                <DigitalContent />
-                <template v-if="details.source != 'images'">
-                  <Availability v-if="hasAvailability(details.source)" :titleId="details.identifier" />
-                  <ShelfBrowse v-if="!details.searching" :hit="details" :pool="details.source" :target="browseTarget"/>
-                </template>
             </div>            
             <!--<ItemView v-else />-->
           </div>  
