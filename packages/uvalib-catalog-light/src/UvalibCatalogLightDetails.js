@@ -53,6 +53,10 @@ export class UvalibCatalogLightDetails extends observeState(LitElement) {
     catalogState.focusedItem = catalogState.pools.uva_library.lastResults.find(item=>item.resultIndex === this.item.resultIndex-1);
 console.log("select last search result");
   }
+  _selectNextItem(){
+    catalogState.focusedItem = catalogState.pools.uva_library.lastResults.find(item=>item.resultIndex === this.item.resultIndex+1);
+console.log("select next search result");
+  }
   _clearFocusedItem(){
     catalogState.focusedItem = null;
 console.log("reset selected search to bring back results");    
@@ -72,15 +76,15 @@ console.log("reset selected search to bring back results");
                 <span class="paging">
 
                   <span class=v4-pager>
-                      <uvalib-button mode="small" ?disabled="${this.item.searchIndex === 0}"  @click="${this._selectLastItem}}" aria-label="previous result">
+                      <uvalib-button mode="small" ?disabled="${this.item.resultIndex === 0}"  @click="${this._selectLastItem}}" aria-label="previous result">
                         <uvalib-icon icon-id="uvalib:general:arrowleft" ></uvalib-icon>
                       </uvalib-button>
                       <span class="page-info">
-                        {{$utils.formatNum(page)}} of {{$utils.formatNum(total)}}
+                        ${(this.item.resultIndex+1).toLocaleString()} of ${catalogState.pools.uva_library.lastResultCount.toLocaleString()}
                       </span>
-                      <V4Button mode="small"  :disabled="!nextAvailable" @click="$emit('next')" aria-label="next result">
-                        <i class="fal fa-arrow-right"></i>
-                      </V4Button>
+                      <uvalib-button mode="small" ?disabled="${this.item.resultIndex < catalogState.pools.uva_library.lastResultCount}" @click="${this._selectNextItem}" aria-label="next result">
+                        <uvalib-icon icon-id="uvalib:general:arrowright"></uvalib-icon>
+                      </uvalib-button>
                   </span>
                   <!--<V4Pager :total="selectedResults.total" :page="selectedHit.number"
                         :prevAvailable="prevHitAvailable" :nextAvailable="nextHitAvailable"
