@@ -1,84 +1,302 @@
 @import '@uvalib/web-styles/scss/variables';
 
-button {
-   color: inherit;
-   width: 100%;
-   height: 100%;
-   padding: 0;
-   margin: 0;
+:host {
+  font-size: 1em;
+  appearance: none;
+  border: 0;
+  cursor: pointer;
+  display: inline-block;
+  margin: .8em .4em;
+  padding: .6rem 1.25rem;
+  text-align: center;
+  text-decoration: none;
+  width: auto;
+  background-color: var(--uvalib-button-background, $blue-alt);
+  color: $white;
+  border-radius: 5px;
+  text-transform: uppercase;
+  border-radius: 5px;
+}      
+
+:host([href]) {
+  margin: .5em;
+  padding: .88em;
+  text-decoration: underline !important;
+  color: $white;
 }
 
-button.text-button {
-    border: none;
-    background: none;
-    padding: 0;
-    font-weight: 500;
-    color: var(--uvalib-button-color, $color-link);
-    cursor: pointer;
-    display: inline-block;
-    &:hover {
-       opacity: 1;
-       text-decoration: underline;
-    }
-    &:focus {
-       @include be-accessible();
-    }
- }
- 
- button.v4-button.icon-button {
-    border: none;
-    background: none;
-    padding:2px;
-    margin:0;
-    outline: none;
-    &:focus {
-       @include be-accessible();
-    }
- }
- .link-button {
-   border-radius: 5px;
+:host .button-content {
+  height: 100%;
+}
+
+/* Default Buttons including Link Buttons */
+/*
+.uvalib-button:visited { color: #fff; }
+
+.uvalib-button:hover, 
+.uvalib-button.uvalib-button--hover,
+a.uvalib_link--button:hover,
+a.uvalib_link--button.uvalib_link--button--hover {
+  background-color: var(--uvalib-blue-alt-dark);
+}
+a.uvalib_link--button:hover, 
+a.uvalib_link--button.uvalib_link--button--hover {
+  text-decoration: none;
+}
+
+.uvalib-button:active, 
+.uvalib-button.uvalib-button--active,
+a.uvalib_link--button:active, a.uvalib_link--button--active {
+  background-color: var(--uvalib-brand-blue);
+}
+
+.uvalib-button:not([disabled]):focus, 
+.uvalib-button:not([disabled]).uvalib-focus,
+a.uvalib_link--button:not([disabled]):focus,
+a.uvalib_link--button:not([disabled]).uvalib-focus {
+  @apply --accessibility-outline-for-light-bg;
+}
+
+.uvalib-button--inverse:not([disabled]):focus, 
+.uvalib-button--inverse:not([disabled]).uvalib-focus,
+a.uvalib_link--button--inverse:not([disabled]):focus,
+a.uvalib_link--button--inverse:not([disabled]).uvalib-focus {
+  @apply --accessibility-outline-for-dark-bg;
+}
+
+a.uvalib_link--button i {
+  padding: 2px 4px;
+  text-decoration: none;
+}
+a.uvalib_link--button:hover i {
+  text-decoration: underline;
+}
+*/
+/* Disabled Buttons */
+/*
+.uvalib-button:disabled,
+.uvalib-button.uvalib-button--subtle:disabled,
+a.uvalib_link--button--disabled,
+a.uvalib_link--button.uvalib_link--button--subtle.uvalib_link--button--disabled,
+a.uvalib_link--button.uvalib_link--button--alt--disabled {
+  background-color: var(--uvalib-grey-light);
+  color: #fff;
+  pointer-events: none;
+}
+*/
+/* Default Subtle Buttons & Link Buttons */
+/*
+.uvalib-button--subtle,
+a.uvalib_link--button.uvalib_link--button--subtle {
+  background-color: var(--uvalib-blue-alt-lightest);
+  color: var(--uvalib-text-dark);
+}
+
+.uvalib-button--subtle:hover, 
+.uvalib-button--subtle.uvalib-button--hover,
+a.uvalib_link--button.uvalib_link--button--subtle:hover,
+a.uvalib_link--button.uvalib_link--button--subtle.uvalib_link--button--hover {
+  background-color: var(--uvalib-blue-alt-lighter);
+}
+
+.uvalib-button--subtle:active, 
+.uvalib-button--subtle.uvalib-button--active,
+a.uvalib_link--button.uvalib_link--button--subtle:active,
+a.uvalib_link--button.uvalib_link--button--subtle.uvalib_link--button--active {
+  background-color: var(--uvalib-blue-alt-light);
+}
+*/
+/* Outline Buttons */
+/*
+.uvalib-button--outline,
+.uvalib_link--button--outline,
+a.uvalib_link--button.uvalib_link--button--outline {
+  background-color: transparent;
+  box-shadow: inset 0 0 0 2px var(--uvalib-blue-alt);
+  color: var(--uvalib-blue-alt);
+}
+.uvalib-button--outline.uvalib-button--hover, 
+.uvalib-button--outline:hover,
+a.uvalib_link--button--outline.uvalib_link--button--hover, 
+a.uvalib_link--button--outline:hover {
+  background-color: transparent;
+  box-shadow: inset 0 0 0 2px var(--uvalib-blue-alt-dark);
+  color: var(--uvalib-blue-alt-dark); 
+}
+.uvalib-button--outline.uvalib-button--active, 
+.uvalib-button--outline:active,
+a.uvalib_link--button--outline.uvalib_link--button--active, 
+a.uvalib_link--button--outline:active {
+  background-color: transparent;
+  box-shadow: inset 0 0 0 2px var(--uvalib-brand-blue);
+  color: var(--uvalib-brand-blue);
+}
+.uvalib-button--outline-disabled, 
+.uvalib-button--outline:disabled,
+a.uvalib_link--button.uvalib_link--button--outline.uvalib_link--button--disabled, 
+a.uvalib_link--button--outline:disabled {
+  background-color: transparent;
+  box-shadow: inset 0 0 0 2px var(--uvalib-grey-light);
+  color: var(--uvalib-grey-light);
+}
+*/
+/* Outline Inverse Buttons */
+/*
+.uvalib-button--outline.uvalib-button--inverse,
+a.uvalib_link--button--outline.uvalib_link--button--inverse {
+  box-shadow: inset 0 0 0 2px #fff;
+  color: #fff;
+}
+.uvalib_link--button--inverse {
+  color: #fff;
+}
+.uvalib-button--outline.uvalib-button--inverse.uvalib-button--hover, 
+.uvalib-button--outline.uvalib-button--inverse:hover,
+a.uvalib_link--button--outline.uvalib_link--button--inverse.uvalib_link--button--hover, 
+a.uvalib_link--button--outline.uvalib_link--button--inverse:hover {
+  box-shadow: inset 0 0 0 2px var(--uvalib-grey-light);
+  color: var(--uvalib-grey-light);
+}
+.uvalib-button--outline.uvalib-button--inverse.uvalib-button--active, 
+.uvalib-button--outline.uvalib-button--inverse:active,
+a.uvalib_link--button--outline.uvalib_link--button--inverse.uvalib_link--button--active, 
+a.uvalib_link--button--outline.uvalib_link--button--inverse:active {
+  background-color: transparent;
+  box-shadow: inset 0 0 0 2px #fff;
+  color: #fff;
+}
+.uvalib-button--outline-disabled.uvalib-button--inverse, 
+.uvalib-button--outline:disabled.uvalib-button--inverse,
+a.uvalib_link--button.uvalib_link--button--outline.uvalib_link--button--inverse--disabled, 
+a.uvalib_link--button--outline:disabled.uvalib_link--button--inverse {
+  background-color: transparent;
+  box-shadow: inset 0 0 0 2px var(--uvalib-grey);
+  color: var(--uvalib-grey);
+}
+*/
+/* Alternate Buttons */
+/*
+.uvalib-button--alt,
+.uvalib_link--button--alt,
+a.uvalib_link--button.uvalib_link--button--alt {
+  background-color: var(--uvalib-brand-orange);
+  color: var(--uvalib-text-dark);
+}
+.uvalib-button--alt:hover, 
+.uvalib-button--alt.uvalib-button--hover,
+a.uvalib_link--button--alt:hover, 
+a.uvalib_link--button--alt.uvalib_link--button--hover {
+  background-color: var(--uvalib-brand-orange-dark);
+  color: #fff;
+}
+.uvalib-button--alt:active, 
+.uvalib-button--alt.uvalib-button--active,
+a.uvalib_link--button--alt:active, 
+a.uvalib_link--button--alt.uvalib_link--button--active {
+  background-color: var(--uvalib-brand-orange-darker);
+  color: #fff;
+}
+*/
+/* button sizes */
+/*
+.uvalib-button--small,
+.uvalib_link--button--small {
+  border-radius: .25rem;
+  font-size: .85rem;
+  padding: .5rem 1rem;
+}
+.uvalib-button--large,
+.uvalib_link--button--large {
+  border-radius: .25rem;
+  font-size: 1.33rem;
+  padding: 1rem 1.5rem;
+}
+*/
+/* button icon positioning */
+/*
+.uvalib-icon__left i {
+  padding-right: .5rem;
+}
+.uvalib-icon__right i {
+  padding-left: .5rem;
+}
+.uvalib-icon__notext {
+  padding: .6rem 1rem;
+}
+*/
+/* buttons for mobile */
+/*
+@media (min-width: 30em) {
+  .uvalib-button,
+  .uvalib_link--button {
+      width: auto;
+  }
+}
+/*BUTTON / TEXT-BUTTON END*/
+
+/*
+ example from ubisoft egg button 
+ (extends lion button https://montreal.ubisoft.com/en/create-a-design-system-with-lion-web-components-2/ )
+ :host {
+   font-style: normal;
    font-weight: normal;
-   text-transform: uppercase;
-   background-color: $brand-orange;
-   color: var(--uvalib-button-color,$white);
-   border: none;
-   padding: 10px 12px;
-    &:hover  {
-       background-color: $grey-light;
-       color: var(--uvalib-button-hover-color,$text-dark);
-    }
-    &:focus {
-       @include be-accessible();
-    }
+   font-size: 14px;
+   line-height: 20px;
+   height: var(--egg-size-regular, 40px);
+   background: var(--egg-button-background, transparent);
+   color: var(--egg-button-color, var(--egg-on-surface, #000000de));
+   user-select: none;
+   align-content: center;
+   justify-content: center;
+   padding: 0;
  }
- .pure-button.pure-button-primary, .pure-button.pure-button-small {
-    background-color: $brand-blue-light;
-    border: 1px solid $brand-blue-light;
-    &:hover {
-       background-color: $brand-blue-lighter;
-       border: 1px solid $brand-blue-lighter;
-       transition: all 0.3s ease;
-    }
+ :host .button-content {
+   padding-left: 24px;
+   padding-right: 24px;
  }
- 
- .pure-button.pure-button-tertiary {
-    background-color: $grey-lightest;
-    border: 1px solid $grey;
-    color: var(--uvalib-button-color,$black);
+ :host,
+ :host::before {
+   border-radius: 3px;
+   box-sizing: border-box;
+   cursor: pointer;
  }
- .pure-button.pure-button-tertiary:hover {
-    background-color: $grey-light;
+ :host::before {
+   border: 1px solid var(--egg-divider, #00000029);
+   top: 0;
+   bottom: 0;
+   transform: unset;
+   left: 0;
+   right: 0;
  }
- .pure-button.pure-button-primary,
- .pure-button.pure-button-small,
- .pure-button.pure-button-tertiary {
-    border-radius: 5px;
-    font-weight: normal;
-    &:focus {
-       @include be-accessible();
-    }
+ :host .button-content {
+   z-index: 0;
  }
- .pure-button.disabled {
-    cursor: default;
-    opacity: 0.25;
+ :host(:hover)::before {
+   background: var(--egg-surface-hover, #00000014);
  }
+ :host(:active),
+ :host([active]),
+ :host(:hover) {
+   background: transparent;
+ }
+ :host(:active)::before,
+ :host([active])::before {
+   background: var(--egg-surface-active, #000000de);
+ }
+ :host([disabled]) {
+   opacity: var(--egg-disabled-opacity, 0.4);
+ }
+ :host([kind='primary']) {
+   color: var(--egg-on-primary, #fff);
+ }
+ :host([kind='primary'])::before {
+   background: var(--egg-primary, #1976d2);
+ }
+ :host(:hover[kind='primary'])::before {
+   background: var(--egg-primary-hover, #135699);
+ }
+ :host(:active[kind='primary'])::before,
+ :host([active][kind='primary'])::before {
+   background: var(--egg-primary-active, fff);
+ }
+ */
