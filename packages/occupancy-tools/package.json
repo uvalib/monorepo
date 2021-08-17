@@ -1,6 +1,6 @@
 {
   "name": "@uvalib/occupancy-tools",
-  "version": "0.0.26",
+  "version": "0.0.27",
   "description": "Tools to help gather occupancy data at the Library",
   "author": "Doug Chestnut <dougchestnut@users.noreply.github.com>",
   "homepage": "https://github.com/uvalib/monorepo#readme",
@@ -36,8 +36,8 @@
     "occupancy-poller": "./lib/occupancy-poller.js"
   },
   "devDependencies": {
-    "@uvalib/eslint-config": "^0.0.8",
-    "@uvalib/prettier-config": "^0.0.10",
+    "@uvalib/eslint-config": "^0.0.9",
+    "@uvalib/prettier-config": "^0.0.11",
     "eslint": "^7.26.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.23.2",
