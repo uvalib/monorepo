@@ -42,6 +42,7 @@
     "@uvalib/uvalib-scroll-to-top": "^0.0.1",
     "@uvalib/uvalib-spinner": "^0.0.1",
     "@uvalib/web-styles": "^1.3.12",
+    "babel-plugin-dynamic-import-polyfill": "^1.0.0",
     "lint-staged": "^11.0.0",
     "lit-element": "^2.5.1",
     "lit-element-state": "^1.7.0",
@@ -70,5 +71,5 @@
       "prettier --write"
     ]
   },
-  "gitHead": "7c0c78247829ffcad1caa515732da8d15749721d"
+  "gitHead": "827d8d00052f6a5755351303c8324eb2dd9476ef"
 }

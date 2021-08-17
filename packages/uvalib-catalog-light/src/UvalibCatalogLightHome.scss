@@ -64,10 +64,11 @@
          margin: 0;
          padding: 0 40px;
       }
-      uvalib-button {
+      uvalib-button {         
          color: $white !important;
          padding: 0 !important;
          margin: 0 !important;
+         background-color: $blue-alt;
          width: 125px !important;
       }
    }

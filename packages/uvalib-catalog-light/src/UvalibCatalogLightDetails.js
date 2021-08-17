@@ -4,7 +4,6 @@ import { catalogState } from './UvalibCatalogLightState.js';
 import { observeState } from 'lit-element-state';
 import '@uvalib/uvalib-spinner/uvalib-spinner.js';
 import '@uvalib/uvalib-button/uvalib-button.js';
-import '@uvalib/uvalib-icon/uvalib-icon.js';
 
 export class UvalibCatalogLightDetails extends observeState(LitElement) {
 
@@ -75,13 +74,9 @@ console.log("reset selected search to bring back results");
               <div class="detail-header">
                 <span class="paging">
                   <span class=v4-pager>
-                    <uvalib-button mode="small" ?disabled="${this.item.resultIndex === 0}"  @click="${this._selectLastItem}}" aria-label="previous result">
-                      <uvalib-icon icon-id="uvalib:general:arrowleft" ></uvalib-icon>
-                    </uvalib-button>
+                    <uvalib-button mode="small" ?disabled="${false && this.item.resultIndex === 0}"  @click="${this._selectLastItem}}" aria-label="previous result">Previous</uvalib-button>
                     <span class="page-info">${(this.item.resultIndex+1).toLocaleString()} of ${catalogState.pools.uva_library.lastResultCount.toLocaleString()}</span>
-                    <uvalib-button mode="small" ?disabled="${this.item.resultIndex < catalogState.pools.uva_library.lastResultCount}" @click="${this._selectNextItem}" aria-label="next result">
-                      <uvalib-icon icon-id="uvalib:general:arrowright"></uvalib-icon>
-                    </uvalib-button>
+                    <uvalib-button mode="small" ?disabled="${false && this.item.resultIndex < catalogState.pools.uva_library.lastResultCount}" @click="${this._selectNextItem}" aria-label="next result">Next</uvalib-button>
                   </span>
                   <!--<V4Pager :total="selectedResults.total" :page="selectedHit.number"
                         :prevAvailable="prevHitAvailable" :nextAvailable="nextHitAvailable"

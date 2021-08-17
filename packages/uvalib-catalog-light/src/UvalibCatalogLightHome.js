@@ -99,7 +99,7 @@ export class UvalibCatalogLightHome extends observeState(LitElement) {
             placeholder="Search Virgo for books, articles, and more"
             .value="${catalogState.rawQueryString}"
           >
-          <uvalib-button @click="${this._submitSearch}" class="search" mode="primary">Search</uvalib-button>
+          <uvalib-button @click="${this._submitSearch}" class="search">Search</uvalib-button>
       </div>
     `:''} 
   </div>
