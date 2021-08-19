@@ -19,12 +19,10 @@
     render(
       html`
         <uvalib-viz-donut 
-          percent="${percent}">
-          <div slot="chartTitle">Viz Title</div>
-          <div slot="chartDesc">Description</div>
-          <div slot="dataTitle">Data Title</div>
-          <div slot="dataDesc">Discription of the Data</div>
-          <div slot="caption">Caption</div>
+          percent="${percent}"
+          chartTitle="Viz Title"
+          chartDesc="A short description about the chart."
+          dataTitle="A title for the data behind this graph." dataDesc="A description about the data behind this graph.">
         </uvalib-viz-donut>
         <input value="${percent}" @change="${(e)=>{percent=e.target.value; e.target.previousElementSibling.percent=percent;}}">
       `,
