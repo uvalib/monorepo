@@ -26,6 +26,5 @@
   "dependencies": {
     "@uvalib/uvalib-page": "^0.0.15",
     "serve": "^12.0.0"
-  },
-  "gitHead": "827d8d00052f6a5755351303c8324eb2dd9476ef"
+  }
 }

@@ -14,7 +14,6 @@
   "engines": {
     "node": ">=0.10.0"
   },
-  "gitHead": "827d8d00052f6a5755351303c8324eb2dd9476ef",
   "devDependencies": {
     "prettier": "^2.3.2",
     "rimraf": "^3.0.2",
