@@ -36,7 +36,7 @@
   "dependencies": {
     "@spectrum-web-components/bundle": "^0.22.3",
     "@uvalib/data-models": "^0.0.7",
-    "@uvalib/uvalib-button": "^0.0.2",
+    "@uvalib/uvalib-button": "^0.1.2",
     "@uvalib/uvalib-icon": "^0.0.5",
     "@uvalib/uvalib-page": "^0.0.15",
     "@uvalib/uvalib-scroll-to-top": "^0.0.2",
@@ -71,5 +71,5 @@
       "prettier --write"
     ]
   },
-  "gitHead": "827d8d00052f6a5755351303c8324eb2dd9476ef"
+  "gitHead": "f4875363dca89e5b722d8a9ccd4fcd6e3e9b09d2"
 }
