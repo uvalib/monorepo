@@ -1,0 +1,36 @@
+@import '@uvalib/web-styles/scss/variables';
+
+:host {
+    display: inline-block;
+  }
+  
+  .chart-text {
+      @include h5;
+      font-weight: $font-weight-heavy;
+      fill: $black;
+      transform: translateY(0.25em);
+    }
+    
+    .chart-number {
+      font-size: 0.6em;
+      line-height: 1;
+      text-anchor: middle;
+    }
+    
+    .donut-hole {
+      fill: $white;
+    }
+    .donut-ring {
+      stroke: $grey-light;
+      stroke-width: 5px;
+    }
+    .donut-segment {
+      stroke: var(--uvalib-viz-donut-segment-color, $blue-alt);
+      stroke-width: 5px;
+    }
+    .donut-segment.med {
+      stroke: var(--uvalib-viz-donut-segment-med-color, $brand-orange-lightest);
+    }
+    .donut-segment.high {
+      stroke: $red; /*var(--uvalib-viz-donut-segment-high-color, $red);*/
+    }

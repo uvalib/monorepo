@@ -1,0 +1,4 @@
+import { css } from 'lit-element';
+export default css`
+@import url("https://use.typekit.net/tgy5tlj.css");:host{display:inline-block}.chart-text{fill:#000;color:#232d4b;font-family:franklin-gothic-urw,arial,sans-serif;font-size:16px;font-weight:500;font-weight:900;line-height:16px;transform:translateY(.25em)}.chart-number{text-anchor:middle;font-size:.6em;line-height:1}.donut-hole{fill:#fff}.donut-ring{stroke:#dadada;stroke-width:5px}.donut-segment{stroke:var(--uvalib-viz-donut-segment-color,#007bac);stroke-width:5px}.donut-segment.med{stroke:var(--uvalib-viz-donut-segment-med-color,#ffead6)}.donut-segment.high{stroke:#ef3f6b}
+`;

@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      background: #fafafa;
+    }
+  </style>
+</head>
+<body>
+  <div id="demo"></div>
+
+  <script type="module">
+    import { html, render } from 'lit';
+    import '../uvalib-viz-donut.js';
+
+    let percent = 50;
+    render(
+      html`
+        <uvalib-viz-donut 
+          percent="${percent}">
+          <div slot="chartTitle">Viz Title</div>
+          <div slot="chartDesc">Description</div>
+          <div slot="dataTitle">Data Title</div>
+          <div slot="dataDesc">Discription of the Data</div>
+          <div slot="caption">Caption</div>
+        </uvalib-viz-donut>
+        <input value="${percent}" @change="${(e)=>{percent=e.target.value; e.target.previousElementSibling.percent=percent;}}">
+      `,
+      document.querySelector('#demo')
+    );
+  </script>
+</body>
+</html>
