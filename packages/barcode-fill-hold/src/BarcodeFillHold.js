@@ -106,7 +106,7 @@ export class BarcodeFillHold extends LitElement {
 
   constructor() {
     super();
-    this.title = 'Tedium Reducer III';
+    this.title = 'LEO Checkout Module';
     this.working = false;
     this._userID = '';
     this._userPass = '';
@@ -249,7 +249,15 @@ export class BarcodeFillHold extends LitElement {
                 </div>
                 <hr />
               `)}
+              ${(this.holdRequests)? html`
+              <sp-button variant="secondary"
+              @click="${e => {
+                this._clearPrinted();
+              }}"
+              >Clear All Printed</sp-button>
+              `:''}
             </div>
+
 
           </div>
           <sp-underlay ?open="${this.working}"></sp-underlay>
@@ -354,6 +362,10 @@ export class BarcodeFillHold extends LitElement {
       this.working = false;
     }
   }
+  _clearPrinted() {
+    this.holdRequests = this.holdRequests.filter(r=>!r.printed);
+    this.holdRequests = this.holdRequests.slice(); // get a shallow copy to notify
+  }
   _isItemsToPrint() {
     return this.holdRequests.find(i=>i.hold && !i.printed);
   }
@@ -372,7 +384,7 @@ export class BarcodeFillHold extends LitElement {
     <dl>
     ${
       res.user.Department
-        ? `<dt>Department</dt><dd><strong>${res.user.Department}</strong></dd>`
+        ? `<dt>Department</dt><dd><strong style="font-size: 1.5em">${res.user.Department}</strong></dd>`
         : ''
     }
     ${res.user.Country ? `<dt>Country</dt><dd>${res.user.Country}</dd>` : ''}
@@ -382,7 +394,7 @@ export class BarcodeFillHold extends LitElement {
         : ''
     }
     ${res.user.Status ? `<dt>Status</dt><dd><strong>${res.user.Status}</strong></dd>` : ''}
-    ${res.user.Fax ? `<dt>Fax</dt><dd>${res.user.Fax}</dd>` : ''}
+    ${res.user.Fax ? `<dt>Fax</dt><dd><strong>${res.user.Fax}</strong></dd>` : ''}
     ${
       res.hold.user_full_name
         ? `<dt>Patron</dt><dd>${res.hold.user_full_name} (${res.hold.user_id})</dd>`
