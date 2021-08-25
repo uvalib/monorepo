@@ -8,7 +8,10 @@ export default {
       userId: process.env.AXISUSER,
       pass: process.env.AXISPASS,
       domain: '172.29.12.101',
-      fbpath: 'locations-schemaorg/location/science/estimatedOccupancy',
+      fbpath: [
+        'locations-schemaorg/location/science/estimatedOccupancy',
+        'locations-schemaorg/location/science/occupancy'
+      ],
       fblogpath: 'locationsLogs/science/estimatedOccupancylog',
       name: 'SEL Main Entry (Lead Camera)',
     },
@@ -34,7 +37,10 @@ export default {
       userId: process.env.AXISUSER,
       pass: process.env.AXISPASS,
       domain: '172.29.5.87',
-      fbpath: 'locations-schemaorg/location/clemons/estimatedOccupancy',
+      fbpath: [
+        'locations-schemaorg/location/clemons/estimatedOccupancy',
+        'locations-schemaorg/location/clemons/occupancy'
+      ],
       fblogpath: 'locationsLogs/clemons/estimatedOccupancylog',
       name: 'Clemons Main Entry (Lead Camera)',
     },

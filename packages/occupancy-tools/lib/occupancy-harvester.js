@@ -33,67 +33,73 @@ export default class OccupancyHarvester extends OccupancyBase {
             )
             .then((res) => res.json())
             .then((data) => {
-              if (oe.fbpath) {
+              if (oe.fbpath && oe.fbpath.length>0) {
                 if (data.occupancy < 0) {
                   this._logError(
                     `The occupancy estimator ${oe.domain} - ${oe.name} is returning a bad occupancy value: ${data.occupancy}`,
                   );
                   throw new Error(`Count can't be less than zero!!!`);
                 }
-                const ref = this._firebaseDB.ref(oe.fbpath);
-                return ref
-                  .once('value')
-                  .then((snapshot) => {
-                    var promises = [];
-                    var val = snapshot.val();
-                    var loggit = false;
-                    if (!val)
-                      val = {
-                        timestamp: null,
-                        value: null,
-                        totalIn: null,
-                        totalOut: null,
-                      };
-                    var newval = {};
-                    if (data.occupancy !== val.value) {
-                      newval.value = data.occupancy;
-                      loggit = true;
-                    }
-                    if (data['total in'] != val.totalIn) {
-                      newval.totalIn = data['total in'];
-                      loggit = true;
-                    }
-                    if (data['total out'] != val.totalOut) {
-                      newval.totalOut = data['total out'];
-                      loggit = true;
-                    }
-                    var newtimestamp = data.unixtime * 1000;
-                    // log if occupancy changed
-                    if (loggit) {
+
+                return Promise.all( oe.fbpath.map(writePath=>{
+
+                  let ref = this._firebaseDB.ref(writePath);
+                  return ref
+                    .once('value')
+                    .then((snapshot) => {
+                      var promises = [];
+                      var val = snapshot.val();
+                      var loggit = false;
+                      if (!val)
+                        val = {
+                          timestamp: null,
+                          value: null,
+                          totalIn: null,
+                          totalOut: null,
+                        };
+                      var newval = {};
+                      if (data.occupancy !== val.value) {
+                        newval.value = data.occupancy;
+                        loggit = true;
+                      }
+                      if (data['total in'] != val.totalIn) {
+                        newval.totalIn = data['total in'];
+                        loggit = true;
+                      }
+                      if (data['total out'] != val.totalOut) {
+                        newval.totalOut = data['total out'];
+                        loggit = true;
+                      }
+                      var newtimestamp = data.unixtime * 1000;
+                      // log if occupancy changed
+                      if (loggit) {
+                        promises.push(
+                          this._firebaseDB
+                            .ref(oe.fblogpath + '/' + newtimestamp)
+                            .set(newval)
+                            .catch((error) => {
+                              this._logError(error);
+                            }),
+                        );
+                      }
+                      // update main
+                      newval.timestamp = newtimestamp;
                       promises.push(
-                        this._firebaseDB
-                          .ref(oe.fblogpath + '/' + newtimestamp)
-                          .set(newval)
-                          .catch((error) => {
-                            this._logError(error);
-                          }),
+                        ref.update(newval).catch((error) => {
+                          this._logError(error);
+                        }),
                       );
-                    }
-                    // update main
-                    newval.timestamp = newtimestamp;
-                    promises.push(
-                      ref.update(newval).catch((error) => {
-                        this._logError(error);
-                      }),
-                    );
-                    this._logInfo(
-                      `${oe.name} occupancy at ${data.occupancy} currently`,
-                    );
-                    return Promise.all(promises);
-                  })
-                  .catch((error) => {
-                    this._logError(error);
-                  });
+                      this._logInfo(
+                        `${oe.name} occupancy at ${data.occupancy} currently`,
+                      );
+                      return Promise.all(promises);
+                    })
+                    .catch((error) => {
+                      this._logError(error);
+                    });
+
+                }) );
+
               }
             })
             .catch((e) =>
