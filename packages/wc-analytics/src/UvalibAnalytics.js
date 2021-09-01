@@ -16,12 +16,17 @@ export class UvalibAnalytics extends LitElement {
 
   firstUpdated() {
     this._initMatomo();
+    document.addEventListener("uvalib-analytics-search", this._logSearch.bind(this));
+    document.addEventListener("uvalib-analytics-event", this._logEvent.bind(this));
+  }
 
-    document.addEventListener("uvalib-analytics-event",this._logEvent.bind(this));
+  _logSearch(e) {
+    console.log(`Search event: ${e.detail.searchQuery} ${e.detail.searchCategory} ${e.detail.resultCount}`);
+    if (this.matomoTracker) this.matomoTracker.trackSiteSearch(e.detail.searchQuery, e.detail.searchCategory, e.detail.resultCount); 
   }
 
   _logEvent(e) {
-    console.log("Custom event: "+e.detail.event.join('--'));
+    console.log(`Custom event: ${e.detail.event.join('--')}`);
     if (this.matomoTracker) this.matomoTracker.trackEvent(...e.detail.event);
   }
 
