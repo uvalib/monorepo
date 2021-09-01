@@ -7,10 +7,13 @@
       background: #fafafa;
     }
   </style>
+  <title>Demo uvalib-analytics page</title>
 </head>
 <body>
   <button>Click me to trigger an event</button><br />
-  <input placeholder="fake search field to log site search" />
+  <input placeholder="fake search field to log site search" /><br />
+  <a href="somepage.html">Log page view</a><br />
+  <a href="anotherpage.html">Log another page view with custom title</a>
   <uvalib-analytics matomoId="23"></uvalib-analytics>
 
   <script type="module">
@@ -27,10 +30,20 @@
       if (e.key === 'Enter') {
         let searchQuery = e.target.value;
         e.target.dispatchEvent(new CustomEvent("uvalib-analytics-search", {
-        detail: {searchQuery:searchQuery, searchCategory:"testSearch", resultCount: 55555},
-        bubbles: true
-      }));
+          detail: {searchQuery:searchQuery, searchCategory:"testSearch", resultCount: 55555},
+          bubbles: true
+        }));
       }
+    });
+
+    let links = document.querySelectorAll('a');
+    links[0].addEventListener('click',(e)=>{
+      e.preventDefault();
+      e.target.dispatchEvent(new CustomEvent("uvalib-analytics-pageview", { bubbles: true }));
+    });
+    links[1].addEventListener('click',(e)=>{
+      e.preventDefault();
+      e.target.dispatchEvent(new CustomEvent("uvalib-analytics-pageview", { bubbles: true, detail: {customTitle:"foobar"} }));
     });
   </script>
 </body>
