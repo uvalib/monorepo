@@ -38,7 +38,7 @@ export class UvalibCatalogLight extends observeState(LitElement) {
   render() {
     return html`
 
-<uvalib-spinner ?hidden="${!catalogState.authorizing}" message="Authorizing..." overlay></uvalib-spinner>
+<uvalib-spinner dots ?hidden="${!catalogState.authorizing}" message="Authorizing..." overlay></uvalib-spinner>
 
 <uvalib-page nofooter nolinks>    
   <div tabindex="-1" id="app" role="application">

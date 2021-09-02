@@ -66,7 +66,7 @@ console.log("reset selected search to bring back results");
       ${this.item? html`
       <div class="details">    
           <div class="working" ?hidden="${!this.loading}">
-            <uvalib-spinner message="Looking up details..."></uvalib-spinner>
+            <uvalib-spinner dots message="Looking up details..."></uvalib-spinner>
           </div>       
           <div ?hidden="${this.loading}">
 

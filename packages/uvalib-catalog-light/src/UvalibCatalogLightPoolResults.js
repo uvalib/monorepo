@@ -40,7 +40,7 @@ export class UvalibCatalogLightPoolResults extends observeState(LitElement) {
       <span role="toolbar"  v-if="selectedResults.hits.length > 0">
          <uvalib-button ?hidden="${!catalogState.pools || !catalogState.pools.uva_library.hasMoreHits}" mode="primary" @click="${this._moreResults}">
             <span ?hidden="${!catalogState.searching}">
-               <uvalib-spinner color="white"></uvalib-spinner>
+               <uvalib-spinner dots color="white"></uvalib-spinner>
             </span>
             <span ?hidden="${catalogState.searching}">Load More Results</span>
          </uvalib-button>

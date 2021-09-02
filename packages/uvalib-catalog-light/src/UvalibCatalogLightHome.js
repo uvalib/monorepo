@@ -84,7 +84,7 @@ export class UvalibCatalogLightHome extends observeState(LitElement) {
     return html`
 <div class="home">
   
-  <uvalib-spinner ?hidden=${!catalogState.searching} message="Searching..." overlay></uvalib-spinner>
+  <uvalib-spinner dots ?hidden=${!catalogState.searching} message="Searching..." overlay></uvalib-spinner>
   <div class="search-panel pure-form" ?hidden="${catalogState.focusedItem}">
     ${catalogState.basicSearch? html`
       <label class="screen-reader-text" for="search">Search Virgo for books, articles, and more.</label>
