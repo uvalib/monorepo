@@ -4,8 +4,9 @@ import '@spectrum-web-components/bundle/elements.js';
 import { Overlay } from '@spectrum-web-components/overlay';
 import { Sirsi } from '@uvalib/data-models/lib/sirsi.js';
 import { formatRelative, formatISO9075 } from 'date-fns';
+import { UvalibAnalyticsMixin } from '@uvalib/uvalib-analytics/src/analyticsMixin.js';
 
-export class BarcodeFillHold extends LitElement {
+export class BarcodeFillHold extends UvalibAnalyticsMixin(LitElement) {
   static get properties() {
     return {
       title: { type: String },
@@ -152,9 +153,7 @@ export class BarcodeFillHold extends LitElement {
                 content,
                 options
             );
-            e.target.dispatchEvent(new CustomEvent("uvalib-analytics-event", {
-              detail: {event:["Options","opened"]}, bubbles: true, composed: true
-            }));
+            this._analyticsEvent(["Options","opened"]);
           }}
           ">Options</sp-button>
       <sp-tray>
@@ -164,18 +163,14 @@ export class BarcodeFillHold extends LitElement {
             <sp-switch label="Auto Print ${this.autoPrint ? 'On' : 'Off'}"
               @change="${(e) => { 
                 this.autoPrint = !this.autoPrint; 
-                e.target.dispatchEvent(new CustomEvent("uvalib-analytics-event", {
-                  detail: {event:["Options","autoPrint",this.autoPrint ? 'On' : 'Off']}, bubbles: true, composed: true
-                }));
+                this._analyticsEvent(["Options","autoPrint",this.autoPrint ? 'On' : 'Off']);
               }}"
               value="${this.autoPrint ? 'on' : 'off'}"
               ?checked="${this.autoPrint}">Auto Print ${this.autoPrint ? 'On' : 'Off'}</sp-switch>
             <sp-switch label="Dummy Mode ${this.dummyMode ? 'On' : 'Off'}"
               @change="${(e) => { 
-                this.dummyMode = !this.dummyMode; 
-                e.target.dispatchEvent(new CustomEvent("uvalib-analytics-event", {
-                  detail: {event:["Options","dummyMode",this.dummyMode ? 'On' : 'Off']}, bubbles: true, composed: true
-                }));
+                this.dummyMode = !this.dummyMode;
+                this._analyticsEvent(["Options","dummyMode",this.dummyMode ? 'On' : 'Off']);
               }}"
               value="${this.dummyMode ? 'on' : 'off'}"
               ?checked="${this.dummyMode}">Dummy Mode ${this.dummyMode ? 'On' : 'Off'}</sp-switch>
@@ -295,10 +290,7 @@ export class BarcodeFillHold extends LitElement {
     console.log(`we have a barcode '${this.lastBarcode}'!`);
     this.latestSubmissionDate = new Date();
     this.working = true;
-
-    this.dispatchEvent(new CustomEvent("uvalib-analytics-event", {
-      detail: {event:["hold-fill","request",this.lastBarcode]}, bubbles: true, composed: true
-    }));
+    this._analyticsEvent(["hold-fill","request",this.lastBarcode]);
 
     // submit the barcode and process the result
     this.sirsi.fillhold(this.lastBarcode, override).then(res => {
@@ -327,16 +319,12 @@ export class BarcodeFillHold extends LitElement {
             </sp-button-group>
           `;
 
-          this.dispatchEvent(new CustomEvent("uvalib-analytics-event", {
-            detail: {event:["hold-fill","error",this.lastBarcode,res.hold.error_messages.map(m => m.message).join('--')]}, bubbles: true, composed: true
-          }));
+          this._analyticsEvent(["hold-fill","error",this.lastBarcode,res.hold.error_messages.map(m => m.message).join('--')]);
         } else {
           this._dialogHeading = 'Error';
           this._dialogBody = res.hold.error_messages.map(m=>m.message?m.message:m).join('<br />');
           
-          this.dispatchEvent(new CustomEvent("uvalib-analytics-event", {
-            detail: {event:["hold-fill","error",this.lastBarcode,res.hold.error_messages.map(m=>m.message?m.message:m).join('<br />')]}, bubbles: true, composed: true
-          }));
+          this._analyticsEvent(["hold-fill","error",this.lastBarcode,res.hold.error_messages.map(m=>m.message?m.message:m).join('<br />')]);
         }
         this.shadowRoot.querySelector('sp-popover').setAttribute('open', '');
       } else {
@@ -345,9 +333,8 @@ export class BarcodeFillHold extends LitElement {
         if (this.autoPrint) {
           this.shadowRoot.getElementById('printView').innerHTML = this._formatPrint(res);
           res.printed = true;
-          this.dispatchEvent(new CustomEvent("uvalib-analytics-event", {
-            detail: {event:["hold-fill","auto-print",this.lastBarcode]}, bubbles: true, composed: true
-          }));          
+
+          this._analyticsEvent(["hold-fill","auto-print",this.lastBarcode]);         
           window.print();
           this.working = false;
         } else {
@@ -364,13 +351,9 @@ export class BarcodeFillHold extends LitElement {
         if (token) {
           this.authenticated = true;
           console.info('we are authenticated');
-          this.dispatchEvent(new CustomEvent("uvalib-analytics-event", {
-            detail: {event:["Login","authenticated",this._userID]}, bubbles: true, composed: true
-          }));
+          this._analyticsEvent(["Login","authenticated",this._userID]);
         } else {
-          this.dispatchEvent(new CustomEvent("uvalib-analytics-event", {
-            detail: {event:["Login","not-authenticated",this._userID]}, bubbles: true, composed: true
-          }));
+          this._analyticsEvent(["Login","not-authenticated",this._userID]);
         }
         this.working = false;
       });
@@ -388,9 +371,7 @@ export class BarcodeFillHold extends LitElement {
     this.working = false;
   }
   _clearByIndex(index) {
-    this.dispatchEvent(new CustomEvent("uvalib-analytics-event", {
-      detail: {event:["hold-fill","queue-remove",this.holdRequests[index].hold.item_id]}, bubbles: true, composed: true
-    }));
+    this._analyticsEvent(["hold-fill","queue-remove",this.holdRequests[index].hold.item_id]);
     this.holdRequests.splice(index, 1);
     this.holdRequests = this.holdRequests.slice(); // get a shallow copy to notify
   }
@@ -401,17 +382,13 @@ export class BarcodeFillHold extends LitElement {
       window.print();
       this.holdRequests = this.holdRequests.slice(); // get a shallow copy to notify
       this.working = false;
-      this.dispatchEvent(new CustomEvent("uvalib-analytics-event", {
-        detail: {event:["hold-fill","print",this.holdRequests[index].hold.item_id]}, bubbles: true, composed: true
-      }));
+      this._analyticsEvent(["hold-fill","print",this.holdRequests[index].hold.item_id]);
     }
   }
   _clearPrinted() {
     this.holdRequests = this.holdRequests.filter(r=>!r.printed);
     this.holdRequests = this.holdRequests.slice(); // get a shallow copy to notify
-    this.dispatchEvent(new CustomEvent("uvalib-analytics-event", {
-      detail: {event:["hold-fill","clear-printed"]}, bubbles: true, composed: true
-    }));
+    this._analyticsEvent(["hold-fill","clear-printed"]);
   }
   _isItemsToPrint() {
     return this.holdRequests.find(i=>i.hold && !i.printed);
@@ -425,9 +402,7 @@ export class BarcodeFillHold extends LitElement {
     window.print();
     this.holdRequests = this.holdRequests.slice(); // get a shallow copy to notify
     this.working - false;
-    this.dispatchEvent(new CustomEvent("uvalib-analytics-event", {
-      detail: {event:["hold-fill","print-all"]}, bubbles: true, composed: true
-    }));
+    this._analyticsEvent(["hold-fill","print-all"]);
   }
   _formatPrint(res) {
     return `
