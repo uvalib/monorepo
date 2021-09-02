@@ -21,24 +21,13 @@
 
   <body>
     <uvalib-catalog-light iskiosk inactiveTimeout="420000" configfile="env.json"></uvalib-catalog-light>
+    <uvalib-analytics matomoId="40">
+      <noscript><p><img src="https://analytics.lib.virginia.edu/matomo.php?idsite=40&rec=1" style="border:0;" alt="" /></p></noscript>
+    </uvalib-analytics>
     <script type="module" src="./src/uvalib-catalog-light.js"></script>
-
-<!-- Matomo - placeholder right now as most likely will not track much until event tracking setup -->
-<script>
-var _paq = window._paq = window._paq || [];
-/* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-_paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
-_paq.push(["setCookieDomain", "*.virgo-lite.lib.virginia.edu"]);
-_paq.push(["setDomains", ["*.virgo-lite.lib.virginia.edu"]]);
-_paq.push(['trackPageView']);
-_paq.push(['enableLinkTracking']);
-(function()
-
-{ var u="https://analytics.lib.virginia.edu/"; _paq.push(['setTrackerUrl', u+'matomo.php']); _paq.push(['setSiteId', '40']); var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s); }
-)();
-</script>
-<noscript><p><img src="https://analytics.lib.virginia.edu/matomo.php?idsite=40&rec=1" style="border:0;" alt="" /></p></noscript>
-<!-- End Matomo Code -->
+    <script type="module">
+      import "@uvalib/uvalib-analytics/uvalib-analytics.js";
+    </script>
 
   </body>
 </html>
