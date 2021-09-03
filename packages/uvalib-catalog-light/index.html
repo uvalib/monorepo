@@ -27,6 +27,15 @@
     <script type="module" src="./src/uvalib-catalog-light.js"></script>
     <script type="module">
       import "@uvalib/uvalib-analytics/uvalib-analytics.js";
+
+      fetch('./env.json')
+        .then(res=>res.json())
+        .then(data=>{
+          let catapp = document.querySelector('uvalib-catalog-light');
+          catapp.setAttribute('id',data.id);
+          catapp.setAttribute('domain',data.domain);
+          catapp.setAttribute('build',data.build);
+        });
     </script>
 
   </body>

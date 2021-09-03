@@ -4,8 +4,9 @@ import { catalogState } from './UvalibCatalogLightState.js';
 import { observeState } from 'lit-element-state';
 import '@uvalib/uvalib-spinner/uvalib-spinner.js';
 import '@uvalib/uvalib-button/uvalib-button.js';
+import { UvalibAnalyticsMixin } from '@uvalib/uvalib-analytics/src/analyticsMixin.js';
 
-export class UvalibCatalogLightDetails extends observeState(LitElement) {
+export class UvalibCatalogLightDetails extends observeState( UvalibAnalyticsMixin(LitElement) ) {
 
   static get properties() {
     return {
@@ -49,16 +50,16 @@ export class UvalibCatalogLightDetails extends observeState(LitElement) {
   }
 
   _selectLastItem(){
+    this._analyticsEvent(["catalogDetailPage","selectLastItem",this.item.id]);
     catalogState.focusedItem = catalogState.pools.uva_library.lastResults.find(item=>item.resultIndex === this.item.resultIndex-1);
-console.log("select last search result");
   }
   _selectNextItem(){
+    this._analyticsEvent(["catalogDetailPage","selectNextItem",this.item.id]);
     catalogState.focusedItem = catalogState.pools.uva_library.lastResults.find(item=>item.resultIndex === this.item.resultIndex+1);
-console.log("select next search result");
   }
   _clearFocusedItem(){
-    catalogState.focusedItem = null;
-console.log("reset selected search to bring back results");    
+    this._analyticsEvent(["catalogDetailPage","clearDetailItem",this.item.id]);
+    catalogState.focusedItem = null;  
   }
 
   render() {

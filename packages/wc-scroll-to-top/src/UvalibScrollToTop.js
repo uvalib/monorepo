@@ -1,8 +1,9 @@
 import { html, css, LitElement } from 'lit-element';
 import '@uvalib/uvalib-icon/uvalib-icon.js';
 import style from './UvalibScrollToTop.css.js';
+import { UvalibAnalyticsMixin } from '@uvalib/uvalib-analytics/src/analyticsMixin.js';
 
-export class UvalibScrollToTop extends LitElement {
+export class UvalibScrollToTop extends UvalibAnalyticsMixin(LitElement) {
   static get styles() {
     return [css`
       :host {
@@ -47,7 +48,7 @@ export class UvalibScrollToTop extends LitElement {
     document.body.scrollTop = 0; // For Chrome, Safari and Opera
     document.documentElement.scrollTop = 0; // For IE and Firefox
     window.focus();
-    this.dispatchEvent(new CustomEvent('uvalib-analytics-event', {detail: {uvalibScrollTop: 'backToTop'},bubbles: true, composed: true}));
+    this._analyticsEvent(['uvalibScrollTop','backtotop']);
   }
 
   render() {

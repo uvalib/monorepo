@@ -12,7 +12,7 @@ export default /** @type {import('@web/dev-server').DevServerConfig} */ ({
   // esbuildTarget: 'auto'
 
   /** Set appIndex to enable SPA routing */
-  // appIndex: 'demo/index.html',
+  // appIndex: 'dist/index.html',
 
   /** Confgure bare import resolve plugin */
   // nodeResolve: {
