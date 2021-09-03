@@ -72,7 +72,7 @@ export class UvalibCatalogLight extends router( observeState(LitElement) ) {
     </div>
   </div>
 </uvalib-page>
-<div class="buildstatus" style="opacity: .25">${this.build}</div>
+<div class="buildstatus" style="opacity: .25; text-align: center;">${this.build}</div>
     `;
   }
 
