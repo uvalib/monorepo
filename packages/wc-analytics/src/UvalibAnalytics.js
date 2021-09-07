@@ -33,8 +33,12 @@ export class UvalibAnalytics extends LitElement {
   }
 
   _logEvent(e) {
-    console.info(`Custom event: ${e.detail.event.join('--')}`);
-    if (this.matomoTracker) this.matomoTracker.trackEvent(...e.detail.event);
+    if (e.detail) {
+      // used to be e.detail.track
+      if (!e.detail.event && e.detail.track) e.detail.event = e.detail.track;
+      console.info(`Custom event: ${e.detail.event.join('--')}`);
+      if (this.matomoTracker) this.matomoTracker.trackEvent(...e.detail.event);
+    }
   }
 
   _initMatomo() {
