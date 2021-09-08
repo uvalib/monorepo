@@ -22,7 +22,16 @@ export class UvalibAnalytics extends LitElement {
   }
 
   _logPageView(e) {
-    let customTitle = e.detail? e.detail.customTitle:null;
+    let customTitle = e.detail? 
+      e.detail.customTitle:
+      document.querySelector('title').text;
+    let referrer = e.detail && e.detail.referrer? 
+      e.detail.referrer.contains('http')?
+        e.detail.referrer:
+        document.location.origin+e.detail.referrer:
+      document.referrer;
+    this.matomoTracker.setDocumentTitle(customTitle);
+    this.matomoTracker.setReferrerUrl(referrer);
     console.info(`Page view: ${customTitle}`);
     if (this.matomoTracker) this.matomoTracker.trackPageView(customTitle);
   }
