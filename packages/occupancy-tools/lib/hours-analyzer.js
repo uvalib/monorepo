@@ -51,15 +51,17 @@ export default class HoursAnalyzer extends OccupancyBase {
                 // eval if the loc is open currently
                 if (Array.isArray(location.openingHoursSpecification)) {
                   var todays = location.openingHoursSpecification.find((d) => {
-                    return (
-                      DateTime.fromISO(
-                        d.validFrom + 'T' + d.opens + ':00',
-                      ).toMillis() <= now.toMillis() &&
-                      now.toMillis() <=
+                    if (d.opens ==="00:00" && d.closes ==="00:00") return true;
+                    else 
+                      return (
                         DateTime.fromISO(
-                          d.validThrough + 'T' + d.closes + ':00',
-                        ).toMillis()
-                    );
+                          d.validFrom + 'T' + d.opens + ':00',
+                        ).toMillis() <= now.toMillis() &&
+                        now.toMillis() <=
+                          DateTime.fromISO(
+                            d.validThrough + 'T' + d.closes + ':00',
+                          ).toMillis()
+                      );
                   });
                   // if we have a day, then the location is currently open)
                   if (now <= openagain) todays = false;
