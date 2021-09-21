@@ -32,13 +32,12 @@ export class UvalibAnalytics extends LitElement {
       document.referrer;
     this.matomoTracker.setDocumentTitle(customTitle);
     this.matomoTracker.setReferrerUrl(referrer);
-    console.info(`Page view: ${customTitle}`);
     if (this.matomoTracker) this.matomoTracker.trackPageView(customTitle);
   }
 
   _logSearch(e) {
     console.info(`Search event: ${e.detail.searchQuery} ${e.detail.searchCategory} ${e.detail.resultCount}`);
-    if (this.matomoTracker) this.matomoTracker.trackSiteSearch(e.detail.searchQuery, e.detail.searchCategory, e.detail.resultCount); 
+    if (this.matomoTracker) this.matomoTracker.trackSiteSearch(e.detail.searchQuery, e.detail.searchCategory, e.detail.resultCount.toString() ); 
   }
 
   _logEvent(e) {

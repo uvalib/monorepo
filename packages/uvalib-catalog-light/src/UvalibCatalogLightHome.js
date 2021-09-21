@@ -4,9 +4,10 @@ import { catalogState } from './UvalibCatalogLightState.js';
 import { observeState } from 'lit-element-state';
 import { Catalog } from '@uvalib/data-models/lib/catalog.js';
 import '@uvalib/uvalib-button/uvalib-button.js';
-//import './uvalib-catalog-light-details.js';
+import { UvalibAnalyticsMixin } from '@uvalib/uvalib-analytics/src/analyticsMixin.js';
 
-export class UvalibCatalogLightHome extends observeState(LitElement) {
+
+export class UvalibCatalogLightHome extends observeState( UvalibAnalyticsMixin(LitElement) ) {
   static get properties() {
     return {
       catalog: {type: Object}
@@ -77,6 +78,7 @@ export class UvalibCatalogLightHome extends observeState(LitElement) {
       import('./uvalib-catalog-light-details.js');
       catalogState.pools = {...catalogState.pools, lastTs:new Date() };
       catalogState.hasresults = (catalogState.pools.uva_library.lastResults)? catalogState.pools.uva_library.lastResults.length > 0: false;
+      this._analyticsSearch(catalogState.rawQueryString, "catalog", catalogState.pools.uva_library.lastResultCount);
       catalogState.searching = false;
       catalogState.replaceState();     
     });

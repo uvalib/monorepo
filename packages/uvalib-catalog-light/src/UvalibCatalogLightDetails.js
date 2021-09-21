@@ -24,6 +24,7 @@ export class UvalibCatalogLightDetails extends observeState( UvalibAnalyticsMixi
         .then((data)=>{
           this.loading = false;
           this.requestUpdate('item', old);    
+          this._analyticsEvent(["catalogDetailPage","view",this._item.id]);
         });
       this.requestUpdate('item', old);
     }
