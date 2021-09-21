@@ -30,11 +30,12 @@ export class UvalibCatalogLightPoolResults extends observeState(LitElement) {
    ${catalogState.pools && !catalogState.searching? html`
       <div  class="hits" role="region" aria-label="search results">
          <div class="hits-content" role="list">
-            ${catalogState.pools.uva_library.lastResults.map((hit,index)=>html`
+            ${catalogState.pools.uva_library.lastResults?
+               catalogState.pools.uva_library.lastResults.map((hit,index)=>html`
                <div role="listitem" class="hit-wrapper">
                   <uvalib-catalog-light-result .pool="${catalogState.pools.uva_library}" .result="${hit}" .index="${index+1}"></uvalib-catalog-light-result>
                </div>            
-            `)}
+            `):''}
          </div>
       </div>
       <span role="toolbar"  v-if="selectedResults.hits.length > 0">

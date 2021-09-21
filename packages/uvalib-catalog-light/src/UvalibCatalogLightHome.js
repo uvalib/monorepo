@@ -53,6 +53,7 @@ export class UvalibCatalogLightHome extends observeState(LitElement) {
     this.addEventListener('itemselected', function(e){
       let selectedId = e.detail.id;
       catalogState.focusedItem = catalogState.pools.uva_library.lastResults.find(item=>item.id === selectedId);
+      catalogState.pushState();
       document.body.scrollTop = 0; // For Chrome, Safari and Opera
       document.documentElement.scrollTop = 0; // For IE and Firefox
       window.focus();
@@ -76,7 +77,8 @@ export class UvalibCatalogLightHome extends observeState(LitElement) {
       import('./uvalib-catalog-light-details.js');
       catalogState.pools = {...catalogState.pools, lastTs:new Date() };
       catalogState.hasresults = (catalogState.pools.uva_library.lastResults)? catalogState.pools.uva_library.lastResults.length > 0: false;
-      catalogState.searching = false;     
+      catalogState.searching = false;
+      catalogState.replaceState();     
     });
   }
 

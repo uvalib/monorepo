@@ -4,28 +4,15 @@ import { catalogState } from './UvalibCatalogLightState.js';
 import { observeState } from 'lit-element-state';
 import '@uvalib/uvalib-page/uvalib-page.js';
 import './uvalib-catalog-light-home.js';
-import { router } from 'lit-element-router';
 
-export class UvalibCatalogLight extends router( observeState(LitElement) ) {
+export class UvalibCatalogLight extends observeState(LitElement) {
   static get properties() {
     return {
       iskiosk: {type: Boolean},
-      route: { type: String },
-      params: { type: Object },
       id: {type: String},
       domain: {type: String},
       build: {type:String}
     };
-  }
-
-  static get routes() {
-    return [{
-      name: 'home',
-      pattern: '',
-    },{
-      name: 'results',
-      pattern: "results/:searchquery"
-    }];
   }
 
   static get styles() {
@@ -39,13 +26,6 @@ export class UvalibCatalogLight extends router( observeState(LitElement) ) {
   constructor() {
     super();
     this.iskiosk = false;
-    this.route = '';
-    this.params = {};
-  }
-
-  router(route, params) {
-    this.route = route;
-    this.params = params;
   }
 
   firstUpdated() {
@@ -60,8 +40,6 @@ export class UvalibCatalogLight extends router( observeState(LitElement) ) {
     return html`
 
 <uvalib-spinner dots ?hidden="${!catalogState.authorizing}" message="Authorizing..." overlay></uvalib-spinner>
-
-<h1>${this.params.searchquery}</h1>
 
 <uvalib-page nofooter nolinks>    
   <div tabindex="-1" id="app" role="application">
