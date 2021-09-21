@@ -68,30 +68,24 @@ export class Catalog extends ApiBase {
 
   fetchResults(config) {
     let params = { ...this.searchDefaults, ...config };
-    return this.authorize().then((token) => {
-      return fetch(`${this.#host}${searchPath}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          query: `keyword: {${params.keyword}}`,
-          pagination: { start: params.start, rows: params.rows },
-        }),
+    return this.fetch(`${this.#host}${searchPath}`,{
+      method: "POST",
+      body: JSON.stringify({
+        query: `keyword: {${params.keyword}}`,
+        pagination: { start: params.start, rows: params.rows },
       })
-        .then((res) => res.json())
-        .then((data) => {
-          this.lastKeyword = params.keyword;
-          this.lastStart = params.start;
-          this.lastRows = params.rows;
-          this.lastPools = data.pools;
-          this.lastResultCount = data.total_hits;
-          this.lastPoolResults = data.pool_results;
-          this.lastRequest = data.request;
-          this.lastSuggestions = data.suggestions;
-          return data;
-        });
-    });
+    })
+      .then((data) => {
+        this.lastKeyword = params.keyword;
+        this.lastStart = params.start;
+        this.lastRows = params.rows;
+        this.lastPools = data.pools;
+        this.lastResultCount = data.total_hits;
+        this.lastPoolResults = data.pool_results;
+        this.lastRequest = data.request;
+        this.lastSuggestions = data.suggestions;
+        return data;
+      });
   }
+
 }

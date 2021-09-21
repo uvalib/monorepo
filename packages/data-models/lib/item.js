@@ -19,17 +19,26 @@ export class Item extends ApiBase {
     this.id = [];
     this.title = [];
     this.author = [];
-    // parse things out a bit  
+    // parse things out a bit
     this.records = raw.record_list;
-    raw.record_list.forEach(rec => {
-      this._upgradeFields(rec.fields);
-      rec.fields.forEach(field=>{
-        if (field.name === 'id') this.id.push(field.value);
-        if (field.type === 'title') this.title.push(field.value);
-        if (field.type === 'author') this.author.push(field.value);
-      })
-
-    });
+    if (this.records) {
+      this.records.forEach(rec => {
+        this._upgradeFields(rec.fields);
+        rec.fields.forEach(field=>{
+          if (field.name === 'id') this.id.push(field.value);
+          if (field.type === 'title') this.title.push(field.value);
+          if (field.type === 'author') this.author.push(field.value);
+        })
+  
+      });
+    } else {
+      this.raw_item = raw.raw_item;
+      this.fields = raw.fields;
+      this.id = raw.id;
+      this.title = raw.title;
+      this.author = raw.author;
+      this.resultIndex = raw.resultIndex;
+    }
   }
 
   _upgradeFields(rawFields){
@@ -40,22 +49,11 @@ export class Item extends ApiBase {
   }
 
   fetchItem() {
-    return this.authorize().then((token) => {
-      // Lets get the full record for the item 
-      return fetch(`https://pool-solr-ws-uva-library.internal.lib.virginia.edu/api/resource/${this.id[0]}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        }
-      })
-      .then((res) => res.json())
+    return this.fetch(`https://pool-solr-ws-uva-library.internal.lib.virginia.edu/api/resource/${this.id[0]}`)
       .then(function(data){ 
         this.fields = {};
-        this._upgradeFields(data.fields);  
-console.log(this.fields);         
+        this._upgradeFields(data.fields);           
         return data;
-      }.bind(this));
-    });
+      }.bind(this));   
   }
 }

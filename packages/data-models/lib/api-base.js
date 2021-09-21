@@ -2,8 +2,8 @@ export class ApiBase {
   authtoken;
   searchDefaults;
   searchPath;
-  itemPath
-  availabilityPath
+  itemPath;
+  availabilityPath;
 
   constructor() {
     this.authtoken = (window.UVALibVirgo && window.UVALibVirgo.authtoken)? window.UVALibVirgo.authtoken:null;
@@ -11,6 +11,10 @@ export class ApiBase {
     this.itemPath = "/api/resource";
     this.availabilityPath = "/api/availability";
     this.searchDefaults = { start: 0, rows: 5, keyword: "", debug: false, verbose: false };
+  }
+
+  get defaultFetchOptions() {
+    return {method: "GET",headers: {"Content-Type": "application/json", Authorization: `Bearer ${this.authtoken}`}};
   }
 
   get authenticated() {
@@ -34,6 +38,13 @@ export class ApiBase {
             window.UVALibVirgo.authtoken = this.authtoken;
             return this.authtoken;
           });
+  }
+
+  fetch(url, options={}) {
+    return this.authorize().then( ()=>{
+      options = {...this.defaultFetchOptions,...options};
+      return fetch(url, options).then((res) => res.json())
+    });
   }
 
 

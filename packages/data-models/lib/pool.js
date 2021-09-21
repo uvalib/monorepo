@@ -53,8 +53,6 @@ export class Pool extends ApiBase {
     } else {
       this.lastConfidence - (results.confidence)? results.confidence:'';
       this.lastResultCount = (results.pagination.total)? results.pagination.total: 0;
-//      this.#lastRawResults = [];
-//      this.#lastResults = [];
     }
   }
   get lastResults() {
@@ -100,32 +98,21 @@ export class Pool extends ApiBase {
 
   fetchResults(config) {
     let params = { ...this.searchDefaults, ...config };
-console.log(params.keyword);    
     if (params.keyword) this.queryString = params.keyword;
-    return this.authorize().then((token) => {
-      // Lets get some results
-console.log(this.queryString);       
-      return fetch(`${this.url}${searchPath}${this._queryparams}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          query: `keyword: {${this.queryString}}`,
-          pagination: { start: params.start, rows: params.rows },
-        }),
+    return this.fetch(`${this.url}${searchPath}${this._queryparams}`, {
+      method: "POST",
+      body: JSON.stringify({
+        query: `keyword: {${this.queryString}}`,
+        pagination: { start: params.start, rows: params.rows },
       })
-        .then((res) => res.json())
-        .then((data) => {
-console.log(data);
-          this.lastParams = params;
-          this.lastKeyword = params.keyword;
-          this.lastStart = params.start;
-          this.lastRows = params.rows;
-          this.lastResults = data;  
-          return data;
-        });
+    }).then((data) => {
+      this.lastParams = params;
+      this.lastKeyword = params.keyword;
+      this.lastStart = params.start;
+      this.lastRows = params.rows;
+      this.lastResults = data;  
+      return data;
     });
   }
+
 }
