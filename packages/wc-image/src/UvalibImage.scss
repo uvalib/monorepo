@@ -3,20 +3,32 @@
 :host {
     display: inline-block;
     position: relative;
+    fill: $brand-blue;
+    background-color: $white;
   }
 
-:host([enlargable]) {
+  :host(:hover) {
+    fill: $white;
+    background-color: $brand-blue;
+  }
+
+  :host([enlargable]) {
     cursor: pointer;
-}  
+  }
 
   img {
     max-width: 100%;
+    vertical-align: middle;
+    display: block;
+  }
+
+  button {
+    fill: inherit;
+    background-color: inherit;
   }
 
   button {
     cursor: pointer;
-    color: $brand-blue;
-    background-color: white;
     border: none;
     padding: .4em 0.45em;
     text-align: center;
@@ -28,10 +40,6 @@
     position: absolute;
     right: 5px;
     top: 5px;
-    &:hover {
-      fill: white;
-      background-color: $brand-blue;
-    }
   }
   
   .sr-only {

@@ -14,13 +14,15 @@ export class UvalibImage extends UvalibAnalyticsMixin(LitElement) {
       src: { type: String },
       alt: { type: String },
       enlargable: { type: Boolean },
-      title: { type: String }
+      title: { type: String },
+      loading: {type: String }
     };
   }
 
   constructor() {
     super();
     this.enlargable = false;
+    this.loading = "lazy";
   }
 
   firstUpdated() {
@@ -32,7 +34,7 @@ export class UvalibImage extends UvalibAnalyticsMixin(LitElement) {
     return (this.alt||this.alt=="")?
       html`
         ${this.enlargable? html`<button @click="${this.enlarge}"><uvalib-icon icon-id="uvalib:general:searchplus" ></uvalib-icon><span class="sr-only">enlarge image</span></button>`:''}
-        <span id="image" ?enlargable="${this.enlargable}" @click="${this.enlarge}"><img src="${this.src}" title="${this.title || this.alt}" alt="${this.alt}" /></span>
+        <div id="image" ?enlargable="${this.enlargable}" @click="${this.enlarge}"><img loading="${this.loading}" src="${this.src}" title="${this.title || this.alt}" alt="${this.alt}" /></div>
       `:
       html`<!-- uvalib-image needs an alt attribute even if it is empty! -->`;
   }
