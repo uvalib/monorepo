@@ -7,7 +7,7 @@
     background-color: $white;
   }
 
-  :host(:hover) {
+  :host(:hover) button {
     fill: $white;
     background-color: $brand-blue;
   }
