@@ -31,7 +31,7 @@ export class UvalibImage extends UvalibAnalyticsMixin(LitElement) {
   render() {
     return this.alt?
       html`
-        ${this.enlargable? html`<button @click="${this.enlarge}"><uvalib-icon icon-id="uvalib:general:plus" ></uvalib-icon><span class="sr-only">enlarge image</span></button>`:''}
+        ${this.enlargable? html`<button @click="${this.enlarge}"><uvalib-icon icon-id="uvalib:general:searchplus" ></uvalib-icon><span class="sr-only">enlarge image</span></button>`:''}
         <span id="image" ?enlargable="${this.enlargable}" @click="${this.enlarge}"><img src="${this.src}" title="${this.title || this.alt}" alt="${this.alt}" /></span>
       `:
       html`<!-- uvalib-image needs an alt attribute even if it is empty! -->`;
