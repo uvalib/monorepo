@@ -1,0 +1,36 @@
+@import '@uvalib/web-styles/scss/variables';
+
+:host {
+    display: inline-block;
+    position: relative;
+  }
+
+:host([enlargable]) {
+    cursor: pointer;
+}  
+
+  img {
+    max-width: 100%;
+  }
+
+  button {
+    cursor: pointer;
+    color: $brand-blue;
+    background-color: white;
+    border: none;
+    padding: .4em 0.45em;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+    margin: 4px 2px;
+    border-radius: 50%;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+  }
+  
+  .sr-only {
+    @include sr-only;
+  }
+  

@@ -5169,6 +5169,11 @@ bignumber.js@^9.0.0:
   resolved "https://registry.yarnpkg.com/bignumber.js/-/bignumber.js-9.0.1.tgz#8d7ba124c882bfd8e43260c67475518d0689e4e5"
   integrity sha512-IdZR9mh6ahOBv/hYGiXyVuyCetmGJhtYkqLBpTStdhEGjegpPlUawydyaF3pbIOFynJTpllEs+NP+CS9jKFLjA==
 
+bigpicture@^2.5.3:
+  version "2.5.3"
+  resolved "https://registry.yarnpkg.com/bigpicture/-/bigpicture-2.5.3.tgz#245bc39a7adda8daecccf07812b8541f4cc440f9"
+  integrity sha512-BIwzQTejSjJ9JAnmaNUd/YMy025zERADRi9IpZ1bKi0jE08Z1WSD0whTKPg/XbR//qOfk03bAM81xWvNga1yeQ==
+
 binary-extensions@^2.0.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-2.2.0.tgz#75f502eeaf9ffde42fc98829645be4ea76bd9e2d"
