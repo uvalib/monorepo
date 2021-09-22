@@ -28,6 +28,10 @@
     position: absolute;
     right: 5px;
     top: 5px;
+    &:hover {
+      fill: white;
+      background-color: $brand-blue;
+    }
   }
   
   .sr-only {
