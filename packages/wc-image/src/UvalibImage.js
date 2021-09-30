@@ -23,18 +23,20 @@ export class UvalibImage extends UvalibAnalyticsMixin(LitElement) {
     super();
     this.enlargable = false;
     this.loading = "lazy";
+    this.setAttribute('role',"img");
   }
 
   firstUpdated() {
     if (!this.alt && this.alt!="") console.error("uvalib-image needs an alt attribute even if it is empty!");
     this._img = this.shadowRoot.querySelector('img');
+    this.setAttribute("aria-label",this.alt);
   }
 
   render() {
     return (this.alt||this.alt=="")?
       html`
         ${this.enlargable? html`<button @click="${this.enlarge}"><uvalib-icon icon-id="uvalib:general:searchplus" ></uvalib-icon><span class="sr-only">enlarge image</span></button>`:''}
-        <div id="image" ?enlargable="${this.enlargable}" @click="${this.enlarge}"><img loading="${this.loading}" src="${this.src}" title="${this.title || this.alt}" alt="${this.alt}" /></div>
+        <div id="image" ?enlargable="${this.enlargable}" @click="${this.enlarge}"><img loading="${this.loading}" src="${this.src}" title="${this.title || this.alt}" /></div>
       `:
       html`<!-- uvalib-image needs an alt attribute even if it is empty! -->`;
   }
