@@ -43,8 +43,8 @@ export class UvalibImage extends UvalibAnalyticsMixin(LitElement) {
 
   enlarge() {
     if (this.enlargable) {
-      BigPicture({el: this._img, onClose: ()=>{
-        document.querySelector('#bp_container').focus();
+      BigPicture({el: this._img, animationEnd: ()=>{
+        document.querySelector('#bp_container .bp-x').focus();
       }})
       
     }
