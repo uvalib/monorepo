@@ -12,7 +12,7 @@
     background-color: $brand-blue;
   }
 
-  :host([enlargable]) {
+  #image[enlargable] {
     cursor: pointer;
   }
 

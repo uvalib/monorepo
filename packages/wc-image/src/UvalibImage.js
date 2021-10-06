@@ -13,7 +13,9 @@ export class UvalibImage extends UvalibAnalyticsMixin(LitElement) {
     return {
       src: { type: String },
       alt: { type: String },
+      _enlargable: { type: Boolean },
       enlargable: { type: Boolean },
+      enlargableMinWidth: { type: Number },
       title: { type: String },
       loading: {type: String }
     };
@@ -21,22 +23,43 @@ export class UvalibImage extends UvalibAnalyticsMixin(LitElement) {
 
   constructor() {
     super();
+    this.enlargableMinWidth = 768;
     this.enlargable = false;
+    this._enlargable = false;
     this.loading = "lazy";
     this.setAttribute('role',"img");
+  }
+
+  _getScreenWidth() {  
+    return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+  }
+
+  _handleResize() {
+    console.log( this._getScreenWidth() );
+    this._enlargable = this.enlargable && this._getScreenWidth() >= this.enlargableMinWidth;
   }
 
   firstUpdated() {
     if (!this.alt && this.alt!="") console.error("uvalib-image needs an alt attribute even if it is empty!");
     this._img = this.shadowRoot.querySelector('img');
     this.setAttribute("aria-label",this.alt);
+    this._handleResize();
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    window.addEventListener('resize', this._handleResize.bind(this) );
+  }
+  disconnectedCallback() {
+    window.removeEventListener('resize', this._handleResize.bind(this) );
+    super.disconnectedCallback();
   }
 
   render() {
     return (this.alt||this.alt=="")?
       html`
-        ${this.enlargable? html`<button @click="${this.enlarge}"><uvalib-icon icon-id="uvalib:general:searchplus" ></uvalib-icon><span class="sr-only">enlarge image</span></button>`:''}
-        <div id="image" ?enlargable="${this.enlargable}" @click="${this.enlarge}"><img loading="${this.loading}" src="${this.src}" title="${this.title || this.alt}" /></div>
+        ${this._enlargable? html`<button @click="${this.enlarge}"><uvalib-icon icon-id="uvalib:general:searchplus" ></uvalib-icon><span class="sr-only">enlarge image</span></button>`:''}
+        <div id="image" ?enlargable="${this._enlargable}" @click="${this.enlarge}"><img loading="${this.loading}" src="${this.src}" title="${this.title || this.alt}" /></div>
       `:
       html`<!-- uvalib-image needs an alt attribute even if it is empty! -->`;
   }
@@ -46,7 +69,7 @@ export class UvalibImage extends UvalibAnalyticsMixin(LitElement) {
   }
 
   enlarge() {
-    if (this.enlargable) {
+    if (this._enlargable) {
       BigPicture({
         el: this._img, 
         animationEnd: ()=>{ document.querySelector('#bp_container .bp-x').focus(); },
