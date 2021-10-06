@@ -41,12 +41,17 @@ export class UvalibImage extends UvalibAnalyticsMixin(LitElement) {
       html`<!-- uvalib-image needs an alt attribute even if it is empty! -->`;
   }
 
+  focus() {
+    this.shadowRoot.querySelector('button').focus();
+  }
+
   enlarge() {
     if (this.enlargable) {
-      BigPicture({el: this._img, animationEnd: ()=>{
-        document.querySelector('#bp_container .bp-x').focus();
-      }})
-      
+      BigPicture({
+        el: this._img, 
+        animationEnd: ()=>{ document.querySelector('#bp_container .bp-x').focus(); },
+        onClose: function(){ console.info(this); this.focus(); }.bind(this)
+      });
     }
   }
 }

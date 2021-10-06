@@ -3,7 +3,7 @@
   "description": "Webcomponent uvalib-image following open-wc recommendations",
   "license": "MIT",
   "author": "uvalib-image",
-  "version": "0.2.9",
+  "version": "0.2.11",
   "main": "index.js",
   "module": "index.js",
   "scripts": {
