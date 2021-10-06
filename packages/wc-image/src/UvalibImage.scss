@@ -3,13 +3,20 @@
 :host {
     display: inline-block;
     position: relative;
+  }
+
+  :host .wrapper {
     fill: $brand-blue;
     background-color: $white;
   }
 
-  :host(:hover) button, :host(:focus) button, button:focus {
+  :host(:hover) .wrapper button, :host(:focus) .wrapper button, .wrapper button:focus {
     fill: $white;
     background-color: $brand-blue;
+  }
+
+  .wrapper {
+    position: relative;
   }
 
   #image[enlargable] {
@@ -25,9 +32,6 @@
   button {
     fill: inherit;
     background-color: inherit;
-  }
-
-  button {
     cursor: pointer;
     border: none;
     padding: .4em 0.45em;
@@ -41,7 +45,7 @@
     right: 5px;
     top: 5px;
   }
-  
+
   .sr-only {
     @include sr-only;
   }

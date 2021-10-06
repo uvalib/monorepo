@@ -35,7 +35,6 @@ export class UvalibImage extends UvalibAnalyticsMixin(LitElement) {
   }
 
   _handleResize() {
-    console.log( this._getScreenWidth() );
     this._enlargable = this.enlargable && this._getScreenWidth() >= this.enlargableMinWidth;
   }
 
@@ -58,14 +57,17 @@ export class UvalibImage extends UvalibAnalyticsMixin(LitElement) {
   render() {
     return (this.alt||this.alt=="")?
       html`
+      <div class="wrapper">
         ${this._enlargable? html`<button @click="${this.enlarge}"><uvalib-icon icon-id="uvalib:general:searchplus" ></uvalib-icon><span class="sr-only">enlarge image</span></button>`:''}
         <div id="image" ?enlargable="${this._enlargable}" @click="${this.enlarge}"><img loading="${this.loading}" src="${this.src}" title="${this.title || this.alt}" /></div>
+      </div>  
       `:
       html`<!-- uvalib-image needs an alt attribute even if it is empty! -->`;
   }
 
   focus() {
     this.shadowRoot.querySelector('button').focus();
+    this.scrollIntoView();
   }
 
   enlarge() {
@@ -73,7 +75,9 @@ export class UvalibImage extends UvalibAnalyticsMixin(LitElement) {
       BigPicture({
         el: this._img, 
         animationEnd: ()=>{ document.querySelector('#bp_container .bp-x').focus(); },
-        onClose: function(){ console.info(this); this.focus(); }.bind(this)
+        onClose: function(){ 
+          this.focus(); 
+        }.bind(this)
       });
     }
   }
