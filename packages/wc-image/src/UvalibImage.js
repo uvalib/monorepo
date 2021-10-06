@@ -74,7 +74,17 @@ export class UvalibImage extends UvalibAnalyticsMixin(LitElement) {
     if (this._enlargable) {
       BigPicture({
         el: this._img, 
-        animationEnd: ()=>{ document.querySelector('#bp_container .bp-x').focus(); },
+        animationEnd: ()=>{ 
+          let closeButton = document.querySelector('#bp_container .bp-x');
+          let icon = closeButton.querySelector('svg');
+          let title = document.createElement('title');
+          title.id="title";
+          title.setAttribute('lang','en');
+          title.textContent = "Close";
+          icon.appendChild(title);
+          icon.setAttribute('aria-labeledby','title');
+          closeButton.focus();
+        },
         onClose: function(){ 
           this.focus(); 
         }.bind(this)
