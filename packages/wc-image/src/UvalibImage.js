@@ -75,6 +75,7 @@ export class UvalibImage extends UvalibAnalyticsMixin(LitElement) {
       BigPicture({
         el: this._img, 
         animationEnd: ()=>{ 
+          document.querySelector('#bp_caption').remove();
           let closeButton = document.querySelector('#bp_container .bp-x');
           let icon = closeButton.querySelector('svg');
           let title = document.createElement('title');
