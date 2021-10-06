@@ -27,7 +27,10 @@ export class UvalibImage extends UvalibAnalyticsMixin(LitElement) {
     this.enlargable = false;
     this._enlargable = false;
     this.loading = "lazy";
-    this.setAttribute('role',"img");
+//    this.setAttribute('role',"img");
+    this.setAttribute('tabindex',0);
+    this.addEventListener('focus', this.focus);
+
   }
 
   _getScreenWidth() {  
@@ -58,7 +61,7 @@ export class UvalibImage extends UvalibAnalyticsMixin(LitElement) {
     return (this.alt||this.alt=="")?
       html`
       <div class="wrapper">
-        ${this._enlargable? html`<button @click="${this.enlarge}"><uvalib-icon icon-id="uvalib:general:searchplus" ></uvalib-icon><span class="sr-only">enlarge image</span></button>`:''}
+        ${this._enlargable? html`<button @click="${this.enlarge}" ><uvalib-icon icon-id="uvalib:general:searchplus" aria-label="enlarge image" role="image"></uvalib-icon></button>`:''}
         <div id="image" ?enlargable="${this._enlargable}" @click="${this.enlarge}"><img loading="${this.loading}" src="${this.src}" title="${this.title || this.alt}" /></div>
       </div>  
       `:
@@ -66,6 +69,7 @@ export class UvalibImage extends UvalibAnalyticsMixin(LitElement) {
   }
 
   focus() {
+    console.log("focused");
     this.shadowRoot.querySelector('button').focus();
     this.scrollIntoView();
   }
@@ -75,7 +79,7 @@ export class UvalibImage extends UvalibAnalyticsMixin(LitElement) {
       BigPicture({
         el: this._img, 
         animationEnd: ()=>{ 
-          document.querySelector('#bp_caption').remove();
+          document.querySelector('#bp_caption').style.display = "none";
           let closeButton = document.querySelector('#bp_container .bp-x');
           let icon = closeButton.querySelector('svg');
           let title = document.createElement('title');
