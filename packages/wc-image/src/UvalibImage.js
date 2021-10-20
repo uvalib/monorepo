@@ -61,7 +61,7 @@ export class UvalibImage extends UvalibAnalyticsMixin(LitElement) {
     return (this.alt||this.alt=="")?
       html`
       <div class="wrapper">
-        ${this._enlargable? html`<button @click="${this.enlarge}" ><uvalib-icon icon-id="uvalib:general:searchplus" aria-label="enlarge image" role="image"></uvalib-icon></button>`:''}
+        ${this._enlargable? html`<button @click="${this.enlarge}" aria-label="${this.alt}"><uvalib-icon icon-id="uvalib:general:searchplus" aria-label="enlarge image" role="image"></uvalib-icon></button>`:''}
         <div id="image" ?enlargable="${this._enlargable}" @click="${this.enlarge}"><img loading="${this.loading}" src="${this.src}" title="${this.title || this.alt}" /></div>
       </div>  
       `:

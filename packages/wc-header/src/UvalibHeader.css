@@ -1,4 +1,14 @@
 @import url("https://use.typekit.net/tgy5tlj.css");
+/**
+* Screen Reader only text for use where text is needed for non visual users
+*
+* @mixin
+* @section Accessibility Mixins
+* @example
+*  span.srOnly {
+*    @include sr-only;
+*  }
+*/
 /* small media width */
 :host {
   display: block;
