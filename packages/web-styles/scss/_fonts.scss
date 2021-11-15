@@ -53,7 +53,7 @@ $fonts: (
   font-weight: $font-weight-demi;
   font-size: calc(#{$font-size-unit}* 3.75);
   line-height: calc(#{$font-size-unit}* 3.75);
-  color: $brand-blue;
+  color: $h1-color;
   margin-top: calc(#{$spacing-unit}/ 4);
   margin-bottom: calc(#{$spacing-unit}/ 1.5);
 }
@@ -62,39 +62,39 @@ $fonts: (
   font-weight: $font-weight-medium;
   font-size: calc(#{$font-size-unit}* 2);
   line-height: calc(#{$font-size-unit}* 2);
-  color: $brand-blue;
+  color: $h2-color;
 }
 @mixin h3 {
   font-family: $font-primary;
   font-weight: $font-weight-medium;
   font-size: calc(#{$font-size-unit}* 1.5);
   line-height: calc(#{$font-size-unit}* 1.5);
-  color: $brand-blue;
+  color: $h3-color;
 }
 @mixin h3-with-flair {
   @include font-decorative;
   font-size: calc(#{$font-size-unit}* 1.5);
   line-height: calc(#{$font-size-unit}* 1.5);
-  color: $brand-blue;
+  color: $h3-color;
 }
 @mixin h4 {
   font-family: $font-primary;
   font-weight: $font-weight-medium;
   font-size: calc(#{$font-size-unit}* 1.25);
   line-height: calc(#{$font-size-unit}* 1.25);
-  color: $brand-blue;
+  color: $h4-color;
 }
 @mixin h5 {
   font-family: $font-primary;
   font-weight: $font-weight-medium;
   font-size: $font-size-unit;
   line-height: $font-size-unit;
-  color: $brand-blue;
+  color: $h5-color;
 }
 @mixin h6 {
   font-family: $font-primary;
   font-weight: $font-weight-book;
   font-size: $font-size-unit;
   line-height: $font-size-unit;
-  color: $text;
+  color: $h6-color;
 }

@@ -122,6 +122,13 @@ $color-primary-text: $grey-dark !default;
 /// @type Color
 $color-error: $red-emergency !default;
 
+$h1-color: $brand-blue;
+$h2-color: $brand-blue;
+$h3-color: $brand-blue;
+$h4-color: $brand-blue;
+$h5-color: $brand-blue;
+$h6-color: $text;
+
 // Yes I know that SassDoc sucks for maps see https://github.com/SassDoc/sassdoc/issues/389
 
 /// Colors currently used by the Virgo web client in App.vue
