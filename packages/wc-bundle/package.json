@@ -1,6 +1,6 @@
 {
   "name": "wc-bundle",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Bundle and build of Library web components",
   "author": "Doug Chestnut <dougchestnut@gmail.com>",
   "homepage": "https://github.com/uvalib/monorepo#readme",
@@ -30,11 +30,11 @@
   },
   "dependencies": {
     "@uvalib/data-models": "^0.0.9",
-    "@uvalib/uvalib-analytics": "^0.0.4",
+    "@uvalib/uvalib-analytics": "^0.1.0",
     "@uvalib/uvalib-footer": "^1.0.14",
     "@uvalib/uvalib-header": "^1.0.26",
     "@uvalib/uvalib-icon": "^0.0.6",
-    "@uvalib/uvalib-image": "^0.2.20",
+    "@uvalib/uvalib-image": "^0.2.21",
     "@uvalib/uvalib-logos": "^1.0.19",
     "@uvalib/uvalib-page": "^0.0.18",
     "@uvalib/uvalib-sub-nav": "^0.0.10",
