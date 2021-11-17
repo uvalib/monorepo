@@ -6,7 +6,8 @@ export class UvalibAnalytics extends LitElement {
     return {
       matomoURL: { type: String },
       matomoId: { type: Number },
-      spa: { type: Boolean }
+      spa: { type: Boolean },
+      variables: { type: Object }
     };
   }
 
@@ -14,6 +15,7 @@ export class UvalibAnalytics extends LitElement {
     super();
     this.matomoURL = "https://analytics.lib.virginia.edu/";
     this.spa = false;
+    this.variables = null;
   }
 
   firstUpdated() {
@@ -63,6 +65,12 @@ export class UvalibAnalytics extends LitElement {
       import(`${this.matomoURL}matomo.js`).then(function(){
         console.log("Loaded Matomo!");
         this.matomoTracker = Matomo.getTracker(`${this.matomoURL}matomo.php`, this.matomoId.toString());
+        if ( this.variables ) {
+          Object.keys(this.variables).forEach(key=>{
+            this.matomoTracker.setCustomDimension(key,this.variables[key]);
+            console.info(`Defined Dimension ${key}`);
+          });
+        }
       }.bind(this))
     }
   }

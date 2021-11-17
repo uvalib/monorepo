@@ -186,7 +186,7 @@ class Sirsi {
   }
 }
 
-class ApiBaseVirgo {
+class ApiBase {
   authtoken;
   searchDefaults;
   searchPath;
@@ -238,7 +238,7 @@ class ApiBaseVirgo {
 
 }
 
-class Item extends ApiBaseVirgo {
+class Item extends ApiBase {
 
   poolId;
   poolURL;
@@ -306,7 +306,7 @@ const poolDefaults = {
   url: "",
 };
 
-class Pool extends ApiBaseVirgo {
+class Pool extends ApiBase {
   #config
   #lastResults;
   #lastRawResults;
@@ -417,7 +417,7 @@ function mappedToID(list) {
   return Object.assign({}, ...list.map((i) => ({ [i.id]: i })));
 }
 
-class Catalog extends ApiBaseVirgo {
+class Catalog extends ApiBase {
   #config;
   #host;
   #lastPools;
