@@ -39,5 +39,6 @@
     "@uvalib/uvalib-page": "^0.0.18",
     "@uvalib/uvalib-sub-nav": "^0.0.10",
     "playground-elements": "^0.14.6"
-  }
+  },
+  "gitHead": "ec4c70f491118a5079d2ab049fa1f490fdede710"
 }

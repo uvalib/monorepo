@@ -62,15 +62,15 @@ export class UvalibAnalytics extends LitElement {
       }
       _paq.push(['setTrackerUrl', `${this.matomoURL}matomo.php`]);
       _paq.push(['setSiteId', this.matomoId.toString()]);
+      if ( this.variables ) {
+        Object.keys(this.variables).forEach(key=>{
+          _paq.push(['setCustomDimension', key, this.variables[key]]);
+          console.info(`Defined Dimension ${key}`);
+        });
+      }
       import(`${this.matomoURL}matomo.js`).then(function(){
         console.log("Loaded Matomo!");
         this.matomoTracker = Matomo.getTracker(`${this.matomoURL}matomo.php`, this.matomoId.toString());
-        if ( this.variables ) {
-          Object.keys(this.variables).forEach(key=>{
-            this.matomoTracker.setCustomDimension(key,this.variables[key]);
-            console.info(`Defined Dimension ${key}`);
-          });
-        }
       }.bind(this))
     }
   }
