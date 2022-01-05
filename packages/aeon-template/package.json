@@ -19,12 +19,12 @@
     "serve": "serve build"
   },
   "name": "@uvalib/aeon-template",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "description": "legacy build for Aeon Templates",
   "author": "uvalib-aeon",
   "license": "MIT",
   "dependencies": {
-    "@uvalib/uvalib-page": "^0.0.18",
+    "@uvalib/uvalib-page": "^0.0.19",
     "serve": "^12.0.0"
   }
 }
