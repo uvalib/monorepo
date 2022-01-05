@@ -59,6 +59,7 @@ export class UvalibLogos extends LitElement {
 
     var bg = getComputedStyle(elem).backgroundColor;
     if (bg === transparent || bg === transparentIE11) {
+      if (elem.nodeName === 'HTML') return 'rgb(255, 255, 255)';
       return this.realBackgroundColor(
         elem.parentElement
           ? elem.parentElement
@@ -79,6 +80,7 @@ export class UvalibLogos extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     this.evalBackgroundColor();
+    setInterval(this.evalBackgroundColor.bind(this), 3000);
   }
 
   render() {
