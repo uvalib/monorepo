@@ -1,5 +1,5 @@
 import { c as css, L as LitElement, h as html } from './lit-element-b0aa61ba.js';
-import './uvalib-logos-370b2f10.js';
+import './uvalib-logos-27b18a1e.js';
 
 var style = css`
 @import url("https://use.typekit.net/tgy5tlj.css");:host{display:block;font-family:franklin-gothic-urw,arial,sans-serif;font-weight:500;margin:0;padding:0;width:100%}header{background-color:#232d4b;color:#fff;flex-direction:column;height:60px;margin:0;padding:0}#container,header{align-items:center;display:flex}#container{flex-direction:row;max-width:1200px;width:100%}#container a{padding:.625em}.spacer{flex:1}uvalib-icon{fill:#fff}a,a:link,a:visited{color:inherit}
@@ -34,9 +34,10 @@ class UvalibHeader extends LitElement {
   <div id="container">
     <div>${
       this.nolinks
-        ? html`<uvalib-logos>University of Virginia Library</uvalib-logos>`
-        : html`<a href="${this.homelink}"><uvalib-logos>University of Virginia Library</uvalib-logos></a></div>`
+        ? html`<uvalib-logos darkBackground>University of Virginia Library</uvalib-logos>`
+        : html`<a href="${this.homelink}"><uvalib-logos darkBackground>University of Virginia Library</uvalib-logos></a></div>`
     }
+    </div>
     <div class="spacer"></div>
     <div id="topLinks" ?hidden="${this.nolinks}">
       <a href="${

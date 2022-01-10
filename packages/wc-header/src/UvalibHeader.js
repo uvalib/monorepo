@@ -29,9 +29,10 @@ export class UvalibHeader extends LitElement {
   <div id="container">
     <div>${
       this.nolinks
-        ? html`<uvalib-logos>University of Virginia Library</uvalib-logos>`
-        : html`<a href="${this.homelink}"><uvalib-logos>University of Virginia Library</uvalib-logos></a></div>`
+        ? html`<uvalib-logos darkBackground>University of Virginia Library</uvalib-logos>`
+        : html`<a href="${this.homelink}"><uvalib-logos darkBackground>University of Virginia Library</uvalib-logos></a></div>`
     }
+    </div>
     <div class="spacer"></div>
     <div id="topLinks" ?hidden="${this.nolinks}">
       <a href="${

@@ -1,7 +1,7 @@
 import { c as css, L as LitElement, h as html } from './lit-element-b0aa61ba.js';
 
 var style = css`
-@import url("https://use.typekit.net/tgy5tlj.css");:host{color:#000;display:inline-block;height:43px;padding:10px}svg{height:100%;max-height:74px;min-height:20px}g#rotunda path,g#rotunda polygon,g#rotunda rect{fill:#e57200}#sepline{fill:#fff}[dark] #sepline{fill:#141e3c}#libletters,#uvaletters{fill:#fff}[dark] #libletters,[dark] #uvaletters{fill:#141e3c}
+@import url("https://use.typekit.net/tgy5tlj.css");:host{color:#000;display:inline-block;height:43px;max-height:43px;overflow:hidden;padding:10px;position:relative}g#rotunda path,g#rotunda polygon,g#rotunda rect{fill:#e57200}#sepline{fill:#fff}[dark] #sepline{fill:#141e3c}#libletters,#uvaletters{fill:#fff}[dark] #libletters,[dark] #uvaletters{fill:#141e3c}
 /*# sourceMappingURL=src/UvalibLogos.css.map */
 `;
 
@@ -17,6 +17,8 @@ class UvalibLogos extends LitElement {
 
   static get properties() {
     return {
+      darkBackground: { type: Boolean},
+      lightBackground: { type: Boolean },
       _dark: { type: Boolean },
     };
   }
@@ -62,6 +64,7 @@ class UvalibLogos extends LitElement {
 
     var bg = getComputedStyle(elem).backgroundColor;
     if (bg === transparent || bg === transparentIE11) {
+      if (elem.nodeName === 'HTML') return 'rgb(255, 255, 255)';
       return this.realBackgroundColor(
         elem.parentElement
           ? elem.parentElement
@@ -81,12 +84,23 @@ class UvalibLogos extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    this.evalBackgroundColor();
+  }
+
+  firstUpdated() {
+    if (this.darkBackground) this._dark = false;
+    if (this.lightBackground) this._dark = true;
+    if (!this.darkBackground && !this.lightBackground) {
+      this.evalBackgroundColor();
+      setInterval(this.evalBackgroundColor.bind(this), 5000);
+    }
+    // give it a few milliseconds to render
+//    setTimeout(function(){this.shadowRoot.querySelector('svg').style.display = 'inline-block';}.bind(this),300);
   }
 
   render() {
     return html`
       <svg
+        style="max-height: 43px; min-height: 20px; overflow: hidden; height: 100%;"
         ?dark="${this._dark}"
         role="img"
         id="library_logo_primary"

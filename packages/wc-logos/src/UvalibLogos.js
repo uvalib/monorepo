@@ -14,6 +14,8 @@ export class UvalibLogos extends LitElement {
 
   static get properties() {
     return {
+      darkBackground: { type: Boolean},
+      lightBackground: { type: Boolean },
       _dark: { type: Boolean },
     };
   }
@@ -79,13 +81,23 @@ export class UvalibLogos extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    this.evalBackgroundColor();
-    setInterval(this.evalBackgroundColor.bind(this), 3000);
+  }
+
+  firstUpdated() {
+    if (this.darkBackground) this._dark = false;
+    if (this.lightBackground) this._dark = true;
+    if (!this.darkBackground && !this.lightBackground) {
+      this.evalBackgroundColor();
+      setInterval(this.evalBackgroundColor.bind(this), 5000);
+    }
+    // give it a few milliseconds to render
+//    setTimeout(function(){this.shadowRoot.querySelector('svg').style.display = 'inline-block';}.bind(this),300);
   }
 
   render() {
     return html`
       <svg
+        style="max-height: 43px; min-height: 20px; overflow: hidden; height: 100%;"
         ?dark="${this._dark}"
         role="img"
         id="library_logo_primary"
