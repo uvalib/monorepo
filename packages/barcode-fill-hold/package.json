@@ -28,7 +28,7 @@
     "start": "web-dev-server"
   },
   "name": "@uvalib/barcode-fill-hold",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "description": "Webcomponent barcode-fill-hold following open-wc recommendations",
   "author": "barcode-fill-hold",
   "license": "MIT",
