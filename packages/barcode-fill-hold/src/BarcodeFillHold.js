@@ -408,6 +408,11 @@ export class BarcodeFillHold extends UvalibAnalyticsMixin(LitElement) {
     return `
     <dl>
     ${
+      res.hold.user_full_name
+        ? `<dt>Patron</dt><dd>${res.hold.user_full_name} (${res.hold.user_id})</dd>`
+        : ''
+    }
+    ${
       res.user.Department
         ? `<dt>Department</dt><dd><strong style="font-size: 1.5em">${res.user.Department}</strong></dd>`
         : ''
@@ -420,17 +425,7 @@ export class BarcodeFillHold extends UvalibAnalyticsMixin(LitElement) {
     }
     ${res.user.Status ? `<dt>Status</dt><dd><strong>${res.user.Status}</strong></dd>` : ''}
     ${res.user.Fax ? `<dt>Fax</dt><dd><strong>${res.user.Fax}</strong></dd>` : ''}
-    ${
-      res.hold.user_full_name
-        ? `<dt>Patron</dt><dd>${res.hold.user_full_name} (${res.hold.user_id})</dd>`
-        : ''
-    }
     ${res.hold.item_id ? `<dt>Item ID</dt><dd>${res.hold.item_id}</dd>` : ''}
-    ${
-      res.timestamp
-        ? `<dt>Timestamp</dt><dd>${formatISO9075(res.timestamp)}</dd>`
-        : ''
-    }
     ${
       res.hold.pickup_location
         ? `<dt>Pickup Location</dt><dd>${res.hold.pickup_location}</dd>`
