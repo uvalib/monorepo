@@ -8,6 +8,8 @@ This project builds a web site from the Modern Library Bibliography TEI files.
 yarn install
 ```
 
+Download `MSWord` and  `TransmogXML` directories from https://gitlab.com/uvalib/dcmd/modern-library-bibliography as these are not distributed publicly.
+
 ## Usage
 
 ### Build
