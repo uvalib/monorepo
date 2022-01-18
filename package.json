@@ -1,0 +1,18 @@
+{
+  "name": "modern-library-bibliography-tools-site",
+  "version": "0.0.1",
+  "description": "Static site for Medern Library Bibliography",
+  "main": "index.js",
+  "repository": "https://github.com/uvalib/modern-library-bibliography-tools.git",
+  "author": "Doug Chestnut <dougchestnut@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "@11ty/eleventy": "^1.0.0",
+    "rimraf": "^3.0.2"
+  },
+  "scripts": {
+    "build": "rimraf dist && npx @11ty/eleventy",
+    "serve": "npx @11ty/eleventy --serve"
+  }
+}
