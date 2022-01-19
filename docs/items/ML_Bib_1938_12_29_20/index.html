@@ -1,7 +1,14 @@
 
-<html>
-<head>
-    <script src="../../js/bundle.js"></script>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Library Bibliography</title>
+    <link href="/modern-library-bibliography-tools/css/style.css" rel="stylesheet" media="all">
+  </head>
+  <body>
+        <script src="/modern-library-bibliography-tools/js/bundle.js"></script>
     <script type="text/xml-tei"><?xml version="1.0" encoding="UTF-8"?>
 <TEI id="bd5e8d86-55ac-4ac1-bc0c-c2a3cb3aac05">
   <TITLE id="832157fe-a93b-46a7-ba94-3b990cc2d9b7">
@@ -1608,14 +1615,11 @@
     tei = tei.replace(/\<TEI/m, "<TEI xmlns=\"http://www.tei-c.org/ns/1.0\"");
     var CETEIcean = new CETEI();
     document.addEventListener("DOMContentLoaded", function(event) { 
-//        CETEIcean.getHTML5("/mlb/tei/ML_Bib_1938_12_29_20.xml", data=>{
         CETEIcean.makeHTML5(tei, data=>{
             document.querySelector("#tei").appendChild(data);
         });
     });
     </script>
-</head>
-<body>
     <div id="tei"></div>
-</body>
+  </body>
 </html>

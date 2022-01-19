@@ -1,0 +1,17 @@
+tei-binding,
+tei-format,
+tei-head,
+tei-general,
+tei-jacket,
+tei-paragraph, 
+tei-price,
+tei-tei, 
+tei-title_page, 
+tei-unassigned {    
+    display: block;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+tei-span {
+    display: inline;
+}

@@ -1,14 +1,12 @@
 ---
+layout: page-layout.njk
 pagination:
     data: TransmogXML
     size: 1
     alias: item
 permalink: "items/{{ item }}/"
 ---
-
-<html>
-<head>
-    <script src="../../js/bundle.js"></script>
+    <script src="{{ '/js/bundle.js' | url }}"></script>
     <script type="text/xml-tei">{{ TransmogXML[item].contents | safe }}</script>
     <script>
     var tei = document.querySelector('script[type="text/xml-tei"]').text;
@@ -16,14 +14,9 @@ permalink: "items/{{ item }}/"
     tei = tei.replace(/\<TEI/m, "<TEI xmlns=\"http://www.tei-c.org/ns/1.0\"");
     var CETEIcean = new CETEI();
     document.addEventListener("DOMContentLoaded", function(event) { 
-//        CETEIcean.getHTML5("/mlb/tei/{{item}}.xml", data=>{
         CETEIcean.makeHTML5(tei, data=>{
             document.querySelector("#tei").appendChild(data);
         });
     });
     </script>
-</head>
-<body>
     <div id="tei"></div>
-</body>
-</html>

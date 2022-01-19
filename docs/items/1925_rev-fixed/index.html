@@ -1,7 +1,14 @@
 
-<html>
-<head>
-    <script src="../../js/bundle.js"></script>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Library Bibliography</title>
+    <link href="/modern-library-bibliography-tools/css/style.css" rel="stylesheet" media="all">
+  </head>
+  <body>
+        <script src="/modern-library-bibliography-tools/js/bundle.js"></script>
     <script type="text/xml-tei"><?xml version="1.0" encoding="UTF-8"?>
 <TEI id="cf42ea66-205c-42dd-abc0-492db4b9ed70">
   <UNASSIGNED id="27bb4560-05a5-43a5-b0c2-0062ac45d2bd">
@@ -896,14 +903,11 @@ Fall 1925
     tei = tei.replace(/\<TEI/m, "<TEI xmlns=\"http://www.tei-c.org/ns/1.0\"");
     var CETEIcean = new CETEI();
     document.addEventListener("DOMContentLoaded", function(event) { 
-//        CETEIcean.getHTML5("/mlb/tei/1925_rev-fixed.xml", data=>{
         CETEIcean.makeHTML5(tei, data=>{
             document.querySelector("#tei").appendChild(data);
         });
     });
     </script>
-</head>
-<body>
     <div id="tei"></div>
-</body>
+  </body>
 </html>

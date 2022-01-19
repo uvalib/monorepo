@@ -1,0 +1,7 @@
+---
+permalink: "css/style.css"
+---
+{% set css %}
+  {% include "src/css/tei.css" %}
+{% endset %}
+{{ css | cssmin | safe }}
