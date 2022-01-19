@@ -8,7 +8,7 @@ permalink: "items/{{ item }}/"
 
 <html>
 <head>
-    <script src="/js/bundle.js"></script>
+    <script src="../../js/bundle.js"></script>
     <script type="text/xml-tei">{{ TransmogXML[item].contents | safe }}</script>
     <script>
     var tei = document.querySelector('script[type="text/xml-tei"]').text;
