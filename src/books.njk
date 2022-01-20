@@ -1,0 +1,9 @@
+---
+layout: page-layout.njk
+pagination:
+    data: books
+    size: 1
+    alias: book
+permalink: "books/{{ book.NUMBER.span }}/"
+---
+<div id="book">{{ book.NUMBER.span }}</div>
