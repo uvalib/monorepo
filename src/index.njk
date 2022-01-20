@@ -1,0 +1,8 @@
+---
+layout: page-layout.njk
+---
+<ul>
+{% for name, item in TransmogXML %}
+    <li><a href="{{ '/items' | url }}/{{ name }}">{{ name }}</a></li>
+{% endfor %}
+</ul>
