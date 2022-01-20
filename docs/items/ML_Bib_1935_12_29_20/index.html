@@ -1620,13 +1620,37 @@
     var tei = document.querySelector('script[type="text/xml-tei"]').text;
     // CETEIcean wants the xmlns defined
     tei = tei.replace(/\<TEI/m, "<TEI xmlns=\"http://www.tei-c.org/ns/1.0\"");
-    var CETEIcean = new CETEI();
+
+    var c = new CETEI();
+    let behaviors = {   
+      "tei": {
+        "HEAD": function(e) {
+          let level = document.evaluate("count(ancestor::tei-div)", e, null, XPathResult.NUMBER_TYPE, null);
+          let result = document.createElement("h" + (level.numberValue>7 ? 7 : level.numberValue+2));
+
+          for (let n of Array.from(e.childNodes)) {
+            result.appendChild(n);
+          }
+          return result;
+        },
+        "lb": ["<br>"],
+        /* Insert a <p> with the content of the <pb>'s @n attribute inside it
+           Add a line above with CSS */
+        "pb": ["<p class=\"break\">$@n</p>"],
+      }
+    };
+    c.addBehaviors(behaviors);
+    c.addBehavior({
+        "lb": ["<br>"]
+    });
+
     document.addEventListener("DOMContentLoaded", function(event) { 
-        CETEIcean.makeHTML5(tei, data=>{
+        c.makeHTML5(tei, data=>{
             document.querySelector("#tei").appendChild(data);
         });
     });
     </script>
+    <a href="/modern-library-bibliography-tools/items/ML_Bib_1935_12_29_20.xml">source tei</div>
     <div id="tei"></div>
   </body>
 </html>
