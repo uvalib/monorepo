@@ -7,3 +7,4 @@ pagination:
 permalink: "books/{{ book.NUMBER.span }}/"
 ---
 <div id="book">{{ book.NUMBER.span }}</div>
+<pre>{{ book | dump | safe }}</pre>

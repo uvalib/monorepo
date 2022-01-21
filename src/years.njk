@@ -4,6 +4,8 @@ pagination:
     data: years
     size: 1
     alias: year
-permalink: "years/{{ year }}/"
+permalink: "years/{{ year.filename }}/"
 ---
-<div id="year">{{ year }}</div>
+<div id="year">{{ year.filename }}</div>
+<h1>{{ year.TEI.TITLE }}</h1>
+<pre>{{ year | dump | safe }}</pre>

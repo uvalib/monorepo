@@ -3,6 +3,7 @@ const { XMLParser } = require("fast-xml-parser");
 const parser = new XMLParser();
 
 module.exports = function(eleventyConfig) {
+    eleventyConfig.addFilter("dump", function(obj) { return JSON.stringify(obj, null, 2) });
     eleventyConfig.addDataExtension("xml", contents => { 
         let jObj = parser.parse(contents);
         return {

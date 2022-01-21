@@ -16,4 +16,4 @@ module.exports = async function() {
     return books;
 }
 
-//module.exports().then(books=>console.log(books[0]))
+module.exports().then(books=>console.log(books[0]))

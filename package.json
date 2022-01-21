@@ -26,6 +26,7 @@
     "concurrently": "^7.0.0",
     "fast-xml-parser": "^4.0.1",
     "rimraf": "^3.0.2",
-    "rollup": "^2.64.0"
+    "rollup": "^2.64.0",
+    "traverse": "^0.6.6"
   }
 }
