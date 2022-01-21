@@ -1,13 +1,12 @@
 const fs = require('fs');
-const { XMLParser } = require("fast-xml-parser");
-const parser = new XMLParser();
+const parserHelper = require('./parserHelper.js');
 
 module.exports = async function() {
     let books = [];
     let files = fs.readdirSync('src/mlb/TransmogXML')
     files.forEach(file => {
         let contents = fs.readFileSync(`src/mlb/TransmogXML/${file}`);
-        let jObj = parser.parse(contents);
+        let jObj = parserHelper.parse(contents);
         jObj.TEI.BOOK.forEach(book=>{
             book.yearId = file.replace('.xml','');
             books.push(book);
