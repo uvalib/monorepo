@@ -4,13 +4,13 @@ const { XMLParser } = require("fast-xml-parser");
 const parser = new XMLParser({
     alwaysCreateTextNode: true,
     isArray: (name, jpath, isLeafNode, isAttribute) => { 
-        return true;
+        if (name === "span") return true; 
     }
 });
 
 const cleanup = function(obj){
-    traverse(obj).forEach( x=>{
-//        if (x.span) this.updat);
+    traverse(obj).forEach( function(x){
+        if (x.span) this.update( x.span.reduce((p,c)=>{ return {'#text':`${p['#text']}${c['#text']}`}; },{'#text':''}) );
     });
     return obj;
 }
