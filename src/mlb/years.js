@@ -1,5 +1,8 @@
 const fs = require('fs');
+const parserHelper = require('./parserHelper.js');
 const traverse = require('traverse');
+
+
 const { XMLParser } = require("fast-xml-parser");
 const parser = new XMLParser({
     alwaysCreateTextNode: true,
@@ -7,13 +10,6 @@ const parser = new XMLParser({
         if (name === "span") return true; 
     }
 });
-
-const cleanup = function(obj){
-    traverse(obj).forEach( function(x){
-        if (x.span) this.update( x.span.reduce((p,c)=>{ return {'#text':`${p['#text']}${c['#text']}`}; },{'#text':''}) );
-    });
-    return obj;
-}
 
 module.exports = async function() {
     let years = [];
@@ -23,7 +19,7 @@ module.exports = async function() {
         let jObj = parser.parse(contents);
         let name = file.replace(".xml","");
         jObj.filename = name;
-        years.push( cleanup(jObj) );
+        years.push( parserHelper.cleanup(jObj) );
     })
     return years;
 }
