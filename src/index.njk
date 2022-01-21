@@ -9,7 +9,7 @@ layout: page-layout.njk
         <ul>
         {% for book in books %}
             {% if name in book.yearId %}
-                <li><a href="{{ '/years' | url }}/{{ name }}/{{ book.NUMBER['#text'] }}">{{ book.NUMBER['#text'] }}</a></li>
+                <li><a href="{{ '/years' | url }}/{{ name }}/{{ book.id }}">{{ book.id }}</a></li>
             {% endif %}
         {% endfor %}
         </ul>

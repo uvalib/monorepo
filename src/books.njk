@@ -4,7 +4,7 @@ pagination:
     data: books
     size: 1
     alias: book
-permalink: "years/{{ book.yearId }}/{{ book.NUMBER['#text'] }}/"
+permalink: "years/{{ book.yearId }}/{{ book.id }}/"
 ---
-<div id="book">{{ book.NUMBER['#text'] }}</div>
+<div id="book">{{ book.id }}</div>
 <pre>{{ book | dump | safe }}</pre>

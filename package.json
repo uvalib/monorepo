@@ -8,7 +8,8 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "CETEIcean": "^1.5.0"
+    "CETEIcean": "^1.5.0",
+    "itemsjs": "^2.1.14"
   },
   "scripts": {
     "build": "yarn run build:local && yarn run build:docs",
