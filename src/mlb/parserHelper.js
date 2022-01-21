@@ -25,6 +25,10 @@ exports.cleanup = function(obj){
             this.update( x.reduce( exports.mkTextNodeReducer(' ')) );
         }        
     } );
+    // strip use of #text objects (used to clean up data input)
+    traverse(obj).forEach( function(x){
+        if (x['#text']) this.update(x['#text']);
+    } );
     return obj;
 }
 

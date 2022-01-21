@@ -6,7 +6,7 @@ pagination:
     alias: item
 permalink: "items/{{ item }}/"
 ---
-    <script src="{{ '/js/bundle.js' | url }}"></script>
+    <script src="{{ '/js/cetei.js' | url }}"></script>
     <script type="text/xml-tei">{{ TransmogXML[item].contents | safe }}</script>
     <script>
     var tei = document.querySelector('script[type="text/xml-tei"]').text;

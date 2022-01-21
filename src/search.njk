@@ -1,0 +1,14 @@
+---
+layout: page-layout.njk
+---
+<script src="{{ '/js/itemsjs.js' | url }}"></script>
+<script>
+    fetch('{{ '/searchIndex.json' | url }}')
+        .then(response => response.json())
+        .then(data => {
+            let bookSearch = itemsjs( data, {});
+            console.log(bookSearch.search());
+        });
+//    let bookSearch = itemsjs(data, config);
+</script>
+<h1>Search</h1>

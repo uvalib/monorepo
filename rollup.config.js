@@ -1,11 +1,14 @@
-const {nodeResolve} = require('@rollup/plugin-node-resolve');
+import {nodeResolve} from '@rollup/plugin-node-resolve';
+import multiInput from 'rollup-plugin-multi-input';
 
 module.exports = {
-  input: 'src/_js/main.js',
-  plugins: [nodeResolve()],
+  input: ['src/_js/*.js'],
+  plugins: [
+    nodeResolve(), 
+    multiInput({relative: 'src/_js'})
+  ],
   output: {
-    file: 'src/js/bundle.js',
-    format: 'iife',
-    sourcemap: true
+    dir: 'src/js/',
+    format: 'esm'
   },
 };

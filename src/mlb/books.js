@@ -8,7 +8,7 @@ module.exports = async function() {
         let contents = fs.readFileSync(`src/mlb/TransmogXML/${file}`);
         let jObj = parserHelper.parse(contents);
         jObj.TEI.BOOK.forEach(book=>{
-            book.id = book.NUMBER['#text'];
+            book.id = book.NUMBER;
             book.yearId = file.replace('.xml','');
             books.push(book);
         });
