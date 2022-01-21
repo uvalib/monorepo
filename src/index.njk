@@ -3,6 +3,16 @@ layout: page-layout.njk
 ---
 <ul>
 {% for name, item in TransmogXML %}
-    <li><a href="{{ '/items' | url }}/{{ name }}">{{ name }}</a> (<a href="{{ '/years' | url }}/{{ name }}">parsed/templated</a>)</li>
+    <li>
+        <a href="{{ '/years' | url }}/{{ name }}">{{ name }}</a> 
+        (<a href="{{ '/items' | url }}/{{ name }}">TEI version</a>)
+        <ul>
+        {% for book in books %}
+            {% if name in book.yearId %}
+                <li><a href="{{ '/years' | url }}/{{ name }}/{{ book.NUMBER['#text'] }}">{{ book.NUMBER['#text'] }}</a></li>
+            {% endif %}
+        {% endfor %}
+        </ul>
+    </li>
 {% endfor %}
 </ul>
