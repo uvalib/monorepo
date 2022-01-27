@@ -1,14 +1,6 @@
 ---
 layout: page-layout.njk
 ---
-<script src="{{ '/js/itemsjs.js' | url }}"></script>
-<script>
-    fetch('{{ '/searchIndex.json' | url }}')
-        .then(response => response.json())
-        .then(data => {
-            let bookSearch = itemsjs( data, {});
-            console.log(bookSearch.search());
-        });
-//    let bookSearch = itemsjs(data, config);
-</script>
+<script src="{{ '/js/search.js' | url }}"></script>
 <h1>Search</h1>
+<uvalib-faceted-search src="{{ '/searchIndex.json' | url }}"></uvalib-faceted-search>

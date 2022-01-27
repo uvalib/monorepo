@@ -20,11 +20,11 @@ exports.cleanup = function(obj){
         if (x.span) this.update( x.span.reduce( exports.mkTextNodeReducer()) );
     });
     // traverse a second time to join #text chunks left in arrays
-    traverse(obj).forEach( function(x){
-        if (Array.isArray(x) && x.length>0 && x[0]['#text']) {
-            this.update( x.reduce( exports.mkTextNodeReducer(' ')) );
-        }        
-    } );
+//    traverse(obj).forEach( function(x){
+//        if (Array.isArray(x) && x.length>0 && x[0]['#text']) {
+//            this.update( x.reduce( exports.mkTextNodeReducer(' ')) );
+//        }        
+//    } );
     // strip use of #text objects (used to clean up data input)
     traverse(obj).forEach( function(x){
         if (x['#text']) this.update(x['#text']);

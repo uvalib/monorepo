@@ -6,19 +6,12 @@
     <meta name="robots" content="noindex" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modern Library Bibliography</title>
+    
     <link href="/modern-library-bibliography-tools/css/style.css" rel="stylesheet" media="all">
   </head>
   <body>
-    <script src="/modern-library-bibliography-tools/js/itemsjs.js"></script>
-<script>
-    fetch('/modern-library-bibliography-tools/searchIndex.json')
-        .then(response => response.json())
-        .then(data => {
-            let bookSearch = itemsjs( data, {});
-            console.log(bookSearch.search());
-        });
-//    let bookSearch = itemsjs(data, config);
-</script>
+    <script src="/modern-library-bibliography-tools/js/search.js"></script>
 <h1>Search</h1>
+<uvalib-faceted-search src="/modern-library-bibliography-tools/searchIndex.json"></uvalib-faceted-search>
   </body>
 </html>
