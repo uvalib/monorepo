@@ -22,9 +22,9 @@
   },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
-    "build": "yarn build:css && yarn build:js && yarn build:docs",
-    "build:css": "sass -I node_modules scss:css",
-    "build:js": "node ./tools/build-css.mjs",
+    "build": "rimraf css && yarn build:css && yarn build:js && yarn build:docs",
+    "build:css": "sass --no-source-map --verbose -I ../../node_modules -I node_modules scss:css",
+    "build:js": "node ./tools/build-css.mjs css/*.css",
     "build:docs": "sassdoc scss && rimraf ../../docs/web-styles && cp -r sassdoc ../../docs/web-styles",
     "serve-docs": "serve sassdoc"
   },
@@ -51,6 +51,7 @@
     "sassdoc": "^2.7.3"
   },
   "dependencies": {
+    "@shoelace-style/shoelace": "^2.0.0-beta.64",
     "lit-element": "^2.5.1",
     "serve": "^11.3.2"
   },
