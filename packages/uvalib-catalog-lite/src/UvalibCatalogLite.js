@@ -39,19 +39,20 @@ export class UvalibCatalogLite extends observeState(LitElement) {
 
   render() {
     return html`
-<uvalib-style></uvalib-style>
-<uvalib-spinner dots ?hidden="${!catalogState.authorizing}" message="Authorizing..." overlay></uvalib-spinner>
+<uvalib-style>
+  <uvalib-spinner dots ?hidden="${!catalogState.authorizing}" message="Authorizing..." overlay></uvalib-spinner>
 
-<uvalib-page nofooter nolinks>    
-  <div tabindex="-1" id="app" role="application">
-    <div tabindex="-1" class="v4-content" id="v4-main">
-      <h1 ?hidden="${catalogState.focusedItem}">Search</h1>
-      <uvalib-catalog-lite-home ?iskiosk="${catalogState.iskiosk}"></uvalib-catalog-lite-home>
-      <uvalib-scroll-to-top></uvalib-scroll-to-top>
+  <uvalib-page nofooter nolinks>    
+    <div tabindex="-1" id="app" role="application">
+      <div tabindex="-1" class="v4-content" id="v4-main">
+        <h1 ?hidden="${catalogState.focusedItem}">Search</h1>
+        <uvalib-catalog-lite-home ?iskiosk="${catalogState.iskiosk}"></uvalib-catalog-lite-home>
+        <uvalib-scroll-to-top></uvalib-scroll-to-top>
+      </div>
     </div>
-  </div>
-</uvalib-page>
-<div class="buildstatus" style="opacity: .25; text-align: center;">${this.build}</div>
+  </uvalib-page>
+  <div class="buildstatus" style="opacity: .25; text-align: center;">${this.build}</div>
+</uvalib-style>
     `;
   }
 
