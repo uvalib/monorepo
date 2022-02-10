@@ -13728,6 +13728,23 @@ playground-elements@^0.14.6:
     tslib "^2.0.3"
     vscode-languageserver "^7.0.0"
 
+playground-elements@^0.14.8:
+  version "0.14.8"
+  resolved "https://registry.yarnpkg.com/playground-elements/-/playground-elements-0.14.8.tgz#7c3e3d083aab5d96444f0d3d8b17ca56f405f63f"
+  integrity sha512-lzyfECfq+15gpGiWvNxutXkSjE3Kyk4PBkUOvobHyLR/cRzgrCrZ18CTp/SwGw45BQfcBx+tnOf74LKJmWdHdg==
+  dependencies:
+    "@material/mwc-button" "^0.25.1"
+    "@material/mwc-icon-button" "^0.25.1"
+    "@material/mwc-linear-progress" "^0.25.1"
+    "@material/mwc-list" "^0.25.1"
+    "@material/mwc-menu" "^0.25.1"
+    "@material/mwc-textfield" "^0.25.1"
+    "@types/codemirror" "^5.60.0"
+    comlink "=4.3.1"
+    lit "^2.0.0"
+    tslib "^2.0.3"
+    vscode-languageserver "^7.0.0"
+
 please-upgrade-node@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/please-upgrade-node/-/please-upgrade-node-3.2.0.tgz#aeddd3f994c933e4ad98b99d9a556efa0e2fe942"

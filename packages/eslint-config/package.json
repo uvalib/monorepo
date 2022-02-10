@@ -20,6 +20,7 @@
   "devDependencies": {
     "@uvalib/prettier-config": "^0.0.12",
     "husky": "^6.0.0",
+    "playground-elements": "^0.14.8",
     "prettier": "^2.3.2",
     "rimraf": "^3.0.2",
     "sass": "^1.37.5"

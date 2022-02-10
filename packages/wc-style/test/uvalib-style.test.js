@@ -1,4 +1,5 @@
-import { html, fixture, expect } from '@open-wc/testing';
+import { html } from 'lit';
+import { fixture, expect } from '@open-wc/testing';
 
 import '../uvalib-style.js';
 
@@ -18,9 +19,7 @@ describe('UvalibStyle', () => {
   });
 
   it('can override the title via attribute', async () => {
-    const el = await fixture(
-      html`<uvalib-style title="attribute title"></uvalib-style>`
-    );
+    const el = await fixture(html`<uvalib-style title="attribute title"></uvalib-style>`);
 
     expect(el.title).to.equal('attribute title');
   });

@@ -46,3 +46,14 @@ h6,
 .h6 {
   @include h6;
 }
+
+/* rid of FOUCE (Flash of Undefined Custom Elements) */
+:not(:defined) {
+  visibility: hidden;
+}
+
+/* Common Components used */
+
+playground-ide {
+  margin-top: $spacing-unit;
+}

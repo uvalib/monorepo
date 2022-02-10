@@ -125,3 +125,13 @@ h6,
   line-height: 16px;
   color: #4f4f4f;
 }
+
+/* rid of FOUCE (Flash of Undefined Custom Elements) */
+:not(:defined) {
+  visibility: hidden;
+}
+
+/* Common Components used */
+playground-ide {
+  margin-top: 1em;
+}

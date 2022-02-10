@@ -1,32 +1,57 @@
 @import '@uvalib/web-styles/scss/variables';
 
-/*
+/* standard buttons */
 :host {
-  font-size: 1em;
-  appearance: none;
-  border: 0;
-  cursor: pointer;
-  display: inline-block;
   margin: .8em .4em;
-  padding: .6rem 1.25rem;
-  text-align: center;
-  text-decoration: none;
-  width: auto;
-  background-color: var(--uvalib-button-background, $blue-alt);
+}
+button.button.button--standard.button--default {
+  font-size: $spacing-unit;
+  background-color: $blue-alt;
   color: $white;
   border-radius: 5px;
   text-transform: uppercase;
+  border: 0;
+}
+
+/* link buttons */
+a.button.button--standard.button--default {
+  background-color: $blue-alt;
   border-radius: 5px;
-}      
-
-:host([href]) {
-  margin: .5em;
-  padding: .88em;
-  text-decoration: underline !important;
+  text-decoration: underline;
   color: $white;
+  border: 0;
 }
 
-:host .button-content {
-  height: 100%;
+/* hover button style */
+button.button.button.button--standard.button--default:hover, :host([state-hover]) button.button.button.button--standard.button--default, 
+a.button.button.button--standard.button--default:hover, :host([state-hover]) a.button.button.button--standard.button--default {
+  background-color: $blue-alt-dark;
+  color: $white;
+  border: 0;
 }
-*/
+
+/* active button style */
+button.button.button.button--standard.button--default:active, :host([state-active]) button.button.button.button--standard.button--default, 
+a.button.button.button--standard.button--default:active, :host([state-active]) a.button.button.button--standard.button--default {
+  background-color: $brand-blue;
+  color: $white;
+  border: 0;
+}
+
+/* focused button style */
+button.button.button.button--standard.button--default:focus, :host([state-focus]) button.button.button.button--standard.button--default, 
+a.button.button.button--standard.button--default:focus, :host([state-focus]) a.button.button.button--standard.button--default {
+  @include accessibility-outline-for-light-bg;
+  background-color: $blue-alt;
+  color: $white;
+  box-shadow: none;
+  border: 0;
+}
+
+/* disabled buttons */ 
+button.button.button.button--standard.button--default[disabled], :host([disabled]) button.button.button.button--standard.button--default, 
+a.button.button.button--standard.button--default[disabled], :host([disabled]) a.button.button.button--standard.button--default {
+  background-color: $grey-light;
+  color: $white;
+  opacity: 1;
+}

@@ -25,6 +25,7 @@
     "url": "https://github.com/uvalib/monorepo/issues"
   },
   "devDependencies": {
+    "playground-elements": "^0.14.8",
     "rimraf": "^3.0.2",
     "rollup": "^2.59.0"
   },
@@ -40,5 +41,5 @@
     "@uvalib/uvalib-sub-nav": "^0.0.11",
     "playground-elements": "^0.14.6"
   },
-  "gitHead": "ec4c70f491118a5079d2ab049fa1f490fdede710"
+  "gitHead": "527139ef3d5750369ea462ebef801d0460f6363f"
 }
