@@ -18,15 +18,15 @@ module.exports = async function() {
     files.forEach(file => {
         let contents = fs.readFileSync(`src/mlb/TransmogXML/${file}`);
         let jObj = parserHelper.parse(contents);
-        jObj.ordered = parserHelper.parse(contents, true);
-//console.log(JSON.stringify(jObj.ordered,null,4));        
-        
+
+
         jObj.TEI.BOOK.forEach(book=>{
             book.id = book.NUMBER;
             if (imagePaths[book.id]) book.images = imagePaths[book.id];
             book.yearId = file.replace('.xml','');
             books.push(book);
         });
+        
         
     })
     

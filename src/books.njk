@@ -21,6 +21,7 @@ permalink: "years/{{ book.yearId }}/{{ book.id }}/"
         {% endif %}        
     {% endif %}
 
-    <h2>Debug</h2>
-    <pre>{{ book | dump | safe }}</pre>
 </div>
+
+<h2>Debug</h2>
+<sl-details summary="book"><pre>{{ book | dump | safe }}</pre></sl-details>

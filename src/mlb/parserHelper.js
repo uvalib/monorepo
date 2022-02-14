@@ -40,5 +40,5 @@ exports.cleanup = function(obj){
 }
 
 exports.parse = function(obj, preserveOrder=false){
-    return exports.cleanup(parser.parse(obj));
+    return preserveOrder? exports.cleanup(parserOrdered.parse(obj)): exports.cleanup(parser.parse(obj));
 }

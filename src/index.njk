@@ -72,3 +72,8 @@ layout: page-layout.njk
         </ul>
 
 {% endfor %}
+
+<h2>Debug</h2>
+
+<sl-details summary="years"><pre>{{ years | dump | safe }}</pre></sl-details>
+<sl-details summary="yearsOrdered"><pre>{{ yearsOrdered | dump | safe }}</pre></sl-details>

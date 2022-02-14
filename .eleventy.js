@@ -4,6 +4,7 @@ const parser = new XMLParser();
 
 module.exports = function(eleventyConfig) {
     eleventyConfig.addFilter("dump", function(obj) { return JSON.stringify(obj, null, 2) });
+    eleventyConfig.addFilter("isarray", function(obj) { return Array.isArray(obj) });
     eleventyConfig.addDataExtension("xml", contents => { 
         let jObj = parser.parse(contents);
         return {

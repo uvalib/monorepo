@@ -8,4 +8,33 @@ permalink: "years/{{ year.filename }}/"
 ---
 <div id="year">{{ year.filename }}</div>
 <h1>{{ year.TEI.TITLE }}</h1>
-<pre>{{ year | dump | safe }}</pre>
+
+<h2>Unassigned Text</h2>
+<div class="unassigned">
+  {% if year.TEI.UNASSIGNED | isarray %}
+    {% for unassigned in year.TEI.UNASSIGNED %}
+        <p>{{ unassigned }}</p>
+    {% endfor %}
+  {% else %}
+    <p>{{ year.TEI.UNASSIGNED }}</p>
+  {% endif %}
+</div>
+
+<h2>General</h2>
+<div class="general">
+  
+
+  {% if year.TEI.GENERAL.PARAGRAPH | isarray %}
+    {% for para in year.TEI.GENERAL.PARAGRAPH %}
+        <p>{{ para }}</p>
+    {% endfor %}
+  {% else %}
+    <p>{{ year.TEI.GENERAL.PARAGRAPH }}</p>
+  {% endif %}
+</div>
+
+<h2>Number of Titles</h2>
+<p>{{ year.TEI.NUMBER_OF_TITLES.PARAGRAPH }}</p>
+
+<h2>Debug</h2>
+<sl-details summary="year"><pre>{{ year | dump | safe }}</pre></sl-details>
