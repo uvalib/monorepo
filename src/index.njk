@@ -46,11 +46,11 @@ layout: page-layout.njk
     {% if book.images.length > 1 %}
         <elix-carousel slot="image" style="max-width: 400px">
         {% for img in book.images %}
-            <img src="/mlb/images/{{ img }}" alt="Book cover for " />
+            <img src="{{ '/mlb/images/' | url }}{{ img }}" alt="Book cover for " />
         {% endfor %}
         </elix-carousel>
     {% else %}
-    <img slot="image" style="max-width: 400px" src="/mlb/images/{{ book.images[0] }}" alt="Book cover for " />
+    <img slot="image" style="max-width: 400px" src="{{ '/mlb/images/' | url }}{{ book.images[0] }}" alt="Book cover for " />
     {% endif %}
   {% endif %}
 

@@ -19,7 +19,7 @@ module.exports = async function() {
         let contents = fs.readFileSync(`src/mlb/TransmogXML/${file}`);
         let jObj = parserHelper.parse(contents);
         jObj.ordered = parserHelper.parse(contents, true);
-console.log(JSON.stringify(jObj.ordered,null,4));        
+//console.log(JSON.stringify(jObj.ordered,null,4));        
         
         jObj.TEI.BOOK.forEach(book=>{
             book.id = book.NUMBER;
