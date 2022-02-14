@@ -6,5 +6,21 @@ pagination:
     alias: book
 permalink: "years/{{ book.yearId }}/{{ book.id }}/"
 ---
-<div id="book">{{ book.id }}</div>
-<pre>{{ book | dump | safe }}</pre>
+<script type="module" src="{{'/js' | url }}/slideshow.js"></script>
+<div id="book">
+    <h1>{{ book.METADATA.TITLE }} ({{ book.id }})</h1>
+    {% if book.images %}
+        {% if book.images.length > 1 %}
+        <elix-carousel-with-thumbnails style="max-width: 400px;">
+            {% for img in book.images %}
+                    <img src="{{ '/mlb/images/' | url }}{{ img }}">
+            {% endfor %}
+        </elix-carousel-with-thumbnails>
+        {% else %}
+            <img src="{{ '/mlb/images/' | url }}{{ book.images[0] }}" style="max-width: 400px;">
+        {% endif %}        
+    {% endif %}
+
+    <h2>Debug</h2>
+    <pre>{{ book | dump | safe }}</pre>
+</div>

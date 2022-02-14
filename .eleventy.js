@@ -14,7 +14,9 @@ module.exports = function(eleventyConfig) {
     eleventyConfig.addPassthroughCopy({"src/js":"js"});
     eleventyConfig.addPassthroughCopy("src/.nojekyll");
     eleventyConfig.addPassthroughCopy({"src/mlb/TransmogXML":"items"});
+    eleventyConfig.addPassthroughCopy("src/mlb/images");
     eleventyConfig.addFilter("cssmin", function(code) { return new CleanCSS({}).minify(code).styles; });
+    
     return {
       dir: {
         input: "src",

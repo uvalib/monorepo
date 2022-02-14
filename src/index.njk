@@ -1,18 +1,74 @@
 ---
 layout: page-layout.njk
 ---
-<ul>
-{% for name, item in TransmogXML %}
-    <li>
-        <a href="{{ '/years' | url }}/{{ name }}">{{ name }}</a> 
-        (<a href="{{ '/items' | url }}/{{ name }}">TEI version</a>)
-        <ul>
+<script type="module" src="{{'/js' | url }}/slideshow.js"></script>
+<style>
+ .cards {
+     display: flex;
+     flex-wrap: wrap;
+     list-style: none;
+     margin: 0;
+     padding: 0;
+ }
+ .cards__item {
+     display: flex;
+     padding: 1rem;
+     @media(min-width: 40rem) {
+         width: 50%;
+     }
+     @media(min-width: 56rem) {
+         width: 33.3333%
+     }
+ }
+</style>
+
+<h1>Modern Library by years</h1>
+{% for year in years %}
+  <h2>
+    
+    <a href="{{ '/years' | url }}/{{ year.filename }}">
+    {% if year.TEI.TITLE %}
+      {{ year.TEI.TITLE }}
+    {% else %}
+      <span>[title not parsed]</span>
+    {% endif %}
+    </a>
+    ({{ year.filename }})</h2>
+
+        <ul class="cards">
         {% for book in books %}
-            {% if name in book.yearId %}
-                <li><a href="{{ '/years' | url }}/{{ name }}/{{ book.id }}">{{ book.id }}</a></li>
+            {% if year.filename in book.yearId %}
+
+<li class="cards__item">
+<sl-card class="card-overview">
+
+  {% if book.images %}
+    {% if book.images.length > 1 %}
+        <elix-carousel slot="image" style="max-width: 400px">
+        {% for img in book.images %}
+            <img src="/mlb/images/{{ img }}" alt="Book cover for " />
+        {% endfor %}
+        </elix-carousel>
+    {% else %}
+    <img slot="image" style="max-width: 400px" src="/mlb/images/{{ book.images[0] }}" alt="Book cover for " />
+    {% endif %}
+  {% endif %}
+
+  <div slot="header"><a href="{{ '/years' | url }}/{{ year.filename }}/{{ book.id }}">{{ book.METADATA.TITLE }} ({{ book.id }})</a></div>
+  <dl>
+    <dt>Author</dt>
+    <dd>{{ book.METADATA.AUTHOR }}</dd>
+    <dt>Date Range</dt>
+    <dd>{{ book.METADATA.DATE_RANGE }}</dd>
+  <dl>
+
+  <div slot="footer">
+    <sl-button variant="primary" pill href="{{ '/years' | url }}/{{ year.filename }}/{{ book.id }}">More Info</sl-button>
+  </div>
+</sl-card>
+</li>                
             {% endif %}
         {% endfor %}
         </ul>
-    </li>
+
 {% endfor %}
-</ul>

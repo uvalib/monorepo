@@ -5,6 +5,13 @@ const parser = new XMLParser({
         if (name === "span") return true; 
     }
 });
+const parserOrdered = new XMLParser({
+    preserveOrder: true,
+    alwaysCreateTextNode: true,
+    isArray: (name, jpath, isLeafNode, isAttribute) => { 
+        if (name === "span") return true; 
+    }
+});
 
 exports.mkTextNodeReducer = function(spacer=''){ 
     return (p,c)=>{ 
@@ -17,7 +24,7 @@ const traverse = require('traverse');
 exports.cleanup = function(obj){
     traverse(obj).forEach( function(x){
         // strip out spans by simply joining there text (without space)
-        if (x.span) this.update( x.span.reduce( exports.mkTextNodeReducer()) );
+        if (x.span && Array.isArray(x.span ) && x.span.length>0) this.update( x.span.reduce( exports.mkTextNodeReducer()) );
     });
     // traverse a second time to join #text chunks left in arrays
 //    traverse(obj).forEach( function(x){
@@ -32,6 +39,6 @@ exports.cleanup = function(obj){
     return obj;
 }
 
-exports.parse = function(obj){
+exports.parse = function(obj, preserveOrder=false){
     return exports.cleanup(parser.parse(obj));
 }
