@@ -2,9 +2,21 @@ const CleanCSS = require("clean-css");
 const { XMLParser } = require("fast-xml-parser");
 const parser = new XMLParser();
 
+function arrayOrStringToParaShortcode(para, title, cls) {
+  let code = `<h2>${title}</h2><div class="${cls}">`;
+  if (Array.isArray(para)) {
+    para.forEach(p=>{code+=`<p>${p}</p>`;});
+  } else {
+    code += `<p>${para}</p>`;
+  }
+  code += "</div>";
+  return code;
+}
+
 module.exports = function(eleventyConfig) {
     eleventyConfig.addFilter("dump", function(obj) { return JSON.stringify(obj, null, 2) });
     eleventyConfig.addFilter("isarray", function(obj) { return Array.isArray(obj) });
+    eleventyConfig.addNunjucksShortcode("arrayOrStringPara", arrayOrStringToParaShortcode);
     eleventyConfig.addDataExtension("xml", contents => { 
         let jObj = parser.parse(contents);
         return {
