@@ -3,14 +3,16 @@ const { XMLParser } = require("fast-xml-parser");
 const parser = new XMLParser();
 
 function arrayOrStringToParaShortcode(para, title, cls) {
-  let code = `<h2>${title}</h2><div class="${cls}">`;
-  if (Array.isArray(para)) {
-    para.forEach(p=>{code+=`<p>${p}</p>`;});
-  } else {
-    code += `<p>${para}</p>`;
+  if (para && title && cls) {
+    let code = `<h2>${title}</h2><div class="${cls}">`;
+    if (Array.isArray(para)) {
+      para.forEach(p=>{code+=`<p>${p}</p>`;});
+    } else {
+      code += `<p>${para}</p>`;
+    }
+    code += "</div>";
+    return code;
   }
-  code += "</div>";
-  return code;
 }
 
 module.exports = function(eleventyConfig) {
@@ -28,6 +30,7 @@ module.exports = function(eleventyConfig) {
     eleventyConfig.addPassthroughCopy("src/.nojekyll");
     eleventyConfig.addPassthroughCopy({"src/mlb/TransmogXML":"items"});
     eleventyConfig.addPassthroughCopy("src/mlb/images");
+    eleventyConfig.addPassthroughCopy("src/images");
     eleventyConfig.addFilter("cssmin", function(code) { return new CleanCSS({}).minify(code).styles; });
     
     return {

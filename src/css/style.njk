@@ -2,6 +2,7 @@
 permalink: "css/style.css"
 ---
 {% set css %}
+  {% include "src/css/bsuva.org.njk" %}
   {% include "src/css/tei.css" %}
   {% include "node_modules/@shoelace-style/shoelace/dist/themes/light.css" %}
 {% endset %}
@@ -10,3 +11,21 @@ permalink: "css/style.css"
 .unassigned {
   background: yellow;
 }
+
+ .cards {
+     display: flex;
+     flex-wrap: wrap;
+     list-style: none;
+     margin: 0;
+     padding: 0;
+ }
+ .cards__item {
+     display: flex;
+     padding: 1rem;
+     @media(min-width: 40rem) {
+         width: 50%;
+     }
+     @media(min-width: 56rem) {
+         width: 33.3333%
+     }
+ }
