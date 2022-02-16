@@ -6,15 +6,18 @@ layout: page-layout.njk
 <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.65/dist/shoelace.js"></script>
 <script type="module" src="{{ '/js/grid.js' | url }}"></script>
 
-<h1>Modern Library</h1>
+<h1>Modern Library Bibliography</h1>
 
+<h2>Books published by the Modern Library</h2>
+<mlb-grid></mlb-grid>
+<!--
 <vaadin-grid theme="row-stripes" column-reordering-allowed multi-sort>
     <vaadin-grid-selection-column auto-select></vaadin-grid-selection-column>
     <vaadin-grid-sort-column width="5em" path="yearId" header="Year"></vaadin-grid-sort-column>
     <vaadin-grid-sort-column width="9em" path="METADATA.TITLE" header="Title"></vaadin-grid-sort-column>
     <vaadin-grid-sort-column width="9em" flex-grow="2" path="METADATA.AUTHOR" header="Author"></vaadin-grid-column>
 </vaadin-grid>
-
+-->
 
 <script id="yearsData" type="text/json">{{ years | dump | safe }}</script>
 <script id="booksData" type="text/json">{{ books | dump | safe }}</script>
@@ -22,8 +25,7 @@ layout: page-layout.njk
 
 console.log(JSON.parse( document.querySelector('#booksData').textContent ));
 
-  const grid = document.querySelector('vaadin-grid');
-  console.log(grid)
+  const grid = document.querySelector('mlb-grid');
   const books = JSON.parse( document.querySelector('#booksData').textContent )
   grid.items = books;
 /*
