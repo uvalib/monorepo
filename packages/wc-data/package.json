@@ -1,8 +1,8 @@
 {
-  "name": "@uvalib/uvalib-account",
-  "description": "Webcomponent uvalib-account following open-wc recommendations",
+  "name": "@uvalib/uvalib-data",
+  "description": "Webcomponent uvalib-data following open-wc recommendations",
   "license": "MIT",
-  "author": "uvalib-account",
+  "author": "uvalib-data",
   "version": "0.0.0",
   "main": "index.js",
   "module": "index.js",
@@ -16,14 +16,13 @@
     "storybook:build": "build-storybook"
   },
   "dependencies": {
-    "@uvalib/uvalib-data": "^0.0.0",
+    "@uvalib/uvalib-account": "^0.0.0",
     "firebase": "^9.6.6",
     "lit": "^2.0.0-rc.2"
   },
   "devDependencies": {
     "@open-wc/eslint-config": "^4.3.0",
     "@open-wc/testing": "next",
-    "@uvalib/uvalib-style": "^0.1.18",
     "@web/dev-server": "^0.1.21",
     "@web/dev-server-storybook": "next",
     "@web/test-runner": "^0.13.16",

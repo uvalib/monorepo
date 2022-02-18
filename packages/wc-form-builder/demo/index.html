@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      background: #fafafa;
+    }
+  </style>
+</head>
+<body>
+  <div id="demo"></div>
+
+  <script type="module">
+    import { html, render } from 'lit';
+    import '@uvalib/uvalib-style/uvalib-style.js';
+    import '../uvalib-field-button.js';
+    import '../uvalib-form-builder.js';
+
+    render(
+      html`
+      <uvalib-style>
+        <h3>Uvalib field button demo</h3>
+        <uvalib-field-button element='{"type": "webform_actions", "webform_key": "btn_check_virgo", "submit__label": "Check Virgo"}'></uvalib-field-button>
+      </uvalib-style>
+      `,
+      document.querySelector('#demo')
+    );
+  </script>
+</body>
+</html>

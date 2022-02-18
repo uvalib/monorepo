@@ -1,8 +1,9 @@
 import { LitElement } from 'lit';
-import './UvalibAccountApp.js';
+import './UvalibAccountAppOld.js';
 import { getAuth, signInWithCustomToken } from "firebase/auth";
 
-const netbadgeLogin = "https://api.library.virginia.edu/fireauth/helloLib.js?dest=";
+//const netbadgeLogin = "https://api.library.virginia.edu/fireauth/helloLib.js?dest=";
+const netbadgeLogin = "https://api.library.virginia.edu/fireauth/hello.js?dest=";
 const auth = getAuth();
 
 export class UvalibAccountAuth extends LitElement {

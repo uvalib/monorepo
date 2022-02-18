@@ -1,6 +1,7 @@
 import { LitElement } from 'lit';
 import { UvalibAccountAuth } from './UvalibAccountAuth.js';
-import { getDatabase, ref, child, get } from "firebase/database";
+//
+import "@uvalib/uvalib-data/uvalib-data.js";
 
 export class UvalibAccountUser extends UvalibAccountAuth {
 
@@ -19,6 +20,8 @@ export class UvalibAccountUser extends UvalibAccountAuth {
 
   connectedCallback(){
     super.connectedCallback();
+    this.db = document.createElement('uvalib-data');
+    this.shadowRoot.appendChild( this.db );
   }
 
   updated(changedProps) {
@@ -33,11 +36,13 @@ export class UvalibAccountUser extends UvalibAccountAuth {
   }
 
   _signedIn(){
-    this._getUserRecord();
     super._signedIn();
+    this._getUserRecord();
   }
 
   _getUserRecord(){
+    this.db.get(`users/${this.user.uid}`).then(user => this.userData = user);
+/*
     const dbRef = ref(getDatabase());
     get(child(dbRef, `users/${this.user.uid}`)).then((snapshot) => {
       if (snapshot.exists()) {
@@ -48,6 +53,7 @@ export class UvalibAccountUser extends UvalibAccountAuth {
     }).catch((error) => {
       console.error(error);
     });
+*/    
   }
 
   _updateContactInfo(){

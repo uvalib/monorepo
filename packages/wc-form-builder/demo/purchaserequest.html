@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      background: #fafafa;
+    }
+  </style>
+</head>
+<body>
+
+  <uvalib-style>
+    <uvalib-form-builder form-id="purchase_requests"></uvalib-form-builder>
+  </uvalib-style>
+
+  <script type="module">
+    import '../uvalib-form-builder.js';
+    import '@uvalib/uvalib-style/uvalib-style.js';
+
+    document.body.addEventListener('formPageDefUpdated', e=>console.log(e.detail) );
+  </script>
+</body>
+</html>
