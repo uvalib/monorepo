@@ -24,3 +24,5 @@ export class UvalibFieldButton extends UvalibField {
     `;
   }
 }
+
+window.customElements.define('uvalib-field-button', UvalibFieldButton);
