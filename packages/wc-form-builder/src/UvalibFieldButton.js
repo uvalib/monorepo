@@ -1,8 +1,8 @@
 import { html, css, LitElement } from 'lit';
 import '@uvalib/uvalib-button/uvalib-button.js';
-import { UvalibField } from './UvalibField.js';
+import { UvalibField, UvalibFieldGeneric } from './UvalibFieldGeneric.js';
 
-export class UvalibFieldButton extends UvalibField {
+export class UvalibFieldButton extends UvalibFieldGeneric {
   static get styles() {
     return css`
     `;

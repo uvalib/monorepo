@@ -1,7 +1,7 @@
 import { html, css, LitElement } from 'lit';
-import { UvalibField } from './UvalibField.js';
+import { UvalibField, UvalibFieldGeneric } from './UvalibFieldGeneric.js';
 
-export class UvalibFieldHidden extends UvalibField {
+export class UvalibFieldHidden extends UvalibFieldGeneric {
   static get styles() {
     return css`
     `;
