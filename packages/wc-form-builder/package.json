@@ -3,7 +3,7 @@
   "description": "Webcomponent uvalib-form-builder following open-wc recommendations",
   "license": "MIT",
   "author": "uvalib-form-builder",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "main": "index.js",
   "module": "index.js",
   "scripts": {
@@ -16,16 +16,16 @@
     "storybook:build": "build-storybook"
   },
   "dependencies": {
-    "@uvalib/uvalib-account": "^0.0.0",
-    "@uvalib/uvalib-button": "^0.2.0",
-    "@uvalib/uvalib-data": "^0.0.0",
+    "@uvalib/uvalib-account": "^0.0.1",
+    "@uvalib/uvalib-button": "^0.2.1",
+    "@uvalib/uvalib-data": "^0.0.1",
     "lit": "^2.0.0-rc.2",
     "lit-html": "^2.2.0"
   },
   "devDependencies": {
     "@open-wc/eslint-config": "^4.3.0",
     "@open-wc/testing": "next",
-    "@uvalib/uvalib-style": "^0.1.18",
+    "@uvalib/uvalib-style": "^0.1.19",
     "@web/dev-server": "^0.1.21",
     "@web/dev-server-storybook": "next",
     "@web/test-runner": "^0.13.16",

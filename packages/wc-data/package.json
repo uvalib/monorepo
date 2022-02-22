@@ -3,7 +3,7 @@
   "description": "Webcomponent uvalib-data following open-wc recommendations",
   "license": "MIT",
   "author": "uvalib-data",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "main": "index.js",
   "module": "index.js",
   "scripts": {
@@ -16,7 +16,7 @@
     "storybook:build": "build-storybook"
   },
   "dependencies": {
-    "@uvalib/uvalib-account": "^0.0.0",
+    "@uvalib/uvalib-account": "^0.0.1",
     "firebase": "^9.6.6",
     "lit": "^2.0.0-rc.2"
   },

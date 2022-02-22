@@ -1,6 +1,6 @@
 {
   "name": "@uvalib/eslint-config",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "ESLint config for the Library",
   "author": "Doug Chestnut <dougchestnut@users.noreply.github.com>",
   "homepage": "https://github.com/uvalib/monorepo#readme",
@@ -18,7 +18,7 @@
     "url": "https://github.com/uvalib/monorepo/issues"
   },
   "devDependencies": {
-    "@uvalib/prettier-config": "^0.0.12",
+    "@uvalib/prettier-config": "^0.0.13",
     "husky": "^6.0.0",
     "playground-elements": "^0.14.8",
     "prettier": "^2.3.2",
