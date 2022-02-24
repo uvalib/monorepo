@@ -1,4 +1,4 @@
-import { s, r } from './lit-element-c86e1f55.js';
+import { s, r, a as s$1, $ } from './lit-element-d30e6440.js';
 
 /**
  * @license
@@ -24711,3 +24711,33 @@ class GridTreeColumn extends GridColumn {
 }
 
 customElements.define(GridTreeColumn.is, GridTreeColumn);
+
+class MLBGrid extends s$1 {
+  static properties = {
+    items: {type:Object},
+  };
+  // Define scoped styles right with your component, in plain CSS
+  static styles = r`
+  `;
+
+  constructor() {
+    super();
+    // Declare reactive properties
+    this.items = [];
+  }
+
+  // Render the UI as a function of component state
+  render() {
+    return $`
+    <vaadin-grid .items="${this.items}" theme="row-stripes" column-reordering-allowed multi-sort>
+        <vaadin-grid-selection-column auto-select></vaadin-grid-selection-column>
+        <vaadin-grid-sort-column width="5em" path="yearId" header="Year"></vaadin-grid-sort-column>
+        <vaadin-grid-sort-column width="9em" path="METADATA.TITLE" header="Title"></vaadin-grid-sort-column>
+        <vaadin-grid-sort-column width="9em" flex-grow="2" path="METADATA.AUTHOR" header="Author"></vaadin-grid-column>
+    </vaadin-grid>    
+    `;
+  }
+}
+customElements.define('mlb-grid', MLBGrid);
+
+export { MLBGrid };
