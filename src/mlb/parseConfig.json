@@ -1,0 +1,27 @@
+[
+    {   
+        "desc": "This is the pattern for the file title.",
+        "path": "title",
+        "position": 0,
+        "matches": [
+            "/\\s*MODERN LIBRARY( SERIES)\\s+\\d\\d\\d\\d?.*/gim",
+            "/\\s*Modern Library\\s+\\d\\d\\d\\d.*/gim"
+        ]
+    },
+    {
+        "desc": "This is the pattern for the date heading.",
+        "path": "year",
+        "position": 0,
+        "matches": [
+            "/(Fall )?\\d\\d\\d\\d/gm"
+        ]
+    },
+    {
+        "desc": "This is the pattern for the season heading.",
+        "path": "season",
+        "position": 0,
+        "matches": [
+            "/\\s*(Spring)|(Fall)\\s*/gim"
+        ]
+    }
+]

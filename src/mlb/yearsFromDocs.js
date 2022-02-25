@@ -1,6 +1,7 @@
 const textract = require('textract');
 const fs = require('fs');
 const { getTextFromZipFile } = require('textract/lib/util');
+const config = require('./parseConfig.json');
 
 // Wrap textract to provide promise
 const readFromDoc = (filename) => {
@@ -12,25 +13,19 @@ const readFromDoc = (filename) => {
     });
 }
 
-// This method returns the file title.
-const getTitle = (content) => {
-    let match = content.match(/\s*MODERN LIBRARY( SERIES)\s+\d\d\d\d?.*/gim) ||
-//                content.match(/\s*Modern Library Series\s+\d\d\d\d.*/gm) ||
-                content.match(/\s*Modern Library\s+\d\d\d\d.*/gim) //||
-//                content.match(/\s*MODERN LIBRARY\s*\d\d\d\d/gm)
-    return match? match[0]:"none found";
-}
-
-// This method returns the date heading.
-const getHeadDate = (content) => {
-    let match = content.match(/(Fall )?\d\d\d\d/gm)
-    return match? match[0]:"none found";
-}
-
-// This method returns the season heading
-const getHeadSeason = (content) => {
-    let match = content.match(/\s*(Spring)|(Fall)\s*/gim)
-    return match? match[0]:"none found"
+const parseContent = (content)=>{
+    let doc = {};
+    config.forEach(docParse=>{
+        let match;
+        let matched = !docParse.matches.every(matcher=>{
+            match = content.match( eval(matcher) );
+            return (!match)  // return true to try again (if we don't have a match yet)
+        })
+        if (matched) {
+            doc[docParse.path] = match[docParse.position].trim();
+        }
+    })
+    return doc;    
 }
 
 module.exports = async function() {
@@ -39,18 +34,9 @@ module.exports = async function() {
     for (let i=0; i<files.length; i++) {    
         const filename = files[i];
         const contents = await readFromDoc(`src/mlb/yearDocs/${filename}`);
-        contents.match(/^MODERN LIBRARY SERIES.*/gm)
-        years.push( {
-            file: filename, 
-//            content: contents,
-            title: getTitle(contents).trim(),
-            head: {
-                date: getHeadDate(contents).trim(),
-                season: getHeadSeason(contents).trim()
-            }
-        } );
+        years.push( parseContent(contents) );       
     }
     return years;
 }
 
-module.exports().then(years=>console.log( "foo"))  //JSON.stringify(years, null, 2) ))
+module.exports().then(years=>console.log( JSON.stringify(years, null, 2) ))
