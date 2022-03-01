@@ -1,6 +1,6 @@
 {
   "name": "@uvalib/www-library-build",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "www.library.virginia.edu build using 11ty",
   "author": "Doug Chestnut <dougchestnut@gmail.com>",
   "homepage": "https://github.com/uvalib/monorepo#readme",
@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "@11ty/eleventy-img": "^0.9.0",
-    "@uvalib/uvalib-page": "^0.0.22",
+    "@uvalib/uvalib-page": "^0.0.23",
     "@web/rollup-plugin-import-meta-assets": "^1.0.7",
     "rimraf": "^3.0.2",
     "rollup": "^2.54.0",
