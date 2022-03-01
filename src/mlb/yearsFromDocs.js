@@ -22,7 +22,11 @@ const parseContent = (content)=>{
             return (!match)  // return true to try again (if we don't have a match yet)
         })
         if (matched) {
-            doc[docParse.path] = match[docParse.position].trim();
+            doc[docParse.path] = match[docParse.capture].trim();
+            // whittle down the content to make parsing easier as we go
+            if (docParse.leftover) { 
+                content = match[docParse.leftover] 
+            }
         }
     })
     return doc;    
@@ -31,9 +35,9 @@ const parseContent = (content)=>{
 module.exports = async function() {
     let years = [];
     const files = fs.readdirSync('src/mlb/yearDocs')
-    for (let i=0; i<files.length; i++) {    
+    for (let i=0; i<files.length; i++) {
         const filename = files[i];
-        const contents = await readFromDoc(`src/mlb/yearDocs/${filename}`);
+        let contents = await readFromDoc(`src/mlb/yearDocs/${filename}`);
         years.push( parseContent(contents) );       
     }
     return years;

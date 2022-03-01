@@ -2,26 +2,30 @@
     {   
         "desc": "This is the pattern for the file title.",
         "path": "title",
-        "position": 0,
+        "capture": 1,
+        "leftover": 2,
         "matches": [
-            "/\\s*MODERN LIBRARY( SERIES)\\s+\\d\\d\\d\\d?.*/gim",
-            "/\\s*Modern Library\\s+\\d\\d\\d\\d.*/gim"
+            "/\\s*(Modern Library Series\\s+\\d\\d\\d\\d)\\s*\\n([^]*)/im",
+            "/\\s*(Modern Library\\s+\\d\\d\\d\\d)\\s*\\n([^]*)/im"
         ]
     },
     {
         "desc": "This is the pattern for the date heading.",
         "path": "year",
-        "position": 0,
+        "capture": 1,
+        "leftover": 2,
         "matches": [
-            "/(Fall )?\\d\\d\\d\\d/gm"
+            "/\\s+Fall (\\d\\d\\d\\d)\\s*\\n([^]*)/im",
+            "/\\s+(\\d\\d\\d\\d)\\s*\\n([^]*)/im"
         ]
     },
     {
-        "desc": "This is the pattern for the season heading.",
-        "path": "season",
-        "position": 0,
+        "desc": "Matches a section that has a paragraph with just 'General' followed by any number of paragraphs",
+        "path": "general",
+        "capture": 1,
+        "leftover": 2,
         "matches": [
-            "/\\s*(Spring)|(Fall)\\s*/gim"
+            "/General\\s*\\n([^]*?)\\n\\n((?=Printing technologies|Number of titles|War Production Board|Format and printing|Format\\n)[^]*)/im"
         ]
     }
 ]
