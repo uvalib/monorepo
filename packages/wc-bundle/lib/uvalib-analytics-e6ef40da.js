@@ -81,10 +81,26 @@ class UvalibAnalytics extends h {
           console.info(`Defined Dimension ${key}`);
         });
       }
-      import(`${this.matomoURL}matomo.js`).then(function(){
-        console.log("Loaded Matomo!");
-        this.matomoTracker = Matomo.getTracker(`${this.matomoURL}matomo.php`, this.matomoId.toString());
-      }.bind(this));
+
+
+      this._matomoTracker = document.createElement('script');
+      this._matomoTracker.setAttribute('src', `${this.matomoURL}matomo.js`);
+      document.head.appendChild(this._matomoTracker);
+      this._getTracker(1000);
+
+//      import(`${this.matomoURL}matomo.js`).then(function(){
+//        console.log("Loaded Matomo!");
+//        this.matomoTracker = Matomo.getTracker(`${this.matomoURL}matomo.php`, this.matomoId.toString());
+//      }.bind(this))
+    }
+  }
+
+  _getTracker(timeout) {
+    if ( window.Matomo ) {
+      console.log("Loaded Matomo!");
+      this.matomoTracker = window.Matomo.getTracker(`${this.matomoURL}matomo.php`, this.matomoId.toString());
+    } else {
+      setTimeout(function(){this._getTracker(timeout+1000);}.bind(this), timeout);
     }
   }
 
