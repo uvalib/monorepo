@@ -39,17 +39,19 @@ class UvalibAnalytics extends h {
   }
 
   _logPageView(e) {
-    let customTitle = e.detail? 
-      e.detail.customTitle:
-      document.querySelector('title').text;
-    let referrer = e.detail && e.detail.referrer? 
-      e.detail.referrer.indexOf('http')>-1?
-        e.detail.referrer:
-        document.location.origin+e.detail.referrer:
-      document.referrer;
-    this.matomoTracker.setDocumentTitle(customTitle);
-    this.matomoTracker.setReferrerUrl(referrer);
-    if (this.matomoTracker) this.matomoTracker.trackPageView(customTitle);
+    if (this.matomoTracker) {
+      let customTitle = e.detail? 
+        e.detail.customTitle:
+        document.querySelector('title').text;
+      let referrer = e.detail && e.detail.referrer? 
+        e.detail.referrer.indexOf('http')>-1?
+          e.detail.referrer:
+          document.location.origin+e.detail.referrer:
+        document.referrer;
+      this.matomoTracker.setDocumentTitle(customTitle);
+      this.matomoTracker.setReferrerUrl(referrer);
+      this.matomoTracker.trackPageView(customTitle);
+    }
   }
 
   _logSearch(e) {
@@ -87,11 +89,6 @@ class UvalibAnalytics extends h {
       this._matomoTracker.setAttribute('src', `${this.matomoURL}matomo.js`);
       document.head.appendChild(this._matomoTracker);
       this._getTracker(1000);
-
-//      import(`${this.matomoURL}matomo.js`).then(function(){
-//        console.log("Loaded Matomo!");
-//        this.matomoTracker = Matomo.getTracker(`${this.matomoURL}matomo.php`, this.matomoId.toString());
-//      }.bind(this))
     }
   }
 
