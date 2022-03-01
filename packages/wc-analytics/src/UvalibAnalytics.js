@@ -30,7 +30,7 @@ export class UvalibAnalytics extends LitElement {
       e.detail.customTitle:
       document.querySelector('title').text;
     let referrer = e.detail && e.detail.referrer? 
-      e.detail.referrer.contains('http')?
+      e.detail.referrer.indexOf('http')>-1?
         e.detail.referrer:
         document.location.origin+e.detail.referrer:
       document.referrer;
