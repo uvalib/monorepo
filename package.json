@@ -7,7 +7,8 @@
   "scripts": {
     "test": "lerna run test --stream",
     "publish-all": "lerna publish",
-    "start": "serve docs"
+    "start": "serve docs",
+    "lerna-fix": "lerna exec -- node lerna-fix.js"
   },
   "devDependencies": {
     "husky": "^6.0.0",

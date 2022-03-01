@@ -59,6 +59,5 @@
       "eslint --fix",
       "prettier --write"
     ]
-  },
-  "gitHead": "527139ef3d5750369ea462ebef801d0460f6363f"
+  }
 }
