@@ -27,5 +27,23 @@
         "matches": [
             "/General\\s*\\n([^]*?)\\n\\n((?=Printing technologies|Number of titles|War Production Board|Format and printing|Format\\n)[^]*)/im"
         ]
+    },
+    {
+        "desc": "Matches a section that starts with the heading 'Number of titles' followed by a paragraph",
+        "path": "numberTitles",
+        "capture": 1,
+        "leftover": 2,
+        "matches": [
+            "/Number of titles\\s*\\n([^]*?)\\n\\n/im"
+        ]
+    },
+    {
+        "desc":"Matches previously matched `numberTitles` for the number of `active titles`",
+        "path": "activeTitles",
+        "srcPath": "numberTitles",
+        "capture": 1,
+        "matches": [
+            "/active titles to (\\d+)/im"
+        ]
     }
 ]

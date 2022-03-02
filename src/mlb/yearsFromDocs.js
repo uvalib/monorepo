@@ -18,7 +18,15 @@ const parseContent = (content)=>{
     config.forEach(docParse=>{
         let match;
         let matched = !docParse.matches.every(matcher=>{
-            match = content.match( eval(matcher) );
+            if (docParse.srcPath && doc[docParse.srcPath]) {
+                console.log( docParse.srcPath )
+                console.log( doc[docParse.srcPath] )
+                console.log( matcher )
+                match  = doc[docParse.srcPath].match( eval(matcher) );
+                console.log( match )
+            } else { 
+                match = content.match( eval(matcher) );
+            }
             return (!match)  // return true to try again (if we don't have a match yet)
         })
         if (matched) {
@@ -43,4 +51,4 @@ module.exports = async function() {
     return years;
 }
 
-module.exports().then(years=>console.log( JSON.stringify(years, null, 2) ))
+//module.exports().then(years=>console.log( JSON.stringify(years, null, 2) ))
