@@ -34,7 +34,79 @@
         "capture": 1,
         "leftover": 2,
         "matches": [
-            "/Number of titles\\s*\\n([^]*?)\\n\\n/im"
+            "/Number of titles\\s*\\n([^]*?)\\n\\n([^]*)/im"
+        ]
+    },
+    {
+        "desc": "Matches section headed with `Format and printing`",
+        "path": "formatPrinting",
+        "capture": 1,
+        "leftover": 2,
+        "matches": [
+            "/format and printing\\s*\\n([^]*?)\\n\\n([^]*)/im"
+        ]
+    },
+    {
+        "desc": "Matches section headed with `Title page`",
+        "path": "titlePage",
+        "capture": 1,
+        "leftover": 2,
+        "matches": [
+            "/format and printing\\s*\\n([^]*?)\\n\\n([^]*)/im"
+        ]
+    },
+    {
+        "desc": "Matches a section that has a paragraph with just 'Binding' followed by any number of paragraphs",
+        "path": "binding",
+        "capture": 1,
+        "leftover": 2,
+        "matches": [
+            "/Binding\\s*\\n([^]*?)\\n\\n((?=Endpaper|Endpaper\\n)[^]*)/im"
+        ]
+    },
+    {
+        "desc": "Matches section headed with `Endpaper`",
+        "path": "endpaper",
+        "capture": 1,
+        "leftover": 2,
+        "matches": [
+            "/Endpaper\\s*\\n([^]*?)\\n\\n([^]*)/im"
+        ]
+    },
+    {
+        "desc": "Matches section headed with `Jackets`",
+        "path": "jackets",
+        "capture": 1,
+        "leftover": 2,
+        "matches": [
+            "/Jackets\\s*\\n([^]*?)\\n\\n([^]*)/im"
+        ]
+    },
+    {
+        "desc": "Matches section headed with `Price`",
+        "path": "price",
+        "capture": 1,
+        "leftover": 2,
+        "matches": [
+            "/Price\\s*\\n([^]*?)\\n\\n([^]*)/im"
+        ]
+    },
+    {
+        "desc": "Matches section headed with `Dating keys`",
+        "path": "datingKeys",
+        "capture": 1,
+        "leftover": 2,
+        "matches": [
+            "/Dating keys\\s*\\n([^]*?)\\n\\n([^]*)/im"
+        ]
+    },
+    {
+        "desc": "Matches section headed with `Titles sought, suggested, declined`",
+        "path": "titlesSoughtSuggestedDeclined",
+        "capture": 1,
+        "leftover": 2,
+        "matches": [
+            "/Titles dought, suggested, declined\\s*\\n([^]*?)\\n\\n([^]*)/im"
         ]
     },
     {
@@ -43,7 +115,16 @@
         "srcPath": "numberTitles",
         "capture": 1,
         "matches": [
-            "/active titles to (\\d+)/im"
+            "/titles to (\\d+)/im",
+            "/ML to (\\d+)/im",
+            "/series to (\\d+)/im",
+            "/remained at (\\d+)/im",
+            "/list to (\\d+)/im",
+            "/contained (\\d+) titles/im",
+            "/titles available to (\\d+)/im",
+            "/now numbered (\\d+)/im",
+            "/total to (\\d+)/im",
+            "/had (\\d+) titles/im"
         ]
     }
 ]
