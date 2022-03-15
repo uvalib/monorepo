@@ -2,6 +2,10 @@ const CleanCSS = require("clean-css");
 const { XMLParser } = require("fast-xml-parser");
 const parser = new XMLParser();
 
+let markdown = require("markdown-it")({
+  html: true
+});
+
 function arrayOrStringToParaShortcode(para, title, cls) {
   if (para && title && cls) {
     let code = `<h2>${title}</h2><div class="${cls}">`;
@@ -26,6 +30,10 @@ module.exports = function(eleventyConfig) {
             books: jObj.TEI.BOOK
         }; 
     });
+    eleventyConfig.addNunjucksShortcode(
+      "markdown",
+      content => `<div class="md-block">${markdown.render(content)}</div>`
+    );
     eleventyConfig.addPassthroughCopy({"src/js":"js"});
     eleventyConfig.addPassthroughCopy("src/.nojekyll");
     eleventyConfig.addPassthroughCopy({"src/mlb/TransmogXML":"items"});
