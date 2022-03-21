@@ -7,6 +7,28 @@ export default {
     {
       userId: process.env.AXISUSER,
       pass: process.env.AXISPASS,
+      domain: '172.29.72.19',
+      fbpath: [
+        'locations-schemaorg/location/music/estimatedOccupancy',
+        'locations-schemaorg/location/music/occupancy'
+      ],
+      fblogpath: 'locationsLogs/music/estimatedOccupancylog',
+      name: 'Music Main Entry (Lead Camera) (L001)',
+    },
+    {
+      userId: process.env.AXISUSER,
+      pass: process.env.AXISPASS,
+      domain: '172.29.8.29',
+      fbpath: [
+        'locations-schemaorg/location/fine-arts/estimatedOccupancy',
+        'locations-schemaorg/location/fine-arts/occupancy'
+      ],
+      fblogpath: 'locationsLogs/fine-arts/estimatedOccupancylog',
+      name: 'Fine Arts Main Entry (Lead Camera) (C254)',
+    },
+    {
+      userId: process.env.AXISUSER,
+      pass: process.env.AXISPASS,
       domain: '172.29.12.101',
       fbpath: [
         'locations-schemaorg/location/science/estimatedOccupancy',
