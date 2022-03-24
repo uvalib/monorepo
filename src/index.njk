@@ -17,7 +17,7 @@ layout: page-layout.njk
       <ul>
         {% for rev in revisions %}
           {% if rev.book == bookID %}
-            <li><a href="/revision/{{rev.id}}">{{rev.id}}</a></li>
+            <li><a href="{{ '/revision/' | url }}{{ rev.id }}">{{ rev.id }}</a></li>
           {% endif %}
         {% endfor %}
       </ul>
