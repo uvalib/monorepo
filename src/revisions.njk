@@ -1,0 +1,34 @@
+---
+layout: page-layout.njk
+pagination:
+    data: revisions
+    size: 1
+    alias: rev
+permalink: "revision/{{ rev.id }}/"
+---
+
+<sl-breadcrumb>
+  <sl-breadcrumb-item href="/">
+    <sl-icon slot="prefix" name="house"></sl-icon>
+    Home
+  </sl-breadcrumb-item>
+  <sl-breadcrumb-item href="/years/{{ rev.year }}">{{ rev.year }}</sl-breadcrumb-item>
+  <sl-breadcrumb-item href="/book/{{ rev.book }}">{{ rev.book }}</sl-breadcrumb-item>
+  <sl-breadcrumb-item href="/revision/{{ rev.id }}">{{ rev.id }}</sl-breadcrumb-item>
+</sl-breadcrumb>
+
+<h1>{{rev.id}}</h1>
+<h2>{{rev.title}}</h2>
+{% markdown rev.full %}
+
+<elix-carousel-with-thumbnails style="width: 100%">
+  {% for cover in covers %}
+    {% if cover.revision == rev.id %}
+    <img src="{{ cover.filename }}">
+    {% endif %}
+  {% endfor %}
+</elix-carousel-with-thumbnails>
+
+<sl-details summary="book"><pre>{{ rev | dump | safe }}</pre></sl-details>
+
+<script type="module" src="/js/slideshow.js"></script>

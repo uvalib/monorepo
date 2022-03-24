@@ -4,24 +4,28 @@ pagination:
     data: books
     size: 1
     alias: book
-permalink: "years/{{ book.yearId }}/{{ book.id }}/"
+permalink: "book/{{ book.id }}/"
 ---
-<script type="module" src="{{'/js' | url }}/slideshow.js"></script>
-<div id="book">
-    <h1>{{ book.METADATA.TITLE }} ({{ book.id }})</h1>
-    {% if book.images %}
-        {% if book.images.length > 1 %}
-        <elix-carousel-with-thumbnails style="max-width: 400px;">
-            {% for img in book.images %}
-                    <img src="{{ '/mlb/images/' | url }}{{ img }}">
-            {% endfor %}
-        </elix-carousel-with-thumbnails>
-        {% else %}
-            <img src="{{ '/mlb/images/' | url }}{{ book.images[0] }}" style="max-width: 400px;">
-        {% endif %}        
+
+<sl-breadcrumb>
+  <sl-breadcrumb-item href="/">
+    <sl-icon slot="prefix" name="house"></sl-icon>
+    Home
+  </sl-breadcrumb-item>
+  <sl-breadcrumb-item href="/years/{{ book.year }}">{{ book.year }}</sl-breadcrumb-item>
+  <sl-breadcrumb-item href="/book/{{ book.id }}">{{ book.id }}</sl-breadcrumb-item>
+</sl-breadcrumb>
+
+{% markdown book.full %}
+
+<elix-carousel-with-thumbnails style="width: 100%">
+  {% for cover in covers %}
+    {% if cover.book == book.id %}
+    <img src="{{ cover.filename }}">
     {% endif %}
+  {% endfor %}
+</elix-carousel-with-thumbnails>
 
-</div>
-
-<h2>Debug</h2>
 <sl-details summary="book"><pre>{{ book | dump | safe }}</pre></sl-details>
+
+<script type="module" src="/js/slideshow.js"></script>

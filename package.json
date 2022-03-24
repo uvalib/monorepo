@@ -9,6 +9,8 @@
   "private": true,
   "dependencies": {
     "@shoelace-style/shoelace": "^2.0.0-beta.64",
+    "@ui5/webcomponents": "^1.2.3",
+    "@ui5/webcomponents-fiori": "^1.2.3",
     "@vaadin/grid": "^22.0.4",
     "CETEIcean": "^1.5.0",
     "elix": "^15.0.1",

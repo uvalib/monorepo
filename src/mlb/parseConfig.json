@@ -1,130 +1,55 @@
 [
+    {
+        "desc": "full doc",
+        "path": "full",
+        "capture": 1,
+        "matches": [
+            "/^([^]+)$/m"
+        ]
+    },
     {   
         "desc": "This is the pattern for the file title.",
         "path": "title",
         "capture": 1,
         "leftover": 2,
         "matches": [
-            "/\\s*(Modern Library Series\\s+\\d\\d\\d\\d)\\s*\\n([^]*)/im",
-            "/\\s*(Modern Library\\s+\\d\\d\\d\\d)\\s*\\n([^]*)/im"
+            "/^# (Modern Library Series\\s+\\d\\d\\d\\d)\\s*(\\n[^]*)/im"
         ]
     },
     {
-        "desc": "This is the pattern for the date heading.",
+        "desc": "This is the pattern for the date heading (from the title).",
+        "srcPath": "title",
         "path": "year",
         "capture": 1,
-        "leftover": 2,
         "matches": [
-            "/\\s+Fall (\\d\\d\\d\\d)\\s*\\n([^]*)/im",
-            "/\\s+(\\d\\d\\d\\d)\\s*\\n([^]*)/im"
+            "/(\\d\\d\\d\\d)/"
         ]
     },
     {
-        "desc": "Matches a section that has a paragraph with just 'General' followed by any number of paragraphs",
-        "path": "general",
-        "capture": 1,
-        "leftover": 2,
+        "desc": "Matches a section that has a heading followed by any number of paragraphs",
+        "path": 1,
+        "capture": 2,
+        "repeat": true,
         "matches": [
-            "/General\\s*\\n([^]*?)\\n\\n((?=Printing technologies|Number of titles|War Production Board|Format and printing|Format\\n)[^]*)/im"
+            "/^###\\s+(.*)$([^]+?)(?=###\\s+\\w+)/gim"
         ]
     },
     {
-        "desc": "Matches a section that starts with the heading 'Number of titles' followed by a paragraph",
-        "path": "numberTitles",
+        "desc": "This is the pattern for the first general para (from the general section).",
+        "srcPath": "general",
+        "path": "generalFirst",
         "capture": 1,
-        "leftover": 2,
         "matches": [
-            "/Number of titles\\s*\\n([^]*?)\\n\\n([^]*)/im"
+            "/([^]+?)(?=\\n\\n)/m"
         ]
     },
     {
-        "desc": "Matches section headed with `Format and printing`",
-        "path": "formatPrinting",
-        "capture": 1,
-        "leftover": 2,
+        "desc": "Grab the bibs/books and stash them into their own path",
+        "path": ["books",1,"full"],
+        "capture": 2,
+        "repeat": true,
         "matches": [
-            "/format and printing\\s*\\n([^]*?)\\n\\n([^]*)/im"
-        ]
-    },
-    {
-        "desc": "Matches section headed with `Title page`",
-        "path": "titlePage",
-        "capture": 1,
-        "leftover": 2,
-        "matches": [
-            "/format and printing\\s*\\n([^]*?)\\n\\n([^]*)/im"
-        ]
-    },
-    {
-        "desc": "Matches a section that has a paragraph with just 'Binding' followed by any number of paragraphs",
-        "path": "binding",
-        "capture": 1,
-        "leftover": 2,
-        "matches": [
-            "/Binding\\s*\\n([^]*?)\\n\\n((?=Endpaper|Endpaper\\n)[^]*)/im"
-        ]
-    },
-    {
-        "desc": "Matches section headed with `Endpaper`",
-        "path": "endpaper",
-        "capture": 1,
-        "leftover": 2,
-        "matches": [
-            "/Endpaper\\s*\\n([^]*?)\\n\\n([^]*)/im"
-        ]
-    },
-    {
-        "desc": "Matches section headed with `Jackets`",
-        "path": "jackets",
-        "capture": 1,
-        "leftover": 2,
-        "matches": [
-            "/Jackets\\s*\\n([^]*?)\\n\\n([^]*)/im"
-        ]
-    },
-    {
-        "desc": "Matches section headed with `Price`",
-        "path": "price",
-        "capture": 1,
-        "leftover": 2,
-        "matches": [
-            "/Price\\s*\\n([^]*?)\\n\\n([^]*)/im"
-        ]
-    },
-    {
-        "desc": "Matches section headed with `Dating keys`",
-        "path": "datingKeys",
-        "capture": 1,
-        "leftover": 2,
-        "matches": [
-            "/Dating keys\\s*\\n([^]*?)\\n\\n([^]*)/im"
-        ]
-    },
-    {
-        "desc": "Matches section headed with `Titles sought, suggested, declined`",
-        "path": "titlesSoughtSuggestedDeclined",
-        "capture": 1,
-        "leftover": 2,
-        "matches": [
-            "/Titles dought, suggested, declined\\s*\\n([^]*?)\\n\\n([^]*)/im"
-        ]
-    },
-    {
-        "desc":"Matches previously matched `numberTitles` for the number of `active titles`",
-        "path": "activeTitles",
-        "srcPath": "numberTitles",
-        "capture": 1,
-        "matches": [
-            "/titles to (\\d+)/im",
-            "/ML to (\\d+)/im",
-            "/series to (\\d+)/im",
-            "/remained at (\\d+)/im",
-            "/list to (\\d+)/im",
-            "/contained (\\d+) titles/im",
-            "/titles available to (\\d+)/im",
-            "/now numbered (\\d+)/im",
-            "/total to (\\d+)/im",
-            "/had (\\d+) titles/im"
+            "/^###\\s+(\\d+)\\s*$([^]+?)(?=^###\\s+\\w+|$(?!\\n))/gm"
         ]
     }
 ]

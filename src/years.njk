@@ -4,38 +4,17 @@ pagination:
     data: years
     size: 1
     alias: year
-permalink: "years/{{ year.filename }}/"
+permalink: "years/{{ year.year }}/"
 ---
-<div id="year">{{ year.filename }}</div>
-<h1>{{ year.TEI.TITLE }}</h1>
 
-{% arrayOrStringPara year.TEI.UNASSIGNED, "Unassigned Text", 'unassigned' %}
+<sl-breadcrumb>
+  <sl-breadcrumb-item href="/">
+    <sl-icon slot="prefix" name="house"></sl-icon>
+    Home
+  </sl-breadcrumb-item>
+  <sl-breadcrumb-item href="/years/{{ year.year }}">{{ year.year }}</sl-breadcrumb-item>
+</sl-breadcrumb>
 
-{% arrayOrStringPara year.TEI.GENERAL.PARAGRAPH, "General", 'general' %}
+{% markdown year.full %}
 
-{% arrayOrStringPara year.TEI.NUMBER_OF_TITLES.PARAGRAPH, "Number of Titles", "titles" %}
-
-{% arrayOrStringPara year.TEI.FORMAT.PARAGRAPH, "Format", "format" %}
-
-{% arrayOrStringPara year.TEI.TITLE_PAGE.PARAGRAPH, "Title Page", "title" %}
-
-{% arrayOrStringPara year.TEI.BINDING.PARAGRAPH, "Binding", "binding" %}
-
-{% arrayOrStringPara year.TEI.ENDPAPER.PARAGRAPH, "Endpaper", "endpaper" %}
-
-{% arrayOrStringPara year.TEI.JACKET.PARAGRAPH, "Jacket", "jacket" %}
-
-{% arrayOrStringPara year.TEI.BINDING.PARAGRAPH, "Binding", "binding" %}
-
-{% arrayOrStringPara year.TEI.ENDPAPER.PARAGRAPH, "Endpaper", "endpaper" %}
-
-{% arrayOrStringPara year.TEI.JACKET.PARAGRAPH, "Jacket", "jacket" %}
-
-{% arrayOrStringPara year.TEI.PRICE.PARAGRAPH, "Price", "price" %}
-
-{% arrayOrStringPara year.TEI.DATING_KEYS.PARAGRAPH, "Dating key", "dating_key" %}
-
-{% arrayOrStringPara year.TEI.TITLES_S_S_D.PARAGRAPH, "Titles sought, suggested, declined", "titles_s_s_d" %}
-
-<h2>Debug</h2>
 <sl-details summary="year"><pre>{{ year | dump | safe }}</pre></sl-details>

@@ -2,42 +2,43 @@
 layout: page-layout.njk
 ---
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.65/dist/themes/light.css">
-<script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.65/dist/shoelace.js"></script>
-<script type="module" src="{{ '/js/grid.js' | url }}"></script>
-
 <h1>Modern Library Bibliography</h1>
 
-<h2>Books published by the Modern Library</h2>
-<mlb-grid></mlb-grid>
-<!--
-<vaadin-grid theme="row-stripes" column-reordering-allowed multi-sort>
-    <vaadin-grid-selection-column auto-select></vaadin-grid-selection-column>
-    <vaadin-grid-sort-column width="5em" path="yearId" header="Year"></vaadin-grid-sort-column>
-    <vaadin-grid-sort-column width="9em" path="METADATA.TITLE" header="Title"></vaadin-grid-sort-column>
-    <vaadin-grid-sort-column width="9em" flex-grow="2" path="METADATA.AUTHOR" header="Author"></vaadin-grid-column>
-</vaadin-grid>
--->
+<div class="years-group">
+  {% for year in years %}
+  <sl-details class="year" summary="{{ year.year }}">
+    <h2><a href="{{ '/years/' | url }}{{ year.year }}">{{ year.title }}</a></h2>
+    {% if year.generalFirst %}
+      {% markdown year.generalFirst %}
+    {% endif %}
+    <ul>
+    {% for bookID, book in year.books %}
+      <li><a href="/book/{{ bookID }}">{{ bookID }}</a>
+      <ul>
+        {% for rev in revisions %}
+          {% if rev.book == bookID %}
+            <li><a href="/revision/{{rev.id}}">{{rev.id}}</a></li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+      </li>
+    {% endfor %}
+    </ul>
+  </sl-details>
+  {% endfor %}
+</div>
 
-<script id="yearsData" type="text/json">{{ years | dump | safe }}</script>
-<script id="booksData" type="text/json">{{ books | dump | safe }}</script>
 <script>
+  const container = document.querySelector('.years-group');
 
-console.log(JSON.parse( document.querySelector('#booksData').textContent ));
-
-  const grid = document.querySelector('mlb-grid');
-  const books = JSON.parse( document.querySelector('#booksData').textContent )
-  grid.items = books;
-/*
-  // Populate the grid with data
-  const grid = document.querySelector('vaadin-grid');
-  fetch('https://demo.vaadin.com/demo-data/1.0/people?count=200')
-    .then((res) => res.json())
-    .then((json) => (grid.items = json.result));
-*/
+  // Close all other details when one is shown
+  container.addEventListener('sl-show', event => {
+    [...container.querySelectorAll('sl-details.year')].map(details => (details.open = event.target === details));
+  });
 </script>
 
-<h2>Debug</h2>
-
-<sl-details summary="books"><pre>{{ books | dump | safe }}</pre></sl-details>
-<sl-details summary="years"><pre>{{ years | dump | safe }}</pre></sl-details>
+<style>
+  .years-group sl-details.year:not(:last-of-type) {
+    margin-bottom: var(--sl-spacing-2x-small);
+  }
+</style>

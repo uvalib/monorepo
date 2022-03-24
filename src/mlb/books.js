@@ -1,37 +1,32 @@
+const _ = require('lodash');
+
 const fs = require('fs');
-const parserHelper = require('./parserHelper.js');
+const years = require('./years.js');
 
 module.exports = async function() {
     let books = [];
-    let files = fs.readdirSync('src/mlb/TransmogXML');
+    let yrs = await years();
 
-    let imagesDir = fs.readdirSync('src/mlb/images');
+    yrs.forEach(y=>{
+        Object.keys(y.books).forEach(bid=>{
+            y.books[bid].id = bid;
+            y.books[bid].year = y.year;
 
-    let imagePaths = {};
-    imagesDir.forEach(image => {
-      let id = image.replace(/\-\w\.png/,'').replace(/\.png/,'');
-      if (imagePaths[id]) imagePaths[id].push(image)
-      else imagePaths[id] = [image]
-    });
+            let revisions = []
+            const revMatches = [...y.books[bid].full.matchAll(/^####\s+([1-9a-z]+)\.\s+(.+)$([^]+?)(?=^####|$(?!\n))/mg)];
+            revMatches.forEach(m=>{
+                revisions.push({
+                    id: m[1],
+                    title: m[2],
+                    full: m[3]
+                })
+            });
+            y.books[bid].revisions = revisions;
 
-
-    files.forEach(file => {
-        let contents = fs.readFileSync(`src/mlb/TransmogXML/${file}`);
-        let jObj = parserHelper.parse(contents);
-
-
-        jObj.TEI.BOOK.forEach(book=>{
-            book.id = book.NUMBER;
-            if (imagePaths[book.id]) book.images = imagePaths[book.id];
-            book.yearId = file.replace('.xml','');
-            books.push(book);
-        });
-        
-        
+            books.push(y.books[bid]);
+        })
     })
-    
     return books;
 }
 
-// just for dev
-module.exports().then(books=>console.log( JSON.stringify(books,null,2) ))
+//module.exports().then(books=>console.log( JSON.stringify( books, null, 2) ))
