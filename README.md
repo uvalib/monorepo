@@ -25,5 +25,7 @@ yarn run serve
 ## Site
 Example site is published [here](http://uvalib.github.io/modern-library-bibliography-tools/)
 
+The `/build` directory can be served statically from any http server.
+
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)

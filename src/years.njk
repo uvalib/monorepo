@@ -8,11 +8,11 @@ permalink: "years/{{ year.year }}/"
 ---
 
 <sl-breadcrumb>
-  <sl-breadcrumb-item href="/">
+  <sl-breadcrumb-item href="{{ '/' | url }}">
     <sl-icon slot="prefix" name="house"></sl-icon>
     Home
   </sl-breadcrumb-item>
-  <sl-breadcrumb-item href="/years/{{ year.year }}">{{ year.year }}</sl-breadcrumb-item>
+  <sl-breadcrumb-item href="{{ '/years/' | url }}{{ year.year }}">{{ year.year }}</sl-breadcrumb-item>
 </sl-breadcrumb>
 
 {% markdown year.full %}
