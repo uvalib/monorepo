@@ -8,12 +8,12 @@ permalink: "book/{{ book.id }}/"
 ---
 
 <sl-breadcrumb>
-  <sl-breadcrumb-item href="/">
+  <sl-breadcrumb-item href="{{ '/' | url }}">
     <sl-icon slot="prefix" name="house"></sl-icon>
     Home
   </sl-breadcrumb-item>
-  <sl-breadcrumb-item href="/years/{{ book.year }}">{{ book.year }}</sl-breadcrumb-item>
-  <sl-breadcrumb-item href="/book/{{ book.id }}">{{ book.id }}</sl-breadcrumb-item>
+  <sl-breadcrumb-item href="{{ '/years/' | url }}{{ book.year }}">{{ book.year }}</sl-breadcrumb-item>
+  <sl-breadcrumb-item href="{{ '/book/' | url }}{{ book.id }}">{{ book.id }}</sl-breadcrumb-item>
 </sl-breadcrumb>
 
 {% markdown book.full %}
@@ -21,11 +21,11 @@ permalink: "book/{{ book.id }}/"
 <elix-carousel-with-thumbnails style="width: 100%">
   {% for cover in covers %}
     {% if cover.book == book.id %}
-    <img src="{{ cover.filename }}">
+    <img src="{{ cover.filename | url }}">
     {% endif %}
   {% endfor %}
 </elix-carousel-with-thumbnails>
 
 <sl-details summary="book"><pre>{{ book | dump | safe }}</pre></sl-details>
 
-<script type="module" src="/js/slideshow.js"></script>
+<script type="module" src="{{ '/js/slideshow.js' | url }}"></script>
