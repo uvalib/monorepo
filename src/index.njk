@@ -7,17 +7,17 @@ layout: page-layout.njk
 <div class="years-group">
   {% for year in years %}
   <sl-details class="year" summary="{{ year.year }}">
-    <h2><a href="{{ '/years/' | url }}{{ year.year }}">{{ year.title }}</a></h2>
+    <h2><a href="{{ '/years/' | url }}{{ year.year }}.html">{{ year.title }}</a></h2>
     {% if year.generalFirst %}
       {% markdown year.generalFirst %}
     {% endif %}
     <ul>
     {% for bookID, book in year.books %}
-      <li><a href="/book/{{ bookID }}">{{ bookID }}</a>
+      <li><a href="/book/{{ bookID }}.html">{{ bookID }}</a>
       <ul>
         {% for rev in revisions %}
           {% if rev.book == bookID %}
-            <li><a href="{{ '/revision/' | url }}{{ rev.id }}">{{ rev.id }}</a></li>
+            <li><a href="{{ '/revision/' | url }}{{ rev.id }}.html">{{ rev.id }}</a></li>
           {% endif %}
         {% endfor %}
       </ul>

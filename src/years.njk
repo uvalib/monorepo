@@ -4,7 +4,7 @@ pagination:
     data: years
     size: 1
     alias: year
-permalink: "years/{{ year.year }}/"
+permalink: "years/{{ year.year }}.html"
 ---
 
 <sl-breadcrumb>
@@ -12,7 +12,7 @@ permalink: "years/{{ year.year }}/"
     <sl-icon slot="prefix" name="house"></sl-icon>
     Home
   </sl-breadcrumb-item>
-  <sl-breadcrumb-item href="{{ '/years/' | url }}{{ year.year }}">{{ year.year }}</sl-breadcrumb-item>
+  <sl-breadcrumb-item href="{{ '/years/' | url }}{{ year.year }}.html">{{ year.year }}</sl-breadcrumb-item>
 </sl-breadcrumb>
 
 {% markdown year.full %}

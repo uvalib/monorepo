@@ -4,7 +4,7 @@ pagination:
     data: books
     size: 1
     alias: book
-permalink: "book/{{ book.id }}/"
+permalink: "book/{{ book.id }}.html"
 ---
 
 <sl-breadcrumb>
@@ -12,8 +12,8 @@ permalink: "book/{{ book.id }}/"
     <sl-icon slot="prefix" name="house"></sl-icon>
     Home
   </sl-breadcrumb-item>
-  <sl-breadcrumb-item href="{{ '/years/' | url }}{{ book.year }}">{{ book.year }}</sl-breadcrumb-item>
-  <sl-breadcrumb-item href="{{ '/book/' | url }}{{ book.id }}">{{ book.id }}</sl-breadcrumb-item>
+  <sl-breadcrumb-item href="{{ '/years/' | url }}{{ book.year }}.html">{{ book.year }}</sl-breadcrumb-item>
+  <sl-breadcrumb-item href="{{ '/book/' | url }}{{ book.id }}.html">{{ book.id }}</sl-breadcrumb-item>
 </sl-breadcrumb>
 
 {% markdown book.full %}
