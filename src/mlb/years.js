@@ -12,7 +12,6 @@ const parseContent = (content)=>{
                 match  = doc[docParse.srcPath].match( eval(matcher) );
             } else { 
                 if (docParse.repeat) {
-//                    console.log("*** matchAll ***")
                     match = [...content.matchAll( eval(matcher) )];
                 } else
                     match = content.match( eval(matcher) );
@@ -56,7 +55,19 @@ module.exports = async function() {
         // only worry about pre-transformed markdown files
         if (filename.match(/\.md$/)) {
             let contents = fs.readFileSync(`src/mlb/yearDocs/${filename}`).toString();
-            years.push( parseContent(contents) ); 
+            let year = parseContent( contents );
+
+            // setup search index content field
+            let content = "";
+            Object.keys(year).forEach(k=>{
+                if ( k!='full' && !k.match(/\d\d\d/) ) {
+                    content += " "+year[k];
+                }
+            });
+            year.id = year.year;
+            year.searchContent = content;
+
+            years.push( year ); 
         }      
     }
     return years;

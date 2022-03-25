@@ -1,6 +1,5 @@
 const CleanCSS = require("clean-css");
-const { XMLParser } = require("fast-xml-parser");
-const parser = new XMLParser();
+const elasticlunr = require('elasticlunr');
 
 let markdown = require("markdown-it")({
   html: true
@@ -22,14 +21,16 @@ function arrayOrStringToParaShortcode(para, title, cls) {
 module.exports = function(eleventyConfig) {
     eleventyConfig.addFilter("dump", function(obj) { return JSON.stringify(obj, null, 2) });
     eleventyConfig.addFilter("isarray", function(obj) { return Array.isArray(obj) });
-    eleventyConfig.addNunjucksShortcode("arrayOrStringPara", arrayOrStringToParaShortcode);
-    eleventyConfig.addDataExtension("xml", contents => { 
-        let jObj = parser.parse(contents);
-        return {
-            contents: contents,
-            books: jObj.TEI.BOOK
-        }; 
+    eleventyConfig.addFilter('eLunarIndex', function(...args) {
+      let documents = args.shift();
+      let index = elasticlunr(function () {
+        args.forEach( function(field){ this.addField(field) }.bind(this) );
+        this.saveDocument(false);
+      });
+      documents.forEach(d=>index.addDoc(d));
+      return index.toJSON();
     });
+    eleventyConfig.addNunjucksShortcode("arrayOrStringPara", arrayOrStringToParaShortcode);
     eleventyConfig.addNunjucksShortcode(
       "markdown",
       content => `<div class="md-block">${markdown.render(content)}</div>`

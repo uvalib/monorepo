@@ -1,5 +1,3 @@
-const _ = require('lodash');
-
 const fs = require('fs');
 const books = require('./books.js');
 

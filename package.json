@@ -12,6 +12,7 @@
     "@ui5/webcomponents": "^1.2.3",
     "@ui5/webcomponents-fiori": "^1.2.3",
     "@vaadin/grid": "^22.0.4",
+    "elasticlunr": "^0.9.5",
     "elix": "^15.0.1",
     "itemsjs": "^2.1.14",
     "lit": "^2.1.3",
