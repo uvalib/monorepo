@@ -16,5 +16,3 @@ module.exports = async function() {
     })
     return revisions;
 }
-
-module.exports().then(revisions=>console.log( JSON.stringify( revisions, null, 2) ))

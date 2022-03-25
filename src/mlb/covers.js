@@ -23,5 +23,3 @@ module.exports = async function() {
     }
     return covers;
 }
-
-module.exports().then(covers=>console.log( JSON.stringify( covers, null, 2) ))
