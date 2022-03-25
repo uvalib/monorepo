@@ -29,6 +29,6 @@ permalink: "revision/{{ rev.id }}.html"
   {% endfor %}
 </elix-carousel-with-thumbnails>
 
-<sl-details summary="book"><pre>{{ rev | dump | safe }}</pre></sl-details>
+<sl-details summary="revision"><pre>{{ rev | dump | safe }}</pre></sl-details>
 
 <script type="module" src="{{ '/js/slideshow.js' | url }}"></script>

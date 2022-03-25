@@ -11,6 +11,7 @@ module.exports = async function() {
         Object.keys(y.books).forEach(bid=>{
             y.books[bid].id = bid;
             y.books[bid].year = y.year;
+            y.books[bid].title = y.books[bid].full.match( /^([^]+?)\n\n/m )[1].replace(/[\*\n]/g," ").trim();
 
             let revisions = []
             const revMatches = [...y.books[bid].full.matchAll(/^####\s+([1-9a-z]+)\.\s+(.+)$([^]+?)(?=^####|$(?!\n))/mg)];
