@@ -1,0 +1,640 @@
+BIBLIOGRAPHICAL PROCEDURES AND FORMAT
+
+**Scope**
+
+There were 781 titles published in the Modern Library and its two
+related series, Modern Library Giants and the Illustrated Modern
+Library, from 1917 through 1985; 642 of these titles were published in
+the main Modern Library series. This bibliography covers 1925–59 for the
+regular Modern Library series during the most profitable and prolific
+years of the series. First printings and major bibliographical variants
+of each title (reset texts, reset title pages, introductions added and
+dropped, etc.) are fully described. Publishing history information,
+including which titles were discontinued each year, is provided.
+
+**Format**
+
+Within each section of the bibliography, entries are arranged
+chronologically. For each title published in the series between 1925 and
+1959, subsequent variants of each title are described if they appeared
+prior to 1992. The entry numbers reflect the chronological arrangement
+of the bibliography and are unrelated to Modern Library numbers assigned
+by the publisher.
+
+**Editions, Printings, States, Issues**
+
+The descriptive bibliography of a reprint series like the Modern Library
+presents special challenges in terms of bibliographical methodology.
+
+Basic to any descriptive bibliography is the identification and
+distinction of editions, printings, states, and issues. An *edition* is
+defined as the copies of a book printed from a single setting of type,
+including all reprintings. Many Modern Library books were printed from
+relief plates previously used by other publishers or from offset plates
+made by photographing books originally typeset for other publishers.
+Modern Library printings of such a title are bibliographically part of
+an edition that was created before its publication in the Modern
+Library. Other Modern Library books, on the other hand, are printed from
+relief or offset plates made from new settings of type (most of these
+plates were made for and owned by the Modern Library; sometimes they
+were owned jointly by the Modern Library and an original publisher; in a
+few cases they were made by an original publisher and rented to the
+Modern Library for its printings). All printings from plates made from
+an original typesetting constitute an edition in their own right. Modern
+Library books identified in the bibliography as having been printed from
+newly set plates constitute new editions. For Modern Library printings
+that belong to an earlier edition, an attempt has been made to identify
+the source of the plates and to indicate precisely which pages of the
+Modern Library “edition” were printed from them. (The term “first Modern
+Library edition,” as loosely applied by collectors and booksellers,
+refers to the first Modern Library printing.)
+
+The widespread practice of printing from plates in the nineteenth and
+twentieth centuries has led bibliographers to speak of “parent editions”
+and “subsidiary editions.” Plates used by an original publisher for the
+initial printing of a work are commonly used by one or more reprint
+publishers (such as the Modern Library) for “reprint editions.” The
+original publisher may use the plates for a special printing marketed as
+a “limited edition,” printings of the “trade edition,” and later
+printings of one or more “popular editions” at a lower price and often
+in a smaller format. All printings from plates made from the same type
+setting belong bibliographically to the same edition or “parent
+edition.” Printings by the original publisher marketed in
+distinguishable formats and printings by other publishers marketed under
+their imprints can be considered “subsidiary editions.” Bowers notes
+that a “basic list of possible subsidiary editions to the parent edition
+typesetting” includes American and English editions (including cheap
+editions), limited editions, colonial editions, editions by other
+publishers, revised editions, and enlarged editions. He continues:
+“These terms are not pure bibliographical terms and at best are only
+conveniences. They do not replace the necessity of being precise in a
+bibliography about the origin of a subsidiary edition. Thus a first
+American edition may actually be a re-issue of an impression of an
+English edition, or an American state of one of its impressions which
+comprises a separate American issue, or it may be a first American
+impression from the English plates, or a new American type-setting. For
+the arrangement of a bibliography, any one of these is most conveniently
+treated as the first American edition, but the bibliographical facts
+must be present” (1975, pp. 383–84).
+
+The term “Modern Library edition” is used for the sake of convenience in
+the printing and publishing history statement (where the precise
+bibliographical facts about its origins are set forth) and in the
+publishing history notes. The term “bibliographical edition” is used
+occasionally when it might otherwise be unclear that “edition” is being
+used in its bibliographical sense. The numbering system as described
+below distinguishes Modern Library printings that belong to different
+editions or parent editions.
+
+*Printing*. All the copies of a book printed at one time without
+removing the type or plates from the press are considered a printing.
+All Modern Library books were printed from plates. Printings occur only
+within editions. *Impression* is the same as *printing*, but *printing*
+is used here for consistency.
+
+*State*. States are created by an alteration of the text to *some
+copies* of a particular printing (usually by stop-press correction or
+cancellation of leaves). States occur within printings; there cannot be
+a first state without a second state. The first printing of Calverton’s
+*Anthology of American Negro Literature*, published in the Modern
+Library in 1929, omitted copyright notices from the pages containing
+five blues lyrics by W. C. Handy. When Handy granted permission for
+their inclusion, he stipulated that copyright notices were to be printed
+on the same pages as the lyrics. He protested the omission a few weeks
+after publication. The Modern Library ordered its bindery to collect all
+unsold copies on hand, to cancel the leaves without copyright notices,
+and to replace them with six newly printed leaves containing the
+copyright notices. Copies of the first printing distributed before the
+cancellation was made constitute the first state of the printing; copies
+with the corrected leaves constitute the second state of the printing.
+All subsequent printings included the copyright notices. Cancelled
+leaves do not always create separate states of a printing. Several
+Modern Library books contain cancellations that appear to have been made
+in *all* copies of the first printing.
+
+*Issue*. Issues are created by an alteration of the text that affects
+the conditions of publication or sale of some copies of a particular
+printing. The alteration usually consists of a change in the title page.
+Issues occur only within printings; there cannot be a first issue
+without a second issue. Franz Werfel’s *Forty Days of Musa Dagh*,
+published as a Modern Library Giant in 1937, offers a good example. The
+printed sheets came from two sources. In addition to securing reprint
+rights to the work, the Modern Library acquired 3,984 sets of sheets
+from Viking Press, the original American publisher. The first four
+leaves of these copies were canceled and replaced with new preliminary
+leaves, including the Modern Library title page. The copies thus
+published under the Modern Library imprint represent the second issue of
+the final Viking Press printing. With the creation of the second issue,
+copies of the printing previously sold by Viking Press under its own
+imprint became the first issue of the final Viking Press printing. If
+Viking Press retained a few copies in its warehouse for subsequent sale
+they would also form part of the first issue of the printing. The
+availability of Viking Press sheets allowed the Modern Library to reduce
+its own first printing from 10,000 copies to 5,000 copies. These 5,000
+copies, printed from Viking plates and placed on the market
+simultaneously with the Modern Library issue of the final Viking Press
+printing, constitute the first Modern Library printing.
+
+**Families of Printings**
+
+The bibliographical description of books printed over a period of years
+from the same set of plates, or from multiple sets of plates made from
+the same typesetting, presents special difficulties. All such printings
+belong to the same bibliographical edition. The plates may be used
+concurrently or in succession by different publishers. The plates of
+Theodore Dreiser’s *Sister Carrie* that the Modern Library first used in
+1932 had previously been used for printings by Doubleday, Page & Co.
+(1900), B. W. Dodge & Co. (1907), Grosset & Dunlap (1908), Harper &
+Brothers (1912), and Boni & Liveright (1917). Printings within a parent
+edition can be organized into subsidiary editions but a further level of
+ordering is needed. Publishers may change their names or addresses with
+the result that later printings appear under new or revised imprints.
+There were printings of *Sister Carrie* under the successive imprints of
+Boni & Liveright and Horace Liveright, Inc., for example. A publisher
+may also bring out printings in different formats. The Macmillan Co. in
+New York published Louis Hémon’s *Maria Chapdelaine* in three formats.
+It first appeared in 1921 in a two-color format using one set of plates
+for the text and a second set of plates for matter printed in blue (the
+two-color title page, large initials at the beginning of each chapter,
+and decorative part titles and chapter heads). There were several
+printings in this format. In 1924 Macmillan published an “Illustrated
+Edition” using the original text plates together with newly set plates
+containing the illustrations and different large initials, both of which
+were printed in grayish yellow. Five years later the novel appeared in
+Macmillan’s Modern Readers’ Series with an introduction and notes by
+Carl Y. Connor. Printings in the Modern Readers’ Series did not include
+illustrations, but the large initials from the “Illustrated Edition”
+were added to the original text plates (or to a duplicate set of these
+plates) to make possible one-color printing. The Modern Library used the
+Modern Readers’ Series plates when it published *Maria Chapdelaine* in
+1934, omitting Connor’s introduction and notes but adding a new
+introduction by Hugh Eayrs.
+
+*Sister Carrie* remained in the Modern Library for forty years; *Maria
+Chapdelaine* remained in the series for seventeen years. Both titles
+were reprinted regularly. In fall 1939 the Modern Library introduced a
+new and larger format that featured individually designed title pages.
+Backlist titles were put into the new format as they were reprinted.
+Modern Library printings of *Sister Carrie* and *Maria Chapdelaine*
+before 1940 were in the smaller format with a uniform title-page design;
+subsequent printings were in the larger format with individually
+designed title pages. The Modern Library “subsidiary edition” of each of
+these works thus includes two bibliographically distinct sequences of
+printings distinguished by the title page design and the size of the
+volumes.
+
+Any sequence of printings from a set of plates with a given
+characteristic in common can be regarded as a family of printings.
+Characteristics that distinguish a family of printings can include fully
+or partially reset title pages (including changes in the publisher’s
+device or imprint), introductions added and dropped, printings with and
+without illustrations, substantive changes in the back matter such as
+the addition of an index, and substantive changes in the body of the
+text such as the addition of one or more works to a previously published
+anthology.
+
+Modern Library printings of *Sister Carrie* or *Maria Chapdelaine* fall
+into two distinct families based on the title page. Macmillan printings
+of *Maria Chapdelaine* could be regarded either as three subsidiary
+editions or three families of printings. The concept of families of
+printings is especially useful for the ordering of books printed from
+the same set of plates over an extended period of time. It should be
+noted that while there are usually multiple printings within a given
+family, there can also be families that consist of a single printing.
+
+Since many Modern Library titles remained in the series for decades and
+were reprinted every year or two, a decision about the level of
+bibliographical ordering to be attempted had to be made at the outset.
+No attempt has been made to identify and describe every printing of
+every title. Bibliographical ordering at this level may be justified in
+a bibliography of the works of a single author or editions of a single
+work. It would be impracticable—and not particularly useful—in a
+bibliography of a series as large and long-lived as the Modern Library.
+The first level of ordering in the bibliography is the identification of
+editions as defined above. The second level of ordering is the
+identification of families of printings within editions. States and
+issues as defined above occur within specific printings; there are only
+a few examples of these.
+
+For each family of printings, the *earliest* printing seen has been
+described. Modern Library books can be dated precisely or approximately
+on the basis of several kinds of evidence. Books that include lists of
+Modern Library titles in the back matter can usually be dated by spring
+or fall of a given year. Between fall 1925 and spring 1967 these lists
+were revised twice a year, and the current list was usually included in
+books printed during a given season. (The list in the first Modern
+Library printing of books printed from offset plates commonly appears
+without change in later printings.) Modern Library jackets can be dated
+on the basis of the lists of titles that were printed inside nearly all
+jackets through 1963. The jacket date can provide useful (but not
+conclusive) evidence as to the date of the book inside the jacket,
+subject to the cautions noted below in the section on jackets. The
+dating key can be used to date any list of Modern Library titles by
+spring or fall of a given year.
+
+The numbering system begins by identifying works published in the Modern
+Library
+
+in approximate chronological order as described above. This
+bibliographic numbering system is distinct from the Modern Library
+system. Numbers in the bibliography that are not preceded with an ML
+pertain to the internal chronological numbering system. *Madame Bovary*
+was the twenty-fifth title published in the Modern Library and has
+remained in print in the series from 1917 to the present. The
+bibliography number 25 is used for all regular Modern Library printings
+of *Madame Bovary*. Modern Library printings of *Madame Bovary* between
+1917 and 1991 fall into three editions numbered 25.1, 25.2 and 25.3.
+Five families of printings have been identified within the first
+edition, all based on partially or fully reset title pages. These are
+numbered 25.1a through 25.1e. The Modern Library reset the work in 1927
+creating the second edition. Three families of printings have been
+identified within this edition, including a reset title page in 1940 and
+the addition of an introduction by Henri Peyre in 1950. These are
+numbered 25.2a, 25.2b and 25.2c. The first and second editions use the
+Eleanor Marx Aveling translation; both typesettings were made for the
+Modern Library. In 1957 Random House published *Madame Bovary* in a new
+translation by Francis Steegmuller. Later that year the Modern Library
+used the Random House plates for its first printing of the Steegmuller
+translation, creating the third Modern Library edition. Three families
+of Modern Library printings have been identified within the third
+edition, including reset title pages in 1969/70 and 1978. These are
+numbered 25.3a, 25.3b and 25.3c. All Modern Library printings within the
+third edition are bibliographically part of the parent edition
+originally published by Random House.
+
+Several of the families within the Modern Library’s first edition of
+*Madame Bovary* appear to have consisted of a single printing. The other
+families of printings consist of multiple printings. Bibliographical
+ordering at the level of families of printings makes it possible to see
+how Modern Library printings of *Madame Bovary* evolved over a period of
+seventy-five years and to place any copy of a Modern Library printing
+unambiguously within a family of printings.
+
+Most Modern Library titles exist in a single bibliographical edition.
+For these titles the entry number begins with the number for the work
+followed by letters designating families of printings. For *The
+Philosophy of Spinoza*, three families of printings have been
+identified, all within the same edition. These entries are numbered
+136a, 136b and 136c.
+
+The author believes that the first printing of every Modern Library
+title has been examined and described (new evidence may prove this
+belief to be unfounded). Subsequent families of printings are described
+on the basis of the earliest printing examined; the dating of these
+families and the identification of the earliest printing within each
+will be improved on the basis of information that comes to light as a
+result of the publication of this bibliography.
+
+The printing and publishing history statement (see below) indicates
+whether Modern Library printings were from newly set plates (in which
+case the printings constitute an edition in their own right) or whether
+the printings were from an original publisher’s plates (in which case
+the printings constitute a subsidiary edition within the parent
+edition).
+
+**Binding and Jacket Variants**
+
+The terms *issue* and *state* apply only to the sheets of a book within
+a single printing. Binding and jacket variants have no bearing on
+*state* and *issue* as correctly applied. The Modern Library did not
+always bind an entire printing at the same time. A portion of a printing
+could be stored as unbound sheets and cased as needed, with the result
+that books printed at the same time are sometimes found in variant
+bindings. Boni & Liveright printings can be found in Modern Library,
+Inc., bindings, for example. Cerf and Klopfer acquired the remaining
+Boni & Liveright stock when they bought the Modern Library in 1925. Most
+of the books they acquired had not been cased; the sheets were folded
+and sewn with Boni & Liveright endpapers tipped onto the outer leaves.
+Cerf and Klopfer had the sheets cased in the Modern Library, Inc.,
+binding featuring the newly designed torchbearer device. They also
+printed new Modern Library, Inc., jackets. There is one Boni & Liveright
+title that was discontinued shortly after 1925 and never reprinted by
+Cerf and Klopfer, yet they printed a new jacket for it in which the
+remaining Boni & Liveright copies were sold.
+
+The format and design of Modern Library titles, including binding and
+jacket variants, are described as much as possible for the series as a
+whole. The only descriptions of format and design in the entries are for
+aspects unique to particular titles. The size of the books is indicated
+only when it differs from the standard format (a few titles were
+slightly larger so that they could be printed from original plates). The
+Modern Library always used uniform binding designs and endpapers.
+Endpapers are described only for the few titles that did not use the
+standard endpapers of the period. Uniform jacket designs were used for
+all titles through spring 1928 and for some newly published titles into
+the 1930s. Descriptions of uniform jackets in the entries refer to the
+illustrations where they are reproduced; text describing the work from
+the front panel or jacket flap is reproduced in the entries. An attempt
+has been made to note all of the variant jackets used within a given
+family of printings.
+
+**Elements of the Entry**
+
+*Heading*. The boldface heading includes the following elements: (1)
+bibliography number; (2) author or editor; (3) title; (4) year of
+publication followed by the year the Modern Library edition was
+discontinued; (5) Modern Library catalogue number. The bibliography
+number is unique to this bibliography. Modern Library catalogue numbers
+were assigned by the publisher and appear in the heading within
+parentheses. Catalogue numbers of discontinued titles were usually
+reassigned the following season to newly published titles; some
+catalogue numbers were used over the years for four or five titles. The
+Modern Library occasionally changed a title’s catalogue number; in such
+cases both numbers appear in the heading. Additional information about
+the change appears in the publishing history notes.
+
+*Subheads for families of printings*. The boldface subhead for each
+family of printings includes the following elements: (1) expanded
+bibliography number identifying a specific family of printings, or
+bibliography number in unexpanded form for Modern Library titles that do
+not exist in multiple families of printings; (2) short description such
+as *First printing*, *Text reset*, or *Introduction added*; (3) year of
+first printing within a family of printings.
+
+*Title page transcription*. Title pages are described using
+quasi-facsimile transcription. Quasi-facsimile transcription describes
+each line of the title page. Lines may consist of text, rules,
+ornaments, publisher’s devices, or an illustration. Line endings are
+indicated by a vertical stroke \[ | \]. References to specific lines
+later in the entry are by line number; it is the reader’s responsibility
+to ascertain the line number by counting the vertical strokes indicating
+line endings. Quasi-facsimile transcriptions reproduce roman, *italic*,
+script, and gothic types and distinguish capital and lowercase letters.
+Full and small roman capitals are distinguished when both appear *in the
+same line*. No further attempt is made to distinguish the size or style
+of type. Rules, ornaments and illustrations are described in lowercase
+type enclosed in square brackets. The word “rule” in square brackets
+refers to a rule that extends the full width of the text page; any rule
+shorter than this is described as a “short rule” and can range in length
+from a few millimeters to nearly the full width of the text page.
+Publisher’s devices such as the Boni & Liveright device and the ML
+torchbearer are identified with a reference to the illustrations where
+they are reproduced. The description of a title page that is enclosed
+entirely within a double rule-frame begins with a statement such as:
+\[within double rules\]. A rule-frame is not regarded as a line of the
+title page and the statement describing it is not followed by a vertical
+stroke. The first line of the title page is the first line within a
+rule-frame.
+
+*Pagination statement and collational formula*. The pagination statement
+accounts for every page of the book and is based on the printed page
+numerals in the book being described. Unnumbered pages at the beginning
+or end of a sequence that can be inferred as part of a sequence of
+numbered pages are indicated within square brackets. Unnumbered pages
+that cannot be inferred as part of a sequence of numbered pages are
+indicated as an italicized total within square brackets, as follows:
+\[*6*\], 1–280 \[281–282\]. Unnumbered pages within a sequence of
+numbered pages are not noted. Two characteristics found in some of the
+pagination statements require explanation. When the Modern Library used
+original publishers’ plates it sometimes added new matter to the
+preliminaries without repaginating the preliminaries of the original
+edition. The result could be two incompatible sequences of pagination in
+the preliminaries. These have been transcribed as they appear following
+the guidelines indicated above.
+
+Leaves containing a fly title (a second half title preceding the opening
+page of the text) have also presented problems. The fly title is
+properly regarded as part of the text; when a fly title leaf is present,
+the text usually begins with p. 3. Occasionally a fly title leaf cannot
+be inferred as part of the text because the text begins with p. 1. In
+such cases the fly title and its verso (usually blank) have been
+transcribed as \[*2*\] following the guidelines for unnumbered pages
+that cannot be inferred as part of a sequence of printed page numerals.
+
+The collational formula appears after the pagination statement. The
+collation indicates how the printed sheets were folded and how a given
+book was physically put together. This information is primarily of
+interest to professional bibliographers, but it also reveals useful
+information about trends in printing and bookmaking practices over the
+course of the twentieth century. Gatherings in Modern Library books are
+rarely signed and the number of gatherings is indicated by numerals
+within square brackets. The number of leaves in each gathering is
+indicated in superscript numerals outside the square brackets. Abnormal
+gatherings with inserted or canceled leaves are recorded using
+conventional formulas containing the symbols “+,” “-,” or “±.” A handful
+of Modern Library books were printed from older plates containing
+printed signatures. None of these was printed as signed and the printed
+signatures are ignored in the collation.
+
+Collational statements are customary in scholarly bibliographies of
+early printed books. Many bibliographers consider them less important
+for bibliographies of twentieth century books and they are commonly
+omitted. I would like to add a personal statement in support of their
+value. Collations are intensely time consuming: the bibliographer has to
+go through each book leaf by leaf to determine the number of gatherings
+and the number of leaves in each. In most Modern Library books the
+gatherings consist of 8, 16, or 32 leaves. A leaf is a physical unit of
+a book that can be grasped between the thumb and forefinger; each leaf
+has two pages, the recto and the verso. Rectos are odd-numbered pages,
+versos are even-numbered pages. A gathering of 8 leaves consists of 16
+pages; a gathering of 16 leaves consists of 32 pages. Not all pages have
+printed page numbers. Before “perfect” (glued) bindings became the norm
+in the American trade publishing industry, most hardbound books were
+sewn. If you open a book at the center of a gathering you can see the
+thread in the gutter. To compile the collational formula, the
+bibliographer examines a book leaf by leaf, noting the thread in the
+center of a gathering, and noting the number of gatherings. If the total
+number of leaves in a book is not a multiple of 8, 16, or 32, gatherings
+at the beginning or end of the volume may have fewer leaves than the
+rest of the volume. Leaves at the end of the volume that are not needed
+for a book’s printed content may be left blank; with Modern Library
+books they were often used for lists of titles.
+
+Going through a book with great care and noting the number of leaves in
+each gathering is a time-consuming process. When I decided to include
+collations in the bibliography, I had already done title-page
+transcriptions and pagination statements for the books in my own
+collection and those of two other major Modern Library collectors I had
+the benefit of examining during the early stages of the project. Doing
+the collations for the books in my own collection took about a year.
+This work was worthwhile in three respects. First, it gave me a level of
+intimacy with the books as physical objects that a bibliographer ideally
+should have. Second, it saved me from several errors in recording
+paginations. The pagination statement records the total number of pages
+in a book, whether or not the pages are numbered; the collation records
+the total number of leaves. When correctly recorded, the number of pages
+is twice the number of leaves. When the Modern Library printed from
+original publisher’s plates but added material unique to the Modern
+Library edition such as a new introduction, it was sometimes necessary
+to omit or add leaves in order to make the ML printing fit a typical
+8-leaf format. Third, it revealed trends in printing practices over the
+course of the twentieth century.
+
+*List of contents*. The list of contents amplifies the pagination
+statement by indicating the contents of every page of the book,
+including blank pages. Some statements in the contents list employ
+quasi-facsimile transcription (for example: v–xiii; INTRODUCTION signed
+p. xiii: <span class="smallcaps">Pearl S. Buck</span>). Generic
+statements in the contents list are entirely in lower-case letters (for
+example: \[*1*\] half title; \[i\] title; 3–\[375\] text; \[376\]
+blank); any statement entirely in lower-case letters is not part of a
+quasi-facsimile transcription. Lists of Modern Library titles in volumes
+published after August 1925 are dated by spring or fall of a given year.
+The date appears in parentheses following the list of contents. Except
+for books printed from offset plates, lists of titles in Modern Library
+books were normally updated in each printing. Any Modern Library list
+from fall 1925 on can be dated using the dating key.
+
+The verso of the title page is subject to greater change from one
+printing to another than any other part of Modern Library books except
+for lists of Modern Library titles, which from 1925 to 1963 were updated
+twice a year. The verso of the title page is described selectively in
+the contents list. Publication and manufacturing statements are only
+noted when they are the *only* printed matter on the page. Copyright
+statements are given in full using quasi-facsimile transcription, as are
+*First* statements such as “First Printing” or “FIRST *Modern Library*
+EDITION.” From fall 1925 on it was customary for first Modern Library
+printings to include a *First* statement on the verso of the title page.
+*First* statements were normally removed after the first printing, but
+there are numerous examples of *First* statements that were retained
+through two or more printings. The retention of *First* statements on
+later printings is noted whenever this has been observed. If not noted
+otherwise, it should be assumed that the *First* statement was removed
+from subsequent printings within a family. Not all first printings of
+Modern Library titles had a *First* statement. If a *First* statement is
+not noted in the description of the first printing it can be assumed
+that the first printing lacked such a statement. The presence or absence
+of a *First* statement is never conclusive evidence of priority in
+Modern Library printings.
+
+Except for books printed from offset plates, Modern Library lists in the
+back matter usually offer the most conclusive evidence for dating a
+printing. Books printed from offset plates generally did not include
+these lists because they were produced from photographic copies of
+earlier printings. The lists would have been outdated and were excluded.
+
+*Variant printings*. Subsequent printings within a family of printings
+that vary significantly from the printing described are noted in an
+indented paragraph headed *Variant*. If more than one variant printing
+has been noted, the indented paragraphs are headed *Variant A*, *Variant
+B*, etc. Most variants result from a change in the total number of
+leaves, a change in the pagination statement because of the removal of a
+battered page numeral from the plates, or a change in the copyright
+statement. Variants within a family of printings that are encountered
+routinely are not noted. These include changes in Modern Library lists
+in the back matter (including the allocation of pages in the back matter
+between lists and blank pages), changes in publisher’s notes, and
+changes in the collational formula that do not result from a change in
+the number of leaves. (It was common for the plates to be imposed
+differently from one Modern Library printing to another. Modern Library
+books were printed initially in 8’s, then in 16’s, then mostly in 32’s.
+A gathering printed in 16’s in one printing might be printed as two 8’s
+in another printing. Books that did not consist of an even multiple of
+sixteen leaves usually placed the gathering of four, eight, or twelve
+leaves at the end of the book until the late 1940s when such gatherings
+began to appear in the penultimate position followed by a gathering in
+16’s.
+
+*Contents note*. A contents note headed *Contents* lists the works
+included in original Modern Library collections and anthologies unless
+these have been fully listed in the list of contents. I have used the
+term “collection” to refer to a volume consisting of multiple works by a
+single author, and the word “anthology” to refer to a volume consisting
+of the works of multiple authors. (As noted above, the “List of
+contents” is primarily concerned with the physical make-up of a book and
+accounts for the contents of every page. The “Contents note” is
+concerned solely with intellectual contents and does not indicate page
+numbers.) Some contents notes for poetry anthologies list the poets
+included and the number of poems by each but do not attempt to list
+individual poems by title.
+
+*Jackets*. Jacket descriptions appear in separate paragraphs headed
+*Jacket*. Each jacket design used within a family of printings is
+described separately; if there are multiple jackets, the paragraphs are
+headed *Jacket A*, *Jacket B*, etc. Uniform typographic jacket designs
+are identified with reference to structure and composition. Other
+jackets are described individually. Jacket descriptions include enough
+information to distinguish successive jackets within a family of
+printings but do not fully describe each jacket. Most descriptions of
+individually designed jackets describe the front panel only; the jacket
+spine is described when it differs significantly from the design of the
+front panel. Colors have been described according to *ISCC-NBS
+Color-Name Charts Illustrated with Centroid Colors* published by the
+National Bureau of Standards. Back panels of Modern Library jackets were
+uniform; successive back panel designs are described and illustrated in
+the section on format and design.
+
+Jacket descriptions transcribe the descriptive paragraphs about the
+work. These descriptive paragraphs appeared on the front panel of
+uniform typographic jackets used from 1917 through spring 1928 and on
+the front flap of jackets from fall 1933 on. (Jackets printed from fall
+1928 through spring 1933 had brief blurbs on the front panel but no
+descriptive paragraphs about the work.) The descriptive paragraphs
+sometimes indicate why a work was included in the Modern Library and
+provide valuable information about how canonical and semi-canonical
+works were presented to American readers at given periods. Descriptive
+paragraphs for works that remained in the Modern Library for decades
+were commonly rewritten several times. The transcription of successive
+descriptive paragraphs for a work like *Madame Bovary*, which was in the
+Modern Library since 1917, can be especially interesting.
+
+Beginning in fall 1953, the text on the flaps and back panels of Modern
+Library jackets was reset in sans-serif type. Most of the descriptive
+paragraphs were reset without change but some were extensively rewritten
+and others were slightly revised. Major changes are fully described. An
+attempt has been made to incorporate minor revisions in the
+transcriptions of the original paragraphs using square brackets around
+alterations together with the symbols “-,” “+,” and “±” to indicate
+deletions from the original text and additions or substitutions in the
+reset text.
+
+Jackets from fall 1925 through fall 1963 included a complete list of
+current Modern Library titles that were updated twice a year. Each
+printing of Modern Library jackets used the current list. Jacket
+descriptions from fall 1925 through fall 1963 are dated by spring or
+fall of a given year on the basis of the list of titles. Any Modern
+Library jacket containing a list of titles can be dated using the dating
+key. It must be remembered that a date assigned to a jacket does not
+conclusively date the book inside the jacket. Most Modern Library
+printings were distributed with newly printed jackets that correspond to
+the date of the printing, but there were occasions when older jackets
+were used on at least some copies of a printing. At one period in the
+1930s, Modern Library sales representatives carried stocks of
+replacement jackets so they could freshen Modern Library displays in
+bookstores; sales representatives were encouraged to offer to freshen
+Modern Library stocks as a way of getting their foot in the door when
+booksellers protested they did not need additional books. Switching
+jackets from one copy of a book to another has always been a common
+practice among collectors and booksellers. The only reasonably certain
+way of dating a given printing of a Modern Library book is by means of a
+Modern Library list at the end of the book. But not all titles or all
+printings of a given title include Modern Library lists. And while lists
+at the end of the book were normally updated in each printing from
+letterpress plates, lists in books printed from offset plates were not
+always updated.
+
+*Printing and publishing history statement and sources*. A paragraph
+with printing and publishing history information follows the
+bibliographical description. The original American publisher is
+identified for modern works. Modern Library printings have been compared
+with the original publisher’s printings to ascertain the source of the
+plates. For titles printed from an original publisher’s plates, the
+precise pages printed from the plates are identified, making it easy to
+distinguish content that is original to Modern Library printings.
+Content omitted from original publishers’ printings (such as
+illustrations, introductions or indexes) is also noted. The phrase
+“printed from newly set plates” indicates that the Modern Library
+printed from plates made from an original typesetting; Modern Library
+printings from newly set plates constitute a new bibliographical edition
+as defined above. The publication date as announced by the Modern
+Library is indicated; the date is rarely more precise than the month or
+season of a given year. Following the announced publication date is the
+date the Modern Library edition was listed in the “Weekly Record”
+section of *Publishers’ Weekly*, designated with the initials *WR*. The
+next element of the printing and publishing history statement is the
+number of copies in the first Modern Library printing, if this has been
+ascertained. The last element is the date the Modern Library edition was
+discontinued, if applicable.
+
+The publishing history notes are based primarily on research in the
+Random House archives at Columbia University Library. Other archival
+collections consulted include the Horace Liveright Papers at the
+University of Pennsylvania Library, Boni & Liveright archives in the
+possession of the W. W. Norton Co., and several other manuscript
+collections. The publishing history notes include information about
+reprint negotiations, financial arrangements with original publishers,
+negotiations with authors of introductions, and information on
+printings, and sales. The information provided under each entry varies
+according to which records survived in the archival collections
+consulted. Collectively the publishing history notes make a significant
+contribution to our knowledge of twentieth-century reprint publishing.

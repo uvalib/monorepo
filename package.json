@@ -22,6 +22,7 @@
   "scripts": {
     "build": "yarn run build:local && yarn run build:docs",
     "build:md": "for f in src/mlb/yearDocs/*.docx; do pandoc \"$f\" -f docx -t markdown_strict -s -o \"$f.md\"; done; echo \"WARNING: You most likely just overwrote hand edited markdown versions of the MLB docx files.  Hand edits were made to correct conversion irrgularities for consistancy.\"",
+    "build:md-extra": "for f in src/mlb/extraDocs/*.docx; do pandoc \"$f\" -f docx -t markdown_strict -s -o \"$f.md\"; done; echo \"WARNING: You most likely just overwrote hand edited markdown versions of the MLB doc files.  Hand edits were made to correct conversion irrgularities for consistancy.\"",
     "build:local": "rimraf build && yarn run build:js && npx @11ty/eleventy",
     "build:docs": "rimraf docs && yarn run build:js && npx @11ty/eleventy --pathprefix='/modern-library-bibliography-tools' --output=docs",
     "build:js": "rollup -c",
