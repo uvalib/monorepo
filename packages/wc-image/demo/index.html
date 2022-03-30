@@ -10,6 +10,10 @@
 </head>
 <body>
   <div id="demo">
+
+    <h2>button that opens an image in a modal</h2>
+    <uvalib-modal-image-button alt="really decriptive description" src="http://library.virginia.edu/files/2020-08/RotundaandAnnexbeforetheFire_600pw.jpg">Click to open Image</uvalib-modal-image-button>
+
     <h2>enlargable uvalib-image in a figure</h2>
     <figure>
       <uvalib-image enlargable src="http://library.virginia.edu/files/2020-08/RotundaandAnnexbeforetheFire_600pw.jpg" alt="foo"></uvalib-image>
@@ -33,6 +37,7 @@
 
   <script type="module">
     import '../uvalib-image.js';
+    import '../src/UvalibModalImageButton.js';
   </script>
 </body>
 </html>

@@ -29,10 +29,18 @@
     display: block;
   }
 
-  uvalib-modal-image-button {
-    position: absolute;
-    right: 5px;
-    top: 5px;
+  button {
+    fill: inherit;
+    background-color: inherit;
+    cursor: pointer;
+    border: none;
+    padding: .4em 0.45em;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+    margin: 4px 2px;
+    border-radius: 50%;
   }
 
   .sr-only {

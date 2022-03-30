@@ -1,8 +1,8 @@
 import { html, css, LitElement } from 'lit';
 import {UvalibAnalyticsMixin} from '@uvalib/uvalib-analytics/src/analyticsMixin.js';
+import './UvalibModalImageButton.js';
 import '@uvalib/uvalib-icon/uvalib-icon.js';
 import style from './UvalibImage.css.js';
-import BigPicture from 'bigpicture/src/BigPicture.js';
 
 export class UvalibImage extends UvalibAnalyticsMixin(LitElement) {
   static get styles() {
@@ -27,7 +27,6 @@ export class UvalibImage extends UvalibAnalyticsMixin(LitElement) {
     this.enlargable = false;
     this._enlargable = false;
     this.loading = "lazy";
-//    this.setAttribute('role',"img");
     this.setAttribute('tabindex',0);
     this.addEventListener('focus', this.focus);
 
@@ -61,7 +60,7 @@ export class UvalibImage extends UvalibAnalyticsMixin(LitElement) {
     return (this.alt||this.alt=="")?
       html`
       <div class="wrapper">
-        ${this._enlargable? html`<button @click="${this.enlarge}" aria-label="Enlarge image of ${this.alt}"><uvalib-icon icon-id="uvalib:general:searchplus" aria-label="enlarge image" role="image"></uvalib-icon></button>`:''}
+        ${this._enlargable? html`<uvalib-modal-image-button alt="Enlarge image of ${this.alt}" src="${this.src}" title="${this.title}"><uvalib-icon icon-id="uvalib:general:searchplus" aria-label="enlarge image" role="image"></uvalib-icon></uvalib-modal-image-button>`:''}
         <div id="image" ?enlargable="${this._enlargable}" @click="${this.enlarge}"><img loading="${this.loading}" src="${this.src}" title="${this.title || this.alt}" /></div>
       </div>  
       `:
@@ -70,30 +69,14 @@ export class UvalibImage extends UvalibAnalyticsMixin(LitElement) {
 
   focus() {
     console.log("focused");
-    this.shadowRoot.querySelector('button').focus();
-    this.scrollIntoView();
+    if (!this.button) this.button = this.shadowRoot.querySelector('uvalib-modal-image-button');
+    if (this.button) this.button.focus();
   }
 
   enlarge() {
     if (this._enlargable) {
-      BigPicture({
-        el: this._img, 
-        animationEnd: ()=>{ 
-          document.querySelector('#bp_caption').style.display = "none";
-          let closeButton = document.querySelector('#bp_container .bp-x');
-          let icon = closeButton.querySelector('svg');
-          let title = document.createElement('title');
-          title.id="title";
-          title.setAttribute('lang','en');
-          title.textContent = "Close";
-          icon.appendChild(title);
-          icon.setAttribute('aria-labeledby','title');
-          closeButton.focus();
-        },
-        onClose: function(){ 
-          this.focus(); 
-        }.bind(this)
-      });
+      if (!this.button) this.button = this.shadowRoot.querySelector('uvalib-modal-image-button');
+      this.button.enlarge();
     }
   }
 }
