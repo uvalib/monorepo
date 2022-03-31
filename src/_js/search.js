@@ -1,9 +1,8 @@
-import "itemsjs/dist/itemsjs.js";
 import {LitElement, html} from 'lit';
 
 class UVALibFacetedSearch extends LitElement {
     static properties = {
-        src: {attribute: true, reflect: true},
+        config: {type: Object},
         queryString: {attribute: true, reflect: true},
         items: {type: Array, attribute: false}
     }
@@ -13,17 +12,18 @@ class UVALibFacetedSearch extends LitElement {
         this._submitEnabled = false;
     }
     connectedCallback() {
-        this.load()
-            .then(function(){
-                this.search();
-            }.bind(this))
+        super.connectedCallback();
+//        this.load()
+//            .then(function(){
+//                this.search();
+//            }.bind(this))
     }
     load() {        
-        return fetch(this.src)
-            .then(response => response.json())
-            .then(function(data){
-                this._itemjsSearch = itemsjs( data, {});
-            }.bind(this));
+//        return fetch(this.src)
+//            .then(response => response.json())
+//            .then(function(data){
+//                this._itemjsSearch = itemsjs( data, {});
+//            }.bind(this));
     }
     search() {
         this._results = this._itemjsSearch.search();
@@ -33,6 +33,9 @@ class UVALibFacetedSearch extends LitElement {
     _triggerEvent(){
         const event = new Event('my-event', {bubbles: true, composed: true});
         myElement.dispatchEvent(event);
+    }
+    render() {
+        return html`<h1>Foo Bar</h1>`;
     }
 }
 customElements.define('uvalib-faceted-search', UVALibFacetedSearch);

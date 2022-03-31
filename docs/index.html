@@ -15,6 +15,13 @@
     <link rel="alternate" type="application/rss+xml" title="Bibliographical Society &raquo; Comments Feed" href="https://bsuva.org/comments/feed/" />
     <link rel="alternate" type="application/rss+xml" title="Bibliographical Society &raquo; Home Page Comments Feed" href="https://bsuva.org/home-page/feed/" />
 
+    
+        <link rel="prefetch" href="/booksIndex.json" as="fetch" />
+    
+        <link rel="prefetch" href="/revisionsIndex.json" as="fetch" />
+    
+        <link rel="prefetch" href="/yearsIndex.json" as="fetch" />
+    
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.72/dist/themes/light.css" />
 <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.72/dist/shoelace.js"></script>
@@ -27,6 +34,8 @@
 
     <div id="content">
 <h1>Modern Library Bibliography</h1>
+
+<uvalib-faceted-search config='[{"title":"Years","index":"/yearsIndex.json"},{"title":"Books","index":"/booksIndex.json"},{"title":"Revisions","index":"/revisionsIndex.json"}]'></uvalib-faceted-search>
 
 <div class="years-group">
   
@@ -376111,6 +376120,7 @@ October 1959, p. 27).</p>
   
 </div>
 
+<script type="module" src="/modern-library-bibliography-tools/js/search.js"></script>
 <script>
   const container = document.querySelector('.years-group');
 
@@ -376143,6 +376153,7 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
+    <script type="module" src="/js/images.js"></script>
     
 </body>
 </html>

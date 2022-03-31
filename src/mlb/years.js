@@ -55,6 +55,9 @@ module.exports = async function() {
         // only worry about pre-transformed markdown files
         if (filename.match(/\.md$/)) {
             let contents = fs.readFileSync(`src/mlb/yearDocs/${filename}`).toString();
+
+            contents = contents.replace(/(torchbearer\s+)([A-Z][1-9]?)/g,"<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/$2.webp'>$1$2</uvalib-modal-image-button>");
+
             let year = parseContent( contents );
 
             // setup search index content field

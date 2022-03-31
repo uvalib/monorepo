@@ -20,6 +20,13 @@ function arrayOrStringToParaShortcode(para, title, cls) {
 
 module.exports = function(eleventyConfig) {
     eleventyConfig.addFilter("dump", function(obj) { return JSON.stringify(obj, null, 2) });
+    eleventyConfig.addFilter("markdownFilter", function(str){
+      return markdown.render(str);
+    })
+    eleventyConfig.addFilter("mlbFilter", function(str){
+      str = str.replace(/torchbearer\s+A1/gim,"<a href='http://google.com'>[torchbearer A1]</a>");
+      return str;
+    });
     eleventyConfig.addFilter("isarray", function(obj) { return Array.isArray(obj) });
     eleventyConfig.addFilter('eLunarIndex', function(...args) {
       let documents = args.shift();

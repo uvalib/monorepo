@@ -1,8 +1,14 @@
 ---
 layout: page-layout.njk
+prefetch:
+  - /booksIndex.json
+  - /revisionsIndex.json
+  - /yearsIndex.json
 ---
 
 <h1>Modern Library Bibliography</h1>
+
+<uvalib-faceted-search config='[{"title":"Years","index":"/yearsIndex.json"},{"title":"Books","index":"/booksIndex.json"},{"title":"Revisions","index":"/revisionsIndex.json"}]'></uvalib-faceted-search>
 
 <div class="years-group">
   {% for year in years %}
@@ -28,6 +34,7 @@ layout: page-layout.njk
   {% endfor %}
 </div>
 
+<script type="module" src="{{ '/js/search.js' | url }}"></script>
 <script>
   const container = document.querySelector('.years-group');
 
