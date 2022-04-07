@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -39,7 +74,7 @@
 
 <h1>255b</h1>
 <h2>Title page reset (c. 1940)</h2>
-<div class="md-block"><p>[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D5.webp'>torchbearer D5</uvalib-modal-image-button>] | [5-line title and statement of responsibility
+<p>[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D5.webp'>torchbearer D5</uvalib-modal-image-button>] | [5-line title and statement of responsibility
 within single rules] | <em>Napoleon</em> | BY | EMIL LUDWIG | TRANSLATED BY |
 EDEN AND CEDAR PAUL | [below frame] MODERN LIBRARY · NEW YORK</p>
 <p>Pagination and collation as 255a.</p>
@@ -64,7 +99,7 @@ flap as 255a. (<em>Spring 1941</em>)</p>
 stakes; it is a story as vivid and as stirring as Napoleon’s victories
 and ultimate humiliation. (<em>Fall 1953</em>)</p>
 </blockquote>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1795,12 +1830,13 @@ and ultimate humiliation. (<em>Fall 1953</em>)</p>
 <sl-details summary="revision"><pre>{
   "id": "255b",
   "title": "Title page reset (c. 1940)",
-  "full": "\n\n\\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D5.webp'>torchbearer D5</uvalib-modal-image-button>\\] | \\[5-line title and statement of responsibility\nwithin single rules\\] | *Napoleon* | BY | EMIL LUDWIG | TRANSLATED BY |\nEDEN AND CEDAR PAUL | \\[below frame\\] MODERN LIBRARY · NEW YORK\n\nPagination and collation as 255a.\n\nContents as 255a except: \\[iv\\] COPYRIGHT, 1915 \\[*sic*\\], BY BONI &\nLIVERIGHT, INC.\n\n> *Variant:* Pagination as 255a. \\[1\\]<sup>16</sup>\n> \\[2–10\\]<sup>32</sup> \\[11\\]<sup>8</sup> \\[12\\]<sup>32</sup>\n> \\[13\\]<sup>16</sup>. Contents as 255b except: \\[iv\\] COPYRIGHT,\n> RENEWED, 1953 | BY LIVERIGHT PUBLISHING CORP.; \\[704\\] blank;\n> \\[704–706\\] ML Giants list. (*Spring 1959*)\n\n*Jacket:* Pictorial in deep reddish orange (36), bluish gray (191), dark\nyellow (88) and black on coated white paper depicting Napoleon’s hat,\nsword and deep reddish orange ribbon against left profile of Napoleon in\nbluish gray; all against white background with author in black, title in\ndeep reddish orange, and series in bluish gray. Signed: illegible. Front\nflap as 255a. (*Spring 1941*)\n\nFront flap reset with last sentence revised as follows:\n\n> It is a book of courage and violence and adventures for enormous\n> stakes; it is a story as vivid and as stirring as Napoleon’s victories\n> and ultimate humiliation. (*Fall 1953*)",
+  "full": "\n\n\\[torchbearer D5\\] | \\[5-line title and statement of responsibility\nwithin single rules\\] | *Napoleon* | BY | EMIL LUDWIG | TRANSLATED BY |\nEDEN AND CEDAR PAUL | \\[below frame\\] MODERN LIBRARY · NEW YORK\n\nPagination and collation as 255a.\n\nContents as 255a except: \\[iv\\] COPYRIGHT, 1915 \\[*sic*\\], BY BONI &\nLIVERIGHT, INC.\n\n> *Variant:* Pagination as 255a. \\[1\\]<sup>16</sup>\n> \\[2–10\\]<sup>32</sup> \\[11\\]<sup>8</sup> \\[12\\]<sup>32</sup>\n> \\[13\\]<sup>16</sup>. Contents as 255b except: \\[iv\\] COPYRIGHT,\n> RENEWED, 1953 | BY LIVERIGHT PUBLISHING CORP.; \\[704\\] blank;\n> \\[704–706\\] ML Giants list. (*Spring 1959*)\n\n*Jacket:* Pictorial in deep reddish orange (36), bluish gray (191), dark\nyellow (88) and black on coated white paper depicting Napoleon’s hat,\nsword and deep reddish orange ribbon against left profile of Napoleon in\nbluish gray; all against white background with author in black, title in\ndeep reddish orange, and series in bluish gray. Signed: illegible. Front\nflap as 255a. (*Spring 1941*)\n\nFront flap reset with last sentence revised as follows:\n\n> It is a book of courage and violence and adventures for enormous\n> stakes; it is a story as vivid and as stirring as Napoleon’s victories\n> and ultimate humiliation. (*Fall 1953*)",
   "year": "1933",
   "book": "255"
 }</pre></sl-details>
 
-<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script></div>
+<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1819,7 +1855,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

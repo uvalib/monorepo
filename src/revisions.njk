@@ -19,7 +19,7 @@ permalink: "revision/{{ rev.id }}.html"
 
 <h1>{{rev.id}}</h1>
 <h2>{{rev.title}}</h2>
-{% markdown rev.full %}
+{{ rev.full | addLinks('torchbearer') | markdown | safe }}
 
 <elix-carousel-with-thumbnails style="width: 100%">
   {% for cover in covers %}

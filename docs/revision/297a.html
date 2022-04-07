@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -39,7 +74,7 @@
 
 <h1>297a</h1>
 <h2>First printing (1936)</h2>
-<div class="md-block"><p>[within double rules] THE HISTORY OF | HENRY ESMOND, <span
+<p>[within double rules] THE HISTORY OF | HENRY ESMOND, <span
 class="smallcaps">esq</span>. | [rule] | BY | 1WILLIAM MAKEPEACE
 THACKERAY | [rule] | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A3.webp'>torchbearer A3</uvalib-modal-image-button>] | [rule] | THE MODERN
 LIBRARY | NEW YORK</p>
@@ -76,7 +111,7 @@ best-selling titles in the regular ML during the twelve-month period
 November 1951‑October 1952. Thackeray’s <em>Vanity Fair</em> was solidly in the
 first quarter of ML and Giant titles at both periods with sales of
 10,067 copies during 1942–43 and 5,390 copies during 1951–52.</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1807,12 +1842,13 @@ first quarter of ML and Giant titles at both periods with sales of
 <sl-details summary="revision"><pre>{
   "id": "297a",
   "title": "First printing (1936)",
-  "full": "\n\n\\[within double rules\\] THE HISTORY OF | HENRY ESMOND, <span\nclass=\"smallcaps\">esq</span>. | \\[rule\\] | BY | 1WILLIAM MAKEPEACE\nTHACKERAY | \\[rule\\] | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A3.webp'>torchbearer A3</uvalib-modal-image-button>\\] | \\[rule\\] | THE MODERN\nLIBRARY | NEW YORK\n\nPp. \\[i–vi\\] vii–ix \\[x\\] 11–615 \\[616\\]. \\[1–18\\]<sup>16</sup>\n\\[19–20\\]<sup>8</sup> \\[21\\]<sup>4</sup>\n\n\\[i\\] half title; \\[ii\\] pub. note D12; \\[iii\\] title; \\[iv\\] *First\nModern Library Edition* | 1936 | \\[short double rule\\]; \\[v\\]\nbiographical note; \\[vi\\] blank; vii–ix CONTENTS; \\[x\\] blank, 11–17\nPREFACE | The Esmonds of Virginia; \\[18\\] blank; \\[19\\] part title: Book\nI | THE EARLY YOUTH OF HENRY ESMOND, UP TO THE TIME | OF HIS LEAVING\nTRINITY COLLEGE, IN CAMBRIDGE; \\[20\\] blank; 21–615 text; \\[616\\] blank.\n\n*Jacket:* Pictorial in strong yellow green (117) and black on cream\npaper depicting a garden with a man in wig and knee breeches bowing to a\nwoman holding a fan; borders in strong yellow green, lettering in black.\nSigned: Cassens.\n\n> Front flap:\n>\n> All Thackeray enthusiasts, and especially readers of *Vanity Fair*\n> (No. 131), will welcome the addition of *The History of Henry Esmond,\n> Esq.*, to the Modern Library series. This romance of a time past\n> embodies all the qualities by which Thackeray has endeared himself to\n> the English-speaking world for a century. Its spontaneous wit and\n> charm hold an equal fascination for those who have made a lifetime\n> habit of reading Thackeray as well as for those who are acquiring the\n> fortunate habit now. (*Fall 1936*)\n\nML edition printed from plates made from a new typesetting. Published\nDecember 1936. *WR* 12 December 1936. First printing: Not ascertained.\nDiscontinued 1967.\n\n*The History of Henry Esmond* sold 4,409 copies during the\neighteen-month period May 1942–October 1943, placing it in the third\nquarter of ML and Giant titles. It did not rank among the 100\nbest-selling titles in the regular ML during the twelve-month period\nNovember 1951‑October 1952. Thackeray’s *Vanity Fair* was solidly in the\nfirst quarter of ML and Giant titles at both periods with sales of\n10,067 copies during 1942–43 and 5,390 copies during 1951–52.\n\n",
+  "full": "\n\n\\[within double rules\\] THE HISTORY OF | HENRY ESMOND, <span\nclass=\"smallcaps\">esq</span>. | \\[rule\\] | BY | 1WILLIAM MAKEPEACE\nTHACKERAY | \\[rule\\] | \\[torchbearer A3\\] | \\[rule\\] | THE MODERN\nLIBRARY | NEW YORK\n\nPp. \\[i–vi\\] vii–ix \\[x\\] 11–615 \\[616\\]. \\[1–18\\]<sup>16</sup>\n\\[19–20\\]<sup>8</sup> \\[21\\]<sup>4</sup>\n\n\\[i\\] half title; \\[ii\\] pub. note D12; \\[iii\\] title; \\[iv\\] *First\nModern Library Edition* | 1936 | \\[short double rule\\]; \\[v\\]\nbiographical note; \\[vi\\] blank; vii–ix CONTENTS; \\[x\\] blank, 11–17\nPREFACE | The Esmonds of Virginia; \\[18\\] blank; \\[19\\] part title: Book\nI | THE EARLY YOUTH OF HENRY ESMOND, UP TO THE TIME | OF HIS LEAVING\nTRINITY COLLEGE, IN CAMBRIDGE; \\[20\\] blank; 21–615 text; \\[616\\] blank.\n\n*Jacket:* Pictorial in strong yellow green (117) and black on cream\npaper depicting a garden with a man in wig and knee breeches bowing to a\nwoman holding a fan; borders in strong yellow green, lettering in black.\nSigned: Cassens.\n\n> Front flap:\n>\n> All Thackeray enthusiasts, and especially readers of *Vanity Fair*\n> (No. 131), will welcome the addition of *The History of Henry Esmond,\n> Esq.*, to the Modern Library series. This romance of a time past\n> embodies all the qualities by which Thackeray has endeared himself to\n> the English-speaking world for a century. Its spontaneous wit and\n> charm hold an equal fascination for those who have made a lifetime\n> habit of reading Thackeray as well as for those who are acquiring the\n> fortunate habit now. (*Fall 1936*)\n\nML edition printed from plates made from a new typesetting. Published\nDecember 1936. *WR* 12 December 1936. First printing: Not ascertained.\nDiscontinued 1967.\n\n*The History of Henry Esmond* sold 4,409 copies during the\neighteen-month period May 1942–October 1943, placing it in the third\nquarter of ML and Giant titles. It did not rank among the 100\nbest-selling titles in the regular ML during the twelve-month period\nNovember 1951‑October 1952. Thackeray’s *Vanity Fair* was solidly in the\nfirst quarter of ML and Giant titles at both periods with sales of\n10,067 copies during 1942–43 and 5,390 copies during 1951–52.\n\n",
   "year": "1936",
   "book": "297"
 }</pre></sl-details>
 
-<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script></div>
+<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1831,7 +1867,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -39,7 +74,7 @@
 
 <h1>299b</h1>
 <h2>Title page reset (1940)</h2>
-<div class="md-block"><p>THE | EMPEROR JONES | ANNA CHRISTIE | THE HAIRY APE | by Eugene O’Neill
+<p>THE | EMPEROR JONES | ANNA CHRISTIE | THE HAIRY APE | by Eugene O’Neill
 | INTRODUCTION BY | LIONEL TRILLING | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D1.webp'>torchbearer D1</uvalib-modal-image-button> at right; 3-line
 imprint at left] THE | MODERN LIBRARY | NEW YORK | [rule]</p>
 <p>Pagination and collation as 299a.</p>
@@ -82,7 +117,7 @@ light bluish green, yellowish gray and brilliant yellow on inset black
 panel; other lettering in light bluish green and black against yellow
 panel at top and in reverse against light bluish green panel at foot.
 Unsigned. Front flap as jacket A, rewritten text. (<em>Spring 1957</em>)</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1815,12 +1850,13 @@ Unsigned. Front flap as jacket A, rewritten text. (<em>Spring 1957</em>)</p>
 <sl-details summary="revision"><pre>{
   "id": "299b",
   "title": "Title page reset (1940)",
-  "full": "\n\nTHE | EMPEROR JONES | ANNA CHRISTIE | THE HAIRY APE | by Eugene O’Neill\n| INTRODUCTION BY | LIONEL TRILLING | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D1.webp'>torchbearer D1</uvalib-modal-image-button> at right; 3-line\nimprint at left\\] THE | MODERN LIBRARY | NEW YORK | \\[rule\\]\n\nPagination and collation as 299a.\n\nContents as 299a except: \\[ii\\] blank; \\[iv\\] *The Emperor Jones* |\nCOPYRIGHT, 1921, BY HORACE LIVERIGHT, INC. | *Anna Christie* |\nCOPYRIGHT, 1922, BY HORACE LIVERIGHT, INC. | *The Hairy Ape* |\nCOPYRIGHT, 1922, BY HORACE LIVERIGHT, INC. | *Introduction* | COPYRIGHT,\n1937, BY RANDOM HOUSE, INC.; \\[261–265\\] ML list; \\[266–267\\] ML Giants\nlist; \\[268\\] blank. (*Spring 1940*)\n\n> *Variant A:* Pagination as 299a except: \\[i–vi\\] vii–xix \\[xx\\].\n> \\[1–9\\]<sup>16</sup>. Contents as 299b except: \\[v\\] CONTENTS;\n> \\[261–266\\] ML list; \\[267–268\\] ML Giants list. (*Spring 1948*)\n> *Note:* Battered page numeral “v” removed from plates.\n>\n> *Variant B:* Pagination and collation as variant A. Contents as\n> variant A except: \\[iv\\] copyright renewal notices (1948 and 1949)\n> added for plays. (*Fall 1954*)\n>\n> *Variant C:* Pagination and collation as variant A. Contents as\n> variant B except: \\[iv\\] copyright renewal notice (1964) added for\n> introduction; \\[261–268\\] ML list. (*Fall 1965*)\n\n*Jacket* *B:* Non-pictorial in moderate greenish blue (173) and black on\ncream paper with title and author in reverse against dark greenish blue\npanel at upper left; background in cream with other lettering below\npanel in black. Unsigned. Front flap as 299a. (*Spring 1940*)\n\n> Front flap rewritten:<br>\n> Three times winner of the Pulitzer award and in 1936 the recipient of\n> the Nobel Prize for Literature, Eugene O’Neill stands pre-eminent\n> among the world’s dramatists. The originality, strength and integrity\n> of his plays have helped bring a new dignity to the American theatre.\n> What he has done for the theatre of the reader’s imagination is\n> equally noteworthy, for his dramas have been treasured by an immense\n> public. The three plays in this volume are representative of the work\n> done by O’Neill at the crest of his creative powers. (*Fall 1954*)\n\n*Jacket C:* Non-pictorial in brilliant yellow (83), light bluish green\n(163), yellowish gray (93) and black on coated white paper with title in\nlight bluish green, yellowish gray and brilliant yellow on inset black\npanel; other lettering in light bluish green and black against yellow\npanel at top and in reverse against light bluish green panel at foot.\nUnsigned. Front flap as jacket A, rewritten text. (*Spring 1957*)\n\n",
+  "full": "\n\nTHE | EMPEROR JONES | ANNA CHRISTIE | THE HAIRY APE | by Eugene O’Neill\n| INTRODUCTION BY | LIONEL TRILLING | \\[torchbearer D1 at right; 3-line\nimprint at left\\] THE | MODERN LIBRARY | NEW YORK | \\[rule\\]\n\nPagination and collation as 299a.\n\nContents as 299a except: \\[ii\\] blank; \\[iv\\] *The Emperor Jones* |\nCOPYRIGHT, 1921, BY HORACE LIVERIGHT, INC. | *Anna Christie* |\nCOPYRIGHT, 1922, BY HORACE LIVERIGHT, INC. | *The Hairy Ape* |\nCOPYRIGHT, 1922, BY HORACE LIVERIGHT, INC. | *Introduction* | COPYRIGHT,\n1937, BY RANDOM HOUSE, INC.; \\[261–265\\] ML list; \\[266–267\\] ML Giants\nlist; \\[268\\] blank. (*Spring 1940*)\n\n> *Variant A:* Pagination as 299a except: \\[i–vi\\] vii–xix \\[xx\\].\n> \\[1–9\\]<sup>16</sup>. Contents as 299b except: \\[v\\] CONTENTS;\n> \\[261–266\\] ML list; \\[267–268\\] ML Giants list. (*Spring 1948*)\n> *Note:* Battered page numeral “v” removed from plates.\n>\n> *Variant B:* Pagination and collation as variant A. Contents as\n> variant A except: \\[iv\\] copyright renewal notices (1948 and 1949)\n> added for plays. (*Fall 1954*)\n>\n> *Variant C:* Pagination and collation as variant A. Contents as\n> variant B except: \\[iv\\] copyright renewal notice (1964) added for\n> introduction; \\[261–268\\] ML list. (*Fall 1965*)\n\n*Jacket* *B:* Non-pictorial in moderate greenish blue (173) and black on\ncream paper with title and author in reverse against dark greenish blue\npanel at upper left; background in cream with other lettering below\npanel in black. Unsigned. Front flap as 299a. (*Spring 1940*)\n\n> Front flap rewritten:<br>\n> Three times winner of the Pulitzer award and in 1936 the recipient of\n> the Nobel Prize for Literature, Eugene O’Neill stands pre-eminent\n> among the world’s dramatists. The originality, strength and integrity\n> of his plays have helped bring a new dignity to the American theatre.\n> What he has done for the theatre of the reader’s imagination is\n> equally noteworthy, for his dramas have been treasured by an immense\n> public. The three plays in this volume are representative of the work\n> done by O’Neill at the crest of his creative powers. (*Fall 1954*)\n\n*Jacket C:* Non-pictorial in brilliant yellow (83), light bluish green\n(163), yellowish gray (93) and black on coated white paper with title in\nlight bluish green, yellowish gray and brilliant yellow on inset black\npanel; other lettering in light bluish green and black against yellow\npanel at top and in reverse against light bluish green panel at foot.\nUnsigned. Front flap as jacket A, rewritten text. (*Spring 1957*)\n\n",
   "year": "1937",
   "book": "299"
 }</pre></sl-details>
 
-<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script></div>
+<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1839,7 +1875,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

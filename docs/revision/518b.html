@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -39,7 +74,7 @@
 
 <h1>518b</h1>
 <h2>Title page with Fujita torchbearer; 7½ inch format (1969/70)</h2>
-<div class="md-block"><p>Title as 518a except line 5: [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/K.webp'>torchbearer K</uvalib-modal-image-button>].</p>
+<p>Title as 518a except line 5: [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/K.webp'>torchbearer K</uvalib-modal-image-button>].</p>
 <p>Pp. [<em>2</em>], [i–vii] viii–xxv [xxvi], [<em>2</em>], [1] 2–482, [<em>2</em>],
 [483] 484–494 [495–512]. [1–4]<sup>32</sup> [5]<sup>16</sup>
 [6–9]<sup>32</sup></p>
@@ -51,7 +86,7 @@
 [496]. (<em>Fall 1959</em>)</p>
 </blockquote>
 <p><em>Jacket B2:</em> Enlarged version of 518a jacket B1.</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1782,12 +1817,13 @@
 <sl-details summary="revision"><pre>{
   "id": "518b",
   "title": "Title page with Fujita torchbearer; 7½ inch format (1969/70)",
-  "full": "\n\nTitle as 518a except line 5: \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/K.webp'>torchbearer K</uvalib-modal-image-button>\\].\n\nPp. \\[*2*\\], \\[i–vii\\] viii–xxv \\[xxvi\\], \\[*2*\\], \\[1\\] 2–482, \\[*2*\\],\n\\[483\\] 484–494 \\[495–512\\]. \\[1–4\\]<sup>32</sup> \\[5\\]<sup>16</sup>\n\\[6–9\\]<sup>32</sup>\n\nContents as 518a except: \\[*1*–*2*\\] blank; \\[495–496\\] ML Giants list\n(*Fall 1959*); \\[497–504\\] ML list (*Spring 1967*); \\[505–512\\] blank.\n\n> *Variant:* Pp. \\[*2*\\], \\[i–vii\\] viii–xxv \\[xxvi\\], \\[*2*\\], \\[1\\]\n> 2–482, \\[*2*\\], \\[483\\] 484–494 \\[495–496\\]. Contents as 519b through\n> \\[496\\]. (*Fall 1959*)\n\n*Jacket B2:* Enlarged version of 518a jacket B1.\n\n",
+  "full": "\n\nTitle as 518a except line 5: \\[torchbearer K\\].\n\nPp. \\[*2*\\], \\[i–vii\\] viii–xxv \\[xxvi\\], \\[*2*\\], \\[1\\] 2–482, \\[*2*\\],\n\\[483\\] 484–494 \\[495–512\\]. \\[1–4\\]<sup>32</sup> \\[5\\]<sup>16</sup>\n\\[6–9\\]<sup>32</sup>\n\nContents as 518a except: \\[*1*–*2*\\] blank; \\[495–496\\] ML Giants list\n(*Fall 1959*); \\[497–504\\] ML list (*Spring 1967*); \\[505–512\\] blank.\n\n> *Variant:* Pp. \\[*2*\\], \\[i–vii\\] viii–xxv \\[xxvi\\], \\[*2*\\], \\[1\\]\n> 2–482, \\[*2*\\], \\[483\\] 484–494 \\[495–496\\]. Contents as 519b through\n> \\[496\\]. (*Fall 1959*)\n\n*Jacket B2:* Enlarged version of 518a jacket B1.\n\n",
   "year": "1959",
   "book": "518"
 }</pre></sl-details>
 
-<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script></div>
+<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1806,7 +1842,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

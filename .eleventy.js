@@ -1,5 +1,6 @@
 const CleanCSS = require("clean-css");
 const elasticlunr = require('elasticlunr');
+const Fuse = require('fuse.js');
 
 let markdown = require("markdown-it")({
   html: true
@@ -19,15 +20,23 @@ function arrayOrStringToParaShortcode(para, title, cls) {
 }
 
 module.exports = function(eleventyConfig) {
-    eleventyConfig.addFilter("dump", function(obj) { return JSON.stringify(obj, null, 2) });
-    eleventyConfig.addFilter("markdownFilter", function(str){
-      return markdown.render(str);
-    })
-    eleventyConfig.addFilter("mlbFilter", function(str){
-      str = str.replace(/torchbearer\s+A1/gim,"<a href='http://google.com'>[torchbearer A1]</a>");
-      return str;
+    eleventyConfig.addFilter("addLinks", function(...args) {
+      let md = args.shift();
+      if (args.includes('torchbearer'))
+        md = md.replace(/(torchbearer\s+)([A-Z][1-9]?)/g,"<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/$2.webp'>$1$2</uvalib-modal-image-button>"); 
+      if (args.includes('book'))
+        md = md.replace(/^###\s+(\d\d\d)\s*\n/mg,"### <a href='/book/$1.html'>$1</a>\n");
+      if (args.includes('revision'))
+        md = md.replace(/^####\s+([1-9a-z]+)\.\s+(.+)\s*\n/mg,"#### <a href='/revision/$1.html'>$1. $2</a>\n");
+      return md;
     });
+    eleventyConfig.addFilter("dump", function(obj) { return JSON.stringify(obj, null, 2) });
     eleventyConfig.addFilter("isarray", function(obj) { return Array.isArray(obj) });
+    eleventyConfig.addFilter('fuseIndex', function(...args){
+      let documents = args.shift();
+      let index = Fuse.createIndex(args, documents);
+      return index.toJSON();
+    });
     eleventyConfig.addFilter('eLunarIndex', function(...args) {
       let documents = args.shift();
       let index = elasticlunr(function () {
@@ -37,11 +46,9 @@ module.exports = function(eleventyConfig) {
       documents.forEach(d=>index.addDoc(d));
       return index.toJSON();
     });
+    eleventyConfig.addFilter('markdown', content=>markdown.render(content));
     eleventyConfig.addNunjucksShortcode("arrayOrStringPara", arrayOrStringToParaShortcode);
-    eleventyConfig.addNunjucksShortcode(
-      "markdown",
-      content => `<div class="md-block">${markdown.render(content)}</div>`
-    );
+    eleventyConfig.addNunjucksShortcode("markdown",content => markdown.render(content));
     eleventyConfig.addPassthroughCopy({"src/js":"js"});
     eleventyConfig.addPassthroughCopy("src/.nojekyll");
     eleventyConfig.addPassthroughCopy("src/mlb/images");

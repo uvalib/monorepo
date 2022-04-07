@@ -2,7 +2,7 @@
 layout: page-layout.njk
 permalink: "procedures.html"
 ---
-BIBLIOGRAPHICAL PROCEDURES AND FORMAT
+## BIBLIOGRAPHICAL PROCEDURES AND FORMAT
 
 **Scope**
 

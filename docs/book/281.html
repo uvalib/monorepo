@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -36,8 +71,8 @@
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/book/281.html">281</sl-breadcrumb-item>
 </sl-breadcrumb>
 
-<div class="md-block"><p><strong>ELIZABETH MADOX ROBERTS. THE TIME OF MAN. 1935</strong>–<strong>1938. (ML 54)</strong></p>
-<h4>281. First printing (1935)</h4>
+<p><strong>ELIZABETH MADOX ROBERTS. THE TIME OF MAN. 1935</strong>–<strong>1938. (ML 54)</strong></p>
+<h4><a href='/revision/281.html'>281. First printing (1935)</a></h4>
 <p>[within double rules] THE TIME OF MAN | [rule] | BY | ELIZABETH
 MADOX ROBERTS | [rule] | WITH AN INTRODUCTION BY | J. DONALD ADAMS |
 [rule] | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer A2</uvalib-modal-image-button>] | [rule] | BENNETT A. CERF · DONALD S.
@@ -74,7 +109,7 @@ First (and only) printing: 5,000 copies. Discontinued 31 December 1938.</p>
 of Man</em> was discontinued. All of the fall 1939 jackets examined are
 stamped “DISCONTINUED TITLE” and were presumably used to freshen copies
 sold as remainders.</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1803,7 +1838,7 @@ sold as remainders.</p>
 </elix-carousel-with-thumbnails>
 
 <sl-details summary="book"><pre>{
-  "full": "**ELIZABETH MADOX ROBERTS. THE TIME OF MAN. 1935**–**1938. (ML 54)**\n\n#### 281. First printing (1935)\n\n\\[within double rules\\] THE TIME OF MAN | \\[rule\\] | BY | ELIZABETH\nMADOX ROBERTS | \\[rule\\] | WITH AN INTRODUCTION BY | J. DONALD ADAMS |\n\\[rule\\] | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer A2</uvalib-modal-image-button>\\] | \\[rule\\] | BENNETT A. CERF · DONALD S.\nKLOPFER | THE MODERN LIBRARY | NEW YORK\n\nPp. \\[i–iv\\] v–vii \\[viii–x\\], \\[*2*\\], 1–382 \\[383–388\\].\n\\[1–12\\]<sup>16</sup> \\[13\\]<sup>8</sup>\n\n\\[i\\] half title; \\[ii\\] pub. note A6; \\[iii\\] title; \\[iv\\]\n*Introduction Copyright,* 1935, *by* | THE MODERN LIBRARY, INC. |\n\\[short double rule\\] | *Copyright,* 1926, *by* <span\nclass=\"smallcaps\">The Viking Press, Inc.</span> | \\[short double rule\\]\n| *First Modern Library Edition* | 1935; v–vii INTRODUCTION signed p.\nvii: <span class=\"smallcaps\">J. Donald Adams.</span> | *New York City*.;\n\\[viii\\] blank; \\[ix\\] dedication; \\[x\\] blank; \\[*1*\\] fly title;\n\\[*2*\\] blank; 1–382 text; \\[383–388\\] ML list. (*Spring 1935*)\n\n*Jacket:* Pictorial in very deep red (14) and black on cream paper\ndepicting a woman standing on a hilltop with her arms raised to the\nsunrise, with rooftop, evergreen trees and mountains in the distance;\nborders in very deep red, lettering in black. Signed: Newman.\n\n> Front flap:<br>\n> With the publication of her first novel, *The Time of Man*, Elizabeth\n> Madox Roberts attained the front rank among living American writers.\n> The glowing beauty of her work, its insight, its vividness and lyrical\n> flow give to this chronicle of the American soil a distinction shared\n> by few novels of our time. The story of Ellen Chesser is an American\n> idyl that captures the grim and exalted meaning of the pioneer’s\n> struggle with the land. It is a book that has earned its own and its\n> author’s eminence. (*Spring 1935*)\n\nOriginally published by Viking Press, 1926. ML edition (pp. \\[ix\\] –382)\nprinted from Viking plates. Published April 1935. *WR* 20 April 1935.\nFirst (and only) printing: 5,000 copies. Discontinued 31 December 1938.\n\nThere was a second printing of the jacket in fall 1939 after *The Time\nof Man* was discontinued. All of the fall 1939 jackets examined are\nstamped “DISCONTINUED TITLE” and were presumably used to freshen copies\nsold as remainders.",
+  "full": "**ELIZABETH MADOX ROBERTS. THE TIME OF MAN. 1935**–**1938. (ML 54)**\n\n#### 281. First printing (1935)\n\n\\[within double rules\\] THE TIME OF MAN | \\[rule\\] | BY | ELIZABETH\nMADOX ROBERTS | \\[rule\\] | WITH AN INTRODUCTION BY | J. DONALD ADAMS |\n\\[rule\\] | \\[torchbearer A2\\] | \\[rule\\] | BENNETT A. CERF · DONALD S.\nKLOPFER | THE MODERN LIBRARY | NEW YORK\n\nPp. \\[i–iv\\] v–vii \\[viii–x\\], \\[*2*\\], 1–382 \\[383–388\\].\n\\[1–12\\]<sup>16</sup> \\[13\\]<sup>8</sup>\n\n\\[i\\] half title; \\[ii\\] pub. note A6; \\[iii\\] title; \\[iv\\]\n*Introduction Copyright,* 1935, *by* | THE MODERN LIBRARY, INC. |\n\\[short double rule\\] | *Copyright,* 1926, *by* <span\nclass=\"smallcaps\">The Viking Press, Inc.</span> | \\[short double rule\\]\n| *First Modern Library Edition* | 1935; v–vii INTRODUCTION signed p.\nvii: <span class=\"smallcaps\">J. Donald Adams.</span> | *New York City*.;\n\\[viii\\] blank; \\[ix\\] dedication; \\[x\\] blank; \\[*1*\\] fly title;\n\\[*2*\\] blank; 1–382 text; \\[383–388\\] ML list. (*Spring 1935*)\n\n*Jacket:* Pictorial in very deep red (14) and black on cream paper\ndepicting a woman standing on a hilltop with her arms raised to the\nsunrise, with rooftop, evergreen trees and mountains in the distance;\nborders in very deep red, lettering in black. Signed: Newman.\n\n> Front flap:<br>\n> With the publication of her first novel, *The Time of Man*, Elizabeth\n> Madox Roberts attained the front rank among living American writers.\n> The glowing beauty of her work, its insight, its vividness and lyrical\n> flow give to this chronicle of the American soil a distinction shared\n> by few novels of our time. The story of Ellen Chesser is an American\n> idyl that captures the grim and exalted meaning of the pioneer’s\n> struggle with the land. It is a book that has earned its own and its\n> author’s eminence. (*Spring 1935*)\n\nOriginally published by Viking Press, 1926. ML edition (pp. \\[ix\\] –382)\nprinted from Viking plates. Published April 1935. *WR* 20 April 1935.\nFirst (and only) printing: 5,000 copies. Discontinued 31 December 1938.\n\nThere was a second printing of the jacket in fall 1939 after *The Time\nof Man* was discontinued. All of the fall 1939 jackets examined are\nstamped “DISCONTINUED TITLE” and were presumably used to freshen copies\nsold as remainders.",
   "id": "281",
   "year": "1935",
   "title": "ELIZABETH MADOX ROBERTS. THE TIME OF MAN. 1935  –  1938. (ML 54)",
@@ -1811,13 +1846,14 @@ sold as remainders.</p>
     {
       "id": "281",
       "title": "First printing (1935)",
-      "full": "\n\n\\[within double rules\\] THE TIME OF MAN | \\[rule\\] | BY | ELIZABETH\nMADOX ROBERTS | \\[rule\\] | WITH AN INTRODUCTION BY | J. DONALD ADAMS |\n\\[rule\\] | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer A2</uvalib-modal-image-button>\\] | \\[rule\\] | BENNETT A. CERF · DONALD S.\nKLOPFER | THE MODERN LIBRARY | NEW YORK\n\nPp. \\[i–iv\\] v–vii \\[viii–x\\], \\[*2*\\], 1–382 \\[383–388\\].\n\\[1–12\\]<sup>16</sup> \\[13\\]<sup>8</sup>\n\n\\[i\\] half title; \\[ii\\] pub. note A6; \\[iii\\] title; \\[iv\\]\n*Introduction Copyright,* 1935, *by* | THE MODERN LIBRARY, INC. |\n\\[short double rule\\] | *Copyright,* 1926, *by* <span\nclass=\"smallcaps\">The Viking Press, Inc.</span> | \\[short double rule\\]\n| *First Modern Library Edition* | 1935; v–vii INTRODUCTION signed p.\nvii: <span class=\"smallcaps\">J. Donald Adams.</span> | *New York City*.;\n\\[viii\\] blank; \\[ix\\] dedication; \\[x\\] blank; \\[*1*\\] fly title;\n\\[*2*\\] blank; 1–382 text; \\[383–388\\] ML list. (*Spring 1935*)\n\n*Jacket:* Pictorial in very deep red (14) and black on cream paper\ndepicting a woman standing on a hilltop with her arms raised to the\nsunrise, with rooftop, evergreen trees and mountains in the distance;\nborders in very deep red, lettering in black. Signed: Newman.\n\n> Front flap:<br>\n> With the publication of her first novel, *The Time of Man*, Elizabeth\n> Madox Roberts attained the front rank among living American writers.\n> The glowing beauty of her work, its insight, its vividness and lyrical\n> flow give to this chronicle of the American soil a distinction shared\n> by few novels of our time. The story of Ellen Chesser is an American\n> idyl that captures the grim and exalted meaning of the pioneer’s\n> struggle with the land. It is a book that has earned its own and its\n> author’s eminence. (*Spring 1935*)\n\nOriginally published by Viking Press, 1926. ML edition (pp. \\[ix\\] –382)\nprinted from Viking plates. Published April 1935. *WR* 20 April 1935.\nFirst (and only) printing: 5,000 copies. Discontinued 31 December 1938.\n\nThere was a second printing of the jacket in fall 1939 after *The Time\nof Man* was discontinued. All of the fall 1939 jackets examined are\nstamped “DISCONTINUED TITLE” and were presumably used to freshen copies\nsold as remainders."
+      "full": "\n\n\\[within double rules\\] THE TIME OF MAN | \\[rule\\] | BY | ELIZABETH\nMADOX ROBERTS | \\[rule\\] | WITH AN INTRODUCTION BY | J. DONALD ADAMS |\n\\[rule\\] | \\[torchbearer A2\\] | \\[rule\\] | BENNETT A. CERF · DONALD S.\nKLOPFER | THE MODERN LIBRARY | NEW YORK\n\nPp. \\[i–iv\\] v–vii \\[viii–x\\], \\[*2*\\], 1–382 \\[383–388\\].\n\\[1–12\\]<sup>16</sup> \\[13\\]<sup>8</sup>\n\n\\[i\\] half title; \\[ii\\] pub. note A6; \\[iii\\] title; \\[iv\\]\n*Introduction Copyright,* 1935, *by* | THE MODERN LIBRARY, INC. |\n\\[short double rule\\] | *Copyright,* 1926, *by* <span\nclass=\"smallcaps\">The Viking Press, Inc.</span> | \\[short double rule\\]\n| *First Modern Library Edition* | 1935; v–vii INTRODUCTION signed p.\nvii: <span class=\"smallcaps\">J. Donald Adams.</span> | *New York City*.;\n\\[viii\\] blank; \\[ix\\] dedication; \\[x\\] blank; \\[*1*\\] fly title;\n\\[*2*\\] blank; 1–382 text; \\[383–388\\] ML list. (*Spring 1935*)\n\n*Jacket:* Pictorial in very deep red (14) and black on cream paper\ndepicting a woman standing on a hilltop with her arms raised to the\nsunrise, with rooftop, evergreen trees and mountains in the distance;\nborders in very deep red, lettering in black. Signed: Newman.\n\n> Front flap:<br>\n> With the publication of her first novel, *The Time of Man*, Elizabeth\n> Madox Roberts attained the front rank among living American writers.\n> The glowing beauty of her work, its insight, its vividness and lyrical\n> flow give to this chronicle of the American soil a distinction shared\n> by few novels of our time. The story of Ellen Chesser is an American\n> idyl that captures the grim and exalted meaning of the pioneer’s\n> struggle with the land. It is a book that has earned its own and its\n> author’s eminence. (*Spring 1935*)\n\nOriginally published by Viking Press, 1926. ML edition (pp. \\[ix\\] –382)\nprinted from Viking plates. Published April 1935. *WR* 20 April 1935.\nFirst (and only) printing: 5,000 copies. Discontinued 31 December 1938.\n\nThere was a second printing of the jacket in fall 1939 after *The Time\nof Man* was discontinued. All of the fall 1939 jackets examined are\nstamped “DISCONTINUED TITLE” and were presumably used to freshen copies\nsold as remainders."
     }
   ]
 }</pre></sl-details>
 
 <script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
-</div>
+
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1836,7 +1872,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

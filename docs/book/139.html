@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -36,9 +71,9 @@
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/book/139.html">139</sl-breadcrumb-item>
 </sl-breadcrumb>
 
-<div class="md-block"><p>*<strong>GEORGE DOUGLAS BROWN. THE HOUSE WITH THE GREEN SHUTTERS. 1927–1930.
+<p>*<strong>GEORGE DOUGLAS BROWN. THE HOUSE WITH THE GREEN SHUTTERS. 1927–1930.
 (ML 129)</strong></p>
-<h4>139a. First printing, trade issue (1927)</h4>
+<h4><a href='/revision/139a.html'>139a. First printing, trade issue (1927)</a></h4>
 <p>[within double rules] THE HOUSE WITH THE | GREEN SHUTTERS | [rule] |
 BY | GEORGE DOUGLAS BROWN | [rule] | INTRODUCTION BY | GEORGE BLAKE |
 [rule] | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer A2</uvalib-modal-image-button>] | [rule] | THE MODERN LIBRARY |
@@ -74,7 +109,7 @@ finest in the entire series. (<em>Spring 1927</em>)</p>
 <p><em>Jacket B:</em> Uniform typographic jacket D. Text on front: “A powerful,
 unforgettable novel that the editors of the MODERN LIBRARY rank with the
 finest in the series.” (<em>Fall 1929</em>)</p>
-<h4>139b. First printing, presentation issue (1927)</h4>
+<h4><a href='/revision/139b.html'>139b. First printing, presentation issue (1927)</a></h4>
 <p>Title as 139<sub>a</sub>.</p>
 <p>Pp. [i–ii], [<em>2</em>], [iii–vi] vii–xii, 1–314 [315–316].
 [1]<sup>16</sup>(1+χ1) [2–10]<sup>16</sup> [11]<sup>4</sup>
@@ -124,7 +159,7 @@ failed to attract a wide audience. The first Modern Library printing of
 printing of 1,000 copies in April 1930, apparently still hoping that it
 might catch on, then admitted defeat and discontinued the book at the
 end of the year.</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1853,7 +1888,7 @@ end of the year.</p>
 </elix-carousel-with-thumbnails>
 
 <sl-details summary="book"><pre>{
-  "full": "***GEORGE DOUGLAS BROWN. THE HOUSE WITH THE GREEN SHUTTERS. 1927–1930.\n(ML 129)**\n\n#### 139a. First printing, trade issue (1927)\n\n\\[within double rules\\] THE HOUSE WITH THE | GREEN SHUTTERS | \\[rule\\] |\nBY | GEORGE DOUGLAS BROWN | \\[rule\\] | INTRODUCTION BY | GEORGE BLAKE |\n\\[rule\\] | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer A2</uvalib-modal-image-button>\\] | \\[rule\\] | THE MODERN LIBRARY |\nPUBLISHERS : NEW YORK\n\nPp. \\[i–vi\\] vii–xii, 1–314 \\[315–316\\]. \\[1–10\\]<sup>16</sup>\n\\[11\\]<sup>4</sup>\n\n\\[i\\] half title; \\[ii\\] pub. note D5; \\[iii\\] title; \\[iv\\] *Copyright,\n1911, by* | THOMAS SELTZER | \\[short double rule\\] | *Introduction\nCopyright, 1927*, *by* | THE MODERN LIBRARY, INC. | \\[short double\nrule\\] | *First Modern Library Edition* | *April, 1927*; \\[v\\]\ndedication; \\[vi\\] blank; vii–xii INTRODUCTION signed p. xii: <span\nclass=\"smallcaps\">George Blake</span>.; 1–314 text; \\[315–316\\] blank.\n\n*Jacket A:* Uniform typographic jacket B.\n\n> Text on front:<br>\n> Almost a quarter of a century has elapsed since this unique novel by\n> George Brown gained, owing to the critical insight of Andrew Lang,\n> rapid fame.\n>\n> In what manner Brown might have developed, had he lived, and to what\n> heights he might have attained, are beyond conjecture. His book\n> reaches out to us with singular, doomed power. The terrible conclusion\n> gathers inevitably, though here is no purification of tragedy, no\n> beating drums of a new era. In re-reading the novel, one notes how the\n> author avoided the romantic temptation of making the House itself\n> subjective; until in the last sentence—and this is true to country\n> superstition and to physical belief—it assumes a sudden ominous\n> existence: “They gazed with blanched faces at the House with the Green\n> Shutters, sitting dark there and terrible beneath the radiant arch of\n> the dawn!”\n>\n> The editors of the Modern Library consider this novel one of the\n> finest in the entire series. (*Spring 1927*)\n\n*Jacket B:* Uniform typographic jacket D. Text on front: “A powerful,\nunforgettable novel that the editors of the MODERN LIBRARY rank with the\nfinest in the series.” (*Fall 1929*)\n\n#### 139b. First printing, presentation issue (1927)\n\nTitle as 139<sub>a</sub>.\n\nPp. \\[i–ii\\], \\[*2*\\], \\[iii–vi\\] vii–xii, 1–314 \\[315–316\\].\n\\[1\\]<sup>16</sup>(1+χ1) \\[2–10\\]<sup>16</sup> \\[11\\]<sup>4</sup>\n*Note*: Inserted leaf between pp. \\[ii\\] and \\[iii\\] with text facing\nthe title page.\n\nContents as 139<sub>a</sub> except inserted leaf: \\[*1*\\] blank; \\[*2*\\]\n*The Modern Library, Inc. takes pleasure in* | *presenting this edition\nof “The House with* | *the Green Shutters” to the delegates to the* |\n*American Booksellers’ Convention, and their* | *guests, at the banquet\nat the Hotel Commodore,* | *New York, on May 12, 1927*.\n\nOriginally published in U.S. by McClure, Phillips & Co., 1901, with the\nauthor named as George Douglas. New bibliographical edition published by\nThomas Seltzer, 1924; plates acquired by A. & C. Boni, 1926. ML edition\n(pp. \\[v\\], 1–314) printed from Seltzer/Boni plates. Publication\nannounced for April 1927. *WR* 28 May 1927. First printing: 8,000\ncopies. Discontinued 1 January 1931.\n\nIt is not known why Cerf and Klopfer published *The House with the Green\nShutters* under the author’s full name rather than his better-known\npseudonym George Douglas.\n\nSeltzer described *The House with the Green Shutters* as follows: “. . .\nthis famous and extraordinary novel, from which, it is held, all modern\nfiction derives. It was the only long novel written by the young\nScotchman before his early death. It came out in 1900, and was the first\nbook that represented the reaction against the Victorian modes and\nmoods” (Seltzer fall 1924 catalogue, p. 3). Cerf and Klopfer were\nequally enthusiastic. Cerf asked Heywood Broun to write the introduction\nto the ML edition, describing the work as “one of the swellest novels\nwritten in the past thirty years, and one that we hope to make\ntwenty-five times as popular as it is, when we bring it out in the\nModern Library” (Cerf to Broun, 26 October 1926).\n\nBroun agreed to write the introduction (Broun to Cerf, 31 October 1926)\nbut failed to submit it by the deadline. The Blake introduction used in\nits place was originally written as an article for the British\nperiodical *John O’London’s Weekly* (8 March 1924, pp. 809–10) and never\ncopyrighted in the United States. Cerf took Blake’s article, probably at\nthe last moment, revised the opening paragraph, added a reference to the\nML edition, and forwarded it to the printer. The origin of the\nintroduction was not acknowledged and Blake received no payment for its\nuse. When Blake learned that the ML had used his work he wrote a letter\nof protest to *Saturday Review of Literature* (“A Writer’s Grievance,”\n*SRL*, 10 September 1927, p. 110).\n\nCerf and Klopfer did everything they could to popularize *The House with\nthe Green Shutters*, including distributing a portion of the first\nprinting at the American Booksellers’ Convention in May 1927, but it\nfailed to attract a wide audience. The first Modern Library printing of\n8,000 copies was larger than average. Cerf and Klopfer ordered a second\nprinting of 1,000 copies in April 1930, apparently still hoping that it\nmight catch on, then admitted defeat and discontinued the book at the\nend of the year.",
+  "full": "***GEORGE DOUGLAS BROWN. THE HOUSE WITH THE GREEN SHUTTERS. 1927–1930.\n(ML 129)**\n\n#### 139a. First printing, trade issue (1927)\n\n\\[within double rules\\] THE HOUSE WITH THE | GREEN SHUTTERS | \\[rule\\] |\nBY | GEORGE DOUGLAS BROWN | \\[rule\\] | INTRODUCTION BY | GEORGE BLAKE |\n\\[rule\\] | \\[torchbearer A2\\] | \\[rule\\] | THE MODERN LIBRARY |\nPUBLISHERS : NEW YORK\n\nPp. \\[i–vi\\] vii–xii, 1–314 \\[315–316\\]. \\[1–10\\]<sup>16</sup>\n\\[11\\]<sup>4</sup>\n\n\\[i\\] half title; \\[ii\\] pub. note D5; \\[iii\\] title; \\[iv\\] *Copyright,\n1911, by* | THOMAS SELTZER | \\[short double rule\\] | *Introduction\nCopyright, 1927*, *by* | THE MODERN LIBRARY, INC. | \\[short double\nrule\\] | *First Modern Library Edition* | *April, 1927*; \\[v\\]\ndedication; \\[vi\\] blank; vii–xii INTRODUCTION signed p. xii: <span\nclass=\"smallcaps\">George Blake</span>.; 1–314 text; \\[315–316\\] blank.\n\n*Jacket A:* Uniform typographic jacket B.\n\n> Text on front:<br>\n> Almost a quarter of a century has elapsed since this unique novel by\n> George Brown gained, owing to the critical insight of Andrew Lang,\n> rapid fame.\n>\n> In what manner Brown might have developed, had he lived, and to what\n> heights he might have attained, are beyond conjecture. His book\n> reaches out to us with singular, doomed power. The terrible conclusion\n> gathers inevitably, though here is no purification of tragedy, no\n> beating drums of a new era. In re-reading the novel, one notes how the\n> author avoided the romantic temptation of making the House itself\n> subjective; until in the last sentence—and this is true to country\n> superstition and to physical belief—it assumes a sudden ominous\n> existence: “They gazed with blanched faces at the House with the Green\n> Shutters, sitting dark there and terrible beneath the radiant arch of\n> the dawn!”\n>\n> The editors of the Modern Library consider this novel one of the\n> finest in the entire series. (*Spring 1927*)\n\n*Jacket B:* Uniform typographic jacket D. Text on front: “A powerful,\nunforgettable novel that the editors of the MODERN LIBRARY rank with the\nfinest in the series.” (*Fall 1929*)\n\n#### 139b. First printing, presentation issue (1927)\n\nTitle as 139<sub>a</sub>.\n\nPp. \\[i–ii\\], \\[*2*\\], \\[iii–vi\\] vii–xii, 1–314 \\[315–316\\].\n\\[1\\]<sup>16</sup>(1+χ1) \\[2–10\\]<sup>16</sup> \\[11\\]<sup>4</sup>\n*Note*: Inserted leaf between pp. \\[ii\\] and \\[iii\\] with text facing\nthe title page.\n\nContents as 139<sub>a</sub> except inserted leaf: \\[*1*\\] blank; \\[*2*\\]\n*The Modern Library, Inc. takes pleasure in* | *presenting this edition\nof “The House with* | *the Green Shutters” to the delegates to the* |\n*American Booksellers’ Convention, and their* | *guests, at the banquet\nat the Hotel Commodore,* | *New York, on May 12, 1927*.\n\nOriginally published in U.S. by McClure, Phillips & Co., 1901, with the\nauthor named as George Douglas. New bibliographical edition published by\nThomas Seltzer, 1924; plates acquired by A. & C. Boni, 1926. ML edition\n(pp. \\[v\\], 1–314) printed from Seltzer/Boni plates. Publication\nannounced for April 1927. *WR* 28 May 1927. First printing: 8,000\ncopies. Discontinued 1 January 1931.\n\nIt is not known why Cerf and Klopfer published *The House with the Green\nShutters* under the author’s full name rather than his better-known\npseudonym George Douglas.\n\nSeltzer described *The House with the Green Shutters* as follows: “. . .\nthis famous and extraordinary novel, from which, it is held, all modern\nfiction derives. It was the only long novel written by the young\nScotchman before his early death. It came out in 1900, and was the first\nbook that represented the reaction against the Victorian modes and\nmoods” (Seltzer fall 1924 catalogue, p. 3). Cerf and Klopfer were\nequally enthusiastic. Cerf asked Heywood Broun to write the introduction\nto the ML edition, describing the work as “one of the swellest novels\nwritten in the past thirty years, and one that we hope to make\ntwenty-five times as popular as it is, when we bring it out in the\nModern Library” (Cerf to Broun, 26 October 1926).\n\nBroun agreed to write the introduction (Broun to Cerf, 31 October 1926)\nbut failed to submit it by the deadline. The Blake introduction used in\nits place was originally written as an article for the British\nperiodical *John O’London’s Weekly* (8 March 1924, pp. 809–10) and never\ncopyrighted in the United States. Cerf took Blake’s article, probably at\nthe last moment, revised the opening paragraph, added a reference to the\nML edition, and forwarded it to the printer. The origin of the\nintroduction was not acknowledged and Blake received no payment for its\nuse. When Blake learned that the ML had used his work he wrote a letter\nof protest to *Saturday Review of Literature* (“A Writer’s Grievance,”\n*SRL*, 10 September 1927, p. 110).\n\nCerf and Klopfer did everything they could to popularize *The House with\nthe Green Shutters*, including distributing a portion of the first\nprinting at the American Booksellers’ Convention in May 1927, but it\nfailed to attract a wide audience. The first Modern Library printing of\n8,000 copies was larger than average. Cerf and Klopfer ordered a second\nprinting of 1,000 copies in April 1930, apparently still hoping that it\nmight catch on, then admitted defeat and discontinued the book at the\nend of the year.",
   "id": "139",
   "year": "1927",
   "title": "GEORGE DOUGLAS BROWN. THE HOUSE WITH THE GREEN SHUTTERS. 1927–1930. (ML 129)",
@@ -1861,7 +1896,7 @@ end of the year.</p>
     {
       "id": "139a",
       "title": "First printing, trade issue (1927)",
-      "full": "\n\n\\[within double rules\\] THE HOUSE WITH THE | GREEN SHUTTERS | \\[rule\\] |\nBY | GEORGE DOUGLAS BROWN | \\[rule\\] | INTRODUCTION BY | GEORGE BLAKE |\n\\[rule\\] | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer A2</uvalib-modal-image-button>\\] | \\[rule\\] | THE MODERN LIBRARY |\nPUBLISHERS : NEW YORK\n\nPp. \\[i–vi\\] vii–xii, 1–314 \\[315–316\\]. \\[1–10\\]<sup>16</sup>\n\\[11\\]<sup>4</sup>\n\n\\[i\\] half title; \\[ii\\] pub. note D5; \\[iii\\] title; \\[iv\\] *Copyright,\n1911, by* | THOMAS SELTZER | \\[short double rule\\] | *Introduction\nCopyright, 1927*, *by* | THE MODERN LIBRARY, INC. | \\[short double\nrule\\] | *First Modern Library Edition* | *April, 1927*; \\[v\\]\ndedication; \\[vi\\] blank; vii–xii INTRODUCTION signed p. xii: <span\nclass=\"smallcaps\">George Blake</span>.; 1–314 text; \\[315–316\\] blank.\n\n*Jacket A:* Uniform typographic jacket B.\n\n> Text on front:<br>\n> Almost a quarter of a century has elapsed since this unique novel by\n> George Brown gained, owing to the critical insight of Andrew Lang,\n> rapid fame.\n>\n> In what manner Brown might have developed, had he lived, and to what\n> heights he might have attained, are beyond conjecture. His book\n> reaches out to us with singular, doomed power. The terrible conclusion\n> gathers inevitably, though here is no purification of tragedy, no\n> beating drums of a new era. In re-reading the novel, one notes how the\n> author avoided the romantic temptation of making the House itself\n> subjective; until in the last sentence—and this is true to country\n> superstition and to physical belief—it assumes a sudden ominous\n> existence: “They gazed with blanched faces at the House with the Green\n> Shutters, sitting dark there and terrible beneath the radiant arch of\n> the dawn!”\n>\n> The editors of the Modern Library consider this novel one of the\n> finest in the entire series. (*Spring 1927*)\n\n*Jacket B:* Uniform typographic jacket D. Text on front: “A powerful,\nunforgettable novel that the editors of the MODERN LIBRARY rank with the\nfinest in the series.” (*Fall 1929*)\n\n"
+      "full": "\n\n\\[within double rules\\] THE HOUSE WITH THE | GREEN SHUTTERS | \\[rule\\] |\nBY | GEORGE DOUGLAS BROWN | \\[rule\\] | INTRODUCTION BY | GEORGE BLAKE |\n\\[rule\\] | \\[torchbearer A2\\] | \\[rule\\] | THE MODERN LIBRARY |\nPUBLISHERS : NEW YORK\n\nPp. \\[i–vi\\] vii–xii, 1–314 \\[315–316\\]. \\[1–10\\]<sup>16</sup>\n\\[11\\]<sup>4</sup>\n\n\\[i\\] half title; \\[ii\\] pub. note D5; \\[iii\\] title; \\[iv\\] *Copyright,\n1911, by* | THOMAS SELTZER | \\[short double rule\\] | *Introduction\nCopyright, 1927*, *by* | THE MODERN LIBRARY, INC. | \\[short double\nrule\\] | *First Modern Library Edition* | *April, 1927*; \\[v\\]\ndedication; \\[vi\\] blank; vii–xii INTRODUCTION signed p. xii: <span\nclass=\"smallcaps\">George Blake</span>.; 1–314 text; \\[315–316\\] blank.\n\n*Jacket A:* Uniform typographic jacket B.\n\n> Text on front:<br>\n> Almost a quarter of a century has elapsed since this unique novel by\n> George Brown gained, owing to the critical insight of Andrew Lang,\n> rapid fame.\n>\n> In what manner Brown might have developed, had he lived, and to what\n> heights he might have attained, are beyond conjecture. His book\n> reaches out to us with singular, doomed power. The terrible conclusion\n> gathers inevitably, though here is no purification of tragedy, no\n> beating drums of a new era. In re-reading the novel, one notes how the\n> author avoided the romantic temptation of making the House itself\n> subjective; until in the last sentence—and this is true to country\n> superstition and to physical belief—it assumes a sudden ominous\n> existence: “They gazed with blanched faces at the House with the Green\n> Shutters, sitting dark there and terrible beneath the radiant arch of\n> the dawn!”\n>\n> The editors of the Modern Library consider this novel one of the\n> finest in the entire series. (*Spring 1927*)\n\n*Jacket B:* Uniform typographic jacket D. Text on front: “A powerful,\nunforgettable novel that the editors of the MODERN LIBRARY rank with the\nfinest in the series.” (*Fall 1929*)\n\n"
     },
     {
       "id": "139b",
@@ -1872,7 +1907,8 @@ end of the year.</p>
 }</pre></sl-details>
 
 <script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
-</div>
+
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1891,7 +1927,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

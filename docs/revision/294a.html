@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -39,7 +74,7 @@
 
 <h1>294a</h1>
 <h2>First printing (1936)</h2>
-<div class="md-block"><p>[within double rules] MAN’S FATE | (LA CONDITION HUMAINE) | [rule] |
+<p>[within double rules] MAN’S FATE | (LA CONDITION HUMAINE) | [rule] |
 BY | ANDRÉ MALRAUX | [rule] | TRANSLATED BY | HAAKON M. CHEVALIER |
 [rule] | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer A2</uvalib-modal-image-button>] | [rule] | THE MODERN LIBRARY | NEW YORK</p>
 <p>Pp. [<em>8</em>], 1–360. [1–10]<sup>16</sup> [11]<sup>8</sup>
@@ -108,7 +143,7 @@ titles. <em>Man’s Hope</em> (G56), Malraux’s other novel in the ML, sold 2,1
 copies during the same period. <em>Man’s Fate</em> did not rank among the 100
 best-selling titles in the regular ML during the twelve-month period
 November 1951–October 1952.</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1837,12 +1872,13 @@ November 1951–October 1952.</p>
 <sl-details summary="revision"><pre>{
   "id": "294a",
   "title": "First printing (1936)",
-  "full": "\n\n\\[within double rules\\] MAN’S FATE | (LA CONDITION HUMAINE) | \\[rule\\] |\nBY | ANDRÉ MALRAUX | \\[rule\\] | TRANSLATED BY | HAAKON M. CHEVALIER |\n\\[rule\\] | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer A2</uvalib-modal-image-button>\\] | \\[rule\\] | THE MODERN LIBRARY | NEW YORK\n\nPp. \\[*8*\\], 1–360. \\[1–10\\]<sup>16</sup> \\[11\\]<sup>8</sup>\n\\[12\\]<sup>16</sup>\n\n\\[*1*\\] half title; \\[*2*\\] pub. note D12; \\[*3*\\] title; \\[*4*\\]\n*Copyright,* 1934, *by* HARRISON SMITH AND | ROBERT HAAS, INC. | \\[short\ndouble rule\\] | *First Modern Library Edition* | 1936; \\[*5*\\]\nbiographical note and bibliography; \\[*6*\\] blank; \\[*7*–*8*\\] CONTENTS;\n1–4 Translator’s Introduction signed p. 4: H. M. C.; \\[5\\] Principal\nCharacters; \\[6\\] blank; \\[7\\] part title: Part One; \\[8\\] blank; 9–360\ntext.\n\n*Jacket A:* Pictorial in deep reddish orange (36) and black on cream\npaper depicting two Chinese soldiers with howitzer; borders and title in\ndeep reddish orange, other lettering in black. Signed: Cassens.\n\n> Front flap:\n>\n> No writer of our time has so vividly dramatized the living spirit of\n> revolution, nor so completely identified himself with the struggle for\n> a new social order as André Malraux. *Man’s Fate*, dealing with the\n> 1925–1927 uprising in China, is, indeed, more than a novel of the\n> fierce conflicts that tore a vast country asunder; it is a revelation\n> of man’s courage and heroism in the face of imminent annihilation.\n> Winner of the Goncourt Prize for 1933, *Man’s Fate* established André\n> Malraux as one of the leading novelists of France and the world.\n> (*Fall 1936*)\n\nChevalier translation originally published by Harrison Smith and Robert\nHaas, 1934, two years before Random House acquired the firm. ML edition\n(294a, pp. \\[*7*\\]–360) printed from offset plates photographically\nreduced from the Smith and Haas edition with page numerals “v–vi”\nremoved from contents pages; 294b–c (pp. v–360) printed letterpress from\nSmith and Haas/RH plates; 294d printed from offset plates\nphotographically reduced from the Smith and Haas edition. Published\nSeptember 1936. *WR* 26 September 1936. First printing: Not ascertained.\nDiscontinued 1973/74. Published in Vintage Books, February 1969.\n\n*Man’s Fate* was the first Smith and Haas title added to the ML after\nCerf and Klopfer absorbed the firm in April 1936.\n\nThe Smith and Haas edition measured 8⅜ x 5¾ inches with a type page of\n6⅜ by 3⅝ inches. The plates were far too large for the ML’s 6½ x 4¼ inch\nformat. To include *Man’s Fate* in the series the ML would either have\nto reset the text and make new letterpress plates or photograph a clean\ncopy of the Smith and Haas edition, reduce the type page\nphotographically, and print by offset lithography. The quality of offset\nlithographic printing in the 1930s was inferior to letterpress and the\ncost of each print run was higher, but photographing an existing book\nwas significantly cheaper than making a new typesetting. There were at\nleast two printings of 294a from offset plates, including a September\n1939 printing of 3,000 copies.\n\nThe introduction of the larger ML format in fall 1939 made it possible,\nwith uncomfortably narrow margins, to use the original letterpress\nplates for subsequent ML printings (294b–c). With a top margin that\naveraged about ¼ in. (6 mm), letterpress printings in the 1940s, 1950s,\nand early 1960s were not examples of fine bookmaking. The ML reverted to\noffset lithography in 1964 (294d) after the cost of offset printing\ndropped below that of letterpress. *Man’s Fate* is the only ML title to\nhave been printed initially by offset lithography, then by letterpress,\nand again by offset lithography. The type pages of 294d are\nphotographically reduced from an early Smith and Haas printing, making\nprintings of 294d superior to earlier ML printings in terms of\ncomfortable margins and freshness of the type.\n\nThe ML paid royalties of 5 cents a copy, either directly to Malraux or\nto Gallimard, the French publisher of *La Condition humaine*.\n\n*Man’s Fate* sold 3,376 copies during the eighteen-month period May\n1942–October 1943, placing it in the fourth quarter of ML and Giant\ntitles. *Man’s Hope* (G56), Malraux’s other novel in the ML, sold 2,143\ncopies during the same period. *Man’s Fate* did not rank among the 100\nbest-selling titles in the regular ML during the twelve-month period\nNovember 1951–October 1952.\n\n",
+  "full": "\n\n\\[within double rules\\] MAN’S FATE | (LA CONDITION HUMAINE) | \\[rule\\] |\nBY | ANDRÉ MALRAUX | \\[rule\\] | TRANSLATED BY | HAAKON M. CHEVALIER |\n\\[rule\\] | \\[torchbearer A2\\] | \\[rule\\] | THE MODERN LIBRARY | NEW YORK\n\nPp. \\[*8*\\], 1–360. \\[1–10\\]<sup>16</sup> \\[11\\]<sup>8</sup>\n\\[12\\]<sup>16</sup>\n\n\\[*1*\\] half title; \\[*2*\\] pub. note D12; \\[*3*\\] title; \\[*4*\\]\n*Copyright,* 1934, *by* HARRISON SMITH AND | ROBERT HAAS, INC. | \\[short\ndouble rule\\] | *First Modern Library Edition* | 1936; \\[*5*\\]\nbiographical note and bibliography; \\[*6*\\] blank; \\[*7*–*8*\\] CONTENTS;\n1–4 Translator’s Introduction signed p. 4: H. M. C.; \\[5\\] Principal\nCharacters; \\[6\\] blank; \\[7\\] part title: Part One; \\[8\\] blank; 9–360\ntext.\n\n*Jacket A:* Pictorial in deep reddish orange (36) and black on cream\npaper depicting two Chinese soldiers with howitzer; borders and title in\ndeep reddish orange, other lettering in black. Signed: Cassens.\n\n> Front flap:\n>\n> No writer of our time has so vividly dramatized the living spirit of\n> revolution, nor so completely identified himself with the struggle for\n> a new social order as André Malraux. *Man’s Fate*, dealing with the\n> 1925–1927 uprising in China, is, indeed, more than a novel of the\n> fierce conflicts that tore a vast country asunder; it is a revelation\n> of man’s courage and heroism in the face of imminent annihilation.\n> Winner of the Goncourt Prize for 1933, *Man’s Fate* established André\n> Malraux as one of the leading novelists of France and the world.\n> (*Fall 1936*)\n\nChevalier translation originally published by Harrison Smith and Robert\nHaas, 1934, two years before Random House acquired the firm. ML edition\n(294a, pp. \\[*7*\\]–360) printed from offset plates photographically\nreduced from the Smith and Haas edition with page numerals “v–vi”\nremoved from contents pages; 294b–c (pp. v–360) printed letterpress from\nSmith and Haas/RH plates; 294d printed from offset plates\nphotographically reduced from the Smith and Haas edition. Published\nSeptember 1936. *WR* 26 September 1936. First printing: Not ascertained.\nDiscontinued 1973/74. Published in Vintage Books, February 1969.\n\n*Man’s Fate* was the first Smith and Haas title added to the ML after\nCerf and Klopfer absorbed the firm in April 1936.\n\nThe Smith and Haas edition measured 8⅜ x 5¾ inches with a type page of\n6⅜ by 3⅝ inches. The plates were far too large for the ML’s 6½ x 4¼ inch\nformat. To include *Man’s Fate* in the series the ML would either have\nto reset the text and make new letterpress plates or photograph a clean\ncopy of the Smith and Haas edition, reduce the type page\nphotographically, and print by offset lithography. The quality of offset\nlithographic printing in the 1930s was inferior to letterpress and the\ncost of each print run was higher, but photographing an existing book\nwas significantly cheaper than making a new typesetting. There were at\nleast two printings of 294a from offset plates, including a September\n1939 printing of 3,000 copies.\n\nThe introduction of the larger ML format in fall 1939 made it possible,\nwith uncomfortably narrow margins, to use the original letterpress\nplates for subsequent ML printings (294b–c). With a top margin that\naveraged about ¼ in. (6 mm), letterpress printings in the 1940s, 1950s,\nand early 1960s were not examples of fine bookmaking. The ML reverted to\noffset lithography in 1964 (294d) after the cost of offset printing\ndropped below that of letterpress. *Man’s Fate* is the only ML title to\nhave been printed initially by offset lithography, then by letterpress,\nand again by offset lithography. The type pages of 294d are\nphotographically reduced from an early Smith and Haas printing, making\nprintings of 294d superior to earlier ML printings in terms of\ncomfortable margins and freshness of the type.\n\nThe ML paid royalties of 5 cents a copy, either directly to Malraux or\nto Gallimard, the French publisher of *La Condition humaine*.\n\n*Man’s Fate* sold 3,376 copies during the eighteen-month period May\n1942–October 1943, placing it in the fourth quarter of ML and Giant\ntitles. *Man’s Hope* (G56), Malraux’s other novel in the ML, sold 2,143\ncopies during the same period. *Man’s Fate* did not rank among the 100\nbest-selling titles in the regular ML during the twelve-month period\nNovember 1951–October 1952.\n\n",
   "year": "1936",
   "book": "294"
 }</pre></sl-details>
 
-<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script></div>
+<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1861,7 +1897,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

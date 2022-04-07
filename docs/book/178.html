@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -36,8 +71,8 @@
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/book/178.html">178</sl-breadcrumb-item>
 </sl-breadcrumb>
 
-<div class="md-block"><p>*<strong>PAUL LANDIS, ed. FOUR FAMOUS GREEK PLAYS. 1929–1950. (ML 158)</strong></p>
-<h4>178a. First printing (1929)</h4>
+<p>*<strong>PAUL LANDIS, ed. FOUR FAMOUS GREEK PLAYS. 1929–1950. (ML 158)</strong></p>
+<h4><a href='/revision/178a.html'>178a. First printing (1929)</a></h4>
 <p>[within double rules] FOUR FAMOUS | GREEK PLAYS | [rule] | EDITED,
 WITH AN INTRODUCTION | BY | PROF. PAUL LANDIS | [rule] | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer
 A2</uvalib-modal-image-button>] | [rule] | THE MODERN LIBRARY | PUBLISHERS : NEW YORK</p>
@@ -84,7 +119,7 @@ years later the ML used Murray’s translation of <em>The Frogs</em> in <em>Seve
 Famous Greek Plays</em> (439).</p>
 <p><em>Four Famous Greek Plays</em> ranked low in the second quarter of ML titles
 in terms of sales during the 18-month period May 1942–October 1943.</p>
-<h4>178b. Title page reset (c. 1941)</h4>
+<h4><a href='/revision/178b.html'>178b. Title page reset (c. 1941)</a></h4>
 <p>FOUR | FAMOUS GREEK | PLAYS | <em>Edited, with an introduction by</em> |
 <em>Professor</em> PAUL LANDIS | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D1.webp'>torchbearer D1</uvalib-modal-image-button> at right; 3-line imprint at
 left] THE | MODERN LIBRARY | NEW YORK | [rule]</p>
@@ -104,7 +139,7 @@ Front flap as 178a. (<em>Spring 1944</em>)</p>
 <p>Euripides, <em>Complete Greek Tragedies</em>, vol. 5 (1961–1973) 531</p>
 <p>Euripides, <em>Complete Greek Tragedies,</em> vol. 6 (1963–1973) 548</p>
 <p>Euripides, <em>Complete Greek Tragedies</em>, vol. 7 (1963–1973) 552</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1835,7 +1870,7 @@ Front flap as 178a. (<em>Spring 1944</em>)</p>
 </elix-carousel-with-thumbnails>
 
 <sl-details summary="book"><pre>{
-  "full": "***PAUL LANDIS, ed. FOUR FAMOUS GREEK PLAYS. 1929–1950. (ML 158)**\n\n#### 178a. First printing (1929)\n\n\\[within double rules\\] FOUR FAMOUS | GREEK PLAYS | \\[rule\\] | EDITED,\nWITH AN INTRODUCTION | BY | PROF. PAUL LANDIS | \\[rule\\] | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer\nA2</uvalib-modal-image-button>\\] | \\[rule\\] | THE MODERN LIBRARY | PUBLISHERS : NEW YORK\n\nPp. \\[i–vi\\] vii–xviii, \\[1–2\\] 3–285 \\[286\\]. \\[1–9\\]<sup>16</sup>\n\\[10\\]<sup>8</sup>\n\n\\[i\\] half title; \\[ii\\] pub. note D5; \\[iii\\] title; \\[iv\\]\n*Copyright,* 1929, *by* THE MODERN LIBRARY, INC. | \\[short double rule\\]\n| *First Modern Library Edition* | 1929; \\[v\\] CONTENTS; \\[vi\\] blank;\nvii–xviii INTRODUCTION signed p. xviii: <span class=\"smallcaps\">Paul\nLandis</span> | <span class=\"smallcaps\">Urbana, Illinois</span>, |\n*January,* 1929.; \\[1\\] part title: AGAMEMNON | BY | AESCHYLUS; \\[2\\]\nPERSONS OF THE DRAMA; 3–4 ARGUMENT; 5–285 text; \\[286\\] blank.\n\n> *Variant:* Pagination as 178a except: \\[286–294\\].\n> \\[1–9\\]<sup>16</sup> \\[10\\]<sup>12</sup>. Contents as 178a except:\n> \\[ii\\] pub. note A6; \\[iv\\] *First* statement omitted; \\[287–292\\] ML\n> list; \\[293–294\\] blank. (*Fall 1933*)\n\n*Contents:* Agamemnon, by Aeschylus; translated by Lewis Campbell –\nOedipus the King, by Sophocles; translated by F. Storr – Medea, by\nEuripides; translated by A. S. Way – The Frogs, by Aristophanes;\ntranslated by John Hookham Frere.\n\n*Jacket:* Uniform typographic jacket D. (*Spring 1929*)\n\n> Front flap:<br>\n> The glory that was Greece is nowhere so luminously reflected as in the\n> mirror of her drama. Through the masks of tragedy and comedy, nobility\n> and villainy, and all the duality of the human spirit, the life of man\n> glows to passion and grows dim. Pity and terror in Æschylus, serene\n> detachment in Sophocles, burning fervor for justice in Euripides and\n> the robust intellectual comedy of Aristophanes—these qualities remain\n> the message and the meaning of Greek drama. It is a heritage from\n> antiquity that the modern spirit needs. (*Fall 1933*)\n\nOriginal ML anthology. Publication announced for July 1929. *WR* 14\nSeptember 1929. First printing: Not ascertained. Superseded spring 1951\nby *Seven Famous Greek Plays*, ed. Whitney J. Oates and Eugene O’Neill,\nJr. (439).\n\nCerf wrote shortly after publication, “The Greek Plays has done nobly,\nand has thoroughly justified its inclusion in the series. I am still\nregretting the fact, however, that we did not get permission to use the\nGilbert Murray translations” (Cerf to Landis, 8 May 1930). Twenty-two\nyears later the ML used Murray’s translation of *The Frogs* in *Seven\nFamous Greek Plays* (439).\n\n*Four Famous Greek Plays* ranked low in the second quarter of ML titles\nin terms of sales during the 18-month period May 1942–October 1943.\n\n#### 178b. Title page reset (c. 1941)\n\nFOUR | FAMOUS GREEK | PLAYS | *Edited, with an introduction by* |\n*Professor* PAUL LANDIS | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D1.webp'>torchbearer D1</uvalib-modal-image-button> at right; 3-line imprint at\nleft\\] THE | MODERN LIBRARY | NEW YORK | \\[rule\\]\n\nPagination and collation as 178a variant. Contents as 178a variant\nexcept: \\[ii\\] blank; \\[iv\\] COPYRIGHT, 1929, BY THE MODERN LIBRARY,\nINC.; \\[293–294\\] ML Giants list. (*Spring 1944*)\n\n*Jacket:* Non-pictorial in dark red (16) and bluish gray (191) on cream\npaper with lettering in dark red and in reverse on bluish gray panel at\nupper left; series in dark red below panel against cream background.\nFront flap as 178a. (*Spring 1944*)\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\n*Seven Famous Greek Plays*, ed. Oates and O’Neill (1951–1970) 439\n\nAeschylus, *Complete Greek Tragedies*, vol. 1 (1960– ) 526\n\nAeschylus, *Complete Greek Tragedies*, vol. 2 (1962–1976) 543\n\nSophocles, *Complete Greek Tragedies*, vol. 3 (1960–1973) 527\n\nSophocles, *Complete Greek Tragedies*, vol. 4 (1961–1973) 533\n\nEuripides, *Complete Greek Tragedies*, vol. 5 (1961–1973) 531\n\nEuripides, *Complete Greek Tragedies,* vol. 6 (1963–1973) 548\n\nEuripides, *Complete Greek Tragedies*, vol. 7 (1963–1973) 552",
+  "full": "***PAUL LANDIS, ed. FOUR FAMOUS GREEK PLAYS. 1929–1950. (ML 158)**\n\n#### 178a. First printing (1929)\n\n\\[within double rules\\] FOUR FAMOUS | GREEK PLAYS | \\[rule\\] | EDITED,\nWITH AN INTRODUCTION | BY | PROF. PAUL LANDIS | \\[rule\\] | \\[torchbearer\nA2\\] | \\[rule\\] | THE MODERN LIBRARY | PUBLISHERS : NEW YORK\n\nPp. \\[i–vi\\] vii–xviii, \\[1–2\\] 3–285 \\[286\\]. \\[1–9\\]<sup>16</sup>\n\\[10\\]<sup>8</sup>\n\n\\[i\\] half title; \\[ii\\] pub. note D5; \\[iii\\] title; \\[iv\\]\n*Copyright,* 1929, *by* THE MODERN LIBRARY, INC. | \\[short double rule\\]\n| *First Modern Library Edition* | 1929; \\[v\\] CONTENTS; \\[vi\\] blank;\nvii–xviii INTRODUCTION signed p. xviii: <span class=\"smallcaps\">Paul\nLandis</span> | <span class=\"smallcaps\">Urbana, Illinois</span>, |\n*January,* 1929.; \\[1\\] part title: AGAMEMNON | BY | AESCHYLUS; \\[2\\]\nPERSONS OF THE DRAMA; 3–4 ARGUMENT; 5–285 text; \\[286\\] blank.\n\n> *Variant:* Pagination as 178a except: \\[286–294\\].\n> \\[1–9\\]<sup>16</sup> \\[10\\]<sup>12</sup>. Contents as 178a except:\n> \\[ii\\] pub. note A6; \\[iv\\] *First* statement omitted; \\[287–292\\] ML\n> list; \\[293–294\\] blank. (*Fall 1933*)\n\n*Contents:* Agamemnon, by Aeschylus; translated by Lewis Campbell –\nOedipus the King, by Sophocles; translated by F. Storr – Medea, by\nEuripides; translated by A. S. Way – The Frogs, by Aristophanes;\ntranslated by John Hookham Frere.\n\n*Jacket:* Uniform typographic jacket D. (*Spring 1929*)\n\n> Front flap:<br>\n> The glory that was Greece is nowhere so luminously reflected as in the\n> mirror of her drama. Through the masks of tragedy and comedy, nobility\n> and villainy, and all the duality of the human spirit, the life of man\n> glows to passion and grows dim. Pity and terror in Æschylus, serene\n> detachment in Sophocles, burning fervor for justice in Euripides and\n> the robust intellectual comedy of Aristophanes—these qualities remain\n> the message and the meaning of Greek drama. It is a heritage from\n> antiquity that the modern spirit needs. (*Fall 1933*)\n\nOriginal ML anthology. Publication announced for July 1929. *WR* 14\nSeptember 1929. First printing: Not ascertained. Superseded spring 1951\nby *Seven Famous Greek Plays*, ed. Whitney J. Oates and Eugene O’Neill,\nJr. (439).\n\nCerf wrote shortly after publication, “The Greek Plays has done nobly,\nand has thoroughly justified its inclusion in the series. I am still\nregretting the fact, however, that we did not get permission to use the\nGilbert Murray translations” (Cerf to Landis, 8 May 1930). Twenty-two\nyears later the ML used Murray’s translation of *The Frogs* in *Seven\nFamous Greek Plays* (439).\n\n*Four Famous Greek Plays* ranked low in the second quarter of ML titles\nin terms of sales during the 18-month period May 1942–October 1943.\n\n#### 178b. Title page reset (c. 1941)\n\nFOUR | FAMOUS GREEK | PLAYS | *Edited, with an introduction by* |\n*Professor* PAUL LANDIS | \\[torchbearer D1 at right; 3-line imprint at\nleft\\] THE | MODERN LIBRARY | NEW YORK | \\[rule\\]\n\nPagination and collation as 178a variant. Contents as 178a variant\nexcept: \\[ii\\] blank; \\[iv\\] COPYRIGHT, 1929, BY THE MODERN LIBRARY,\nINC.; \\[293–294\\] ML Giants list. (*Spring 1944*)\n\n*Jacket:* Non-pictorial in dark red (16) and bluish gray (191) on cream\npaper with lettering in dark red and in reverse on bluish gray panel at\nupper left; series in dark red below panel against cream background.\nFront flap as 178a. (*Spring 1944*)\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\n*Seven Famous Greek Plays*, ed. Oates and O’Neill (1951–1970) 439\n\nAeschylus, *Complete Greek Tragedies*, vol. 1 (1960– ) 526\n\nAeschylus, *Complete Greek Tragedies*, vol. 2 (1962–1976) 543\n\nSophocles, *Complete Greek Tragedies*, vol. 3 (1960–1973) 527\n\nSophocles, *Complete Greek Tragedies*, vol. 4 (1961–1973) 533\n\nEuripides, *Complete Greek Tragedies*, vol. 5 (1961–1973) 531\n\nEuripides, *Complete Greek Tragedies,* vol. 6 (1963–1973) 548\n\nEuripides, *Complete Greek Tragedies*, vol. 7 (1963–1973) 552",
   "id": "178",
   "year": "1929",
   "title": "PAUL LANDIS, ed. FOUR FAMOUS GREEK PLAYS. 1929–1950. (ML 158)",
@@ -1843,18 +1878,19 @@ Front flap as 178a. (<em>Spring 1944</em>)</p>
     {
       "id": "178a",
       "title": "First printing (1929)",
-      "full": "\n\n\\[within double rules\\] FOUR FAMOUS | GREEK PLAYS | \\[rule\\] | EDITED,\nWITH AN INTRODUCTION | BY | PROF. PAUL LANDIS | \\[rule\\] | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer\nA2</uvalib-modal-image-button>\\] | \\[rule\\] | THE MODERN LIBRARY | PUBLISHERS : NEW YORK\n\nPp. \\[i–vi\\] vii–xviii, \\[1–2\\] 3–285 \\[286\\]. \\[1–9\\]<sup>16</sup>\n\\[10\\]<sup>8</sup>\n\n\\[i\\] half title; \\[ii\\] pub. note D5; \\[iii\\] title; \\[iv\\]\n*Copyright,* 1929, *by* THE MODERN LIBRARY, INC. | \\[short double rule\\]\n| *First Modern Library Edition* | 1929; \\[v\\] CONTENTS; \\[vi\\] blank;\nvii–xviii INTRODUCTION signed p. xviii: <span class=\"smallcaps\">Paul\nLandis</span> | <span class=\"smallcaps\">Urbana, Illinois</span>, |\n*January,* 1929.; \\[1\\] part title: AGAMEMNON | BY | AESCHYLUS; \\[2\\]\nPERSONS OF THE DRAMA; 3–4 ARGUMENT; 5–285 text; \\[286\\] blank.\n\n> *Variant:* Pagination as 178a except: \\[286–294\\].\n> \\[1–9\\]<sup>16</sup> \\[10\\]<sup>12</sup>. Contents as 178a except:\n> \\[ii\\] pub. note A6; \\[iv\\] *First* statement omitted; \\[287–292\\] ML\n> list; \\[293–294\\] blank. (*Fall 1933*)\n\n*Contents:* Agamemnon, by Aeschylus; translated by Lewis Campbell –\nOedipus the King, by Sophocles; translated by F. Storr – Medea, by\nEuripides; translated by A. S. Way – The Frogs, by Aristophanes;\ntranslated by John Hookham Frere.\n\n*Jacket:* Uniform typographic jacket D. (*Spring 1929*)\n\n> Front flap:<br>\n> The glory that was Greece is nowhere so luminously reflected as in the\n> mirror of her drama. Through the masks of tragedy and comedy, nobility\n> and villainy, and all the duality of the human spirit, the life of man\n> glows to passion and grows dim. Pity and terror in Æschylus, serene\n> detachment in Sophocles, burning fervor for justice in Euripides and\n> the robust intellectual comedy of Aristophanes—these qualities remain\n> the message and the meaning of Greek drama. It is a heritage from\n> antiquity that the modern spirit needs. (*Fall 1933*)\n\nOriginal ML anthology. Publication announced for July 1929. *WR* 14\nSeptember 1929. First printing: Not ascertained. Superseded spring 1951\nby *Seven Famous Greek Plays*, ed. Whitney J. Oates and Eugene O’Neill,\nJr. (439).\n\nCerf wrote shortly after publication, “The Greek Plays has done nobly,\nand has thoroughly justified its inclusion in the series. I am still\nregretting the fact, however, that we did not get permission to use the\nGilbert Murray translations” (Cerf to Landis, 8 May 1930). Twenty-two\nyears later the ML used Murray’s translation of *The Frogs* in *Seven\nFamous Greek Plays* (439).\n\n*Four Famous Greek Plays* ranked low in the second quarter of ML titles\nin terms of sales during the 18-month period May 1942–October 1943.\n\n"
+      "full": "\n\n\\[within double rules\\] FOUR FAMOUS | GREEK PLAYS | \\[rule\\] | EDITED,\nWITH AN INTRODUCTION | BY | PROF. PAUL LANDIS | \\[rule\\] | \\[torchbearer\nA2\\] | \\[rule\\] | THE MODERN LIBRARY | PUBLISHERS : NEW YORK\n\nPp. \\[i–vi\\] vii–xviii, \\[1–2\\] 3–285 \\[286\\]. \\[1–9\\]<sup>16</sup>\n\\[10\\]<sup>8</sup>\n\n\\[i\\] half title; \\[ii\\] pub. note D5; \\[iii\\] title; \\[iv\\]\n*Copyright,* 1929, *by* THE MODERN LIBRARY, INC. | \\[short double rule\\]\n| *First Modern Library Edition* | 1929; \\[v\\] CONTENTS; \\[vi\\] blank;\nvii–xviii INTRODUCTION signed p. xviii: <span class=\"smallcaps\">Paul\nLandis</span> | <span class=\"smallcaps\">Urbana, Illinois</span>, |\n*January,* 1929.; \\[1\\] part title: AGAMEMNON | BY | AESCHYLUS; \\[2\\]\nPERSONS OF THE DRAMA; 3–4 ARGUMENT; 5–285 text; \\[286\\] blank.\n\n> *Variant:* Pagination as 178a except: \\[286–294\\].\n> \\[1–9\\]<sup>16</sup> \\[10\\]<sup>12</sup>. Contents as 178a except:\n> \\[ii\\] pub. note A6; \\[iv\\] *First* statement omitted; \\[287–292\\] ML\n> list; \\[293–294\\] blank. (*Fall 1933*)\n\n*Contents:* Agamemnon, by Aeschylus; translated by Lewis Campbell –\nOedipus the King, by Sophocles; translated by F. Storr – Medea, by\nEuripides; translated by A. S. Way – The Frogs, by Aristophanes;\ntranslated by John Hookham Frere.\n\n*Jacket:* Uniform typographic jacket D. (*Spring 1929*)\n\n> Front flap:<br>\n> The glory that was Greece is nowhere so luminously reflected as in the\n> mirror of her drama. Through the masks of tragedy and comedy, nobility\n> and villainy, and all the duality of the human spirit, the life of man\n> glows to passion and grows dim. Pity and terror in Æschylus, serene\n> detachment in Sophocles, burning fervor for justice in Euripides and\n> the robust intellectual comedy of Aristophanes—these qualities remain\n> the message and the meaning of Greek drama. It is a heritage from\n> antiquity that the modern spirit needs. (*Fall 1933*)\n\nOriginal ML anthology. Publication announced for July 1929. *WR* 14\nSeptember 1929. First printing: Not ascertained. Superseded spring 1951\nby *Seven Famous Greek Plays*, ed. Whitney J. Oates and Eugene O’Neill,\nJr. (439).\n\nCerf wrote shortly after publication, “The Greek Plays has done nobly,\nand has thoroughly justified its inclusion in the series. I am still\nregretting the fact, however, that we did not get permission to use the\nGilbert Murray translations” (Cerf to Landis, 8 May 1930). Twenty-two\nyears later the ML used Murray’s translation of *The Frogs* in *Seven\nFamous Greek Plays* (439).\n\n*Four Famous Greek Plays* ranked low in the second quarter of ML titles\nin terms of sales during the 18-month period May 1942–October 1943.\n\n"
     },
     {
       "id": "178b",
       "title": "Title page reset (c. 1941)",
-      "full": "\n\nFOUR | FAMOUS GREEK | PLAYS | *Edited, with an introduction by* |\n*Professor* PAUL LANDIS | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D1.webp'>torchbearer D1</uvalib-modal-image-button> at right; 3-line imprint at\nleft\\] THE | MODERN LIBRARY | NEW YORK | \\[rule\\]\n\nPagination and collation as 178a variant. Contents as 178a variant\nexcept: \\[ii\\] blank; \\[iv\\] COPYRIGHT, 1929, BY THE MODERN LIBRARY,\nINC.; \\[293–294\\] ML Giants list. (*Spring 1944*)\n\n*Jacket:* Non-pictorial in dark red (16) and bluish gray (191) on cream\npaper with lettering in dark red and in reverse on bluish gray panel at\nupper left; series in dark red below panel against cream background.\nFront flap as 178a. (*Spring 1944*)\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\n*Seven Famous Greek Plays*, ed. Oates and O’Neill (1951–1970) 439\n\nAeschylus, *Complete Greek Tragedies*, vol. 1 (1960– ) 526\n\nAeschylus, *Complete Greek Tragedies*, vol. 2 (1962–1976) 543\n\nSophocles, *Complete Greek Tragedies*, vol. 3 (1960–1973) 527\n\nSophocles, *Complete Greek Tragedies*, vol. 4 (1961–1973) 533\n\nEuripides, *Complete Greek Tragedies*, vol. 5 (1961–1973) 531\n\nEuripides, *Complete Greek Tragedies,* vol. 6 (1963–1973) 548\n\nEuripides, *Complete Greek Tragedies*, vol. 7 (1963–1973) 552"
+      "full": "\n\nFOUR | FAMOUS GREEK | PLAYS | *Edited, with an introduction by* |\n*Professor* PAUL LANDIS | \\[torchbearer D1 at right; 3-line imprint at\nleft\\] THE | MODERN LIBRARY | NEW YORK | \\[rule\\]\n\nPagination and collation as 178a variant. Contents as 178a variant\nexcept: \\[ii\\] blank; \\[iv\\] COPYRIGHT, 1929, BY THE MODERN LIBRARY,\nINC.; \\[293–294\\] ML Giants list. (*Spring 1944*)\n\n*Jacket:* Non-pictorial in dark red (16) and bluish gray (191) on cream\npaper with lettering in dark red and in reverse on bluish gray panel at\nupper left; series in dark red below panel against cream background.\nFront flap as 178a. (*Spring 1944*)\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\n*Seven Famous Greek Plays*, ed. Oates and O’Neill (1951–1970) 439\n\nAeschylus, *Complete Greek Tragedies*, vol. 1 (1960– ) 526\n\nAeschylus, *Complete Greek Tragedies*, vol. 2 (1962–1976) 543\n\nSophocles, *Complete Greek Tragedies*, vol. 3 (1960–1973) 527\n\nSophocles, *Complete Greek Tragedies*, vol. 4 (1961–1973) 533\n\nEuripides, *Complete Greek Tragedies*, vol. 5 (1961–1973) 531\n\nEuripides, *Complete Greek Tragedies,* vol. 6 (1963–1973) 548\n\nEuripides, *Complete Greek Tragedies*, vol. 7 (1963–1973) 552"
     }
   ]
 }</pre></sl-details>
 
 <script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
-</div>
+
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1873,7 +1909,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

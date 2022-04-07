@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -36,9 +71,9 @@
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/book/297.html">297</sl-breadcrumb-item>
 </sl-breadcrumb>
 
-<div class="md-block"><p><strong>WILLIAM MAKEPEACE THACKERAY. THE HISTORY OF HENRY ESMOND, ESQ.
+<p><strong>WILLIAM MAKEPEACE THACKERAY. THE HISTORY OF HENRY ESMOND, ESQ.
 1936–1967.</strong> <strong>(ML 80)</strong></p>
-<h4>297a. First printing (1936)</h4>
+<h4><a href='/revision/297a.html'>297a. First printing (1936)</a></h4>
 <p>[within double rules] THE HISTORY OF | HENRY ESMOND, <span
 class="smallcaps">esq</span>. | [rule] | BY | 1WILLIAM MAKEPEACE
 THACKERAY | [rule] | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A3.webp'>torchbearer A3</uvalib-modal-image-button>] | [rule] | THE MODERN
@@ -76,7 +111,7 @@ best-selling titles in the regular ML during the twelve-month period
 November 1951‑October 1952. Thackeray’s <em>Vanity Fair</em> was solidly in the
 first quarter of ML and Giant titles at both periods with sales of
 10,067 copies during 1942–43 and 5,390 copies during 1951–52.</p>
-<h4>297b. Title page reset (c. 1940)</h4>
+<h4><a href='/revision/297b.html'>297b. Title page reset (c. 1940)</a></h4>
 <p>THE HISTORY OF | <em>Henry Esmond</em> | ESQUIRE | <em>by</em> | WILLIAM | MAKEPEACE |
 THACKERAY | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D3.webp'>torchbearer D3</uvalib-modal-image-button> at right; 3-line imprint at left] THE |
 MODERN LIBRARY | NEW YORK | [rule]</p>
@@ -91,7 +126,7 @@ green and brilliant yellow on inset oval black panel framed in
 intertwined wavy lines; background in vivid yellowish green with
 decorations in black and reverse. Signed: E. McKnight Kauffer. Front
 flap as 297a. (<em>Fall 1945</em>)</p>
-<h4>297c. Ray introduction added (1950)</h4>
+<h4><a href='/revision/297c.html'>297c. Ray introduction added (1950)</a></h4>
 <p>THE HISTORY OF | Henry Esmond | ESQUIRE | [decorative rule] | BY |
 <em>William Makepeace Thackeray</em> | INTRODUCTION BY | <em>Gordon N. Ray</em> |
 PROFESSOR OF ENGLISH AND | HEAD, DEPARTMENT OF ENGLISH | UNIVERSITY OF
@@ -114,7 +149,7 @@ first edition title and dedication pages were included at Ray’s
 recommendation.</p>
 <p><span class="smallcaps">Also in the Modern Library</span></p>
 <p>Thackeray, <em>Vanity Fair</em> (1933–1970) 258</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1843,7 +1878,7 @@ recommendation.</p>
 </elix-carousel-with-thumbnails>
 
 <sl-details summary="book"><pre>{
-  "full": "**WILLIAM MAKEPEACE THACKERAY. THE HISTORY OF HENRY ESMOND, ESQ.\n1936–1967.** **(ML 80)**\n\n#### 297a. First printing (1936)\n\n\\[within double rules\\] THE HISTORY OF | HENRY ESMOND, <span\nclass=\"smallcaps\">esq</span>. | \\[rule\\] | BY | 1WILLIAM MAKEPEACE\nTHACKERAY | \\[rule\\] | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A3.webp'>torchbearer A3</uvalib-modal-image-button>\\] | \\[rule\\] | THE MODERN\nLIBRARY | NEW YORK\n\nPp. \\[i–vi\\] vii–ix \\[x\\] 11–615 \\[616\\]. \\[1–18\\]<sup>16</sup>\n\\[19–20\\]<sup>8</sup> \\[21\\]<sup>4</sup>\n\n\\[i\\] half title; \\[ii\\] pub. note D12; \\[iii\\] title; \\[iv\\] *First\nModern Library Edition* | 1936 | \\[short double rule\\]; \\[v\\]\nbiographical note; \\[vi\\] blank; vii–ix CONTENTS; \\[x\\] blank, 11–17\nPREFACE | The Esmonds of Virginia; \\[18\\] blank; \\[19\\] part title: Book\nI | THE EARLY YOUTH OF HENRY ESMOND, UP TO THE TIME | OF HIS LEAVING\nTRINITY COLLEGE, IN CAMBRIDGE; \\[20\\] blank; 21–615 text; \\[616\\] blank.\n\n*Jacket:* Pictorial in strong yellow green (117) and black on cream\npaper depicting a garden with a man in wig and knee breeches bowing to a\nwoman holding a fan; borders in strong yellow green, lettering in black.\nSigned: Cassens.\n\n> Front flap:\n>\n> All Thackeray enthusiasts, and especially readers of *Vanity Fair*\n> (No. 131), will welcome the addition of *The History of Henry Esmond,\n> Esq.*, to the Modern Library series. This romance of a time past\n> embodies all the qualities by which Thackeray has endeared himself to\n> the English-speaking world for a century. Its spontaneous wit and\n> charm hold an equal fascination for those who have made a lifetime\n> habit of reading Thackeray as well as for those who are acquiring the\n> fortunate habit now. (*Fall 1936*)\n\nML edition printed from plates made from a new typesetting. Published\nDecember 1936. *WR* 12 December 1936. First printing: Not ascertained.\nDiscontinued 1967.\n\n*The History of Henry Esmond* sold 4,409 copies during the\neighteen-month period May 1942–October 1943, placing it in the third\nquarter of ML and Giant titles. It did not rank among the 100\nbest-selling titles in the regular ML during the twelve-month period\nNovember 1951‑October 1952. Thackeray’s *Vanity Fair* was solidly in the\nfirst quarter of ML and Giant titles at both periods with sales of\n10,067 copies during 1942–43 and 5,390 copies during 1951–52.\n\n#### 297b. Title page reset (c. 1940)\n\nTHE HISTORY OF | *Henry Esmond* | ESQUIRE | *by* | WILLIAM | MAKEPEACE |\nTHACKERAY | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D3.webp'>torchbearer D3</uvalib-modal-image-button> at right; 3-line imprint at left\\] THE |\nMODERN LIBRARY | NEW YORK | \\[rule\\]\n\nPagination as 297a except: \\[616–624\\]. \\[1–19\\]<sup>16</sup>\n\\[20\\]<sup>8</sup>\n\nContents as 297a except: \\[ii\\] blank; \\[iv\\] publication and\nmanufacturing statements; \\[617–622\\] ML list; \\[623–624\\] ML Giants\nlist. (*Spring 1946*)\n\n*Jacket:* Non-pictorial in vivid yellowish green (129), brilliant yellow\n(83) and black on coated white paper with lettering in vivid yellowish\ngreen and brilliant yellow on inset oval black panel framed in\nintertwined wavy lines; background in vivid yellowish green with\ndecorations in black and reverse. Signed: E. McKnight Kauffer. Front\nflap as 297a. (*Fall 1945*)\n\n#### 297c. Ray introduction added (1950)\n\nTHE HISTORY OF | Henry Esmond | ESQUIRE | \\[decorative rule\\] | BY |\n*William Makepeace Thackeray* | INTRODUCTION BY | *Gordon N. Ray* |\nPROFESSOR OF ENGLISH AND | HEAD, DEPARTMENT OF ENGLISH | UNIVERSITY OF\nILLINOIS | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/E5.webp'>torchbearer E5</uvalib-modal-image-button>\\] | The Modern Library · *New York*\n\nPp. \\[i–iv\\] v–xxxvii \\[xxxviii\\], \\[19–20\\] 21–615 \\[616–620\\].\n\\[1–20\\]<sup>16</sup>\n\n\\[i\\] half title; \\[ii\\] blank; \\[iii\\] title; \\[iv\\] *Copyright, 1950,\nby Random House, Inc.*; v–xxi INTRODUCTION | By Gordon N. Ray; \\[xxii\\]\nblank; xxiii BIBLIOGRAPHICAL NOTE; \\[xxiv\\] genealogical table of the\nEsmond family; \\[xxv\\] facsimile title page of the first edition\n(London, 1852); \\[xxvi\\] facsimile dedication page of the first edition;\nxxvii–xxix CONTENTS; \\[xxx\\] blank; xxxi–xxxvii PREFACE | The Esmonds of\nVirginia; \\[xxxviii\\] blank; \\[19\\]–615 as 297a; \\[616–620\\] blank.\n\n*Jacket:* As 297b. (*Fall 1950*) Front flap slightly revised. (*Fall\n1960*)\n\nOriginally published 1950 in MLCE and subsequently in the regular ML.\nRay received $150 for the introduction (Stein to Ray, 25 January 1950).\nThe genealogical table of the Esmond family and the facsimiles of the\nfirst edition title and dedication pages were included at Ray’s\nrecommendation.\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\nThackeray, *Vanity Fair* (1933–1970) 258",
+  "full": "**WILLIAM MAKEPEACE THACKERAY. THE HISTORY OF HENRY ESMOND, ESQ.\n1936–1967.** **(ML 80)**\n\n#### 297a. First printing (1936)\n\n\\[within double rules\\] THE HISTORY OF | HENRY ESMOND, <span\nclass=\"smallcaps\">esq</span>. | \\[rule\\] | BY | 1WILLIAM MAKEPEACE\nTHACKERAY | \\[rule\\] | \\[torchbearer A3\\] | \\[rule\\] | THE MODERN\nLIBRARY | NEW YORK\n\nPp. \\[i–vi\\] vii–ix \\[x\\] 11–615 \\[616\\]. \\[1–18\\]<sup>16</sup>\n\\[19–20\\]<sup>8</sup> \\[21\\]<sup>4</sup>\n\n\\[i\\] half title; \\[ii\\] pub. note D12; \\[iii\\] title; \\[iv\\] *First\nModern Library Edition* | 1936 | \\[short double rule\\]; \\[v\\]\nbiographical note; \\[vi\\] blank; vii–ix CONTENTS; \\[x\\] blank, 11–17\nPREFACE | The Esmonds of Virginia; \\[18\\] blank; \\[19\\] part title: Book\nI | THE EARLY YOUTH OF HENRY ESMOND, UP TO THE TIME | OF HIS LEAVING\nTRINITY COLLEGE, IN CAMBRIDGE; \\[20\\] blank; 21–615 text; \\[616\\] blank.\n\n*Jacket:* Pictorial in strong yellow green (117) and black on cream\npaper depicting a garden with a man in wig and knee breeches bowing to a\nwoman holding a fan; borders in strong yellow green, lettering in black.\nSigned: Cassens.\n\n> Front flap:\n>\n> All Thackeray enthusiasts, and especially readers of *Vanity Fair*\n> (No. 131), will welcome the addition of *The History of Henry Esmond,\n> Esq.*, to the Modern Library series. This romance of a time past\n> embodies all the qualities by which Thackeray has endeared himself to\n> the English-speaking world for a century. Its spontaneous wit and\n> charm hold an equal fascination for those who have made a lifetime\n> habit of reading Thackeray as well as for those who are acquiring the\n> fortunate habit now. (*Fall 1936*)\n\nML edition printed from plates made from a new typesetting. Published\nDecember 1936. *WR* 12 December 1936. First printing: Not ascertained.\nDiscontinued 1967.\n\n*The History of Henry Esmond* sold 4,409 copies during the\neighteen-month period May 1942–October 1943, placing it in the third\nquarter of ML and Giant titles. It did not rank among the 100\nbest-selling titles in the regular ML during the twelve-month period\nNovember 1951‑October 1952. Thackeray’s *Vanity Fair* was solidly in the\nfirst quarter of ML and Giant titles at both periods with sales of\n10,067 copies during 1942–43 and 5,390 copies during 1951–52.\n\n#### 297b. Title page reset (c. 1940)\n\nTHE HISTORY OF | *Henry Esmond* | ESQUIRE | *by* | WILLIAM | MAKEPEACE |\nTHACKERAY | \\[torchbearer D3 at right; 3-line imprint at left\\] THE |\nMODERN LIBRARY | NEW YORK | \\[rule\\]\n\nPagination as 297a except: \\[616–624\\]. \\[1–19\\]<sup>16</sup>\n\\[20\\]<sup>8</sup>\n\nContents as 297a except: \\[ii\\] blank; \\[iv\\] publication and\nmanufacturing statements; \\[617–622\\] ML list; \\[623–624\\] ML Giants\nlist. (*Spring 1946*)\n\n*Jacket:* Non-pictorial in vivid yellowish green (129), brilliant yellow\n(83) and black on coated white paper with lettering in vivid yellowish\ngreen and brilliant yellow on inset oval black panel framed in\nintertwined wavy lines; background in vivid yellowish green with\ndecorations in black and reverse. Signed: E. McKnight Kauffer. Front\nflap as 297a. (*Fall 1945*)\n\n#### 297c. Ray introduction added (1950)\n\nTHE HISTORY OF | Henry Esmond | ESQUIRE | \\[decorative rule\\] | BY |\n*William Makepeace Thackeray* | INTRODUCTION BY | *Gordon N. Ray* |\nPROFESSOR OF ENGLISH AND | HEAD, DEPARTMENT OF ENGLISH | UNIVERSITY OF\nILLINOIS | \\[torchbearer E5\\] | The Modern Library · *New York*\n\nPp. \\[i–iv\\] v–xxxvii \\[xxxviii\\], \\[19–20\\] 21–615 \\[616–620\\].\n\\[1–20\\]<sup>16</sup>\n\n\\[i\\] half title; \\[ii\\] blank; \\[iii\\] title; \\[iv\\] *Copyright, 1950,\nby Random House, Inc.*; v–xxi INTRODUCTION | By Gordon N. Ray; \\[xxii\\]\nblank; xxiii BIBLIOGRAPHICAL NOTE; \\[xxiv\\] genealogical table of the\nEsmond family; \\[xxv\\] facsimile title page of the first edition\n(London, 1852); \\[xxvi\\] facsimile dedication page of the first edition;\nxxvii–xxix CONTENTS; \\[xxx\\] blank; xxxi–xxxvii PREFACE | The Esmonds of\nVirginia; \\[xxxviii\\] blank; \\[19\\]–615 as 297a; \\[616–620\\] blank.\n\n*Jacket:* As 297b. (*Fall 1950*) Front flap slightly revised. (*Fall\n1960*)\n\nOriginally published 1950 in MLCE and subsequently in the regular ML.\nRay received $150 for the introduction (Stein to Ray, 25 January 1950).\nThe genealogical table of the Esmond family and the facsimiles of the\nfirst edition title and dedication pages were included at Ray’s\nrecommendation.\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\nThackeray, *Vanity Fair* (1933–1970) 258",
   "id": "297",
   "year": "1936",
   "title": "WILLIAM MAKEPEACE THACKERAY. THE HISTORY OF HENRY ESMOND, ESQ. 1936–1967.     (ML 80)",
@@ -1851,23 +1886,24 @@ recommendation.</p>
     {
       "id": "297a",
       "title": "First printing (1936)",
-      "full": "\n\n\\[within double rules\\] THE HISTORY OF | HENRY ESMOND, <span\nclass=\"smallcaps\">esq</span>. | \\[rule\\] | BY | 1WILLIAM MAKEPEACE\nTHACKERAY | \\[rule\\] | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A3.webp'>torchbearer A3</uvalib-modal-image-button>\\] | \\[rule\\] | THE MODERN\nLIBRARY | NEW YORK\n\nPp. \\[i–vi\\] vii–ix \\[x\\] 11–615 \\[616\\]. \\[1–18\\]<sup>16</sup>\n\\[19–20\\]<sup>8</sup> \\[21\\]<sup>4</sup>\n\n\\[i\\] half title; \\[ii\\] pub. note D12; \\[iii\\] title; \\[iv\\] *First\nModern Library Edition* | 1936 | \\[short double rule\\]; \\[v\\]\nbiographical note; \\[vi\\] blank; vii–ix CONTENTS; \\[x\\] blank, 11–17\nPREFACE | The Esmonds of Virginia; \\[18\\] blank; \\[19\\] part title: Book\nI | THE EARLY YOUTH OF HENRY ESMOND, UP TO THE TIME | OF HIS LEAVING\nTRINITY COLLEGE, IN CAMBRIDGE; \\[20\\] blank; 21–615 text; \\[616\\] blank.\n\n*Jacket:* Pictorial in strong yellow green (117) and black on cream\npaper depicting a garden with a man in wig and knee breeches bowing to a\nwoman holding a fan; borders in strong yellow green, lettering in black.\nSigned: Cassens.\n\n> Front flap:\n>\n> All Thackeray enthusiasts, and especially readers of *Vanity Fair*\n> (No. 131), will welcome the addition of *The History of Henry Esmond,\n> Esq.*, to the Modern Library series. This romance of a time past\n> embodies all the qualities by which Thackeray has endeared himself to\n> the English-speaking world for a century. Its spontaneous wit and\n> charm hold an equal fascination for those who have made a lifetime\n> habit of reading Thackeray as well as for those who are acquiring the\n> fortunate habit now. (*Fall 1936*)\n\nML edition printed from plates made from a new typesetting. Published\nDecember 1936. *WR* 12 December 1936. First printing: Not ascertained.\nDiscontinued 1967.\n\n*The History of Henry Esmond* sold 4,409 copies during the\neighteen-month period May 1942–October 1943, placing it in the third\nquarter of ML and Giant titles. It did not rank among the 100\nbest-selling titles in the regular ML during the twelve-month period\nNovember 1951‑October 1952. Thackeray’s *Vanity Fair* was solidly in the\nfirst quarter of ML and Giant titles at both periods with sales of\n10,067 copies during 1942–43 and 5,390 copies during 1951–52.\n\n"
+      "full": "\n\n\\[within double rules\\] THE HISTORY OF | HENRY ESMOND, <span\nclass=\"smallcaps\">esq</span>. | \\[rule\\] | BY | 1WILLIAM MAKEPEACE\nTHACKERAY | \\[rule\\] | \\[torchbearer A3\\] | \\[rule\\] | THE MODERN\nLIBRARY | NEW YORK\n\nPp. \\[i–vi\\] vii–ix \\[x\\] 11–615 \\[616\\]. \\[1–18\\]<sup>16</sup>\n\\[19–20\\]<sup>8</sup> \\[21\\]<sup>4</sup>\n\n\\[i\\] half title; \\[ii\\] pub. note D12; \\[iii\\] title; \\[iv\\] *First\nModern Library Edition* | 1936 | \\[short double rule\\]; \\[v\\]\nbiographical note; \\[vi\\] blank; vii–ix CONTENTS; \\[x\\] blank, 11–17\nPREFACE | The Esmonds of Virginia; \\[18\\] blank; \\[19\\] part title: Book\nI | THE EARLY YOUTH OF HENRY ESMOND, UP TO THE TIME | OF HIS LEAVING\nTRINITY COLLEGE, IN CAMBRIDGE; \\[20\\] blank; 21–615 text; \\[616\\] blank.\n\n*Jacket:* Pictorial in strong yellow green (117) and black on cream\npaper depicting a garden with a man in wig and knee breeches bowing to a\nwoman holding a fan; borders in strong yellow green, lettering in black.\nSigned: Cassens.\n\n> Front flap:\n>\n> All Thackeray enthusiasts, and especially readers of *Vanity Fair*\n> (No. 131), will welcome the addition of *The History of Henry Esmond,\n> Esq.*, to the Modern Library series. This romance of a time past\n> embodies all the qualities by which Thackeray has endeared himself to\n> the English-speaking world for a century. Its spontaneous wit and\n> charm hold an equal fascination for those who have made a lifetime\n> habit of reading Thackeray as well as for those who are acquiring the\n> fortunate habit now. (*Fall 1936*)\n\nML edition printed from plates made from a new typesetting. Published\nDecember 1936. *WR* 12 December 1936. First printing: Not ascertained.\nDiscontinued 1967.\n\n*The History of Henry Esmond* sold 4,409 copies during the\neighteen-month period May 1942–October 1943, placing it in the third\nquarter of ML and Giant titles. It did not rank among the 100\nbest-selling titles in the regular ML during the twelve-month period\nNovember 1951‑October 1952. Thackeray’s *Vanity Fair* was solidly in the\nfirst quarter of ML and Giant titles at both periods with sales of\n10,067 copies during 1942–43 and 5,390 copies during 1951–52.\n\n"
     },
     {
       "id": "297b",
       "title": "Title page reset (c. 1940)",
-      "full": "\n\nTHE HISTORY OF | *Henry Esmond* | ESQUIRE | *by* | WILLIAM | MAKEPEACE |\nTHACKERAY | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D3.webp'>torchbearer D3</uvalib-modal-image-button> at right; 3-line imprint at left\\] THE |\nMODERN LIBRARY | NEW YORK | \\[rule\\]\n\nPagination as 297a except: \\[616–624\\]. \\[1–19\\]<sup>16</sup>\n\\[20\\]<sup>8</sup>\n\nContents as 297a except: \\[ii\\] blank; \\[iv\\] publication and\nmanufacturing statements; \\[617–622\\] ML list; \\[623–624\\] ML Giants\nlist. (*Spring 1946*)\n\n*Jacket:* Non-pictorial in vivid yellowish green (129), brilliant yellow\n(83) and black on coated white paper with lettering in vivid yellowish\ngreen and brilliant yellow on inset oval black panel framed in\nintertwined wavy lines; background in vivid yellowish green with\ndecorations in black and reverse. Signed: E. McKnight Kauffer. Front\nflap as 297a. (*Fall 1945*)\n\n"
+      "full": "\n\nTHE HISTORY OF | *Henry Esmond* | ESQUIRE | *by* | WILLIAM | MAKEPEACE |\nTHACKERAY | \\[torchbearer D3 at right; 3-line imprint at left\\] THE |\nMODERN LIBRARY | NEW YORK | \\[rule\\]\n\nPagination as 297a except: \\[616–624\\]. \\[1–19\\]<sup>16</sup>\n\\[20\\]<sup>8</sup>\n\nContents as 297a except: \\[ii\\] blank; \\[iv\\] publication and\nmanufacturing statements; \\[617–622\\] ML list; \\[623–624\\] ML Giants\nlist. (*Spring 1946*)\n\n*Jacket:* Non-pictorial in vivid yellowish green (129), brilliant yellow\n(83) and black on coated white paper with lettering in vivid yellowish\ngreen and brilliant yellow on inset oval black panel framed in\nintertwined wavy lines; background in vivid yellowish green with\ndecorations in black and reverse. Signed: E. McKnight Kauffer. Front\nflap as 297a. (*Fall 1945*)\n\n"
     },
     {
       "id": "297c",
       "title": "Ray introduction added (1950)",
-      "full": "\n\nTHE HISTORY OF | Henry Esmond | ESQUIRE | \\[decorative rule\\] | BY |\n*William Makepeace Thackeray* | INTRODUCTION BY | *Gordon N. Ray* |\nPROFESSOR OF ENGLISH AND | HEAD, DEPARTMENT OF ENGLISH | UNIVERSITY OF\nILLINOIS | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/E5.webp'>torchbearer E5</uvalib-modal-image-button>\\] | The Modern Library · *New York*\n\nPp. \\[i–iv\\] v–xxxvii \\[xxxviii\\], \\[19–20\\] 21–615 \\[616–620\\].\n\\[1–20\\]<sup>16</sup>\n\n\\[i\\] half title; \\[ii\\] blank; \\[iii\\] title; \\[iv\\] *Copyright, 1950,\nby Random House, Inc.*; v–xxi INTRODUCTION | By Gordon N. Ray; \\[xxii\\]\nblank; xxiii BIBLIOGRAPHICAL NOTE; \\[xxiv\\] genealogical table of the\nEsmond family; \\[xxv\\] facsimile title page of the first edition\n(London, 1852); \\[xxvi\\] facsimile dedication page of the first edition;\nxxvii–xxix CONTENTS; \\[xxx\\] blank; xxxi–xxxvii PREFACE | The Esmonds of\nVirginia; \\[xxxviii\\] blank; \\[19\\]–615 as 297a; \\[616–620\\] blank.\n\n*Jacket:* As 297b. (*Fall 1950*) Front flap slightly revised. (*Fall\n1960*)\n\nOriginally published 1950 in MLCE and subsequently in the regular ML.\nRay received $150 for the introduction (Stein to Ray, 25 January 1950).\nThe genealogical table of the Esmond family and the facsimiles of the\nfirst edition title and dedication pages were included at Ray’s\nrecommendation.\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\nThackeray, *Vanity Fair* (1933–1970) 258"
+      "full": "\n\nTHE HISTORY OF | Henry Esmond | ESQUIRE | \\[decorative rule\\] | BY |\n*William Makepeace Thackeray* | INTRODUCTION BY | *Gordon N. Ray* |\nPROFESSOR OF ENGLISH AND | HEAD, DEPARTMENT OF ENGLISH | UNIVERSITY OF\nILLINOIS | \\[torchbearer E5\\] | The Modern Library · *New York*\n\nPp. \\[i–iv\\] v–xxxvii \\[xxxviii\\], \\[19–20\\] 21–615 \\[616–620\\].\n\\[1–20\\]<sup>16</sup>\n\n\\[i\\] half title; \\[ii\\] blank; \\[iii\\] title; \\[iv\\] *Copyright, 1950,\nby Random House, Inc.*; v–xxi INTRODUCTION | By Gordon N. Ray; \\[xxii\\]\nblank; xxiii BIBLIOGRAPHICAL NOTE; \\[xxiv\\] genealogical table of the\nEsmond family; \\[xxv\\] facsimile title page of the first edition\n(London, 1852); \\[xxvi\\] facsimile dedication page of the first edition;\nxxvii–xxix CONTENTS; \\[xxx\\] blank; xxxi–xxxvii PREFACE | The Esmonds of\nVirginia; \\[xxxviii\\] blank; \\[19\\]–615 as 297a; \\[616–620\\] blank.\n\n*Jacket:* As 297b. (*Fall 1950*) Front flap slightly revised. (*Fall\n1960*)\n\nOriginally published 1950 in MLCE and subsequently in the regular ML.\nRay received $150 for the introduction (Stein to Ray, 25 January 1950).\nThe genealogical table of the Esmond family and the facsimiles of the\nfirst edition title and dedication pages were included at Ray’s\nrecommendation.\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\nThackeray, *Vanity Fair* (1933–1970) 258"
     }
   ]
 }</pre></sl-details>
 
 <script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
-</div>
+
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1886,7 +1922,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

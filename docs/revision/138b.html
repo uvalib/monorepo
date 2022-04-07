@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -39,7 +74,7 @@
 
 <h1>138b</h1>
 <h2>Title page reset (1940)</h2>
-<div class="md-block"><p>THE | RAINBOW | BY | D. H. LAWRENCE | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D7.webp'>torchbearer D7</uvalib-modal-image-button> at right; 3-line
+<p>THE | RAINBOW | BY | D. H. LAWRENCE | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D7.webp'>torchbearer D7</uvalib-modal-image-button> at right; 3-line
 imprint at left] THE | MODERN LIBRARY | NEW YORK | [rule]</p>
 <p>Pagination as 138a. [1–14]<sup>16</sup> [15–16]<sup>8</sup></p>
 <p>Contents as 138a except: [<em>2</em>] blank; [<em>4</em>] COPYRIGHT, 1915, BY
@@ -54,7 +89,7 @@ FRIEDA LAWRENCE; [469–470] ML Giants list; [471–472] blank.
 title in reverse on curved moderate blue panel at right, other lettering
 in black. Designed by Joseph Blumenthal. Front flap as 138a jacket B.
 (<em>Spring 1940</em>)</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1787,12 +1822,13 @@ in black. Designed by Joseph Blumenthal. Front flap as 138a jacket B.
 <sl-details summary="revision"><pre>{
   "id": "138b",
   "title": "Title page reset (1940)",
-  "full": "\n\nTHE | RAINBOW | BY | D. H. LAWRENCE | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D7.webp'>torchbearer D7</uvalib-modal-image-button> at right; 3-line\nimprint at left\\] THE | MODERN LIBRARY | NEW YORK | \\[rule\\]\n\nPagination as 138a. \\[1–14\\]<sup>16</sup> \\[15–16\\]<sup>8</sup>\n\nContents as 138a except: \\[*2*\\] blank; \\[*4*\\] COPYRIGHT, 1915, BY\nD. H. LAWRENCE; \\[468–472\\] blank.\n\n> *Variant:* Pagination as 138a. Contents as 138b except: \\[*4*\\]\n> COPYRIGHT, 1915, BY D. H. LAWRENCE | COPYRIGHT, RENEWED, 1943, BY\n> FRIEDA LAWRENCE; \\[469–470\\] ML Giants list; \\[471–472\\] blank.\n> (*Spring 1958*)\n\n*Jacket:* Non-pictorial in moderate blue (182) and black on cream paper;\ntitle in reverse on curved moderate blue panel at right, other lettering\nin black. Designed by Joseph Blumenthal. Front flap as 138a jacket B.\n(*Spring 1940*)\n\n",
+  "full": "\n\nTHE | RAINBOW | BY | D. H. LAWRENCE | \\[torchbearer D7 at right; 3-line\nimprint at left\\] THE | MODERN LIBRARY | NEW YORK | \\[rule\\]\n\nPagination as 138a. \\[1–14\\]<sup>16</sup> \\[15–16\\]<sup>8</sup>\n\nContents as 138a except: \\[*2*\\] blank; \\[*4*\\] COPYRIGHT, 1915, BY\nD. H. LAWRENCE; \\[468–472\\] blank.\n\n> *Variant:* Pagination as 138a. Contents as 138b except: \\[*4*\\]\n> COPYRIGHT, 1915, BY D. H. LAWRENCE | COPYRIGHT, RENEWED, 1943, BY\n> FRIEDA LAWRENCE; \\[469–470\\] ML Giants list; \\[471–472\\] blank.\n> (*Spring 1958*)\n\n*Jacket:* Non-pictorial in moderate blue (182) and black on cream paper;\ntitle in reverse on curved moderate blue panel at right, other lettering\nin black. Designed by Joseph Blumenthal. Front flap as 138a jacket B.\n(*Spring 1940*)\n\n",
   "year": "1927",
   "book": "138"
 }</pre></sl-details>
 
-<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script></div>
+<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1811,7 +1847,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

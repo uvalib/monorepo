@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -39,7 +74,7 @@
 
 <h1>132c</h1>
 <h2>Reissue format (1985)</h2>
-<div class="md-block"><p>BENVENUTO CELLINI | [2-line title in reverse within single rules in
+<p>BENVENUTO CELLINI | [2-line title in reverse within single rules in
 reverse all on black rectangular panel] THE AUTOBIOGRAPHY OF |
 BENVENUTO CELLINI | [below panel] TRANSLATED BY JOHN ADDINGTON SYMONDS
 | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/N.webp'>torchbearer N</uvalib-modal-image-button>] | MODERN LIBRARY | NEW YORK</p>
@@ -61,7 +96,7 @@ unequaled grandeur, passion and adventure. It remains today one of the
 world masterpieces of autobiographical writing.</p>
 </blockquote>
 <p>Published November 1985 at $9.95. ISBN 0-394-60528-4.</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1792,12 +1827,13 @@ world masterpieces of autobiographical writing.</p>
 <sl-details summary="revision"><pre>{
   "id": "132c",
   "title": "Reissue format (1985)",
-  "full": "\n\nBENVENUTO CELLINI | \\[2-line title in reverse within single rules in\nreverse all on black rectangular panel\\] THE AUTOBIOGRAPHY OF |\nBENVENUTO CELLINI | \\[below panel\\] TRANSLATED BY JOHN ADDINGTON SYMONDS\n| \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/N.webp'>torchbearer N</uvalib-modal-image-button>\\] | MODERN LIBRARY | NEW YORK\n\nPagination as 132a. Perfect bound.\n\nContents as 132b except: \\[*1*\\] woodcut illustration by Stephen Alcorn\nof; \\[*4*\\] MODERN LIBRARY EDITION | November 1985.\n\n*Jacket:* Pictorial on kraft paper in strong reddish brown (40) and\nblack with inset woodcut illustration by Stephen Alcorn of Cellini\nholding a quill pen with sculpture on pedestal in background. Woodcut by\nStephen Alcorn.\n\n> Front flap:<br>\n> This remarkable biography, written between 1558 and 1562, reads like a\n> picaresque novel. It is, in fact, one of the most important documents\n> of the 16th century. Benvenuto Cellini, an audaciously self-serving\n> Florentine goldsmith, tells of his escapades with the frankness and\n> egoism characteristic of the Renaissance man, describing a life of\n> unequaled grandeur, passion and adventure. It remains today one of the\n> world masterpieces of autobiographical writing.\n\nPublished November 1985 at $9.95. ISBN 0-394-60528-4.",
+  "full": "\n\nBENVENUTO CELLINI | \\[2-line title in reverse within single rules in\nreverse all on black rectangular panel\\] THE AUTOBIOGRAPHY OF |\nBENVENUTO CELLINI | \\[below panel\\] TRANSLATED BY JOHN ADDINGTON SYMONDS\n| \\[torchbearer N\\] | MODERN LIBRARY | NEW YORK\n\nPagination as 132a. Perfect bound.\n\nContents as 132b except: \\[*1*\\] woodcut illustration by Stephen Alcorn\nof; \\[*4*\\] MODERN LIBRARY EDITION | November 1985.\n\n*Jacket:* Pictorial on kraft paper in strong reddish brown (40) and\nblack with inset woodcut illustration by Stephen Alcorn of Cellini\nholding a quill pen with sculpture on pedestal in background. Woodcut by\nStephen Alcorn.\n\n> Front flap:<br>\n> This remarkable biography, written between 1558 and 1562, reads like a\n> picaresque novel. It is, in fact, one of the most important documents\n> of the 16th century. Benvenuto Cellini, an audaciously self-serving\n> Florentine goldsmith, tells of his escapades with the frankness and\n> egoism characteristic of the Renaissance man, describing a life of\n> unequaled grandeur, passion and adventure. It remains today one of the\n> world masterpieces of autobiographical writing.\n\nPublished November 1985 at $9.95. ISBN 0-394-60528-4.",
   "year": "1927",
   "book": "132"
 }</pre></sl-details>
 
-<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script></div>
+<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1816,7 +1852,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

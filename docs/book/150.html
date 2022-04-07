@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -36,7 +71,7 @@
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/book/150.html">150</sl-breadcrumb-item>
 </sl-breadcrumb>
 
-<div class="md-block"><p><strong>NORMAN DOUGLAS. OLD CALABRIA. 1928–1935. (ML 141)</strong></p>
+<p><strong>NORMAN DOUGLAS. OLD CALABRIA. 1928–1935. (ML 141)</strong></p>
 <h4>150. First printing (1928)</h4>
 <p>[within double rules] OLD CALABRIA | [rule] | BY | NORMAN DOUGLAS |
 [rule] | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer A2</uvalib-modal-image-button>] | [rule] | THE MODERN LIBRARY |
@@ -83,7 +118,7 @@ was discontinued after returns from booksellers exceeded sales during
 the last part of 1935.</p>
 <p><span class="smallcaps">Also in the Modern Library</span></p>
 <p>Douglas, <em>South Wind</em> (1925–1968) 114</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1812,7 +1847,7 @@ the last part of 1935.</p>
 </elix-carousel-with-thumbnails>
 
 <sl-details summary="book"><pre>{
-  "full": "**NORMAN DOUGLAS. OLD CALABRIA. 1928–1935. (ML 141)**\n\n#### 150. First printing (1928)\n\n\\[within double rules\\] OLD CALABRIA | \\[rule\\] | BY | NORMAN DOUGLAS |\n\\[rule\\] | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer A2</uvalib-modal-image-button>\\] | \\[rule\\] | THE MODERN LIBRARY |\nPUBLISHERS :: NEW YORK\n\nPp. \\[i–iv\\] v–viii, 1–440. \\[1–14\\]<sup>16</sup>\n\n\\[i\\] half title; \\[ii\\] pub. note D5; \\[iii\\] title; \\[iv\\]\n*Introduction Copyright,* 1928, *by* | THE MODERN LIBRARY, INC. |\n\\[short double rule\\] | *First Modern Library Edition* | 1928; v–vi\nCONTENTS; vii–viii INTRODUCTION signed p. viii: <span\nclass=\"smallcaps\">Norman Douglas</span>; 1–440 text.\n\n> *Variant (1931 printing):* Pagination and collation as 150. Contents\n> as 150 except: \\[iv\\] copyright and *First* statements omitted. (*Seen\n> in balloon cloth binding*)\n\n*Jacket A:* Uniform typographic jacket A.\n\n> Text on front:<br>\n> Norman Douglas’ best known travel book has never before been published\n> in a popular edition. Its inclusion in the Modern Library exactly two\n> years after “South Wind” was added to the series, makes available to\n> the readers of the Library Mr. Douglas’ two most representative works.\n> (*Fall 1927*)\n\n*Jacket B:* Uniform typographic jacket D. (*Spring 1929*) *Note:* Seen\non copies of the first printing in imitation leather binding.\n\nOriginally published in U.S. by Houghton Mifflin Co., 1915, using sheets\nof the English edition. ML edition printed from plates made from a new\ntypesetting, omitting the index and illustrations. Publication announced\nfor January 1928; probably published in December 1927. *WR* 7 January\n1928. First printing: 7,000 copies. Discontinued 1 January 1936.\n\nThe ML arranged its edition directly with Douglas, who wrote a new\nintroduction and received royalties of 5 cents a copy. The ML edition\nwas the first to be printed in the U.S. Cerf offered to sell duplicate\nplates to the English publisher Martin Secker for use in his New Adelphi\nLibrary, but Secker decided not to include *Old Calabria* in the series\n(Cerf to Secker, 25 July 1928; Secker to Cerf, 14 August 1928).\n\nThere was a second printing of 3,057 copies in March 1931 (Woolf, p.\n46).\n\nSales during the first six months of 1928 placed *Old Calabria* 37th out\nof 147 ML titles. It was listed in 1931 as one of the ML’s worst-selling\ntitles (“Notes on the Modern Library,” RH box 117, Publicity folder). It\nwas discontinued after returns from booksellers exceeded sales during\nthe last part of 1935.\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\nDouglas, *South Wind* (1925–1968) 114",
+  "full": "**NORMAN DOUGLAS. OLD CALABRIA. 1928–1935. (ML 141)**\n\n#### 150. First printing (1928)\n\n\\[within double rules\\] OLD CALABRIA | \\[rule\\] | BY | NORMAN DOUGLAS |\n\\[rule\\] | \\[torchbearer A2\\] | \\[rule\\] | THE MODERN LIBRARY |\nPUBLISHERS :: NEW YORK\n\nPp. \\[i–iv\\] v–viii, 1–440. \\[1–14\\]<sup>16</sup>\n\n\\[i\\] half title; \\[ii\\] pub. note D5; \\[iii\\] title; \\[iv\\]\n*Introduction Copyright,* 1928, *by* | THE MODERN LIBRARY, INC. |\n\\[short double rule\\] | *First Modern Library Edition* | 1928; v–vi\nCONTENTS; vii–viii INTRODUCTION signed p. viii: <span\nclass=\"smallcaps\">Norman Douglas</span>; 1–440 text.\n\n> *Variant (1931 printing):* Pagination and collation as 150. Contents\n> as 150 except: \\[iv\\] copyright and *First* statements omitted. (*Seen\n> in balloon cloth binding*)\n\n*Jacket A:* Uniform typographic jacket A.\n\n> Text on front:<br>\n> Norman Douglas’ best known travel book has never before been published\n> in a popular edition. Its inclusion in the Modern Library exactly two\n> years after “South Wind” was added to the series, makes available to\n> the readers of the Library Mr. Douglas’ two most representative works.\n> (*Fall 1927*)\n\n*Jacket B:* Uniform typographic jacket D. (*Spring 1929*) *Note:* Seen\non copies of the first printing in imitation leather binding.\n\nOriginally published in U.S. by Houghton Mifflin Co., 1915, using sheets\nof the English edition. ML edition printed from plates made from a new\ntypesetting, omitting the index and illustrations. Publication announced\nfor January 1928; probably published in December 1927. *WR* 7 January\n1928. First printing: 7,000 copies. Discontinued 1 January 1936.\n\nThe ML arranged its edition directly with Douglas, who wrote a new\nintroduction and received royalties of 5 cents a copy. The ML edition\nwas the first to be printed in the U.S. Cerf offered to sell duplicate\nplates to the English publisher Martin Secker for use in his New Adelphi\nLibrary, but Secker decided not to include *Old Calabria* in the series\n(Cerf to Secker, 25 July 1928; Secker to Cerf, 14 August 1928).\n\nThere was a second printing of 3,057 copies in March 1931 (Woolf, p.\n46).\n\nSales during the first six months of 1928 placed *Old Calabria* 37th out\nof 147 ML titles. It was listed in 1931 as one of the ML’s worst-selling\ntitles (“Notes on the Modern Library,” RH box 117, Publicity folder). It\nwas discontinued after returns from booksellers exceeded sales during\nthe last part of 1935.\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\nDouglas, *South Wind* (1925–1968) 114",
   "id": "150",
   "year": "1928",
   "title": "NORMAN DOUGLAS. OLD CALABRIA. 1928–1935. (ML 141)",
@@ -1820,7 +1855,8 @@ the last part of 1935.</p>
 }</pre></sl-details>
 
 <script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
-</div>
+
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1839,7 +1875,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

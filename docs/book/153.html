@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -36,7 +71,7 @@
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/book/153.html">153</sl-breadcrumb-item>
 </sl-breadcrumb>
 
-<div class="md-block"><p>*<strong>ALEXANDRE DUMAS. THE THREE MUSKETEERS. 1928–1970. (ML 143)</strong></p>
+<p>*<strong>ALEXANDRE DUMAS. THE THREE MUSKETEERS. 1928–1970. (ML 143)</strong></p>
 <h4>153.1a. First printing (1928)</h4>
 <p>[within double rules] THE | THREE MUSKETEERS | [rule] | BY |
 ALEXANDRE DUMAS | [rule] | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer A2</uvalib-modal-image-button>] | [rule] | THE MODERN
@@ -95,7 +130,7 @@ Giants list; [604] blank. (<em>Spring 1942</em>)</p>
 with lettering in black on inset moderate blue panel, background in
 cream. Designed by Joseph Blumenthal. Front flap as 153.1a jacket C.
 (<em>Fall 1941</em>)</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1826,7 +1861,7 @@ cream. Designed by Joseph Blumenthal. Front flap as 153.1a jacket C.
 </elix-carousel-with-thumbnails>
 
 <sl-details summary="book"><pre>{
-  "full": "***ALEXANDRE DUMAS. THE THREE MUSKETEERS. 1928–1970. (ML 143)**\n\n#### 153.1a. First printing (1928)\n\n\\[within double rules\\] THE | THREE MUSKETEERS | \\[rule\\] | BY |\nALEXANDRE DUMAS | \\[rule\\] | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer A2</uvalib-modal-image-button>\\] | \\[rule\\] | THE MODERN\nLIBRARY | PUBLISHERS : NEW YORK\n\nPp. \\[*4*\\], 1–596. \\[1–18\\]<sup>16</sup> \\[19\\]<sup>12</sup>\n\n\\[*1*\\] half title; \\[*2*\\] pub. note D5; \\[*3*\\] title; \\[*4*\\] *First\nModern Library Edition* | 1928; 1–596 text.\n\n*Jacket A:* Uniform typographic jacket B.\n\n> Text on front:<br>\n> The Modern Library offers you herewith a complete and unabridged\n> “Three Musketeers” in one volume to slip into your coat pocket or tuck\n> into an accessible corner of your library shelf. For the next time a\n> fit of boredom or weariness assails you, a dose of d’Artagnan and his\n> three musketeers—Porthos, Athos, and Aramis—is confidently prescribed.\n> (*Spring 1928*)\n\n*Jacket B:* Uniform typographic jacket D. (*Fall 1929*)\n\n*Jacket C:* Pictorial in vivid red (11) and black on cream paper\ndepicting four swords held aloft with a plumed hat perched on one of the\nswords; lettering in black, borders in vivid red. Signed: Staloff.\n(*Spring 1931*)\n\n> Front flap:<br>\n> However much the industry of Alexandre Dumas is held up as an example\n> of literature in its first manifestations of mass production, *The\n> Three Musketeers* still throbs with undiminished pulse for the modern\n> reader. Around those three inseparables, Athos, Parthos \\[*sic*\\] and\n> Aramis, and their fourth comrade in arms and adventure, d’Artagnan,\n> there is a glamorous aura and romantic flourish. They are the\n> progenitors of those “cape and sword” characters whose persistence in\n> fiction is the best tribute to the man who created them in their first\n> and final perfection. (*Spring 1934*)\n\nAnonymous translation previously published in U.S. by A. L. Burt Co. ML\nedition printed from Burt plates. Publication announced for February\n1928. *WR* 26 May 1928. First printing: Not ascertained. Superseded\nspring 1950 by Le Clercq translation (153.2).\n\nThe ML bought a set of plates from Burt. Neither Burt nor the ML knew\nthe name of the translator or the date of the translation (Doris\nSchneider to E. P. Dutton Co., 4 April 1929).\n\nSales of *The Three Musketeers* during the first six months of 1928\nplaced it 18th out of 147 ML titles. During the 18-month period May\n1942–October 1943 it was low in the third quarter of ML titles in terms\nof sales. It did not rank among the 100 best-selling titles in the\nregular ML during the 12-month period November 1951–October 1952.\n\n#### 153.1b. Title page reset (1941)\n\n\\[within triple rules\\] *The Three* | *Musketeers* | BY | ALEXANDRE\nDUMAS | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/E1.webp'>torchbearer E1</uvalib-modal-image-button> at right; 3-line imprint at left\\] THE | MODERN\nLIBRARY | NEW YORK\n\nPp. \\[*4*\\], 1–596 \\[597–604\\]. \\[1–19\\]<sup>16</sup>. Contents as\n153.1a except: \\[*2*\\] blank; \\[*4*\\] publication and manufacturing\nstatements within single rules; \\[597–601\\] ML list; \\[602–603\\] ML\nGiants list; \\[604\\] blank. (*Spring 1942*)\n\n*Jacket:* Non-pictorial in moderate blue (182) and black on cream paper\nwith lettering in black on inset moderate blue panel, background in\ncream. Designed by Joseph Blumenthal. Front flap as 153.1a jacket C.\n(*Fall 1941*)",
+  "full": "***ALEXANDRE DUMAS. THE THREE MUSKETEERS. 1928–1970. (ML 143)**\n\n#### 153.1a. First printing (1928)\n\n\\[within double rules\\] THE | THREE MUSKETEERS | \\[rule\\] | BY |\nALEXANDRE DUMAS | \\[rule\\] | \\[torchbearer A2\\] | \\[rule\\] | THE MODERN\nLIBRARY | PUBLISHERS : NEW YORK\n\nPp. \\[*4*\\], 1–596. \\[1–18\\]<sup>16</sup> \\[19\\]<sup>12</sup>\n\n\\[*1*\\] half title; \\[*2*\\] pub. note D5; \\[*3*\\] title; \\[*4*\\] *First\nModern Library Edition* | 1928; 1–596 text.\n\n*Jacket A:* Uniform typographic jacket B.\n\n> Text on front:<br>\n> The Modern Library offers you herewith a complete and unabridged\n> “Three Musketeers” in one volume to slip into your coat pocket or tuck\n> into an accessible corner of your library shelf. For the next time a\n> fit of boredom or weariness assails you, a dose of d’Artagnan and his\n> three musketeers—Porthos, Athos, and Aramis—is confidently prescribed.\n> (*Spring 1928*)\n\n*Jacket B:* Uniform typographic jacket D. (*Fall 1929*)\n\n*Jacket C:* Pictorial in vivid red (11) and black on cream paper\ndepicting four swords held aloft with a plumed hat perched on one of the\nswords; lettering in black, borders in vivid red. Signed: Staloff.\n(*Spring 1931*)\n\n> Front flap:<br>\n> However much the industry of Alexandre Dumas is held up as an example\n> of literature in its first manifestations of mass production, *The\n> Three Musketeers* still throbs with undiminished pulse for the modern\n> reader. Around those three inseparables, Athos, Parthos \\[*sic*\\] and\n> Aramis, and their fourth comrade in arms and adventure, d’Artagnan,\n> there is a glamorous aura and romantic flourish. They are the\n> progenitors of those “cape and sword” characters whose persistence in\n> fiction is the best tribute to the man who created them in their first\n> and final perfection. (*Spring 1934*)\n\nAnonymous translation previously published in U.S. by A. L. Burt Co. ML\nedition printed from Burt plates. Publication announced for February\n1928. *WR* 26 May 1928. First printing: Not ascertained. Superseded\nspring 1950 by Le Clercq translation (153.2).\n\nThe ML bought a set of plates from Burt. Neither Burt nor the ML knew\nthe name of the translator or the date of the translation (Doris\nSchneider to E. P. Dutton Co., 4 April 1929).\n\nSales of *The Three Musketeers* during the first six months of 1928\nplaced it 18th out of 147 ML titles. During the 18-month period May\n1942–October 1943 it was low in the third quarter of ML titles in terms\nof sales. It did not rank among the 100 best-selling titles in the\nregular ML during the 12-month period November 1951–October 1952.\n\n#### 153.1b. Title page reset (1941)\n\n\\[within triple rules\\] *The Three* | *Musketeers* | BY | ALEXANDRE\nDUMAS | \\[torchbearer E1 at right; 3-line imprint at left\\] THE | MODERN\nLIBRARY | NEW YORK\n\nPp. \\[*4*\\], 1–596 \\[597–604\\]. \\[1–19\\]<sup>16</sup>. Contents as\n153.1a except: \\[*2*\\] blank; \\[*4*\\] publication and manufacturing\nstatements within single rules; \\[597–601\\] ML list; \\[602–603\\] ML\nGiants list; \\[604\\] blank. (*Spring 1942*)\n\n*Jacket:* Non-pictorial in moderate blue (182) and black on cream paper\nwith lettering in black on inset moderate blue panel, background in\ncream. Designed by Joseph Blumenthal. Front flap as 153.1a jacket C.\n(*Fall 1941*)",
   "id": "153",
   "year": "1928",
   "title": "ALEXANDRE DUMAS. THE THREE MUSKETEERS. 1928–1970. (ML 143)",
@@ -1834,7 +1869,8 @@ cream. Designed by Joseph Blumenthal. Front flap as 153.1a jacket C.
 }</pre></sl-details>
 
 <script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
-</div>
+
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1853,7 +1889,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

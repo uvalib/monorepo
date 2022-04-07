@@ -3,7 +3,7 @@ layout: page-layout.njk
 permalink: "authorTitleIndex.html"
 ---
 
-AUTHOR/TITLE INDEX
+## AUTHOR/TITLE INDEX
 
 This index is an alphabetical listing of authors and editors of regular
 ML volumes, ML Giants, and Illustrated ML titles. There are also entries

@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -39,7 +74,7 @@
 
 <h1>262</h1>
 <h2>First printing (1933)</h2>
-<div class="md-block"><p>[within double rules] BEN HUR | A TALE OF THE CHRIST | [rule] | BY |
+<p>[within double rules] BEN HUR | A TALE OF THE CHRIST | [rule] | BY |
 LEW WALLACE | [rule] | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer A2</uvalib-modal-image-button>] | [rule] | BENNETT A. CERF
 · DONALD S. KLOPFER | THE MODERN LIBRARY | NEW YORK</p>
 <p>Pp. [<em>2</em>], [i–iv] v–vii [viii], 1–551 [552–558].
@@ -83,7 +118,7 @@ marking of a star stamped on the endpaper.</p>
 <p>The ML omitted the hyphen from the title on the jacket, half title,
 title page, biographical and bibliographical note, and lists of titles
 in the series. Ben-Hur is hyphenated throughout the text.</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1812,12 +1847,13 @@ in the series. Ben-Hur is hyphenated throughout the text.</p>
 <sl-details summary="revision"><pre>{
   "id": "262",
   "title": "First printing (1933)",
-  "full": "\n\n\\[within double rules\\] BEN HUR | A TALE OF THE CHRIST | \\[rule\\] | BY |\nLEW WALLACE | \\[rule\\] | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer A2</uvalib-modal-image-button>\\] | \\[rule\\] | BENNETT A. CERF\n· DONALD S. KLOPFER | THE MODERN LIBRARY | NEW YORK\n\nPp. \\[*2*\\], \\[i–iv\\] v–vii \\[viii\\], 1–551 \\[552–558\\].\n\\[1–17\\]<sup>16</sup> \\[18\\]<sup>12</sup>\n\n\\[*1*\\] half title; \\[*2*\\] pub. note A7; \\[i\\] title; \\[ii\\]\n*Copyright,* 1880, 1901, *by* HARPER & BROS. | *Copyright,* 1908, 1920,\n*by* HENRY L. WALLACE | \\[short double rule\\] | *First Modern Library\nEdition* | 1933; \\[iii\\] dedication; \\[iv\\] biographical note and\nbibliography; v–vii Table of Contents; \\[viii\\] blank; 1–\\[552\\] text;\n\\[553–558\\] ML list. (*Fall 1933*)\n\n*Jacket:* Pictorial in grayish blue (186) and black on cream paper\ndepicting Ben-Hur in chariot lashing on four horses; title and borders\nin grayish blue, other lettering in black. Signed: Lewis Daniel.\n\n> Front flap:<br>\n> Of all the historical romances ever written, none has had such wide\n> popularity as *Ben Hur*. The avidity with which it was read when it\n> was first issued in 1880 has never abated, and new generations of\n> readers, surfeited with less glamorous fare, feast on this chronicle\n> of the first days of Christianity with increasing delight. To them, as\n> to their elders, *Ben Hur* is a fast-moving and absorbing tale, full\n> of the color and pageantry of Rome at the height of its glory, and\n> packed with action and excitement. (*Fall 1933*)\n\nOriginally published by Harper & Brothers, 1880. New bibliographical\nedition (“Player’s Edition”) published by Harper & Brothers, 1901. ML\nedition (pp. \\[iii\\], v–\\[552\\]) printed from “Player’s Edition” plates\nwith illustrations, running heads, and single-rule borders enclosing\neach page omitted. Published October 1933. *WR* 4 November 1933. First\n(and probably only) printing: 6,000 copies. Discontinued 1 January 1941.\n\nCerf initially offered Harper & Bros. a $2,000 advance against royalties\nof 10 cents a copy. He indicated that he wanted to publish *Ben-Hur* in\nOctober 1933 so the ML could have as much time as possible to sell its\nedition before the work entered the public domain in 1936 (Cerf to Henry\nHoyns, Harper’s, 12 May 1933). The advance was reduced to $1,000 in the\ncontract dated 17 May 1933. The small type and dated nineteenth-century\ntypography of the “Player’s Edition” plates made *Ben-Hur* one of the\nleast attractive volumes in the series. The ML edition was not a\nsuccess; copies of the first printing have been seen with the remainder\nmarking of a star stamped on the endpaper.\n\nThe ML omitted the hyphen from the title on the jacket, half title,\ntitle page, biographical and bibliographical note, and lists of titles\nin the series. Ben-Hur is hyphenated throughout the text.",
+  "full": "\n\n\\[within double rules\\] BEN HUR | A TALE OF THE CHRIST | \\[rule\\] | BY |\nLEW WALLACE | \\[rule\\] | \\[torchbearer A2\\] | \\[rule\\] | BENNETT A. CERF\n· DONALD S. KLOPFER | THE MODERN LIBRARY | NEW YORK\n\nPp. \\[*2*\\], \\[i–iv\\] v–vii \\[viii\\], 1–551 \\[552–558\\].\n\\[1–17\\]<sup>16</sup> \\[18\\]<sup>12</sup>\n\n\\[*1*\\] half title; \\[*2*\\] pub. note A7; \\[i\\] title; \\[ii\\]\n*Copyright,* 1880, 1901, *by* HARPER & BROS. | *Copyright,* 1908, 1920,\n*by* HENRY L. WALLACE | \\[short double rule\\] | *First Modern Library\nEdition* | 1933; \\[iii\\] dedication; \\[iv\\] biographical note and\nbibliography; v–vii Table of Contents; \\[viii\\] blank; 1–\\[552\\] text;\n\\[553–558\\] ML list. (*Fall 1933*)\n\n*Jacket:* Pictorial in grayish blue (186) and black on cream paper\ndepicting Ben-Hur in chariot lashing on four horses; title and borders\nin grayish blue, other lettering in black. Signed: Lewis Daniel.\n\n> Front flap:<br>\n> Of all the historical romances ever written, none has had such wide\n> popularity as *Ben Hur*. The avidity with which it was read when it\n> was first issued in 1880 has never abated, and new generations of\n> readers, surfeited with less glamorous fare, feast on this chronicle\n> of the first days of Christianity with increasing delight. To them, as\n> to their elders, *Ben Hur* is a fast-moving and absorbing tale, full\n> of the color and pageantry of Rome at the height of its glory, and\n> packed with action and excitement. (*Fall 1933*)\n\nOriginally published by Harper & Brothers, 1880. New bibliographical\nedition (“Player’s Edition”) published by Harper & Brothers, 1901. ML\nedition (pp. \\[iii\\], v–\\[552\\]) printed from “Player’s Edition” plates\nwith illustrations, running heads, and single-rule borders enclosing\neach page omitted. Published October 1933. *WR* 4 November 1933. First\n(and probably only) printing: 6,000 copies. Discontinued 1 January 1941.\n\nCerf initially offered Harper & Bros. a $2,000 advance against royalties\nof 10 cents a copy. He indicated that he wanted to publish *Ben-Hur* in\nOctober 1933 so the ML could have as much time as possible to sell its\nedition before the work entered the public domain in 1936 (Cerf to Henry\nHoyns, Harper’s, 12 May 1933). The advance was reduced to $1,000 in the\ncontract dated 17 May 1933. The small type and dated nineteenth-century\ntypography of the “Player’s Edition” plates made *Ben-Hur* one of the\nleast attractive volumes in the series. The ML edition was not a\nsuccess; copies of the first printing have been seen with the remainder\nmarking of a star stamped on the endpaper.\n\nThe ML omitted the hyphen from the title on the jacket, half title,\ntitle page, biographical and bibliographical note, and lists of titles\nin the series. Ben-Hur is hyphenated throughout the text.",
   "year": "1933",
   "book": "262"
 }</pre></sl-details>
 
-<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script></div>
+<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1836,7 +1872,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

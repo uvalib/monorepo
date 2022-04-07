@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -36,7 +71,7 @@
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/book/505.html">505</sl-breadcrumb-item>
 </sl-breadcrumb>
 
-<div class="md-block"><p><strong>P. G. WODEHOUSE. SELECTED STORIES. 1958–1971. (ML 126)</strong></p>
+<p><strong>P. G. WODEHOUSE. SELECTED STORIES. 1958–1971. (ML 126)</strong></p>
 <h4>505. First printing (1958)</h4>
 <p><em>Selected Stories</em> | <em>by</em> | <em>P. G. Wodehouse</em> | Introduction by John W.
 Aldridge | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/E3.webp'>torchbearer E3</uvalib-modal-image-button>] | THE MODERN LIBRARY</p>
@@ -113,7 +148,7 @@ reaching for anything cute or clever” (Cerf to Wodehouse, 19 August
 <p>Wodehouse contributed an original foreword to the volume. Aldridge’s
 introduction was written for the ML but also appeared in <em>New World
 Writing</em>, no. 13 (1958), pp. 181–92.</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1842,7 +1877,7 @@ Writing</em>, no. 13 (1958), pp. 181–92.</p>
 </elix-carousel-with-thumbnails>
 
 <sl-details summary="book"><pre>{
-  "full": "**P. G. WODEHOUSE. SELECTED STORIES. 1958–1971. (ML 126)**\n\n#### 505. First printing (1958)\n\n*Selected Stories* | *by* | *P. G. Wodehouse* | Introduction by John W.\nAldridge | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/E3.webp'>torchbearer E3</uvalib-modal-image-button>\\] | THE MODERN LIBRARY\n\nPp. \\[i–iv\\] v–xxv \\[xxvi\\], \\[1–2\\] 3–382 \\[383–390\\].\n\\[1\\]<sup>16</sup> \\[2–5\\]<sup>32</sup> \\[6\\]<sup>16</sup>\n\\[7\\]<sup>32</sup> \\[8\\]<sup>16</sup>\n\n\\[i\\] half title; \\[ii\\] blank; \\[iii\\] title; \\[iv\\] © Copyright, 1958,\nby Random House, Inc. | Copyright, 1916, 1917, 1922, 1924, 1925, 1926,\n1927, | 1929, 1930, by P. G. Wodehouse; v–viii *Foreword* | BY P. G.\nWODEHOUSE; \\[ix\\] *Contents*; \\[x\\] blank; xi–xxv *Introduction* | P. G.\nWODEHOUSE: | THE LESSON OF THE | YOUNG MASTER | BY JOHN W. ALDRIDGE;\n\\[xxvi\\] blank; \\[1\\] fly title; \\[2\\] blank; 3–382 text; \\[383–388\\] ML\nlist; \\[389–390\\] ML Giants list. (*Fall 1958*)\n\n> *Variant:* Pagination and collation as 505. Contents as 505 except:\n> \\[iv\\] copyright statements reset in full capitals and “1927,” moved\n> to beginning of line 3; \\[383–390\\] ML list. (*Spring 1967*)\n\n*Contents:* Jeeves Takes Charge – The Artistic Career of Corky – Jeeves\nand the Unbidden Guest – The Aunt and the Sluggard – The Rummy Affair of\nOld Biffy – Clustering Round Young Bingo – Bertie Changes His Mind –\nJeeves and the Impending Doom – Jeeves and the Yuletide Spirit – Jeeves\nand the Song of Songs – Episode of the Dog McIntosh – Jeeves and the Kid\nClementina – The Love That Purifies – Jeeves and the Old School Chum –\nThe Ordeal of Young Tuppy.\n\n*Jacket:* Pictorial in vivid red (11), brilliant yellow (83), moderate\npink (5), light bluish gray (190) and black on coated white paper with\nleft profile illustration of Jeeves; lettering in black and vivid red.\nSpine in vivid red with lettering in reverse and black.\n\n> Front flap:<br>\n> This book is guaranteed to give you all fifty-seven varieties of\n> laughter—everything from the side-splitting belly-laugh to the soft\n> inner ripple.\n>\n> These stories are all about Jeeves, the most fabulous gentleman’s\n> gentleman ever invented. From behind his inscrutable facade, the\n> incomparable Jeeves—confessor, savior, confidant—sagely guides the\n> destinies of Bertie Wooster and his friends. And when things get out\n> of hand, as they invariably do, it is Jeeves who tactfully assumes\n> control to settle matters with his customary incredible ingenuity.\n>\n> For this edition, John W. Aldridge has written an excellent\n> introduction which discusses Wodehouse’s talent—a talent that\n> transforms all readers into devotees. (*Fall 1958*)\n\nOriginal ML collection selected from *Carry On, Jeeves!* (George H.\nDoran Co., 1927) and *Very Good, Jeeves* (Doran, 1930). Published\nOctober 1958. *WR* 13 October 1958. First printing: Not ascertained.\nDiscontinued 1971/72.\n\nAldridge suggested a volume of Wodehouse stories in 1956 (Aldridge to\nHiram Haydn, 9 July 1956). Cerf indicated that since the ML would be\nmaking new plates the maximum royalty would be 10 cents a copy and that\nit would have to include Wodehouse, his publisher, and Aldridge (Cerf to\nAldridge, 19 July 1957).\n\nWodehouse wrote that he was “tremendously pleased and flattered” that he\nwould be in the ML but noted that he didn’t think the stories in *Carry\nOn, Jeeves!* were very good. He thought it would be better if the ML\nused most of the first Jeeves book and all of *Very Good, Jeeves*. He\nalso suggested updating several references in the stories and changing\nthe title to *A Gathering of Jeeves* (Wodehouse to Cerf, 12 August\n1957). After discussing the proposed contents with Aldridge, Cerf asked\nWodehouse not to alter the table of contents. “Aldridge assures us that\nhe weighed the pros and cons of every story he picked, and thinks that\nfor Modern Library purposes we’ve got just the right selection.” He also\nasked Wodehouse not to insert updated references in the stories.\n“Everybody realizes that the Jeeves stories belong to a certain period\nand . . . up-dating any of the references would simply cause unnecessary\nconfusion and certainly would be a mortal affront to your most ardent\nadmirers.” Finally, he argued for sticking with the title *Selected\nStories*. “The latter \\[*A Gathering of Jeeves*\\] may sound a little bit\nbetter, but it has been our experience that Modern Library titles sell\nbest when they state very clearly what the book contains, without\nreaching for anything cute or clever” (Cerf to Wodehouse, 19 August\n1957).\n\nWodehouse contributed an original foreword to the volume. Aldridge’s\nintroduction was written for the ML but also appeared in *New World\nWriting*, no. 13 (1958), pp. 181–92.",
+  "full": "**P. G. WODEHOUSE. SELECTED STORIES. 1958–1971. (ML 126)**\n\n#### 505. First printing (1958)\n\n*Selected Stories* | *by* | *P. G. Wodehouse* | Introduction by John W.\nAldridge | \\[torchbearer E3\\] | THE MODERN LIBRARY\n\nPp. \\[i–iv\\] v–xxv \\[xxvi\\], \\[1–2\\] 3–382 \\[383–390\\].\n\\[1\\]<sup>16</sup> \\[2–5\\]<sup>32</sup> \\[6\\]<sup>16</sup>\n\\[7\\]<sup>32</sup> \\[8\\]<sup>16</sup>\n\n\\[i\\] half title; \\[ii\\] blank; \\[iii\\] title; \\[iv\\] © Copyright, 1958,\nby Random House, Inc. | Copyright, 1916, 1917, 1922, 1924, 1925, 1926,\n1927, | 1929, 1930, by P. G. Wodehouse; v–viii *Foreword* | BY P. G.\nWODEHOUSE; \\[ix\\] *Contents*; \\[x\\] blank; xi–xxv *Introduction* | P. G.\nWODEHOUSE: | THE LESSON OF THE | YOUNG MASTER | BY JOHN W. ALDRIDGE;\n\\[xxvi\\] blank; \\[1\\] fly title; \\[2\\] blank; 3–382 text; \\[383–388\\] ML\nlist; \\[389–390\\] ML Giants list. (*Fall 1958*)\n\n> *Variant:* Pagination and collation as 505. Contents as 505 except:\n> \\[iv\\] copyright statements reset in full capitals and “1927,” moved\n> to beginning of line 3; \\[383–390\\] ML list. (*Spring 1967*)\n\n*Contents:* Jeeves Takes Charge – The Artistic Career of Corky – Jeeves\nand the Unbidden Guest – The Aunt and the Sluggard – The Rummy Affair of\nOld Biffy – Clustering Round Young Bingo – Bertie Changes His Mind –\nJeeves and the Impending Doom – Jeeves and the Yuletide Spirit – Jeeves\nand the Song of Songs – Episode of the Dog McIntosh – Jeeves and the Kid\nClementina – The Love That Purifies – Jeeves and the Old School Chum –\nThe Ordeal of Young Tuppy.\n\n*Jacket:* Pictorial in vivid red (11), brilliant yellow (83), moderate\npink (5), light bluish gray (190) and black on coated white paper with\nleft profile illustration of Jeeves; lettering in black and vivid red.\nSpine in vivid red with lettering in reverse and black.\n\n> Front flap:<br>\n> This book is guaranteed to give you all fifty-seven varieties of\n> laughter—everything from the side-splitting belly-laugh to the soft\n> inner ripple.\n>\n> These stories are all about Jeeves, the most fabulous gentleman’s\n> gentleman ever invented. From behind his inscrutable facade, the\n> incomparable Jeeves—confessor, savior, confidant—sagely guides the\n> destinies of Bertie Wooster and his friends. And when things get out\n> of hand, as they invariably do, it is Jeeves who tactfully assumes\n> control to settle matters with his customary incredible ingenuity.\n>\n> For this edition, John W. Aldridge has written an excellent\n> introduction which discusses Wodehouse’s talent—a talent that\n> transforms all readers into devotees. (*Fall 1958*)\n\nOriginal ML collection selected from *Carry On, Jeeves!* (George H.\nDoran Co., 1927) and *Very Good, Jeeves* (Doran, 1930). Published\nOctober 1958. *WR* 13 October 1958. First printing: Not ascertained.\nDiscontinued 1971/72.\n\nAldridge suggested a volume of Wodehouse stories in 1956 (Aldridge to\nHiram Haydn, 9 July 1956). Cerf indicated that since the ML would be\nmaking new plates the maximum royalty would be 10 cents a copy and that\nit would have to include Wodehouse, his publisher, and Aldridge (Cerf to\nAldridge, 19 July 1957).\n\nWodehouse wrote that he was “tremendously pleased and flattered” that he\nwould be in the ML but noted that he didn’t think the stories in *Carry\nOn, Jeeves!* were very good. He thought it would be better if the ML\nused most of the first Jeeves book and all of *Very Good, Jeeves*. He\nalso suggested updating several references in the stories and changing\nthe title to *A Gathering of Jeeves* (Wodehouse to Cerf, 12 August\n1957). After discussing the proposed contents with Aldridge, Cerf asked\nWodehouse not to alter the table of contents. “Aldridge assures us that\nhe weighed the pros and cons of every story he picked, and thinks that\nfor Modern Library purposes we’ve got just the right selection.” He also\nasked Wodehouse not to insert updated references in the stories.\n“Everybody realizes that the Jeeves stories belong to a certain period\nand . . . up-dating any of the references would simply cause unnecessary\nconfusion and certainly would be a mortal affront to your most ardent\nadmirers.” Finally, he argued for sticking with the title *Selected\nStories*. “The latter \\[*A Gathering of Jeeves*\\] may sound a little bit\nbetter, but it has been our experience that Modern Library titles sell\nbest when they state very clearly what the book contains, without\nreaching for anything cute or clever” (Cerf to Wodehouse, 19 August\n1957).\n\nWodehouse contributed an original foreword to the volume. Aldridge’s\nintroduction was written for the ML but also appeared in *New World\nWriting*, no. 13 (1958), pp. 181–92.",
   "id": "505",
   "year": "1958",
   "title": "P. G. WODEHOUSE. SELECTED STORIES. 1958–1971. (ML 126)",
@@ -1850,7 +1885,8 @@ Writing</em>, no. 13 (1958), pp. 181–92.</p>
 }</pre></sl-details>
 
 <script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
-</div>
+
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1869,7 +1905,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

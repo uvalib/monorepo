@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -39,7 +74,7 @@
 
 <h1>325</h1>
 <h2>First printing (1940)</h2>
-<div class="md-block"><p><em>Personal History</em> | <em>by</em> | VINCENT SHEEAN | <em>with a new introduction
+<p><em>Personal History</em> | <em>by</em> | VINCENT SHEEAN | <em>with a new introduction
 by</em> THE AUTHOR | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D1.webp'>torchbearer D1</uvalib-modal-image-button> at right; 3-line imprint at left] THE
 | MODERN LIBRARY | NEW YORK | [rule]</p>
 <p>Pp. [i–viii] ix–xi [xii], [1–2] 3–436. [1–14]<sup>16</sup></p>
@@ -79,7 +114,7 @@ placing it in the second quarter of ML titles during this eighteen-month
 period. <em>Personal History</em> was not among the one hundred best-selling
 titles in the regular ML during the twelve-month period, November
 1951–October 1952.</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1808,12 +1843,13 @@ titles in the regular ML during the twelve-month period, November
 <sl-details summary="revision"><pre>{
   "id": "325",
   "title": "First printing (1940)",
-  "full": "\n\n*Personal History* | *by* | VINCENT SHEEAN | *with a new introduction\nby* THE AUTHOR | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D1.webp'>torchbearer D1</uvalib-modal-image-button> at right; 3-line imprint at left\\] THE\n| MODERN LIBRARY | NEW YORK | \\[rule\\]\n\nPp. \\[i–viii\\] ix–xi \\[xii\\], \\[1–2\\] 3–436. \\[1–14\\]<sup>16</sup>\n\n\\[i\\] half title; \\[ii\\] blank; \\[iii\\] title; \\[iv\\] COPYRIGHT, 1934,\n1935, BY VINCENT SHEEAN | INTRODUCTION COPYRIGHT, 1940, | BY THE MODERN\nLIBRARY, INC. | FIRST *Modern Library* EDITION, 1940; \\[v\\] dedication;\n\\[vi\\] acknowledgment; \\[vii\\] CONTENTS; \\[viii\\] blank; ix–xi\nINTRODUCTION signed p. xi: <span class=\"smallcaps\">Vincent Sheean</span>\n| *November, 1939*.; \\[xii\\] blank; \\[1\\] fly title; \\[2\\] blank; 3–430\ntext; 431–436 AN INDEX OF PERSONAL NAMES.\n\n*Jacket:* Pictorial in moderate yellow (87), vivid red (11), yellowish\ngray (93) and black on coated white paper depicting an Arab in front of\na mosque, marching soldiers, a steamship at sea, and a Chinese peasant\nagainst moderate yellow background; title in vivid red on diagonal\nyellowish gray panel with ragged sides, other lettering in black.\nSigned: Galdone.\n\n> Front flap:<br>\n> Vincent Sheean’s book is far more than its title implies; it is\n> history in the making, a vivid interpretation of the ideas and\n> struggles that have so suddenly changed our conception of the modern\n> world. An eye-witness of violent events, the friend and confidant of\n> men and women of power and influence, he has been able to give to this\n> book an authority and intensity that few of the long succession of\n> volumes fashioned on it have been able to attain. *Personal History*\n> is a book of lasting importance. (*Spring 1940*)\n\nOriginally published by Doubleday, Doran & Co., 1935. ML edition printed\nfrom Doubleday, Doran plates made from a new typesetting; the plates\nappear to have been used exclusively by the ML but remained the property\nof Doubleday, Doran. Published January 1940. *WR* 27 January 1940. First\nprinting: Not ascertained. Discontinued 1 January 1954.\n\nThe original Doubleday, Doran plates were too large for the ML’s format.\nThe ML paid Doubleday, Doran royalties of 10 cents a copy.\n\nThe ML edition sold 6,635 copies between 1 May 1942 and 1 November 1943,\nplacing it in the second quarter of ML titles during this eighteen-month\nperiod. *Personal History* was not among the one hundred best-selling\ntitles in the regular ML during the twelve-month period, November\n1951–October 1952.",
+  "full": "\n\n*Personal History* | *by* | VINCENT SHEEAN | *with a new introduction\nby* THE AUTHOR | \\[torchbearer D1 at right; 3-line imprint at left\\] THE\n| MODERN LIBRARY | NEW YORK | \\[rule\\]\n\nPp. \\[i–viii\\] ix–xi \\[xii\\], \\[1–2\\] 3–436. \\[1–14\\]<sup>16</sup>\n\n\\[i\\] half title; \\[ii\\] blank; \\[iii\\] title; \\[iv\\] COPYRIGHT, 1934,\n1935, BY VINCENT SHEEAN | INTRODUCTION COPYRIGHT, 1940, | BY THE MODERN\nLIBRARY, INC. | FIRST *Modern Library* EDITION, 1940; \\[v\\] dedication;\n\\[vi\\] acknowledgment; \\[vii\\] CONTENTS; \\[viii\\] blank; ix–xi\nINTRODUCTION signed p. xi: <span class=\"smallcaps\">Vincent Sheean</span>\n| *November, 1939*.; \\[xii\\] blank; \\[1\\] fly title; \\[2\\] blank; 3–430\ntext; 431–436 AN INDEX OF PERSONAL NAMES.\n\n*Jacket:* Pictorial in moderate yellow (87), vivid red (11), yellowish\ngray (93) and black on coated white paper depicting an Arab in front of\na mosque, marching soldiers, a steamship at sea, and a Chinese peasant\nagainst moderate yellow background; title in vivid red on diagonal\nyellowish gray panel with ragged sides, other lettering in black.\nSigned: Galdone.\n\n> Front flap:<br>\n> Vincent Sheean’s book is far more than its title implies; it is\n> history in the making, a vivid interpretation of the ideas and\n> struggles that have so suddenly changed our conception of the modern\n> world. An eye-witness of violent events, the friend and confidant of\n> men and women of power and influence, he has been able to give to this\n> book an authority and intensity that few of the long succession of\n> volumes fashioned on it have been able to attain. *Personal History*\n> is a book of lasting importance. (*Spring 1940*)\n\nOriginally published by Doubleday, Doran & Co., 1935. ML edition printed\nfrom Doubleday, Doran plates made from a new typesetting; the plates\nappear to have been used exclusively by the ML but remained the property\nof Doubleday, Doran. Published January 1940. *WR* 27 January 1940. First\nprinting: Not ascertained. Discontinued 1 January 1954.\n\nThe original Doubleday, Doran plates were too large for the ML’s format.\nThe ML paid Doubleday, Doran royalties of 10 cents a copy.\n\nThe ML edition sold 6,635 copies between 1 May 1942 and 1 November 1943,\nplacing it in the second quarter of ML titles during this eighteen-month\nperiod. *Personal History* was not among the one hundred best-selling\ntitles in the regular ML during the twelve-month period, November\n1951–October 1952.",
   "year": "1940",
   "book": "325"
 }</pre></sl-details>
 
-<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script></div>
+<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1832,7 +1868,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

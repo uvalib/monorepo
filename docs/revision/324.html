@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -39,7 +74,7 @@
 
 <h1>324</h1>
 <h2>First printing (1939)</h2>
-<div class="md-block"><p>[within double rules] HEAR, | YE SONS | A NOVEL | [rule] | <span
+<p>[within double rules] HEAR, | YE SONS | A NOVEL | [rule] | <span
 class="smallcaps">by</span> IRVING FINEMAN | [rule] | “. . . hear, ye
 sons of Jacob; | And hearken unto Israel your father.” | – <em>Genesis</em> |
 [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer A2</uvalib-modal-image-button>] | [rule] | THE MODERN LIBRARY | NEW YORK</p>
@@ -91,7 +126,7 @@ two years and two-and-a-half months, making it the shortest-lived ML
 title. John Davidson, <em>Poems</em> (107), published by Boni &amp; Liveright in
 April 1924 and discontinued at the end of 1926, outlasted <em>Hear, Ye
 Sons</em> by six months and was the second shortest-lived title.</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1820,12 +1855,13 @@ Sons</em> by six months and was the second shortest-lived title.</p>
 <sl-details summary="revision"><pre>{
   "id": "324",
   "title": "First printing (1939)",
-  "full": "\n\n\\[within double rules\\] HEAR, | YE SONS | A NOVEL | \\[rule\\] | <span\nclass=\"smallcaps\">by</span> IRVING FINEMAN | \\[rule\\] | “. . . hear, ye\nsons of Jacob; | And hearken unto Israel your father.” | – *Genesis* |\n\\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer A2</uvalib-modal-image-button>\\] | \\[rule\\] | THE MODERN LIBRARY | NEW YORK\n\nPp. \\[*8*\\], \\[i–vi\\] vii–xii, \\[1–2\\] 3–306 \\[307–308\\].\n\\[1–10\\]<sup>16</sup> \\[11\\]<sup>4</sup>\n\n\\[*1*\\] half title; \\[*2*\\] pub. note D17; \\[*3*\\] title; \\[*4*\\]\n*Copyright,* 1933, *by* IRVING FINEMAN | \\[short double rule\\] | *First\nModern Library Edition* | 1939; \\[*5*\\] biographical note; \\[*6*\\]\nblank; \\[*7*\\] dedication; \\[*8*\\] blank; \\[i–v\\] A BELATED PREFACE |\n*by Irving Fineman*; \\[vi\\] blank; vii–xii PROLOGUE AND EPILOGUE | <span\nclass=\"smallcaps\">My Children</span>; \\[1\\] part title: PART I; \\[2\\]\nblank; 3–306 text; \\[307–308\\] blank.\n\n*Format:* 7⅛ x 4⅞ in. (181 x 123 mm) with cream endpapers and the\nvariant Blumenthal binding without the torchbearer on the front panel.\nThe binding appears to have been used only for first printings of the\ntwo new titles published in October 1939, Fielding, *Joseph Andrews*\n(323) and Fineman, *Hear Ye Sons*.\n\n*Jacket:* Non-pictorial in dark yellowish green (137) and black on\ncoated white paper with title in reverse against dark yellowish green\nbackground, other lettering in black, and vertical borders in reverse at\nleft. Probably designed by Joseph Blumenthal.\n\n> Front flap:<br>\n> Nothing could be more timely than a novel which re-affirms the\n> nobility and integrity of the Jewish people. Such a novel is *Hear, Ye\n> Sons* and it is revived at a moment when persecution of a defenseless\n> minority is spreading all over the world. The most popular book by the\n> author of *Doctor Addams*, a national best-seller, *Hear, Ye Sons* is\n> a story recommended to readers of every taste and every racial and\n> religious origin. It is a novel alive with the spirit of tolerance.\n> (*Fall 1939*)\n\nOriginally published by Longmans, Green & Co., 1933. ML edition (pp.\n\\[*7*\\], vii–306) printed from Longmans, Green plates. Published October\n1939. *WR* 14 October 1939. First (and only) printing: Not ascertained.\nDiscontinued 1 January 1942.\n\nFord Madox Ford wrote to the ML in 1933 praising *Hear, Ye Sons*, and\nCerf may have told Fineman that he was interested in a ML edition.\nFineman indicated in 1938 that reprint houses had been asking for the\nbook for several years but that he had held off, hoping that it would\nappear in the ML. He added that if the ML did not want it he would let\nit go to another reprinter (Fineman to Cerf, 26 December 1938). Cerf\nreplied two days later that he wanted to publish *Hear, Ye Sons* in fall\n1939 and invited Fineman to write a new preface (Cerf to Fineman, 28\nDecember 1939). “A Belated Preface” (pp. \\[i–v\\]) was written for the ML\nedition.\n\nThe ML edition of *Hear, Ye Sons* sold poorly and was discontinued after\ntwo years and two-and-a-half months, making it the shortest-lived ML\ntitle. John Davidson, *Poems* (107), published by Boni & Liveright in\nApril 1924 and discontinued at the end of 1926, outlasted *Hear, Ye\nSons* by six months and was the second shortest-lived title.",
+  "full": "\n\n\\[within double rules\\] HEAR, | YE SONS | A NOVEL | \\[rule\\] | <span\nclass=\"smallcaps\">by</span> IRVING FINEMAN | \\[rule\\] | “. . . hear, ye\nsons of Jacob; | And hearken unto Israel your father.” | – *Genesis* |\n\\[torchbearer A2\\] | \\[rule\\] | THE MODERN LIBRARY | NEW YORK\n\nPp. \\[*8*\\], \\[i–vi\\] vii–xii, \\[1–2\\] 3–306 \\[307–308\\].\n\\[1–10\\]<sup>16</sup> \\[11\\]<sup>4</sup>\n\n\\[*1*\\] half title; \\[*2*\\] pub. note D17; \\[*3*\\] title; \\[*4*\\]\n*Copyright,* 1933, *by* IRVING FINEMAN | \\[short double rule\\] | *First\nModern Library Edition* | 1939; \\[*5*\\] biographical note; \\[*6*\\]\nblank; \\[*7*\\] dedication; \\[*8*\\] blank; \\[i–v\\] A BELATED PREFACE |\n*by Irving Fineman*; \\[vi\\] blank; vii–xii PROLOGUE AND EPILOGUE | <span\nclass=\"smallcaps\">My Children</span>; \\[1\\] part title: PART I; \\[2\\]\nblank; 3–306 text; \\[307–308\\] blank.\n\n*Format:* 7⅛ x 4⅞ in. (181 x 123 mm) with cream endpapers and the\nvariant Blumenthal binding without the torchbearer on the front panel.\nThe binding appears to have been used only for first printings of the\ntwo new titles published in October 1939, Fielding, *Joseph Andrews*\n(323) and Fineman, *Hear Ye Sons*.\n\n*Jacket:* Non-pictorial in dark yellowish green (137) and black on\ncoated white paper with title in reverse against dark yellowish green\nbackground, other lettering in black, and vertical borders in reverse at\nleft. Probably designed by Joseph Blumenthal.\n\n> Front flap:<br>\n> Nothing could be more timely than a novel which re-affirms the\n> nobility and integrity of the Jewish people. Such a novel is *Hear, Ye\n> Sons* and it is revived at a moment when persecution of a defenseless\n> minority is spreading all over the world. The most popular book by the\n> author of *Doctor Addams*, a national best-seller, *Hear, Ye Sons* is\n> a story recommended to readers of every taste and every racial and\n> religious origin. It is a novel alive with the spirit of tolerance.\n> (*Fall 1939*)\n\nOriginally published by Longmans, Green & Co., 1933. ML edition (pp.\n\\[*7*\\], vii–306) printed from Longmans, Green plates. Published October\n1939. *WR* 14 October 1939. First (and only) printing: Not ascertained.\nDiscontinued 1 January 1942.\n\nFord Madox Ford wrote to the ML in 1933 praising *Hear, Ye Sons*, and\nCerf may have told Fineman that he was interested in a ML edition.\nFineman indicated in 1938 that reprint houses had been asking for the\nbook for several years but that he had held off, hoping that it would\nappear in the ML. He added that if the ML did not want it he would let\nit go to another reprinter (Fineman to Cerf, 26 December 1938). Cerf\nreplied two days later that he wanted to publish *Hear, Ye Sons* in fall\n1939 and invited Fineman to write a new preface (Cerf to Fineman, 28\nDecember 1939). “A Belated Preface” (pp. \\[i–v\\]) was written for the ML\nedition.\n\nThe ML edition of *Hear, Ye Sons* sold poorly and was discontinued after\ntwo years and two-and-a-half months, making it the shortest-lived ML\ntitle. John Davidson, *Poems* (107), published by Boni & Liveright in\nApril 1924 and discontinued at the end of 1926, outlasted *Hear, Ye\nSons* by six months and was the second shortest-lived title.",
   "year": "1939",
   "book": "324"
 }</pre></sl-details>
 
-<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script></div>
+<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1844,7 +1880,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

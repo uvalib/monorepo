@@ -16,7 +16,7 @@ permalink: "book/{{ book.id }}.html"
   <sl-breadcrumb-item href="{{ '/book/' | url }}{{ book.id }}.html">{{ book.id }}</sl-breadcrumb-item>
 </sl-breadcrumb>
 
-{% markdown book.full %}
+{{ book.full | addLinks('torchbearer','revision') | markdown | safe }}
 
 <elix-carousel-with-thumbnails style="width: 100%">
   {% for cover in covers %}

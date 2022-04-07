@@ -1,4 +1,4 @@
 ---
 permalink: "revisionsIndex.json"
 ---
-{{ revisions | eLunarIndex('title','year','full','book') | dump | safe }}
+{{ revisions | fuseIndex('title','year','full','book') | dump | safe }}

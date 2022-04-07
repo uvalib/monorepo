@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -39,7 +74,7 @@
 
 <h1>189b</h1>
 <h2>Title page reset (c. 1940)</h2>
-<div class="md-block"><p>THE TURN | OF THE SCREW | [diamond ornament] | THE LESSON OF | THE
+<p>THE TURN | OF THE SCREW | [diamond ornament] | THE LESSON OF | THE
 MASTER | [diamond ornament] | By Henry James | <em>Introduction by</em>
 HEYWOOD BROUN | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D4.webp'>torchbearer D4</uvalib-modal-image-button> at right; 3-line imprint at left] THE
 | MODERN LIBRARY | NEW YORK | [rule]</p>
@@ -85,7 +120,7 @@ stylist.</p>
 <p>James, <em>Short Stories</em> (Giant, 1948–1970) G75</p>
 <p>James, <em>Washington Square</em> (1950–1970) 427</p>
 <p>James, <em>The Bostonians</em> (1956–1970) 480</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1816,12 +1851,13 @@ stylist.</p>
 <sl-details summary="revision"><pre>{
   "id": "189b",
   "title": "Title page reset (c. 1940)",
-  "full": "\n\nTHE TURN | OF THE SCREW | \\[diamond ornament\\] | THE LESSON OF | THE\nMASTER | \\[diamond ornament\\] | By Henry James | *Introduction by*\nHEYWOOD BROUN | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D4.webp'>torchbearer D4</uvalib-modal-image-button> at right; 3-line imprint at left\\] THE\n| MODERN LIBRARY | NEW YORK | \\[rule\\]\n\nPagination and collation as 189a.\n\nContents as 189a except: \\[ii\\] blank; \\[iv\\] COPYRIGHT, 1891, 1898, BY\nTHE MACMILLAN COMPANY | INTRODUCTION COPYRIGHT, 1930, | BY THE MODERN\nLIBRARY, INC.\n\n> *Variant:* Pagination and collation as 189b. Contents as 189b except\n> p. \\[iv\\] line 2: INTRODUCTION COPYRIGHT, 1930, 1957. (*Spring 1960\n> jacket*)\n\n*Jacket B:* Non-pictorial in dark grayish brown (62) and black on cream\npaper with lettering in black on inset cream panel tilted on a diagonal\naxis; background in dark grayish brown with series and torchbearer in\nreverse below panel. Designed by Joseph Blumenthal. Front flap as 189a.\n(*Spring 1946*)\n\n**189c. Title page reset; offset printing (1967**)\n\nThe Turn | of the Screw | The Lesson of | the Master | by HENRY JAMES |\nIntroduction by | Heywood Broun | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/J.webp'>torchbearer J</uvalib-modal-image-button>\\] | The Modern Library\n| New York\n\nPagination and collation as 189a. Contents as 189b except: \\[iv\\]\nCopyright, 1891, 1898 by the Macmillan Company | Introduction Copyright,\n1930 and renewed, 1957, | by The Modern Library, Inc.\n\n*Jacket C:* Non-pictorial in light olive brown (94), strong red (12) and\nblack on coated white paper with lettering in black and strong red on\ninset light olive brown panel with two rules and ampersand in reverse;\nbackground in white.\n\n> Front flap:<br>\n> **The Turn of the Screw** was first published in 1898 and has remained\n> one of the most hauntingly ambiguous and variously interpreted works\n> in literature.\n>\n> **The Lesson of the Master** discloses James’ constant concern with\n> the nature of the artist.\n\nBoth titles reveal Henry James as an incomparable storyteller and\nstylist.\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\nJames, *Daisy Miller; An International Episode* (1918–1934) 60\n\nJames, *Portrait of a Lady* (1936–1973; 1983– ) 291\n\nJames, *Wings of the Dove* (1946–1969) 389\n\nJames, *Short Stories* (Giant, 1948–1970) G75\n\nJames, *Washington Square* (1950–1970) 427\n\nJames, *The Bostonians* (1956–1970) 480",
+  "full": "\n\nTHE TURN | OF THE SCREW | \\[diamond ornament\\] | THE LESSON OF | THE\nMASTER | \\[diamond ornament\\] | By Henry James | *Introduction by*\nHEYWOOD BROUN | \\[torchbearer D4 at right; 3-line imprint at left\\] THE\n| MODERN LIBRARY | NEW YORK | \\[rule\\]\n\nPagination and collation as 189a.\n\nContents as 189a except: \\[ii\\] blank; \\[iv\\] COPYRIGHT, 1891, 1898, BY\nTHE MACMILLAN COMPANY | INTRODUCTION COPYRIGHT, 1930, | BY THE MODERN\nLIBRARY, INC.\n\n> *Variant:* Pagination and collation as 189b. Contents as 189b except\n> p. \\[iv\\] line 2: INTRODUCTION COPYRIGHT, 1930, 1957. (*Spring 1960\n> jacket*)\n\n*Jacket B:* Non-pictorial in dark grayish brown (62) and black on cream\npaper with lettering in black on inset cream panel tilted on a diagonal\naxis; background in dark grayish brown with series and torchbearer in\nreverse below panel. Designed by Joseph Blumenthal. Front flap as 189a.\n(*Spring 1946*)\n\n**189c. Title page reset; offset printing (1967**)\n\nThe Turn | of the Screw | The Lesson of | the Master | by HENRY JAMES |\nIntroduction by | Heywood Broun | \\[torchbearer J\\] | The Modern Library\n| New York\n\nPagination and collation as 189a. Contents as 189b except: \\[iv\\]\nCopyright, 1891, 1898 by the Macmillan Company | Introduction Copyright,\n1930 and renewed, 1957, | by The Modern Library, Inc.\n\n*Jacket C:* Non-pictorial in light olive brown (94), strong red (12) and\nblack on coated white paper with lettering in black and strong red on\ninset light olive brown panel with two rules and ampersand in reverse;\nbackground in white.\n\n> Front flap:<br>\n> **The Turn of the Screw** was first published in 1898 and has remained\n> one of the most hauntingly ambiguous and variously interpreted works\n> in literature.\n>\n> **The Lesson of the Master** discloses James’ constant concern with\n> the nature of the artist.\n\nBoth titles reveal Henry James as an incomparable storyteller and\nstylist.\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\nJames, *Daisy Miller; An International Episode* (1918–1934) 60\n\nJames, *Portrait of a Lady* (1936–1973; 1983– ) 291\n\nJames, *Wings of the Dove* (1946–1969) 389\n\nJames, *Short Stories* (Giant, 1948–1970) G75\n\nJames, *Washington Square* (1950–1970) 427\n\nJames, *The Bostonians* (1956–1970) 480",
   "year": "1930",
   "book": "189"
 }</pre></sl-details>
 
-<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script></div>
+<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1840,7 +1876,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

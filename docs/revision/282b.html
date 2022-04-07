@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -39,7 +74,7 @@
 
 <h1>282b</h1>
 <h2>Title page reset (c.1940)</h2>
-<div class="md-block"><p>ROAN STALLION | [diamond ornament] | TAMAR | [diamond ornament] |
+<p>ROAN STALLION | [diamond ornament] | TAMAR | [diamond ornament] |
 AND OTHER POEMS | BY | ROBINSON JEFFERS | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D3.webp'>torchbearer D3</uvalib-modal-image-button> at right;
 3-line imprint at left] THE | MODERN LIBRARY | NEW YORK | [rule]</p>
 <p>Pagination and collation as 282a. Contents as 282a except: [ii] blank;
@@ -77,7 +112,7 @@ his search and written about the stark beauty of a rugged landscape
 and the agonized gropings of a people at war with their environment
 and themselves. (<em>Spring 1955</em>)</p>
 </blockquote>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1808,12 +1843,13 @@ and themselves. (<em>Spring 1955</em>)</p>
 <sl-details summary="revision"><pre>{
   "id": "282b",
   "title": "Title page reset (c.1940)",
-  "full": "\n\nROAN STALLION | \\[diamond ornament\\] | TAMAR | \\[diamond ornament\\] |\nAND OTHER POEMS | BY | ROBINSON JEFFERS | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D3.webp'>torchbearer D3</uvalib-modal-image-button> at right;\n3-line imprint at left\\] THE | MODERN LIBRARY | NEW YORK | \\[rule\\]\n\nPagination and collation as 282a. Contents as 282a except: \\[ii\\] blank;\n\\[iv\\] COPYRIGHT, 1935, BY THE MODERN LIBRARY, INC. | COPYRIGHT, 1924,\nBY PETER G. BOYLE | COPYRIGHT, 1925, BY HORACE LIVERIGHT, INC.\n\n> *Variant A:* Pagination as 282a except: \\[296–308\\].\n> \\[1–10\\]<sup>16</sup>. Contents as 282b except: \\[296\\] blank;\n> \\[297–302\\] ML list; \\[303–304\\] ML Giants list; \\[305–308\\] blank.\n> (*Spring 1945*)\n>\n> *Variant B:* Pagination and collation as variant A. Contents as\n> variant A except: \\[iv\\] COPYRIGHT, 1951, BY ROBINSON JEFFERS |\n> COPYRIGHT, 1935, BY THE MODERN LIBRARY, INC. | COPYRIGHT, 1924, BY\n> PETER G. BOYLE | COPYRIGHT, 1925, BY BONI & LIVERIGHT, INC. (*Spring\n> 1952*)\n>\n> *Variant C:* Pagination and collation as variant A. Contents as\n> variant A except: \\[iv\\] COPYRIGHT, 1925, BY HORACE LIVERIGHT, INC. |\n> COPYRIGHT, 1935, BY THE MODERN LIBRARY, INC. | COPYRIGHT RENEWED,\n> 1953, BY ROBINSON JEFFERS. (*Spring 1955*)\n\n*Jacket:* Enlarged version of 282a in very deep red (14) instead of\nvivid reddish orange with horizontal rules omitted. Front flap as 282a.\n(*Spring 1941*)\n\n> Front flap rewritten:<br>\n> For many years Robinson Jeffers has maintained a distinguished place\n> among the poets of America. When *Roan Stallion,* *Tamar and Other\n> Poems* was first published a new and elemental force in our native\n> poetry was acclaimed. The fierce tragedies enacted against a\n> background of the rocky landscape of the Pacific Ocean revealed the\n> brooding and tortured men and women whose hearts Jeffers searched. In\n> poem after poem over many years, he has explored the dark labyrinths\n> of the human spirit. Without compromise or concession he has pursued\n> his search and written about the stark beauty of a rugged landscape\n> and the agonized gropings of a people at war with their environment\n> and themselves. (*Spring 1955*)",
+  "full": "\n\nROAN STALLION | \\[diamond ornament\\] | TAMAR | \\[diamond ornament\\] |\nAND OTHER POEMS | BY | ROBINSON JEFFERS | \\[torchbearer D3 at right;\n3-line imprint at left\\] THE | MODERN LIBRARY | NEW YORK | \\[rule\\]\n\nPagination and collation as 282a. Contents as 282a except: \\[ii\\] blank;\n\\[iv\\] COPYRIGHT, 1935, BY THE MODERN LIBRARY, INC. | COPYRIGHT, 1924,\nBY PETER G. BOYLE | COPYRIGHT, 1925, BY HORACE LIVERIGHT, INC.\n\n> *Variant A:* Pagination as 282a except: \\[296–308\\].\n> \\[1–10\\]<sup>16</sup>. Contents as 282b except: \\[296\\] blank;\n> \\[297–302\\] ML list; \\[303–304\\] ML Giants list; \\[305–308\\] blank.\n> (*Spring 1945*)\n>\n> *Variant B:* Pagination and collation as variant A. Contents as\n> variant A except: \\[iv\\] COPYRIGHT, 1951, BY ROBINSON JEFFERS |\n> COPYRIGHT, 1935, BY THE MODERN LIBRARY, INC. | COPYRIGHT, 1924, BY\n> PETER G. BOYLE | COPYRIGHT, 1925, BY BONI & LIVERIGHT, INC. (*Spring\n> 1952*)\n>\n> *Variant C:* Pagination and collation as variant A. Contents as\n> variant A except: \\[iv\\] COPYRIGHT, 1925, BY HORACE LIVERIGHT, INC. |\n> COPYRIGHT, 1935, BY THE MODERN LIBRARY, INC. | COPYRIGHT RENEWED,\n> 1953, BY ROBINSON JEFFERS. (*Spring 1955*)\n\n*Jacket:* Enlarged version of 282a in very deep red (14) instead of\nvivid reddish orange with horizontal rules omitted. Front flap as 282a.\n(*Spring 1941*)\n\n> Front flap rewritten:<br>\n> For many years Robinson Jeffers has maintained a distinguished place\n> among the poets of America. When *Roan Stallion,* *Tamar and Other\n> Poems* was first published a new and elemental force in our native\n> poetry was acclaimed. The fierce tragedies enacted against a\n> background of the rocky landscape of the Pacific Ocean revealed the\n> brooding and tortured men and women whose hearts Jeffers searched. In\n> poem after poem over many years, he has explored the dark labyrinths\n> of the human spirit. Without compromise or concession he has pursued\n> his search and written about the stark beauty of a rugged landscape\n> and the agonized gropings of a people at war with their environment\n> and themselves. (*Spring 1955*)",
   "year": "1935",
   "book": "282"
 }</pre></sl-details>
 
-<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script></div>
+<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1832,7 +1868,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

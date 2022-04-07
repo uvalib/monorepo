@@ -33,16 +33,49 @@
     </header>
 
     <div id="content">
-<h1>Modern Library Bibliography</h1>
 
-<uvalib-faceted-search config='[{"title":"Years","index":"/yearsIndex.json"},{"title":"Books","index":"/booksIndex.json"},{"title":"Revisions","index":"/revisionsIndex.json"}]'></uvalib-faceted-search>
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
+<uvalib-faceted-search-browse></uvalib-faceted-search-browse>
 
 <div class="years-group">
   
   <sl-details class="year" summary="1925">
     <h2><a href="/modern-library-bibliography-tools/years/1925.html">MODERN LIBRARY SERIES 1925</a></h2>
     
-      <div class="md-block"><p>The Modern Library series was founded in May 1917 by Boni &amp; Liveright,
+      <p>The Modern Library series was founded in May 1917 by Boni &amp; Liveright,
 a new publishing firm that was created to publish the Modern Library.
 The series was conceived by Albert Boni, a twenty-five year old
 Greenwich Village bookseller and occasional publisher. The Modern
@@ -55,7 +88,7 @@ a little magazine edited by Alfred Kreymborg, he was already active in
 promoting translations of modern European writers—much to the dismay
 of Kreymborg, who was interested mainly in discovering and nurturing
 unknown Americans.</p>
-</div>
+
     
     <ul>
     
@@ -14127,7 +14160,7 @@ unknown Americans.</p>
   <sl-details class="year" summary="1927">
     <h2><a href="/modern-library-bibliography-tools/years/1927.html">MODERN LIBRARY SERIES 1927</a></h2>
     
-      <div class="md-block"><p>Cerf and Klopfer created Random House as a subsidiary of the Modern
+      <p>Cerf and Klopfer created Random House as a subsidiary of the Modern
 Library, Inc., to create and distribute “books of typographic excellence
 in America” (announcement on Random House letterhead with Rockwell
 Kent’s newly designed device of a ramshackle house, 24 January 1927).
@@ -14139,7 +14172,7 @@ venture were Cerf, Klopfer, and Elmer Adler of the Pynson Printers.
 Random House became the exclusive American distributor for books
 published by Francis Meynell’s Nonesuch Press and the Golden Cockerel
 Press, the most important English private presses.</p>
-</div>
+
     
     <ul>
     
@@ -48823,7 +48856,7 @@ Press, the most important English private presses.</p>
   <sl-details class="year" summary="1929">
     <h2><a href="/modern-library-bibliography-tools/years/1929.html">MODERN LIBRARY SERIES 1929</a></h2>
     
-      <div class="md-block"><p>With a few exceptions such as Villon, <em>Poems</em> (55) and <em>Passages from
+      <p>With a few exceptions such as Villon, <em>Poems</em> (55) and <em>Passages from
 the Diary of Samuel Pepys</em> (89), the Boni &amp; Liveright series remained
 true to its name and limited its scope to modern works. Cerf and Klopfer
 increased the number of older works, but they did so slowly. They added
@@ -48837,7 +48870,7 @@ Tales</em> (161), and Homer’s <em>Iliad</em> (166) and <em>Odyssey</em> (167).
 these works had been targets of censorship groups such as the New York
 Society for the Suppression of Vice, which was sufficient to redeem them
 in the eyes of the shallowest modernist.</p>
-</div>
+
     
     <ul>
     
@@ -66631,7 +66664,7 @@ in the eyes of the shallowest modernist.</p>
   <sl-details class="year" summary="1930">
     <h2><a href="/modern-library-bibliography-tools/years/1930.html">MODERN LIBRARY SERIES 1930</a></h2>
     
-      <div class="md-block"><p>The Modern Library’s purchase of the Sun Dial Library from Garden City
+      <p>The Modern Library’s purchase of the Sun Dial Library from Garden City
 Publishing Co., the Doubleday, Doran subsidiary that specialized in
 hard-cover reprints, was announced on 4 April. The Sun Dial Library had
 been in existence since 1923 and was a reprint series of modern literary
@@ -66641,7 +66674,7 @@ Dial Library had never been a strong rival, but it was the only American
 series that competed with the Modern Library to any extent and Cerf
 regarded it as potentially dangerous (Cerf to James L. Crowder, 2 April
 1930).</p>
-</div>
+
     
     <ul>
     
@@ -84421,7 +84454,7 @@ regarded it as potentially dangerous (Cerf to James L. Crowder, 2 April
   <sl-details class="year" summary="1931">
     <h2><a href="/modern-library-bibliography-tools/years/1931.html">MODERN LIBRARY SERIES 1931</a></h2>
     
-      <div class="md-block"><p>It took more than two years for the economy to decline to its lowest
+      <p>It took more than two years for the economy to decline to its lowest
 levels after the stock market crash of 1929. Modern Library sales
 fluctuated as the economy declined, but on the whole the series appears
 to have been well suited to the Depression book market. Few mainstream
@@ -84430,7 +84463,7 @@ sales passed the million copy mark for the first time in 1930; sales for
 September 1931 were the best of any month in the Modern Library’s
 history up to that time (Cerf, “The Modern Library and the Price of
 Books,” <em>PW</em>, 7 December 1929, p. 2665; <em>PW</em>, 10 October 1931, p. 1649).</p>
-</div>
+
     
     <ul>
     
@@ -104068,7 +104101,7 @@ Books,” <em>PW</em>, 7 December 1929, p. 2665; <em>PW</em>, 10 October 1931, p
   <sl-details class="year" summary="1932">
     <h2><a href="/modern-library-bibliography-tools/years/1932.html">MODERN LIBRARY SERIES 1932</a></h2>
     
-      <div class="md-block"><p>Elmer Adler, who had been a director of Random House since the imprint
+      <p>Elmer Adler, who had been a director of Random House since the imprint
 was created in 1927 to distribute and publish fine limited editions,
 resigned in 1932. Thereafter he devoted himself exclusively to his fine
 printing business, Pynson Printers, and to <em>The Colophon</em>, the
@@ -104077,7 +104110,7 @@ House was reorganized—still as a subsidiary of The Modern Library,
 Inc.—with Cerf and Klopfer as sole directors. It was not until 1933,
 following the bankruptcy of Liveright, Inc., that Cerf and Klopfer
 turned seriously to trade publishing.</p>
-</div>
+
     
     <ul>
     
@@ -126555,7 +126588,7 @@ turned seriously to trade publishing.</p>
   <sl-details class="year" summary="1933">
     <h2><a href="/modern-library-bibliography-tools/years/1933.html">MODERN LIBRARY SERIES 1933</a></h2>
     
-      <div class="md-block"><p><em>Publishers’ Weekly</em> reported that the Modern Library’s best-selling
+      <p><em>Publishers’ Weekly</em> reported that the Modern Library’s best-selling
 books for 1933 showed “a distinct change in the trend of interest of
 readers. For the first time in years none of the so-called sex titles,
 like ‘Droll Stories’ or ‘The Decameron,’ was on the list. Most
@@ -126569,7 +126602,7 @@ Mann, <em>The Magic Mountain</em>, Merejkowski, <em>The Romance of Leonardo da
 Vinci</em>, Dostoyevsky, <em>The Brothers Karamazov</em>, Cather, <em>Death Comes for
 the Archbishop</em>, and Rostand, <em>Cyrano de Bergerac</em> (“Modern Library Best
 Sellers,” <em>PW</em>, 13 January 1934, p. 148).</p>
-</div>
+
     
     <ul>
     
@@ -138753,7 +138786,7 @@ Sellers,” <em>PW</em>, 13 January 1934, p. 148).</p>
   <sl-details class="year" summary="1934">
     <h2><a href="/modern-library-bibliography-tools/years/1934.html">MODERN LIBRARY SERIES 1934</a></h2>
     
-      <div class="md-block"><p>Cerf and Klopfer published the first authorized American edition of
+      <p>Cerf and Klopfer published the first authorized American edition of
 James Joyce’s <em>Ulysses</em> in January 1934. The book appeared under the
 Random House imprint, but the U.S. copyright was registered under The
 Modern Library, Inc., which at this point was still the legal name of
@@ -138763,7 +138796,7 @@ Company, the Paris bookshop established by the American expatriate
 Sylvia Beach. <em>Ulysses</em> was officially banned in the United States and
 tourists returning to the U.S. ran the risk of having it confiscated at
 customs.</p>
-</div>
+
     
     <ul>
     
@@ -160311,7 +160344,7 @@ customs.</p>
   <sl-details class="year" summary="1936">
     <h2><a href="/modern-library-bibliography-tools/years/1936.html">MODERN LIBRARY SERIES 1936</a></h2>
     
-      <div class="md-block"><p>The most important step in Random House’s growth as a trade publisher
+      <p>The most important step in Random House’s growth as a trade publisher
 came in 1936 when Cerf and Klopfer acquired the publishing firm Harrison
 Smith and Robert K. Haas. Smith and Haas had been in business for just
 over five years, but both men had solid experience in publishing. Smith
@@ -160325,7 +160358,7 @@ published many important books, but the early 1930s was a difficult time
 to launch a new publishing firm and Smith and Haas remained financially
 insecure. When Cerf and Klopfer suggested a merger with Random House
 they agreed. Haas recalled the circumstances as follows:</p>
-</div>
+
     
     <ul>
     
@@ -169719,11 +169752,11 @@ they agreed. Haas recalled the circumstances as follows:</p>
   <sl-details class="year" summary="1937">
     <h2><a href="/modern-library-bibliography-tools/years/1937.html">MODERN LIBRARY SERIES 1937</a></h2>
     
-      <div class="md-block"><p>Cerf and Klopfer’s acquisition early in 1936 of the publishing firm
+      <p>Cerf and Klopfer’s acquisition early in 1936 of the publishing firm
 Harrison Smith and Robert K. Haas and the subsequent change in the legal
 name of the firm from The Modern Library, Inc. to Random House, Inc. was
 followed by a surge in trade publishing.</p>
-</div>
+
     
     <ul>
     
@@ -180017,7 +180050,7 @@ followed by a surge in trade publishing.</p>
   <sl-details class="year" summary="1938">
     <h2><a href="/modern-library-bibliography-tools/years/1938.html">MODERN LIBRARY SERIES 1938</a></h2>
     
-      <div class="md-block"><p>The spring 1938 RH catalogue was indicative of the growing importance of
+      <p>The spring 1938 RH catalogue was indicative of the growing importance of
 RH’s trade list. It included Isak Dineson’s <em>Out of Africa</em>, William
 Faulkner’s <em>Unvanquished</em>, Robert Graves’s <em>Count Belisarius</em>, Edgar
 Snow’s <em>Red Star Over China</em>, and John Strachey’s <em>What is to be Done?</em>
@@ -180025,7 +180058,7 @@ Other titles included <em>The Public Papers</em> and <em>Addresses of Franklin D
 Roosevelt</em> in five volumes and <em>The Complete Greek Drama</em>, a two-volume
 set in the Lifetime Library, a series of mainly ancient classics that
 began the previous year with <em>The Complete Dialogues of Plato</em>.</p>
-</div>
+
     
     <ul>
     
@@ -187529,7 +187562,7 @@ began the previous year with <em>The Complete Dialogues of Plato</em>.</p>
   <sl-details class="year" summary="1939">
     <h2><a href="/modern-library-bibliography-tools/years/1939.html">MODERN LIBRARY SERIES 1939</a></h2>
     
-      <div class="md-block"><p>The ML underwent a major change in format and design for the second time
+      <p>The ML underwent a major change in format and design for the second time
 in its history. The first, in 1929, substituted balloon cloth bindings
 for imitation leather and introduced Rockwell Kent’s binding and
 endpaper designs. (Balloon cloth began to be used in January 1929;
@@ -187542,7 +187575,7 @@ publishers’ letterpress plates, most of which were designed for a larger
 format. Many of the volumes printed from original publishers’ plates had
 uncomfortably narrow margins. Sometimes the original plates were too
 large to be used by the ML.</p>
-</div>
+
     
     <ul>
     
@@ -195054,14 +195087,14 @@ large to be used by the ML.</p>
   <sl-details class="year" summary="1940">
     <h2><a href="/modern-library-bibliography-tools/years/1940.html">MODERN LIBRARY SERIES 1940</a></h2>
     
-      <div class="md-block"><p>By 1940, Cerf and Klopfer had been in charge of the ML for nearly
+      <p>By 1940, Cerf and Klopfer had been in charge of the ML for nearly
 fifteen years. Many titles inherited from Boni &amp; Liveright were
 discontinued in the 1930s; by 1940, less than a third of the Boni &amp;
 Liveright titles remained. ML Giants joined the regular ML series in
 1931. By spring 1940, regular titles and Giants together numbered 270
 titles—two-and-a-half times the size of the series when Cerf and Klopfer
 acquired it.</p>
-</div>
+
     
     <ul>
     
@@ -213819,7 +213852,7 @@ acquired it.</p>
   <sl-details class="year" summary="1942">
     <h2><a href="/modern-library-bibliography-tools/years/1942.html">MODERN LIBRARY SERIES 1942</a></h2>
     
-      <div class="md-block"><p>The war brought many changes to Random House. Klopfer, who was
+      <p>The war brought many changes to Random House. Klopfer, who was
 thirty-nine, applied for a commission in the Air Force. He was
 commissioned as a captain in May 1942 and left for training in
 California at the end of month. He was away from Random House until
@@ -213832,7 +213865,7 @@ ever seen him in my life before” (Cerf to Charles Allen Smart, 19
 October 1943, Random House Collection, Columbia University Library).
 Early the following year he was promoted to major (Cerf, “Trade Winds,”
 <em>Saturday Review of Literature</em>, 12 February 1944, p. 19).</p>
-</div>
+
     
     <ul>
     
@@ -226014,7 +226047,7 @@ Early the following year he was promoted to major (Cerf, “Trade Winds,”
   <sl-details class="year" summary="1943">
     <h2><a href="/modern-library-bibliography-tools/years/1943.html">MODERN LIBRARY SERIES 1943</a></h2>
     
-      <div class="md-block"><p>By 1943 the impact of gasoline rationing and other wartime restrictions
+      <p>By 1943 the impact of gasoline rationing and other wartime restrictions
 had reduced the ways in which people could spend leisure time away from
 home. They turned in large numbers to reading as an alternative. Demand
 for books was such that almost anything publishers brought out was
@@ -226024,7 +226057,7 @@ are able to sell any junk that you can get between covers,” Cerf
 commented, “it takes the kick out of putting over the really good
 numbers” (Cerf to Charles Allen Smart, 19 October 1943). Between 1942
 and 1943, sales of ML books increased from $339,902 to $596,454.</p>
-</div>
+
     
     <ul>
     
@@ -233530,12 +233563,12 @@ and 1943, sales of ML books increased from $339,902 to $596,454.</p>
   <sl-details class="year" summary="1944">
     <h2><a href="/modern-library-bibliography-tools/years/1944.html">MODERN LIBRARY SERIES 1944</a></h2>
     
-      <div class="md-block"><p>Three new ML titles published in spring 1944—Bergson, <em>Creative
+      <p>Three new ML titles published in spring 1944—Bergson, <em>Creative
 Evolution</em> (368), Kaufman and Hart, <em>Six Plays</em> (369), and Melville,
 <em>Moby Dick</em> (G65)—along with a number of backlist titles that were
 reprinted that spring, include the following statement on the verso of
 the title page:</p>
-</div>
+
     
     <ul>
     
@@ -259773,7 +259806,7 @@ the title page:</p>
   <sl-details class="year" summary="1947">
     <h2><a href="/modern-library-bibliography-tools/years/1947.html">MODERN LIBRARY SERIES 1947</a></h2>
     
-      <div class="md-block"><p>The Random House editorial staff increased in size after the war. Cerf
+      <p>The Random House editorial staff increased in size after the war. Cerf
 had already lured Robert Linscott away from Houghton Mifflin in 1944.
 Frank Taylor and Albert Erskine joined the editorial staff in 1947 after
 becoming dissatisfied at Reynal &amp; Hitchcock. Saxe Commins, one of the
@@ -259781,7 +259814,7 @@ great editors of his era, remained editor in chief of the Modern
 Library. Although officially in charge of the series at this period,
 judging from evidence in the Random House archives, his involvement was
 small.</p>
-</div>
+
     
     <ul>
     
@@ -269143,7 +269176,7 @@ small.</p>
   <sl-details class="year" summary="1948">
     <h2><a href="/modern-library-bibliography-tools/years/1948.html">MODERN LIBRARY SERIES 1948</a></h2>
     
-      <div class="md-block"><p>Harcourt, Brace &amp; Co. terminated the reprint contracts for all of its
+      <p>Harcourt, Brace &amp; Co. terminated the reprint contracts for all of its
 titles in the ML when it launched Harbrace Modern Classics, a series of
 full-sized hardbound reprints which appears to have been created
 primarily for the textbook and library markets. The titles affected were
@@ -269158,7 +269191,7 @@ existing stocks of the books were exhausted. <em>Flowering Judas</em> and
 other titles appear to have been reprieved, and Porter’s <em>Flowering
 Judas</em>, which Harcourt, Brace decided not to include in the new series,
 was restored to the ML in spring 1953.</p>
-</div>
+
     
     <ul>
     
@@ -277584,12 +277617,12 @@ was restored to the ML in spring 1953.</p>
   <sl-details class="year" summary="1949">
     <h2><a href="/modern-library-bibliography-tools/years/1949.html">MODERN LIBRARY SERIES 1949</a></h2>
     
-      <div class="md-block"><p>The postwar history of the Modern Library can be regarded as dating from
+      <p>The postwar history of the Modern Library can be regarded as dating from
 the beginning of 1949. That era of the ML’s history was shaped by two
 major developments: the continuing expansion and consolidation of the
 paperback revolution and the growth in college enrollments that
 increased the importance of the college market.</p>
-</div>
+
     
     <ul>
     
@@ -287903,7 +287936,7 @@ increased the importance of the college market.</p>
   <sl-details class="year" summary="1950">
     <h2><a href="/modern-library-bibliography-tools/years/1950.html">MODERN LIBRARY SERIES 1950</a></h2>
     
-      <div class="md-block"><p>In 1950 Random House launched a series for classroom use, Modern Library
+      <p>In 1950 Random House launched a series for classroom use, Modern Library
 College Editions. All of the early titles were taken from the regular
 Modern Library series. They were issued in paper covers and sold
 initially at sixty-five cents a copy—sixty cents less than regular
@@ -287917,7 +287950,7 @@ Royal A. Gettmann, Gilbert Highet, Herbert J. Muller, Gordon N. Ray,
 Mark Schorer, Henri Troyat, Mark Van Doren, Edward Wagenknecht, and
 Morton Dauwen Zabel. The new introductions were subsequently included in
 regular Modern Library printings as well.</p>
-</div>
+
     
     <ul>
     
@@ -296359,7 +296392,7 @@ regular Modern Library printings as well.</p>
   <sl-details class="year" summary="1951">
     <h2><a href="/modern-library-bibliography-tools/years/1951.html">MODERN LIBRARY SERIES 1951</a></h2>
     
-      <div class="md-block"><p>Modern Library College Editions, established in 1950, continued to grow
+      <p>Modern Library College Editions, established in 1950, continued to grow
 during 1951. The series maintained close ties with the regular Modern
 Library series during this time. Most titles continued to be selected
 from the regular Modern Library series and adapted with new
@@ -296368,7 +296401,7 @@ Browning, Byron, Keats, and Shelley were compiled especially for Modern
 Library College Editions. The Keats and Shelley anthologies were also
 published in the regular Modern Library in spring 1951; the Browning and
 Byron volumes were added to the regular series in 1954.</p>
-</div>
+
     
     <ul>
     
@@ -307618,10 +307651,10 @@ Byron volumes were added to the regular series in 1954.</p>
   <sl-details class="year" summary="1952">
     <h2><a href="/modern-library-bibliography-tools/years/1952.html">MODERN LIBRARY SERIES 1952</a></h2>
     
-      <div class="md-block"><p>Two emerging trends shaped directions for the Modern Library in 1952:
+      <p>Two emerging trends shaped directions for the Modern Library in 1952:
 growth in the quality paperback market and initiatives by publishers to
 discontinue contracts with the Modern Library for reprint permissions.</p>
-</div>
+
     
     <ul>
     
@@ -315129,7 +315162,7 @@ discontinue contracts with the Modern Library for reprint permissions.</p>
   <sl-details class="year" summary="1953">
     <h2><a href="/modern-library-bibliography-tools/years/1953.html">MODERN LIBRARY SERIES 1953</a></h2>
     
-      <div class="md-block"><p>Three new series directed at the juvenile market were launched in 1953:
+      <p>Three new series directed at the juvenile market were launched in 1953:
 Landmark Books, Allabout Books, and Gateway Books. The Landmark Books
 were phenomenally successful. By 1956 their sales reached 6,000,000
 copies. They became a staple of the juvenile market, much as the Modern
@@ -315137,7 +315170,7 @@ Library was a staple of the adult trade. In 1954, Cerf commented, “Our
 business gross continues to be fine, but more and more it’s the staples
 and Modern Library and Landmarks. The new novels are simply not selling
 at all” (Cerf to Klopfer, 15 September 1954).</p>
-</div>
+
     
     <ul>
     
@@ -324511,7 +324544,7 @@ at all” (Cerf to Klopfer, 15 September 1954).</p>
   <sl-details class="year" summary="1954">
     <h2><a href="/modern-library-bibliography-tools/years/1954.html">MODERN LIBRARY SERIES 1954</a></h2>
     
-      <div class="md-block"><p>In 1954, Random House entered into negotiations with Allen Lane, the
+      <p>In 1954, Random House entered into negotiations with Allen Lane, the
 founder and head of Penguin Books in England, to explore the possibility
 of Random House’s acquiring the American branch of the firm. Initially,
 Random House was attracted by the idea of obtaining rights for the
@@ -324524,7 +324557,7 @@ Quixote</em>; the Lang-Leaf-Myers translation of <em>Iliad</em> and <em>Odyssey<
 Constance Garnett’s translation of Chekhov’s <em>Plays</em>; and anonymous
 translations of plays by Moliere and Ibsen. Penguin Classics had
 superior translations of these and other works.</p>
-</div>
+
     
     <ul>
     
@@ -339528,7 +339561,7 @@ superior translations of these and other works.</p>
   <sl-details class="year" summary="1956">
     <h2><a href="/modern-library-bibliography-tools/years/1956.html">MODERN LIBRARY SERIES 1956</a></h2>
     
-      <div class="md-block"><p>The discussions with Allen Lane that began in 1954 about the possibility
+      <p>The discussions with Allen Lane that began in 1954 about the possibility
 of Random House acquiring the American branch of Penguin Books resumed
 in the summer of 1956. A Random House memorandum in July outlined a
 possible basis for the purchase of Penguin Books for the American
@@ -339542,7 +339575,7 @@ paper-back plans until we know just where this whole matter stands”
 (Cerf to Lane, 20 August 1956). But Lane was not willing to negotiate at
 this point. However, Random House remained interested. In 1958, Klopfer
 wrote Lane:</p>
-</div>
+
     
     <ul>
     
@@ -348924,7 +348957,7 @@ wrote Lane:</p>
   <sl-details class="year" summary="1957">
     <h2><a href="/modern-library-bibliography-tools/years/1957.html">MODERN LIBRARY SERIES 1957</a></h2>
     
-      <div class="md-block"><p>As costs rose steadily in the years following the war, retail prices
+      <p>As costs rose steadily in the years following the war, retail prices
 inevitably had to be increased. Publishers at this period, however,
 feared adverse public reaction to higher prices and generally held off
 raising prices until the inroads into their profit margins left them no
@@ -348932,7 +348965,7 @@ alternative. The $1.25 price for the regular Modern Library volumes
 remained in effect for seven years, from April 1947 through March 1954.
 It increased to $1.45 on 1 April 1954. Less than three years later, on 1
 January 1957, the price rose again, this time to $1.65.</p>
-</div>
+
     
     <ul>
     
@@ -358310,7 +358343,7 @@ January 1957, the price rose again, this time to $1.65.</p>
   <sl-details class="year" summary="1958">
     <h2><a href="/modern-library-bibliography-tools/years/1958.html">MODERN LIBRARY SERIES 1958</a></h2>
     
-      <div class="md-block"><p>In 1958, about a year and a half before Random House acquired Alfred A.
+      <p>In 1958, about a year and a half before Random House acquired Alfred A.
 Knopf, an event occurred which would have a profound influence on the
 Modern Library’s subsequent history. That was the arrival of Jason
 Epstein as a Random House editor. Epstein had started Anchor Books at
@@ -358321,7 +358354,7 @@ brilliant, innovative, ambitious, and successful figure in the
 publishing world. All of these qualities appealed strongly to Cerf, who
 also admired Epstein’s aggressiveness. Others found him arrogant and
 difficult to work with.</p>
-</div>
+
     
     <ul>
     
@@ -366737,7 +366770,7 @@ difficult to work with.</p>
   <sl-details class="year" summary="1959">
     <h2><a href="/modern-library-bibliography-tools/years/1959.html">MODERN LIBRARY SERIES 1959</a></h2>
     
-      <div class="md-block"><p>During the early 1950s Modern Library sales were lower than they had
+      <p>During the early 1950s Modern Library sales were lower than they had
 been immediately after the war, but by the mid-1950s they had begun a
 steady upward climb. As the 1950s ended, the publishing industry was on
 the verge of a period of tremendous growth and change. By 1959,
@@ -366745,7 +366778,7 @@ publishers whose stock was traded on Wall Street included American Book
 Company, Bobbs-Merrill, Book-of-the-Month Club, Holt, Houghton Mifflin,
 Macmillan, McGraw-Hill, Prentice-Hall, Rand McNally, and World (PW, 12
 October 1959, p. 27).</p>
-</div>
+
     
     <ul>
     
@@ -376120,6 +376153,7 @@ October 1959, p. 27).</p>
   
 </div>
 
+<script>window.lunr = {};</script>
 <script type="module" src="/modern-library-bibliography-tools/js/search.js"></script>
 <script>
   const container = document.querySelector('.years-group');
@@ -376134,7 +376168,8 @@ October 1959, p. 27).</p>
   .years-group sl-details.year:not(:last-of-type) {
     margin-bottom: var(--sl-spacing-2x-small);
   }
-</style></div>
+</style>
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -376153,7 +376188,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

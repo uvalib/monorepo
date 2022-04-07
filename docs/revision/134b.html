@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -39,7 +74,7 @@
 
 <h1>134b</h1>
 <h2>Title page reset (c. 1941)</h2>
-<div class="md-block"><p>THE | PURPLE | LAND | BY W. H. HUDSON | INTRODUCTION BY | WILLIAM McFEE
+<p>THE | PURPLE | LAND | BY W. H. HUDSON | INTRODUCTION BY | WILLIAM McFEE
 | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/E2.webp'>torchbearer E2</uvalib-modal-image-button> at right; 3-line imprint at left] THE | MODERN
 LIBRARY | NEW YORK | [rule]</p>
 <p>Pp. [i–iv] v–xvi, 1–389 [390–400]. [1–13]<sup>16</sup></p>
@@ -52,7 +87,7 @@ Front flap as 134a jacket B. (<em>Fall 1944</em>)</p>
 <p><span class="smallcaps">Also in the Modern Library</span><br>
 Hudson, <em>Green Mansions</em> (1921–1970) 90; (Illustrated ML, 1944–1950) IML
 13</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1783,12 +1818,13 @@ Hudson, <em>Green Mansions</em> (1921–1970) 90; (Illustrated ML, 1944–1950) 
 <sl-details summary="revision"><pre>{
   "id": "134b",
   "title": "Title page reset (c. 1941)",
-  "full": "\n\nTHE | PURPLE | LAND | BY W. H. HUDSON | INTRODUCTION BY | WILLIAM McFEE\n| \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/E2.webp'>torchbearer E2</uvalib-modal-image-button> at right; 3-line imprint at left\\] THE | MODERN\nLIBRARY | NEW YORK | \\[rule\\]\n\nPp. \\[i–iv\\] v–xvi, 1–389 \\[390–400\\]. \\[1–13\\]<sup>16</sup>\n\nContents as 134a except: \\[ii\\] blank; \\[iv\\] publication and\nmanufacturing statements; \\[391–396\\] ML list; \\[397–398\\] ML Giants\nlist; \\[399–400\\] blank. (*Spring 1944*)\n\n*Jacket:* Non-pictorial in solid deep violet (208) on cream paper with\nlettering and torchbearer in reverse. Designed by Joseph Blumenthal.\nFront flap as 134a jacket B. (*Fall 1944*)\n\n<span class=\"smallcaps\">Also in the Modern Library</span><br>\nHudson, *Green Mansions* (1921–1970) 90; (Illustrated ML, 1944–1950) IML\n13",
+  "full": "\n\nTHE | PURPLE | LAND | BY W. H. HUDSON | INTRODUCTION BY | WILLIAM McFEE\n| \\[torchbearer E2 at right; 3-line imprint at left\\] THE | MODERN\nLIBRARY | NEW YORK | \\[rule\\]\n\nPp. \\[i–iv\\] v–xvi, 1–389 \\[390–400\\]. \\[1–13\\]<sup>16</sup>\n\nContents as 134a except: \\[ii\\] blank; \\[iv\\] publication and\nmanufacturing statements; \\[391–396\\] ML list; \\[397–398\\] ML Giants\nlist; \\[399–400\\] blank. (*Spring 1944*)\n\n*Jacket:* Non-pictorial in solid deep violet (208) on cream paper with\nlettering and torchbearer in reverse. Designed by Joseph Blumenthal.\nFront flap as 134a jacket B. (*Fall 1944*)\n\n<span class=\"smallcaps\">Also in the Modern Library</span><br>\nHudson, *Green Mansions* (1921–1970) 90; (Illustrated ML, 1944–1950) IML\n13",
   "year": "1927",
   "book": "134"
 }</pre></sl-details>
 
-<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script></div>
+<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1807,7 +1843,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

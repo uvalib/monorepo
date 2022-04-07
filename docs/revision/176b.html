@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -39,7 +74,7 @@
 
 <h1>176b</h1>
 <h2>Title page reset (c. 1941)</h2>
-<div class="md-block"><p>THE | SATYRICON | OF | PETRONIUS ARBITER | TRANSLATED BY | WILLIAM
+<p>THE | SATYRICON | OF | PETRONIUS ARBITER | TRANSLATED BY | WILLIAM
 BURNABY | INTRODUCTION BY | C. K. SCOTT MONCRIEFF | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D3.webp'>torchbearer D3</uvalib-modal-image-button> at
 right; 3-line imprint at left] THE | MODERN LIBRARY | NEW YORK |
 [rule]</p>
@@ -62,7 +97,7 @@ background. Designed by Joseph Blumenthal. Front flap as 176a jacket C.
 the author of <em>The Satyricon</em>. For centuries he has been considered the
 symbol of a highly cultivated and depraved age. Most of all, he is
 remembered as its chronicler.” (<em>Spring 1954</em>)</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1793,12 +1828,13 @@ remembered as its chronicler.” (<em>Spring 1954</em>)</p>
 <sl-details summary="revision"><pre>{
   "id": "176b",
   "title": "Title page reset (c. 1941)",
-  "full": "\n\nTHE | SATYRICON | OF | PETRONIUS ARBITER | TRANSLATED BY | WILLIAM\nBURNABY | INTRODUCTION BY | C. K. SCOTT MONCRIEFF | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D3.webp'>torchbearer D3</uvalib-modal-image-button> at\nright; 3-line imprint at left\\] THE | MODERN LIBRARY | NEW YORK |\n\\[rule\\]\n\nPp. \\[i–iv\\] v–xxii, 1–238. \\[1–7\\]<sup>16</sup>\n\\[8\\]<sup>16</sup>(16+1.2), Contents as 176a except: \\[ii\\] blank;\n\\[iv\\] publication and manufacturing statements within single rules.\n\n> *Variant A:* Pp. \\[i–iv\\] v–xxii, 1–238 \\[239–246\\].\n> \\[1–8\\]<sup>16</sup> \\[9\\]<sup>6</sup>. Contents as 176b except:\n> \\[239–244\\] ML list; \\[245–246\\] ML Giants list. (*Spring 1946*)\n>\n> *Variant* *B:* Pp. \\[i–iv\\] v–xxii, 1–238 \\[239–250\\].\n> \\[1–8\\]<sup>16</sup> \\[9\\]<sup>8</sup>. Contents as 176b variant A\n> except: \\[247–250\\] blank. (*Fall 1947*)\n\n*Jacket:* Non-pictorial in dark grayish blue (187) on cream paper with\nlettering and torchbearer in reverse against solid dark grayish blue\nbackground. Designed by Joseph Blumenthal. Front flap as 176a jacket C.\n(*Fall 1942*) Front flap reset with last portion revised as follows:\n“This estimate of Petronius Arbiter by Tacitus completely characterizes\nthe author of *The Satyricon*. For centuries he has been considered the\nsymbol of a highly cultivated and depraved age. Most of all, he is\nremembered as its chronicler.” (*Spring 1954*)",
+  "full": "\n\nTHE | SATYRICON | OF | PETRONIUS ARBITER | TRANSLATED BY | WILLIAM\nBURNABY | INTRODUCTION BY | C. K. SCOTT MONCRIEFF | \\[torchbearer D3 at\nright; 3-line imprint at left\\] THE | MODERN LIBRARY | NEW YORK |\n\\[rule\\]\n\nPp. \\[i–iv\\] v–xxii, 1–238. \\[1–7\\]<sup>16</sup>\n\\[8\\]<sup>16</sup>(16+1.2), Contents as 176a except: \\[ii\\] blank;\n\\[iv\\] publication and manufacturing statements within single rules.\n\n> *Variant A:* Pp. \\[i–iv\\] v–xxii, 1–238 \\[239–246\\].\n> \\[1–8\\]<sup>16</sup> \\[9\\]<sup>6</sup>. Contents as 176b except:\n> \\[239–244\\] ML list; \\[245–246\\] ML Giants list. (*Spring 1946*)\n>\n> *Variant* *B:* Pp. \\[i–iv\\] v–xxii, 1–238 \\[239–250\\].\n> \\[1–8\\]<sup>16</sup> \\[9\\]<sup>8</sup>. Contents as 176b variant A\n> except: \\[247–250\\] blank. (*Fall 1947*)\n\n*Jacket:* Non-pictorial in dark grayish blue (187) on cream paper with\nlettering and torchbearer in reverse against solid dark grayish blue\nbackground. Designed by Joseph Blumenthal. Front flap as 176a jacket C.\n(*Fall 1942*) Front flap reset with last portion revised as follows:\n“This estimate of Petronius Arbiter by Tacitus completely characterizes\nthe author of *The Satyricon*. For centuries he has been considered the\nsymbol of a highly cultivated and depraved age. Most of all, he is\nremembered as its chronicler.” (*Spring 1954*)",
   "year": "1929",
   "book": "176"
 }</pre></sl-details>
 
-<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script></div>
+<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1817,7 +1853,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

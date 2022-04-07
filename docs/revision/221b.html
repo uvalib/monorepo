@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -39,7 +74,7 @@
 
 <h1>221b</h1>
 <h2>Title page reset (c. 1940)</h2>
-<div class="md-block"><p>[within single rules] [6-line title and statement of responsibility
+<p>[within single rules] [6-line title and statement of responsibility
 within second single-rule frame] DROLL | STORIES | BY | HONORÉ | DE |
 BALZAC | [below inner frame: <uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D5.webp'>torchbearer D5</uvalib-modal-image-button> at right; 2-line imprint at
 left] THE | MODERN LIBRARY</p>
@@ -63,7 +98,7 @@ revisions. (<em>Fall 1956</em>)</p>
 <p>Balzac, <em>Père Goriot &amp; Eugénie Grandet</em> (1946–1970) 390</p>
 <p>Balzac, <em>Cousin Bette</em> (1958–1971) 508</p>
 <p>Balzac, <em>Lost Illusions</em> (Giant, 1967–1970; 1985– ) G109</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1796,12 +1831,13 @@ revisions. (<em>Fall 1956</em>)</p>
 <sl-details summary="revision"><pre>{
   "id": "221b",
   "title": "Title page reset (c. 1940)",
-  "full": "\n\n\\[within single rules\\] \\[6-line title and statement of responsibility\nwithin second single-rule frame\\] DROLL | STORIES | BY | HONORÉ | DE |\nBALZAC | \\[below inner frame: <uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D5.webp'>torchbearer D5</uvalib-modal-image-button> at right; 2-line imprint at\nleft\\] THE | MODERN LIBRARY\n\nPagination and collation as 221a.\n\nContents as 221a except: \\[ii\\] blank; \\[iv\\] publication and\nmanufacturing statements within single rules.\n\n> *Variant:* Pp. \\[i–iv\\] v–xi \\[xii\\], \\[1–2\\] 3–553 \\[554–564\\].\n> \\[1–18\\]<sup>16</sup>. Contents as 221b except: \\[554\\] blank;\n> \\[555–560\\] ML list; \\[561–562\\] ML Giants list; \\[563–564\\] blank.\n> (*Fall 1945*)\n\n*Jacket A:* Enlarged version of 221a, jacket B. Front flap as 221a,\njacket B. (*Spring 1943*)\n\n*Jacket B:* As jacket A except monks in dark grayish yellow (91) and\nwhite, borders around illustration and spine in strong reddish orange,\nbackground in dark brown. (*Spring 1946*) Front flap reset with minor\nrevisions. (*Fall 1956*)\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\nBalzac, *Short Stories* (1918–1935) 39\n\nBalzac, *Père Goriot & Eugénie Grandet* (1946–1970) 390\n\nBalzac, *Cousin Bette* (1958–1971) 508\n\nBalzac, *Lost Illusions* (Giant, 1967–1970; 1985– ) G109",
+  "full": "\n\n\\[within single rules\\] \\[6-line title and statement of responsibility\nwithin second single-rule frame\\] DROLL | STORIES | BY | HONORÉ | DE |\nBALZAC | \\[below inner frame: torchbearer D5 at right; 2-line imprint at\nleft\\] THE | MODERN LIBRARY\n\nPagination and collation as 221a.\n\nContents as 221a except: \\[ii\\] blank; \\[iv\\] publication and\nmanufacturing statements within single rules.\n\n> *Variant:* Pp. \\[i–iv\\] v–xi \\[xii\\], \\[1–2\\] 3–553 \\[554–564\\].\n> \\[1–18\\]<sup>16</sup>. Contents as 221b except: \\[554\\] blank;\n> \\[555–560\\] ML list; \\[561–562\\] ML Giants list; \\[563–564\\] blank.\n> (*Fall 1945*)\n\n*Jacket A:* Enlarged version of 221a, jacket B. Front flap as 221a,\njacket B. (*Spring 1943*)\n\n*Jacket B:* As jacket A except monks in dark grayish yellow (91) and\nwhite, borders around illustration and spine in strong reddish orange,\nbackground in dark brown. (*Spring 1946*) Front flap reset with minor\nrevisions. (*Fall 1956*)\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\nBalzac, *Short Stories* (1918–1935) 39\n\nBalzac, *Père Goriot & Eugénie Grandet* (1946–1970) 390\n\nBalzac, *Cousin Bette* (1958–1971) 508\n\nBalzac, *Lost Illusions* (Giant, 1967–1970; 1985– ) G109",
   "year": "1931",
   "book": "221"
 }</pre></sl-details>
 
-<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script></div>
+<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1820,7 +1856,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

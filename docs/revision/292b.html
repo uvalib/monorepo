@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -39,7 +74,7 @@
 
 <h1>292b</h1>
 <h2>Title page reset (1940)</h2>
-<div class="md-block"><p>Barchester Towers | AND | The Warden | BY ANTHONY TROLLOPE | <em>With an
+<p>Barchester Towers | AND | The Warden | BY ANTHONY TROLLOPE | <em>With an
 introduction by</em> A. EDWARD NEWTON | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D2.webp'>torchbearer D2</uvalib-modal-image-button> at right; 3-line
 imprint at left] THE | MODERN LIBRARY | NEW YORK | [rule]</p>
 <p>Pagination and collation as 292a.</p>
@@ -50,7 +85,7 @@ Giants list; [754] blank. (<em>Fall 1940</em>)</p>
 black on coated white paper with lettering in reverse except “Barchester
 Towers” in black, all against deep yellowish green background. Front
 flap as 292a. (<em>Fall 1940</em>)</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1779,12 +1814,13 @@ flap as 292a. (<em>Fall 1940</em>)</p>
 <sl-details summary="revision"><pre>{
   "id": "292b",
   "title": "Title page reset (1940)",
-  "full": "\n\nBarchester Towers | AND | The Warden | BY ANTHONY TROLLOPE | *With an\nintroduction by* A. EDWARD NEWTON | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D2.webp'>torchbearer D2</uvalib-modal-image-button> at right; 3-line\nimprint at left\\] THE | MODERN LIBRARY | NEW YORK | \\[rule\\]\n\nPagination and collation as 292a.\n\nContents as 292a except: \\[ii\\] blank; \\[iv\\] INTRODUCTION COPYRIGHT,\n1936, | BY RANDOM HOUSE, INC.; \\[747–751\\] ML list; \\[752–753\\] ML\nGiants list; \\[754\\] blank. (*Fall 1940*)\n\n*Jacket:* Enlarged version of 292a in deep yellowish green (132) and\nblack on coated white paper with lettering in reverse except “Barchester\nTowers” in black, all against deep yellowish green background. Front\nflap as 292a. (*Fall 1940*)\n\n",
+  "full": "\n\nBarchester Towers | AND | The Warden | BY ANTHONY TROLLOPE | *With an\nintroduction by* A. EDWARD NEWTON | \\[torchbearer D2 at right; 3-line\nimprint at left\\] THE | MODERN LIBRARY | NEW YORK | \\[rule\\]\n\nPagination and collation as 292a.\n\nContents as 292a except: \\[ii\\] blank; \\[iv\\] INTRODUCTION COPYRIGHT,\n1936, | BY RANDOM HOUSE, INC.; \\[747–751\\] ML list; \\[752–753\\] ML\nGiants list; \\[754\\] blank. (*Fall 1940*)\n\n*Jacket:* Enlarged version of 292a in deep yellowish green (132) and\nblack on coated white paper with lettering in reverse except “Barchester\nTowers” in black, all against deep yellowish green background. Front\nflap as 292a. (*Fall 1940*)\n\n",
   "year": "1936",
   "book": "292"
 }</pre></sl-details>
 
-<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script></div>
+<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1803,7 +1839,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -39,7 +74,7 @@
 
 <h1>241c</h1>
 <h2>Title page with Fujita torchbearer; 7½ inch format (1969/70)</h2>
-<div class="md-block"><p>THE PLAYS | OF | OSCAR | WILDE | <em>Introduction By</em> | EDGAR SALTUS |
+<p>THE PLAYS | OF | OSCAR | WILDE | <em>Introduction By</em> | EDGAR SALTUS |
 [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/K.webp'>torchbearer K</uvalib-modal-image-button>] | THE MODERN LIBRARY · NEW YORK</p>
 <p>Pagination as 241a. [1]<sup>16</sup> [2–5]<sup>32</sup>
 [6]<sup>36</sup> [7]<sup>32</sup> [8]<sup>16</sup></p>
@@ -54,7 +89,7 @@ The range of style and tone of these five plays, from the poetry of
 <em>Salome</em> to the satire of <em>The Importance of Being Earnest</em>,
 represents the full range of Wilde’s talent and interest as an artist.</p>
 </blockquote>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1785,12 +1820,13 @@ represents the full range of Wilde’s talent and interest as an artist.</p>
 <sl-details summary="revision"><pre>{
   "id": "241c",
   "title": "Title page with Fujita torchbearer; 7½ inch format (1969/70)",
-  "full": "\n\nTHE PLAYS | OF | OSCAR | WILDE | *Introduction By* | EDGAR SALTUS |\n\\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/K.webp'>torchbearer K</uvalib-modal-image-button>\\] | THE MODERN LIBRARY · NEW YORK\n\nPagination as 241a. \\[1\\]<sup>16</sup> \\[2–5\\]<sup>32</sup>\n\\[6\\]<sup>36</sup> \\[7\\]<sup>32</sup> \\[8\\]<sup>16</sup>\n\nContents as 241b except: \\[221–222\\] ML Giants list; \\[223–226\\] blank.\n(*Spring 1967*)\n\n*Jacket:* Enlarged version of 241b in strong violet (207) and black on\ncoated white paper with series and Fujita “ml” symbol in reverse above\ninset panel.\n\n> Front flap:<br>\n> The range of style and tone of these five plays, from the poetry of\n> *Salome* to the satire of *The Importance of Being Earnest*,\n> represents the full range of Wilde’s talent and interest as an artist.\n\n",
+  "full": "\n\nTHE PLAYS | OF | OSCAR | WILDE | *Introduction By* | EDGAR SALTUS |\n\\[torchbearer K\\] | THE MODERN LIBRARY · NEW YORK\n\nPagination as 241a. \\[1\\]<sup>16</sup> \\[2–5\\]<sup>32</sup>\n\\[6\\]<sup>36</sup> \\[7\\]<sup>32</sup> \\[8\\]<sup>16</sup>\n\nContents as 241b except: \\[221–222\\] ML Giants list; \\[223–226\\] blank.\n(*Spring 1967*)\n\n*Jacket:* Enlarged version of 241b in strong violet (207) and black on\ncoated white paper with series and Fujita “ml” symbol in reverse above\ninset panel.\n\n> Front flap:<br>\n> The range of style and tone of these five plays, from the poetry of\n> *Salome* to the satire of *The Importance of Being Earnest*,\n> represents the full range of Wilde’s talent and interest as an artist.\n\n",
   "year": "1932",
   "book": "241"
 }</pre></sl-details>
 
-<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script></div>
+<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1809,7 +1845,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

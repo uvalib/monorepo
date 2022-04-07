@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -39,7 +74,7 @@
 
 <h1>326b</h1>
 <h2>Title page reset; offset printing (1966/67)</h2>
-<div class="md-block"><p>THE LATE | GEORGE APLEY | [short decorative rule] | <em>A Novel in the
+<p>THE LATE | GEORGE APLEY | [short decorative rule] | <em>A Novel in the
 Form of a Memoir</em> | [short decorative rule] | <em>By</em> | John P. Marquand
 | <em>With an Introduction</em> | <em>by the Author</em> | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/J.webp'>torchbearer J</uvalib-modal-image-button>] | The
 Modern Library | <em>New York</em></p>
@@ -60,7 +95,7 @@ with revised flap text.</p>
 <p>Printed from offset plates photographically reduced from the Little,
 Brown edition with the height of the type page reduced about 3/8 in. (8
 mm).</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1789,12 +1824,13 @@ mm).</p>
 <sl-details summary="revision"><pre>{
   "id": "326b",
   "title": "Title page reset; offset printing (1966/67)",
-  "full": "\n\nTHE LATE | GEORGE APLEY | \\[short decorative rule\\] | *A Novel in the\nForm of a Memoir* | \\[short decorative rule\\] | *By* | John P. Marquand\n| *With an Introduction* | *by the Author* | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/J.webp'>torchbearer J</uvalib-modal-image-button>\\] | The\nModern Library | *New York*\n\nPp. \\[*10*\\], \\[1–3\\] 4–354 \\[355–358\\]. \\[1\\]<sup>16</sup>\n\\[2–5\\]<sup>32</sup> \\[6\\]<sup>16</sup> \\[7\\]<sup>8</sup>\n\\[8\\]<sup>16</sup>\n\nContents as 326a except: \\[*1*–*2*\\] blank; \\[*3*\\] half title; \\[*4*\\]\nblank; \\[*5*\\] title; \\[*6*\\] Copyright 1936, 1937 by John P. Marquand |\nCopyright renewed 1964, 1965 by John P. | Marquand, Jr. and Christina M.\nWelch. | Introduction Copyright, 1940, | by The Modern Library, Inc.;\n\\[*7*–*8*\\] INTRODUCTION signed p. \\[*8*\\]: J. P. <span\nclass=\"smallcaps\">Marquand</span> | *December, 1939*; \\[*9*–*10*\\]\n*CONTENTS*; \\[355–358\\] blank.\n\n*Jacket:* As 326a with moderate blue (182) instead of deep blue and pale\nyellow omitted to reduce printing costs; pavement in white and\nbackground fading from moderate blue to bluish white (189). Front flap\nwith revised flap text.\n\nPrinted from offset plates photographically reduced from the Little,\nBrown edition with the height of the type page reduced about 3/8 in. (8\nmm).",
+  "full": "\n\nTHE LATE | GEORGE APLEY | \\[short decorative rule\\] | *A Novel in the\nForm of a Memoir* | \\[short decorative rule\\] | *By* | John P. Marquand\n| *With an Introduction* | *by the Author* | \\[torchbearer J\\] | The\nModern Library | *New York*\n\nPp. \\[*10*\\], \\[1–3\\] 4–354 \\[355–358\\]. \\[1\\]<sup>16</sup>\n\\[2–5\\]<sup>32</sup> \\[6\\]<sup>16</sup> \\[7\\]<sup>8</sup>\n\\[8\\]<sup>16</sup>\n\nContents as 326a except: \\[*1*–*2*\\] blank; \\[*3*\\] half title; \\[*4*\\]\nblank; \\[*5*\\] title; \\[*6*\\] Copyright 1936, 1937 by John P. Marquand |\nCopyright renewed 1964, 1965 by John P. | Marquand, Jr. and Christina M.\nWelch. | Introduction Copyright, 1940, | by The Modern Library, Inc.;\n\\[*7*–*8*\\] INTRODUCTION signed p. \\[*8*\\]: J. P. <span\nclass=\"smallcaps\">Marquand</span> | *December, 1939*; \\[*9*–*10*\\]\n*CONTENTS*; \\[355–358\\] blank.\n\n*Jacket:* As 326a with moderate blue (182) instead of deep blue and pale\nyellow omitted to reduce printing costs; pavement in white and\nbackground fading from moderate blue to bluish white (189). Front flap\nwith revised flap text.\n\nPrinted from offset plates photographically reduced from the Little,\nBrown edition with the height of the type page reduced about 3/8 in. (8\nmm).",
   "year": "1940",
   "book": "326"
 }</pre></sl-details>
 
-<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script></div>
+<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1813,7 +1849,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

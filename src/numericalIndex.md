@@ -2,7 +2,7 @@
 layout: page-layout.njk
 permalink: "numericalIndex.html"
 ---
-# NUMERICAL INDEX
+## NUMERICAL INDEX
 
 This index lists each ML title under the publisher’s catalogue number.
 The ML usually reassigned the catalogue numbers of discontinued titles

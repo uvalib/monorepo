@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -36,7 +71,7 @@
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/book/205.html">205</sl-breadcrumb-item>
 </sl-breadcrumb>
 
-<div class="md-block"><p><strong>ROCKWELL KENT. WILDERNESS. 1930–1939. (ML 182)</strong></p>
+<p><strong>ROCKWELL KENT. WILDERNESS. 1930–1939. (ML 182)</strong></p>
 <h4>205. First printing (1930)</h4>
 <p>[within double rules] WILDERNESS | A JOURNAL OF QUIET ADVENTURE | IN
 ALASKA : BY | ROCKWELL KENT | [ornament] | WITH A NEW PREFACE BY | THE
@@ -116,7 +151,7 @@ twenty-five cents each (Kent to Cerf, 8 June 1939).</p>
 <p><span class="smallcaps">Also in the Modern Library</span></p>
 <p>Melville, <em>Moby Dick</em>, illus. Rockwell Kent (Giant, 1944–1962; 1982– )
 G65</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1845,7 +1880,7 @@ G65</p>
 </elix-carousel-with-thumbnails>
 
 <sl-details summary="book"><pre>{
-  "full": "**ROCKWELL KENT. WILDERNESS. 1930–1939. (ML 182)**\n\n#### 205. First printing (1930)\n\n\\[within double rules\\] WILDERNESS | A JOURNAL OF QUIET ADVENTURE | IN\nALASKA : BY | ROCKWELL KENT | \\[ornament\\] | WITH A NEW PREFACE BY | THE\nAUTHOR | \\[rule\\] | \\[illustration\\] | \\[rule\\] | Bennett A. Cerf &\nDonald S. Klopfer | THE MODERN LIBRARY, PUBLISHERS | NEW YORK\n\nPp. \\[*2*\\], \\[i–iv\\] v–xiii \\[xiv\\], 1–243 \\[244\\].\n\\[1–7\\]<sup>16</sup> \\[8\\]<sup>16</sup>(16+1.2).\n\n\\[*1*\\] blank; \\[*2*\\] frontispiece illustration titled: ROCKWELL |\nALASKA MCMXVIII; \\[i\\] title; \\[ii\\] Copyright 1920 by Rockwell Kent |\n“A Second Preface” copyright 1930 by | The Modern Library, Inc. |\n\\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/B.webp'>torchbearer B</uvalib-modal-image-button>\\] | First Modern Library edition | 1930; \\[iii\\]\ndedication; \\[iv\\] blank; v–vi PREFACE signed p. vi: R. K. | Arlington,\nVermont, | December, 1919.; vii–viii A SECOND PREFACE | Eleven Years\nLater signed p. viii: R. K. Ausable Forks, N. Y. 1930; ix CONTENTS;\n\\[x\\] blank; xi–xiii ILLUSTRATIONS; \\[xiv\\] blank; 1–243 text; \\[244\\]\nblank. *Note:* Pp. 241–\\[244\\] are an inserted fold.\n\n*Endpapers:* Pictorial endpapers by Kent headed: Chart of the entrance\nto RESVRRECTION BAY, ALASKA, Kenai Peninsula. Photographically reduced\nfrom the endpapers of the Putnam edition. *Wilderness* was the second ML\ntitle to appear in balloon cloth binding C without Kent’s grapevine\ndesign on the spine of the binding (see “Binding” in the introductory\nmatter to 1930 entries).\n\n*Jacket:* Pictorial in deep reddish orange (36) and black on cream paper\ndepicting a man and boy looming above the horizon; borders in black,\nlettering in deep reddish orange. Designed by Kent; unsigned. (*Fall\n1930*)\n\n> Front flap:<br>\n> More than a record of an adventure in solitude, *Wilderness* is a book\n> that re-creates the wonder and the tranquillity of an untracked world.\n> The hand and heart and mind of a distinguished artist combine, in\n> prose and pictures, to convey the topography and the moods, the\n> changing vistas and the dramatic silences of the sub-Arctic region.\n> Rockwell Kent’s text, embellished by more than fifty pictures from his\n> pen, has the excitement of a quest that attains the nearest paradise\n> man can hope for on earth. (*Spring 1934*)\n\nOriginally published by G. P. Putnam’s Sons, 1920, in a volume measuring\napproximately 11½ x 8 in. (280 x 200 mm). ML edition printed from plates\nmade from a new typesetting with revisions by the author and the\noriginal introduction by Dorothy Canfield replaced by Kent’s “Second\nPreface: Eleven Years Later.” The ML also omits p. \\[v\\] of the Putnam\nedition which acknowledges the owners of the illustrations reproduced in\nthe volume. Published December 1930. *WR* 27 December 1930. First\nprinting: Not ascertained. Discontinued spring 1939.\n\nThe Putnam plates were far too large for the ML’s format. The\nannouncement of the ML edition stated, “For the Modern Library Edition,\nRockwell Kent has written a new introduction and made important\nrevisions in the text. The volume contains all the Kent illustrations\nthat appear in the six dollar edition” (*PW* 118, 16 August 1930, p.\n574). Kent notes in his preface to the ML edition that he has restored\n“two lines of a German folk-song that my original publishers . . . in\nthe fervor of post-war patriotism, secretly deleted, and subsequently\nwould not put back. They appear on page 68, and mean: ‘Good moon, you go\nso quietly through the evening clouds’” (p. viii). The two lines appear\nunder the heading “Friday, October eighteenth”:\n\n> “Guter Mond, du gehst so stille\n>\n> Durch die Abend Wolken hin.”\n\nThe ML typesetting uses a sans-serif typeface that suits the ML’s\nsmaller format and is more attractive than the traditional type of the\nPutnam edition. However, Kent’s illustrations are reduced in size by\nabout a half, obscuring some of the detail. The ML edition includes all\nof the illustrations in the Putnam edition. The Kent illustration on the\ntitle page of the ML edition appears on the front panel of the Putnam\nbinding.\n\nThe ML edition sold a total of 12,960 copies (James Silberman memo to\nAngus Cameron, 6 December 1965). The ML did not have exclusive reprint\nrights, and the ML edition was undermined by a full-sized $1.49 reprint\npublished by Blue Ribbon Books in 1936. Kent was unaware that Putnam was\nplanning to discontinue the original edition, and the ML was not\nconsulted about the $1.49 reprint (Cerf to Kent, 2 June 1939). Sales of\nthe ML edition in 1937-38 totaled less than 800 copies (Cerf to Kent, 2\nJune 1939). Kent bought 240 copies of the discontinued ML edition at\ntwenty-five cents each (Kent to Cerf, 8 June 1939).\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\nMelville, *Moby Dick*, illus. Rockwell Kent (Giant, 1944–1962; 1982– )\nG65",
+  "full": "**ROCKWELL KENT. WILDERNESS. 1930–1939. (ML 182)**\n\n#### 205. First printing (1930)\n\n\\[within double rules\\] WILDERNESS | A JOURNAL OF QUIET ADVENTURE | IN\nALASKA : BY | ROCKWELL KENT | \\[ornament\\] | WITH A NEW PREFACE BY | THE\nAUTHOR | \\[rule\\] | \\[illustration\\] | \\[rule\\] | Bennett A. Cerf &\nDonald S. Klopfer | THE MODERN LIBRARY, PUBLISHERS | NEW YORK\n\nPp. \\[*2*\\], \\[i–iv\\] v–xiii \\[xiv\\], 1–243 \\[244\\].\n\\[1–7\\]<sup>16</sup> \\[8\\]<sup>16</sup>(16+1.2).\n\n\\[*1*\\] blank; \\[*2*\\] frontispiece illustration titled: ROCKWELL |\nALASKA MCMXVIII; \\[i\\] title; \\[ii\\] Copyright 1920 by Rockwell Kent |\n“A Second Preface” copyright 1930 by | The Modern Library, Inc. |\n\\[torchbearer B\\] | First Modern Library edition | 1930; \\[iii\\]\ndedication; \\[iv\\] blank; v–vi PREFACE signed p. vi: R. K. | Arlington,\nVermont, | December, 1919.; vii–viii A SECOND PREFACE | Eleven Years\nLater signed p. viii: R. K. Ausable Forks, N. Y. 1930; ix CONTENTS;\n\\[x\\] blank; xi–xiii ILLUSTRATIONS; \\[xiv\\] blank; 1–243 text; \\[244\\]\nblank. *Note:* Pp. 241–\\[244\\] are an inserted fold.\n\n*Endpapers:* Pictorial endpapers by Kent headed: Chart of the entrance\nto RESVRRECTION BAY, ALASKA, Kenai Peninsula. Photographically reduced\nfrom the endpapers of the Putnam edition. *Wilderness* was the second ML\ntitle to appear in balloon cloth binding C without Kent’s grapevine\ndesign on the spine of the binding (see “Binding” in the introductory\nmatter to 1930 entries).\n\n*Jacket:* Pictorial in deep reddish orange (36) and black on cream paper\ndepicting a man and boy looming above the horizon; borders in black,\nlettering in deep reddish orange. Designed by Kent; unsigned. (*Fall\n1930*)\n\n> Front flap:<br>\n> More than a record of an adventure in solitude, *Wilderness* is a book\n> that re-creates the wonder and the tranquillity of an untracked world.\n> The hand and heart and mind of a distinguished artist combine, in\n> prose and pictures, to convey the topography and the moods, the\n> changing vistas and the dramatic silences of the sub-Arctic region.\n> Rockwell Kent’s text, embellished by more than fifty pictures from his\n> pen, has the excitement of a quest that attains the nearest paradise\n> man can hope for on earth. (*Spring 1934*)\n\nOriginally published by G. P. Putnam’s Sons, 1920, in a volume measuring\napproximately 11½ x 8 in. (280 x 200 mm). ML edition printed from plates\nmade from a new typesetting with revisions by the author and the\noriginal introduction by Dorothy Canfield replaced by Kent’s “Second\nPreface: Eleven Years Later.” The ML also omits p. \\[v\\] of the Putnam\nedition which acknowledges the owners of the illustrations reproduced in\nthe volume. Published December 1930. *WR* 27 December 1930. First\nprinting: Not ascertained. Discontinued spring 1939.\n\nThe Putnam plates were far too large for the ML’s format. The\nannouncement of the ML edition stated, “For the Modern Library Edition,\nRockwell Kent has written a new introduction and made important\nrevisions in the text. The volume contains all the Kent illustrations\nthat appear in the six dollar edition” (*PW* 118, 16 August 1930, p.\n574). Kent notes in his preface to the ML edition that he has restored\n“two lines of a German folk-song that my original publishers . . . in\nthe fervor of post-war patriotism, secretly deleted, and subsequently\nwould not put back. They appear on page 68, and mean: ‘Good moon, you go\nso quietly through the evening clouds’” (p. viii). The two lines appear\nunder the heading “Friday, October eighteenth”:\n\n> “Guter Mond, du gehst so stille\n>\n> Durch die Abend Wolken hin.”\n\nThe ML typesetting uses a sans-serif typeface that suits the ML’s\nsmaller format and is more attractive than the traditional type of the\nPutnam edition. However, Kent’s illustrations are reduced in size by\nabout a half, obscuring some of the detail. The ML edition includes all\nof the illustrations in the Putnam edition. The Kent illustration on the\ntitle page of the ML edition appears on the front panel of the Putnam\nbinding.\n\nThe ML edition sold a total of 12,960 copies (James Silberman memo to\nAngus Cameron, 6 December 1965). The ML did not have exclusive reprint\nrights, and the ML edition was undermined by a full-sized $1.49 reprint\npublished by Blue Ribbon Books in 1936. Kent was unaware that Putnam was\nplanning to discontinue the original edition, and the ML was not\nconsulted about the $1.49 reprint (Cerf to Kent, 2 June 1939). Sales of\nthe ML edition in 1937-38 totaled less than 800 copies (Cerf to Kent, 2\nJune 1939). Kent bought 240 copies of the discontinued ML edition at\ntwenty-five cents each (Kent to Cerf, 8 June 1939).\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\nMelville, *Moby Dick*, illus. Rockwell Kent (Giant, 1944–1962; 1982– )\nG65",
   "id": "205",
   "year": "1930",
   "title": "ROCKWELL KENT. WILDERNESS. 1930–1939. (ML 182)",
@@ -1853,7 +1888,8 @@ G65</p>
 }</pre></sl-details>
 
 <script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
-</div>
+
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1872,7 +1908,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

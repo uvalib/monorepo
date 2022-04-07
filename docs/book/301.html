@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -36,7 +71,7 @@
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/book/301.html">301</sl-breadcrumb-item>
 </sl-breadcrumb>
 
-<div class="md-block"><p><strong>ROBERT GRAVES. I, CLAUDIUS. 1937–1971; 1982– . (ML 20)</strong></p>
+<p><strong>ROBERT GRAVES. I, CLAUDIUS. 1937–1971; 1982– . (ML 20)</strong></p>
 <h4>301.1a. First printing (1937)</h4>
 <p>[within double rules] I, CLAUDIUS | FROM THE AUTOBIOGRAPHY OF |
 TIBERIUS CLAUDIUS | BORN B.C. 10 · MURDERED AND DEIFIED A.D. 54 |
@@ -93,7 +128,7 @@ HARRISON SMITH AND ROBERT HAAS, INC.; [428] blank; [429–434] ML
 list; [435–436] ML Giants list; [437–438] blank. (<em>Spring 1944</em>)</p>
 <p><em>Jacket B:</em> Enlarged version of 301.1a on coated white paper. (<em>Spring
 1944</em>)</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1826,7 +1861,7 @@ list; [435–436] ML Giants list; [437–438] blank. (<em>Spring 1944</em>)</p>
 </elix-carousel-with-thumbnails>
 
 <sl-details summary="book"><pre>{
-  "full": "**ROBERT GRAVES. I, CLAUDIUS. 1937–1971; 1982– . (ML 20)**\n\n#### 301.1a. First printing (1937)\n\n\\[within double rules\\] I, CLAUDIUS | FROM THE AUTOBIOGRAPHY OF |\nTIBERIUS CLAUDIUS | BORN B.C. 10 · MURDERED AND DEIFIED A.D. 54 |\n\\[rule\\] | BY | ROBERT GRAVES | \\[rule\\] | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A3.webp'>torchbearer A3</uvalib-modal-image-button>\\] | \\[rule\\]\n| THE MODERN LIBRARY | NEW YORK\n\nPp. \\[i–viii\\] ix–x, \\[1–2\\] 3–427 \\[428–430\\]. \\[1–13\\]<sup>16</sup>\n\\[14\\]<sup>12</sup>\n\n\\[i\\] half title; \\[ii\\] pub. note D12; \\[iii\\] title; \\[iv\\]\n*Copyright,* 1934, *by* | HARRISON SMITH AND ROBERT HAAS, INC. | \\[short\ndouble rule\\] | *First Modern Library Edition* | 1937; \\[v\\]\nbiographical note; \\[vi\\] blank; \\[vii\\] epigraph from Tacitus; \\[viii\\]\nblank; ix–x AUTHOR’S NOTE; \\[1\\] fly title; \\[2\\] blank; 3–427 text;\n\\[428–430\\] blank.\n\n*Jacket A:* Pictorial in black and gold on coated cream paper with\ndrawing of a procession led by a chariot on a gold band between two\nblack bands with title and other lettering in reverse; cream bands at\ntop and foot with author and series in black, borders in gold. Signed:\nCassens.\n\n> Front flap:<br>\n> Of all the historical novels of recent times, none has found such\n> widespread public response as Robert Grave’s reconstruction of the\n> grandeur and folly and fantastic sensuality of Imperial Rome. The mild\n> Claudius, moving unobtrusively among his sinister relatives and\n> recording their proud and vile history, unfolds a panorama of weird\n> intrigue and startling events. Poison, blasphemy, incest, black magic\n> and unnatural vice flourish with a fine disdain for the good opinion\n> of history. Such worthies as Caligula, Nero and Messalina come to life\n> in a book as historically accurate as it is enthralling. (*Spring\n> 1937*)\n\nOriginally published in U.S. by Harrison Smith and Robert Haas, 1934. ML\nedition (301.1) printed from plates made from a new typesetting.\nPublished February 1937. *WR* 27 February 1937. First printing: Not\nascertained. Discontinued 1971/72; restored to ML 1982.\n\nThe Smith and Haas typesetting was too large for the ML’s format and\nincluded a folding genealogical table of the Imperial family that was\nomitted from the ML edition. By reducing the type size the ML was able\nproduce a volume that was 67 pages shorter than the Smith and Haas\nedition. The ML plates were also used for a Grosset & Dunlap printing\nwhich retained the biographical note (p. \\[v\\]) written for the ML.\n\n*I, Claudius* sold 5,215 copies during the eighteen-month period May\n1942–October 1943, placing it high in the third quarter of ML and Giant\ntitles. It did not rank among the 100 best-selling titles in the regular\nML during the twelve-month period November 1951–October 1952. By June\n1964 the ML had printed 89,000 copies (Higginson, p. 56).\n\n#### 301.1b. Title page reset (c. 1940)\n\nI, CLAUDIUS | FROM THE AUTOBIOGRAPHY OF | TIBERIUS CLAUDIUS | BORN B.C.\n10 | MURDERED AND DEIFIED A.D. 54 | BY | ROBERT GRAVES | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D4.webp'>torchbearer\nD4</uvalib-modal-image-button>\\] | \\[rule\\] | THE MODERN LIBRARY · NEW YORK | \\[rule\\]\n\nPagination as 301.1a except: \\[428–438\\]. \\[1–14\\]<sup>16</sup>\n\nContents as 301.1a except: \\[ii\\] blank; \\[iv\\] COPYRIGHT, 1934, | BY\nHARRISON SMITH AND ROBERT HAAS, INC.; \\[428\\] blank; \\[429–434\\] ML\nlist; \\[435–436\\] ML Giants list; \\[437–438\\] blank. (*Spring 1944*)\n\n*Jacket B:* Enlarged version of 301.1a on coated white paper. (*Spring\n1944*)",
+  "full": "**ROBERT GRAVES. I, CLAUDIUS. 1937–1971; 1982– . (ML 20)**\n\n#### 301.1a. First printing (1937)\n\n\\[within double rules\\] I, CLAUDIUS | FROM THE AUTOBIOGRAPHY OF |\nTIBERIUS CLAUDIUS | BORN B.C. 10 · MURDERED AND DEIFIED A.D. 54 |\n\\[rule\\] | BY | ROBERT GRAVES | \\[rule\\] | \\[torchbearer A3\\] | \\[rule\\]\n| THE MODERN LIBRARY | NEW YORK\n\nPp. \\[i–viii\\] ix–x, \\[1–2\\] 3–427 \\[428–430\\]. \\[1–13\\]<sup>16</sup>\n\\[14\\]<sup>12</sup>\n\n\\[i\\] half title; \\[ii\\] pub. note D12; \\[iii\\] title; \\[iv\\]\n*Copyright,* 1934, *by* | HARRISON SMITH AND ROBERT HAAS, INC. | \\[short\ndouble rule\\] | *First Modern Library Edition* | 1937; \\[v\\]\nbiographical note; \\[vi\\] blank; \\[vii\\] epigraph from Tacitus; \\[viii\\]\nblank; ix–x AUTHOR’S NOTE; \\[1\\] fly title; \\[2\\] blank; 3–427 text;\n\\[428–430\\] blank.\n\n*Jacket A:* Pictorial in black and gold on coated cream paper with\ndrawing of a procession led by a chariot on a gold band between two\nblack bands with title and other lettering in reverse; cream bands at\ntop and foot with author and series in black, borders in gold. Signed:\nCassens.\n\n> Front flap:<br>\n> Of all the historical novels of recent times, none has found such\n> widespread public response as Robert Grave’s reconstruction of the\n> grandeur and folly and fantastic sensuality of Imperial Rome. The mild\n> Claudius, moving unobtrusively among his sinister relatives and\n> recording their proud and vile history, unfolds a panorama of weird\n> intrigue and startling events. Poison, blasphemy, incest, black magic\n> and unnatural vice flourish with a fine disdain for the good opinion\n> of history. Such worthies as Caligula, Nero and Messalina come to life\n> in a book as historically accurate as it is enthralling. (*Spring\n> 1937*)\n\nOriginally published in U.S. by Harrison Smith and Robert Haas, 1934. ML\nedition (301.1) printed from plates made from a new typesetting.\nPublished February 1937. *WR* 27 February 1937. First printing: Not\nascertained. Discontinued 1971/72; restored to ML 1982.\n\nThe Smith and Haas typesetting was too large for the ML’s format and\nincluded a folding genealogical table of the Imperial family that was\nomitted from the ML edition. By reducing the type size the ML was able\nproduce a volume that was 67 pages shorter than the Smith and Haas\nedition. The ML plates were also used for a Grosset & Dunlap printing\nwhich retained the biographical note (p. \\[v\\]) written for the ML.\n\n*I, Claudius* sold 5,215 copies during the eighteen-month period May\n1942–October 1943, placing it high in the third quarter of ML and Giant\ntitles. It did not rank among the 100 best-selling titles in the regular\nML during the twelve-month period November 1951–October 1952. By June\n1964 the ML had printed 89,000 copies (Higginson, p. 56).\n\n#### 301.1b. Title page reset (c. 1940)\n\nI, CLAUDIUS | FROM THE AUTOBIOGRAPHY OF | TIBERIUS CLAUDIUS | BORN B.C.\n10 | MURDERED AND DEIFIED A.D. 54 | BY | ROBERT GRAVES | \\[torchbearer\nD4\\] | \\[rule\\] | THE MODERN LIBRARY · NEW YORK | \\[rule\\]\n\nPagination as 301.1a except: \\[428–438\\]. \\[1–14\\]<sup>16</sup>\n\nContents as 301.1a except: \\[ii\\] blank; \\[iv\\] COPYRIGHT, 1934, | BY\nHARRISON SMITH AND ROBERT HAAS, INC.; \\[428\\] blank; \\[429–434\\] ML\nlist; \\[435–436\\] ML Giants list; \\[437–438\\] blank. (*Spring 1944*)\n\n*Jacket B:* Enlarged version of 301.1a on coated white paper. (*Spring\n1944*)",
   "id": "301",
   "year": "1937",
   "title": "ROBERT GRAVES. I, CLAUDIUS. 1937–1971; 1982– . (ML 20)",
@@ -1834,7 +1869,8 @@ list; [435–436] ML Giants list; [437–438] blank. (<em>Spring 1944</em>)</p>
 }</pre></sl-details>
 
 <script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
-</div>
+
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1853,7 +1889,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

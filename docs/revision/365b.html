@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -39,7 +74,7 @@
 
 <h1>365b</h1>
 <h2>Reprinted in 2 volumes (1947)</h2>
-<div class="md-block"><p><em>Vol. 1</em></p>
+<p><em>Vol. 1</em></p>
 <p>[within double rule frame broken at foot] <em>The</em> | <em>Comedies</em> | <em>of</em> |
 <em>Shakespeare</em> | <em>VOLUME ONE</em> | THE MODERN LIBRARY | NEW YORK |
 [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/E4.webp'>torchbearer E4</uvalib-modal-image-button> extending below frame]</p>
@@ -79,7 +114,7 @@ Shrew – All’s Well That Ends Well – Twelfth-Night, or What You Will –
 The Winter’s Tale.</p>
 <p><em>Jacket C2:</em> As vol. 1 jacket with “VOLUME TWO” below drawing. ML number
 on backstrip: 2A. (<em>Fall 1947</em>)</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1816,12 +1851,13 @@ on backstrip: 2A. (<em>Fall 1947</em>)</p>
 <sl-details summary="revision"><pre>{
   "id": "365b",
   "title": "Reprinted in 2 volumes (1947)",
-  "full": "\n\n*Vol. 1*\n\n\\[within double rule frame broken at foot\\] *The* | *Comedies* | *of* |\n*Shakespeare* | *VOLUME ONE* | THE MODERN LIBRARY | NEW YORK |\n\\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/E4.webp'>torchbearer E4</uvalib-modal-image-button> extending below frame\\]\n\nPp. \\[*6*\\], \\[1–3\\] 4–545 \\[546\\]. \\[1–15\\]<sup>16</sup>\n\\[16\\]<sup>20</sup> \\[17\\]<sup>16</sup>\n\n\\[*1*\\] half title; \\[*2*\\] blank; \\[*3*\\] title; \\[*4*\\] publication\nand manufacturing statements; \\[*5*\\] CONTENTS; \\[*6*\\] blank; \\[1\\]\npart title as 365a; \\[2\\] blank; \\[3\\]–545 text; \\[546\\] blank.\n\n> *Variant:* Pp. \\[*6*\\], \\[1–3\\] 4–545 \\[546\\], \\[*8*\\].\n> \\[1\\]<sup>16</sup> \\[2–9\\]<sup>32</sup> \\[10\\]<sup>8</sup>. Contents\n> as 365b except: \\[*1*–*6*\\] ML list; \\[*7*–*8*\\] ML Giants list.\n> (*Spring 1955*)\n\n*Contents:* The Tempest – The Two Gentlemen of Verona – The Merry Wives\nof Windsor – Measure for Measure – The Comedy of Errors – Much Ado about\nNothing – Love’s Labours Lost – A Midsummer-Night’s Dream.\n\n*Jacket C1:* As 365a jacket B with “IN TWO VOLUMES” added below title,\n“VOLUME ONE” added below drawing, both in vivid reddish orange; revised\nlist of individual plays below drawing, backstrip drawing omitted; front\nflap revised to reflect six-volume format. ML number on backstrip: 2.\n(*Fall 1947*)\n\n*Vol. 2*\n\n\\[within double rule frame broken at foot\\] *The* | *Comedies* | *of* |\n*Shakespeare* | *VOLUME TWO* | THE MODERN LIBRARY | NEW YORK |\n\\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/E4.webp'>torchbearer E4</uvalib-modal-image-button> extending below frame\\]\n\nPp. \\[*6*\\], \\[547–549\\] 550–1101 \\[1102–1108\\]. \\[1–16\\]<sup>16</sup>\n\\[17\\]<sup>12</sup> \\[18\\]<sup>16</sup>\n\nContents as 365a except: \\[*1*\\] half title; \\[*2*\\] blank; \\[*3*\\]\ntitle; \\[*4*\\] publication and manufacturing statements; \\[*5*\\]\nCONTENTS; \\[*6*\\] blank; \\[547\\] part title: THE MERCHANT OF | VENICE |\n\\[cast of characters and scene within double rules\\]; \\[548\\] blank;\n\\[549\\]–1007 text; \\[1008\\] blank; \\[1009\\]–1054 NOTES; 1055–1101\nGLOSSARY; \\[1102\\] blank; \\[1103–1108\\] ML list. (*Fall 1947*)\n\n*Contents:* The Merchant of Venice – As You Like It – The Taming of the\nShrew – All’s Well That Ends Well – Twelfth-Night, or What You Will –\nThe Winter’s Tale.\n\n*Jacket C2:* As vol. 1 jacket with “VOLUME TWO” below drawing. ML number\non backstrip: 2A. (*Fall 1947*)\n\n",
+  "full": "\n\n*Vol. 1*\n\n\\[within double rule frame broken at foot\\] *The* | *Comedies* | *of* |\n*Shakespeare* | *VOLUME ONE* | THE MODERN LIBRARY | NEW YORK |\n\\[torchbearer E4 extending below frame\\]\n\nPp. \\[*6*\\], \\[1–3\\] 4–545 \\[546\\]. \\[1–15\\]<sup>16</sup>\n\\[16\\]<sup>20</sup> \\[17\\]<sup>16</sup>\n\n\\[*1*\\] half title; \\[*2*\\] blank; \\[*3*\\] title; \\[*4*\\] publication\nand manufacturing statements; \\[*5*\\] CONTENTS; \\[*6*\\] blank; \\[1\\]\npart title as 365a; \\[2\\] blank; \\[3\\]–545 text; \\[546\\] blank.\n\n> *Variant:* Pp. \\[*6*\\], \\[1–3\\] 4–545 \\[546\\], \\[*8*\\].\n> \\[1\\]<sup>16</sup> \\[2–9\\]<sup>32</sup> \\[10\\]<sup>8</sup>. Contents\n> as 365b except: \\[*1*–*6*\\] ML list; \\[*7*–*8*\\] ML Giants list.\n> (*Spring 1955*)\n\n*Contents:* The Tempest – The Two Gentlemen of Verona – The Merry Wives\nof Windsor – Measure for Measure – The Comedy of Errors – Much Ado about\nNothing – Love’s Labours Lost – A Midsummer-Night’s Dream.\n\n*Jacket C1:* As 365a jacket B with “IN TWO VOLUMES” added below title,\n“VOLUME ONE” added below drawing, both in vivid reddish orange; revised\nlist of individual plays below drawing, backstrip drawing omitted; front\nflap revised to reflect six-volume format. ML number on backstrip: 2.\n(*Fall 1947*)\n\n*Vol. 2*\n\n\\[within double rule frame broken at foot\\] *The* | *Comedies* | *of* |\n*Shakespeare* | *VOLUME TWO* | THE MODERN LIBRARY | NEW YORK |\n\\[torchbearer E4 extending below frame\\]\n\nPp. \\[*6*\\], \\[547–549\\] 550–1101 \\[1102–1108\\]. \\[1–16\\]<sup>16</sup>\n\\[17\\]<sup>12</sup> \\[18\\]<sup>16</sup>\n\nContents as 365a except: \\[*1*\\] half title; \\[*2*\\] blank; \\[*3*\\]\ntitle; \\[*4*\\] publication and manufacturing statements; \\[*5*\\]\nCONTENTS; \\[*6*\\] blank; \\[547\\] part title: THE MERCHANT OF | VENICE |\n\\[cast of characters and scene within double rules\\]; \\[548\\] blank;\n\\[549\\]–1007 text; \\[1008\\] blank; \\[1009\\]–1054 NOTES; 1055–1101\nGLOSSARY; \\[1102\\] blank; \\[1103–1108\\] ML list. (*Fall 1947*)\n\n*Contents:* The Merchant of Venice – As You Like It – The Taming of the\nShrew – All’s Well That Ends Well – Twelfth-Night, or What You Will –\nThe Winter’s Tale.\n\n*Jacket C2:* As vol. 1 jacket with “VOLUME TWO” below drawing. ML number\non backstrip: 2A. (*Fall 1947*)\n\n",
   "year": "1943",
   "book": "365"
 }</pre></sl-details>
 
-<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script></div>
+<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1840,7 +1876,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

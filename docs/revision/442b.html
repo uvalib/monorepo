@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -39,7 +74,7 @@
 
 <h1>442b</h1>
 <h2>Title page with Fujita torchbearer; 7½ inch format (1969/70)</h2>
-<div class="md-block"><p>Title as 442a through line 5; lines 6-7: [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/K.webp'>torchbearer K</uvalib-modal-image-button>] | THE MODERN
+<p>Title as 442a through line 5; lines 6-7: [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/K.webp'>torchbearer K</uvalib-modal-image-button>] | THE MODERN
 LIBRARY · NEW YORK.</p>
 <p>Pagination and collation as 442a.</p>
 <p>Contents as 442a except: [iv] <em>First</em> statement omitted; [325–326]
@@ -64,7 +99,7 @@ our national character.</p>
 </blockquote>
 <p><span class="smallcaps">Also in the Modern Library</span></p>
 <p>Howells, <em>Hazard of New Fortunes</em> (1917–192?) 23</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1793,12 +1828,13 @@ our national character.</p>
 <sl-details summary="revision"><pre>{
   "id": "442b",
   "title": "Title page with Fujita torchbearer; 7½ inch format (1969/70)",
-  "full": "\n\nTitle as 442a through line 5; lines 6-7: \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/K.webp'>torchbearer K</uvalib-modal-image-button>\\] | THE MODERN\nLIBRARY · NEW YORK.\n\nPagination and collation as 442a.\n\nContents as 442a except: \\[iv\\] *First* statement omitted; \\[325–326\\]\nML Giants list; \\[327–330\\] blank. (*Spring 1967*)\n\n*Jacket A3:* Enlarged version of 442a jacket A2 with Fujita torchbearer\nand “ml” symbol.\n\n> Front flap:<br>\n> Written in 1885, Howells’ story of the rise of a newly rich, socially\n> aspiring family is generally regarded as the pioneer novel of American\n> realism. Rejecting the symbolism of Melville and Hawthorne, and the\n> false sentimentality of popular novels, Howells defined realism as\n> “nothing more and nothing less than the truthful treatment of material\n> . . . fidelity to experience and probability of motive.” In this\n> light, he examines the Laphams’ response to the ethical problems posed\n> by economic expansion, their conflicts with an admired and resented\n> Boston aristocracy, and, to give a balanced view of the Laphams’\n> world, delves into the fields of finance, architecture, and even the\n> details of mineral paint production. This novel still reflects an era\n> in America’s development and offers a sharp, pertinent commentary on\n> our national character.\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\nHowells, *Hazard of New Fortunes* (1917–192?) 23",
+  "full": "\n\nTitle as 442a through line 5; lines 6-7: \\[torchbearer K\\] | THE MODERN\nLIBRARY · NEW YORK.\n\nPagination and collation as 442a.\n\nContents as 442a except: \\[iv\\] *First* statement omitted; \\[325–326\\]\nML Giants list; \\[327–330\\] blank. (*Spring 1967*)\n\n*Jacket A3:* Enlarged version of 442a jacket A2 with Fujita torchbearer\nand “ml” symbol.\n\n> Front flap:<br>\n> Written in 1885, Howells’ story of the rise of a newly rich, socially\n> aspiring family is generally regarded as the pioneer novel of American\n> realism. Rejecting the symbolism of Melville and Hawthorne, and the\n> false sentimentality of popular novels, Howells defined realism as\n> “nothing more and nothing less than the truthful treatment of material\n> . . . fidelity to experience and probability of motive.” In this\n> light, he examines the Laphams’ response to the ethical problems posed\n> by economic expansion, their conflicts with an admired and resented\n> Boston aristocracy, and, to give a balanced view of the Laphams’\n> world, delves into the fields of finance, architecture, and even the\n> details of mineral paint production. This novel still reflects an era\n> in America’s development and offers a sharp, pertinent commentary on\n> our national character.\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\nHowells, *Hazard of New Fortunes* (1917–192?) 23",
   "year": "1951",
   "book": "442"
 }</pre></sl-details>
 
-<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script></div>
+<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1817,7 +1853,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

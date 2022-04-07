@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -39,7 +74,7 @@
 
 <h1>132b</h1>
 <h2>Title page reset (c. 1940)</h2>
-<div class="md-block"><p>[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/E3.webp'>torchbearer E3</uvalib-modal-image-button>] | [6-line title and statement of responsibility
+<p>[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/E3.webp'>torchbearer E3</uvalib-modal-image-button>] | [6-line title and statement of responsibility
 within single rules] The Autobiography | OF | BENVENUTO | CELLINI |
 Translated by | JOHN ADDINGTON SYMONDS | [below frame] THE MODERN
 LIBRARY · NEW YORK</p>
@@ -53,7 +88,7 @@ paper with inset oval portrait of Cellini in medium gray, black and
 white against deep yellowish green panel bordered in vivid reddish
 orange; lettering in vivid reddish orange and in reverse. Front flap
 slightly revised from 132a jacket D.</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1786,12 +1821,13 @@ slightly revised from 132a jacket D.</p>
 <sl-details summary="revision"><pre>{
   "id": "132b",
   "title": "Title page reset (c. 1940)",
-  "full": "\n\n\\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/E3.webp'>torchbearer E3</uvalib-modal-image-button>\\] | \\[6-line title and statement of responsibility\nwithin single rules\\] The Autobiography | OF | BENVENUTO | CELLINI |\nTranslated by | JOHN ADDINGTON SYMONDS | \\[below frame\\] THE MODERN\nLIBRARY · NEW YORK\n\nPagination and collation as 132a.\n\nContents as 132a except: \\[*2*\\] blank; \\[*4*\\] publication and\nmanufacturing statements; \\[486–490\\] blank.\n\n*Jacket A:* Larger version of 132a jacket E. (*Spring 1942*)\n\n*Jacket B:* Fujita pictorial jacket in vivid reddish orange (34), deep\nyellowish green (132), medium gray (265), and black on coated white\npaper with inset oval portrait of Cellini in medium gray, black and\nwhite against deep yellowish green panel bordered in vivid reddish\norange; lettering in vivid reddish orange and in reverse. Front flap\nslightly revised from 132a jacket D.\n\n",
+  "full": "\n\n\\[torchbearer E3\\] | \\[6-line title and statement of responsibility\nwithin single rules\\] The Autobiography | OF | BENVENUTO | CELLINI |\nTranslated by | JOHN ADDINGTON SYMONDS | \\[below frame\\] THE MODERN\nLIBRARY · NEW YORK\n\nPagination and collation as 132a.\n\nContents as 132a except: \\[*2*\\] blank; \\[*4*\\] publication and\nmanufacturing statements; \\[486–490\\] blank.\n\n*Jacket A:* Larger version of 132a jacket E. (*Spring 1942*)\n\n*Jacket B:* Fujita pictorial jacket in vivid reddish orange (34), deep\nyellowish green (132), medium gray (265), and black on coated white\npaper with inset oval portrait of Cellini in medium gray, black and\nwhite against deep yellowish green panel bordered in vivid reddish\norange; lettering in vivid reddish orange and in reverse. Front flap\nslightly revised from 132a jacket D.\n\n",
   "year": "1927",
   "book": "132"
 }</pre></sl-details>
 
-<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script></div>
+<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1810,7 +1846,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

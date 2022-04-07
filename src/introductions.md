@@ -2,7 +2,7 @@
 layout: page-layout.njk
 permalink: "introductions.html"
 ---
-INDEX TO INTRODUCTIONS
+## INDEX TO INTRODUCTIONS
 
 AUTHORS OF INTRODUCTIONS
 

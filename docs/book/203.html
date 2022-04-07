@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -36,7 +71,7 @@
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/book/203.html">203</sl-breadcrumb-item>
 </sl-breadcrumb>
 
-<div class="md-block"><p><strong>ALDOUS HUXLEY. POINT COUNTER POINT. 1930–1967. (ML 180)</strong></p>
+<p><strong>ALDOUS HUXLEY. POINT COUNTER POINT. 1930–1967. (ML 180)</strong></p>
 <h4>203a. First printing (1930)</h4>
 <p>[within double rules] POINT COUNTER | POINT | [rule] | BY | ALDOUS
 HUXLEY | [rule] | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A3.webp'>torchbearer A3</uvalib-modal-image-button>] | [rule] | BENNETT A. CERF :
@@ -140,7 +175,7 @@ point of view appeals to the young in spirit. (<em>Spring 1962</em>)</p>
 <p><span class="smallcaps">Also in the Modern Library</span></p>
 <p>Huxley, <em>Antic Hay</em> (1933– ) 252</p>
 <p>Huxley, <em>Brave New World</em> (1956–1967) 485</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1871,7 +1906,7 @@ point of view appeals to the young in spirit. (<em>Spring 1962</em>)</p>
 </elix-carousel-with-thumbnails>
 
 <sl-details summary="book"><pre>{
-  "full": "**ALDOUS HUXLEY. POINT COUNTER POINT. 1930–1967. (ML 180)**\n\n#### 203a. First printing (1930)\n\n\\[within double rules\\] POINT COUNTER | POINT | \\[rule\\] | BY | ALDOUS\nHUXLEY | \\[rule\\] | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A3.webp'>torchbearer A3</uvalib-modal-image-button>\\] | \\[rule\\] | BENNETT A. CERF :\nDONALD S. KLOPFER | THE MODERN LIBRARY | PUBLISHERS : NEW YORK\n\nPp. \\[*6*\\], \\[1\\] 2–514. \\[1–16\\]<sup>16</sup> \\[17\\]<sup>4</sup>\n\n\\[*1*\\] half title; \\[*2*\\] pub. note D5; \\[*3*\\] title; \\[*4*\\]\n*Copyright,* 1928, *by* DOUBLEDAY DORAN & CO. | \\[short double rule\\] |\n*First Modern Library Edition* | 1930; \\[*5*\\] fly title; \\[*6*\\] blank;\n\\[1\\]–514 text.\n\n*Jacket:* Non-pictorial in strong reddish orange (35), moderate greenish\nblue (173) and black on cream paper with title in ornamental lettering\nin strong reddish orange, moderate greenish blue and black; borders in\nmoderate greenish blue and strong reddish orange, other lettering in\nblack, all against cream background. Signed: EMcKK (E. McKnight\nKauffer). (*Fall 1930*)\n\n> Front flap:<br>\n> The rational and the fantastic characters who form a processional\n> across the pages of *Point Counter Point* belong to today’s world.\n> They are modern in their promiscuities and in the refinements of their\n> virtues and their vices; they are always reckless in their spiritual\n> and carnal experiences. *Point Counter Point* is in the staccato tempo\n> of our time, a colorful symphony, full of extravagant and fascinating\n> tonalities, shrewd commentaries and graceful embellishments. It is,\n> above all, a sophisticated novel for a sophisticated age. (*Fall\n> 1936*)\n\nOriginally published in U.S. by Doubleday, Doran & Co., 1928. ML edition\nprinted from Doubleday, Doran plates made from a new typesetting that\nappears to have been used exclusively by the ML. Published November\n1930. *WR* 29 November 1930. First printing: 10,000 copies. Discontinued\n1967.\n\n*Point Counter Point* was one of four Doubleday titles to which the ML\nsecured reprint rights at the time it purchased the Sun Dial Library\nfrom Garden City Publishing Co. (see 199). The ML paid Doubleday, Doran\na $3,000 advance against royalties of 12 cents a copy. Most ML royalties\nwere based on the number of copies printed; the royalties for *Point\nCounter Point* were based on sales.\n\nThere was a second printing of 5,000 copies in August 1931 and a third\nprinting of 4,000 copies in November 1932. *Point Counter Point* was low\nin the first quarter of ML titles in terms of sales during the 18-month\nperiod May 1942–October 1943. Sales improved significantly by the early\n1950s. During the 12-month period November 1951–October 1952 *Point\nCounter Point* was the 27th best-selling title in the ML.\n\nIn 1939 Doubleday, Doran sold its plates and the publishing rights to\nHuxley’s older books to Harper & Bros. Cerf expressed the hope that\n*Point Counter Point* and *Antic Hay* could remain in the ML “for a long\ntime to come” (Cerf to Henry Hoyns, Harper & Bros., 27 February 1939).\nHarper’s considered publishing the titles in full-priced editions at\n$2.50 and was concerned about the income it could expect from the ML\neditions. Unless the income was substantial, Hoyns indicated, the ML\neditions “might turn out to be a very unprofitable arrangement from our\npoint of view” (Hoyns to Klopfer, 17 March 1939).\n\nKlopfer and Hoyns met over lunch to discuss the matter. Shortly before\nthe meeting Klopfer wrote directly to Huxley, who was a personal friend:\n“Help, help, Harper’s are threatening to take POINT COUNTER POINT and\nANTIC HAY away from us. These two books belong in the Modern Library and\nit would be a crime not to have them available in a cheaper\nedition. . . . Could you influence the Harper office in any way in our\nfavor? I am having lunch with Hoyns later this week, and I hope we can\nmake a deal with him without bothering you, but I do want to make a\nstrong plea to have these books available in the small size inexpensive\nreprint, rather than just in the $2.50 library, deluxe size” (Klopfer to\nHuxley, 20 March 1939).\n\nKlopfer’s appeal appears to have been successful. Following the lunch\nKlopfer sent Hoyns new five-year contracts for the books. The *Point\nCounter Point* contract called for the ML to pay a $1,200 advance\nagainst royalties of 12 cents a copy and included a special clause that\nallowed Harper’s to cancel the contract if the ML could not undertake a\nreprint of at least 5,000 copies after three years.\n\nIn 1965 Harper & Row gave six months’ notice that the ML contract was\nbeing terminated so that *Point Counter Point* could be included in its\nown hardbound series, Perennial Classics (Virginia Olson, Harper & Row,\nto Epstein, 23 July 1965). The ML was allowed to sell out its stock on\nhand, which consisted of 4,400 copies (Epstein to Olson, 9 August 1965).\nThe ML edition was out of stock by summer 1967.\n\n#### 203b. Title page reset (1940)\n\n\\[within single rules\\] \\[6-line title and statement of responsibility\nwithin second set of single rules\\] POINT | COUNTER | POINT | BY |\nALDOUS | HUXLEY | \\[below inner frame: <uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D5.webp'>torchbearer D5</uvalib-modal-image-button> at right; 3-line\nimprint at left\\] THE | MODERN LIBRARY | NEW YORK\n\nPp. \\[*6*\\], \\[1\\] 2–514 \\[515–522\\]. \\[1–16\\]<sup>16</sup>\n\\[17\\]<sup>8</sup>\n\nContents as 203a except: \\[*2*\\] blank; \\[*4*\\] COPYRIGHT, 1928, BY\nDOUBLEDAY DORAN & COMPANY; \\[515–519\\] ML list; \\[520–521\\] ML Giants\nlist; \\[522\\] blank. (*Fall 1942*)\n\n*Jacket:* Enlarged version of 203a on coated white paper with signature\n“EMcKK” removed. Front flap as 203a. (*Fall 1940*)\n\n> Front flap revised:<br>\n> The rational and the irrational characters who form a processional\n> across the pages of *Point Counter Point* belong to today’s frantic\n> world. They are modern in their promiscuities and in the pleasure they\n> take in their vices and their virtues; they are reckless and\n> indifferent to consequences. *Point Counter Point* captures the\n> staccato tempo of our time. It is full of extravagant and fascinating\n> improvisation, shrewd commentaries and graceful ornamentation. It is a\n> sophisticated novel for a sophisticated age and the freshness of its\n> point of view appeals to the young in spirit. (*Spring 1962*)\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\nHuxley, *Antic Hay* (1933– ) 252\n\nHuxley, *Brave New World* (1956–1967) 485",
+  "full": "**ALDOUS HUXLEY. POINT COUNTER POINT. 1930–1967. (ML 180)**\n\n#### 203a. First printing (1930)\n\n\\[within double rules\\] POINT COUNTER | POINT | \\[rule\\] | BY | ALDOUS\nHUXLEY | \\[rule\\] | \\[torchbearer A3\\] | \\[rule\\] | BENNETT A. CERF :\nDONALD S. KLOPFER | THE MODERN LIBRARY | PUBLISHERS : NEW YORK\n\nPp. \\[*6*\\], \\[1\\] 2–514. \\[1–16\\]<sup>16</sup> \\[17\\]<sup>4</sup>\n\n\\[*1*\\] half title; \\[*2*\\] pub. note D5; \\[*3*\\] title; \\[*4*\\]\n*Copyright,* 1928, *by* DOUBLEDAY DORAN & CO. | \\[short double rule\\] |\n*First Modern Library Edition* | 1930; \\[*5*\\] fly title; \\[*6*\\] blank;\n\\[1\\]–514 text.\n\n*Jacket:* Non-pictorial in strong reddish orange (35), moderate greenish\nblue (173) and black on cream paper with title in ornamental lettering\nin strong reddish orange, moderate greenish blue and black; borders in\nmoderate greenish blue and strong reddish orange, other lettering in\nblack, all against cream background. Signed: EMcKK (E. McKnight\nKauffer). (*Fall 1930*)\n\n> Front flap:<br>\n> The rational and the fantastic characters who form a processional\n> across the pages of *Point Counter Point* belong to today’s world.\n> They are modern in their promiscuities and in the refinements of their\n> virtues and their vices; they are always reckless in their spiritual\n> and carnal experiences. *Point Counter Point* is in the staccato tempo\n> of our time, a colorful symphony, full of extravagant and fascinating\n> tonalities, shrewd commentaries and graceful embellishments. It is,\n> above all, a sophisticated novel for a sophisticated age. (*Fall\n> 1936*)\n\nOriginally published in U.S. by Doubleday, Doran & Co., 1928. ML edition\nprinted from Doubleday, Doran plates made from a new typesetting that\nappears to have been used exclusively by the ML. Published November\n1930. *WR* 29 November 1930. First printing: 10,000 copies. Discontinued\n1967.\n\n*Point Counter Point* was one of four Doubleday titles to which the ML\nsecured reprint rights at the time it purchased the Sun Dial Library\nfrom Garden City Publishing Co. (see 199). The ML paid Doubleday, Doran\na $3,000 advance against royalties of 12 cents a copy. Most ML royalties\nwere based on the number of copies printed; the royalties for *Point\nCounter Point* were based on sales.\n\nThere was a second printing of 5,000 copies in August 1931 and a third\nprinting of 4,000 copies in November 1932. *Point Counter Point* was low\nin the first quarter of ML titles in terms of sales during the 18-month\nperiod May 1942–October 1943. Sales improved significantly by the early\n1950s. During the 12-month period November 1951–October 1952 *Point\nCounter Point* was the 27th best-selling title in the ML.\n\nIn 1939 Doubleday, Doran sold its plates and the publishing rights to\nHuxley’s older books to Harper & Bros. Cerf expressed the hope that\n*Point Counter Point* and *Antic Hay* could remain in the ML “for a long\ntime to come” (Cerf to Henry Hoyns, Harper & Bros., 27 February 1939).\nHarper’s considered publishing the titles in full-priced editions at\n$2.50 and was concerned about the income it could expect from the ML\neditions. Unless the income was substantial, Hoyns indicated, the ML\neditions “might turn out to be a very unprofitable arrangement from our\npoint of view” (Hoyns to Klopfer, 17 March 1939).\n\nKlopfer and Hoyns met over lunch to discuss the matter. Shortly before\nthe meeting Klopfer wrote directly to Huxley, who was a personal friend:\n“Help, help, Harper’s are threatening to take POINT COUNTER POINT and\nANTIC HAY away from us. These two books belong in the Modern Library and\nit would be a crime not to have them available in a cheaper\nedition. . . . Could you influence the Harper office in any way in our\nfavor? I am having lunch with Hoyns later this week, and I hope we can\nmake a deal with him without bothering you, but I do want to make a\nstrong plea to have these books available in the small size inexpensive\nreprint, rather than just in the $2.50 library, deluxe size” (Klopfer to\nHuxley, 20 March 1939).\n\nKlopfer’s appeal appears to have been successful. Following the lunch\nKlopfer sent Hoyns new five-year contracts for the books. The *Point\nCounter Point* contract called for the ML to pay a $1,200 advance\nagainst royalties of 12 cents a copy and included a special clause that\nallowed Harper’s to cancel the contract if the ML could not undertake a\nreprint of at least 5,000 copies after three years.\n\nIn 1965 Harper & Row gave six months’ notice that the ML contract was\nbeing terminated so that *Point Counter Point* could be included in its\nown hardbound series, Perennial Classics (Virginia Olson, Harper & Row,\nto Epstein, 23 July 1965). The ML was allowed to sell out its stock on\nhand, which consisted of 4,400 copies (Epstein to Olson, 9 August 1965).\nThe ML edition was out of stock by summer 1967.\n\n#### 203b. Title page reset (1940)\n\n\\[within single rules\\] \\[6-line title and statement of responsibility\nwithin second set of single rules\\] POINT | COUNTER | POINT | BY |\nALDOUS | HUXLEY | \\[below inner frame: torchbearer D5 at right; 3-line\nimprint at left\\] THE | MODERN LIBRARY | NEW YORK\n\nPp. \\[*6*\\], \\[1\\] 2–514 \\[515–522\\]. \\[1–16\\]<sup>16</sup>\n\\[17\\]<sup>8</sup>\n\nContents as 203a except: \\[*2*\\] blank; \\[*4*\\] COPYRIGHT, 1928, BY\nDOUBLEDAY DORAN & COMPANY; \\[515–519\\] ML list; \\[520–521\\] ML Giants\nlist; \\[522\\] blank. (*Fall 1942*)\n\n*Jacket:* Enlarged version of 203a on coated white paper with signature\n“EMcKK” removed. Front flap as 203a. (*Fall 1940*)\n\n> Front flap revised:<br>\n> The rational and the irrational characters who form a processional\n> across the pages of *Point Counter Point* belong to today’s frantic\n> world. They are modern in their promiscuities and in the pleasure they\n> take in their vices and their virtues; they are reckless and\n> indifferent to consequences. *Point Counter Point* captures the\n> staccato tempo of our time. It is full of extravagant and fascinating\n> improvisation, shrewd commentaries and graceful ornamentation. It is a\n> sophisticated novel for a sophisticated age and the freshness of its\n> point of view appeals to the young in spirit. (*Spring 1962*)\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\nHuxley, *Antic Hay* (1933– ) 252\n\nHuxley, *Brave New World* (1956–1967) 485",
   "id": "203",
   "year": "1930",
   "title": "ALDOUS HUXLEY. POINT COUNTER POINT. 1930–1967. (ML 180)",
@@ -1879,7 +1914,8 @@ point of view appeals to the young in spirit. (<em>Spring 1962</em>)</p>
 }</pre></sl-details>
 
 <script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
-</div>
+
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1898,7 +1934,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

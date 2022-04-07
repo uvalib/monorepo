@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -39,7 +74,7 @@
 
 <h1>354c</h1>
 <h2>Title page with Fujita torchbearer; 7½ inch format (1969/70)</h2>
-<div class="md-block"><p>Title as 354b through line 6; lines 7–9: Gray Professor of Rhetoric,
+<p>Title as 354b through line 6; lines 7–9: Gray Professor of Rhetoric,
 Yale University | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/L2.webp'>torchbearer L2</uvalib-modal-image-button>] | THE MODERN LIBRARY · NEW YORK</p>
 <p>Pp. [i–iv] v–xxiii [xxiv], [1–2] 3–756 [757–776].
 [1–25]<sup>16</sup></p>
@@ -66,7 +101,7 @@ Pamphlet</em>, and <em>The Doctrine and Discipline of Divorce</em>. With a
 biographical and critical introduction by Cleanth Brooks.</p>
 </blockquote>
 <p>Printed from offset plates photographically reproduced from 354b.</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1797,12 +1832,13 @@ biographical and critical introduction by Cleanth Brooks.</p>
 <sl-details summary="revision"><pre>{
   "id": "354c",
   "title": "Title page with Fujita torchbearer; 7½ inch format (1969/70)",
-  "full": "\n\nTitle as 354b through line 6; lines 7–9: Gray Professor of Rhetoric,\nYale University | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/L2.webp'>torchbearer L2</uvalib-modal-image-button>\\] | THE MODERN LIBRARY · NEW YORK\n\nPp. \\[i–iv\\] v–xxiii \\[xxiv\\], \\[1–2\\] 3–756 \\[757–776\\].\n\\[1–25\\]<sup>16</sup>\n\nContents as 354b except: \\[iv\\] MODERN LIBRARY EDITION, *1942* |\n*Copyright, 1950, by Random House, Inc.*; xxiii–\\[xxiv\\] Contents;\n\\[757–758\\] ML Giants list; \\[759–766\\] ML list; \\[767–769\\] MLCE list;\n\\[770\\] blank; \\[771–775\\] Vintage Books fiction, poetry, and plays\nlist; \\[776\\] blank. (*Spring 1967*) *Note:* Battered page numeral\n“xxiv” removed from plates.\n\n*Jacket B:* Fujita non-pictorial jacket in grayish greenish yellow\n(105), strong purplish blue (196) and black on coated white paper with\nauthor in black gothic letters with large capital “M” elaborately\ndecorated in strong purplish blue and title in reverse, all on grayish\ngreenish yellow background.\n\n> Front flap:<br>\n> In addition to his longer poems, *Lycidas*, *Comus*, *Paradise Lost*,\n> *Paradise Regained*, and *Samson Agonistes*, Milton wrote a\n> substantial body of sonnets, songs, and other short poems. This volume\n> includes all of his poetry, as well as twelve prose selections, among\n> them the *Areopagitica*, and the essays *Of Reformation*, *Of\n> Education*, *The Reason of Church-Government*, *An Apology against a\n> Pamphlet*, and *The Doctrine and Discipline of Divorce*. With a\n> biographical and critical introduction by Cleanth Brooks.\n\nPrinted from offset plates photographically reproduced from 354b.",
+  "full": "\n\nTitle as 354b through line 6; lines 7–9: Gray Professor of Rhetoric,\nYale University | \\[torchbearer L2\\] | THE MODERN LIBRARY · NEW YORK\n\nPp. \\[i–iv\\] v–xxiii \\[xxiv\\], \\[1–2\\] 3–756 \\[757–776\\].\n\\[1–25\\]<sup>16</sup>\n\nContents as 354b except: \\[iv\\] MODERN LIBRARY EDITION, *1942* |\n*Copyright, 1950, by Random House, Inc.*; xxiii–\\[xxiv\\] Contents;\n\\[757–758\\] ML Giants list; \\[759–766\\] ML list; \\[767–769\\] MLCE list;\n\\[770\\] blank; \\[771–775\\] Vintage Books fiction, poetry, and plays\nlist; \\[776\\] blank. (*Spring 1967*) *Note:* Battered page numeral\n“xxiv” removed from plates.\n\n*Jacket B:* Fujita non-pictorial jacket in grayish greenish yellow\n(105), strong purplish blue (196) and black on coated white paper with\nauthor in black gothic letters with large capital “M” elaborately\ndecorated in strong purplish blue and title in reverse, all on grayish\ngreenish yellow background.\n\n> Front flap:<br>\n> In addition to his longer poems, *Lycidas*, *Comus*, *Paradise Lost*,\n> *Paradise Regained*, and *Samson Agonistes*, Milton wrote a\n> substantial body of sonnets, songs, and other short poems. This volume\n> includes all of his poetry, as well as twelve prose selections, among\n> them the *Areopagitica*, and the essays *Of Reformation*, *Of\n> Education*, *The Reason of Church-Government*, *An Apology against a\n> Pamphlet*, and *The Doctrine and Discipline of Divorce*. With a\n> biographical and critical introduction by Cleanth Brooks.\n\nPrinted from offset plates photographically reproduced from 354b.",
   "year": "1942",
   "book": "354"
 }</pre></sl-details>
 
-<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script></div>
+<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1821,7 +1857,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

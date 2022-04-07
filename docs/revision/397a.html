@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -39,7 +74,7 @@
 
 <h1>397a</h1>
 <h2>First printing (1947)</h2>
-<div class="md-block"><p>TOBACCO | ROAD | <em>by</em> | ERSKINE CALDWELL | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D5.webp'>torchbearer D5</uvalib-modal-image-button>] | [rule]
+<p>TOBACCO | ROAD | <em>by</em> | ERSKINE CALDWELL | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D5.webp'>torchbearer D5</uvalib-modal-image-button>] | [rule]
 | THE MODERN LIBRARY · NEW YORK | [rule]</p>
 <p>Pp. [<em>12</em>], 1–241 [242–244]. [1–8]<sup>16</sup></p>
 <p>[<em>1</em>] half title; [<em>2</em>] blank; [<em>3</em>] title; [<em>4</em>] COPYRIGHT,
@@ -105,7 +140,7 @@ that the retail price of ML books had increased since 1947 and inquired
 whether the royalty should be adjusted (Arthur Thornhill, Little, Brown,
 17 September 1957). Later that year the ML began paying royalties of 12
 cents a copy.</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1836,12 +1871,13 @@ cents a copy.</p>
 <sl-details summary="revision"><pre>{
   "id": "397a",
   "title": "First printing (1947)",
-  "full": "\n\nTOBACCO | ROAD | *by* | ERSKINE CALDWELL | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D5.webp'>torchbearer D5</uvalib-modal-image-button>\\] | \\[rule\\]\n| THE MODERN LIBRARY · NEW YORK | \\[rule\\]\n\nPp. \\[*12*\\], 1–241 \\[242–244\\]. \\[1–8\\]<sup>16</sup>\n\n\\[*1*\\] half title; \\[*2*\\] blank; \\[*3*\\] title; \\[*4*\\] COPYRIGHT,\n1932, 1940, BY ERSKINE CALDWELL | FIRST *Modern Library* EDITION, 1947;\n\\[*5*\\] dedication; \\[*6*\\] blank; \\[*7*–*9*\\] AFTER TEN YEARS signed p.\n\\[*9*\\]: ERSKINE CALDWELL | *Darien, Connecticut*; \\[*10*\\] blank;\n\\[*11*\\] fly title; \\[*12*\\] blank; 1–241 text; \\[242–244\\] blank.\n\n> *Variant:* Pagination and collation as 397a. Contents as 397a except:\n> \\[*4*\\] COPYRIGHT, 1932, 1940, BY ERSKINE CALDWELL | RENEWED, 1960, BY\n> ERSKINE CALDWELL; \\[242\\] blank; \\[243–244\\] ML Giants list. (*Spring\n> 1967*)\n\n*Jacket:* Pictorial in moderate yellow (87), strong green (141) and\nblack on coated white paper with illustration in black of a man seated\non the front steps of a shack with an old car and outhouse nearby;\nlettering and frame in strong green, all on moderate yellow background.\nBelow frame: “A MODERN LIBRARY BOOK” in strong green.\n\n> Front flap:<br>\n> The play, based on Erskine Caldwell’s novel, *Tobacco Road*, was the\n> most phenomenally successful production in the history of the American\n> theatre. The novel itself has been one of the most widely read and\n> discussed books of our time. Whatever controversies it has aroused,\n> there has been no difference of opinion about its power and\n> excitement. As the chronicler of the folkways of the impoverished\n> South, Erskine Caldwell has re-created a world and a people with\n> courageous realism. He has given us, in *Tobacco Road*, a novel of\n> extraordinary appeal and merit. (*Spring 1947*)\n\n> Front flap revised:<br>\n> *Tobacco Road* is one of the most widely read and discussed books of\n> our time. Brilliantly realistic in its picture of moral and physical\n> decay among the impoverished sharecroppers and tenant farmers of the\n> South, this novel has been universally acclaimed for its high literary\n> merit and for its socially significant viewpoint. Throughout the book\n> there runs a skillfully drawn thread of rich humor, imparting to the\n> reader a sympathetic understanding of the shocking state in which many\n> Americans still live.\n>\n> Erskine Caldwell has long been regarded as one of our foremost\n> writers, and most readers would give *Tobacco Road* a prominent place\n> in the list of his writings. (*Spring 1957*)\n\nOriginally published by Charles Scribner’s Sons, 1932; rights\nsubsequently transferred to Duell, Sloan and Pearce. ML edition (pp.\n\\[*5*\\]–241) printed from Scribner/Duell, Sloan and Pearce plates except\nfor “After Ten Years” (pp. \\[*7–9*\\]) which was not in Scribner\nprintings. Publication announced for February 1947. *WR* 17 May 1947.\nFirst printing: Not established. Discontinued 1969/70.\n\nThe reprint agreement for the ML edition was signed in May 1945 with\npublication scheduled for spring 1947 (Cerf to Charles Duell, 20\nSeptember 1946). The contract for the ML edition of Howard Fast’s *The\nUnvanquished* (379), which appeared in fall 1945, was signed at the same\ntime. Details are not available about the advance paid by the ML or the\ninitial royalty rate; in the 1960s the ML was paying royalties of 15\ncents a copy.\n\nCaldwell’s preface “After Ten Years” originally appeared in the 1940\nedition published by Duell, Sloan and Pearce with black-and-white\nillustrations by David Fredenthal.\n\nThe ML paid royalties of 10 cents a copy. In 1957 Little, Brown noted\nthat the retail price of ML books had increased since 1947 and inquired\nwhether the royalty should be adjusted (Arthur Thornhill, Little, Brown,\n17 September 1957). Later that year the ML began paying royalties of 12\ncents a copy.\n\n",
+  "full": "\n\nTOBACCO | ROAD | *by* | ERSKINE CALDWELL | \\[torchbearer D5\\] | \\[rule\\]\n| THE MODERN LIBRARY · NEW YORK | \\[rule\\]\n\nPp. \\[*12*\\], 1–241 \\[242–244\\]. \\[1–8\\]<sup>16</sup>\n\n\\[*1*\\] half title; \\[*2*\\] blank; \\[*3*\\] title; \\[*4*\\] COPYRIGHT,\n1932, 1940, BY ERSKINE CALDWELL | FIRST *Modern Library* EDITION, 1947;\n\\[*5*\\] dedication; \\[*6*\\] blank; \\[*7*–*9*\\] AFTER TEN YEARS signed p.\n\\[*9*\\]: ERSKINE CALDWELL | *Darien, Connecticut*; \\[*10*\\] blank;\n\\[*11*\\] fly title; \\[*12*\\] blank; 1–241 text; \\[242–244\\] blank.\n\n> *Variant:* Pagination and collation as 397a. Contents as 397a except:\n> \\[*4*\\] COPYRIGHT, 1932, 1940, BY ERSKINE CALDWELL | RENEWED, 1960, BY\n> ERSKINE CALDWELL; \\[242\\] blank; \\[243–244\\] ML Giants list. (*Spring\n> 1967*)\n\n*Jacket:* Pictorial in moderate yellow (87), strong green (141) and\nblack on coated white paper with illustration in black of a man seated\non the front steps of a shack with an old car and outhouse nearby;\nlettering and frame in strong green, all on moderate yellow background.\nBelow frame: “A MODERN LIBRARY BOOK” in strong green.\n\n> Front flap:<br>\n> The play, based on Erskine Caldwell’s novel, *Tobacco Road*, was the\n> most phenomenally successful production in the history of the American\n> theatre. The novel itself has been one of the most widely read and\n> discussed books of our time. Whatever controversies it has aroused,\n> there has been no difference of opinion about its power and\n> excitement. As the chronicler of the folkways of the impoverished\n> South, Erskine Caldwell has re-created a world and a people with\n> courageous realism. He has given us, in *Tobacco Road*, a novel of\n> extraordinary appeal and merit. (*Spring 1947*)\n\n> Front flap revised:<br>\n> *Tobacco Road* is one of the most widely read and discussed books of\n> our time. Brilliantly realistic in its picture of moral and physical\n> decay among the impoverished sharecroppers and tenant farmers of the\n> South, this novel has been universally acclaimed for its high literary\n> merit and for its socially significant viewpoint. Throughout the book\n> there runs a skillfully drawn thread of rich humor, imparting to the\n> reader a sympathetic understanding of the shocking state in which many\n> Americans still live.\n>\n> Erskine Caldwell has long been regarded as one of our foremost\n> writers, and most readers would give *Tobacco Road* a prominent place\n> in the list of his writings. (*Spring 1957*)\n\nOriginally published by Charles Scribner’s Sons, 1932; rights\nsubsequently transferred to Duell, Sloan and Pearce. ML edition (pp.\n\\[*5*\\]–241) printed from Scribner/Duell, Sloan and Pearce plates except\nfor “After Ten Years” (pp. \\[*7–9*\\]) which was not in Scribner\nprintings. Publication announced for February 1947. *WR* 17 May 1947.\nFirst printing: Not established. Discontinued 1969/70.\n\nThe reprint agreement for the ML edition was signed in May 1945 with\npublication scheduled for spring 1947 (Cerf to Charles Duell, 20\nSeptember 1946). The contract for the ML edition of Howard Fast’s *The\nUnvanquished* (379), which appeared in fall 1945, was signed at the same\ntime. Details are not available about the advance paid by the ML or the\ninitial royalty rate; in the 1960s the ML was paying royalties of 15\ncents a copy.\n\nCaldwell’s preface “After Ten Years” originally appeared in the 1940\nedition published by Duell, Sloan and Pearce with black-and-white\nillustrations by David Fredenthal.\n\nThe ML paid royalties of 10 cents a copy. In 1957 Little, Brown noted\nthat the retail price of ML books had increased since 1947 and inquired\nwhether the royalty should be adjusted (Arthur Thornhill, Little, Brown,\n17 September 1957). Later that year the ML began paying royalties of 12\ncents a copy.\n\n",
   "year": "1947",
   "book": "397"
 }</pre></sl-details>
 
-<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script></div>
+<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1860,7 +1896,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

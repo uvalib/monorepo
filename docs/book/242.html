@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -36,9 +71,9 @@
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/book/242.html">242</sl-breadcrumb-item>
 </sl-breadcrumb>
 
-<div class="md-block"><p>*<strong>OSCAR WILDE. THE POEMS AND FAIRY TALES OF OSCAR WILDE. 1932–1970. (ML
+<p>*<strong>OSCAR WILDE. THE POEMS AND FAIRY TALES OF OSCAR WILDE. 1932–1970. (ML
 84)</strong></p>
-<h4>242a. First printing (1932)</h4>
+<h4><a href='/revision/242a.html'>242a. First printing (1932)</a></h4>
 <p>[within double rules] THE POEMS | AND FAIRY TALES | OF | OSCAR WILDE |
 [rule] | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer A2</uvalib-modal-image-button>] | [rule] | BENNETT A. CERF · DONALD S.
 KLOPFER | THE MODERN LIBRARY | NEW YORK</p>
@@ -79,7 +114,7 @@ eighteen-month period May 1942–October 1943, placing it in the fourth
 quarter of ML and Giant titles. It did not rank among the 100
 best-selling titles in the regular ML during the twelve-month period
 November 1951–October 1952.</p>
-<h4>242b. Title page reset (1940)</h4>
+<h4><a href='/revision/242b.html'>242b. Title page reset (1940)</a></h4>
 <p>THE POEMS | AND | FAIRY TALES | OF | OSCAR | WILDE | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D4.webp'>torchbearer D4</uvalib-modal-image-button>]
 | [rule] | MODERN LIBRARY · NEW YORK | [rule]</p>
 <p>Pagination and collation as 241a.</p>
@@ -111,7 +146,7 @@ Pencil and Poison and Other Essays</em></p>
 <p>Wilde, <em>De Profundis</em> (1926–1934) 122</p>
 <p>Wilde, <em>Plays of Oscar Wilde</em> (1932–1971; 1980– ) 241</p>
 <p>Wilde, <em>Picture of Dorian Gray &amp; De Profundis</em> (1934–1963) 1.2b</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1844,7 +1879,7 @@ Pencil and Poison and Other Essays</em></p>
 </elix-carousel-with-thumbnails>
 
 <sl-details summary="book"><pre>{
-  "full": "***OSCAR WILDE. THE POEMS AND FAIRY TALES OF OSCAR WILDE. 1932–1970. (ML\n84)**\n\n#### 242a. First printing (1932)\n\n\\[within double rules\\] THE POEMS | AND FAIRY TALES | OF | OSCAR WILDE |\n\\[rule\\] | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer A2</uvalib-modal-image-button>\\] | \\[rule\\] | BENNETT A. CERF · DONALD S.\nKLOPFER | THE MODERN LIBRARY | NEW YORK\n\nPp. \\[*2*\\], \\[i–iv\\] v–vii \\[viii\\], \\[1–2\\] 3–279 \\[280\\]; \\[1–2\\]\n3–214 \\[215–222\\]. \\[1–16\\]<sup>16</sup>\n\n\\[*1*\\] half title; \\[*2*\\] pub. note A6; \\[i\\] title; \\[ii\\] *New\nModern Library Edition* | 1932 | \\[short double rule\\]; \\[iii\\]\ndedication; \\[iv\\] blank; v–vii CONTENTS \\[poems\\]; \\[viii\\] CONTENTS\n\\[fairy tales and poems in prose\\]; \\[1\\] part title: THE BALLAD OF\nREADING GAOL; \\[2\\] blank; 3–279 text; \\[280\\] blank; \\[1\\] part title:\nFAIRY TALES; \\[2\\] blank; 3–214 text; \\[215–219\\] ML list; \\[220–222\\]\nblank. (*Fall 1931*)\n\n*Jacket:* Pictorial in dark purple (224) and black on cream paper with\ninset portrait of Wilde; borders in dark purple, lettering in black.\nSigned: SLH. (*Fall 1931*)\n\n> Front flap:<br>\n> New generations of readers discover in *The Poems and Fairy Tales of\n> Oscar Wilde* an ever-renewing enchantment. The dream quality of the\n> fairy tales and the burning conviction of the poems set them apart\n> from the other scintillating but artificial writings of Oscar Wilde.\n> It is by these simple and moving fairy tales and by such poems as The\n> Ballad of Reading Gaol that Oscar Wilde has won an abiding place in\n> the hearts of children and their elders throughout the world. (*Fall\n> 1933*)\n\nOriginal ML collection combining Wilde’s *Poems* (19) and *Fairy Tales\nand Poems in Prose* (58). Poems printed from plates made from a new\ntypesetting with “The Ballad of Reading Gaol” shifted to the beginning;\nfairy tales (pp. \\[viii\\], \\[1\\]–214) printed from existing ML plates.\nPublished spring 1932. *WR* not found. First printing: Not ascertained.\nDiscontinued 1970/71.\n\nFour other titles by Wilde published in the ML between 1917 and 1926\nwere combined in the early 1930s to form *Plays of Oscar Wilde* (241)\nand *Picture of Dorian Gray & De Profundis* (1.2b).\n\nWilde’s *Poems and Fairy Tales* sold 2,312 copies during the\neighteen-month period May 1942–October 1943, placing it in the fourth\nquarter of ML and Giant titles. It did not rank among the 100\nbest-selling titles in the regular ML during the twelve-month period\nNovember 1951–October 1952.\n\n#### 242b. Title page reset (1940)\n\nTHE POEMS | AND | FAIRY TALES | OF | OSCAR | WILDE | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D4.webp'>torchbearer D4</uvalib-modal-image-button>\\]\n| \\[rule\\] | MODERN LIBRARY · NEW YORK | \\[rule\\]\n\nPagination and collation as 241a.\n\nContents as 241a except: \\[*2*\\] blank; \\[ii\\] publication and\nmanufacturing statements; \\[220–221\\] ML Giants list; \\[222\\] blank.\n(*Fall 1940*)\n\n*Jacket* *A:* Non-pictorial in dark bluish gray (192) and dark violet\n(212) on cream paper with title and author in reverse on inset dark\nviolet panel; background in dark bluish gray with series and torchbearer\nin reverse below inset panel. Front flap as 241a. (*Fall 1946*)\n\nFlap reset with additional paragraph at end:\n\n> This volume of almost 500 pages contains ninety long and short poems,\n> nine fairy tales and six poems in prose. (*Fall 1964*)\n\n*Jacket B:* As jacket A in strong reddish purple (237) and strong\npurplish red (255) on coated white paper with title and author in\nreverse on inset strong purplish red panel. Front flap with additional\nparagraph. (*Late 1960s; seen on copy with 1960s binding D*)\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\nWilde, *Picture of Dorian Gray* (1917–1934; 1963–1971; 1985–1991) 1\n\nWilde, *Poems* (1917–1931) 19\n\nWilde, *Fairy Tales and Poems in Prose* (1918–1931) 58\n\nWilde, *Salomé, The Importance of Being Earnest, Lady Windermere’s Fan*\n(1920–1931) 76\n\nWilde, *Ideal Husband, A Woman of No Importance* (1920–1931) 77\n\nWilde, *Intentions* (1921–1928) 93; jacket title of 1925 printing: *Pen,\nPencil and Poison and Other Essays*\n\nWilde, *De Profundis* (1926–1934) 122\n\nWilde, *Plays of Oscar Wilde* (1932–1971; 1980– ) 241\n\nWilde, *Picture of Dorian Gray & De Profundis* (1934–1963) 1.2b",
+  "full": "***OSCAR WILDE. THE POEMS AND FAIRY TALES OF OSCAR WILDE. 1932–1970. (ML\n84)**\n\n#### 242a. First printing (1932)\n\n\\[within double rules\\] THE POEMS | AND FAIRY TALES | OF | OSCAR WILDE |\n\\[rule\\] | \\[torchbearer A2\\] | \\[rule\\] | BENNETT A. CERF · DONALD S.\nKLOPFER | THE MODERN LIBRARY | NEW YORK\n\nPp. \\[*2*\\], \\[i–iv\\] v–vii \\[viii\\], \\[1–2\\] 3–279 \\[280\\]; \\[1–2\\]\n3–214 \\[215–222\\]. \\[1–16\\]<sup>16</sup>\n\n\\[*1*\\] half title; \\[*2*\\] pub. note A6; \\[i\\] title; \\[ii\\] *New\nModern Library Edition* | 1932 | \\[short double rule\\]; \\[iii\\]\ndedication; \\[iv\\] blank; v–vii CONTENTS \\[poems\\]; \\[viii\\] CONTENTS\n\\[fairy tales and poems in prose\\]; \\[1\\] part title: THE BALLAD OF\nREADING GAOL; \\[2\\] blank; 3–279 text; \\[280\\] blank; \\[1\\] part title:\nFAIRY TALES; \\[2\\] blank; 3–214 text; \\[215–219\\] ML list; \\[220–222\\]\nblank. (*Fall 1931*)\n\n*Jacket:* Pictorial in dark purple (224) and black on cream paper with\ninset portrait of Wilde; borders in dark purple, lettering in black.\nSigned: SLH. (*Fall 1931*)\n\n> Front flap:<br>\n> New generations of readers discover in *The Poems and Fairy Tales of\n> Oscar Wilde* an ever-renewing enchantment. The dream quality of the\n> fairy tales and the burning conviction of the poems set them apart\n> from the other scintillating but artificial writings of Oscar Wilde.\n> It is by these simple and moving fairy tales and by such poems as The\n> Ballad of Reading Gaol that Oscar Wilde has won an abiding place in\n> the hearts of children and their elders throughout the world. (*Fall\n> 1933*)\n\nOriginal ML collection combining Wilde’s *Poems* (19) and *Fairy Tales\nand Poems in Prose* (58). Poems printed from plates made from a new\ntypesetting with “The Ballad of Reading Gaol” shifted to the beginning;\nfairy tales (pp. \\[viii\\], \\[1\\]–214) printed from existing ML plates.\nPublished spring 1932. *WR* not found. First printing: Not ascertained.\nDiscontinued 1970/71.\n\nFour other titles by Wilde published in the ML between 1917 and 1926\nwere combined in the early 1930s to form *Plays of Oscar Wilde* (241)\nand *Picture of Dorian Gray & De Profundis* (1.2b).\n\nWilde’s *Poems and Fairy Tales* sold 2,312 copies during the\neighteen-month period May 1942–October 1943, placing it in the fourth\nquarter of ML and Giant titles. It did not rank among the 100\nbest-selling titles in the regular ML during the twelve-month period\nNovember 1951–October 1952.\n\n#### 242b. Title page reset (1940)\n\nTHE POEMS | AND | FAIRY TALES | OF | OSCAR | WILDE | \\[torchbearer D4\\]\n| \\[rule\\] | MODERN LIBRARY · NEW YORK | \\[rule\\]\n\nPagination and collation as 241a.\n\nContents as 241a except: \\[*2*\\] blank; \\[ii\\] publication and\nmanufacturing statements; \\[220–221\\] ML Giants list; \\[222\\] blank.\n(*Fall 1940*)\n\n*Jacket* *A:* Non-pictorial in dark bluish gray (192) and dark violet\n(212) on cream paper with title and author in reverse on inset dark\nviolet panel; background in dark bluish gray with series and torchbearer\nin reverse below inset panel. Front flap as 241a. (*Fall 1946*)\n\nFlap reset with additional paragraph at end:\n\n> This volume of almost 500 pages contains ninety long and short poems,\n> nine fairy tales and six poems in prose. (*Fall 1964*)\n\n*Jacket B:* As jacket A in strong reddish purple (237) and strong\npurplish red (255) on coated white paper with title and author in\nreverse on inset strong purplish red panel. Front flap with additional\nparagraph. (*Late 1960s; seen on copy with 1960s binding D*)\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\nWilde, *Picture of Dorian Gray* (1917–1934; 1963–1971; 1985–1991) 1\n\nWilde, *Poems* (1917–1931) 19\n\nWilde, *Fairy Tales and Poems in Prose* (1918–1931) 58\n\nWilde, *Salomé, The Importance of Being Earnest, Lady Windermere’s Fan*\n(1920–1931) 76\n\nWilde, *Ideal Husband, A Woman of No Importance* (1920–1931) 77\n\nWilde, *Intentions* (1921–1928) 93; jacket title of 1925 printing: *Pen,\nPencil and Poison and Other Essays*\n\nWilde, *De Profundis* (1926–1934) 122\n\nWilde, *Plays of Oscar Wilde* (1932–1971; 1980– ) 241\n\nWilde, *Picture of Dorian Gray & De Profundis* (1934–1963) 1.2b",
   "id": "242",
   "year": "1932",
   "title": "OSCAR WILDE. THE POEMS AND FAIRY TALES OF OSCAR WILDE. 1932–1970. (ML 84)",
@@ -1852,18 +1887,19 @@ Pencil and Poison and Other Essays</em></p>
     {
       "id": "242a",
       "title": "First printing (1932)",
-      "full": "\n\n\\[within double rules\\] THE POEMS | AND FAIRY TALES | OF | OSCAR WILDE |\n\\[rule\\] | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer A2</uvalib-modal-image-button>\\] | \\[rule\\] | BENNETT A. CERF · DONALD S.\nKLOPFER | THE MODERN LIBRARY | NEW YORK\n\nPp. \\[*2*\\], \\[i–iv\\] v–vii \\[viii\\], \\[1–2\\] 3–279 \\[280\\]; \\[1–2\\]\n3–214 \\[215–222\\]. \\[1–16\\]<sup>16</sup>\n\n\\[*1*\\] half title; \\[*2*\\] pub. note A6; \\[i\\] title; \\[ii\\] *New\nModern Library Edition* | 1932 | \\[short double rule\\]; \\[iii\\]\ndedication; \\[iv\\] blank; v–vii CONTENTS \\[poems\\]; \\[viii\\] CONTENTS\n\\[fairy tales and poems in prose\\]; \\[1\\] part title: THE BALLAD OF\nREADING GAOL; \\[2\\] blank; 3–279 text; \\[280\\] blank; \\[1\\] part title:\nFAIRY TALES; \\[2\\] blank; 3–214 text; \\[215–219\\] ML list; \\[220–222\\]\nblank. (*Fall 1931*)\n\n*Jacket:* Pictorial in dark purple (224) and black on cream paper with\ninset portrait of Wilde; borders in dark purple, lettering in black.\nSigned: SLH. (*Fall 1931*)\n\n> Front flap:<br>\n> New generations of readers discover in *The Poems and Fairy Tales of\n> Oscar Wilde* an ever-renewing enchantment. The dream quality of the\n> fairy tales and the burning conviction of the poems set them apart\n> from the other scintillating but artificial writings of Oscar Wilde.\n> It is by these simple and moving fairy tales and by such poems as The\n> Ballad of Reading Gaol that Oscar Wilde has won an abiding place in\n> the hearts of children and their elders throughout the world. (*Fall\n> 1933*)\n\nOriginal ML collection combining Wilde’s *Poems* (19) and *Fairy Tales\nand Poems in Prose* (58). Poems printed from plates made from a new\ntypesetting with “The Ballad of Reading Gaol” shifted to the beginning;\nfairy tales (pp. \\[viii\\], \\[1\\]–214) printed from existing ML plates.\nPublished spring 1932. *WR* not found. First printing: Not ascertained.\nDiscontinued 1970/71.\n\nFour other titles by Wilde published in the ML between 1917 and 1926\nwere combined in the early 1930s to form *Plays of Oscar Wilde* (241)\nand *Picture of Dorian Gray & De Profundis* (1.2b).\n\nWilde’s *Poems and Fairy Tales* sold 2,312 copies during the\neighteen-month period May 1942–October 1943, placing it in the fourth\nquarter of ML and Giant titles. It did not rank among the 100\nbest-selling titles in the regular ML during the twelve-month period\nNovember 1951–October 1952.\n\n"
+      "full": "\n\n\\[within double rules\\] THE POEMS | AND FAIRY TALES | OF | OSCAR WILDE |\n\\[rule\\] | \\[torchbearer A2\\] | \\[rule\\] | BENNETT A. CERF · DONALD S.\nKLOPFER | THE MODERN LIBRARY | NEW YORK\n\nPp. \\[*2*\\], \\[i–iv\\] v–vii \\[viii\\], \\[1–2\\] 3–279 \\[280\\]; \\[1–2\\]\n3–214 \\[215–222\\]. \\[1–16\\]<sup>16</sup>\n\n\\[*1*\\] half title; \\[*2*\\] pub. note A6; \\[i\\] title; \\[ii\\] *New\nModern Library Edition* | 1932 | \\[short double rule\\]; \\[iii\\]\ndedication; \\[iv\\] blank; v–vii CONTENTS \\[poems\\]; \\[viii\\] CONTENTS\n\\[fairy tales and poems in prose\\]; \\[1\\] part title: THE BALLAD OF\nREADING GAOL; \\[2\\] blank; 3–279 text; \\[280\\] blank; \\[1\\] part title:\nFAIRY TALES; \\[2\\] blank; 3–214 text; \\[215–219\\] ML list; \\[220–222\\]\nblank. (*Fall 1931*)\n\n*Jacket:* Pictorial in dark purple (224) and black on cream paper with\ninset portrait of Wilde; borders in dark purple, lettering in black.\nSigned: SLH. (*Fall 1931*)\n\n> Front flap:<br>\n> New generations of readers discover in *The Poems and Fairy Tales of\n> Oscar Wilde* an ever-renewing enchantment. The dream quality of the\n> fairy tales and the burning conviction of the poems set them apart\n> from the other scintillating but artificial writings of Oscar Wilde.\n> It is by these simple and moving fairy tales and by such poems as The\n> Ballad of Reading Gaol that Oscar Wilde has won an abiding place in\n> the hearts of children and their elders throughout the world. (*Fall\n> 1933*)\n\nOriginal ML collection combining Wilde’s *Poems* (19) and *Fairy Tales\nand Poems in Prose* (58). Poems printed from plates made from a new\ntypesetting with “The Ballad of Reading Gaol” shifted to the beginning;\nfairy tales (pp. \\[viii\\], \\[1\\]–214) printed from existing ML plates.\nPublished spring 1932. *WR* not found. First printing: Not ascertained.\nDiscontinued 1970/71.\n\nFour other titles by Wilde published in the ML between 1917 and 1926\nwere combined in the early 1930s to form *Plays of Oscar Wilde* (241)\nand *Picture of Dorian Gray & De Profundis* (1.2b).\n\nWilde’s *Poems and Fairy Tales* sold 2,312 copies during the\neighteen-month period May 1942–October 1943, placing it in the fourth\nquarter of ML and Giant titles. It did not rank among the 100\nbest-selling titles in the regular ML during the twelve-month period\nNovember 1951–October 1952.\n\n"
     },
     {
       "id": "242b",
       "title": "Title page reset (1940)",
-      "full": "\n\nTHE POEMS | AND | FAIRY TALES | OF | OSCAR | WILDE | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D4.webp'>torchbearer D4</uvalib-modal-image-button>\\]\n| \\[rule\\] | MODERN LIBRARY · NEW YORK | \\[rule\\]\n\nPagination and collation as 241a.\n\nContents as 241a except: \\[*2*\\] blank; \\[ii\\] publication and\nmanufacturing statements; \\[220–221\\] ML Giants list; \\[222\\] blank.\n(*Fall 1940*)\n\n*Jacket* *A:* Non-pictorial in dark bluish gray (192) and dark violet\n(212) on cream paper with title and author in reverse on inset dark\nviolet panel; background in dark bluish gray with series and torchbearer\nin reverse below inset panel. Front flap as 241a. (*Fall 1946*)\n\nFlap reset with additional paragraph at end:\n\n> This volume of almost 500 pages contains ninety long and short poems,\n> nine fairy tales and six poems in prose. (*Fall 1964*)\n\n*Jacket B:* As jacket A in strong reddish purple (237) and strong\npurplish red (255) on coated white paper with title and author in\nreverse on inset strong purplish red panel. Front flap with additional\nparagraph. (*Late 1960s; seen on copy with 1960s binding D*)\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\nWilde, *Picture of Dorian Gray* (1917–1934; 1963–1971; 1985–1991) 1\n\nWilde, *Poems* (1917–1931) 19\n\nWilde, *Fairy Tales and Poems in Prose* (1918–1931) 58\n\nWilde, *Salomé, The Importance of Being Earnest, Lady Windermere’s Fan*\n(1920–1931) 76\n\nWilde, *Ideal Husband, A Woman of No Importance* (1920–1931) 77\n\nWilde, *Intentions* (1921–1928) 93; jacket title of 1925 printing: *Pen,\nPencil and Poison and Other Essays*\n\nWilde, *De Profundis* (1926–1934) 122\n\nWilde, *Plays of Oscar Wilde* (1932–1971; 1980– ) 241\n\nWilde, *Picture of Dorian Gray & De Profundis* (1934–1963) 1.2b"
+      "full": "\n\nTHE POEMS | AND | FAIRY TALES | OF | OSCAR | WILDE | \\[torchbearer D4\\]\n| \\[rule\\] | MODERN LIBRARY · NEW YORK | \\[rule\\]\n\nPagination and collation as 241a.\n\nContents as 241a except: \\[*2*\\] blank; \\[ii\\] publication and\nmanufacturing statements; \\[220–221\\] ML Giants list; \\[222\\] blank.\n(*Fall 1940*)\n\n*Jacket* *A:* Non-pictorial in dark bluish gray (192) and dark violet\n(212) on cream paper with title and author in reverse on inset dark\nviolet panel; background in dark bluish gray with series and torchbearer\nin reverse below inset panel. Front flap as 241a. (*Fall 1946*)\n\nFlap reset with additional paragraph at end:\n\n> This volume of almost 500 pages contains ninety long and short poems,\n> nine fairy tales and six poems in prose. (*Fall 1964*)\n\n*Jacket B:* As jacket A in strong reddish purple (237) and strong\npurplish red (255) on coated white paper with title and author in\nreverse on inset strong purplish red panel. Front flap with additional\nparagraph. (*Late 1960s; seen on copy with 1960s binding D*)\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\nWilde, *Picture of Dorian Gray* (1917–1934; 1963–1971; 1985–1991) 1\n\nWilde, *Poems* (1917–1931) 19\n\nWilde, *Fairy Tales and Poems in Prose* (1918–1931) 58\n\nWilde, *Salomé, The Importance of Being Earnest, Lady Windermere’s Fan*\n(1920–1931) 76\n\nWilde, *Ideal Husband, A Woman of No Importance* (1920–1931) 77\n\nWilde, *Intentions* (1921–1928) 93; jacket title of 1925 printing: *Pen,\nPencil and Poison and Other Essays*\n\nWilde, *De Profundis* (1926–1934) 122\n\nWilde, *Plays of Oscar Wilde* (1932–1971; 1980– ) 241\n\nWilde, *Picture of Dorian Gray & De Profundis* (1934–1963) 1.2b"
     }
   ]
 }</pre></sl-details>
 
 <script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
-</div>
+
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1882,7 +1918,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

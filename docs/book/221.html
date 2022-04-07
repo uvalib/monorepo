@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -36,7 +71,7 @@
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/book/221.html">221</sl-breadcrumb-item>
 </sl-breadcrumb>
 
-<div class="md-block"><p>*<strong>HONORÉ DE BALZAC. DROLL STORIES. 1931–1970. (ML 193)</strong></p>
+<p>*<strong>HONORÉ DE BALZAC. DROLL STORIES. 1931–1970. (ML 193)</strong></p>
 <h4>221a.** **First printing (1931)</h4>
 <p>[within double rules] DROLL STORIES | [rule] | BY | HONORÉ DE BALZAC
 | [rule] | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A3.webp'>torchbearer A3</uvalib-modal-image-button>] | [rule] | THE MODERN LIBRARY |
@@ -83,7 +118,7 @@ translation. It is passable” (Klopfer to Allen Lane, John Lane, The
 Bodley Head, 20 October 1931).</p>
 <p>The ML’s plates were also used for printings by Walter J. Black, Blue
 Ribbon Books, and Carlton House.</p>
-<h4>221b. Title page reset (c. 1940)</h4>
+<h4><a href='/revision/221b.html'>221b. Title page reset (c. 1940)</a></h4>
 <p>[within single rules] [6-line title and statement of responsibility
 within second single-rule frame] DROLL | STORIES | BY | HONORÉ | DE |
 BALZAC | [below inner frame: <uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D5.webp'>torchbearer D5</uvalib-modal-image-button> at right; 2-line imprint at
@@ -108,7 +143,7 @@ revisions. (<em>Fall 1956</em>)</p>
 <p>Balzac, <em>Père Goriot &amp; Eugénie Grandet</em> (1946–1970) 390</p>
 <p>Balzac, <em>Cousin Bette</em> (1958–1971) 508</p>
 <p>Balzac, <em>Lost Illusions</em> (Giant, 1967–1970; 1985– ) G109</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1841,7 +1876,7 @@ revisions. (<em>Fall 1956</em>)</p>
 </elix-carousel-with-thumbnails>
 
 <sl-details summary="book"><pre>{
-  "full": "***HONORÉ DE BALZAC. DROLL STORIES. 1931–1970. (ML 193)**\n\n#### 221a.** **First printing (1931)\n\n\\[within double rules\\] DROLL STORIES | \\[rule\\] | BY | HONORÉ DE BALZAC\n| \\[rule\\] | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A3.webp'>torchbearer A3</uvalib-modal-image-button>\\] | \\[rule\\] | THE MODERN LIBRARY |\nPUBLISHERS : NEW YORK\n\nPp. \\[i–iv\\] v–xi \\[xii\\], \\[1–2\\] 3–553 \\[554–556\\].\n\\[1–17\\]<sup>16</sup> \\[18\\]<sup>12</sup>\n\n\\[i\\] half title; \\[ii\\] pub. note D12; \\[iii\\] title; \\[iv\\] *First\nModern Library Edition* | 1931; v–vii TABLE OF CONTENTS; \\[viii\\] blank;\nix–xi TRANSLATOR’S PREFACE dated p. xi: <span\nclass=\"smallcaps\">London</span>, *January,* 1874.; \\[xii\\] blank; \\[1\\]\npart title: THE FIRST TEN TALES; \\[2\\] blank; 3–553 text; \\[554–556\\]\nblank.\n\n*Jacket A:* Pictorial in dark yellowish pink (30) and dark yellowish\nbrown (78) on cream paper depicting a fat monk paging through a thick\nbook by candlelight; borders and title in dark yellowish pink, other\nlettering in dark yellowish brown. Signed: Wuyts. (*Fall 1931*)\n\n*Jacket B:* Pictorial in moderate blue (182), strong bluish green (160)\nand moderate orange (53) on coated white paper with illustration of\nthree laughing monks in moderate orange and white, borders around\nillustration and spine in strong bluish green, background in moderate\nblue with title and author in reverse.\n\n> Front flap:<br>\n> The author of the *Comédie Humaine* spreads a feast for readers of\n> robust appetite. The fare he offers is rich in flavor and as spicy as\n> the French life and manners of the sixteenth century which he\n> chronicles in these pages. The gayest wags, the most illustrious\n> guzzlers and the most abashed cuckolds of the age are gathered here to\n> entertain you. Partake of their vigor and merriment without stint or\n> squeamishness. Be prepared for unashamed laughter at the healthy\n> ribaldry of these *Droll Stories*. (*Fall 1939*)\n\nEnglish translation by George Robert Sims originally published in\nLondon, 1874. Early editions did not identify the translator, and the ML\nedition, printed from plates made from a new typesetting, did not\nidentify the translator either. Published October 1931. *WR* 7 November\n1931. First printing: Not ascertained. Discontinued 1970/71.\n\nThe translator states that “although *Les Cent Contes Drolatiques* were\ncompleted and published in 1837, the present is the first English\nversion ever brought before the public” (Translator’s Preface, p. xi).\nKlopfer was unaware of the translator’s identity. He noted, “The book\nisn’t copyrighted in this country, but I cannot tell you who did the\ntranslation. It is passable” (Klopfer to Allen Lane, John Lane, The\nBodley Head, 20 October 1931).\n\nThe ML’s plates were also used for printings by Walter J. Black, Blue\nRibbon Books, and Carlton House.\n\n#### 221b. Title page reset (c. 1940)\n\n\\[within single rules\\] \\[6-line title and statement of responsibility\nwithin second single-rule frame\\] DROLL | STORIES | BY | HONORÉ | DE |\nBALZAC | \\[below inner frame: <uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D5.webp'>torchbearer D5</uvalib-modal-image-button> at right; 2-line imprint at\nleft\\] THE | MODERN LIBRARY\n\nPagination and collation as 221a.\n\nContents as 221a except: \\[ii\\] blank; \\[iv\\] publication and\nmanufacturing statements within single rules.\n\n> *Variant:* Pp. \\[i–iv\\] v–xi \\[xii\\], \\[1–2\\] 3–553 \\[554–564\\].\n> \\[1–18\\]<sup>16</sup>. Contents as 221b except: \\[554\\] blank;\n> \\[555–560\\] ML list; \\[561–562\\] ML Giants list; \\[563–564\\] blank.\n> (*Fall 1945*)\n\n*Jacket A:* Enlarged version of 221a, jacket B. Front flap as 221a,\njacket B. (*Spring 1943*)\n\n*Jacket B:* As jacket A except monks in dark grayish yellow (91) and\nwhite, borders around illustration and spine in strong reddish orange,\nbackground in dark brown. (*Spring 1946*) Front flap reset with minor\nrevisions. (*Fall 1956*)\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\nBalzac, *Short Stories* (1918–1935) 39\n\nBalzac, *Père Goriot & Eugénie Grandet* (1946–1970) 390\n\nBalzac, *Cousin Bette* (1958–1971) 508\n\nBalzac, *Lost Illusions* (Giant, 1967–1970; 1985– ) G109",
+  "full": "***HONORÉ DE BALZAC. DROLL STORIES. 1931–1970. (ML 193)**\n\n#### 221a.** **First printing (1931)\n\n\\[within double rules\\] DROLL STORIES | \\[rule\\] | BY | HONORÉ DE BALZAC\n| \\[rule\\] | \\[torchbearer A3\\] | \\[rule\\] | THE MODERN LIBRARY |\nPUBLISHERS : NEW YORK\n\nPp. \\[i–iv\\] v–xi \\[xii\\], \\[1–2\\] 3–553 \\[554–556\\].\n\\[1–17\\]<sup>16</sup> \\[18\\]<sup>12</sup>\n\n\\[i\\] half title; \\[ii\\] pub. note D12; \\[iii\\] title; \\[iv\\] *First\nModern Library Edition* | 1931; v–vii TABLE OF CONTENTS; \\[viii\\] blank;\nix–xi TRANSLATOR’S PREFACE dated p. xi: <span\nclass=\"smallcaps\">London</span>, *January,* 1874.; \\[xii\\] blank; \\[1\\]\npart title: THE FIRST TEN TALES; \\[2\\] blank; 3–553 text; \\[554–556\\]\nblank.\n\n*Jacket A:* Pictorial in dark yellowish pink (30) and dark yellowish\nbrown (78) on cream paper depicting a fat monk paging through a thick\nbook by candlelight; borders and title in dark yellowish pink, other\nlettering in dark yellowish brown. Signed: Wuyts. (*Fall 1931*)\n\n*Jacket B:* Pictorial in moderate blue (182), strong bluish green (160)\nand moderate orange (53) on coated white paper with illustration of\nthree laughing monks in moderate orange and white, borders around\nillustration and spine in strong bluish green, background in moderate\nblue with title and author in reverse.\n\n> Front flap:<br>\n> The author of the *Comédie Humaine* spreads a feast for readers of\n> robust appetite. The fare he offers is rich in flavor and as spicy as\n> the French life and manners of the sixteenth century which he\n> chronicles in these pages. The gayest wags, the most illustrious\n> guzzlers and the most abashed cuckolds of the age are gathered here to\n> entertain you. Partake of their vigor and merriment without stint or\n> squeamishness. Be prepared for unashamed laughter at the healthy\n> ribaldry of these *Droll Stories*. (*Fall 1939*)\n\nEnglish translation by George Robert Sims originally published in\nLondon, 1874. Early editions did not identify the translator, and the ML\nedition, printed from plates made from a new typesetting, did not\nidentify the translator either. Published October 1931. *WR* 7 November\n1931. First printing: Not ascertained. Discontinued 1970/71.\n\nThe translator states that “although *Les Cent Contes Drolatiques* were\ncompleted and published in 1837, the present is the first English\nversion ever brought before the public” (Translator’s Preface, p. xi).\nKlopfer was unaware of the translator’s identity. He noted, “The book\nisn’t copyrighted in this country, but I cannot tell you who did the\ntranslation. It is passable” (Klopfer to Allen Lane, John Lane, The\nBodley Head, 20 October 1931).\n\nThe ML’s plates were also used for printings by Walter J. Black, Blue\nRibbon Books, and Carlton House.\n\n#### 221b. Title page reset (c. 1940)\n\n\\[within single rules\\] \\[6-line title and statement of responsibility\nwithin second single-rule frame\\] DROLL | STORIES | BY | HONORÉ | DE |\nBALZAC | \\[below inner frame: torchbearer D5 at right; 2-line imprint at\nleft\\] THE | MODERN LIBRARY\n\nPagination and collation as 221a.\n\nContents as 221a except: \\[ii\\] blank; \\[iv\\] publication and\nmanufacturing statements within single rules.\n\n> *Variant:* Pp. \\[i–iv\\] v–xi \\[xii\\], \\[1–2\\] 3–553 \\[554–564\\].\n> \\[1–18\\]<sup>16</sup>. Contents as 221b except: \\[554\\] blank;\n> \\[555–560\\] ML list; \\[561–562\\] ML Giants list; \\[563–564\\] blank.\n> (*Fall 1945*)\n\n*Jacket A:* Enlarged version of 221a, jacket B. Front flap as 221a,\njacket B. (*Spring 1943*)\n\n*Jacket B:* As jacket A except monks in dark grayish yellow (91) and\nwhite, borders around illustration and spine in strong reddish orange,\nbackground in dark brown. (*Spring 1946*) Front flap reset with minor\nrevisions. (*Fall 1956*)\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\nBalzac, *Short Stories* (1918–1935) 39\n\nBalzac, *Père Goriot & Eugénie Grandet* (1946–1970) 390\n\nBalzac, *Cousin Bette* (1958–1971) 508\n\nBalzac, *Lost Illusions* (Giant, 1967–1970; 1985– ) G109",
   "id": "221",
   "year": "1931",
   "title": "HONORÉ DE BALZAC. DROLL STORIES. 1931–1970. (ML 193)",
@@ -1849,13 +1884,14 @@ revisions. (<em>Fall 1956</em>)</p>
     {
       "id": "221b",
       "title": "Title page reset (c. 1940)",
-      "full": "\n\n\\[within single rules\\] \\[6-line title and statement of responsibility\nwithin second single-rule frame\\] DROLL | STORIES | BY | HONORÉ | DE |\nBALZAC | \\[below inner frame: <uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D5.webp'>torchbearer D5</uvalib-modal-image-button> at right; 2-line imprint at\nleft\\] THE | MODERN LIBRARY\n\nPagination and collation as 221a.\n\nContents as 221a except: \\[ii\\] blank; \\[iv\\] publication and\nmanufacturing statements within single rules.\n\n> *Variant:* Pp. \\[i–iv\\] v–xi \\[xii\\], \\[1–2\\] 3–553 \\[554–564\\].\n> \\[1–18\\]<sup>16</sup>. Contents as 221b except: \\[554\\] blank;\n> \\[555–560\\] ML list; \\[561–562\\] ML Giants list; \\[563–564\\] blank.\n> (*Fall 1945*)\n\n*Jacket A:* Enlarged version of 221a, jacket B. Front flap as 221a,\njacket B. (*Spring 1943*)\n\n*Jacket B:* As jacket A except monks in dark grayish yellow (91) and\nwhite, borders around illustration and spine in strong reddish orange,\nbackground in dark brown. (*Spring 1946*) Front flap reset with minor\nrevisions. (*Fall 1956*)\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\nBalzac, *Short Stories* (1918–1935) 39\n\nBalzac, *Père Goriot & Eugénie Grandet* (1946–1970) 390\n\nBalzac, *Cousin Bette* (1958–1971) 508\n\nBalzac, *Lost Illusions* (Giant, 1967–1970; 1985– ) G109"
+      "full": "\n\n\\[within single rules\\] \\[6-line title and statement of responsibility\nwithin second single-rule frame\\] DROLL | STORIES | BY | HONORÉ | DE |\nBALZAC | \\[below inner frame: torchbearer D5 at right; 2-line imprint at\nleft\\] THE | MODERN LIBRARY\n\nPagination and collation as 221a.\n\nContents as 221a except: \\[ii\\] blank; \\[iv\\] publication and\nmanufacturing statements within single rules.\n\n> *Variant:* Pp. \\[i–iv\\] v–xi \\[xii\\], \\[1–2\\] 3–553 \\[554–564\\].\n> \\[1–18\\]<sup>16</sup>. Contents as 221b except: \\[554\\] blank;\n> \\[555–560\\] ML list; \\[561–562\\] ML Giants list; \\[563–564\\] blank.\n> (*Fall 1945*)\n\n*Jacket A:* Enlarged version of 221a, jacket B. Front flap as 221a,\njacket B. (*Spring 1943*)\n\n*Jacket B:* As jacket A except monks in dark grayish yellow (91) and\nwhite, borders around illustration and spine in strong reddish orange,\nbackground in dark brown. (*Spring 1946*) Front flap reset with minor\nrevisions. (*Fall 1956*)\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\nBalzac, *Short Stories* (1918–1935) 39\n\nBalzac, *Père Goriot & Eugénie Grandet* (1946–1970) 390\n\nBalzac, *Cousin Bette* (1958–1971) 508\n\nBalzac, *Lost Illusions* (Giant, 1967–1970; 1985– ) G109"
     }
   ]
 }</pre></sl-details>
 
 <script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
-</div>
+
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1874,7 +1910,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

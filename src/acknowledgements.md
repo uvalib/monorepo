@@ -3,7 +3,7 @@ layout: page-layout.njk
 permalink: "acknowledgements.html"
 ---
 
-Acknowledgments
+## Acknowledgments
 
 <u>Private Collections of Modern Library Publications</u>
 

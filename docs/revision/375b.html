@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -39,7 +74,7 @@
 
 <h1>375b</h1>
 <h2>Title page reset (1945)</h2>
-<div class="md-block"><p>THE | COLLECTED | POETRY | OF | DOROTHY | PARKER | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D3.webp'>torchbearer D3</uvalib-modal-image-button>] |
+<p>THE | COLLECTED | POETRY | OF | DOROTHY | PARKER | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D3.webp'>torchbearer D3</uvalib-modal-image-button>] |
 [rule] | THE MODERN LIBRARY · NEW YORK | [rule]</p>
 <p>Pagination as 375a. [1–7]<sup>16</sup></p>
 <p>Contents as 575a except: [iv] <em>First</em> statement omitted.</p>
@@ -59,7 +94,7 @@ and new admirers, are all the poems which appeared originally in
 Enough Rope, Sunset Gun, Death and Taxes, plus numerous additional
 verses of equal brilliance. (<em>Fall 1956</em>)</p>
 </blockquote>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1790,12 +1825,13 @@ verses of equal brilliance. (<em>Fall 1956</em>)</p>
 <sl-details summary="revision"><pre>{
   "id": "375b",
   "title": "Title page reset (1945)",
-  "full": "\n\nTHE | COLLECTED | POETRY | OF | DOROTHY | PARKER | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D3.webp'>torchbearer D3</uvalib-modal-image-button>\\] |\n\\[rule\\] | THE MODERN LIBRARY · NEW YORK | \\[rule\\]\n\nPagination as 375a. \\[1–7\\]<sup>16</sup>\n\nContents as 575a except: \\[iv\\] *First* statement omitted.\n\n*Jacket A:* As 375a jacket. (*Spring 1945*)\n\n*Jacket B:* As jacket A except yellow omitted.\n\nFront flap reset with first two sentences revised and expanded as\nfollows:\n\n> Dorothy Parker’s verse, sharpened to arrow point and dipped in the\n> acid of wit, brought her the kind of fame that belongs to the most\n> frequently quoted poets of their time. Almost every literate person in\n> America memorized and applied many of her lines to prove a point or\n> make an impression for wit or wisdom. Her countless imitators only\n> helped to confirm her deserved and undisputed place as one of\n> America’s most quick-minded ironists. Here, for the legions of her old\n> and new admirers, are all the poems which appeared originally in\n> Enough Rope, Sunset Gun, Death and Taxes, plus numerous additional\n> verses of equal brilliance. (*Fall 1956*)\n\n",
+  "full": "\n\nTHE | COLLECTED | POETRY | OF | DOROTHY | PARKER | \\[torchbearer D3\\] |\n\\[rule\\] | THE MODERN LIBRARY · NEW YORK | \\[rule\\]\n\nPagination as 375a. \\[1–7\\]<sup>16</sup>\n\nContents as 575a except: \\[iv\\] *First* statement omitted.\n\n*Jacket A:* As 375a jacket. (*Spring 1945*)\n\n*Jacket B:* As jacket A except yellow omitted.\n\nFront flap reset with first two sentences revised and expanded as\nfollows:\n\n> Dorothy Parker’s verse, sharpened to arrow point and dipped in the\n> acid of wit, brought her the kind of fame that belongs to the most\n> frequently quoted poets of their time. Almost every literate person in\n> America memorized and applied many of her lines to prove a point or\n> make an impression for wit or wisdom. Her countless imitators only\n> helped to confirm her deserved and undisputed place as one of\n> America’s most quick-minded ironists. Here, for the legions of her old\n> and new admirers, are all the poems which appeared originally in\n> Enough Rope, Sunset Gun, Death and Taxes, plus numerous additional\n> verses of equal brilliance. (*Fall 1956*)\n\n",
   "year": "1944",
   "book": "375"
 }</pre></sl-details>
 
-<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script></div>
+<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1814,7 +1850,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

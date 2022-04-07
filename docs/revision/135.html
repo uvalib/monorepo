@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -39,7 +74,7 @@
 
 <h1>135</h1>
 <h2>First printing (1927)</h2>
-<div class="md-block"><p>[within double rules] ECCE HOMO | AND | THE BIRTH OF TRAGEDY |
+<p>[within double rules] ECCE HOMO | AND | THE BIRTH OF TRAGEDY |
 [rule] | BY | FRIEDRICH NIETZSCHE | [rule] | TRANSLATED BY | CLIFTON
 P. FADIMAN | [rule] | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer A2</uvalib-modal-image-button>] | [rule] | THE MODERN
 LIBRARY | PUBLISHERS : NEW YORK</p>
@@ -118,7 +153,7 @@ Nietzsche, <em>Beyond Good and Evil</em> (1917–1936) 28<br>
 Nietzsche, <em>Genealogy of Morals</em> (1918–1936) 59<br>
 Nietzsche, <em>Philosophy</em> (Giant, 1937–1970) G32<br>
 Nietzsche, <em>Basic Writings</em> (Giant, 1968–) G113<br></p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1847,12 +1882,13 @@ Nietzsche, <em>Basic Writings</em> (Giant, 1968–) G113<br></p>
 <sl-details summary="revision"><pre>{
   "id": "135",
   "title": "First printing (1927)",
-  "full": "\n\n\\[within double rules\\] ECCE HOMO | AND | THE BIRTH OF TRAGEDY |\n\\[rule\\] | BY | FRIEDRICH NIETZSCHE | \\[rule\\] | TRANSLATED BY | CLIFTON\nP. FADIMAN | \\[rule\\] | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer A2</uvalib-modal-image-button>\\] | \\[rule\\] | THE MODERN\nLIBRARY | PUBLISHERS : NEW YORK\n\nPp. \\[i–iv\\] v–x, \\[1–2\\] 3–340 \\[341–342\\]. \\[1–11\\]<sup>16</sup>\n\n\\[i\\] half title; \\[ii\\] pub. note A5; \\[iii\\] title; \\[iv\\]\n*Copyright,* 1927, *by* | THE MODERN LIBRARY, INC. | \\[short double\nrule\\] | *First Edition,* 1927; v–x PREFACE \\[to *Ecce Homo*\\] signed p.\nx: <span class=\"smallcaps\">Friedrich Nietzsche</span>.; \\[1\\] author’s\nnote; \\[2\\] blank; 3–161 text headed: ECCE HOMO | HOW ONE BECOMES | WHAT\nONE IS; \\[162\\] blank; \\[163\\] part title: THE BIRTH OF TRAGEDY | FROM\nTHE SPIRIT OF MUSIC; \\[164\\] blank; 165–166 FOREWORD TO RICHARD WAGNER;\n167–340 text; \\[341–342\\] blank.\n\n> *Variant:* Pagination and collation as 135. Contents as 135 except:\n> \\[ii\\] pub. note D5; \\[iv\\] copyright and *First* statements omitted;\n> list of books by Nietzsche in ML added. (*Balloon cloth binding*)\n\n*Jacket A:* Uniform typographic jacket B.\n\n> Text on front:<br>\n> “ECCE HOMO” is a fitting summary of Nietzsche’s character as a man and\n> his achievement as a thinker. “The Birth of Tragedy” is one of the\n> most difficult of his works to obtain in an adequate translation. Both\n> are presented here complete and unabridged.\n>\n> Nietzsche’s other most important works may be obtained in Modern\n> Library editions. “Thus Spake Zarathustra” is Volume Number 9, “Beyond\n> Good and Evil” is Number 20, and “The Genealogy of Morals” is Number\n> 62. (*Spring 1927*)\n\n*Jacket B:* Uniform typographic jacket D. (*Fall 1930*)\n\n> Front flap:<br>\n> *Ecce Homo* is a summary of Friedrich Nietzsche’s philosophy and his\n> most robust affirmation of life. In these respects it is a spiritual\n> and intellectual autobiography that proclaims with vigorous emphasis\n> the virtues of strength and pride. The juxtaposition of *Ecce Homo*\n> and *The Birth of Tragedy* in one volume gains significance by\n> opposite attitudes towards Richard Wagner. The latter work is\n> dedicated to him “as my noble champion,” and the former contains many\n> of Nietzsche’s most virulent attacks on the Master of Bayreuth. (*Fall\n> 1933*)\n\nOriginal ML translation. Published February 1927. *WR* 12 March 1927.\nFirst printing: Not ascertained. Discontinued 1 January 1937 after the\nfour Nietzsche volumes in the regular ML were repackaged as *The\nPhilosophy of Nietzsche* (G32).\n\nAfter discussing a ML edition of Nietzsche’s *Dawn of Day* with\nMacmillan, Cerf and Klopfer decided they wanted *Ecce Homo* instead.\nThey hoped to use the translation that Macmillan imported from England\nand offered an advance of $200 against royalties of 4 cents a copy. They\nasked for rights to the translation for ten years and wanted assurance\nthat Macmillan would not put *Ecce Homo* into its series of inexpensive\nreprints, Modern Readers Series (Klopfer to George P. Brett, Jr.,\nMacmillan, 2 June 1926). Macmillan had to submit the offer to its parent\nfirm in London but the response was slow in coming.\n\nAfter waiting four months Cerf and Klopfer decided to commission their\nown translation (Klopfer to Brett, 5 October 1926). Irwin Edman of\nColumbia University was asked to suggest a translator. He recommended\nHorace Freiss, a colleague in the Philosophy Department. Freiss\nindicated that he could do it within six months, but this was longer\nthan they wanted to wait. Edman then suggested Clifton Fadiman, one of\nhis graduate students. Fadiman agreed to undertake the translation of\n*Ecce Homo* and *The Birth of Tragedy* and to submit the manuscript by 6\nDecember.\n\nApproval for use of the Macmillan translation arrived from London in\nmid-October, but Cerf and Klopfer had already made arrangements with\nFadiman (Brett to Cerf, 14 October 1926; Cerf to Brett, 21 October\n1926). Fadiman submitted his translation shortly after the deadline but\nin time for February publication. Cerf later noted that the ML edition\nof *Ecce Homo & The Birth of Tragedy* was the first time Fadiman’s name\nwas attached to a literary work (“Trade Winds,” *SRL*, 22 May 1943, p.\n37).\n\n<span class=\"smallcaps\">Also in the Modern Library</span><br>\nNietzsche, *Thus Spake Zarathustra* (1917–) 9<br>\nNietzsche, *Beyond Good and Evil* (1917–1936) 28<br>\nNietzsche, *Genealogy of Morals* (1918–1936) 59<br>\nNietzsche, *Philosophy* (Giant, 1937–1970) G32<br>\nNietzsche, *Basic Writings* (Giant, 1968–) G113<br>",
+  "full": "\n\n\\[within double rules\\] ECCE HOMO | AND | THE BIRTH OF TRAGEDY |\n\\[rule\\] | BY | FRIEDRICH NIETZSCHE | \\[rule\\] | TRANSLATED BY | CLIFTON\nP. FADIMAN | \\[rule\\] | \\[torchbearer A2\\] | \\[rule\\] | THE MODERN\nLIBRARY | PUBLISHERS : NEW YORK\n\nPp. \\[i–iv\\] v–x, \\[1–2\\] 3–340 \\[341–342\\]. \\[1–11\\]<sup>16</sup>\n\n\\[i\\] half title; \\[ii\\] pub. note A5; \\[iii\\] title; \\[iv\\]\n*Copyright,* 1927, *by* | THE MODERN LIBRARY, INC. | \\[short double\nrule\\] | *First Edition,* 1927; v–x PREFACE \\[to *Ecce Homo*\\] signed p.\nx: <span class=\"smallcaps\">Friedrich Nietzsche</span>.; \\[1\\] author’s\nnote; \\[2\\] blank; 3–161 text headed: ECCE HOMO | HOW ONE BECOMES | WHAT\nONE IS; \\[162\\] blank; \\[163\\] part title: THE BIRTH OF TRAGEDY | FROM\nTHE SPIRIT OF MUSIC; \\[164\\] blank; 165–166 FOREWORD TO RICHARD WAGNER;\n167–340 text; \\[341–342\\] blank.\n\n> *Variant:* Pagination and collation as 135. Contents as 135 except:\n> \\[ii\\] pub. note D5; \\[iv\\] copyright and *First* statements omitted;\n> list of books by Nietzsche in ML added. (*Balloon cloth binding*)\n\n*Jacket A:* Uniform typographic jacket B.\n\n> Text on front:<br>\n> “ECCE HOMO” is a fitting summary of Nietzsche’s character as a man and\n> his achievement as a thinker. “The Birth of Tragedy” is one of the\n> most difficult of his works to obtain in an adequate translation. Both\n> are presented here complete and unabridged.\n>\n> Nietzsche’s other most important works may be obtained in Modern\n> Library editions. “Thus Spake Zarathustra” is Volume Number 9, “Beyond\n> Good and Evil” is Number 20, and “The Genealogy of Morals” is Number\n> 62. (*Spring 1927*)\n\n*Jacket B:* Uniform typographic jacket D. (*Fall 1930*)\n\n> Front flap:<br>\n> *Ecce Homo* is a summary of Friedrich Nietzsche’s philosophy and his\n> most robust affirmation of life. In these respects it is a spiritual\n> and intellectual autobiography that proclaims with vigorous emphasis\n> the virtues of strength and pride. The juxtaposition of *Ecce Homo*\n> and *The Birth of Tragedy* in one volume gains significance by\n> opposite attitudes towards Richard Wagner. The latter work is\n> dedicated to him “as my noble champion,” and the former contains many\n> of Nietzsche’s most virulent attacks on the Master of Bayreuth. (*Fall\n> 1933*)\n\nOriginal ML translation. Published February 1927. *WR* 12 March 1927.\nFirst printing: Not ascertained. Discontinued 1 January 1937 after the\nfour Nietzsche volumes in the regular ML were repackaged as *The\nPhilosophy of Nietzsche* (G32).\n\nAfter discussing a ML edition of Nietzsche’s *Dawn of Day* with\nMacmillan, Cerf and Klopfer decided they wanted *Ecce Homo* instead.\nThey hoped to use the translation that Macmillan imported from England\nand offered an advance of $200 against royalties of 4 cents a copy. They\nasked for rights to the translation for ten years and wanted assurance\nthat Macmillan would not put *Ecce Homo* into its series of inexpensive\nreprints, Modern Readers Series (Klopfer to George P. Brett, Jr.,\nMacmillan, 2 June 1926). Macmillan had to submit the offer to its parent\nfirm in London but the response was slow in coming.\n\nAfter waiting four months Cerf and Klopfer decided to commission their\nown translation (Klopfer to Brett, 5 October 1926). Irwin Edman of\nColumbia University was asked to suggest a translator. He recommended\nHorace Freiss, a colleague in the Philosophy Department. Freiss\nindicated that he could do it within six months, but this was longer\nthan they wanted to wait. Edman then suggested Clifton Fadiman, one of\nhis graduate students. Fadiman agreed to undertake the translation of\n*Ecce Homo* and *The Birth of Tragedy* and to submit the manuscript by 6\nDecember.\n\nApproval for use of the Macmillan translation arrived from London in\nmid-October, but Cerf and Klopfer had already made arrangements with\nFadiman (Brett to Cerf, 14 October 1926; Cerf to Brett, 21 October\n1926). Fadiman submitted his translation shortly after the deadline but\nin time for February publication. Cerf later noted that the ML edition\nof *Ecce Homo & The Birth of Tragedy* was the first time Fadiman’s name\nwas attached to a literary work (“Trade Winds,” *SRL*, 22 May 1943, p.\n37).\n\n<span class=\"smallcaps\">Also in the Modern Library</span><br>\nNietzsche, *Thus Spake Zarathustra* (1917–) 9<br>\nNietzsche, *Beyond Good and Evil* (1917–1936) 28<br>\nNietzsche, *Genealogy of Morals* (1918–1936) 59<br>\nNietzsche, *Philosophy* (Giant, 1937–1970) G32<br>\nNietzsche, *Basic Writings* (Giant, 1968–) G113<br>",
   "year": "1927",
   "book": "135"
 }</pre></sl-details>
 
-<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script></div>
+<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1871,7 +1907,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

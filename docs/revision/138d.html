@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -39,7 +74,7 @@
 
 <h1>138d</h1>
 <h2>Reissue format (1980)</h2>
-<div class="md-block"><p>THE | RAINBOW | BY | D. H. LAWRENCE | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/M.webp'>torchbearer M</uvalib-modal-image-button>] | THE MODERN
+<p>THE | RAINBOW | BY | D. H. LAWRENCE | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/M.webp'>torchbearer M</uvalib-modal-image-button>] | THE MODERN
 LIBRARY NEW YORK | [rule]</p>
 <p>Pagination as 138a. Perfect bound.</p>
 <p>Contents as 138b except: [<em>4</em>] COPYRIGHT, 1915, BY D. H. LAWRENCE |
@@ -61,7 +96,7 @@ was prosecuted and banned as pornographic.</p>
 Lawrence, <em>Sons and Lovers</em> (1923–1959; 1962–1990) 99<br>
 Lawrence, <em>Women in Love</em> (1937–1990) 302<br>
 Lawrence, <em>Lady Chatterley’s Lover</em> (1960–1990) 519<br></p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1792,12 +1827,13 @@ Lawrence, <em>Lady Chatterley’s Lover</em> (1960–1990) 519<br></p>
 <sl-details summary="revision"><pre>{
   "id": "138d",
   "title": "Reissue format (1980)",
-  "full": "\n\nTHE | RAINBOW | BY | D. H. LAWRENCE | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/M.webp'>torchbearer M</uvalib-modal-image-button>\\] | THE MODERN\nLIBRARY NEW YORK | \\[rule\\]\n\nPagination as 138a. Perfect bound.\n\nContents as 138b except: \\[*4*\\] COPYRIGHT, 1915, BY D. H. LAWRENCE |\nCOPYRIGHT, RENEWED, 1943, BY FRIEDA LAWRENCE.\n\n*Jacket:* Non-pictorial jacket on kraft paper with lettering in black\nand torchbearer in deep brown (56). Designed by R. D. Scudellari.\n\n> Front flap:<br>\n> *The Rainbow* is D. H. Lawrence’s longest and most ambitious novel. He\n> worked on it for three years, writing eight complete versions before\n> he was satisfied. The story of three generations of a Nottingham\n> family whose love affairs move backward and forward across the years,\n> it is the first part of a trilogy that also includes *Women in Love*\n> and *Aaron’s Rod*. Almost immediately upon its publication in 1915, it\n> was prosecuted and banned as pornographic.\n\nPublished spring 1980 at $5.95. ISBN 0-394-60491-1.\n\n<span class=\"smallcaps\">Also in the Modern Library</span><br>\nLawrence, *Sons and Lovers* (1923–1959; 1962–1990) 99<br>\nLawrence, *Women in Love* (1937–1990) 302<br>\nLawrence, *Lady Chatterley’s Lover* (1960–1990) 519<br>",
+  "full": "\n\nTHE | RAINBOW | BY | D. H. LAWRENCE | \\[torchbearer M\\] | THE MODERN\nLIBRARY NEW YORK | \\[rule\\]\n\nPagination as 138a. Perfect bound.\n\nContents as 138b except: \\[*4*\\] COPYRIGHT, 1915, BY D. H. LAWRENCE |\nCOPYRIGHT, RENEWED, 1943, BY FRIEDA LAWRENCE.\n\n*Jacket:* Non-pictorial jacket on kraft paper with lettering in black\nand torchbearer in deep brown (56). Designed by R. D. Scudellari.\n\n> Front flap:<br>\n> *The Rainbow* is D. H. Lawrence’s longest and most ambitious novel. He\n> worked on it for three years, writing eight complete versions before\n> he was satisfied. The story of three generations of a Nottingham\n> family whose love affairs move backward and forward across the years,\n> it is the first part of a trilogy that also includes *Women in Love*\n> and *Aaron’s Rod*. Almost immediately upon its publication in 1915, it\n> was prosecuted and banned as pornographic.\n\nPublished spring 1980 at $5.95. ISBN 0-394-60491-1.\n\n<span class=\"smallcaps\">Also in the Modern Library</span><br>\nLawrence, *Sons and Lovers* (1923–1959; 1962–1990) 99<br>\nLawrence, *Women in Love* (1937–1990) 302<br>\nLawrence, *Lady Chatterley’s Lover* (1960–1990) 519<br>",
   "year": "1927",
   "book": "138"
 }</pre></sl-details>
 
-<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script></div>
+<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1816,7 +1852,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

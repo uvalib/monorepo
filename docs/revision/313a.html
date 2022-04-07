@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -39,7 +74,7 @@
 
 <h1>313a</h1>
 <h2>First printing (1938)</h2>
-<div class="md-block"><p>[within double rules] PROGRESS AND POVERTY | AN INQUIRY INTO THE CAUSE
+<p>[within double rules] PROGRESS AND POVERTY | AN INQUIRY INTO THE CAUSE
 OF INDUSTRIAL | DEPRESSIONS AND OF INCREASE OF WANT | WITH INCREASE OF
 WEALTH | THE REMEDY | [rule] | BY | HENRY GEORGE | [rule] |
 [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer A2</uvalib-modal-image-button>] | [rule] | THE MODERN LIBRARY | NEW YORK</p>
@@ -80,7 +115,7 @@ with frontispiece portrait omitted. Published April 1938. <em>WR</em> 2 April
 period May 1942–October 1943, placing it in the fourth quarter of ML and
 Giant titles. It was not among the 100 best-selling titles in the
 regular ML during the 12-month period November 1951–October 1952.</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1811,12 +1846,13 @@ regular ML during the 12-month period November 1951–October 1952.</p>
 <sl-details summary="revision"><pre>{
   "id": "313a",
   "title": "First printing (1938)",
-  "full": "\n\n\\[within double rules\\] PROGRESS AND POVERTY | AN INQUIRY INTO THE CAUSE\nOF INDUSTRIAL | DEPRESSIONS AND OF INCREASE OF WANT | WITH INCREASE OF\nWEALTH | THE REMEDY | \\[rule\\] | BY | HENRY GEORGE | \\[rule\\] |\n\\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer A2</uvalib-modal-image-button>\\] | \\[rule\\] | THE MODERN LIBRARY | NEW YORK\n\nPp. \\[i–vi\\] vii–xx, \\[1–2\\] 3–571 \\[572\\]. \\[1–18\\]<sup>16</sup>\n\\[19\\]<sup>8</sup>\n\n\\[i\\] half title; \\[ii\\] pub. note D11; \\[iii\\] title; \\[iv\\] *First\nModern Library Edition* | 1938 | \\[short double rule\\]; \\[v\\]\ndedication; \\[vi\\] epigraph from Marcus Aurelius Antoninus; vii–viii\nFOREWORD | TO THE FIFTIETH ANNIVERSARY EDITION; ix–xii HOW THE BOOK CAME\nTO BE WRITTEN signed p. xii: <span class=\"smallcaps\">Henry George,\nJr.</span> | <span class=\"smallcaps\">New York,</span> | January 24,\n1905.; xiii–xvii PREFACE TO THE FOURTH EDITION signed p. xvii: <span\nclass=\"smallcaps\">Henry George.</span> | <span class=\"smallcaps\">New\nYork</span>*,* *November,* 1880.; \\[xviii\\] epigraphs from Edwin Arnold\nand Whittier; xix–xx CONTENTS; \\[1\\] part title: INTRODUCTORY | THE\nPROBLEM; \\[2\\] epigraph in verse from Mrs. Sigourney; 3–565 text;\n\\[566\\] blank; 567–571 INDEX; \\[572\\] blank.\n\n*Jacket:* Pictorial in deep reddish orange (36) and black on cream paper\nwith graph showing economic trends from 1907 to 1937; lettering in\nblack.\n\n> Front flap:<br>\n> The growing importance of the economics section of the Modern Library\n> is amply confirmed in the demand for such books as Adam Smith’s *The\n> Wealth of Nations* (G32), Karl Marx’s *Capital* (G26), John Strachey’s\n> *The Coming Struggle for Power* (G22), Thorstein Veblen’s *The Theory\n> of the Leisure Class* (No. 63), and others. Now, with the addition of\n> Henry George’s *Progress and Poverty*, complete and unabridged, every\n> school of economic thought is represented and made available to the\n> general reader at a price easily within his reach. (*Spring 1938*)\n\nOriginally published by D. Appleton & Co., 1879. Fiftieth Anniversary\nEdition published by the Robert Schalkenbach Foundation, 1929. ML\nedition (pp. \\[v\\]–571) printed from Fiftieth Anniversary Edition plates\nwith frontispiece portrait omitted. Published April 1938. *WR* 2 April\n1938. First printing: Not ascertained. Discontinued 1970/71.\n\n*Progress and Poverty* sold 2,945 copies during the eighteen-month\nperiod May 1942–October 1943, placing it in the fourth quarter of ML and\nGiant titles. It was not among the 100 best-selling titles in the\nregular ML during the 12-month period November 1951–October 1952.\n\n",
+  "full": "\n\n\\[within double rules\\] PROGRESS AND POVERTY | AN INQUIRY INTO THE CAUSE\nOF INDUSTRIAL | DEPRESSIONS AND OF INCREASE OF WANT | WITH INCREASE OF\nWEALTH | THE REMEDY | \\[rule\\] | BY | HENRY GEORGE | \\[rule\\] |\n\\[torchbearer A2\\] | \\[rule\\] | THE MODERN LIBRARY | NEW YORK\n\nPp. \\[i–vi\\] vii–xx, \\[1–2\\] 3–571 \\[572\\]. \\[1–18\\]<sup>16</sup>\n\\[19\\]<sup>8</sup>\n\n\\[i\\] half title; \\[ii\\] pub. note D11; \\[iii\\] title; \\[iv\\] *First\nModern Library Edition* | 1938 | \\[short double rule\\]; \\[v\\]\ndedication; \\[vi\\] epigraph from Marcus Aurelius Antoninus; vii–viii\nFOREWORD | TO THE FIFTIETH ANNIVERSARY EDITION; ix–xii HOW THE BOOK CAME\nTO BE WRITTEN signed p. xii: <span class=\"smallcaps\">Henry George,\nJr.</span> | <span class=\"smallcaps\">New York,</span> | January 24,\n1905.; xiii–xvii PREFACE TO THE FOURTH EDITION signed p. xvii: <span\nclass=\"smallcaps\">Henry George.</span> | <span class=\"smallcaps\">New\nYork</span>*,* *November,* 1880.; \\[xviii\\] epigraphs from Edwin Arnold\nand Whittier; xix–xx CONTENTS; \\[1\\] part title: INTRODUCTORY | THE\nPROBLEM; \\[2\\] epigraph in verse from Mrs. Sigourney; 3–565 text;\n\\[566\\] blank; 567–571 INDEX; \\[572\\] blank.\n\n*Jacket:* Pictorial in deep reddish orange (36) and black on cream paper\nwith graph showing economic trends from 1907 to 1937; lettering in\nblack.\n\n> Front flap:<br>\n> The growing importance of the economics section of the Modern Library\n> is amply confirmed in the demand for such books as Adam Smith’s *The\n> Wealth of Nations* (G32), Karl Marx’s *Capital* (G26), John Strachey’s\n> *The Coming Struggle for Power* (G22), Thorstein Veblen’s *The Theory\n> of the Leisure Class* (No. 63), and others. Now, with the addition of\n> Henry George’s *Progress and Poverty*, complete and unabridged, every\n> school of economic thought is represented and made available to the\n> general reader at a price easily within his reach. (*Spring 1938*)\n\nOriginally published by D. Appleton & Co., 1879. Fiftieth Anniversary\nEdition published by the Robert Schalkenbach Foundation, 1929. ML\nedition (pp. \\[v\\]–571) printed from Fiftieth Anniversary Edition plates\nwith frontispiece portrait omitted. Published April 1938. *WR* 2 April\n1938. First printing: Not ascertained. Discontinued 1970/71.\n\n*Progress and Poverty* sold 2,945 copies during the eighteen-month\nperiod May 1942–October 1943, placing it in the fourth quarter of ML and\nGiant titles. It was not among the 100 best-selling titles in the\nregular ML during the 12-month period November 1951–October 1952.\n\n",
   "year": "1938",
   "book": "313"
 }</pre></sl-details>
 
-<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script></div>
+<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1835,7 +1871,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

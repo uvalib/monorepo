@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -36,7 +71,7 @@
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/book/220.html">220</sl-breadcrumb-item>
 </sl-breadcrumb>
 
-<div class="md-block"><p><strong>FREDERICK BARON CORVO. A HISTORY OF THE BORGIAS. 1931</strong>–<strong>1959. (ML
+<p><strong>FREDERICK BARON CORVO. A HISTORY OF THE BORGIAS. 1931</strong>–<strong>1959. (ML
 192)</strong></p>
 <h4>220a.** **First printing (1931)</h4>
 <p>[within double rules] A HISTORY OF | THE BORGIAS | [rule] | BY |
@@ -108,7 +143,7 @@ background. Front flap as 220a. (<em>Spring 1943</em>) Front flap reset with
 “15th Century” changed to “fifteenth century” and last three words of
 220a replaced by “during an era of great art and great corruption.”
 (<em>Fall 1954</em>)</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1839,7 +1874,7 @@ background. Front flap as 220a. (<em>Spring 1943</em>) Front flap reset with
 </elix-carousel-with-thumbnails>
 
 <sl-details summary="book"><pre>{
-  "full": "**FREDERICK BARON CORVO. A HISTORY OF THE BORGIAS. 1931**–**1959. (ML\n192)**\n\n#### 220a.** **First printing (1931)\n\n\\[within double rules\\] A HISTORY OF | THE BORGIAS | \\[rule\\] | BY |\nFREDERICK BARON CORVO | \\[rule\\] | INTRODUCTION BY | SHANE LESLIE |\n\\[rule\\] | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer A2</uvalib-modal-image-button>\\] | \\[rule\\] | BENNETT A. CERF · DONALD S.\nKLOPFER | THE MODERN LIBRARY | NEW YORK\n\nPp. \\[i–iv\\] v–xxxiii \\[xxxiv\\], \\[1–2\\] 3–408 \\[409–414\\].\n\\[1–14\\]<sup>16</sup>\n\n\\[i\\] half title; \\[ii\\] pub. note D12; \\[iii\\] title; \\[iv\\]\n*Copyright*, 1931, *by* <span class=\"smallcaps\">The Modern\nLibrary</span> | \\[short double rule\\] | *First Modern Library Edition*\n| 1931; v–xxiii INTRODUCTION signed p. xxiii: <span\nclass=\"smallcaps\">Shane Leslie</span>.; \\[xxiv\\] blank; xxv–xxxi PREFACE\nsigned p. x–xxi: <span class=\"smallcaps\">Frederick Baron Corvo</span>. |\n<span class=\"smallcaps\">Rome</span>; \\[xxxii\\] blank; xxxiii CONTENTS;\n\\[xxxiv\\] blank; \\[1\\] fly title and epigraph; \\[2\\] blank; 3–408 text;\n\\[409\\] epigraph repeated from p. \\[1\\]; \\[410–414\\] blank.\n\n*Jacket:* Pictorial in strong reddish purple (237) and black on cream\npaper depicting a seated man (probably Pope Alexander VI) and a bearded\nman (probably Caesar Borgia) standing behind him, with a snake in\nbackground; borders in strong reddish purple, lettering in black.\nSigned: Wuyts. (*Fall 1931*)\n\n> Front flap:<br>\n> The Borgian era, with all its excesses of lust and murder, its\n> monstrous villainies and strange benevolences, is here unfolded in a\n> tapestry of unrestrained color and animation. Frederick Baron Corvo,\n> that unpredictable celebrant of Black Masses and practitioner of\n> bizarre literary heresies, depicts the unbridled licence of the 15th\n> Century with a demoniacal vision and an incandescent brilliance of\n> metaphor. *A History of the Borgias* throws new light on the myths and\n> legends surrounding one of the vilest and most glittering reigns of\n> human depravity. (*Spring 1934*)\n\nOriginally published in U.S. as *Chronicles of the House of Borgia* by\nE. P. Dutton, 1901, using sheets of the English edition. ML edition\nprinted from plates made from a new typesetting with the Leslie\nintroduction added and the bibliography, appendices, and illustrations\nfrom the original edition omitted. (The ML table of contents erroneously\nlists appendices.) Published September 1931. *WR* 19 September 1931.\nFirst printing: Not ascertained. Discontinued 1 January 1960.\n\nThe ML edition was the first to be set in type and printed in the U.S.\nLeslie’s introduction, a general study of the life and work of Frederick\nRolfe, “Baron Corvo,” originally appeared as the introduction to Corvo’s\n*In His Own Image* (Knopf, 1925) and was reprinted by arrangement with\nKnopf. The ML omitted several paragraphs of Leslie’s text and altered\nthe sentence beginning, “*Hadrian VII* is Rolfe’s masterpiece . . .” to\n“*Hadrian VII* with the possible exception of the Book on the Borgias is\nRolfe’s masterpiece . . .” (ML, p. xxi).\n\nPrintings of the ML edition reached 36,000 copies by June 1954 (Woolf,\n*Bibliography of Frederick Rolfe, Baron Corvo*, p. 46). *A History of\nthe Borgias* sold 2,718 copies during the eighteen-month period May\n1942–October 1943, placing it in the fourth quarter of ML and Giant\ntitles. It was not among the 100 best-selling titles in the regular ML\nduring the twelve-month period, November 1951–October 1952.\n\n#### 220b.** **Title page reset (c. 1940)\n\n\\[within single rules\\] \\[9-line title and statement of responsibility\nwithin second single-rule frame\\] A | HISTORY | OF THE | BORGIAS | by |\nFREDERICK BARON | CORVO | *Introduction by* | SHANE LESLIE | \\[below\ninner frame: <uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D5.webp'>torchbearer D5</uvalib-modal-image-button> at right, 3-line imprint at left\\] THE |\nMODERN LIBRARY | NEW YORK\n\nPagination and collation as 220a.\n\nContents as 220a except: \\[ii\\] blank; \\[iv\\] COPYRIGHT, 1931, BY THE\nMODERN LIBRARY, INC.\n\n*Jacket:* Non-pictorial in blackish purple (230) and black on cream\npaper with title and author in reverse on inset blackish purple panel;\nseries and torchbearer in black above panel, all against cream\nbackground. Front flap as 220a. (*Spring 1943*) Front flap reset with\n“15th Century” changed to “fifteenth century” and last three words of\n220a replaced by “during an era of great art and great corruption.”\n(*Fall 1954*)",
+  "full": "**FREDERICK BARON CORVO. A HISTORY OF THE BORGIAS. 1931**–**1959. (ML\n192)**\n\n#### 220a.** **First printing (1931)\n\n\\[within double rules\\] A HISTORY OF | THE BORGIAS | \\[rule\\] | BY |\nFREDERICK BARON CORVO | \\[rule\\] | INTRODUCTION BY | SHANE LESLIE |\n\\[rule\\] | \\[torchbearer A2\\] | \\[rule\\] | BENNETT A. CERF · DONALD S.\nKLOPFER | THE MODERN LIBRARY | NEW YORK\n\nPp. \\[i–iv\\] v–xxxiii \\[xxxiv\\], \\[1–2\\] 3–408 \\[409–414\\].\n\\[1–14\\]<sup>16</sup>\n\n\\[i\\] half title; \\[ii\\] pub. note D12; \\[iii\\] title; \\[iv\\]\n*Copyright*, 1931, *by* <span class=\"smallcaps\">The Modern\nLibrary</span> | \\[short double rule\\] | *First Modern Library Edition*\n| 1931; v–xxiii INTRODUCTION signed p. xxiii: <span\nclass=\"smallcaps\">Shane Leslie</span>.; \\[xxiv\\] blank; xxv–xxxi PREFACE\nsigned p. x–xxi: <span class=\"smallcaps\">Frederick Baron Corvo</span>. |\n<span class=\"smallcaps\">Rome</span>; \\[xxxii\\] blank; xxxiii CONTENTS;\n\\[xxxiv\\] blank; \\[1\\] fly title and epigraph; \\[2\\] blank; 3–408 text;\n\\[409\\] epigraph repeated from p. \\[1\\]; \\[410–414\\] blank.\n\n*Jacket:* Pictorial in strong reddish purple (237) and black on cream\npaper depicting a seated man (probably Pope Alexander VI) and a bearded\nman (probably Caesar Borgia) standing behind him, with a snake in\nbackground; borders in strong reddish purple, lettering in black.\nSigned: Wuyts. (*Fall 1931*)\n\n> Front flap:<br>\n> The Borgian era, with all its excesses of lust and murder, its\n> monstrous villainies and strange benevolences, is here unfolded in a\n> tapestry of unrestrained color and animation. Frederick Baron Corvo,\n> that unpredictable celebrant of Black Masses and practitioner of\n> bizarre literary heresies, depicts the unbridled licence of the 15th\n> Century with a demoniacal vision and an incandescent brilliance of\n> metaphor. *A History of the Borgias* throws new light on the myths and\n> legends surrounding one of the vilest and most glittering reigns of\n> human depravity. (*Spring 1934*)\n\nOriginally published in U.S. as *Chronicles of the House of Borgia* by\nE. P. Dutton, 1901, using sheets of the English edition. ML edition\nprinted from plates made from a new typesetting with the Leslie\nintroduction added and the bibliography, appendices, and illustrations\nfrom the original edition omitted. (The ML table of contents erroneously\nlists appendices.) Published September 1931. *WR* 19 September 1931.\nFirst printing: Not ascertained. Discontinued 1 January 1960.\n\nThe ML edition was the first to be set in type and printed in the U.S.\nLeslie’s introduction, a general study of the life and work of Frederick\nRolfe, “Baron Corvo,” originally appeared as the introduction to Corvo’s\n*In His Own Image* (Knopf, 1925) and was reprinted by arrangement with\nKnopf. The ML omitted several paragraphs of Leslie’s text and altered\nthe sentence beginning, “*Hadrian VII* is Rolfe’s masterpiece . . .” to\n“*Hadrian VII* with the possible exception of the Book on the Borgias is\nRolfe’s masterpiece . . .” (ML, p. xxi).\n\nPrintings of the ML edition reached 36,000 copies by June 1954 (Woolf,\n*Bibliography of Frederick Rolfe, Baron Corvo*, p. 46). *A History of\nthe Borgias* sold 2,718 copies during the eighteen-month period May\n1942–October 1943, placing it in the fourth quarter of ML and Giant\ntitles. It was not among the 100 best-selling titles in the regular ML\nduring the twelve-month period, November 1951–October 1952.\n\n#### 220b.** **Title page reset (c. 1940)\n\n\\[within single rules\\] \\[9-line title and statement of responsibility\nwithin second single-rule frame\\] A | HISTORY | OF THE | BORGIAS | by |\nFREDERICK BARON | CORVO | *Introduction by* | SHANE LESLIE | \\[below\ninner frame: torchbearer D5 at right, 3-line imprint at left\\] THE |\nMODERN LIBRARY | NEW YORK\n\nPagination and collation as 220a.\n\nContents as 220a except: \\[ii\\] blank; \\[iv\\] COPYRIGHT, 1931, BY THE\nMODERN LIBRARY, INC.\n\n*Jacket:* Non-pictorial in blackish purple (230) and black on cream\npaper with title and author in reverse on inset blackish purple panel;\nseries and torchbearer in black above panel, all against cream\nbackground. Front flap as 220a. (*Spring 1943*) Front flap reset with\n“15th Century” changed to “fifteenth century” and last three words of\n220a replaced by “during an era of great art and great corruption.”\n(*Fall 1954*)",
   "id": "220",
   "year": "1931",
   "title": "FREDERICK BARON CORVO. A HISTORY OF THE BORGIAS. 1931  –  1959. (ML 192)",
@@ -1847,7 +1882,8 @@ background. Front flap as 220a. (<em>Spring 1943</em>) Front flap reset with
 }</pre></sl-details>
 
 <script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
-</div>
+
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1866,7 +1902,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

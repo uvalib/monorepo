@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -39,7 +74,7 @@
 
 <h1>334c</h1>
 <h2>Title changed: Selected Writings (1960)</h2>
-<div class="md-block"><p>THE | SELECTED WRITINGS | OF | Ralph Waldo Emerson | <em>Edited, with a
+<p>THE | SELECTED WRITINGS | OF | Ralph Waldo Emerson | <em>Edited, with a
 Biographical Introduction,</em> | <em>by</em> BROOKS ATKINSON | <em>Foreword by</em>
 TREMAINE M<span class="smallcaps">c</span>DOWELL | PROFESSOR OF ENGLISH
 AND | CHAIRMAN OF AMERICAN STUDIES, | UNIVERSITY OF MINNESOTA |
@@ -64,7 +99,7 @@ and I think it would be much less confusing to have the title of this
 book changed to THE SELECTED WRITINGS OF RALPH WALDO EMERSON (Epstein
 memo to Cerf, 12 January 1960).</p>
 </blockquote>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1793,12 +1828,13 @@ memo to Cerf, 12 January 1960).</p>
 <sl-details summary="revision"><pre>{
   "id": "334c",
   "title": "Title changed: Selected Writings (1960)",
-  "full": "\n\nTHE | SELECTED WRITINGS | OF | Ralph Waldo Emerson | *Edited, with a\nBiographical Introduction,* | *by* BROOKS ATKINSON | *Foreword by*\nTREMAINE M<span class=\"smallcaps\">c</span>DOWELL | PROFESSOR OF ENGLISH\nAND | CHAIRMAN OF AMERICAN STUDIES, | UNIVERSITY OF MINNESOTA |\n\\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/E5.webp'>torchbearer E5</uvalib-modal-image-button>\\] | THE MODERN LIBRARY · NEW YORK\n\nPagination as 334b. \\[1\\]<sup>16</sup> \\[2–15\\]<sup>32</sup>\n\\[16\\]<sup>16</sup>\n\nContents as 334b except: \\[iv\\] © *Copyright, 1940, 1950, by Random\nHouse, Inc.*; \\[931–932\\] ML Giants list. (*Spring 1960*)\n\n*Jacket:* As 334b with “The Selected Writings of” instead of “The\nComplete Essays | AND OTHER WRITINGS OF” in light greenish gray (154);\nflap text reverts to 334a text. (*Spring 1960*)\n\nJason Epstein recommended the title change after several readers\ncomplained that the ML edition did not contain Emerson’s complete\nessays:\n\n> The volume includes the Essays First Series, Essays Second Series and\n> English Traits which the editors presumably regard as the only volumes\n> of essays that Emerson assembled. *The Conduct of Life*, from which\n> they have excerpted two sections, apparently is considered a whole\n> book and not a collection of essays, but this is an ambiguous point\n> and I think it would be much less confusing to have the title of this\n> book changed to THE SELECTED WRITINGS OF RALPH WALDO EMERSON (Epstein\n> memo to Cerf, 12 January 1960).\n\n",
+  "full": "\n\nTHE | SELECTED WRITINGS | OF | Ralph Waldo Emerson | *Edited, with a\nBiographical Introduction,* | *by* BROOKS ATKINSON | *Foreword by*\nTREMAINE M<span class=\"smallcaps\">c</span>DOWELL | PROFESSOR OF ENGLISH\nAND | CHAIRMAN OF AMERICAN STUDIES, | UNIVERSITY OF MINNESOTA |\n\\[torchbearer E5\\] | THE MODERN LIBRARY · NEW YORK\n\nPagination as 334b. \\[1\\]<sup>16</sup> \\[2–15\\]<sup>32</sup>\n\\[16\\]<sup>16</sup>\n\nContents as 334b except: \\[iv\\] © *Copyright, 1940, 1950, by Random\nHouse, Inc.*; \\[931–932\\] ML Giants list. (*Spring 1960*)\n\n*Jacket:* As 334b with “The Selected Writings of” instead of “The\nComplete Essays | AND OTHER WRITINGS OF” in light greenish gray (154);\nflap text reverts to 334a text. (*Spring 1960*)\n\nJason Epstein recommended the title change after several readers\ncomplained that the ML edition did not contain Emerson’s complete\nessays:\n\n> The volume includes the Essays First Series, Essays Second Series and\n> English Traits which the editors presumably regard as the only volumes\n> of essays that Emerson assembled. *The Conduct of Life*, from which\n> they have excerpted two sections, apparently is considered a whole\n> book and not a collection of essays, but this is an ambiguous point\n> and I think it would be much less confusing to have the title of this\n> book changed to THE SELECTED WRITINGS OF RALPH WALDO EMERSON (Epstein\n> memo to Cerf, 12 January 1960).\n\n",
   "year": "1940",
   "book": "334"
 }</pre></sl-details>
 
-<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script></div>
+<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1817,7 +1853,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

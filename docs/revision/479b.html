@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -39,7 +74,7 @@
 
 <h1>479b</h1>
 <h2>Reissue format; offset printing (1979)</h2>
-<div class="md-block"><p>Title as 479a except line 7: [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/M.webp'>torchbearer M</uvalib-modal-image-button>].</p>
+<p>Title as 479a except line 7: [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/M.webp'>torchbearer M</uvalib-modal-image-button>].</p>
 <p>Pagination as 479a. Perfect bound.</p>
 <p>Contents as 479a except: [iv] FIRST MODERN LIBRARY EDITION;
 [323–328] blank.</p>
@@ -56,7 +91,7 @@ ML, 1943) IML 2</p>
 <p>Dostoyevsky, <em>Crime and Punishment</em> (1932) 228; (Illus ML, 1944) IML 10</p>
 <p>Dostoyevsky, <em>The Possessed</em> (1936) 288</p>
 <p>Dostoyevsky, <em>The Idiot</em> (Giant, 1942) G60</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1787,12 +1822,13 @@ ML, 1943) IML 2</p>
 <sl-details summary="revision"><pre>{
   "id": "479b",
   "title": "Reissue format; offset printing (1979)",
-  "full": "\n\nTitle as 479a except line 7: \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/M.webp'>torchbearer M</uvalib-modal-image-button>\\].\n\nPagination as 479a. Perfect bound.\n\nContents as 479a except: \\[iv\\] FIRST MODERN LIBRARY EDITION;\n\\[323–328\\] blank.\n\n*Jacket:* Non-pictorial on kraft paper with lettering in dark reddish\nbrown (44) and torchbearer in strong brown (55). Front flap adapted from\nfirst paragraph of 479a with first two sentences slightly revised and\nlast sentence revised as follows: “Powerful and intense, these stories\nshow an artistry equal to that of the great novels.”\n\nPublished fall 1979 at $4.95. ISBN 0-394-60477-6.\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\nDostoyevsky, *Poor People* (1917) 10\n\nDostoyevsky, *Brothers Karamazov* (1929) 171; (Giant, 1937) G34; (Illus\nML, 1943) IML 2\n\nDostoyevsky, *Crime and Punishment* (1932) 228; (Illus ML, 1944) IML 10\n\nDostoyevsky, *The Possessed* (1936) 288\n\nDostoyevsky, *The Idiot* (Giant, 1942) G60",
+  "full": "\n\nTitle as 479a except line 7: \\[torchbearer M\\].\n\nPagination as 479a. Perfect bound.\n\nContents as 479a except: \\[iv\\] FIRST MODERN LIBRARY EDITION;\n\\[323–328\\] blank.\n\n*Jacket:* Non-pictorial on kraft paper with lettering in dark reddish\nbrown (44) and torchbearer in strong brown (55). Front flap adapted from\nfirst paragraph of 479a with first two sentences slightly revised and\nlast sentence revised as follows: “Powerful and intense, these stories\nshow an artistry equal to that of the great novels.”\n\nPublished fall 1979 at $4.95. ISBN 0-394-60477-6.\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\nDostoyevsky, *Poor People* (1917) 10\n\nDostoyevsky, *Brothers Karamazov* (1929) 171; (Giant, 1937) G34; (Illus\nML, 1943) IML 2\n\nDostoyevsky, *Crime and Punishment* (1932) 228; (Illus ML, 1944) IML 10\n\nDostoyevsky, *The Possessed* (1936) 288\n\nDostoyevsky, *The Idiot* (Giant, 1942) G60",
   "year": "1955",
   "book": "479"
 }</pre></sl-details>
 
-<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script></div>
+<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1811,7 +1847,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

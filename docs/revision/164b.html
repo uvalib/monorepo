@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -39,7 +74,7 @@
 
 <h1>164b</h1>
 <h2>Title page reset (c. 1940)</h2>
-<div class="md-block"><p>[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D5.webp'>torchbearer D5</uvalib-modal-image-button>] | [6-line title and statement of responsibility
+<p>[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D5.webp'>torchbearer D5</uvalib-modal-image-button>] | [6-line title and statement of responsibility
 within single rules] <em>The Life of</em> | <em>Michelangelo</em> | <em>Buonarroti</em> | BY
 | JOHN ADDINGTON | SYMONDS | [below frame] MODERN LIBRARY · NEW YORK</p>
 <p>Pagination and collation as 164a.</p>
@@ -67,7 +102,7 @@ he has bestowed upon mankind. (<em>Fall 1960</em>)</p>
 </blockquote>
 <p><span class="smallcaps">Also in the Modern Library</span></p>
 <p>Symonds, <em>Renaissance in Italy</em>, 2 vols. (1935–1941) G19</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1798,12 +1833,13 @@ he has bestowed upon mankind. (<em>Fall 1960</em>)</p>
 <sl-details summary="revision"><pre>{
   "id": "164b",
   "title": "Title page reset (c. 1940)",
-  "full": "\n\n\\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D5.webp'>torchbearer D5</uvalib-modal-image-button>\\] | \\[6-line title and statement of responsibility\nwithin single rules\\] *The Life of* | *Michelangelo* | *Buonarroti* | BY\n| JOHN ADDINGTON | SYMONDS | \\[below frame\\] MODERN LIBRARY · NEW YORK\n\nPagination and collation as 164a.\n\nContents as 164a except: \\[ii\\] blank; \\[iv\\] publication and\nmanufacturing statements within single rules; \\[545–549\\] ML list;\n\\[550\\] blank. (*Spring 1941*)\n\n*Jacket:* Pictorial in deep orange (51), dark brown (59), dark gray\n(266) and black on coated white paper depicting a large hand holding a\nbook; title and author in dark gray with “MICHELANGELO” on a diagonal\naxis overlapping black sleeve and white background, series in deep\norange. Signed: E. McKnight Kauffer. Front flap as 164a jacket C with\nplacement of apostrophe corrected. (*Spring 1941*)\n\n> Front flap revised:<br>\n> Even more than a study of one of the most heroic personalities of\n> history, John Addington Symond’s \\[*sic*\\] biography of Michelangelo\n> becomes an evaluation of the Renaissance and its most titanic symbol.\n> Of the ninety years of Michelangelo’s life, three-quarters of a\n> century was consecrated to his great works of art. The unexcelled\n> sculptured figures and the impassioned sonnets suggest two facets of\n> his complex creative personality. The painter of the Sistine Chapel,\n> the sculptor of the Medicean tombs, the architect and the writer\n> indicate the versatility of his gifts and the richness of the heritage\n> he has bestowed upon mankind. (*Fall 1960*)\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\nSymonds, *Renaissance in Italy*, 2 vols. (1935–1941) G19",
+  "full": "\n\n\\[torchbearer D5\\] | \\[6-line title and statement of responsibility\nwithin single rules\\] *The Life of* | *Michelangelo* | *Buonarroti* | BY\n| JOHN ADDINGTON | SYMONDS | \\[below frame\\] MODERN LIBRARY · NEW YORK\n\nPagination and collation as 164a.\n\nContents as 164a except: \\[ii\\] blank; \\[iv\\] publication and\nmanufacturing statements within single rules; \\[545–549\\] ML list;\n\\[550\\] blank. (*Spring 1941*)\n\n*Jacket:* Pictorial in deep orange (51), dark brown (59), dark gray\n(266) and black on coated white paper depicting a large hand holding a\nbook; title and author in dark gray with “MICHELANGELO” on a diagonal\naxis overlapping black sleeve and white background, series in deep\norange. Signed: E. McKnight Kauffer. Front flap as 164a jacket C with\nplacement of apostrophe corrected. (*Spring 1941*)\n\n> Front flap revised:<br>\n> Even more than a study of one of the most heroic personalities of\n> history, John Addington Symond’s \\[*sic*\\] biography of Michelangelo\n> becomes an evaluation of the Renaissance and its most titanic symbol.\n> Of the ninety years of Michelangelo’s life, three-quarters of a\n> century was consecrated to his great works of art. The unexcelled\n> sculptured figures and the impassioned sonnets suggest two facets of\n> his complex creative personality. The painter of the Sistine Chapel,\n> the sculptor of the Medicean tombs, the architect and the writer\n> indicate the versatility of his gifts and the richness of the heritage\n> he has bestowed upon mankind. (*Fall 1960*)\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\nSymonds, *Renaissance in Italy*, 2 vols. (1935–1941) G19",
   "year": "1928",
   "book": "164"
 }</pre></sl-details>
 
-<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script></div>
+<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1822,7 +1858,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

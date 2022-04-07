@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -36,7 +71,7 @@
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/book/408.html">408</sl-breadcrumb-item>
 </sl-breadcrumb>
 
-<div class="md-block"><p><strong>MARCEL PROUST. THE SWEET CHEAT GONE. 1948–1971. (ML 260)</strong></p>
+<p><strong>MARCEL PROUST. THE SWEET CHEAT GONE. 1948–1971. (ML 260)</strong></p>
 <h4>408. First printing (1948)</h4>
 <p>THE | SWEET CHEAT | GONE | BY MARCEL PROUST | TRANSLATED FROM THE FRENCH
 BY | C. K. SCOTT MONCRIEFF | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D5.webp'>torchbearer D5</uvalib-modal-image-button>] | [rule] | THE MODERN
@@ -90,7 +125,7 @@ published in the Modern Library between 1928 and 1951.</p>
 <p>Proust, <em>Cities of the Plain</em> (1938–1970) 316</p>
 <p>Proust, <em>The Captive</em> (1941–1970) 340</p>
 <p>Proust, <em>The Past Recaptured</em> (1951–1971) 443</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1819,7 +1854,7 @@ published in the Modern Library between 1928 and 1951.</p>
 </elix-carousel-with-thumbnails>
 
 <sl-details summary="book"><pre>{
-  "full": "**MARCEL PROUST. THE SWEET CHEAT GONE. 1948–1971. (ML 260)**\n\n#### 408. First printing (1948)\n\nTHE | SWEET CHEAT | GONE | BY MARCEL PROUST | TRANSLATED FROM THE FRENCH\nBY | C. K. SCOTT MONCRIEFF | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D5.webp'>torchbearer D5</uvalib-modal-image-button>\\] | \\[rule\\] | THE MODERN\nLIBRARY · NEW YORK | \\[rule\\]\n\nPp. \\[*10*\\], 1–379 \\[380–382\\]. \\[1–10\\]<sup>16</sup>\n\\[11\\]<sup>20</sup> \\[12\\]<sup>16</sup>\n\n\\[*1*\\] half title; \\[*2*\\] blank; \\[*3*\\] title; \\[*4*\\] COPYRIGHT,\n1930, BY RANDOM HOUSE, INC. | FIRST *Modern Library* EDITION, 1948;\n\\[*5*\\] biographical note and bibliography; \\[*6*\\] blank; \\[*7*\\]\nCONTENTS; \\[*8*\\] blank; \\[*9*\\] TRANSLATOR’S DEDICATION; \\[*10*\\]\nblank; 1–379 text; \\[380–382\\] blank.\n\n> *Variant:* Pagination as 408. \\[1\\]<sup>16</sup> \\[2–5\\]<sup>32</sup>\n> \\[6\\]<sup>4</sup> \\[7\\]<sup>32</sup> \\[8\\]<sup>16</sup>. Contents as\n> 408 except: \\[*4*\\] COPYRIGHT, 1930, BY RANDOM HOUSE, INC. | COPYRIGHT\n> RENEWED, 1957, BY RANDOM HOUSE, INC.; \\[380–381\\] ML Giants list;\n> \\[382\\] blank. (*Spring 1965*)\n\n*Jacket:* Uniform Proust jacket in grayish green (150) with left profile\nsilhouette of Proust in dark red (16); and lettering in reverse against\ngrayish green background.\n\n> Front flap:<br>\n> *Remembrance of Things Past* is the general title for the seven\n> magnificent novels which constitute the life work of Marcel Proust.\n> One by one, the independent titles which comprise the whole are being\n> made available for readers of the Modern Library. . . . The sixth,\n> *The Sweet Cheat Gone*, in the G. K. Scott Moncrieff translation, is\n> now added to the series, and the seventh and final volume, *The Past\n> Recaptured*, will be issued as soon as possible. (*Spring 1948*)\n\n> Front flap rewritten:<br>\n> *The Sweet Cheat Gone* is the sixth of the seven volumes of Marcel\n> Proust’s life work under the general title of *Remembrance of Things\n> Past*. All seven volumes are now available in the Modern Library\n> exclusively. . . . Each novel, complete and unabridged, is a separate\n> entity and yet is an integral part of the grand design of Proust’s\n> modern masterpiece. (*Spring 1957*)\n\nOriginally published in U.S. by Albert & Charles Boni, 1930;\nsubsequently published by Random House. ML edition (pp. \\[*7*\\]–379)\nprinted from Boni/RH plates. Published spring 1948. *WR* 29 May 1948.\nFirst printing: Not ascertained. Discontinued 1971/72.\n\nThe seven volumes of Proust’s *Remembrance of Things Past* were\npublished in the Modern Library between 1928 and 1951.\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\nProust, Marcel, *Swann’s Way* (1928–1971; 1977–1982) 166\n\nProust, *Within a Budding Grove* (1930–1970) 194\n\nProust, *Guermantes Way* (1933–1970) 264\n\nProust, *Cities of the Plain* (1938–1970) 316\n\nProust, *The Captive* (1941–1970) 340\n\nProust, *The Past Recaptured* (1951–1971) 443",
+  "full": "**MARCEL PROUST. THE SWEET CHEAT GONE. 1948–1971. (ML 260)**\n\n#### 408. First printing (1948)\n\nTHE | SWEET CHEAT | GONE | BY MARCEL PROUST | TRANSLATED FROM THE FRENCH\nBY | C. K. SCOTT MONCRIEFF | \\[torchbearer D5\\] | \\[rule\\] | THE MODERN\nLIBRARY · NEW YORK | \\[rule\\]\n\nPp. \\[*10*\\], 1–379 \\[380–382\\]. \\[1–10\\]<sup>16</sup>\n\\[11\\]<sup>20</sup> \\[12\\]<sup>16</sup>\n\n\\[*1*\\] half title; \\[*2*\\] blank; \\[*3*\\] title; \\[*4*\\] COPYRIGHT,\n1930, BY RANDOM HOUSE, INC. | FIRST *Modern Library* EDITION, 1948;\n\\[*5*\\] biographical note and bibliography; \\[*6*\\] blank; \\[*7*\\]\nCONTENTS; \\[*8*\\] blank; \\[*9*\\] TRANSLATOR’S DEDICATION; \\[*10*\\]\nblank; 1–379 text; \\[380–382\\] blank.\n\n> *Variant:* Pagination as 408. \\[1\\]<sup>16</sup> \\[2–5\\]<sup>32</sup>\n> \\[6\\]<sup>4</sup> \\[7\\]<sup>32</sup> \\[8\\]<sup>16</sup>. Contents as\n> 408 except: \\[*4*\\] COPYRIGHT, 1930, BY RANDOM HOUSE, INC. | COPYRIGHT\n> RENEWED, 1957, BY RANDOM HOUSE, INC.; \\[380–381\\] ML Giants list;\n> \\[382\\] blank. (*Spring 1965*)\n\n*Jacket:* Uniform Proust jacket in grayish green (150) with left profile\nsilhouette of Proust in dark red (16); and lettering in reverse against\ngrayish green background.\n\n> Front flap:<br>\n> *Remembrance of Things Past* is the general title for the seven\n> magnificent novels which constitute the life work of Marcel Proust.\n> One by one, the independent titles which comprise the whole are being\n> made available for readers of the Modern Library. . . . The sixth,\n> *The Sweet Cheat Gone*, in the G. K. Scott Moncrieff translation, is\n> now added to the series, and the seventh and final volume, *The Past\n> Recaptured*, will be issued as soon as possible. (*Spring 1948*)\n\n> Front flap rewritten:<br>\n> *The Sweet Cheat Gone* is the sixth of the seven volumes of Marcel\n> Proust’s life work under the general title of *Remembrance of Things\n> Past*. All seven volumes are now available in the Modern Library\n> exclusively. . . . Each novel, complete and unabridged, is a separate\n> entity and yet is an integral part of the grand design of Proust’s\n> modern masterpiece. (*Spring 1957*)\n\nOriginally published in U.S. by Albert & Charles Boni, 1930;\nsubsequently published by Random House. ML edition (pp. \\[*7*\\]–379)\nprinted from Boni/RH plates. Published spring 1948. *WR* 29 May 1948.\nFirst printing: Not ascertained. Discontinued 1971/72.\n\nThe seven volumes of Proust’s *Remembrance of Things Past* were\npublished in the Modern Library between 1928 and 1951.\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\nProust, Marcel, *Swann’s Way* (1928–1971; 1977–1982) 166\n\nProust, *Within a Budding Grove* (1930–1970) 194\n\nProust, *Guermantes Way* (1933–1970) 264\n\nProust, *Cities of the Plain* (1938–1970) 316\n\nProust, *The Captive* (1941–1970) 340\n\nProust, *The Past Recaptured* (1951–1971) 443",
   "id": "408",
   "year": "1948",
   "title": "MARCEL PROUST. THE SWEET CHEAT GONE. 1948–1971. (ML 260)",
@@ -1827,7 +1862,8 @@ published in the Modern Library between 1928 and 1951.</p>
 }</pre></sl-details>
 
 <script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
-</div>
+
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1846,7 +1882,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

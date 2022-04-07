@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -39,7 +74,7 @@
 
 <h1>351b</h1>
 <h2>Expanded edition: *Six Plays* (1960)</h2>
-<div class="md-block"><p>SIX PLAYS BY | Lillian Hellman | THE CHILDREN’S HOUR | DAYS TO COME |
+<p>SIX PLAYS BY | Lillian Hellman | THE CHILDREN’S HOUR | DAYS TO COME |
 THE LITTLE FOXES | WATCH ON THE RHINE | ANOTHER PART OF THE FOREST | THE
 AUTUMN GARDEN | <em>With an introduction by the author</em> | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D4.webp'>torchbearer
 D4</uvalib-modal-image-button>] | THE MODERN LIBRARY · NEW YORK</p>
@@ -76,7 +111,7 @@ Hellman, 23 November 1959). The additional text was at the proof stage
 when Klopfer asked Hellman if rights to the two plays had reverted to
 her (Klopfer to Hellman, 13 May 1960).</p>
 <p><em><strong>Fall</strong></em></p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1805,12 +1840,13 @@ her (Klopfer to Hellman, 13 May 1960).</p>
 <sl-details summary="revision"><pre>{
   "id": "351b",
   "title": "Expanded edition: *Six Plays* (1960)",
-  "full": "\n\nSIX PLAYS BY | Lillian Hellman | THE CHILDREN’S HOUR | DAYS TO COME |\nTHE LITTLE FOXES | WATCH ON THE RHINE | ANOTHER PART OF THE FOREST | THE\nAUTUMN GARDEN | *With an introduction by the author* | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D4.webp'>torchbearer\nD4</uvalib-modal-image-button>\\] | THE MODERN LIBRARY · NEW YORK\n\nPp. \\[i–vi\\] vii–xiv, \\[1–4\\] 5–546 \\[547–562\\]. \\[1\\]<sup>16</sup>\n\\[2–9\\]<sup>32</sup> \\[10\\]<sup>16</sup>\n\nContents as 351a except: \\[iv\\] COPYRIGHT, 1934, 1937, 1939, 1941, 1942,\n1946, 1947, 1951, 1960, | BY LILLIAN HELLMAN; \\[v\\] Contents; vii–xiv\nINTRODUCTION as 351a with 3-paragraph addendum on p. xiv dated: *April,\n1960*; \\[331\\] part title: ANOTHER PART OF THE FOREST; \\[332\\] blank;\n\\[333\\] cast of first production; \\[334\\] blank; \\[335\\] SCENE; \\[336\\]\nblank; 337–433 text; \\[434\\] blank; \\[435\\] part title: THE AUTUMN\nGARDEN; \\[436\\] blank; \\[437\\] *CHARACTERS*; \\[438\\] blank; \\[439\\]\nSCENE; \\[440\\] blank; 441–546 text; \\[547–552\\] ML list; \\[553–554\\] ML\nGiants list; \\[555\\] American College Dictionary advertisement;\n\\[556–562\\] blank. (*Fall 1960*)\n\n*Jacket B:* Non-pictorial in dark yellowish green (137), brilliant green\n(140), dark orange yellow (72) and black on coated white paper; front\npanel with “Six Plays by” in reverse and LILLIAN | HELLMAN in dark\norange yellow, all on dark yellowish green panel at top; titles of\nindividual plays in black on six bands with three in dark orange yellow\nalternating with three in brilliant green.\n\nFront flap as 351a except last two sentences replaced by the following:\n\n> “This volume contains an introduction by Miss Hellman and six of her\n> plays in their complete and unabridged texts: *The Children’s Hour*,\n> *Days to Come*, *The Little Foxes*, *Watch on the Rhine*, *Another\n> Part of the Forest*, and *The Autumn Garden*.” (*Fall 1960*)\n\n*Another Part of the Forest* and *The Autumn Garden* were added at\nHellman’s request. Klopfer assured Hellman that *Four Plays* would not\nbe reprinted until the ML received the additions she wanted to make; at\nthat time the ML had a ten-month supply of the volume (Klopfer to\nHellman, 23 November 1959). The additional text was at the proof stage\nwhen Klopfer asked Hellman if rights to the two plays had reverted to\nher (Klopfer to Hellman, 13 May 1960).\n\n***Fall***",
+  "full": "\n\nSIX PLAYS BY | Lillian Hellman | THE CHILDREN’S HOUR | DAYS TO COME |\nTHE LITTLE FOXES | WATCH ON THE RHINE | ANOTHER PART OF THE FOREST | THE\nAUTUMN GARDEN | *With an introduction by the author* | \\[torchbearer\nD4\\] | THE MODERN LIBRARY · NEW YORK\n\nPp. \\[i–vi\\] vii–xiv, \\[1–4\\] 5–546 \\[547–562\\]. \\[1\\]<sup>16</sup>\n\\[2–9\\]<sup>32</sup> \\[10\\]<sup>16</sup>\n\nContents as 351a except: \\[iv\\] COPYRIGHT, 1934, 1937, 1939, 1941, 1942,\n1946, 1947, 1951, 1960, | BY LILLIAN HELLMAN; \\[v\\] Contents; vii–xiv\nINTRODUCTION as 351a with 3-paragraph addendum on p. xiv dated: *April,\n1960*; \\[331\\] part title: ANOTHER PART OF THE FOREST; \\[332\\] blank;\n\\[333\\] cast of first production; \\[334\\] blank; \\[335\\] SCENE; \\[336\\]\nblank; 337–433 text; \\[434\\] blank; \\[435\\] part title: THE AUTUMN\nGARDEN; \\[436\\] blank; \\[437\\] *CHARACTERS*; \\[438\\] blank; \\[439\\]\nSCENE; \\[440\\] blank; 441–546 text; \\[547–552\\] ML list; \\[553–554\\] ML\nGiants list; \\[555\\] American College Dictionary advertisement;\n\\[556–562\\] blank. (*Fall 1960*)\n\n*Jacket B:* Non-pictorial in dark yellowish green (137), brilliant green\n(140), dark orange yellow (72) and black on coated white paper; front\npanel with “Six Plays by” in reverse and LILLIAN | HELLMAN in dark\norange yellow, all on dark yellowish green panel at top; titles of\nindividual plays in black on six bands with three in dark orange yellow\nalternating with three in brilliant green.\n\nFront flap as 351a except last two sentences replaced by the following:\n\n> “This volume contains an introduction by Miss Hellman and six of her\n> plays in their complete and unabridged texts: *The Children’s Hour*,\n> *Days to Come*, *The Little Foxes*, *Watch on the Rhine*, *Another\n> Part of the Forest*, and *The Autumn Garden*.” (*Fall 1960*)\n\n*Another Part of the Forest* and *The Autumn Garden* were added at\nHellman’s request. Klopfer assured Hellman that *Four Plays* would not\nbe reprinted until the ML received the additions she wanted to make; at\nthat time the ML had a ten-month supply of the volume (Klopfer to\nHellman, 23 November 1959). The additional text was at the proof stage\nwhen Klopfer asked Hellman if rights to the two plays had reverted to\nher (Klopfer to Hellman, 13 May 1960).\n\n***Fall***",
   "year": "1942",
   "book": "351"
 }</pre></sl-details>
 
-<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script></div>
+<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1829,7 +1865,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

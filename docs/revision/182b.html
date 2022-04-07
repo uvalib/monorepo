@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -39,7 +74,7 @@
 
 <h1>182b</h1>
 <h2>Title page reset (1940)</h2>
-<div class="md-block"><p>THE SONG | OF SONGS | BY | HERMANN | SUDERMANN | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D1.webp'>torchbearer D1</uvalib-modal-image-button> at
+<p>THE SONG | OF SONGS | BY | HERMANN | SUDERMANN | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D1.webp'>torchbearer D1</uvalib-modal-image-button> at
 right; 3-line imprint at left] THE | MODERN LIBRARY | NEW YORK |
 [rule]</p>
 <p>Pagination and collation as 182a variant. Contents as 182a variant
@@ -52,7 +87,7 @@ in reverse on lower section. Designed by Joseph Blumenthal. Front flap
 as 182a. (<em>Spring 1940</em>)</p>
 <p><span class="smallcaps">Also in the Modern Library</span></p>
 <p>Sudermann, <em>Dame Care</em> (1918–1936) 31</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1783,12 +1818,13 @@ as 182a. (<em>Spring 1940</em>)</p>
 <sl-details summary="revision"><pre>{
   "id": "182b",
   "title": "Title page reset (1940)",
-  "full": "\n\nTHE SONG | OF SONGS | BY | HERMANN | SUDERMANN | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D1.webp'>torchbearer D1</uvalib-modal-image-button> at\nright; 3-line imprint at left\\] THE | MODERN LIBRARY | NEW YORK |\n\\[rule\\]\n\nPagination and collation as 182a variant. Contents as 182a variant\nexcept: \\[*2*\\] blank; \\[2\\] COPYRIGHT, 1909, BY J. G. COTTA’SCHE |\nBUCHHANDLUNG NACHFOLGER.\n\n*Jacket:* Non-pictorial in deep reddish orange (36) and black on cream\npaper with front panel divided into upper section in cream and lower\nsection in deep reddish orange; lettering in black on both, torchbearer\nin reverse on lower section. Designed by Joseph Blumenthal. Front flap\nas 182a. (*Spring 1940*)\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\nSudermann, *Dame Care* (1918–1936) 31",
+  "full": "\n\nTHE SONG | OF SONGS | BY | HERMANN | SUDERMANN | \\[torchbearer D1 at\nright; 3-line imprint at left\\] THE | MODERN LIBRARY | NEW YORK |\n\\[rule\\]\n\nPagination and collation as 182a variant. Contents as 182a variant\nexcept: \\[*2*\\] blank; \\[2\\] COPYRIGHT, 1909, BY J. G. COTTA’SCHE |\nBUCHHANDLUNG NACHFOLGER.\n\n*Jacket:* Non-pictorial in deep reddish orange (36) and black on cream\npaper with front panel divided into upper section in cream and lower\nsection in deep reddish orange; lettering in black on both, torchbearer\nin reverse on lower section. Designed by Joseph Blumenthal. Front flap\nas 182a. (*Spring 1940*)\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\nSudermann, *Dame Care* (1918–1936) 31",
   "year": "1929",
   "book": "182"
 }</pre></sl-details>
 
-<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script></div>
+<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1807,7 +1843,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -36,7 +71,7 @@
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/book/405.html">405</sl-breadcrumb-item>
 </sl-breadcrumb>
 
-<div class="md-block"><p><strong>ALEXANDER POPE. SELECTED WORKS. 1948–1970. (ML 257)</strong></p>
+<p><strong>ALEXANDER POPE. SELECTED WORKS. 1948–1970. (ML 257)</strong></p>
 <h4>405a. First printing (1948)</h4>
 <p>[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D4.webp'>torchbearer D4</uvalib-modal-image-button>] | [5-line title and statement of responsibility
 within single rules] ALEXANDER | POPE | SELECTED WORKS | EDITED, WITH
@@ -102,7 +137,7 @@ his own time and in ours.” (<em>Fall 1954</em>)</p>
 Krutch was recommended by Kronenberger and received $75 for the Foreword
 and Selected Readings. Kronenberger received royalties of 2 cents a copy
 for the MLCE edition.</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1831,7 +1866,7 @@ for the MLCE edition.</p>
 </elix-carousel-with-thumbnails>
 
 <sl-details summary="book"><pre>{
-  "full": "**ALEXANDER POPE. SELECTED WORKS. 1948–1970. (ML 257)**\n\n#### 405a. First printing (1948)\n\n\\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D4.webp'>torchbearer D4</uvalib-modal-image-button>\\] | \\[5-line title and statement of responsibility\nwithin single rules\\] ALEXANDER | POPE | SELECTED WORKS | EDITED, WITH\nAN INTRODUCTION, | BY LOUIS KRONENBERGER | \\[below frame\\] THE MODERN\nLIBRARY · NEW YORK\n\nPp. \\[i–iv\\] v–xxviii, \\[1–2\\] 3–388. \\[1–13\\]<sup>16</sup>\n\n\\[i\\] half title; \\[ii\\] blank; \\[iii\\] title; \\[iv\\] COPYRIGHT, 1948,\nBY RANDOM HOUSE, INC. | FIRST *Modern Library* EDITION, 1948; v–vi\nCONTENTS; vii–xxviii Introduction signed p. xxviii: <span\nclass=\"smallcaps\">Louis Kronenberger</span>; \\[1\\] fly title; \\[2\\]\nblank; 3–382 text; 383–388 BIOGRAPHICAL DATA\n\n*Jacket:* Non-pictorial in deep reddish orange (36) and black on cream\npaper with lettering in black on inset cream panel; series and\ntorchbearer in reverse below panel.\n\n> Front flap:<br>\n> For many years the editors of the Modern Library have sought the means\n> by which the representative writings of Alexander Pope could be\n> brought within the compass of a single, compact volume. Now, under the\n> supervision of Louis Kronenberger, distinguished critic and authority\n> on the eighteenth century, the poems, essays, odes, satires,\n> pastorals, epigrams, epitaphs and epistles have been selected for the\n> delight of the modern reader. Here are, complete and unabridged, “The\n> Dunciad,” “Essay on Man,” “Essay on Criticism,” “The Rape of the Lock”\n> and a generous offering of miscellanies. (*Fall 1947*)\n\nOriginal ML collection. Published spring 1948. *WR* 15 May 1948. First\nprinting: Not ascertained. Discontinued 1970/71.\n\nPublication was originally announced for fall 1947 but postponed to\nspring 1948. Cerf hoped to schedule the volume for fall 1947 to balance\na list that was going to include several modern novels (Cerf to\nKronenberger, 21 January 1947). Kronenberger received royalties of 5\ncents a copy.\n\nJohn O’Hara told Commins that the title of his novel *A Rage to Live*\n(Random House, 1949) came from a line at the top of p. 150 of Pope’s\n*Selected Works* (O’Hara to Commins, “Sunday”; Saxe Commins Papers, Box\n6, Princeton University Library). The line “And die of nothing but a\nRage to live” is from Pope’s *Epistle to a Lady*.\n\n#### 405b. Krutch foreword added (1951)\n\n\\[short double rule\\] | ALEXANDER POPE | *Selected Works* | \\[short\ndouble rule\\] | *Edited, with an Introduction by* | LOUIS KRONENBERGER |\nFOREWORD BY JOSEPH WOOD KRUTCH | *Brander Matthews Professor of Dramatic\nLiterature* | *Columbia University* | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/E5.webp'>torchbearer E5</uvalib-modal-image-button>\\] | THE MODERN\nLIBRARY · NEW YORK\n\nPp. \\[i–iv\\] v–xxxiii \\[xxxiv\\], \\[1–2\\] 3–388 \\[389–390\\].\n\\[1–12\\]<sup>16</sup> \\[13\\]<sup>4</sup> \\[14\\]<sup>16</sup>\n\nContents as 405a except: \\[iv\\] *Copyright, 1948, 1951, by Random House,\nInc.*; vii–ix Foreword signed p. ix: J<span\nclass=\"smallcaps\">oseph</span> W<span class=\"smallcaps\">ood</span>\nK<span class=\"smallcaps\">rutch</span>; \\[x\\] blank; xi–xxxii\nIntroduction signed p. xxxii: L<span class=\"smallcaps\">ouis</span>\nK<span class=\"smallcaps\">ronenberger</span>; xxxiii Selected Readings;\n\\[xxxiv\\] blank; \\[389–390\\] blank. (*Fall 1954 jacket*)\n\n> *Variant:* Pagination as 405b. \\[1\\]<sup>16</sup> \\[2–5\\]<sup>32</sup>\n> \\[6\\]<sup>20</sup> \\[7\\]<sup>32</sup> \\[8\\]<sup>16</sup>. Contents as\n> 405b except: \\[iv\\] COPYRIGHT, 1948, 1951, BY RANDOM HOUSE, INC.\n\n*Jacket*: As 405a with following sentence added to flap text: “Mr.\nKronenberger’s Introduction is a brilliant essay on Pope’s influence in\nhis own time and in ours.” (*Fall 1954*)\n\nOriginally published 1951 in MLCE and subsequently in the regular ML.\nKrutch was recommended by Kronenberger and received $75 for the Foreword\nand Selected Readings. Kronenberger received royalties of 2 cents a copy\nfor the MLCE edition.",
+  "full": "**ALEXANDER POPE. SELECTED WORKS. 1948–1970. (ML 257)**\n\n#### 405a. First printing (1948)\n\n\\[torchbearer D4\\] | \\[5-line title and statement of responsibility\nwithin single rules\\] ALEXANDER | POPE | SELECTED WORKS | EDITED, WITH\nAN INTRODUCTION, | BY LOUIS KRONENBERGER | \\[below frame\\] THE MODERN\nLIBRARY · NEW YORK\n\nPp. \\[i–iv\\] v–xxviii, \\[1–2\\] 3–388. \\[1–13\\]<sup>16</sup>\n\n\\[i\\] half title; \\[ii\\] blank; \\[iii\\] title; \\[iv\\] COPYRIGHT, 1948,\nBY RANDOM HOUSE, INC. | FIRST *Modern Library* EDITION, 1948; v–vi\nCONTENTS; vii–xxviii Introduction signed p. xxviii: <span\nclass=\"smallcaps\">Louis Kronenberger</span>; \\[1\\] fly title; \\[2\\]\nblank; 3–382 text; 383–388 BIOGRAPHICAL DATA\n\n*Jacket:* Non-pictorial in deep reddish orange (36) and black on cream\npaper with lettering in black on inset cream panel; series and\ntorchbearer in reverse below panel.\n\n> Front flap:<br>\n> For many years the editors of the Modern Library have sought the means\n> by which the representative writings of Alexander Pope could be\n> brought within the compass of a single, compact volume. Now, under the\n> supervision of Louis Kronenberger, distinguished critic and authority\n> on the eighteenth century, the poems, essays, odes, satires,\n> pastorals, epigrams, epitaphs and epistles have been selected for the\n> delight of the modern reader. Here are, complete and unabridged, “The\n> Dunciad,” “Essay on Man,” “Essay on Criticism,” “The Rape of the Lock”\n> and a generous offering of miscellanies. (*Fall 1947*)\n\nOriginal ML collection. Published spring 1948. *WR* 15 May 1948. First\nprinting: Not ascertained. Discontinued 1970/71.\n\nPublication was originally announced for fall 1947 but postponed to\nspring 1948. Cerf hoped to schedule the volume for fall 1947 to balance\na list that was going to include several modern novels (Cerf to\nKronenberger, 21 January 1947). Kronenberger received royalties of 5\ncents a copy.\n\nJohn O’Hara told Commins that the title of his novel *A Rage to Live*\n(Random House, 1949) came from a line at the top of p. 150 of Pope’s\n*Selected Works* (O’Hara to Commins, “Sunday”; Saxe Commins Papers, Box\n6, Princeton University Library). The line “And die of nothing but a\nRage to live” is from Pope’s *Epistle to a Lady*.\n\n#### 405b. Krutch foreword added (1951)\n\n\\[short double rule\\] | ALEXANDER POPE | *Selected Works* | \\[short\ndouble rule\\] | *Edited, with an Introduction by* | LOUIS KRONENBERGER |\nFOREWORD BY JOSEPH WOOD KRUTCH | *Brander Matthews Professor of Dramatic\nLiterature* | *Columbia University* | \\[torchbearer E5\\] | THE MODERN\nLIBRARY · NEW YORK\n\nPp. \\[i–iv\\] v–xxxiii \\[xxxiv\\], \\[1–2\\] 3–388 \\[389–390\\].\n\\[1–12\\]<sup>16</sup> \\[13\\]<sup>4</sup> \\[14\\]<sup>16</sup>\n\nContents as 405a except: \\[iv\\] *Copyright, 1948, 1951, by Random House,\nInc.*; vii–ix Foreword signed p. ix: J<span\nclass=\"smallcaps\">oseph</span> W<span class=\"smallcaps\">ood</span>\nK<span class=\"smallcaps\">rutch</span>; \\[x\\] blank; xi–xxxii\nIntroduction signed p. xxxii: L<span class=\"smallcaps\">ouis</span>\nK<span class=\"smallcaps\">ronenberger</span>; xxxiii Selected Readings;\n\\[xxxiv\\] blank; \\[389–390\\] blank. (*Fall 1954 jacket*)\n\n> *Variant:* Pagination as 405b. \\[1\\]<sup>16</sup> \\[2–5\\]<sup>32</sup>\n> \\[6\\]<sup>20</sup> \\[7\\]<sup>32</sup> \\[8\\]<sup>16</sup>. Contents as\n> 405b except: \\[iv\\] COPYRIGHT, 1948, 1951, BY RANDOM HOUSE, INC.\n\n*Jacket*: As 405a with following sentence added to flap text: “Mr.\nKronenberger’s Introduction is a brilliant essay on Pope’s influence in\nhis own time and in ours.” (*Fall 1954*)\n\nOriginally published 1951 in MLCE and subsequently in the regular ML.\nKrutch was recommended by Kronenberger and received $75 for the Foreword\nand Selected Readings. Kronenberger received royalties of 2 cents a copy\nfor the MLCE edition.",
   "id": "405",
   "year": "1948",
   "title": "ALEXANDER POPE. SELECTED WORKS. 1948–1970. (ML 257)",
@@ -1839,7 +1874,8 @@ for the MLCE edition.</p>
 }</pre></sl-details>
 
 <script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
-</div>
+
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1858,7 +1894,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

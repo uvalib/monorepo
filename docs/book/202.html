@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -36,7 +71,7 @@
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/book/202.html">202</sl-breadcrumb-item>
 </sl-breadcrumb>
 
-<div class="md-block"><p><strong>G. F. YOUNG. THE MEDICI. 1930–1971. (ML 179)</strong></p>
+<p><strong>G. F. YOUNG. THE MEDICI. 1930–1971. (ML 179)</strong></p>
 <h4>202a. First printing (1930)</h4>
 <p>[within double rules] THE MEDICI | [rule] | BY | COLONEL G. F.
 YOUNG, C.B. | [rule] | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer A2</uvalib-modal-image-button>] | [rule] | BENNETT A. CERF
@@ -115,7 +150,7 @@ accumulate around the most fabulous family of the Renaissance. (<em>Fall
 <p><span class="smallcaps">Also in the Modern Library</span></p>
 <p>Young, <em>The Medici</em>, with 32 illustrations reproduced in aquatone
 (Giant, 1933–1946) G8</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1846,7 +1881,7 @@ accumulate around the most fabulous family of the Renaissance. (<em>Fall
 </elix-carousel-with-thumbnails>
 
 <sl-details summary="book"><pre>{
-  "full": "**G. F. YOUNG. THE MEDICI. 1930–1971. (ML 179)**\n\n#### 202a. First printing (1930)\n\n\\[within double rules\\] THE MEDICI | \\[rule\\] | BY | COLONEL G. F.\nYOUNG, C.B. | \\[rule\\] | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer A2</uvalib-modal-image-button>\\] | \\[rule\\] | BENNETT A. CERF\n: DONALD S. KLOPFER | THE MODERN LIBRARY | PUBLISHERS : NEW YORK\n\nPp. \\[i–vi\\] vii–xxi \\[xxii\\], \\[*2*\\], 1–824. \\[1–26\\]<sup>16</sup>\n\\[27\\]<sup>8</sup>\n\n\\[i\\] half title; \\[ii\\] pub. note D5; \\[iii\\] title; \\[iv\\]\n*Copyright,* 1930, *by* THE MODERN LIBRARY, INC. | \\[short double rule\\]\n| *First Modern Library Edition* | 1930 | \\[epigraphs from Ovid and\nCicero\\]; \\[v\\] dedication; \\[vi\\] epigraph from Andrew Lang; vii–xiii\nPREFACE signed p. xiii: G. F. Y. | <span\nclass=\"smallcaps\">Florence</span>, 12*th October* 1910.; \\[xiv\\] blank;\nxv–xvi CONTENTS; \\[xvii\\] CONTEMPORARY HISTORICAL EVENTS; \\[xviii\\]\nblank; xix–xxi AUTHORITIES CONSULTED; \\[xxii\\] blank; \\[*1*\\] fly title;\n\\[*2*\\] blank; 1–758 text; 759–824 NOTES.\n\n*Jacket:* Pictorial in strong brown (55) and black on coated white paper\ndepicting man with hat in left profile; borders in strong brown (top)\nand black (foot), lettering in black. Signed: EMcKK (E. McKnight\nKauffer). (*Fall 1930*)\n\nOriginally published in U.S. by E. P. Dutton (2 vols., 1909). ML edition\nprinted from plates made from a new typesetting. Published October 1930.\n*WR* 8 November 1930. First printing: Not ascertained. Discontinued\n1971/72.\n\nIn its advertising the ML emphasized, “This book has been available only\nin two bulky volumes, that sold for ten dollars and over” (*PW* 118, 16\nAugust 1930, p. 574).\n\nShortly after the ML edition appeared Cerf authorized Garden City\nPublishing Co., the Doubleday, Doran reprint subsidiary, to make a\nduplicate set of the ML’s plates for a fee of $1,000. Garden City was\nplanning to publish *The Medici* under its Star Dollar Books imprint\n(Cerf to Robert de Graff, Garden City, 30 December 1930). No evidence of\na printing in Star Dollar Books or any other Doubleday imprint has been\nfound.\n\nCharles Boni used the ML plates in 1930 for a single printing of *The\nMedici* in the format the ML would adopt the following year for the new\nML Giants series. Later that year Cerf and Klopfer bought the remaining\nstock from A. & C. Boni and sold it along with a printing of *The\nEducation of Henry Adams* that they had produced in a similar format.\nThe books were printed in editions of 1,500 each and were marketed to\ndepartment stores as dollar “specials.”\n\nAn illustrated edition of *The Medici* (G8), printed from plates of the\nregular ML edition, was published in ML Giants, 1933–49.\n\n*The Medici* was one of several titles that were omitted from a\ncomprehensive ranking of ML sales for the 18-month period May\n1942–October 1943. The regular ML edition sold 3,300 copies during the\n12-month period November 1951–October 1952, placing it in the second\nquarter of ML titles in terms of sales.\n\n#### 202b. Title page reset (c. 1940)\n\n\\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/E3.webp'>torchbearer E3</uvalib-modal-image-button>\\] | \\[4-line title and statement of responsibility\nwithin single rules\\] THE | MEDICI | BY | Col. G. F. Young, C.  B. |\n\\[below frame\\] THE MODERN LIBRARY · NEW YORK\n\nPagination and collation as 202a.\n\nContents as 202a except: \\[ii\\] blank; \\[iv\\] COPYRIGHT, 1930, BY THE\nMODERN LIBRARY, INC. | \\[epigraphs from Ovid and Cicero\\].\n\n> *Variant:* Pagination as 201a. \\[1\\]<sup>16</sup>\n> \\[2–12\\]<sup>32</sup> \\[13\\]<sup>8</sup> \\[14\\]<sup>32</sup>\n> \\[15\\]<sup>16</sup>. Contents as 202b except: \\[iv\\] copyright\n> statement omitted. (*1960s binding B*)\n\n*Jacket:* Adapted from 202a jacket with borders omitted and author in\nreverse on strong brown band at foot.\n\n> Front flap:<br>\n> The legends which have clustered about the most notable family in\n> history are as various as the imaginations and prejudices of\n> historians. Sinister crimes, magnificent liberalities, prodigal\n> sponsorship of the arts, religious and orgiastic excesses have been\n> attributed indiscriminately to the Medicis. It remained for G. F.\n> Young to sift the proven facts from the exaggerations and to present a\n> history so authentic and yet so colorful that its truth is more\n> enthralling than all the fictions the centuries have allowed to\n> accumulate around the most fabulous family of the Renaissance. (*Fall\n> 1941*)\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\nYoung, *The Medici*, with 32 illustrations reproduced in aquatone\n(Giant, 1933–1946) G8",
+  "full": "**G. F. YOUNG. THE MEDICI. 1930–1971. (ML 179)**\n\n#### 202a. First printing (1930)\n\n\\[within double rules\\] THE MEDICI | \\[rule\\] | BY | COLONEL G. F.\nYOUNG, C.B. | \\[rule\\] | \\[torchbearer A2\\] | \\[rule\\] | BENNETT A. CERF\n: DONALD S. KLOPFER | THE MODERN LIBRARY | PUBLISHERS : NEW YORK\n\nPp. \\[i–vi\\] vii–xxi \\[xxii\\], \\[*2*\\], 1–824. \\[1–26\\]<sup>16</sup>\n\\[27\\]<sup>8</sup>\n\n\\[i\\] half title; \\[ii\\] pub. note D5; \\[iii\\] title; \\[iv\\]\n*Copyright,* 1930, *by* THE MODERN LIBRARY, INC. | \\[short double rule\\]\n| *First Modern Library Edition* | 1930 | \\[epigraphs from Ovid and\nCicero\\]; \\[v\\] dedication; \\[vi\\] epigraph from Andrew Lang; vii–xiii\nPREFACE signed p. xiii: G. F. Y. | <span\nclass=\"smallcaps\">Florence</span>, 12*th October* 1910.; \\[xiv\\] blank;\nxv–xvi CONTENTS; \\[xvii\\] CONTEMPORARY HISTORICAL EVENTS; \\[xviii\\]\nblank; xix–xxi AUTHORITIES CONSULTED; \\[xxii\\] blank; \\[*1*\\] fly title;\n\\[*2*\\] blank; 1–758 text; 759–824 NOTES.\n\n*Jacket:* Pictorial in strong brown (55) and black on coated white paper\ndepicting man with hat in left profile; borders in strong brown (top)\nand black (foot), lettering in black. Signed: EMcKK (E. McKnight\nKauffer). (*Fall 1930*)\n\nOriginally published in U.S. by E. P. Dutton (2 vols., 1909). ML edition\nprinted from plates made from a new typesetting. Published October 1930.\n*WR* 8 November 1930. First printing: Not ascertained. Discontinued\n1971/72.\n\nIn its advertising the ML emphasized, “This book has been available only\nin two bulky volumes, that sold for ten dollars and over” (*PW* 118, 16\nAugust 1930, p. 574).\n\nShortly after the ML edition appeared Cerf authorized Garden City\nPublishing Co., the Doubleday, Doran reprint subsidiary, to make a\nduplicate set of the ML’s plates for a fee of $1,000. Garden City was\nplanning to publish *The Medici* under its Star Dollar Books imprint\n(Cerf to Robert de Graff, Garden City, 30 December 1930). No evidence of\na printing in Star Dollar Books or any other Doubleday imprint has been\nfound.\n\nCharles Boni used the ML plates in 1930 for a single printing of *The\nMedici* in the format the ML would adopt the following year for the new\nML Giants series. Later that year Cerf and Klopfer bought the remaining\nstock from A. & C. Boni and sold it along with a printing of *The\nEducation of Henry Adams* that they had produced in a similar format.\nThe books were printed in editions of 1,500 each and were marketed to\ndepartment stores as dollar “specials.”\n\nAn illustrated edition of *The Medici* (G8), printed from plates of the\nregular ML edition, was published in ML Giants, 1933–49.\n\n*The Medici* was one of several titles that were omitted from a\ncomprehensive ranking of ML sales for the 18-month period May\n1942–October 1943. The regular ML edition sold 3,300 copies during the\n12-month period November 1951–October 1952, placing it in the second\nquarter of ML titles in terms of sales.\n\n#### 202b. Title page reset (c. 1940)\n\n\\[torchbearer E3\\] | \\[4-line title and statement of responsibility\nwithin single rules\\] THE | MEDICI | BY | Col. G. F. Young, C.  B. |\n\\[below frame\\] THE MODERN LIBRARY · NEW YORK\n\nPagination and collation as 202a.\n\nContents as 202a except: \\[ii\\] blank; \\[iv\\] COPYRIGHT, 1930, BY THE\nMODERN LIBRARY, INC. | \\[epigraphs from Ovid and Cicero\\].\n\n> *Variant:* Pagination as 201a. \\[1\\]<sup>16</sup>\n> \\[2–12\\]<sup>32</sup> \\[13\\]<sup>8</sup> \\[14\\]<sup>32</sup>\n> \\[15\\]<sup>16</sup>. Contents as 202b except: \\[iv\\] copyright\n> statement omitted. (*1960s binding B*)\n\n*Jacket:* Adapted from 202a jacket with borders omitted and author in\nreverse on strong brown band at foot.\n\n> Front flap:<br>\n> The legends which have clustered about the most notable family in\n> history are as various as the imaginations and prejudices of\n> historians. Sinister crimes, magnificent liberalities, prodigal\n> sponsorship of the arts, religious and orgiastic excesses have been\n> attributed indiscriminately to the Medicis. It remained for G. F.\n> Young to sift the proven facts from the exaggerations and to present a\n> history so authentic and yet so colorful that its truth is more\n> enthralling than all the fictions the centuries have allowed to\n> accumulate around the most fabulous family of the Renaissance. (*Fall\n> 1941*)\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\nYoung, *The Medici*, with 32 illustrations reproduced in aquatone\n(Giant, 1933–1946) G8",
   "id": "202",
   "year": "1930",
   "title": "G. F. YOUNG. THE MEDICI. 1930–1971. (ML 179)",
@@ -1854,7 +1889,8 @@ accumulate around the most fabulous family of the Renaissance. (<em>Fall
 }</pre></sl-details>
 
 <script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
-</div>
+
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1873,7 +1909,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

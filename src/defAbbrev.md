@@ -2,7 +2,7 @@
 layout: page-layout.njk
 permalink: "defAbbrev.html"
 ---
-**DEFINITIONS AND ABBREVIATIONS**
+## DEFINITIONS AND ABBREVIATIONS
 
 anthology A volume consisting of the works of multiple authors
 

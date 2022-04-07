@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -36,9 +71,9 @@
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/book/437.html">437</sl-breadcrumb-item>
 </sl-breadcrumb>
 
-<div class="md-block"><p><strong>PERCY BYSSHE SHELLEY. THE SELECTED POETRY AND PROSE OF PERCY BYSSHE
+<p><strong>PERCY BYSSHE SHELLEY. THE SELECTED POETRY AND PROSE OF PERCY BYSSHE
 SHELLEY. 1951–1973. (ML 274)</strong></p>
-<h4>437. First printing (1951)</h4>
+<h4><a href='/revision/437.html'>437. First printing (1951)</a></h4>
 <p><em>The Selected</em> | POETRY AND PROSE OF | <em>Percy Bysshe Shelley</em> | [floral
 ornament] | <em>Edited, with an Introduction, by</em> | CARLOS BAKER |
 <em>Associate Professor of English, Princeton University</em> | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/E5.webp'>torchbearer
@@ -90,7 +125,7 @@ for MLCE and an additional $100 when it was included in the regular ML
 (Stein to Baker, 27 June 1950 and 28 June 1951). The copy text for
 setting the poems was the MLG edition of Keats and Shelley, <em>Complete
 Poetical Works</em> (G4).</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1821,7 +1856,7 @@ Poetical Works</em> (G4).</p>
 </elix-carousel-with-thumbnails>
 
 <sl-details summary="book"><pre>{
-  "full": "**PERCY BYSSHE SHELLEY. THE SELECTED POETRY AND PROSE OF PERCY BYSSHE\nSHELLEY. 1951–1973. (ML 274)**\n\n#### 437. First printing (1951)\n\n*The Selected* | POETRY AND PROSE OF | *Percy Bysshe Shelley* | \\[floral\nornament\\] | *Edited, with an Introduction, by* | CARLOS BAKER |\n*Associate Professor of English, Princeton University* | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/E5.webp'>torchbearer\nE5</uvalib-modal-image-button>\\] | THE MODERN LIBRARY · NEW YORK\n\nPp. \\[i–iv\\] v–xx, \\[1–2\\] 3–524. \\[1–17\\]<sup>16</sup>\n\n\\[i\\] half title; \\[ii\\] blank; \\[iii\\] title; \\[iv\\] *Copyright, 1951,\nby Random House, Inc.*; v–xvii INTRODUCTION | by Carlos Baker; also on\np. xvii: BIBLIOGRAPHICAL NOTE; \\[xviii\\] blank; xix–xx Contents; \\[1\\]\npart title: Narrative Poems | and Lyrical Dramas; \\[2\\] blank; 3–359\ntext; \\[360\\] blank; \\[361\\] part title: Lyrical and Reflective Poems;\n\\[362\\] blank; 363–432 text; \\[433\\] part title: Prefaces and Essays;\n\\[434\\] blank; 435–522 text; 523–524 Index of Titles. (*Spring 1951\njacket*)\n\n> *Variant:* Pagination as 437. \\[1\\]<sup>16</sup> \\[2–7\\]<sup>32</sup>\n> \\[8\\]<sup>16</sup> \\[9\\]<sup>32</sup> \\[10\\]<sup>16</sup>. Contents as\n> 437 except: \\[iv\\] COPYRIGHT, 1951, BY RANDOM HOUSE, INC. (*1968\n> format with jacket B and Fujita binding and endpapers*)\n\n*Jacket A:* Pictorial in moderate green (145) and black on cream paper\nwith inset oval illustration of wooded riverbank; author in reverse and\nother lettering in black, all on moderate green background.\n\n> Front flap:<br>\n> This volume of 544 pages offers a profusion of riches for the lover of\n> Shelley’s poetry and the admirer of his prose. It contains thirteen\n> narrative poems and lyrical dramas, the shorter lyrical and reflective\n> poems and a selection of prefaces and essays. In the prose section are\n> to be found prefaces to “The Revolt of Islam,” “Prometheus Unbound,”\n> “The Cenci,” and such important essays as “On a Future State,” “On the\n> Punishment of Death,” “On Metaphysics,” “A Defence of Poetry” and\n> others. Carlos Baker of Princeton University contributes a penetrating\n> analysis of Shelley’s work and thought in an introduction which\n> includes biographical and bibliographical notes. (*Spring 1951*)\n\n*Jacket B:* Fujita non-pictorial jacket on coated white paper with\n“Shelley” in grayish olive (110) and black, decoration and “ml” symbol\nin brownish orange (54), other lettering in black. Front flap as jacket\nA with first sentence omitted and second sentence (now the opening\nsentence) beginning “This volume contains thirteen narrative poems and\nlyrical dramas. . . .” Last sentence revised and printed as a separate\nparagraph: “Carlos Baker has contributed a penetrating analysis. . . .”\n(*1968 format*)\n\nOriginal ML collection. Published spring 1951. *WR* 21 April 1951. First\nML printing: Not ascertained. Discontinued 1973/74; retained in MLCE.\n\nPublished spring 1951 in MLCE (*WR* 10 February 1951) and the regular\nML. Baker received a flat fee of $250 to prepare a Shelley collection\nfor MLCE and an additional $100 when it was included in the regular ML\n(Stein to Baker, 27 June 1950 and 28 June 1951). The copy text for\nsetting the poems was the MLG edition of Keats and Shelley, *Complete\nPoetical Works* (G4).",
+  "full": "**PERCY BYSSHE SHELLEY. THE SELECTED POETRY AND PROSE OF PERCY BYSSHE\nSHELLEY. 1951–1973. (ML 274)**\n\n#### 437. First printing (1951)\n\n*The Selected* | POETRY AND PROSE OF | *Percy Bysshe Shelley* | \\[floral\nornament\\] | *Edited, with an Introduction, by* | CARLOS BAKER |\n*Associate Professor of English, Princeton University* | \\[torchbearer\nE5\\] | THE MODERN LIBRARY · NEW YORK\n\nPp. \\[i–iv\\] v–xx, \\[1–2\\] 3–524. \\[1–17\\]<sup>16</sup>\n\n\\[i\\] half title; \\[ii\\] blank; \\[iii\\] title; \\[iv\\] *Copyright, 1951,\nby Random House, Inc.*; v–xvii INTRODUCTION | by Carlos Baker; also on\np. xvii: BIBLIOGRAPHICAL NOTE; \\[xviii\\] blank; xix–xx Contents; \\[1\\]\npart title: Narrative Poems | and Lyrical Dramas; \\[2\\] blank; 3–359\ntext; \\[360\\] blank; \\[361\\] part title: Lyrical and Reflective Poems;\n\\[362\\] blank; 363–432 text; \\[433\\] part title: Prefaces and Essays;\n\\[434\\] blank; 435–522 text; 523–524 Index of Titles. (*Spring 1951\njacket*)\n\n> *Variant:* Pagination as 437. \\[1\\]<sup>16</sup> \\[2–7\\]<sup>32</sup>\n> \\[8\\]<sup>16</sup> \\[9\\]<sup>32</sup> \\[10\\]<sup>16</sup>. Contents as\n> 437 except: \\[iv\\] COPYRIGHT, 1951, BY RANDOM HOUSE, INC. (*1968\n> format with jacket B and Fujita binding and endpapers*)\n\n*Jacket A:* Pictorial in moderate green (145) and black on cream paper\nwith inset oval illustration of wooded riverbank; author in reverse and\nother lettering in black, all on moderate green background.\n\n> Front flap:<br>\n> This volume of 544 pages offers a profusion of riches for the lover of\n> Shelley’s poetry and the admirer of his prose. It contains thirteen\n> narrative poems and lyrical dramas, the shorter lyrical and reflective\n> poems and a selection of prefaces and essays. In the prose section are\n> to be found prefaces to “The Revolt of Islam,” “Prometheus Unbound,”\n> “The Cenci,” and such important essays as “On a Future State,” “On the\n> Punishment of Death,” “On Metaphysics,” “A Defence of Poetry” and\n> others. Carlos Baker of Princeton University contributes a penetrating\n> analysis of Shelley’s work and thought in an introduction which\n> includes biographical and bibliographical notes. (*Spring 1951*)\n\n*Jacket B:* Fujita non-pictorial jacket on coated white paper with\n“Shelley” in grayish olive (110) and black, decoration and “ml” symbol\nin brownish orange (54), other lettering in black. Front flap as jacket\nA with first sentence omitted and second sentence (now the opening\nsentence) beginning “This volume contains thirteen narrative poems and\nlyrical dramas. . . .” Last sentence revised and printed as a separate\nparagraph: “Carlos Baker has contributed a penetrating analysis. . . .”\n(*1968 format*)\n\nOriginal ML collection. Published spring 1951. *WR* 21 April 1951. First\nML printing: Not ascertained. Discontinued 1973/74; retained in MLCE.\n\nPublished spring 1951 in MLCE (*WR* 10 February 1951) and the regular\nML. Baker received a flat fee of $250 to prepare a Shelley collection\nfor MLCE and an additional $100 when it was included in the regular ML\n(Stein to Baker, 27 June 1950 and 28 June 1951). The copy text for\nsetting the poems was the MLG edition of Keats and Shelley, *Complete\nPoetical Works* (G4).",
   "id": "437",
   "year": "1951",
   "title": "PERCY BYSSHE SHELLEY. THE SELECTED POETRY AND PROSE OF PERCY BYSSHE SHELLEY. 1951–1973. (ML 274)",
@@ -1829,13 +1864,14 @@ Poetical Works</em> (G4).</p>
     {
       "id": "437",
       "title": "First printing (1951)",
-      "full": "\n\n*The Selected* | POETRY AND PROSE OF | *Percy Bysshe Shelley* | \\[floral\nornament\\] | *Edited, with an Introduction, by* | CARLOS BAKER |\n*Associate Professor of English, Princeton University* | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/E5.webp'>torchbearer\nE5</uvalib-modal-image-button>\\] | THE MODERN LIBRARY · NEW YORK\n\nPp. \\[i–iv\\] v–xx, \\[1–2\\] 3–524. \\[1–17\\]<sup>16</sup>\n\n\\[i\\] half title; \\[ii\\] blank; \\[iii\\] title; \\[iv\\] *Copyright, 1951,\nby Random House, Inc.*; v–xvii INTRODUCTION | by Carlos Baker; also on\np. xvii: BIBLIOGRAPHICAL NOTE; \\[xviii\\] blank; xix–xx Contents; \\[1\\]\npart title: Narrative Poems | and Lyrical Dramas; \\[2\\] blank; 3–359\ntext; \\[360\\] blank; \\[361\\] part title: Lyrical and Reflective Poems;\n\\[362\\] blank; 363–432 text; \\[433\\] part title: Prefaces and Essays;\n\\[434\\] blank; 435–522 text; 523–524 Index of Titles. (*Spring 1951\njacket*)\n\n> *Variant:* Pagination as 437. \\[1\\]<sup>16</sup> \\[2–7\\]<sup>32</sup>\n> \\[8\\]<sup>16</sup> \\[9\\]<sup>32</sup> \\[10\\]<sup>16</sup>. Contents as\n> 437 except: \\[iv\\] COPYRIGHT, 1951, BY RANDOM HOUSE, INC. (*1968\n> format with jacket B and Fujita binding and endpapers*)\n\n*Jacket A:* Pictorial in moderate green (145) and black on cream paper\nwith inset oval illustration of wooded riverbank; author in reverse and\nother lettering in black, all on moderate green background.\n\n> Front flap:<br>\n> This volume of 544 pages offers a profusion of riches for the lover of\n> Shelley’s poetry and the admirer of his prose. It contains thirteen\n> narrative poems and lyrical dramas, the shorter lyrical and reflective\n> poems and a selection of prefaces and essays. In the prose section are\n> to be found prefaces to “The Revolt of Islam,” “Prometheus Unbound,”\n> “The Cenci,” and such important essays as “On a Future State,” “On the\n> Punishment of Death,” “On Metaphysics,” “A Defence of Poetry” and\n> others. Carlos Baker of Princeton University contributes a penetrating\n> analysis of Shelley’s work and thought in an introduction which\n> includes biographical and bibliographical notes. (*Spring 1951*)\n\n*Jacket B:* Fujita non-pictorial jacket on coated white paper with\n“Shelley” in grayish olive (110) and black, decoration and “ml” symbol\nin brownish orange (54), other lettering in black. Front flap as jacket\nA with first sentence omitted and second sentence (now the opening\nsentence) beginning “This volume contains thirteen narrative poems and\nlyrical dramas. . . .” Last sentence revised and printed as a separate\nparagraph: “Carlos Baker has contributed a penetrating analysis. . . .”\n(*1968 format*)\n\nOriginal ML collection. Published spring 1951. *WR* 21 April 1951. First\nML printing: Not ascertained. Discontinued 1973/74; retained in MLCE.\n\nPublished spring 1951 in MLCE (*WR* 10 February 1951) and the regular\nML. Baker received a flat fee of $250 to prepare a Shelley collection\nfor MLCE and an additional $100 when it was included in the regular ML\n(Stein to Baker, 27 June 1950 and 28 June 1951). The copy text for\nsetting the poems was the MLG edition of Keats and Shelley, *Complete\nPoetical Works* (G4)."
+      "full": "\n\n*The Selected* | POETRY AND PROSE OF | *Percy Bysshe Shelley* | \\[floral\nornament\\] | *Edited, with an Introduction, by* | CARLOS BAKER |\n*Associate Professor of English, Princeton University* | \\[torchbearer\nE5\\] | THE MODERN LIBRARY · NEW YORK\n\nPp. \\[i–iv\\] v–xx, \\[1–2\\] 3–524. \\[1–17\\]<sup>16</sup>\n\n\\[i\\] half title; \\[ii\\] blank; \\[iii\\] title; \\[iv\\] *Copyright, 1951,\nby Random House, Inc.*; v–xvii INTRODUCTION | by Carlos Baker; also on\np. xvii: BIBLIOGRAPHICAL NOTE; \\[xviii\\] blank; xix–xx Contents; \\[1\\]\npart title: Narrative Poems | and Lyrical Dramas; \\[2\\] blank; 3–359\ntext; \\[360\\] blank; \\[361\\] part title: Lyrical and Reflective Poems;\n\\[362\\] blank; 363–432 text; \\[433\\] part title: Prefaces and Essays;\n\\[434\\] blank; 435–522 text; 523–524 Index of Titles. (*Spring 1951\njacket*)\n\n> *Variant:* Pagination as 437. \\[1\\]<sup>16</sup> \\[2–7\\]<sup>32</sup>\n> \\[8\\]<sup>16</sup> \\[9\\]<sup>32</sup> \\[10\\]<sup>16</sup>. Contents as\n> 437 except: \\[iv\\] COPYRIGHT, 1951, BY RANDOM HOUSE, INC. (*1968\n> format with jacket B and Fujita binding and endpapers*)\n\n*Jacket A:* Pictorial in moderate green (145) and black on cream paper\nwith inset oval illustration of wooded riverbank; author in reverse and\nother lettering in black, all on moderate green background.\n\n> Front flap:<br>\n> This volume of 544 pages offers a profusion of riches for the lover of\n> Shelley’s poetry and the admirer of his prose. It contains thirteen\n> narrative poems and lyrical dramas, the shorter lyrical and reflective\n> poems and a selection of prefaces and essays. In the prose section are\n> to be found prefaces to “The Revolt of Islam,” “Prometheus Unbound,”\n> “The Cenci,” and such important essays as “On a Future State,” “On the\n> Punishment of Death,” “On Metaphysics,” “A Defence of Poetry” and\n> others. Carlos Baker of Princeton University contributes a penetrating\n> analysis of Shelley’s work and thought in an introduction which\n> includes biographical and bibliographical notes. (*Spring 1951*)\n\n*Jacket B:* Fujita non-pictorial jacket on coated white paper with\n“Shelley” in grayish olive (110) and black, decoration and “ml” symbol\nin brownish orange (54), other lettering in black. Front flap as jacket\nA with first sentence omitted and second sentence (now the opening\nsentence) beginning “This volume contains thirteen narrative poems and\nlyrical dramas. . . .” Last sentence revised and printed as a separate\nparagraph: “Carlos Baker has contributed a penetrating analysis. . . .”\n(*1968 format*)\n\nOriginal ML collection. Published spring 1951. *WR* 21 April 1951. First\nML printing: Not ascertained. Discontinued 1973/74; retained in MLCE.\n\nPublished spring 1951 in MLCE (*WR* 10 February 1951) and the regular\nML. Baker received a flat fee of $250 to prepare a Shelley collection\nfor MLCE and an additional $100 when it was included in the regular ML\n(Stein to Baker, 27 June 1950 and 28 June 1951). The copy text for\nsetting the poems was the MLG edition of Keats and Shelley, *Complete\nPoetical Works* (G4)."
     }
   ]
 }</pre></sl-details>
 
 <script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
-</div>
+
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1854,7 +1890,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

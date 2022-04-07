@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -39,7 +74,7 @@
 
 <h1>357b</h1>
 <h2>Shurter introduction added (1951)</h2>
-<div class="md-block"><p>[3-line title within left and right brackets] LOOKING | BACKWARD |
+<p>[3-line title within left and right brackets] LOOKING | BACKWARD |
 2000–1887 | <em>by Edward Bellamy</em> | WITH AN INTRODUCTION BY | <em>Robert L.
 Shurter</em> | PROFESSOR OF ENGLISH AND DIRECTOR OF THE | DIVISION OF
 HUMANITIES AND SOCIAL STUDIES | CASE INSTITUTE OF TECHNOLOGY |
@@ -59,7 +94,7 @@ as 357a and outdated information “Introduction by | Heywood Broun” added
 between the author and the flap text. (<em>Spring 1954</em>)</p>
 <p>Published initially in MLCE and shortly thereafter in the regular ML.
 Shurter received $150 for the new introduction.</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1788,12 +1823,13 @@ Shurter received $150 for the new introduction.</p>
 <sl-details summary="revision"><pre>{
   "id": "357b",
   "title": "Shurter introduction added (1951)",
-  "full": "\n\n\\[3-line title within left and right brackets\\] LOOKING | BACKWARD |\n2000–1887 | *by Edward Bellamy* | WITH AN INTRODUCTION BY | *Robert L.\nShurter* | PROFESSOR OF ENGLISH AND DIRECTOR OF THE | DIVISION OF\nHUMANITIES AND SOCIAL STUDIES | CASE INSTITUTE OF TECHNOLOGY |\n\\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/E5.webp'>torchbearer E5</uvalib-modal-image-button>\\] | THE MODERN LIBRARY · NEW YORK\n\nPp. \\[i–iv\\] v–xxvi, \\[*2*\\], \\[1\\] 2–276. \\[1–8\\]<sup>16</sup>\n\\[9\\]<sup>8</sup> \\[10\\]<sup>16</sup>\n\nContents as 357a except: \\[i\\] half title; \\[ii\\] blank; \\[iii\\] title;\n\\[iv\\] *Copyright, 1887, by Ticknor and Company* | *Copyright, 1889, by\nEdward Bellamy* | *Copyright, 1915 and 1917, by Emma S. Bellamy* |\n*Copyright, 1951, by Random House, Inc.*; v–xxi INTRODUCTION | BY ROBERT\nL. SHURTER; xxii–xxiii BIBLIOGRAPHY; \\[xxiv\\] blank; xxv–xxvi AUTHOR’S\nPREFACE; \\[*1*\\] fly title; \\[*2*\\] blank. *Note:* Chapter headings lack\nthe row ornaments found in 357a.\n\n*Jacket A2:* As 357a with “INTRODUCTION BY HEYWOOD BROUN” removed from\nfront panel. (*Fall 1951*) Front flap reset in sans-serif type with text\nas 357a and outdated information “Introduction by | Heywood Broun” added\nbetween the author and the flap text. (*Spring 1954*)\n\nPublished initially in MLCE and shortly thereafter in the regular ML.\nShurter received $150 for the new introduction.",
+  "full": "\n\n\\[3-line title within left and right brackets\\] LOOKING | BACKWARD |\n2000–1887 | *by Edward Bellamy* | WITH AN INTRODUCTION BY | *Robert L.\nShurter* | PROFESSOR OF ENGLISH AND DIRECTOR OF THE | DIVISION OF\nHUMANITIES AND SOCIAL STUDIES | CASE INSTITUTE OF TECHNOLOGY |\n\\[torchbearer E5\\] | THE MODERN LIBRARY · NEW YORK\n\nPp. \\[i–iv\\] v–xxvi, \\[*2*\\], \\[1\\] 2–276. \\[1–8\\]<sup>16</sup>\n\\[9\\]<sup>8</sup> \\[10\\]<sup>16</sup>\n\nContents as 357a except: \\[i\\] half title; \\[ii\\] blank; \\[iii\\] title;\n\\[iv\\] *Copyright, 1887, by Ticknor and Company* | *Copyright, 1889, by\nEdward Bellamy* | *Copyright, 1915 and 1917, by Emma S. Bellamy* |\n*Copyright, 1951, by Random House, Inc.*; v–xxi INTRODUCTION | BY ROBERT\nL. SHURTER; xxii–xxiii BIBLIOGRAPHY; \\[xxiv\\] blank; xxv–xxvi AUTHOR’S\nPREFACE; \\[*1*\\] fly title; \\[*2*\\] blank. *Note:* Chapter headings lack\nthe row ornaments found in 357a.\n\n*Jacket A2:* As 357a with “INTRODUCTION BY HEYWOOD BROUN” removed from\nfront panel. (*Fall 1951*) Front flap reset in sans-serif type with text\nas 357a and outdated information “Introduction by | Heywood Broun” added\nbetween the author and the flap text. (*Spring 1954*)\n\nPublished initially in MLCE and shortly thereafter in the regular ML.\nShurter received $150 for the new introduction.",
   "year": "1942",
   "book": "357"
 }</pre></sl-details>
 
-<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script></div>
+<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1812,7 +1848,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

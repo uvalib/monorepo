@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -36,7 +71,7 @@
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/book/360.html">360</sl-breadcrumb-item>
 </sl-breadcrumb>
 
-<div class="md-block"><p><strong>DAPHNE DU MAURIER. REBECCA. 1943–1971. (ML 227)</strong></p>
+<p><strong>DAPHNE DU MAURIER. REBECCA. 1943–1971. (ML 227)</strong></p>
 <h4>360.1. First printing (1943)</h4>
 <p>Rebecca | BY | DAPHNE DU MAURIER | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D3.webp'>torchbearer D3</uvalib-modal-image-button>] | [rule] | THE
 MODERN LIBRARY · NEW YORK | [rule]</p>
@@ -71,7 +106,7 @@ motion picture. (<em>Spring 1943</em>)</p>
 (360.1, pp. [<em>7</em>], [1]–457) printed from Doubleday, Doran plates.
 Published February 1943. <em>WR</em> 13 March 1943. Discontinued 1971/72.</p>
 <p>The ML edition sold 4,592 copies by 1 November 1943.</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1800,7 +1835,7 @@ Published February 1943. <em>WR</em> 13 March 1943. Discontinued 1971/72.</p>
 </elix-carousel-with-thumbnails>
 
 <sl-details summary="book"><pre>{
-  "full": "**DAPHNE DU MAURIER. REBECCA. 1943–1971. (ML 227)**\n\n#### 360.1. First printing (1943)\n\nRebecca | BY | DAPHNE DU MAURIER | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D3.webp'>torchbearer D3</uvalib-modal-image-button>\\] | \\[rule\\] | THE\nMODERN LIBRARY · NEW YORK | \\[rule\\]\n\nPp. \\[*8*\\], \\[1\\] 2–457 \\[458–464\\]. \\[1–14\\]<sup>16</sup>\n\\[15\\]<sup>8</sup> \\[16\\]<sup>4</sup>\n\n\\[*1*\\] half title; \\[*2*\\] blank; \\[*3*\\] title; \\[*4*\\] COPYRIGHT,\n1938, BY DAPHNE DU MAURIER BROWNING | *All Rights Reserved* | FIRST\n*Modern Library* EDITION, 1943; \\[*5*\\] biographical note; \\[*6*\\]\nblank; \\[*7*\\] fly title; \\[*8*\\] blank; \\[1\\]–457 text; \\[458\\] blank;\n\\[459–463\\] ML list; \\[464\\] blank. (*Spring 1943*)\n\n*Jacket:* Pictorial in strong purplish red (255), yellowish gray (93),\nlight gray (264), dark gray (266), moderate yellow (87) and black on\ncoated white paper depicting a woman in gray and black with face and\nhands in moderate yellow holding a key; background in black with a\nsuggestion of flames at lower left in deep purplish red, title in gray\nat top, author in black and series in reverse on deep purplish red\nbackground at foot. Signed: EMcKK \\[E. McKnight Kauffer\\].\n\n> Front flap:<br>\n> For sheer entertainment, there are few romances comparable to Daphne\n> du Maurier’s *Rebecca*. Written with a deep intensity of emotion, it\n> carries the reader headlong in its current to its final dramatic\n> climax. The spirit of the dead mistress of Manderley hovers over the\n> story, dominating the living until, in the end, her sinister spell is\n> broken forever. As a novel, *Rebecca* won the immediate favor of the\n> reading public and maintained a leading place on the best-seller lists\n> for several seasons. On the screen, it shattered all existing records\n> for popularity and won almost every award which can be given to a\n> motion picture. (*Spring 1943*)\n\nOriginally published in U.S. by Doubleday, Doran & Co., 1938. ML edition\n(360.1, pp. \\[*7*\\], \\[1\\]–457) printed from Doubleday, Doran plates.\nPublished February 1943. *WR* 13 March 1943. Discontinued 1971/72.\n\nThe ML edition sold 4,592 copies by 1 November 1943.",
+  "full": "**DAPHNE DU MAURIER. REBECCA. 1943–1971. (ML 227)**\n\n#### 360.1. First printing (1943)\n\nRebecca | BY | DAPHNE DU MAURIER | \\[torchbearer D3\\] | \\[rule\\] | THE\nMODERN LIBRARY · NEW YORK | \\[rule\\]\n\nPp. \\[*8*\\], \\[1\\] 2–457 \\[458–464\\]. \\[1–14\\]<sup>16</sup>\n\\[15\\]<sup>8</sup> \\[16\\]<sup>4</sup>\n\n\\[*1*\\] half title; \\[*2*\\] blank; \\[*3*\\] title; \\[*4*\\] COPYRIGHT,\n1938, BY DAPHNE DU MAURIER BROWNING | *All Rights Reserved* | FIRST\n*Modern Library* EDITION, 1943; \\[*5*\\] biographical note; \\[*6*\\]\nblank; \\[*7*\\] fly title; \\[*8*\\] blank; \\[1\\]–457 text; \\[458\\] blank;\n\\[459–463\\] ML list; \\[464\\] blank. (*Spring 1943*)\n\n*Jacket:* Pictorial in strong purplish red (255), yellowish gray (93),\nlight gray (264), dark gray (266), moderate yellow (87) and black on\ncoated white paper depicting a woman in gray and black with face and\nhands in moderate yellow holding a key; background in black with a\nsuggestion of flames at lower left in deep purplish red, title in gray\nat top, author in black and series in reverse on deep purplish red\nbackground at foot. Signed: EMcKK \\[E. McKnight Kauffer\\].\n\n> Front flap:<br>\n> For sheer entertainment, there are few romances comparable to Daphne\n> du Maurier’s *Rebecca*. Written with a deep intensity of emotion, it\n> carries the reader headlong in its current to its final dramatic\n> climax. The spirit of the dead mistress of Manderley hovers over the\n> story, dominating the living until, in the end, her sinister spell is\n> broken forever. As a novel, *Rebecca* won the immediate favor of the\n> reading public and maintained a leading place on the best-seller lists\n> for several seasons. On the screen, it shattered all existing records\n> for popularity and won almost every award which can be given to a\n> motion picture. (*Spring 1943*)\n\nOriginally published in U.S. by Doubleday, Doran & Co., 1938. ML edition\n(360.1, pp. \\[*7*\\], \\[1\\]–457) printed from Doubleday, Doran plates.\nPublished February 1943. *WR* 13 March 1943. Discontinued 1971/72.\n\nThe ML edition sold 4,592 copies by 1 November 1943.",
   "id": "360",
   "year": "1943",
   "title": "DAPHNE DU MAURIER. REBECCA. 1943–1971. (ML 227)",
@@ -1808,7 +1843,8 @@ Published February 1943. <em>WR</em> 13 March 1943. Discontinued 1971/72.</p>
 }</pre></sl-details>
 
 <script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
-</div>
+
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1827,7 +1863,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

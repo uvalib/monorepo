@@ -2,7 +2,7 @@
 layout: page-layout.njk
 permalink: "datingKey.html"
 ---
-**DATING KEY TO MODERN LIBRARY LISTS AND JACKETS**
+## DATING KEY TO MODERN LIBRARY LISTS AND JACKETS
 
 This dating key can be used to date Modern Library books and jackets on
 the basis of Modern Library lists that appear at the end of many of the

@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -39,7 +74,7 @@
 
 <h1>156b</h1>
 <h2>Title page reset (c. 1941)</h2>
-<div class="md-block"><p><em>A Portrait of the Artist</em> | <em>As a Young Man</em> | BY JAMES JOYCE |
+<p><em>A Portrait of the Artist</em> | <em>As a Young Man</em> | BY JAMES JOYCE |
 <em>Introduction by</em> HERBERT GORMAN | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D1.webp'>torchbearer D1</uvalib-modal-image-button> at right; 3-line
 imprint at left] THE | MODERN LIBRARY | NEW YORK | [rule]</p>
 <p>Pagination and collation as 156a.</p>
@@ -62,7 +97,7 @@ band. Front flap as 156a. (<em>Spring 1954</em>)</p>
 <p><span class="smallcaps">Also in the Modern Library</span></p>
 <p>Joyce, <em>Dubliners</em> (1926– ) 129</p>
 <p>Joyce, <em>Ulysses</em> (Giant, 1940– ) G50</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1793,12 +1828,13 @@ band. Front flap as 156a. (<em>Spring 1954</em>)</p>
 <sl-details summary="revision"><pre>{
   "id": "156b",
   "title": "Title page reset (c. 1941)",
-  "full": "\n\n*A Portrait of the Artist* | *As a Young Man* | BY JAMES JOYCE |\n*Introduction by* HERBERT GORMAN | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D1.webp'>torchbearer D1</uvalib-modal-image-button> at right; 3-line\nimprint at left\\] THE | MODERN LIBRARY | NEW YORK | \\[rule\\]\n\nPagination and collation as 156a.\n\nContents as 156a except: \\[ii\\] blank; \\[iv\\] COPYRIGHT, 1916, BY B. W.\nHUEBSCH | INTRODUCTION COPYRIGHT, 1928, | BY THE MODERN LIBRARY, INC.;\n\\[301–306\\] ML list. (*Fall 1944*)\n\n> *Variant:* Pagination, collation and contents as 156b except: \\[iv\\]\n> second line added: COPYRIGHT, RENEWED, 1944, BY NORA JOYCE. (*Fall\n> 1955*)\n\n*Jacket A:* Non-pictorial in dark red (16) and black on cream paper;\ntitle in black on cream panel at top, other lettering in reverse or\nblack on dark red panel at foot. Front flap as 156a. Designed by Joseph\nBlumenthal. (*Fall 1944*)\n\n*Jacket B:* Non-pictorial in dark yellow (88), moderate bluish green\n(164) and black on coated white paper with lettering in black against\ndark yellow background except author in reverse on moderate bluish green\nband. Front flap as 156a. (*Spring 1954*)\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\nJoyce, *Dubliners* (1926– ) 129\n\nJoyce, *Ulysses* (Giant, 1940– ) G50",
+  "full": "\n\n*A Portrait of the Artist* | *As a Young Man* | BY JAMES JOYCE |\n*Introduction by* HERBERT GORMAN | \\[torchbearer D1 at right; 3-line\nimprint at left\\] THE | MODERN LIBRARY | NEW YORK | \\[rule\\]\n\nPagination and collation as 156a.\n\nContents as 156a except: \\[ii\\] blank; \\[iv\\] COPYRIGHT, 1916, BY B. W.\nHUEBSCH | INTRODUCTION COPYRIGHT, 1928, | BY THE MODERN LIBRARY, INC.;\n\\[301–306\\] ML list. (*Fall 1944*)\n\n> *Variant:* Pagination, collation and contents as 156b except: \\[iv\\]\n> second line added: COPYRIGHT, RENEWED, 1944, BY NORA JOYCE. (*Fall\n> 1955*)\n\n*Jacket A:* Non-pictorial in dark red (16) and black on cream paper;\ntitle in black on cream panel at top, other lettering in reverse or\nblack on dark red panel at foot. Front flap as 156a. Designed by Joseph\nBlumenthal. (*Fall 1944*)\n\n*Jacket B:* Non-pictorial in dark yellow (88), moderate bluish green\n(164) and black on coated white paper with lettering in black against\ndark yellow background except author in reverse on moderate bluish green\nband. Front flap as 156a. (*Spring 1954*)\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\nJoyce, *Dubliners* (1926– ) 129\n\nJoyce, *Ulysses* (Giant, 1940– ) G50",
   "year": "1928",
   "book": "156"
 }</pre></sl-details>
 
-<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script></div>
+<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1817,7 +1853,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

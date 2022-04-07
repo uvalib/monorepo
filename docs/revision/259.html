@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -39,7 +74,7 @@
 
 <h1>259</h1>
 <h2>First printing (1933)</h2>
-<div class="md-block"><p>[within double rules] VILE BODIES | [rule] | BY | EVELYN WAUGH |
+<p>[within double rules] VILE BODIES | [rule] | BY | EVELYN WAUGH |
 [rule] | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer A2</uvalib-modal-image-button>] | [rule] | BENNETT A. CERF · DONALD S.
 KLOPFER | THE MODERN LIBRARY | NEW YORK</p>
 <p>Pp. [i–viii] ix–x, 1–321 [322–326]. [1–10]<sup>16</sup>
@@ -70,7 +105,7 @@ expect they did, either. <em>Vile Bodies</em> limped along in the series until
 1940, when the decision to drop it could be put off no longer. Over
 thirty-five years later Klopfer still recalled how they hated to let it
 go (Klopfer, interview with GBN, 1 June 1977).</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1799,12 +1834,13 @@ go (Klopfer, interview with GBN, 1 June 1977).</p>
 <sl-details summary="revision"><pre>{
   "id": "259",
   "title": "First printing (1933)",
-  "full": "\n\n\\[within double rules\\] VILE BODIES | \\[rule\\] | BY | EVELYN WAUGH |\n\\[rule\\] | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer A2</uvalib-modal-image-button>\\] | \\[rule\\] | BENNETT A. CERF · DONALD S.\nKLOPFER | THE MODERN LIBRARY | NEW YORK\n\nPp. \\[i–viii\\] ix–x, 1–321 \\[322–326\\]. \\[1–10\\]<sup>16</sup>\n\\[11\\]<sup>8</sup>\n\n\\[i\\] half title; \\[ii\\] pub. note D12; \\[iii\\] title; \\[iv\\]\n*Copyright,* 1930, *by* EVELYN WAUGH | \\[short double rule\\] | *First\nModern Library Edition* | 1933 | \\[short double rule\\]; \\[v\\]\ndedication; \\[vi\\] blank; \\[vii\\] epigraphs from *Alice Through the\nLooking Glass*; \\[viii\\] blank; ix–x AUTHOR’S NOTE signed p. x: E. W.;\n1–321 text; \\[322–326\\] blank.\n\n*Jacket:* Pictorial in strong purple (218) and black on cream paper\ndepicting a couple in formal wear on a checkered dance floor viewed from\nthe rear and surrounded by cocktail glasses, streamers, and a musical\nnote; borders in strong purple, lettering in black. Signed: Brienza.\n(*Fall 1933*)\n\nOriginally published in U.S. by Jonathan Cape and Harrison Smith, 1930;\npublishing rights and plates subsequently acquired by Farrar and\nRinehart. ML edition (pp. \\[v\\]–321) printed from Cape and Smith/Farrar\nand Rinehart plates. Published July 1933. *WR* 12 August 1933. First\nprinting: 5,000 copies. Discontinued 1 January 1941.\n\nThe ML’s announcement of its 1933 list stated: “The publication of this\nbook just after *Vanity Fair* and just before *Jane Eyre* is a\ndeliberate move to emphasize the scope and range of the Modern Library\nseries” (*PW*, 14 January 1933, p. 98).\n\nJames Crowder, the ML’s senior sales representative, told Cerf and\nKlopfer that he didn’t expect *Vile Bodies* would sell well—and didn’t\nexpect they did, either. *Vile Bodies* limped along in the series until\n1940, when the decision to drop it could be put off no longer. Over\nthirty-five years later Klopfer still recalled how they hated to let it\ngo (Klopfer, interview with GBN, 1 June 1977).",
+  "full": "\n\n\\[within double rules\\] VILE BODIES | \\[rule\\] | BY | EVELYN WAUGH |\n\\[rule\\] | \\[torchbearer A2\\] | \\[rule\\] | BENNETT A. CERF · DONALD S.\nKLOPFER | THE MODERN LIBRARY | NEW YORK\n\nPp. \\[i–viii\\] ix–x, 1–321 \\[322–326\\]. \\[1–10\\]<sup>16</sup>\n\\[11\\]<sup>8</sup>\n\n\\[i\\] half title; \\[ii\\] pub. note D12; \\[iii\\] title; \\[iv\\]\n*Copyright,* 1930, *by* EVELYN WAUGH | \\[short double rule\\] | *First\nModern Library Edition* | 1933 | \\[short double rule\\]; \\[v\\]\ndedication; \\[vi\\] blank; \\[vii\\] epigraphs from *Alice Through the\nLooking Glass*; \\[viii\\] blank; ix–x AUTHOR’S NOTE signed p. x: E. W.;\n1–321 text; \\[322–326\\] blank.\n\n*Jacket:* Pictorial in strong purple (218) and black on cream paper\ndepicting a couple in formal wear on a checkered dance floor viewed from\nthe rear and surrounded by cocktail glasses, streamers, and a musical\nnote; borders in strong purple, lettering in black. Signed: Brienza.\n(*Fall 1933*)\n\nOriginally published in U.S. by Jonathan Cape and Harrison Smith, 1930;\npublishing rights and plates subsequently acquired by Farrar and\nRinehart. ML edition (pp. \\[v\\]–321) printed from Cape and Smith/Farrar\nand Rinehart plates. Published July 1933. *WR* 12 August 1933. First\nprinting: 5,000 copies. Discontinued 1 January 1941.\n\nThe ML’s announcement of its 1933 list stated: “The publication of this\nbook just after *Vanity Fair* and just before *Jane Eyre* is a\ndeliberate move to emphasize the scope and range of the Modern Library\nseries” (*PW*, 14 January 1933, p. 98).\n\nJames Crowder, the ML’s senior sales representative, told Cerf and\nKlopfer that he didn’t expect *Vile Bodies* would sell well—and didn’t\nexpect they did, either. *Vile Bodies* limped along in the series until\n1940, when the decision to drop it could be put off no longer. Over\nthirty-five years later Klopfer still recalled how they hated to let it\ngo (Klopfer, interview with GBN, 1 June 1977).",
   "year": "1933",
   "book": "259"
 }</pre></sl-details>
 
-<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script></div>
+<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1823,7 +1859,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -36,7 +71,7 @@
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/book/140.html">140</sl-breadcrumb-item>
 </sl-breadcrumb>
 
-<div class="md-block"><p>*<strong>LAFCADIO HEARN. SOME CHINESE GHOSTS. 1927–1938. (ML 130)</strong></p>
+<p>*<strong>LAFCADIO HEARN. SOME CHINESE GHOSTS. 1927–1938. (ML 130)</strong></p>
 <h4>140. First printing (1927)</h4>
 <p>[within double rules] SOME CHINESE | GHOSTS | [rule] | BY | LAFCADIO
 HEARN | [rule] | INTRODUCTION BY | MANUEL KOMROFF | [rule] |
@@ -107,7 +142,7 @@ January–June 1928, placing it ninety-ninth out of 147 ML titles.</p>
 <p>There was a final printing of jacket B in spring 1939 after the ML
 edition was discontinued. Most of the spring 1939 jackets are stamped
 “DISCONTINUED TITLE” and were used on copies sold as remainders.</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1838,7 +1873,7 @@ edition was discontinued. Most of the spring 1939 jackets are stamped
 </elix-carousel-with-thumbnails>
 
 <sl-details summary="book"><pre>{
-  "full": "***LAFCADIO HEARN. SOME CHINESE GHOSTS. 1927–1938. (ML 130)**\n\n#### 140. First printing (1927)\n\n\\[within double rules\\] SOME CHINESE | GHOSTS | \\[rule\\] | BY | LAFCADIO\nHEARN | \\[rule\\] | INTRODUCTION BY | MANUEL KOMROFF | \\[rule\\] |\n\\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer A2</uvalib-modal-image-button>\\] | \\[rule\\] | THE MODERN LIBRARY | PUBLISHERS : NEW\nYORK\n\nPp. \\[*6*\\], i–ix \\[x\\], \\[7–13\\] 14–203 \\[204–206\\].\n\\[1–6\\]<sup>16</sup> \\[7\\]<sup>12</sup>\n\n\\[*1*\\] half title; \\[*2*\\] pub. note D5; \\[*3*\\] title; \\[*4*\\]\n*Copyright,* 1887, by | ROBERTS BROTHERS | \\[short double rule\\] |\n*Introduction Copyright,* 1927, *by* | THE MODERN LIBRARY, INC. |\n\\[short double rule\\] | *First Modern Library Edition* | 1927; \\[*5*\\]\ndedication; \\[*6*\\] Chinese ideogram; i–ix INTRODUCTION signed p. ix:\nMANUEL KOMROFF | <span class=\"smallcaps\">New York</span>, | *March,*\n1927.; \\[x\\] blank; \\[7–8\\] *PREFACE* signed p. \\[8\\]: L. H. | <span\nclass=\"smallcaps\">New Orleans</span>, March 15, 1886.; \\[9\\] *CONTENTS*;\n\\[10\\] line drawing of face; \\[11\\] part title: The Soul of the Great\nBell; \\[12\\] epigraph signed: <span\nclass=\"smallcaps\">Hao-Khieou-Tchouan</span>: c. ix.; \\[13\\]–174 text;\n\\[175\\] part title: Notes; \\[176\\] blank; \\[177\\]–183 NOTES; \\[184\\]\nblank; \\[185\\] part title: Glossary; \\[186\\] Chinese ideogram;\n\\[187\\]–203 GLOSSARY; \\[204–206\\] blank. *Note:* The part title “Notes”\non p. 175 is printed from badly worn type.\n\n> *Variant:* Pagination and collation as 140. Contents as 140 except:\n> \\[*4*\\] *First* statement omitted; \\[175\\] part title: NOTES (*Balloon\n> cloth binding with* *fall 1930 jacket)*\n\n*Jacket A:* Uniform typographic jacket B.\n\n> Text on front:<br>\n> Lafcadio Hearn was one of the very few white men who ever entered with\n> real sympathy into the viewpoint of the East. As much as it was\n> possible for an alien to do, he lived the actual daily life of an\n> Oriental. His writing about the East has, in consequence, a peculiarly\n> authoritative note.\n>\n> “In preparing this volume”, he writes, “I sought especially to\n> incorporate in it some of the weird beauty of the Chinese\n> legend. . . . The humble traveler enters wonderingly into the vast and\n> mysterious pleasure-grounds of Chinese fancy, and culls a few of the\n> marvellous flowers there growing—a self-luminous hwa-wang, a black\n> lily, a phosphoric rose or two—as souvenirs of his curious voyage”.\n> (*Spring 1927*)\n\n*Jacket B:* Uniform typographic jacket D. (*Fall 1930*)\n\n> Front flap:<br>\n> Nowhere is Lafcadio Hearn’s love for the mystical and his intimacy\n> with the weird and unseen so vividly realized as in this volume of\n> Chinese tales of the supernatural. These legendary stories haunt the\n> reader as much for their fragrant prose as for their subtle and\n> pervasive power. The unreal takes on reality and the magical becomes\n> plain by the wizardry of the Greek-Irish writer who found his\n> spiritual home and last resting-place in the Orient. (*Spring 1934*)\n\nOriginally published by Roberts Brothers, 1887. New bibliographical\nedition published by Little, Brown & Co., 1906. Little, Brown edition\npaginated \\[i–vii\\] viii \\[ix–x\\] \\[11–13\\] 14–203 \\[204\\]. ML edition\n(pp. \\[*5–6*\\], \\[7\\]–203) printed from Little, Brown plates with page\nnumeral “viii” removed from second page of Hearn’s preface. Published\nMay 1927. *WR* 28 May 1927. First printing: 6,000 copies. Discontinued 1\nJanuary 1939.\n\nThe ML paid Little, Brown royalties of 7 cents a copy. Initial sales\nwere good and a second printing of 3,000 copies was made in December\n1927. The third and fourth printings for 1,000 copies each were\ncompleted in December 1930 and November 1931.\n\n*Some Chinese Ghosts* sold 1,119 copies during the six-month period\nJanuary–June 1928, placing it ninety-ninth out of 147 ML titles.\n\nThere was a final printing of jacket B in spring 1939 after the ML\nedition was discontinued. Most of the spring 1939 jackets are stamped\n“DISCONTINUED TITLE” and were used on copies sold as remainders.",
+  "full": "***LAFCADIO HEARN. SOME CHINESE GHOSTS. 1927–1938. (ML 130)**\n\n#### 140. First printing (1927)\n\n\\[within double rules\\] SOME CHINESE | GHOSTS | \\[rule\\] | BY | LAFCADIO\nHEARN | \\[rule\\] | INTRODUCTION BY | MANUEL KOMROFF | \\[rule\\] |\n\\[torchbearer A2\\] | \\[rule\\] | THE MODERN LIBRARY | PUBLISHERS : NEW\nYORK\n\nPp. \\[*6*\\], i–ix \\[x\\], \\[7–13\\] 14–203 \\[204–206\\].\n\\[1–6\\]<sup>16</sup> \\[7\\]<sup>12</sup>\n\n\\[*1*\\] half title; \\[*2*\\] pub. note D5; \\[*3*\\] title; \\[*4*\\]\n*Copyright,* 1887, by | ROBERTS BROTHERS | \\[short double rule\\] |\n*Introduction Copyright,* 1927, *by* | THE MODERN LIBRARY, INC. |\n\\[short double rule\\] | *First Modern Library Edition* | 1927; \\[*5*\\]\ndedication; \\[*6*\\] Chinese ideogram; i–ix INTRODUCTION signed p. ix:\nMANUEL KOMROFF | <span class=\"smallcaps\">New York</span>, | *March,*\n1927.; \\[x\\] blank; \\[7–8\\] *PREFACE* signed p. \\[8\\]: L. H. | <span\nclass=\"smallcaps\">New Orleans</span>, March 15, 1886.; \\[9\\] *CONTENTS*;\n\\[10\\] line drawing of face; \\[11\\] part title: The Soul of the Great\nBell; \\[12\\] epigraph signed: <span\nclass=\"smallcaps\">Hao-Khieou-Tchouan</span>: c. ix.; \\[13\\]–174 text;\n\\[175\\] part title: Notes; \\[176\\] blank; \\[177\\]–183 NOTES; \\[184\\]\nblank; \\[185\\] part title: Glossary; \\[186\\] Chinese ideogram;\n\\[187\\]–203 GLOSSARY; \\[204–206\\] blank. *Note:* The part title “Notes”\non p. 175 is printed from badly worn type.\n\n> *Variant:* Pagination and collation as 140. Contents as 140 except:\n> \\[*4*\\] *First* statement omitted; \\[175\\] part title: NOTES (*Balloon\n> cloth binding with* *fall 1930 jacket)*\n\n*Jacket A:* Uniform typographic jacket B.\n\n> Text on front:<br>\n> Lafcadio Hearn was one of the very few white men who ever entered with\n> real sympathy into the viewpoint of the East. As much as it was\n> possible for an alien to do, he lived the actual daily life of an\n> Oriental. His writing about the East has, in consequence, a peculiarly\n> authoritative note.\n>\n> “In preparing this volume”, he writes, “I sought especially to\n> incorporate in it some of the weird beauty of the Chinese\n> legend. . . . The humble traveler enters wonderingly into the vast and\n> mysterious pleasure-grounds of Chinese fancy, and culls a few of the\n> marvellous flowers there growing—a self-luminous hwa-wang, a black\n> lily, a phosphoric rose or two—as souvenirs of his curious voyage”.\n> (*Spring 1927*)\n\n*Jacket B:* Uniform typographic jacket D. (*Fall 1930*)\n\n> Front flap:<br>\n> Nowhere is Lafcadio Hearn’s love for the mystical and his intimacy\n> with the weird and unseen so vividly realized as in this volume of\n> Chinese tales of the supernatural. These legendary stories haunt the\n> reader as much for their fragrant prose as for their subtle and\n> pervasive power. The unreal takes on reality and the magical becomes\n> plain by the wizardry of the Greek-Irish writer who found his\n> spiritual home and last resting-place in the Orient. (*Spring 1934*)\n\nOriginally published by Roberts Brothers, 1887. New bibliographical\nedition published by Little, Brown & Co., 1906. Little, Brown edition\npaginated \\[i–vii\\] viii \\[ix–x\\] \\[11–13\\] 14–203 \\[204\\]. ML edition\n(pp. \\[*5–6*\\], \\[7\\]–203) printed from Little, Brown plates with page\nnumeral “viii” removed from second page of Hearn’s preface. Published\nMay 1927. *WR* 28 May 1927. First printing: 6,000 copies. Discontinued 1\nJanuary 1939.\n\nThe ML paid Little, Brown royalties of 7 cents a copy. Initial sales\nwere good and a second printing of 3,000 copies was made in December\n1927. The third and fourth printings for 1,000 copies each were\ncompleted in December 1930 and November 1931.\n\n*Some Chinese Ghosts* sold 1,119 copies during the six-month period\nJanuary–June 1928, placing it ninety-ninth out of 147 ML titles.\n\nThere was a final printing of jacket B in spring 1939 after the ML\nedition was discontinued. Most of the spring 1939 jackets are stamped\n“DISCONTINUED TITLE” and were used on copies sold as remainders.",
   "id": "140",
   "year": "1927",
   "title": "LAFCADIO HEARN. SOME CHINESE GHOSTS. 1927–1938. (ML 130)",
@@ -1846,7 +1881,8 @@ edition was discontinued. Most of the spring 1939 jackets are stamped
 }</pre></sl-details>
 
 <script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
-</div>
+
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1865,7 +1901,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

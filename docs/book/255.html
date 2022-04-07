@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -36,8 +71,8 @@
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/book/255.html">255</sl-breadcrumb-item>
 </sl-breadcrumb>
 
-<div class="md-block"><p><strong>EMIL LUDWIG. NAPOLEON. 1933–1970. (ML 95)</strong></p>
-<h4>255a. First printing (1933)</h4>
+<p><strong>EMIL LUDWIG. NAPOLEON. 1933–1970. (ML 95)</strong></p>
+<h4><a href='/revision/255a.html'>255a. First printing (1933)</a></h4>
 <p>[within double rules] NAPOLEON | [rule] | BY | EMIL LUDWIG |
 [rule] | TRANSLATED BY | EDEN AND CEDAR PAUL | [rule] |
 [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A7.webp'>torchbearer A7</uvalib-modal-image-button>] | [rule] | BENNETT A. CERF · DONALD S. KLOPFER |
@@ -76,7 +111,7 @@ ascertained. Discontinued 1970/71.</p>
 and Giant titles. It did not rank among the 100 best-selling titles in
 the regular ML during the twelve-month period November 1951–October
 1952.</p>
-<h4>255b. Title page reset (c. 1940)</h4>
+<h4><a href='/revision/255b.html'>255b. Title page reset (c. 1940)</a></h4>
 <p>[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D5.webp'>torchbearer D5</uvalib-modal-image-button>] | [5-line title and statement of responsibility
 within single rules] | <em>Napoleon</em> | BY | EMIL LUDWIG | TRANSLATED BY |
 EDEN AND CEDAR PAUL | [below frame] MODERN LIBRARY · NEW YORK</p>
@@ -102,7 +137,7 @@ flap as 255a. (<em>Spring 1941</em>)</p>
 stakes; it is a story as vivid and as stirring as Napoleon’s victories
 and ultimate humiliation. (<em>Fall 1953</em>)</p>
 </blockquote>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1833,7 +1868,7 @@ and ultimate humiliation. (<em>Fall 1953</em>)</p>
 </elix-carousel-with-thumbnails>
 
 <sl-details summary="book"><pre>{
-  "full": "**EMIL LUDWIG. NAPOLEON. 1933–1970. (ML 95)**\n\n#### 255a. First printing (1933)\n\n\\[within double rules\\] NAPOLEON | \\[rule\\] | BY | EMIL LUDWIG |\n\\[rule\\] | TRANSLATED BY | EDEN AND CEDAR PAUL | \\[rule\\] |\n\\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A7.webp'>torchbearer A7</uvalib-modal-image-button>\\] | \\[rule\\] | BENNETT A. CERF · DONALD S. KLOPFER |\nTHE MODERN LIBRARY | NEW YORK\n\nPp. \\[i–viii\\] ix–xi \\[xii\\], \\[*2*\\], \\[1\\] 2–703 \\[704–706\\].\n\\[1–21\\]<sup>16</sup> \\[22\\]<sup>8</sup> \\[23\\]<sup>16</sup>\n\n\\[i\\] half title; \\[ii\\] blank; \\[iii\\] title; \\[iv\\] *Copyright*,\n*1915* \\[*sic*\\], *by* BONI & LIVERIGHT, INC. | \\[short double rule\\] |\n*First* MODERN LIBRARY *Edition* | 1933; \\[v\\] dedication; \\[vi\\] blank;\n\\[vii\\] TABLE OF CONTENTS; \\[viii\\] blank; ix–xi CHRONOLOGICAL TABLE;\n\\[xii\\] blank; \\[*1*\\] fly title; \\[*2*\\] blank; \\[1\\]–682 text; 683\nAUTHOR’S ACKNOWLEDGMENTS; \\[684\\] blank; 685–703 INDEX; \\[704–706\\]\nblank.\n\n*Jacket:* Pictorial in moderate blue (182) and black on cream paper\ndepicting Napoleon with flag and cannon in background; borders in\nmoderate blue, lettering in black. Signed: AH. (*Spring 1933*)\n\n> Front flap:<br>\n> Of the vast library of books devoted to the deeds and personality of\n> Napoleon Bonaparte, none has had such an immense popular success as\n> Emil Ludwig’s vibrant biography. The reason is not far to seek. Upon\n> the framework of historical fact, Ludwig has re-created the whole\n> miraculous cycle of Napoleon’s life and has imbued it with the passion\n> and imagination that motivated the career of the little Corsican. It\n> is a book of courage and violence, as vivid and as stirring as\n> Napoleon’s victories and ultimate humiliation. (*Spring 1939*)\n\nEden and Cedar Paul translation originally published in U.S. by Boni &\nLiveright, 1926. ML edition printed from Liveright plates made from a\nnew typesetting which appear to have been used exclusively by the ML.\nPublished March 1933. *WR* 25 March 1933. First printing: Not\nascertained. Discontinued 1970/71.\n\nThe original B&L plates were too large for the ML’s format.\n\n*Napoleon* sold 7,309 copies during the eighteen-month period May\n1942–October 1943, placing it near the top of the second quarter of ML\nand Giant titles. It did not rank among the 100 best-selling titles in\nthe regular ML during the twelve-month period November 1951–October\n1952.\n\n#### 255b. Title page reset (c. 1940)\n\n\\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D5.webp'>torchbearer D5</uvalib-modal-image-button>\\] | \\[5-line title and statement of responsibility\nwithin single rules\\] | *Napoleon* | BY | EMIL LUDWIG | TRANSLATED BY |\nEDEN AND CEDAR PAUL | \\[below frame\\] MODERN LIBRARY · NEW YORK\n\nPagination and collation as 255a.\n\nContents as 255a except: \\[iv\\] COPYRIGHT, 1915 \\[*sic*\\], BY BONI &\nLIVERIGHT, INC.\n\n> *Variant:* Pagination as 255a. \\[1\\]<sup>16</sup>\n> \\[2–10\\]<sup>32</sup> \\[11\\]<sup>8</sup> \\[12\\]<sup>32</sup>\n> \\[13\\]<sup>16</sup>. Contents as 255b except: \\[iv\\] COPYRIGHT,\n> RENEWED, 1953 | BY LIVERIGHT PUBLISHING CORP.; \\[704\\] blank;\n> \\[704–706\\] ML Giants list. (*Spring 1959*)\n\n*Jacket:* Pictorial in deep reddish orange (36), bluish gray (191), dark\nyellow (88) and black on coated white paper depicting Napoleon’s hat,\nsword and deep reddish orange ribbon against left profile of Napoleon in\nbluish gray; all against white background with author in black, title in\ndeep reddish orange, and series in bluish gray. Signed: illegible. Front\nflap as 255a. (*Spring 1941*)\n\nFront flap reset with last sentence revised as follows:\n\n> It is a book of courage and violence and adventures for enormous\n> stakes; it is a story as vivid and as stirring as Napoleon’s victories\n> and ultimate humiliation. (*Fall 1953*)",
+  "full": "**EMIL LUDWIG. NAPOLEON. 1933–1970. (ML 95)**\n\n#### 255a. First printing (1933)\n\n\\[within double rules\\] NAPOLEON | \\[rule\\] | BY | EMIL LUDWIG |\n\\[rule\\] | TRANSLATED BY | EDEN AND CEDAR PAUL | \\[rule\\] |\n\\[torchbearer A7\\] | \\[rule\\] | BENNETT A. CERF · DONALD S. KLOPFER |\nTHE MODERN LIBRARY | NEW YORK\n\nPp. \\[i–viii\\] ix–xi \\[xii\\], \\[*2*\\], \\[1\\] 2–703 \\[704–706\\].\n\\[1–21\\]<sup>16</sup> \\[22\\]<sup>8</sup> \\[23\\]<sup>16</sup>\n\n\\[i\\] half title; \\[ii\\] blank; \\[iii\\] title; \\[iv\\] *Copyright*,\n*1915* \\[*sic*\\], *by* BONI & LIVERIGHT, INC. | \\[short double rule\\] |\n*First* MODERN LIBRARY *Edition* | 1933; \\[v\\] dedication; \\[vi\\] blank;\n\\[vii\\] TABLE OF CONTENTS; \\[viii\\] blank; ix–xi CHRONOLOGICAL TABLE;\n\\[xii\\] blank; \\[*1*\\] fly title; \\[*2*\\] blank; \\[1\\]–682 text; 683\nAUTHOR’S ACKNOWLEDGMENTS; \\[684\\] blank; 685–703 INDEX; \\[704–706\\]\nblank.\n\n*Jacket:* Pictorial in moderate blue (182) and black on cream paper\ndepicting Napoleon with flag and cannon in background; borders in\nmoderate blue, lettering in black. Signed: AH. (*Spring 1933*)\n\n> Front flap:<br>\n> Of the vast library of books devoted to the deeds and personality of\n> Napoleon Bonaparte, none has had such an immense popular success as\n> Emil Ludwig’s vibrant biography. The reason is not far to seek. Upon\n> the framework of historical fact, Ludwig has re-created the whole\n> miraculous cycle of Napoleon’s life and has imbued it with the passion\n> and imagination that motivated the career of the little Corsican. It\n> is a book of courage and violence, as vivid and as stirring as\n> Napoleon’s victories and ultimate humiliation. (*Spring 1939*)\n\nEden and Cedar Paul translation originally published in U.S. by Boni &\nLiveright, 1926. ML edition printed from Liveright plates made from a\nnew typesetting which appear to have been used exclusively by the ML.\nPublished March 1933. *WR* 25 March 1933. First printing: Not\nascertained. Discontinued 1970/71.\n\nThe original B&L plates were too large for the ML’s format.\n\n*Napoleon* sold 7,309 copies during the eighteen-month period May\n1942–October 1943, placing it near the top of the second quarter of ML\nand Giant titles. It did not rank among the 100 best-selling titles in\nthe regular ML during the twelve-month period November 1951–October\n1952.\n\n#### 255b. Title page reset (c. 1940)\n\n\\[torchbearer D5\\] | \\[5-line title and statement of responsibility\nwithin single rules\\] | *Napoleon* | BY | EMIL LUDWIG | TRANSLATED BY |\nEDEN AND CEDAR PAUL | \\[below frame\\] MODERN LIBRARY · NEW YORK\n\nPagination and collation as 255a.\n\nContents as 255a except: \\[iv\\] COPYRIGHT, 1915 \\[*sic*\\], BY BONI &\nLIVERIGHT, INC.\n\n> *Variant:* Pagination as 255a. \\[1\\]<sup>16</sup>\n> \\[2–10\\]<sup>32</sup> \\[11\\]<sup>8</sup> \\[12\\]<sup>32</sup>\n> \\[13\\]<sup>16</sup>. Contents as 255b except: \\[iv\\] COPYRIGHT,\n> RENEWED, 1953 | BY LIVERIGHT PUBLISHING CORP.; \\[704\\] blank;\n> \\[704–706\\] ML Giants list. (*Spring 1959*)\n\n*Jacket:* Pictorial in deep reddish orange (36), bluish gray (191), dark\nyellow (88) and black on coated white paper depicting Napoleon’s hat,\nsword and deep reddish orange ribbon against left profile of Napoleon in\nbluish gray; all against white background with author in black, title in\ndeep reddish orange, and series in bluish gray. Signed: illegible. Front\nflap as 255a. (*Spring 1941*)\n\nFront flap reset with last sentence revised as follows:\n\n> It is a book of courage and violence and adventures for enormous\n> stakes; it is a story as vivid and as stirring as Napoleon’s victories\n> and ultimate humiliation. (*Fall 1953*)",
   "id": "255",
   "year": "1933",
   "title": "EMIL LUDWIG. NAPOLEON. 1933–1970. (ML 95)",
@@ -1841,18 +1876,19 @@ and ultimate humiliation. (<em>Fall 1953</em>)</p>
     {
       "id": "255a",
       "title": "First printing (1933)",
-      "full": "\n\n\\[within double rules\\] NAPOLEON | \\[rule\\] | BY | EMIL LUDWIG |\n\\[rule\\] | TRANSLATED BY | EDEN AND CEDAR PAUL | \\[rule\\] |\n\\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A7.webp'>torchbearer A7</uvalib-modal-image-button>\\] | \\[rule\\] | BENNETT A. CERF · DONALD S. KLOPFER |\nTHE MODERN LIBRARY | NEW YORK\n\nPp. \\[i–viii\\] ix–xi \\[xii\\], \\[*2*\\], \\[1\\] 2–703 \\[704–706\\].\n\\[1–21\\]<sup>16</sup> \\[22\\]<sup>8</sup> \\[23\\]<sup>16</sup>\n\n\\[i\\] half title; \\[ii\\] blank; \\[iii\\] title; \\[iv\\] *Copyright*,\n*1915* \\[*sic*\\], *by* BONI & LIVERIGHT, INC. | \\[short double rule\\] |\n*First* MODERN LIBRARY *Edition* | 1933; \\[v\\] dedication; \\[vi\\] blank;\n\\[vii\\] TABLE OF CONTENTS; \\[viii\\] blank; ix–xi CHRONOLOGICAL TABLE;\n\\[xii\\] blank; \\[*1*\\] fly title; \\[*2*\\] blank; \\[1\\]–682 text; 683\nAUTHOR’S ACKNOWLEDGMENTS; \\[684\\] blank; 685–703 INDEX; \\[704–706\\]\nblank.\n\n*Jacket:* Pictorial in moderate blue (182) and black on cream paper\ndepicting Napoleon with flag and cannon in background; borders in\nmoderate blue, lettering in black. Signed: AH. (*Spring 1933*)\n\n> Front flap:<br>\n> Of the vast library of books devoted to the deeds and personality of\n> Napoleon Bonaparte, none has had such an immense popular success as\n> Emil Ludwig’s vibrant biography. The reason is not far to seek. Upon\n> the framework of historical fact, Ludwig has re-created the whole\n> miraculous cycle of Napoleon’s life and has imbued it with the passion\n> and imagination that motivated the career of the little Corsican. It\n> is a book of courage and violence, as vivid and as stirring as\n> Napoleon’s victories and ultimate humiliation. (*Spring 1939*)\n\nEden and Cedar Paul translation originally published in U.S. by Boni &\nLiveright, 1926. ML edition printed from Liveright plates made from a\nnew typesetting which appear to have been used exclusively by the ML.\nPublished March 1933. *WR* 25 March 1933. First printing: Not\nascertained. Discontinued 1970/71.\n\nThe original B&L plates were too large for the ML’s format.\n\n*Napoleon* sold 7,309 copies during the eighteen-month period May\n1942–October 1943, placing it near the top of the second quarter of ML\nand Giant titles. It did not rank among the 100 best-selling titles in\nthe regular ML during the twelve-month period November 1951–October\n1952.\n\n"
+      "full": "\n\n\\[within double rules\\] NAPOLEON | \\[rule\\] | BY | EMIL LUDWIG |\n\\[rule\\] | TRANSLATED BY | EDEN AND CEDAR PAUL | \\[rule\\] |\n\\[torchbearer A7\\] | \\[rule\\] | BENNETT A. CERF · DONALD S. KLOPFER |\nTHE MODERN LIBRARY | NEW YORK\n\nPp. \\[i–viii\\] ix–xi \\[xii\\], \\[*2*\\], \\[1\\] 2–703 \\[704–706\\].\n\\[1–21\\]<sup>16</sup> \\[22\\]<sup>8</sup> \\[23\\]<sup>16</sup>\n\n\\[i\\] half title; \\[ii\\] blank; \\[iii\\] title; \\[iv\\] *Copyright*,\n*1915* \\[*sic*\\], *by* BONI & LIVERIGHT, INC. | \\[short double rule\\] |\n*First* MODERN LIBRARY *Edition* | 1933; \\[v\\] dedication; \\[vi\\] blank;\n\\[vii\\] TABLE OF CONTENTS; \\[viii\\] blank; ix–xi CHRONOLOGICAL TABLE;\n\\[xii\\] blank; \\[*1*\\] fly title; \\[*2*\\] blank; \\[1\\]–682 text; 683\nAUTHOR’S ACKNOWLEDGMENTS; \\[684\\] blank; 685–703 INDEX; \\[704–706\\]\nblank.\n\n*Jacket:* Pictorial in moderate blue (182) and black on cream paper\ndepicting Napoleon with flag and cannon in background; borders in\nmoderate blue, lettering in black. Signed: AH. (*Spring 1933*)\n\n> Front flap:<br>\n> Of the vast library of books devoted to the deeds and personality of\n> Napoleon Bonaparte, none has had such an immense popular success as\n> Emil Ludwig’s vibrant biography. The reason is not far to seek. Upon\n> the framework of historical fact, Ludwig has re-created the whole\n> miraculous cycle of Napoleon’s life and has imbued it with the passion\n> and imagination that motivated the career of the little Corsican. It\n> is a book of courage and violence, as vivid and as stirring as\n> Napoleon’s victories and ultimate humiliation. (*Spring 1939*)\n\nEden and Cedar Paul translation originally published in U.S. by Boni &\nLiveright, 1926. ML edition printed from Liveright plates made from a\nnew typesetting which appear to have been used exclusively by the ML.\nPublished March 1933. *WR* 25 March 1933. First printing: Not\nascertained. Discontinued 1970/71.\n\nThe original B&L plates were too large for the ML’s format.\n\n*Napoleon* sold 7,309 copies during the eighteen-month period May\n1942–October 1943, placing it near the top of the second quarter of ML\nand Giant titles. It did not rank among the 100 best-selling titles in\nthe regular ML during the twelve-month period November 1951–October\n1952.\n\n"
     },
     {
       "id": "255b",
       "title": "Title page reset (c. 1940)",
-      "full": "\n\n\\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D5.webp'>torchbearer D5</uvalib-modal-image-button>\\] | \\[5-line title and statement of responsibility\nwithin single rules\\] | *Napoleon* | BY | EMIL LUDWIG | TRANSLATED BY |\nEDEN AND CEDAR PAUL | \\[below frame\\] MODERN LIBRARY · NEW YORK\n\nPagination and collation as 255a.\n\nContents as 255a except: \\[iv\\] COPYRIGHT, 1915 \\[*sic*\\], BY BONI &\nLIVERIGHT, INC.\n\n> *Variant:* Pagination as 255a. \\[1\\]<sup>16</sup>\n> \\[2–10\\]<sup>32</sup> \\[11\\]<sup>8</sup> \\[12\\]<sup>32</sup>\n> \\[13\\]<sup>16</sup>. Contents as 255b except: \\[iv\\] COPYRIGHT,\n> RENEWED, 1953 | BY LIVERIGHT PUBLISHING CORP.; \\[704\\] blank;\n> \\[704–706\\] ML Giants list. (*Spring 1959*)\n\n*Jacket:* Pictorial in deep reddish orange (36), bluish gray (191), dark\nyellow (88) and black on coated white paper depicting Napoleon’s hat,\nsword and deep reddish orange ribbon against left profile of Napoleon in\nbluish gray; all against white background with author in black, title in\ndeep reddish orange, and series in bluish gray. Signed: illegible. Front\nflap as 255a. (*Spring 1941*)\n\nFront flap reset with last sentence revised as follows:\n\n> It is a book of courage and violence and adventures for enormous\n> stakes; it is a story as vivid and as stirring as Napoleon’s victories\n> and ultimate humiliation. (*Fall 1953*)"
+      "full": "\n\n\\[torchbearer D5\\] | \\[5-line title and statement of responsibility\nwithin single rules\\] | *Napoleon* | BY | EMIL LUDWIG | TRANSLATED BY |\nEDEN AND CEDAR PAUL | \\[below frame\\] MODERN LIBRARY · NEW YORK\n\nPagination and collation as 255a.\n\nContents as 255a except: \\[iv\\] COPYRIGHT, 1915 \\[*sic*\\], BY BONI &\nLIVERIGHT, INC.\n\n> *Variant:* Pagination as 255a. \\[1\\]<sup>16</sup>\n> \\[2–10\\]<sup>32</sup> \\[11\\]<sup>8</sup> \\[12\\]<sup>32</sup>\n> \\[13\\]<sup>16</sup>. Contents as 255b except: \\[iv\\] COPYRIGHT,\n> RENEWED, 1953 | BY LIVERIGHT PUBLISHING CORP.; \\[704\\] blank;\n> \\[704–706\\] ML Giants list. (*Spring 1959*)\n\n*Jacket:* Pictorial in deep reddish orange (36), bluish gray (191), dark\nyellow (88) and black on coated white paper depicting Napoleon’s hat,\nsword and deep reddish orange ribbon against left profile of Napoleon in\nbluish gray; all against white background with author in black, title in\ndeep reddish orange, and series in bluish gray. Signed: illegible. Front\nflap as 255a. (*Spring 1941*)\n\nFront flap reset with last sentence revised as follows:\n\n> It is a book of courage and violence and adventures for enormous\n> stakes; it is a story as vivid and as stirring as Napoleon’s victories\n> and ultimate humiliation. (*Fall 1953*)"
     }
   ]
 }</pre></sl-details>
 
 <script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
-</div>
+
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1871,7 +1907,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

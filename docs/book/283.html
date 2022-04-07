@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -36,7 +71,7 @@
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/book/283.html">283</sl-breadcrumb-item>
 </sl-breadcrumb>
 
-<div class="md-block"><p><strong>W. SOMERSET MAUGHAM. THE MOON AND SIXPENCE. 1935</strong>–<strong>1971. (ML 27)</strong></p>
+<p><strong>W. SOMERSET MAUGHAM. THE MOON AND SIXPENCE. 1935</strong>–<strong>1971. (ML 27)</strong></p>
 <h4>283.1a. First printing (1935)</h4>
 <p>[within double rules] THE MOON AND | SIXPENCE | [rule] | BY | W.
 SOMERSET MAUGHAM | [rule] | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer A2</uvalib-modal-image-button>] | [rule] | BENNETT A.
@@ -84,7 +119,7 @@ blank; [4] COPYRIGHT, 1919, BY GEORGE H. DORAN COMPANY; [315–319] ML
 list; [320] blank. (<em>Spring 1941</em>)</p>
 <p><em>Jacket:</em> Enlarged version of 283.1a with author in deep green and
 series in reverse against dark brown band added at foot. (<em>Fall 1940</em>)</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1813,7 +1848,7 @@ series in reverse against dark brown band added at foot. (<em>Fall 1940</em>)</p
 </elix-carousel-with-thumbnails>
 
 <sl-details summary="book"><pre>{
-  "full": "**W. SOMERSET MAUGHAM. THE MOON AND SIXPENCE. 1935**–**1971. (ML 27)**\n\n#### 283.1a. First printing (1935)\n\n\\[within double rules\\] THE MOON AND | SIXPENCE | \\[rule\\] | BY | W.\nSOMERSET MAUGHAM | \\[rule\\] | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer A2</uvalib-modal-image-button>\\] | \\[rule\\] | BENNETT A.\nCERF · DONALD S. KLOPFER | THE MODERN LIBRARY | NEW YORK\n\nPp. \\[1–6\\] 7–314 \\[315–320\\]. \\[1–10\\]<sup>16</sup>\n\n\\[1\\] half title; \\[2\\] pub. note A6; \\[3\\] title; \\[4\\] *Copyright,*\n1919, *by* GEORGE H. DORAN COMPANY | \\[short double rule\\] | *First\nModern Library Edition* | 1935; \\[5\\] fly title; \\[6\\] blank; 7–314\ntext; \\[315–320\\] ML list. (*Spring 1935*)\n\n*Jacket:* Pictorial in strong yellow (84), deep green (142) and dark\nbrown (59) on cream paper depicting a South Sea village with mountains\nin distance; lettering in dark brown against strong yellow background.\nSigned: Newman.\n\n> Front flap:<br>\n> The fame of W. Somerset Maugham rests securely on two novels. The\n> first, *Of Human Bondage* (No. 176), has steadily maintained its\n> position as one of the two best sellers on the entire Modern Library\n> list during the last three years. The second, *The Moon and Sixpence*,\n> now takes its place in the series with the promise of competing for\n> popular favor with its celebrated predecessor. This story of Charles\n> Strickland, driven by the demon of his genius to the South Seas,\n> parallels in many respects the strange life of Paul Gauguin. (*Spring\n> 1935*)\n\nOriginally published in U.S. by George H. Doran Co., 1919. ML edition\n(283.1, pp. \\[5\\] –314) printed from Doubleday, Doran plates. Published\nJune 1935. *WR* 22 June 1935. First printing: 5,000 copies. Discontinued\n1971/72.\n\nThe ML paid Doubleday, Doran royalties of 10 cents a copy. The ML\nprinted 43,500 copies by August 1944. Sales were about 2,000 copies a\nyear in the late 1930s but increased to about 7,000 copies a year after\nthe United States entered the war (Ray Freiman memo to Robert Haas, 13\nNovember 1944). *The Moon and Sixpence* sold 11,156 copies during the\neighteen-month period May 1942–October 1943, placing it twenty-first out\nof 271 ML and Giant titles. It did not rank among the 100 best-selling\ntitles in the regular ML during the twelve-month period November\n1951–October 1952.\n\n#### 283.1b. Title page reset (c.1940)\n\n\\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D5.webp'>torchbearer D5</uvalib-modal-image-button>\\] | \\[6-line title and statement of responsibility\nwithin single rules\\] THE MOON | AND | SIXPENCE | BY | W. SOMERSET |\nMAUGHAM | \\[below frame\\] THE MODERN LIBRARY · NEW YORK\n\nPagination and collation as 283.1a. Contents as 283.1a except: \\[2\\]\nblank; \\[4\\] COPYRIGHT, 1919, BY GEORGE H. DORAN COMPANY; \\[315–319\\] ML\nlist; \\[320\\] blank. (*Spring 1941*)\n\n*Jacket:* Enlarged version of 283.1a with author in deep green and\nseries in reverse against dark brown band added at foot. (*Fall 1940*)",
+  "full": "**W. SOMERSET MAUGHAM. THE MOON AND SIXPENCE. 1935**–**1971. (ML 27)**\n\n#### 283.1a. First printing (1935)\n\n\\[within double rules\\] THE MOON AND | SIXPENCE | \\[rule\\] | BY | W.\nSOMERSET MAUGHAM | \\[rule\\] | \\[torchbearer A2\\] | \\[rule\\] | BENNETT A.\nCERF · DONALD S. KLOPFER | THE MODERN LIBRARY | NEW YORK\n\nPp. \\[1–6\\] 7–314 \\[315–320\\]. \\[1–10\\]<sup>16</sup>\n\n\\[1\\] half title; \\[2\\] pub. note A6; \\[3\\] title; \\[4\\] *Copyright,*\n1919, *by* GEORGE H. DORAN COMPANY | \\[short double rule\\] | *First\nModern Library Edition* | 1935; \\[5\\] fly title; \\[6\\] blank; 7–314\ntext; \\[315–320\\] ML list. (*Spring 1935*)\n\n*Jacket:* Pictorial in strong yellow (84), deep green (142) and dark\nbrown (59) on cream paper depicting a South Sea village with mountains\nin distance; lettering in dark brown against strong yellow background.\nSigned: Newman.\n\n> Front flap:<br>\n> The fame of W. Somerset Maugham rests securely on two novels. The\n> first, *Of Human Bondage* (No. 176), has steadily maintained its\n> position as one of the two best sellers on the entire Modern Library\n> list during the last three years. The second, *The Moon and Sixpence*,\n> now takes its place in the series with the promise of competing for\n> popular favor with its celebrated predecessor. This story of Charles\n> Strickland, driven by the demon of his genius to the South Seas,\n> parallels in many respects the strange life of Paul Gauguin. (*Spring\n> 1935*)\n\nOriginally published in U.S. by George H. Doran Co., 1919. ML edition\n(283.1, pp. \\[5\\] –314) printed from Doubleday, Doran plates. Published\nJune 1935. *WR* 22 June 1935. First printing: 5,000 copies. Discontinued\n1971/72.\n\nThe ML paid Doubleday, Doran royalties of 10 cents a copy. The ML\nprinted 43,500 copies by August 1944. Sales were about 2,000 copies a\nyear in the late 1930s but increased to about 7,000 copies a year after\nthe United States entered the war (Ray Freiman memo to Robert Haas, 13\nNovember 1944). *The Moon and Sixpence* sold 11,156 copies during the\neighteen-month period May 1942–October 1943, placing it twenty-first out\nof 271 ML and Giant titles. It did not rank among the 100 best-selling\ntitles in the regular ML during the twelve-month period November\n1951–October 1952.\n\n#### 283.1b. Title page reset (c.1940)\n\n\\[torchbearer D5\\] | \\[6-line title and statement of responsibility\nwithin single rules\\] THE MOON | AND | SIXPENCE | BY | W. SOMERSET |\nMAUGHAM | \\[below frame\\] THE MODERN LIBRARY · NEW YORK\n\nPagination and collation as 283.1a. Contents as 283.1a except: \\[2\\]\nblank; \\[4\\] COPYRIGHT, 1919, BY GEORGE H. DORAN COMPANY; \\[315–319\\] ML\nlist; \\[320\\] blank. (*Spring 1941*)\n\n*Jacket:* Enlarged version of 283.1a with author in deep green and\nseries in reverse against dark brown band added at foot. (*Fall 1940*)",
   "id": "283",
   "year": "1935",
   "title": "W. SOMERSET MAUGHAM. THE MOON AND SIXPENCE. 1935  –  1971. (ML 27)",
@@ -1821,7 +1856,8 @@ series in reverse against dark brown band added at foot. (<em>Fall 1940</em>)</p
 }</pre></sl-details>
 
 <script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
-</div>
+
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1840,7 +1876,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

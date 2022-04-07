@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -36,7 +71,7 @@
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/book/133.html">133</sl-breadcrumb-item>
 </sl-breadcrumb>
 
-<div class="md-block"><p>*<strong>NATHANIEL HAWTHORNE. THE SCARLET LETTER. 1927–1971. (ML 93)</strong></p>
+<p>*<strong>NATHANIEL HAWTHORNE. THE SCARLET LETTER. 1927–1971. (ML 93)</strong></p>
 <h4>133.1a. First printing (1927)</h4>
 <p>[within double rules] THE | SCARLET LETTER | [rule] | BY | NATHANIEL
 HAWTHORNE | [rule] | INTRODUCTION BY | WILLIAM LYON PHELPS | [rule]
@@ -121,7 +156,7 @@ cream panel depicting eight figures, highlighted in light bluish green
 and deep yellow green, standing around a pillory. Statement on front
 panel: <em>Introduction by</em> WILLIAM LYON PHELPS. Signed: VA [Valenti
 Angelo]. (1946)</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1852,7 +1887,7 @@ Angelo]. (1946)</p>
 </elix-carousel-with-thumbnails>
 
 <sl-details summary="book"><pre>{
-  "full": "***NATHANIEL HAWTHORNE. THE SCARLET LETTER. 1927–1971. (ML 93)**\n\n#### 133.1a. First printing (1927)\n\n\\[within double rules\\] THE | SCARLET LETTER | \\[rule\\] | BY | NATHANIEL\nHAWTHORNE | \\[rule\\] | INTRODUCTION BY | WILLIAM LYON PHELPS | \\[rule\\]\n| \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer A2</uvalib-modal-image-button>\\] | \\[rule\\] | THE MODERN LIBRARY | PUBLISHERS : NEW\nYORK\n\nPp. \\[i–iv\\] v–xvi, 1–303 \\[304\\]. \\[1–10\\]<sup>16</sup>\n\n\\[i\\] half title; \\[ii\\] pub. note D6; \\[iii\\] title; \\[iv\\]\n*Introduction Copyright,* 1927, *by* | THE MODERN LIBRARY, INC. |\n\\[short double rule\\] | *First Modern Library Edition* | 1927; v–vi\nPREFACE TO THE SECOND EDITION dated p. vi: <span\nclass=\"smallcaps\">Salem</span>, *March* 30, 1850.; \\[vii\\] CONTENTS;\n\\[viii\\] blank; ix–xvi INTRODUCTION signed p. xvi: W<span\nclass=\"smallcaps\">illiam Lyon Phelps</span>. | <span\nclass=\"smallcaps\">New Haven, Conn.</span>, | *December,* 1926.; 1–303\ntext; \\[304\\] blank.\n\n> *Variant:* Pagination and collation as 133.1a. Contents as 133.1a\n> except: \\[iv\\] manufacturing statement only. (*Balloon cloth binding\n> D*)\n\n*Jacket A:* Uniform typographic jacket B2.\n\n> Text on front:<br>\n> “I consider Hawthorne the most consummate literary artist in American\n> literature, and ‘The Scarlet Letter’ the greatest book ever written in\n> the Western Hemisphere. It holds its place among the fifteen best\n> novels of the world.” — *William Lyon Phelps*\n>\n> The inclusion of “The Scarlett Letter” in this series adds the name of\n> Hawthorne to a roster of American authors that already contains Poe,\n> Whitman, James, Melville, Dreiser, Anderson, Hearn, Crane, Bierce,\n> O’Neill, Hecht and Beebe. As many more American works will be added as\n> can be found to be consistent with the standards of the Modern\n> Library. *(Spring 1927)*\n>\n> Front flap as Jacket B except has misspelling “Phrynne.” (*Spring\n> 1927*)\n\n*Jacket B:* Uniform typographic jacket D. (*Fall 1929*)\n\n> Front flap:<br>\n> Of the few authors who have escaped the iconoclastic onslaughts of\n> modern criticism, Nathaniel Hawthorne stands unassailed and with\n> undiminished prestige among America’s immortals. Generations of\n> readers have been moved by the austere and relentless power of *The\n> Scarlet Letter*. For its revelation of a guilt-stricken attitude\n> toward sin, for its intense human interest and its purity of diction\n> and accuracy of analysis, for its interpretation of the Puritan way of\n> life, the story of Hester Phrynne \\[*sic*\\] has inevitably become part\n> of our national legacy. (*Fall 1933*)\n\nML edition printed from plates made from a new typesetting. Published\nFebruary 1927. *WR* 12 March 1927. First printing: Not ascertained.\nDiscontinued 1971/72.\n\nWhen Cerf invited Phelps to write the introduction he indicated that\n*The Scarlet Letter* was being added to the series as part of “our\nendeavor to include . . . as many great American works as possible” and\nreminded the Yale professor that the ML had no introduction by him (Cerf\nto Phelps, 5 October 1926). Phelps missed the 15 November deadline by\nnearly a month and offered to waive the $50 fee (Phelps to Cerf, 12\nDecember 1926), but Cerf sent it to him anyway.\n\nThe text of 133.1 is that of the second edition (Clark, p. 162).\n\n*The Scarlet Letter* did not rank among the 99 best-selling ML titles\nduring the first six months of 1928. During the 18-month period May\n1942–October 1943 it was in the third quarter of ML titles in terms of\nsales. It ranked high in the second quarter if ML titles by the 12-month\nperiod November 1951–October 1952.\n\n#### 133.1b. Title page reset (1941)\n\nTHE | SCARLET | LETTER | *by* NATHANIEL HAWTHORNE | *Introduction by*\nWILLIAM LYON PHELPS | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D1.webp'>torchbearer D1</uvalib-modal-image-button> at right; 3-line imprint at\nleft\\] THE | MODERN LIBRARY | NEW YORK | \\[rule\\]\n\nPagination and collation as 133.1a.\n\nContents as 133.1a except: \\[ii\\] blank; \\[iv\\] publication and\nmanufacturing statements.\n\n*Jacket A:* Non-pictorial in moderate red (15) and black on tan paper;\ntitle and statement of responsibility in reverse on inset moderate red\npanel, other lettering in black. Front flap includes the misspelling\n“Phrynne” as 133.1a jacket B. (*Spring 1941*)\n\n*Jacket B:* Pictorial in deep reddish orange (36), dark yellow (88),\nlight bluish green (163), deep yellow green (118) and black on cream\npaper with title and author in deep reddish orange on inset cream panel\nbordered in dark yellow against black background; silhouette at foot of\ncream panel depicting eight figures, highlighted in light bluish green\nand deep yellow green, standing around a pillory. Statement on front\npanel: *Introduction by* WILLIAM LYON PHELPS. Signed: VA \\[Valenti\nAngelo\\]. (1946)",
+  "full": "***NATHANIEL HAWTHORNE. THE SCARLET LETTER. 1927–1971. (ML 93)**\n\n#### 133.1a. First printing (1927)\n\n\\[within double rules\\] THE | SCARLET LETTER | \\[rule\\] | BY | NATHANIEL\nHAWTHORNE | \\[rule\\] | INTRODUCTION BY | WILLIAM LYON PHELPS | \\[rule\\]\n| \\[torchbearer A2\\] | \\[rule\\] | THE MODERN LIBRARY | PUBLISHERS : NEW\nYORK\n\nPp. \\[i–iv\\] v–xvi, 1–303 \\[304\\]. \\[1–10\\]<sup>16</sup>\n\n\\[i\\] half title; \\[ii\\] pub. note D6; \\[iii\\] title; \\[iv\\]\n*Introduction Copyright,* 1927, *by* | THE MODERN LIBRARY, INC. |\n\\[short double rule\\] | *First Modern Library Edition* | 1927; v–vi\nPREFACE TO THE SECOND EDITION dated p. vi: <span\nclass=\"smallcaps\">Salem</span>, *March* 30, 1850.; \\[vii\\] CONTENTS;\n\\[viii\\] blank; ix–xvi INTRODUCTION signed p. xvi: W<span\nclass=\"smallcaps\">illiam Lyon Phelps</span>. | <span\nclass=\"smallcaps\">New Haven, Conn.</span>, | *December,* 1926.; 1–303\ntext; \\[304\\] blank.\n\n> *Variant:* Pagination and collation as 133.1a. Contents as 133.1a\n> except: \\[iv\\] manufacturing statement only. (*Balloon cloth binding\n> D*)\n\n*Jacket A:* Uniform typographic jacket B2.\n\n> Text on front:<br>\n> “I consider Hawthorne the most consummate literary artist in American\n> literature, and ‘The Scarlet Letter’ the greatest book ever written in\n> the Western Hemisphere. It holds its place among the fifteen best\n> novels of the world.” — *William Lyon Phelps*\n>\n> The inclusion of “The Scarlett Letter” in this series adds the name of\n> Hawthorne to a roster of American authors that already contains Poe,\n> Whitman, James, Melville, Dreiser, Anderson, Hearn, Crane, Bierce,\n> O’Neill, Hecht and Beebe. As many more American works will be added as\n> can be found to be consistent with the standards of the Modern\n> Library. *(Spring 1927)*\n>\n> Front flap as Jacket B except has misspelling “Phrynne.” (*Spring\n> 1927*)\n\n*Jacket B:* Uniform typographic jacket D. (*Fall 1929*)\n\n> Front flap:<br>\n> Of the few authors who have escaped the iconoclastic onslaughts of\n> modern criticism, Nathaniel Hawthorne stands unassailed and with\n> undiminished prestige among America’s immortals. Generations of\n> readers have been moved by the austere and relentless power of *The\n> Scarlet Letter*. For its revelation of a guilt-stricken attitude\n> toward sin, for its intense human interest and its purity of diction\n> and accuracy of analysis, for its interpretation of the Puritan way of\n> life, the story of Hester Phrynne \\[*sic*\\] has inevitably become part\n> of our national legacy. (*Fall 1933*)\n\nML edition printed from plates made from a new typesetting. Published\nFebruary 1927. *WR* 12 March 1927. First printing: Not ascertained.\nDiscontinued 1971/72.\n\nWhen Cerf invited Phelps to write the introduction he indicated that\n*The Scarlet Letter* was being added to the series as part of “our\nendeavor to include . . . as many great American works as possible” and\nreminded the Yale professor that the ML had no introduction by him (Cerf\nto Phelps, 5 October 1926). Phelps missed the 15 November deadline by\nnearly a month and offered to waive the $50 fee (Phelps to Cerf, 12\nDecember 1926), but Cerf sent it to him anyway.\n\nThe text of 133.1 is that of the second edition (Clark, p. 162).\n\n*The Scarlet Letter* did not rank among the 99 best-selling ML titles\nduring the first six months of 1928. During the 18-month period May\n1942–October 1943 it was in the third quarter of ML titles in terms of\nsales. It ranked high in the second quarter if ML titles by the 12-month\nperiod November 1951–October 1952.\n\n#### 133.1b. Title page reset (1941)\n\nTHE | SCARLET | LETTER | *by* NATHANIEL HAWTHORNE | *Introduction by*\nWILLIAM LYON PHELPS | \\[torchbearer D1 at right; 3-line imprint at\nleft\\] THE | MODERN LIBRARY | NEW YORK | \\[rule\\]\n\nPagination and collation as 133.1a.\n\nContents as 133.1a except: \\[ii\\] blank; \\[iv\\] publication and\nmanufacturing statements.\n\n*Jacket A:* Non-pictorial in moderate red (15) and black on tan paper;\ntitle and statement of responsibility in reverse on inset moderate red\npanel, other lettering in black. Front flap includes the misspelling\n“Phrynne” as 133.1a jacket B. (*Spring 1941*)\n\n*Jacket B:* Pictorial in deep reddish orange (36), dark yellow (88),\nlight bluish green (163), deep yellow green (118) and black on cream\npaper with title and author in deep reddish orange on inset cream panel\nbordered in dark yellow against black background; silhouette at foot of\ncream panel depicting eight figures, highlighted in light bluish green\nand deep yellow green, standing around a pillory. Statement on front\npanel: *Introduction by* WILLIAM LYON PHELPS. Signed: VA \\[Valenti\nAngelo\\]. (1946)",
   "id": "133",
   "year": "1927",
   "title": "NATHANIEL HAWTHORNE. THE SCARLET LETTER. 1927–1971. (ML 93)",
@@ -1860,7 +1895,8 @@ Angelo]. (1946)</p>
 }</pre></sl-details>
 
 <script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
-</div>
+
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1879,7 +1915,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

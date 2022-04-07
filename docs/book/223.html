@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -36,7 +71,7 @@
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/book/223.html">223</sl-breadcrumb-item>
 </sl-breadcrumb>
 
-<div class="md-block"><p>*<strong>WILLIAM M<span class="smallcaps">c</span>FEE. CASUALS OF THE SEA.
+<p>*<strong>WILLIAM M<span class="smallcaps">c</span>FEE. CASUALS OF THE SEA.
 1931–1953. (ML 195)</strong></p>
 <h4>223a.** **First printing (1931)</h4>
 <p>[within double rules] CASUALS | OF THE SEA | [rule] | BY | WILLIAM
@@ -120,7 +155,7 @@ blank. (<em>Spring 1944</em>)</p>
 <p><em>Jacket:</em> Non-pictorial in dark blue (183) on cream paper with lettering
 and torchbearer in reverse against solid dark blue background. Front
 flap as 223a. (<em>Spring 1941</em>)</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1851,7 +1886,7 @@ flap as 223a. (<em>Spring 1941</em>)</p>
 </elix-carousel-with-thumbnails>
 
 <sl-details summary="book"><pre>{
-  "full": "***WILLIAM M<span class=\"smallcaps\">c</span>FEE. CASUALS OF THE SEA.\n1931–1953. (ML 195)**\n\n#### 223a.** **First printing (1931)\n\n\\[within double rules\\] CASUALS | OF THE SEA | \\[rule\\] | BY | WILLIAM\nM<span class=\"smallcaps\">c</span>FEE | \\[rule\\] | WITH AN INTRODUCTION\nBY | CHRISTOPHER MORLEY | \\[rule\\] | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer A2</uvalib-modal-image-button>\\] | \\[rule\\] |\nBENNETT A. CERF · DONALD S. KLOPFER | THE MODERN LIBRARY | NEW YORK\n\nPp. \\[i–vi\\] vii–xvi \\[xvii–xviii\\], \\[1–2\\] 3–513 \\[514\\].\n\\[1–16\\]<sup>16</sup> \\[17\\]<sup>8</sup>(8+1.2)\n\n\\[i\\] half title; \\[ii\\] pub. note D12; \\[iii\\] title; \\[iv\\] *First\nModern Library Edition* | 1931 | \\[short double rule\\]; \\[v\\]\n*DEDICATION*; \\[vi\\] blank; vii–xvi INTRODUCTION signed p. xvi: <span\nclass=\"smallcaps\">Christopher Morley</span>.; \\[xvii\\] CONTENTS;\n\\[xviii\\] blank; \\[1\\] part title: BOOK ONE | THE SUBURB; \\[2\\] blank;\n3–513 text; \\[514\\] blank. *Note:* Pp. 511– \\[514\\] are an inserted\nfold.\n\n*Jacket:* Pictorial in moderate green (145) and black on cream paper\ndepicting a freighter at sea; borders in moderate green, lettering in\nblack. Signed: illegible (possibly Art or Nat Falk). (*Fall 1931*)\n\n> Front flap:<br>\n> The novel upon which William McFee’s reputation rests most securely is\n> *Casuals of the Sea*. When it appeared, twenty years ago, he was\n> hailed, with Joseph Conrad, as one of the two greatest story-tellers\n> of the sea. Today, his book is read with undiminished enthusiasm by a\n> new generation of readers. In it they find the never-ending panorama\n> of the sea as a background for the struggle of men in ships against\n> the forces of nature and man’s will. (*Spring 1936*)\n\nOriginally published in U.S. by Doubleday, Page & Co., 1916. ML edition\nprinted from plates owned by Doubleday, Doran that were made from a new\ntypesetting. Published November 1931. *WR* 5 December 1931. First\nprinting: 8,000 copies. Discontinued 1 January 1954.\n\nCerf expressed interest in including one of McFee’s books in the ML in\nJanuary 1926, but Doubleday, Page turned him down. He was particularly\ninterested in *Captain Macedoine’s Daughter*, but McFee appears to have\nbeen opposed to having any of his books in the ML. Later that year Cerf\ninvited McFee to write an introduction to Hudson’s *Purple Land* (134)\nand indicated that he would like to meet with him to discuss the\npossibility of a ML edition of one of his books (Cerf to McFee, 26\nAugust 1926; McFee to Cerf, 28 August 1926). Two of McFee’s novels,\n*Casuals of the Sea* and *Command*, were in the Sun Dial Library, which\nthe ML bought in 1930 from Garden City Publishing Co., the Doubleday\nreprint subsidiary. Cerf and Klopfer initially planned to include both\nnovels, but in the end only *Casuals of the Sea* was added.\n\nMorley’s introduction to *Casuals of the Sea* was originally for the\nLambskin Library edition published by Doubleday, Page in 1922.\n\nThe ML paid Doubleday, Doran a $1,500 advance against royalties of 10\ncents a copy. A second printing was not required until May 1936 when\nthere was a printing of 1,000 copies.\n\n*Casuals of the Sea* sold 3,588 copies during the eighteen-month period\nMay 1942–October 1943, placing it low in the third quarter of ML and\nGiant titles. Total ML printings reached 20,000 copies by November 1945.\nIt was not among the 100 best-selling titles in the regular ML during\nthe twelve-month period, November 1951–October 1952.\n\nWhen Doubleday, Doran suggested a ML edition of *Command* in 1933, Cerf\nresponded, “Personally, I think COMMAND is McFee’s most exciting book,\nbut \\[it\\] seems . . . that the old boy’s stature has diminished\nsomewhat in the eyes of the public in the past few years” (Robert de\nGraff to Cerf, 24 November 1933; Cerf to de Graff, 27 November 1933). In\n1946 Doubleday, Doran reverted all rights in *Casuals of the Sea* to\nMcFee and sold him the plates for $70. The ML signed a new contract with\nMcFee and paid him $70 for the plates. Half of McFee’s royalties were to\nbe applied toward amortization of the cost of the plates; once the\nplates were paid for, McFee was to receive full royalties of 10 cents a\ncopy (Maule to McFee, 7 October 1946).\n\n#### 223b.** **Title page reset (c. 1940)\n\n\\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/E3.webp'>torchbearer E3</uvalib-modal-image-button>\\] | \\[7-line title and statement of responsibility\nwithin single rules\\] CASUALS | OF | THE SEA | BY | WILLIAM M<span\nclass=\"smallcaps\">c</span>FEE | WITH AN INTRODUCTION BY | CHRISTOPHER\nMORLEY | \\[below frame\\] THE MODERN LIBRARY · NEW YORK\n\nPp. \\[i–vi\\] vii–xvi \\[xvii–xviii\\], \\[1–2\\] 3–513 \\[514–518\\].\n\\[1–16\\]<sup>16</sup> \\[17\\]<sup>12</sup>\n\nContents as 223a except: \\[ii\\] blank; \\[iv\\] COPYRIGHT, 1931, BY THE\nMODERN LIBRARY, INC.; \\[514–518\\] blank. (*Spring 1941 jacket*)\n\n> *Variant:* Pp. \\[i–vi\\] vii–xvi \\[xvii–xviii\\], \\[1–2\\] 3–513\n> \\[514–526\\]. \\[1–17\\]<sup>16</sup>. Contents as 223b except: \\[514\\]\n> blank; \\[515–520\\] ML list; \\[521–522\\] ML Giants list; \\[523–526\\]\n> blank. (*Spring 1944*)\n\n*Jacket:* Non-pictorial in dark blue (183) on cream paper with lettering\nand torchbearer in reverse against solid dark blue background. Front\nflap as 223a. (*Spring 1941*)",
+  "full": "***WILLIAM M<span class=\"smallcaps\">c</span>FEE. CASUALS OF THE SEA.\n1931–1953. (ML 195)**\n\n#### 223a.** **First printing (1931)\n\n\\[within double rules\\] CASUALS | OF THE SEA | \\[rule\\] | BY | WILLIAM\nM<span class=\"smallcaps\">c</span>FEE | \\[rule\\] | WITH AN INTRODUCTION\nBY | CHRISTOPHER MORLEY | \\[rule\\] | \\[torchbearer A2\\] | \\[rule\\] |\nBENNETT A. CERF · DONALD S. KLOPFER | THE MODERN LIBRARY | NEW YORK\n\nPp. \\[i–vi\\] vii–xvi \\[xvii–xviii\\], \\[1–2\\] 3–513 \\[514\\].\n\\[1–16\\]<sup>16</sup> \\[17\\]<sup>8</sup>(8+1.2)\n\n\\[i\\] half title; \\[ii\\] pub. note D12; \\[iii\\] title; \\[iv\\] *First\nModern Library Edition* | 1931 | \\[short double rule\\]; \\[v\\]\n*DEDICATION*; \\[vi\\] blank; vii–xvi INTRODUCTION signed p. xvi: <span\nclass=\"smallcaps\">Christopher Morley</span>.; \\[xvii\\] CONTENTS;\n\\[xviii\\] blank; \\[1\\] part title: BOOK ONE | THE SUBURB; \\[2\\] blank;\n3–513 text; \\[514\\] blank. *Note:* Pp. 511– \\[514\\] are an inserted\nfold.\n\n*Jacket:* Pictorial in moderate green (145) and black on cream paper\ndepicting a freighter at sea; borders in moderate green, lettering in\nblack. Signed: illegible (possibly Art or Nat Falk). (*Fall 1931*)\n\n> Front flap:<br>\n> The novel upon which William McFee’s reputation rests most securely is\n> *Casuals of the Sea*. When it appeared, twenty years ago, he was\n> hailed, with Joseph Conrad, as one of the two greatest story-tellers\n> of the sea. Today, his book is read with undiminished enthusiasm by a\n> new generation of readers. In it they find the never-ending panorama\n> of the sea as a background for the struggle of men in ships against\n> the forces of nature and man’s will. (*Spring 1936*)\n\nOriginally published in U.S. by Doubleday, Page & Co., 1916. ML edition\nprinted from plates owned by Doubleday, Doran that were made from a new\ntypesetting. Published November 1931. *WR* 5 December 1931. First\nprinting: 8,000 copies. Discontinued 1 January 1954.\n\nCerf expressed interest in including one of McFee’s books in the ML in\nJanuary 1926, but Doubleday, Page turned him down. He was particularly\ninterested in *Captain Macedoine’s Daughter*, but McFee appears to have\nbeen opposed to having any of his books in the ML. Later that year Cerf\ninvited McFee to write an introduction to Hudson’s *Purple Land* (134)\nand indicated that he would like to meet with him to discuss the\npossibility of a ML edition of one of his books (Cerf to McFee, 26\nAugust 1926; McFee to Cerf, 28 August 1926). Two of McFee’s novels,\n*Casuals of the Sea* and *Command*, were in the Sun Dial Library, which\nthe ML bought in 1930 from Garden City Publishing Co., the Doubleday\nreprint subsidiary. Cerf and Klopfer initially planned to include both\nnovels, but in the end only *Casuals of the Sea* was added.\n\nMorley’s introduction to *Casuals of the Sea* was originally for the\nLambskin Library edition published by Doubleday, Page in 1922.\n\nThe ML paid Doubleday, Doran a $1,500 advance against royalties of 10\ncents a copy. A second printing was not required until May 1936 when\nthere was a printing of 1,000 copies.\n\n*Casuals of the Sea* sold 3,588 copies during the eighteen-month period\nMay 1942–October 1943, placing it low in the third quarter of ML and\nGiant titles. Total ML printings reached 20,000 copies by November 1945.\nIt was not among the 100 best-selling titles in the regular ML during\nthe twelve-month period, November 1951–October 1952.\n\nWhen Doubleday, Doran suggested a ML edition of *Command* in 1933, Cerf\nresponded, “Personally, I think COMMAND is McFee’s most exciting book,\nbut \\[it\\] seems . . . that the old boy’s stature has diminished\nsomewhat in the eyes of the public in the past few years” (Robert de\nGraff to Cerf, 24 November 1933; Cerf to de Graff, 27 November 1933). In\n1946 Doubleday, Doran reverted all rights in *Casuals of the Sea* to\nMcFee and sold him the plates for $70. The ML signed a new contract with\nMcFee and paid him $70 for the plates. Half of McFee’s royalties were to\nbe applied toward amortization of the cost of the plates; once the\nplates were paid for, McFee was to receive full royalties of 10 cents a\ncopy (Maule to McFee, 7 October 1946).\n\n#### 223b.** **Title page reset (c. 1940)\n\n\\[torchbearer E3\\] | \\[7-line title and statement of responsibility\nwithin single rules\\] CASUALS | OF | THE SEA | BY | WILLIAM M<span\nclass=\"smallcaps\">c</span>FEE | WITH AN INTRODUCTION BY | CHRISTOPHER\nMORLEY | \\[below frame\\] THE MODERN LIBRARY · NEW YORK\n\nPp. \\[i–vi\\] vii–xvi \\[xvii–xviii\\], \\[1–2\\] 3–513 \\[514–518\\].\n\\[1–16\\]<sup>16</sup> \\[17\\]<sup>12</sup>\n\nContents as 223a except: \\[ii\\] blank; \\[iv\\] COPYRIGHT, 1931, BY THE\nMODERN LIBRARY, INC.; \\[514–518\\] blank. (*Spring 1941 jacket*)\n\n> *Variant:* Pp. \\[i–vi\\] vii–xvi \\[xvii–xviii\\], \\[1–2\\] 3–513\n> \\[514–526\\]. \\[1–17\\]<sup>16</sup>. Contents as 223b except: \\[514\\]\n> blank; \\[515–520\\] ML list; \\[521–522\\] ML Giants list; \\[523–526\\]\n> blank. (*Spring 1944*)\n\n*Jacket:* Non-pictorial in dark blue (183) on cream paper with lettering\nand torchbearer in reverse against solid dark blue background. Front\nflap as 223a. (*Spring 1941*)",
   "id": "223",
   "year": "1931",
   "title": "WILLIAM M<span class=\"smallcaps\">c</span>FEE. CASUALS OF THE SEA. 1931–1953. (ML 195)",
@@ -1859,7 +1894,8 @@ flap as 223a. (<em>Spring 1941</em>)</p>
 }</pre></sl-details>
 
 <script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
-</div>
+
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1878,7 +1914,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

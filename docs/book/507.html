@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -36,7 +71,7 @@
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/book/507.html">507</sl-breadcrumb-item>
 </sl-breadcrumb>
 
-<div class="md-block"><p><strong>ANNE FRANK. THE DIARY OF A YOUNG GIRL. 1958– . (ML 298)</strong></p>
+<p><strong>ANNE FRANK. THE DIARY OF A YOUNG GIRL. 1958– . (ML 298)</strong></p>
 <h4>507a. First printing (1958)</h4>
 <p>Anne Frank | <em>The diary of a young girl</em> | TRANSLATED <em>from the Dutch</em> |
 <em>by</em> B. M. MOOYAART-DOUBLEDAY | <em>With an</em> INTRODUCTION | <em>by</em> ELEANOR
@@ -104,7 +139,7 @@ thousands of people, it represents the true horror and tragedy of the
 Nazi Occupation.</p>
 </blockquote>
 <p>Published spring 1978 at $4.95. ISBN 0-394-60451-2.</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1835,7 +1870,7 @@ Nazi Occupation.</p>
 </elix-carousel-with-thumbnails>
 
 <sl-details summary="book"><pre>{
-  "full": "**ANNE FRANK. THE DIARY OF A YOUNG GIRL. 1958– . (ML 298)**\n\n#### 507a. First printing (1958)\n\nAnne Frank | *The diary of a young girl* | TRANSLATED *from the Dutch* |\n*by* B. M. MOOYAART-DOUBLEDAY | *With an* INTRODUCTION | *by* ELEANOR\nROOSEVELT | THE MODERN LIBRARY · NEW YORK \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D4.webp'>torchbearer D4</uvalib-modal-image-button> extending\nabove imprint\\]\n\nPp. \\[1–6\\] 7–285 \\[286–288\\]. \\[1–9\\]<sup>16</sup>\n\n\\[1\\] half title; \\[2\\] blank; \\[3\\] title; \\[4\\] *First Modern Library\nEdition* | *Copyright, 1952, by Otto H. Frank* | *Copyright, 1952, by\nthe American Jewish Committee*; \\[5\\] pub. note; \\[6\\] blank; 7–8\nINTRODUCTION signed p. 8: ELEANOR ROOSEVELT; \\[9\\] facsimile of\nhandwritten entry in diary signed: \\[in script\\] Anne Frank. 12 Juni\n1942.; \\[10\\] blank; 11–283 text; \\[284\\] blank; 285 *EPILOGUE*; \\[286\\]\nblank; \\[287–288\\] ML Giants list. (*Fall 1958*)\n\n*Jacket:* Pictorial in grayish olive green (127), brilliant yellow (83)\nand black on coated white paper with illustration in grayish olive green\nand black of a young woman viewed from the rear, wearing an armband with\na Star of David in brilliant yellow; lettering in grayish olive green\nand black, all against white background.\n\n> Front flap:<br>\n> “I hope I shall be able to confide in you completely,” Anne Frank\n> wrote on the opening page of her diary, “as I have never been able to\n> do in anyone before, and I hope that you will be a great support and\n> comfort to me.”\n>\n> What follows is the story of an experience told with such sensitivity\n> and warmth that no reader finishes the book without resolving to read\n> it again.\n>\n> Anne Frank, her sister, and her parents, along with four others,\n> shared a small hiding place in an old building in Amsterdam during the\n> Nazi occupation. Her vivid account of their experiences and feelings\n> during the two fearful years before their discovery—written with rare\n> insight, humor, and intimacy—is one of the classics of our times.\n> (*Fall 1958*)\n\nOriginally published in Amsterdam in 1947; English translation published\nby Doubleday & Co., 1952. ML edition (pp. \\[5\\]–285) printed from\nDoubleday plates. Published October 1958. *WR* 13 October 1958. First\nprinting: Not ascertained.\n\nThe ML paid Doubleday royalties of 10 cents a copy. The second printing,\nmade in spring 1959, was for 7,000 copies.\n\n#### 507b. Reissue format (1978)\n\nTitle as 507a except torchbearer omitted.\n\nPagination as 507a. Perfect bound.\n\nContents as 507a except: \\[4\\] *Copyright, 1952, by Otto H. Frank*;\n\\[286–288\\] blank.\n\n*Jacket:* Non-pictorial on tan paper with lettering in dark blue (183)\nand torchbearer in deep brown (56).\n\n> Front flap:<br>\n> Anne Frank was born in Frankfort, Germany on June 12, 1929. “As we are\n> Jewish, we emigrated to Holland in 1933,” Anne writes in her diary,\n> which she received on her thirteenth birthday. In July 1942 she and\n> her family were forced to take refuge with four others in a back\n> apartment in Amsterdam. There they remained until August 4, 1944, when\n> the *Grüne Polizei* made a raid on the “Secret Annexe” and all the\n> occupants were arrested and sent to German and Dutch concentration\n> camps. In March 1945, two months before the liberation of Holland,\n> Anne died of typhoid in the concentration camp at Bergen-Belsen. Only\n> her father, Otto Frank, survived, and it was he who saw that Anne’s\n> diary was published in 1947.\n>\n> Written with rare insight, humor and intimacy, *The Diary of a Young\n> Girl* is one of the classics of our time. It has inspired a play and\n> has been a bestseller in almost every known language. To hundreds of\n> thousands of people, it represents the true horror and tragedy of the\n> Nazi Occupation.\n\nPublished spring 1978 at $4.95. ISBN 0-394-60451-2.",
+  "full": "**ANNE FRANK. THE DIARY OF A YOUNG GIRL. 1958– . (ML 298)**\n\n#### 507a. First printing (1958)\n\nAnne Frank | *The diary of a young girl* | TRANSLATED *from the Dutch* |\n*by* B. M. MOOYAART-DOUBLEDAY | *With an* INTRODUCTION | *by* ELEANOR\nROOSEVELT | THE MODERN LIBRARY · NEW YORK \\[torchbearer D4 extending\nabove imprint\\]\n\nPp. \\[1–6\\] 7–285 \\[286–288\\]. \\[1–9\\]<sup>16</sup>\n\n\\[1\\] half title; \\[2\\] blank; \\[3\\] title; \\[4\\] *First Modern Library\nEdition* | *Copyright, 1952, by Otto H. Frank* | *Copyright, 1952, by\nthe American Jewish Committee*; \\[5\\] pub. note; \\[6\\] blank; 7–8\nINTRODUCTION signed p. 8: ELEANOR ROOSEVELT; \\[9\\] facsimile of\nhandwritten entry in diary signed: \\[in script\\] Anne Frank. 12 Juni\n1942.; \\[10\\] blank; 11–283 text; \\[284\\] blank; 285 *EPILOGUE*; \\[286\\]\nblank; \\[287–288\\] ML Giants list. (*Fall 1958*)\n\n*Jacket:* Pictorial in grayish olive green (127), brilliant yellow (83)\nand black on coated white paper with illustration in grayish olive green\nand black of a young woman viewed from the rear, wearing an armband with\na Star of David in brilliant yellow; lettering in grayish olive green\nand black, all against white background.\n\n> Front flap:<br>\n> “I hope I shall be able to confide in you completely,” Anne Frank\n> wrote on the opening page of her diary, “as I have never been able to\n> do in anyone before, and I hope that you will be a great support and\n> comfort to me.”\n>\n> What follows is the story of an experience told with such sensitivity\n> and warmth that no reader finishes the book without resolving to read\n> it again.\n>\n> Anne Frank, her sister, and her parents, along with four others,\n> shared a small hiding place in an old building in Amsterdam during the\n> Nazi occupation. Her vivid account of their experiences and feelings\n> during the two fearful years before their discovery—written with rare\n> insight, humor, and intimacy—is one of the classics of our times.\n> (*Fall 1958*)\n\nOriginally published in Amsterdam in 1947; English translation published\nby Doubleday & Co., 1952. ML edition (pp. \\[5\\]–285) printed from\nDoubleday plates. Published October 1958. *WR* 13 October 1958. First\nprinting: Not ascertained.\n\nThe ML paid Doubleday royalties of 10 cents a copy. The second printing,\nmade in spring 1959, was for 7,000 copies.\n\n#### 507b. Reissue format (1978)\n\nTitle as 507a except torchbearer omitted.\n\nPagination as 507a. Perfect bound.\n\nContents as 507a except: \\[4\\] *Copyright, 1952, by Otto H. Frank*;\n\\[286–288\\] blank.\n\n*Jacket:* Non-pictorial on tan paper with lettering in dark blue (183)\nand torchbearer in deep brown (56).\n\n> Front flap:<br>\n> Anne Frank was born in Frankfort, Germany on June 12, 1929. “As we are\n> Jewish, we emigrated to Holland in 1933,” Anne writes in her diary,\n> which she received on her thirteenth birthday. In July 1942 she and\n> her family were forced to take refuge with four others in a back\n> apartment in Amsterdam. There they remained until August 4, 1944, when\n> the *Grüne Polizei* made a raid on the “Secret Annexe” and all the\n> occupants were arrested and sent to German and Dutch concentration\n> camps. In March 1945, two months before the liberation of Holland,\n> Anne died of typhoid in the concentration camp at Bergen-Belsen. Only\n> her father, Otto Frank, survived, and it was he who saw that Anne’s\n> diary was published in 1947.\n>\n> Written with rare insight, humor and intimacy, *The Diary of a Young\n> Girl* is one of the classics of our time. It has inspired a play and\n> has been a bestseller in almost every known language. To hundreds of\n> thousands of people, it represents the true horror and tragedy of the\n> Nazi Occupation.\n\nPublished spring 1978 at $4.95. ISBN 0-394-60451-2.",
   "id": "507",
   "year": "1958",
   "title": "ANNE FRANK. THE DIARY OF A YOUNG GIRL. 1958– . (ML 298)",
@@ -1843,7 +1878,8 @@ Nazi Occupation.</p>
 }</pre></sl-details>
 
 <script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
-</div>
+
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1862,7 +1898,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

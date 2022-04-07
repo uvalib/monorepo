@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -39,7 +74,7 @@
 
 <h1>323a</h1>
 <h2>First printing (1939)</h2>
-<div class="md-block"><p>[within double rules] <em>The History of the Adventures of</em> | JOSEPH
+<p>[within double rules] <em>The History of the Adventures of</em> | JOSEPH
 ANDREWS | <em>and his friend Mr. Abraham Adams</em> | [rule] | BY HENRY
 FIELDING | [rule] | <em>With an Introduction by</em> | HOWARD MUMFORD JONES |
 [rule] | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer A2</uvalib-modal-image-button>] | [rule] | THE MODERN LIBRARY | NEW YORK</p>
@@ -89,7 +124,7 @@ letter from Cerf he agreed to write the introduction himself.</p>
 placing it in the middle of the fourth quarter of ML titles. It was not
 among the 100 best-selling titles in the regular ML during the
 twelve-month period, November 1951–October 1952.</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1818,12 +1853,13 @@ twelve-month period, November 1951–October 1952.</p>
 <sl-details summary="revision"><pre>{
   "id": "323a",
   "title": "First printing (1939)",
-  "full": "\n\n\\[within double rules\\] *The History of the Adventures of* | JOSEPH\nANDREWS | *and his friend Mr. Abraham Adams* | \\[rule\\] | BY HENRY\nFIELDING | \\[rule\\] | *With an Introduction by* | HOWARD MUMFORD JONES |\n\\[rule\\] | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer A2</uvalib-modal-image-button>\\] | \\[rule\\] | THE MODERN LIBRARY | NEW YORK\n\nPp. \\[i–iv\\] v–xxxviii, \\[1–2\\] 3–422 \\[423–426\\]. \\[1–14\\]<sup>16</sup>\n\\[15\\]<sup>8</sup>\n\n\\[i\\] half title; \\[ii\\] pub. note D18; \\[iii\\] title; \\[iv\\]\n*Introduction Copyright,* 1939, | *by* RANDOM HOUSE, INC. | \\[short\ndouble rule\\] | *First Modern Library Edition* | 1939; v–xxii\nINTRODUCTION | By Howard Mumford Jones dated p. xxii: *Harvard\nUniversity* | *July, 1939*; xxiii–xxxi *Author’s Preface*; \\[xxxii\\]\nblank; xxxiii–xxxviii *Contents*; \\[1\\] fly title; \\[2\\] blank; 3–422\ntext; \\[423–426\\] blank.\n\n*Format:* 7⅛ x 4⅞ in. (181 x 123 mm) with cream endpapers and the\nvariant Blumenthal binding without the torchbearer on the front panel.\nThe binding appears to have been used only for first printings of the\ntwo new titles published in October 1939, Fielding, *Joseph Andrews* and\nFineman, *Hear Ye Sons* (324).\n\n*Jacket:* Non-pictorial in light blue (181) on coated white paper with\nlettering and decoration in reverse on front panel and spine. Probably\ndesigned by Joseph Blumenthal.\n\n> Front flap:<br>\n> Convinced that Fielding’s *Joseph Andrews* will take its place in\n> general popularity beside his universally read *Tom Jones* (No. 185),\n> the editors take pleasure in adding this immortal satire to the Modern\n> Library series. Full-bodied, broadly humorous, this swift-paced\n> classic is a biting commentary on the pretenses and foibles of\n> eighteenth-century England, and is as fresh and vivid today as it was\n> when written. It is doubtful if its array of characters has ever been\n> surpassed in English fiction for brilliance, economy and variety.\n> (*Fall 1939*)\n\nML edition printed from plates made from a new typesetting. Published\nOctober 1939. *WR* 14 October 1939. First printing: Not ascertained.\nDiscontinued 1971/72.\n\nCerf appears to have asked Henry C. Moriarty, manager of the book\ndepartment of the Harvard Cooperative Society, to suggest someone to\nwrite the introduction. Moriarty suggested Howard Mumford Jones, a\nprofessor of English at Harvard. When Cerf contacted Jones he explained\nthat the ML could “only pay $50 for forewords because of the small\nmargin of profit on which the library is operated. On the other hand,\nthere are no stipulations whatever as to the length of the foreword or\ncontents thereof” (Cerf to Jones, 8 June 1939). Jones suggested George\nSherwood of Columbia University as better qualified, but after a second\nletter from Cerf he agreed to write the introduction himself.\n\nThe ML edition sold 2,823 copies between 1 May 1942 and 1 November 1943,\nplacing it in the middle of the fourth quarter of ML titles. It was not\namong the 100 best-selling titles in the regular ML during the\ntwelve-month period, November 1951–October 1952.\n\n",
+  "full": "\n\n\\[within double rules\\] *The History of the Adventures of* | JOSEPH\nANDREWS | *and his friend Mr. Abraham Adams* | \\[rule\\] | BY HENRY\nFIELDING | \\[rule\\] | *With an Introduction by* | HOWARD MUMFORD JONES |\n\\[rule\\] | \\[torchbearer A2\\] | \\[rule\\] | THE MODERN LIBRARY | NEW YORK\n\nPp. \\[i–iv\\] v–xxxviii, \\[1–2\\] 3–422 \\[423–426\\]. \\[1–14\\]<sup>16</sup>\n\\[15\\]<sup>8</sup>\n\n\\[i\\] half title; \\[ii\\] pub. note D18; \\[iii\\] title; \\[iv\\]\n*Introduction Copyright,* 1939, | *by* RANDOM HOUSE, INC. | \\[short\ndouble rule\\] | *First Modern Library Edition* | 1939; v–xxii\nINTRODUCTION | By Howard Mumford Jones dated p. xxii: *Harvard\nUniversity* | *July, 1939*; xxiii–xxxi *Author’s Preface*; \\[xxxii\\]\nblank; xxxiii–xxxviii *Contents*; \\[1\\] fly title; \\[2\\] blank; 3–422\ntext; \\[423–426\\] blank.\n\n*Format:* 7⅛ x 4⅞ in. (181 x 123 mm) with cream endpapers and the\nvariant Blumenthal binding without the torchbearer on the front panel.\nThe binding appears to have been used only for first printings of the\ntwo new titles published in October 1939, Fielding, *Joseph Andrews* and\nFineman, *Hear Ye Sons* (324).\n\n*Jacket:* Non-pictorial in light blue (181) on coated white paper with\nlettering and decoration in reverse on front panel and spine. Probably\ndesigned by Joseph Blumenthal.\n\n> Front flap:<br>\n> Convinced that Fielding’s *Joseph Andrews* will take its place in\n> general popularity beside his universally read *Tom Jones* (No. 185),\n> the editors take pleasure in adding this immortal satire to the Modern\n> Library series. Full-bodied, broadly humorous, this swift-paced\n> classic is a biting commentary on the pretenses and foibles of\n> eighteenth-century England, and is as fresh and vivid today as it was\n> when written. It is doubtful if its array of characters has ever been\n> surpassed in English fiction for brilliance, economy and variety.\n> (*Fall 1939*)\n\nML edition printed from plates made from a new typesetting. Published\nOctober 1939. *WR* 14 October 1939. First printing: Not ascertained.\nDiscontinued 1971/72.\n\nCerf appears to have asked Henry C. Moriarty, manager of the book\ndepartment of the Harvard Cooperative Society, to suggest someone to\nwrite the introduction. Moriarty suggested Howard Mumford Jones, a\nprofessor of English at Harvard. When Cerf contacted Jones he explained\nthat the ML could “only pay $50 for forewords because of the small\nmargin of profit on which the library is operated. On the other hand,\nthere are no stipulations whatever as to the length of the foreword or\ncontents thereof” (Cerf to Jones, 8 June 1939). Jones suggested George\nSherwood of Columbia University as better qualified, but after a second\nletter from Cerf he agreed to write the introduction himself.\n\nThe ML edition sold 2,823 copies between 1 May 1942 and 1 November 1943,\nplacing it in the middle of the fourth quarter of ML titles. It was not\namong the 100 best-selling titles in the regular ML during the\ntwelve-month period, November 1951–October 1952.\n\n",
   "year": "1939",
   "book": "323"
 }</pre></sl-details>
 
-<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script></div>
+<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1842,7 +1878,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

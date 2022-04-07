@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -39,7 +74,7 @@
 
 <h1>387b</h1>
 <h2>Title page with Fujita torchbearer; 7½ inch format (1969/70)</h2>
-<div class="md-block"><p>Title as 387a through line 6; lines 7–9: [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/K.webp'>torchbearer K</uvalib-modal-image-button> at right;
+<p>Title as 387a through line 6; lines 7–9: [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/K.webp'>torchbearer K</uvalib-modal-image-button> at right;
 3-line imprint at left] THE | MODERN LIBRARY | NEW YORK.</p>
 <p>Pagination as 387a. [1–17]<sup>16</sup> [18]<sup>8</sup>
 [19–20]<sup>16</sup></p>
@@ -63,7 +98,7 @@ tales of mystery and adventure—twenty-three in all—include “The
 Red-Headed League,” “The Adventure of the Speckled Band,” “The Five
 Orange Pips” and others of equal fame and favor.</p>
 </blockquote>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1794,12 +1829,13 @@ Orange Pips” and others of equal fame and favor.</p>
 <sl-details summary="revision"><pre>{
   "id": "387b",
   "title": "Title page with Fujita torchbearer; 7½ inch format (1969/70)",
-  "full": "\n\nTitle as 387a through line 6; lines 7–9: \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/K.webp'>torchbearer K</uvalib-modal-image-button> at right;\n3-line imprint at left\\] THE | MODERN LIBRARY | NEW YORK.\n\nPagination as 387a. \\[1–17\\]<sup>16</sup> \\[18\\]<sup>8</sup>\n\\[19–20\\]<sup>16</sup>\n\nContents as 387a except: \\[iv\\] Adventures of Sherlock Holmes |\nCOPYRIGHT, 1892, BY HARPER & BROS. | COPYRIGHT, 1920, BY A. CONAN DOYLE\n| Memoirs of Sherlock Holmes | COPYRIGHT, 1894, BY HARPER & BROS. |\nCOPYRIGHT, 1921, BY A. CONAN DOYLE | \\[10 lines of additional copyright\nstatements\\]; \\[613–614\\] ML Giants list; \\[615–618\\] blank. (*Spring\n1967*)\n\n*Jacket B:* Enlarged version of 387a with strong purplish red (255) in\nplace of moderate blue, very dark purplish red (260), brilliant yellow\n(83), and dark olive brown (96). Fujita “ml” symbol in brilliant yellow\nadded between author and title, and front panel enclosed in strong\npurplish red frame; backstrip in strong purplish red with lettering in\nbrilliant yellow and reverse.\n\n> Front flap:<br>\n> This volume contains, complete and unabridged, the two collections of\n> Sherlock Holmes stories, the *Adventures* and the *Memoirs*. These\n> tales of mystery and adventure—twenty-three in all—include “The\n> Red-Headed League,” “The Adventure of the Speckled Band,” “The Five\n> Orange Pips” and others of equal fame and favor.",
+  "full": "\n\nTitle as 387a through line 6; lines 7–9: \\[torchbearer K at right;\n3-line imprint at left\\] THE | MODERN LIBRARY | NEW YORK.\n\nPagination as 387a. \\[1–17\\]<sup>16</sup> \\[18\\]<sup>8</sup>\n\\[19–20\\]<sup>16</sup>\n\nContents as 387a except: \\[iv\\] Adventures of Sherlock Holmes |\nCOPYRIGHT, 1892, BY HARPER & BROS. | COPYRIGHT, 1920, BY A. CONAN DOYLE\n| Memoirs of Sherlock Holmes | COPYRIGHT, 1894, BY HARPER & BROS. |\nCOPYRIGHT, 1921, BY A. CONAN DOYLE | \\[10 lines of additional copyright\nstatements\\]; \\[613–614\\] ML Giants list; \\[615–618\\] blank. (*Spring\n1967*)\n\n*Jacket B:* Enlarged version of 387a with strong purplish red (255) in\nplace of moderate blue, very dark purplish red (260), brilliant yellow\n(83), and dark olive brown (96). Fujita “ml” symbol in brilliant yellow\nadded between author and title, and front panel enclosed in strong\npurplish red frame; backstrip in strong purplish red with lettering in\nbrilliant yellow and reverse.\n\n> Front flap:<br>\n> This volume contains, complete and unabridged, the two collections of\n> Sherlock Holmes stories, the *Adventures* and the *Memoirs*. These\n> tales of mystery and adventure—twenty-three in all—include “The\n> Red-Headed League,” “The Adventure of the Speckled Band,” “The Five\n> Orange Pips” and others of equal fame and favor.",
   "year": "1946",
   "book": "387"
 }</pre></sl-details>
 
-<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script></div>
+<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1818,7 +1854,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

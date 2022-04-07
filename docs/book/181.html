@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -36,7 +71,7 @@
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/book/181.html">181</sl-breadcrumb-item>
 </sl-breadcrumb>
 
-<div class="md-block"><p>*<strong>GEOFFREY CHAUCER. THE CANTERBURY TALES. 1929–1971. (ML 161)</strong></p>
+<p>*<strong>GEOFFREY CHAUCER. THE CANTERBURY TALES. 1929–1971. (ML 161)</strong></p>
 <h4>181.1a. First printing (1929)</h4>
 <p>[within double rules] THE CANTERBURY | TALES | [rule] | BY |
 GEOFFREY CHAUCER | [rule] | EDITED BY THE | REV. WALTER W. SKEAT |
@@ -91,7 +126,7 @@ blank; [iv] INTRODUCTION COPYRIGHT, 1929, | BY THE MODERN LIBRARY,
 INC.; [603–608] ML list. (<em>Spring 1945</em>)</p>
 <p><em>Jacket:</em> Enlarged version of 181.1a jacket. Front flap as 181.1a.
 (<em>Spring 1945</em>)</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1824,7 +1859,7 @@ INC.; [603–608] ML list. (<em>Spring 1945</em>)</p>
 </elix-carousel-with-thumbnails>
 
 <sl-details summary="book"><pre>{
-  "full": "***GEOFFREY CHAUCER. THE CANTERBURY TALES. 1929–1971. (ML 161)**\n\n#### 181.1a. First printing (1929)\n\n\\[within double rules\\] THE CANTERBURY | TALES | \\[rule\\] | BY |\nGEOFFREY CHAUCER | \\[rule\\] | EDITED BY THE | REV. WALTER W. SKEAT |\n\\[rule\\] | INTRODUCTION BY | LOUIS UNTERMEYER | \\[rule\\] | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer\nA2</uvalib-modal-image-button>\\] | \\[rule\\] | THE MODERN LIBRARY | PUBLISHERS : NEW YORK\n\nPp. \\[i–iv\\] v–vii \\[viii\\], 1–602 \\[603–608\\]. \\[1–19\\]<sup>16</sup>\n\\[20\\]<sup>4</sup>\n\n\\[i\\] half title; \\[ii\\] pub. note A6; \\[iii\\] title; \\[iv\\]\n*Introduction Copyright,* 1929, *by* | THE MODERN LIBRARY, INC. |\n\\[short double rule\\] | *First Modern Library Edition* | 1929; v–vii\nINTRODUCTION signed p. vii: <span class=\"smallcaps\">Louis\nUntermeyer</span>. | New York, 1929.; \\[viii\\] blank; 1–578 text;\n579–582 NOTE ON THE | LANGUAGE AND METRE; 583–602 GLOSSARY; \\[603–606\\]\nML list; \\[607–608\\] blank. (*Fall 1929*)\n\n*Jacket A:* Uniform typographic jacket D. (*Fall 1929*)\n\n> Front flap:<br>\n> For centuries commentators have sought a particular attribute by which\n> Chaucer earned the title of “the father of English poetry.” Now the\n> secret of his genius no longer lies merely in his incomparable\n> narrative powers, nor in his technical mastery. His unfailing vitality\n> and his myriad attachments to reality and imagination reveal the true\n> scope of the man and the poet. The Modern Library edition of *The\n> Canterbury Tales* makes his masterpiece available to scholar and\n> general reader alike in its most authoritative version. (*Fall 1936*)\n\n*Jacket B:* Pictorial in brownish orange (54), gold and black on coated\ncream paper with black-and-white illustration of five mounted pilgrims\nand Canterbury Cathedral in distance; background in white ruled in gold,\ntitle in reverse against inset brownish orange panel at top, author in\nreverse highlighted in black against brownish orange panel at foot,\nother lettering in black. Designed by Paul Galdone, December 1937;\nunsigned. Front flap as 181.1a. (*Spring 1938*)\n\nSkeat edition originally published as part of *The Complete Works of\nGeoffrey Chaucer* by Oxford University Press (6 vols., 1897). ML edition\nprinted from plates made from a new typesetting. Published September\n1929. *WR* 26 October 1929. First printing: Not ascertained.\nDiscontinued 1971/72.\n\nUntermeyer received $50 for the introduction. Sales totaled 87,132\ncopies by spring 1958.\n\n*The Canterbury Tales* ranked high in the 3rd quarter of ML titles in\nterms of sales during the 18-month period, May 1942–October 1943. It was\nnot among the 100 best-selling titles in the regular ML during the\n12-month period, November 1951–October 1952.\n\n#### 181.1b. Title page reset (c. 1940)\n\nTHE | CANTERBURY | TALES | *by* GEOFFREY CHAUCER | *edited by* REV.\nWALTER W. SKEAT | *introduction by* LOUIS UNTERMEYER | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D1.webp'>torchbearer D1</uvalib-modal-image-button>\nat right; 3-line imprint at left\\] THE | MODERN LIBRARY | NEW YORK |\n\\[rule\\]\n\nPagination and collation as 181.1a. Contents as 181.1a except: \\[ii\\]\nblank; \\[iv\\] INTRODUCTION COPYRIGHT, 1929, | BY THE MODERN LIBRARY,\nINC.; \\[603–608\\] ML list. (*Spring 1945*)\n\n*Jacket:* Enlarged version of 181.1a jacket. Front flap as 181.1a.\n(*Spring 1945*)",
+  "full": "***GEOFFREY CHAUCER. THE CANTERBURY TALES. 1929–1971. (ML 161)**\n\n#### 181.1a. First printing (1929)\n\n\\[within double rules\\] THE CANTERBURY | TALES | \\[rule\\] | BY |\nGEOFFREY CHAUCER | \\[rule\\] | EDITED BY THE | REV. WALTER W. SKEAT |\n\\[rule\\] | INTRODUCTION BY | LOUIS UNTERMEYER | \\[rule\\] | \\[torchbearer\nA2\\] | \\[rule\\] | THE MODERN LIBRARY | PUBLISHERS : NEW YORK\n\nPp. \\[i–iv\\] v–vii \\[viii\\], 1–602 \\[603–608\\]. \\[1–19\\]<sup>16</sup>\n\\[20\\]<sup>4</sup>\n\n\\[i\\] half title; \\[ii\\] pub. note A6; \\[iii\\] title; \\[iv\\]\n*Introduction Copyright,* 1929, *by* | THE MODERN LIBRARY, INC. |\n\\[short double rule\\] | *First Modern Library Edition* | 1929; v–vii\nINTRODUCTION signed p. vii: <span class=\"smallcaps\">Louis\nUntermeyer</span>. | New York, 1929.; \\[viii\\] blank; 1–578 text;\n579–582 NOTE ON THE | LANGUAGE AND METRE; 583–602 GLOSSARY; \\[603–606\\]\nML list; \\[607–608\\] blank. (*Fall 1929*)\n\n*Jacket A:* Uniform typographic jacket D. (*Fall 1929*)\n\n> Front flap:<br>\n> For centuries commentators have sought a particular attribute by which\n> Chaucer earned the title of “the father of English poetry.” Now the\n> secret of his genius no longer lies merely in his incomparable\n> narrative powers, nor in his technical mastery. His unfailing vitality\n> and his myriad attachments to reality and imagination reveal the true\n> scope of the man and the poet. The Modern Library edition of *The\n> Canterbury Tales* makes his masterpiece available to scholar and\n> general reader alike in its most authoritative version. (*Fall 1936*)\n\n*Jacket B:* Pictorial in brownish orange (54), gold and black on coated\ncream paper with black-and-white illustration of five mounted pilgrims\nand Canterbury Cathedral in distance; background in white ruled in gold,\ntitle in reverse against inset brownish orange panel at top, author in\nreverse highlighted in black against brownish orange panel at foot,\nother lettering in black. Designed by Paul Galdone, December 1937;\nunsigned. Front flap as 181.1a. (*Spring 1938*)\n\nSkeat edition originally published as part of *The Complete Works of\nGeoffrey Chaucer* by Oxford University Press (6 vols., 1897). ML edition\nprinted from plates made from a new typesetting. Published September\n1929. *WR* 26 October 1929. First printing: Not ascertained.\nDiscontinued 1971/72.\n\nUntermeyer received $50 for the introduction. Sales totaled 87,132\ncopies by spring 1958.\n\n*The Canterbury Tales* ranked high in the 3rd quarter of ML titles in\nterms of sales during the 18-month period, May 1942–October 1943. It was\nnot among the 100 best-selling titles in the regular ML during the\n12-month period, November 1951–October 1952.\n\n#### 181.1b. Title page reset (c. 1940)\n\nTHE | CANTERBURY | TALES | *by* GEOFFREY CHAUCER | *edited by* REV.\nWALTER W. SKEAT | *introduction by* LOUIS UNTERMEYER | \\[torchbearer D1\nat right; 3-line imprint at left\\] THE | MODERN LIBRARY | NEW YORK |\n\\[rule\\]\n\nPagination and collation as 181.1a. Contents as 181.1a except: \\[ii\\]\nblank; \\[iv\\] INTRODUCTION COPYRIGHT, 1929, | BY THE MODERN LIBRARY,\nINC.; \\[603–608\\] ML list. (*Spring 1945*)\n\n*Jacket:* Enlarged version of 181.1a jacket. Front flap as 181.1a.\n(*Spring 1945*)",
   "id": "181",
   "year": "1929",
   "title": "GEOFFREY CHAUCER. THE CANTERBURY TALES. 1929–1971. (ML 161)",
@@ -1832,7 +1867,8 @@ INC.; [603–608] ML list. (<em>Spring 1945</em>)</p>
 }</pre></sl-details>
 
 <script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
-</div>
+
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1851,7 +1887,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

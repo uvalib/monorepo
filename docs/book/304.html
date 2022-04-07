@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -36,7 +71,7 @@
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/book/304.html">304</sl-breadcrumb-item>
 </sl-breadcrumb>
 
-<div class="md-block"><p><strong>JOHN STEINBECK. TORTILLA FLAT. 1937–1971. (ML 216)</strong></p>
+<p><strong>JOHN STEINBECK. TORTILLA FLAT. 1937–1971. (ML 216)</strong></p>
 <h4>304a. First printing (1937)</h4>
 <p>[within double rules] TORTILLA FLAT | [rule] | BY | JOHN STEINBECK |
 [rule] | WITH A FOREWORD BY THE AUTHOR | [rule] | ILLUSTRATED BY |
@@ -143,7 +178,7 @@ different slice of life could be considered shocking.</p>
 <p>Steinbeck, <em>Of Mice and Men</em> (1938– ) 311</p>
 <p>Steinbeck, <em>In Dubious Battle</em> (1939–1971) 322</p>
 <p>Steinbeck, <em>Grapes of Wrath</em> (1941–1959) 341</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1874,7 +1909,7 @@ different slice of life could be considered shocking.</p>
 </elix-carousel-with-thumbnails>
 
 <sl-details summary="book"><pre>{
-  "full": "**JOHN STEINBECK. TORTILLA FLAT. 1937–1971. (ML 216)**\n\n#### 304a. First printing (1937)\n\n\\[within double rules\\] TORTILLA FLAT | \\[rule\\] | BY | JOHN STEINBECK |\n\\[rule\\] | WITH A FOREWORD BY THE AUTHOR | \\[rule\\] | ILLUSTRATED BY |\nRUTH GANNETT | \\[rule\\] | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A3.webp'>torchbearer A3</uvalib-modal-image-button>\\] | \\[rule\\] | THE MODERN\nLIBRARY | NEW YORK\n\nPp. \\[*8*\\], \\[i–iv\\] v–vi \\[7–8\\] 9–316 \\[317–320\\].\n\\[1–10\\]<sup>16</sup> \\[11\\]<sup>4</sup>\n\n\\[*1*\\] half title; \\[*2*\\] pub. note D18; \\[*3*\\] title; \\[*4*\\]\n*Copyright,* 1935, *by* <span class=\"smallcaps\">John Steinbeck</span> |\n*Foreword Copyright,* 1937, *by* RANDOM HOUSE, INC.; \\[*5*\\] dedication;\n\\[*6*\\] blank; \\[*7*\\] biographical note; \\[*8*\\] blank; \\[i–iii\\]\nFOREWORD signed p. \\[iii\\]: <span class=\"smallcaps\">John\nSteinbeck.</span> | <span class=\"smallcaps\">June</span>, 1937.; \\[iv\\]\nblank; v–vi CHAPTER HEADINGS; \\[7\\] fly title; \\[8\\] blank; 9–\\[317\\]\ntext; \\[318–320\\] blank.\n\n*Jacket A:* Pictorial in vivid reddish orange (34) and deep blue (179)\non coated white paper depicting a man in wide-brimmed hat with bay in\ndistance; title in reverse highlighted in deep blue, other lettering in\ndeep blue, all against vivid reddish orange background. Spine panel in\ndeep blue with lettering in reverse. Designed by Paul Galdone, July\n1937; unsigned.\n\n> Front flap:<br>\n> Long before *Of Mice and Men* became a best-seller and thrust its\n> author into the national limelight, John Steinbeck had built a solid\n> reputation upon his novel, *Tortilla Flat*. This carefree tale of the\n> exploits of three lovable rogues won the unanimous praise of critics\n> and reading public alike. Now it is included in the Modern Library\n> series, partly as a tribute to the novel’s own enchantment and partly\n> because John Steinbeck has earned the right to a place in a library of\n> the foremost writers of our time. (*Fall 1937*)\n\nOriginally published in U.S. by Covici, Friede, 1935; publishing rights\nand plates subsequently acquired by Viking Press. ML edition (pp.\nv–\\[317\\]) printed from Covici, Friede (later Covici, Friede/Viking)\nplates. Published September 1937. *WR* 25 September 1937. First\nprinting: Not ascertained. Discontinued 1971/72.\n\nSteinbeck’s foreword begins: “When this book was written, it did not\noccur to me that paisanos were curious or quaint, dispossessed or\nunderdoggish. They are people whom I know and like, people who merge\nsuccessfully with their habitat. . . . Had I known that these stories\nand these people would be considered quaint, I think I never should have\nwritten them” (p. \\[i\\]). When he submitted the foreword he told Cerf,\n“It is the only thing I want to say. If it won’t do—throw it out and\nhave someone else do it. This is not a clever introduction” (Steinbeck\nto Cerf, undated but probably June 1937). He also asked that the ML\nedition be dedicated to Susan Gregory of Monterey. The dedication was\nretained in later Viking printings.\n\nSubsequent printings of the ML edition include the following: 3,000\ncopies (August 1938); 3,000 copies (July 1939); 5,000 copies (December\n1939); 2,000 copies (July 1941); 6,000 copies (December 1942). *Tortilla\nFlat* sold 13,432 copies during the eighteen-month period May\n1942–October 1943, making it the fourth best-selling title in the\nregular series and thirteenth out of 281 ML and Giant titles. The\nunusually strong sales of *Tortilla Flat* at this period may have been\nstimulated by the release of the 1942 film version starring Spencer\nTracy and Hedy Lamarr.\n\nDuring the same period *The Grapes of Wrath* (341) ranked in the first\nquarter of ML and Giant titles with sales of 9,495 copies. *Of Mice and\nMen* (311) and *In Dubious Battle* (322) were in the second quarter with\nsales of 7,020 copies and 6,028 copies respectively. By the early 1950s\n(November 1951–October 1952) *The Grapes of Wrath* was the only\nSteinbeck title among the 100 best-selling titles in the regular ML.\n\n#### 304b. Title page reset (c. 1941)\n\nTortilla Flat | BY JOHN STEINBECK | WITH A FOREWORD BY THE AUTHOR |\nILLUSTRATED BY RUTH GANNETT | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D1.webp'>torchbearer D1</uvalib-modal-image-button> at right; 3-line imprint\nat left\\] THE | MODERN LIBRARY | NEW YORK | \\[rule\\]\n\nPagination and collation as 304a.\n\nContents as 304a except: \\[*2*\\] blank; \\[*4*\\] COPYRIGHT, 1935, BY JOHN\nSTEINBECK | FOREWORD COPYRIGHT, 1937, | BY RANDOM HOUSE, INC.\n\n> *Variant:* Pagination as 304a except: \\[317–328\\].\n> \\[1–10\\]<sup>16</sup> \\[11\\]<sup>8</sup>. Contents as 304b except:\n> \\[318\\] blank; \\[319–324\\] ML list; \\[325–326\\] ML Giants list;\n> \\[327–328\\] blank. (*Spring 1944*)\n\n*Jacket B:* Enlarged version of 304a with highlighting in white redone.\n(*Fall 1942*)\n\n#### 304c. Title page with Fujita torchbearer; 7½ inch format (1969/70)\n\nTitle as 304b except: \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/K.webp'>torchbearer K</uvalib-modal-image-button>\\].\n\nPagination as 304b variant. \\[1–8\\]<sup>16</sup> \\[9\\]<sup>8</sup>\n\\[10–11\\]<sup>16</sup>. Contents as 304b variant except: \\[319–326\\] ML\nlist; \\[327–328\\] ML Giants list. (*Spring 1967*)\n\n*Jacket C:* Fujita non-pictorial jacket in black, vivid yellow (82) and\nred on coated white paper with lettering shaded from vivid yellow\nflecked with red at top to solid red at foot, all against black\nbackground.\n\n> Front flap:<br>\n> *Tortilla Flat*, which appeared in 1935, was the first of Steinbeck’s\n> novels to receive wide attention. He was disturbed by the response to\n> this portrait of a group of carefree *paisanos* in a Monterey slum,\n> writing two years later that “I shall never again subject to the\n> vulgar touch of the *decent* these good people of laughter and\n> kindness, of honest lusts and direct eyes, of courtesy beyond\n> politeness.” If today, Steinbeck’s own view of Danny and his friends\n> seems to some shallow and condescending, that is a measure of the time\n> in which he wrote and the impact of his writing on the change in our\n> attitudes. Steinbeck tells this story with warmth and liveliness, and\n> it remains a document of a period when even this glimpse of a\n> different slice of life could be considered shocking.\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\nSteinbeck, *Of Mice and Men* (1938– ) 311\n\nSteinbeck, *In Dubious Battle* (1939–1971) 322\n\nSteinbeck, *Grapes of Wrath* (1941–1959) 341",
+  "full": "**JOHN STEINBECK. TORTILLA FLAT. 1937–1971. (ML 216)**\n\n#### 304a. First printing (1937)\n\n\\[within double rules\\] TORTILLA FLAT | \\[rule\\] | BY | JOHN STEINBECK |\n\\[rule\\] | WITH A FOREWORD BY THE AUTHOR | \\[rule\\] | ILLUSTRATED BY |\nRUTH GANNETT | \\[rule\\] | \\[torchbearer A3\\] | \\[rule\\] | THE MODERN\nLIBRARY | NEW YORK\n\nPp. \\[*8*\\], \\[i–iv\\] v–vi \\[7–8\\] 9–316 \\[317–320\\].\n\\[1–10\\]<sup>16</sup> \\[11\\]<sup>4</sup>\n\n\\[*1*\\] half title; \\[*2*\\] pub. note D18; \\[*3*\\] title; \\[*4*\\]\n*Copyright,* 1935, *by* <span class=\"smallcaps\">John Steinbeck</span> |\n*Foreword Copyright,* 1937, *by* RANDOM HOUSE, INC.; \\[*5*\\] dedication;\n\\[*6*\\] blank; \\[*7*\\] biographical note; \\[*8*\\] blank; \\[i–iii\\]\nFOREWORD signed p. \\[iii\\]: <span class=\"smallcaps\">John\nSteinbeck.</span> | <span class=\"smallcaps\">June</span>, 1937.; \\[iv\\]\nblank; v–vi CHAPTER HEADINGS; \\[7\\] fly title; \\[8\\] blank; 9–\\[317\\]\ntext; \\[318–320\\] blank.\n\n*Jacket A:* Pictorial in vivid reddish orange (34) and deep blue (179)\non coated white paper depicting a man in wide-brimmed hat with bay in\ndistance; title in reverse highlighted in deep blue, other lettering in\ndeep blue, all against vivid reddish orange background. Spine panel in\ndeep blue with lettering in reverse. Designed by Paul Galdone, July\n1937; unsigned.\n\n> Front flap:<br>\n> Long before *Of Mice and Men* became a best-seller and thrust its\n> author into the national limelight, John Steinbeck had built a solid\n> reputation upon his novel, *Tortilla Flat*. This carefree tale of the\n> exploits of three lovable rogues won the unanimous praise of critics\n> and reading public alike. Now it is included in the Modern Library\n> series, partly as a tribute to the novel’s own enchantment and partly\n> because John Steinbeck has earned the right to a place in a library of\n> the foremost writers of our time. (*Fall 1937*)\n\nOriginally published in U.S. by Covici, Friede, 1935; publishing rights\nand plates subsequently acquired by Viking Press. ML edition (pp.\nv–\\[317\\]) printed from Covici, Friede (later Covici, Friede/Viking)\nplates. Published September 1937. *WR* 25 September 1937. First\nprinting: Not ascertained. Discontinued 1971/72.\n\nSteinbeck’s foreword begins: “When this book was written, it did not\noccur to me that paisanos were curious or quaint, dispossessed or\nunderdoggish. They are people whom I know and like, people who merge\nsuccessfully with their habitat. . . . Had I known that these stories\nand these people would be considered quaint, I think I never should have\nwritten them” (p. \\[i\\]). When he submitted the foreword he told Cerf,\n“It is the only thing I want to say. If it won’t do—throw it out and\nhave someone else do it. This is not a clever introduction” (Steinbeck\nto Cerf, undated but probably June 1937). He also asked that the ML\nedition be dedicated to Susan Gregory of Monterey. The dedication was\nretained in later Viking printings.\n\nSubsequent printings of the ML edition include the following: 3,000\ncopies (August 1938); 3,000 copies (July 1939); 5,000 copies (December\n1939); 2,000 copies (July 1941); 6,000 copies (December 1942). *Tortilla\nFlat* sold 13,432 copies during the eighteen-month period May\n1942–October 1943, making it the fourth best-selling title in the\nregular series and thirteenth out of 281 ML and Giant titles. The\nunusually strong sales of *Tortilla Flat* at this period may have been\nstimulated by the release of the 1942 film version starring Spencer\nTracy and Hedy Lamarr.\n\nDuring the same period *The Grapes of Wrath* (341) ranked in the first\nquarter of ML and Giant titles with sales of 9,495 copies. *Of Mice and\nMen* (311) and *In Dubious Battle* (322) were in the second quarter with\nsales of 7,020 copies and 6,028 copies respectively. By the early 1950s\n(November 1951–October 1952) *The Grapes of Wrath* was the only\nSteinbeck title among the 100 best-selling titles in the regular ML.\n\n#### 304b. Title page reset (c. 1941)\n\nTortilla Flat | BY JOHN STEINBECK | WITH A FOREWORD BY THE AUTHOR |\nILLUSTRATED BY RUTH GANNETT | \\[torchbearer D1 at right; 3-line imprint\nat left\\] THE | MODERN LIBRARY | NEW YORK | \\[rule\\]\n\nPagination and collation as 304a.\n\nContents as 304a except: \\[*2*\\] blank; \\[*4*\\] COPYRIGHT, 1935, BY JOHN\nSTEINBECK | FOREWORD COPYRIGHT, 1937, | BY RANDOM HOUSE, INC.\n\n> *Variant:* Pagination as 304a except: \\[317–328\\].\n> \\[1–10\\]<sup>16</sup> \\[11\\]<sup>8</sup>. Contents as 304b except:\n> \\[318\\] blank; \\[319–324\\] ML list; \\[325–326\\] ML Giants list;\n> \\[327–328\\] blank. (*Spring 1944*)\n\n*Jacket B:* Enlarged version of 304a with highlighting in white redone.\n(*Fall 1942*)\n\n#### 304c. Title page with Fujita torchbearer; 7½ inch format (1969/70)\n\nTitle as 304b except: \\[torchbearer K\\].\n\nPagination as 304b variant. \\[1–8\\]<sup>16</sup> \\[9\\]<sup>8</sup>\n\\[10–11\\]<sup>16</sup>. Contents as 304b variant except: \\[319–326\\] ML\nlist; \\[327–328\\] ML Giants list. (*Spring 1967*)\n\n*Jacket C:* Fujita non-pictorial jacket in black, vivid yellow (82) and\nred on coated white paper with lettering shaded from vivid yellow\nflecked with red at top to solid red at foot, all against black\nbackground.\n\n> Front flap:<br>\n> *Tortilla Flat*, which appeared in 1935, was the first of Steinbeck’s\n> novels to receive wide attention. He was disturbed by the response to\n> this portrait of a group of carefree *paisanos* in a Monterey slum,\n> writing two years later that “I shall never again subject to the\n> vulgar touch of the *decent* these good people of laughter and\n> kindness, of honest lusts and direct eyes, of courtesy beyond\n> politeness.” If today, Steinbeck’s own view of Danny and his friends\n> seems to some shallow and condescending, that is a measure of the time\n> in which he wrote and the impact of his writing on the change in our\n> attitudes. Steinbeck tells this story with warmth and liveliness, and\n> it remains a document of a period when even this glimpse of a\n> different slice of life could be considered shocking.\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\nSteinbeck, *Of Mice and Men* (1938– ) 311\n\nSteinbeck, *In Dubious Battle* (1939–1971) 322\n\nSteinbeck, *Grapes of Wrath* (1941–1959) 341",
   "id": "304",
   "year": "1937",
   "title": "JOHN STEINBECK. TORTILLA FLAT. 1937–1971. (ML 216)",
@@ -1882,7 +1917,8 @@ different slice of life could be considered shocking.</p>
 }</pre></sl-details>
 
 <script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
-</div>
+
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1901,7 +1937,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

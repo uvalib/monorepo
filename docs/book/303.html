@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -36,7 +71,7 @@
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/book/303.html">303</sl-breadcrumb-item>
 </sl-breadcrumb>
 
-<div class="md-block"><p><strong>CHARLES READE. THE CLOISTER AND THE HEARTH. 1937–1970. (ML 62)</strong></p>
+<p><strong>CHARLES READE. THE CLOISTER AND THE HEARTH. 1937–1970. (ML 62)</strong></p>
 <h4>303a. First printing (1937)</h4>
 <p>[within double rules] THE CLOISTER | AND THE HEARTH | A TALE OF THE
 MIDDLE AGES | [rule] | BY | CHARLES READE | [rule] | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer
@@ -95,7 +130,7 @@ Hearth</em> has as great a significance today as it has had at any time
 since it appeared originally in 1861. (<em>Spring 1959</em>)</p>
 </blockquote>
 <p><em><strong>Fall</strong></em></p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1826,7 +1861,7 @@ since it appeared originally in 1861. (<em>Spring 1959</em>)</p>
 </elix-carousel-with-thumbnails>
 
 <sl-details summary="book"><pre>{
-  "full": "**CHARLES READE. THE CLOISTER AND THE HEARTH. 1937–1970. (ML 62)**\n\n#### 303a. First printing (1937)\n\n\\[within double rules\\] THE CLOISTER | AND THE HEARTH | A TALE OF THE\nMIDDLE AGES | \\[rule\\] | BY | CHARLES READE | \\[rule\\] | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer\nA2</uvalib-modal-image-button>\\] | \\[rule\\] | THE MODERN LIBRARY | NEW YORK\n\nPp. \\[*6*\\], \\[1–4\\] 5–913 \\[914–922\\]. \\[1–28\\]<sup>16</sup>\n\\[29–30\\]<sup>8</sup>\n\n\\[*1*\\] half title; \\[*2*\\] pub. note D12; \\[*3*\\] title; \\[*4*\\] *First\nModern Library Edition* | 1937 | \\[short double rule\\]; \\[*5*\\]\nbiographical note; \\[*6*\\] blank; \\[1\\] PREFACE; \\[2\\] blank; \\[3\\] fly\ntitle; \\[4\\] blank; 5–913 text; \\[914\\] blank; \\[915–919\\] ML list;\n\\[920\\] ML Giants list; \\[921–922\\] blank. (*Spring 1937*)\n\n*Jacket A:* Non-pictorial in vivid reddish orange (34) and black on\ncream paper with title in reverse on inset black panel; rules and other\nlettering in cream, all against vivid reddish orange background.\nUnsigned.\n\n> Front flap:<br>\n> For three-quarters of a century *The Cloister and the Hearth* has been\n> recognized as one of the finest historical novels in existence. It\n> takes its place in the Modern Library series at a moment when\n> novelists the world over are occupied with the theme which dominated\n> all of Charles Reade’s works: the fierce protest against social\n> injustice. *The Cloister and the Hearth* assumes even greater\n> significance today than at any time since it appeared in 1861.\n> (*Spring 1937*)\n\nML edition printed from plates made from a new typesetting. Published\nApril 1937. *WR* 24 April 1937. First printing: Not ascertained.\nDiscontinued 1970/71.\n\n*The Cloister and the Hearth* sold 2,742 copies during the\neighteen-month period May 1942–October 1943, placing it in the fourth\nquarter of ML and Giant titles. It was not among the 100 best-selling\ntitles in the regular ML during the twelve-month period November\n1951–October 1952.\n\n#### 303b. Title page reset (1940)\n\nThe Cloister | and the Hearth | A TALE | OF THE MIDDLE AGES | by |\nCHARLES READE | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D4.webp'>torchbearer D4</uvalib-modal-image-button> at right; 3-line imprint at left\\] THE\n| MODERN LIBRARY | NEW YORK | \\[rule\\]\n\nPagination and collation as 303a.\n\nContents as 303a except: \\[*2*\\] blank; \\[*4*\\] publication and\nmanufacturing statements; \\[920–921\\] ML Giants list; \\[922\\] blank.\n(*Fall 1940*)\n\n*Jacket B:* Non-pictorial in dark green (146) and dark gray (266) on\ncream paper with title and author in reverse on inset dark green panel;\nbackground in dark gray with series and torchbearer in reverse above\ninset panel. Unsigned. Front flap as 303a. (*Fall 1940*)\n\n> Front flap revised:<br>\n> For more than three-quarters of a century *The Cloister and the\n> Hearth* has been acknowledged as one of the finest historical novels\n> in English literature. It stands comparison with the best of the works\n> of fiction in its genre and has outlived most of them. Because the\n> theme which dominated all of Charles Reade’s writings—a fierce protest\n> against social injustice—is never out of style, *The Cloister and the\n> Hearth* has as great a significance today as it has had at any time\n> since it appeared originally in 1861. (*Spring 1959*)\n\n***Fall***",
+  "full": "**CHARLES READE. THE CLOISTER AND THE HEARTH. 1937–1970. (ML 62)**\n\n#### 303a. First printing (1937)\n\n\\[within double rules\\] THE CLOISTER | AND THE HEARTH | A TALE OF THE\nMIDDLE AGES | \\[rule\\] | BY | CHARLES READE | \\[rule\\] | \\[torchbearer\nA2\\] | \\[rule\\] | THE MODERN LIBRARY | NEW YORK\n\nPp. \\[*6*\\], \\[1–4\\] 5–913 \\[914–922\\]. \\[1–28\\]<sup>16</sup>\n\\[29–30\\]<sup>8</sup>\n\n\\[*1*\\] half title; \\[*2*\\] pub. note D12; \\[*3*\\] title; \\[*4*\\] *First\nModern Library Edition* | 1937 | \\[short double rule\\]; \\[*5*\\]\nbiographical note; \\[*6*\\] blank; \\[1\\] PREFACE; \\[2\\] blank; \\[3\\] fly\ntitle; \\[4\\] blank; 5–913 text; \\[914\\] blank; \\[915–919\\] ML list;\n\\[920\\] ML Giants list; \\[921–922\\] blank. (*Spring 1937*)\n\n*Jacket A:* Non-pictorial in vivid reddish orange (34) and black on\ncream paper with title in reverse on inset black panel; rules and other\nlettering in cream, all against vivid reddish orange background.\nUnsigned.\n\n> Front flap:<br>\n> For three-quarters of a century *The Cloister and the Hearth* has been\n> recognized as one of the finest historical novels in existence. It\n> takes its place in the Modern Library series at a moment when\n> novelists the world over are occupied with the theme which dominated\n> all of Charles Reade’s works: the fierce protest against social\n> injustice. *The Cloister and the Hearth* assumes even greater\n> significance today than at any time since it appeared in 1861.\n> (*Spring 1937*)\n\nML edition printed from plates made from a new typesetting. Published\nApril 1937. *WR* 24 April 1937. First printing: Not ascertained.\nDiscontinued 1970/71.\n\n*The Cloister and the Hearth* sold 2,742 copies during the\neighteen-month period May 1942–October 1943, placing it in the fourth\nquarter of ML and Giant titles. It was not among the 100 best-selling\ntitles in the regular ML during the twelve-month period November\n1951–October 1952.\n\n#### 303b. Title page reset (1940)\n\nThe Cloister | and the Hearth | A TALE | OF THE MIDDLE AGES | by |\nCHARLES READE | \\[torchbearer D4 at right; 3-line imprint at left\\] THE\n| MODERN LIBRARY | NEW YORK | \\[rule\\]\n\nPagination and collation as 303a.\n\nContents as 303a except: \\[*2*\\] blank; \\[*4*\\] publication and\nmanufacturing statements; \\[920–921\\] ML Giants list; \\[922\\] blank.\n(*Fall 1940*)\n\n*Jacket B:* Non-pictorial in dark green (146) and dark gray (266) on\ncream paper with title and author in reverse on inset dark green panel;\nbackground in dark gray with series and torchbearer in reverse above\ninset panel. Unsigned. Front flap as 303a. (*Fall 1940*)\n\n> Front flap revised:<br>\n> For more than three-quarters of a century *The Cloister and the\n> Hearth* has been acknowledged as one of the finest historical novels\n> in English literature. It stands comparison with the best of the works\n> of fiction in its genre and has outlived most of them. Because the\n> theme which dominated all of Charles Reade’s writings—a fierce protest\n> against social injustice—is never out of style, *The Cloister and the\n> Hearth* has as great a significance today as it has had at any time\n> since it appeared originally in 1861. (*Spring 1959*)\n\n***Fall***",
   "id": "303",
   "year": "1937",
   "title": "CHARLES READE. THE CLOISTER AND THE HEARTH. 1937–1970. (ML 62)",
@@ -1834,7 +1869,8 @@ since it appeared originally in 1861. (<em>Spring 1959</em>)</p>
 }</pre></sl-details>
 
 <script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
-</div>
+
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1853,7 +1889,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

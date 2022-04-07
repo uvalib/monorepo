@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -36,8 +71,8 @@
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/book/249.html">249</sl-breadcrumb-item>
 </sl-breadcrumb>
 
-<div class="md-block"><p>*<strong>LION FEUCHTWANGER. POWER. 1932–1945. (ML 206)</strong></p>
-<h4>249a. First printing (1932)</h4>
+<p>*<strong>LION FEUCHTWANGER. POWER. 1932–1945. (ML 206)</strong></p>
+<h4><a href='/revision/249a.html'>249a. First printing (1932)</a></h4>
 <p>[within double rules] POWER | [rule] | BY | LION FEUCHTWANGER |
 [rule] | TRANSLATED BY | WILLA <span class="smallcaps">and</span>
 EDWIN MUIR | [rule] | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer A2</uvalib-modal-image-button>] | [rule] | BENNETT A. CERF
@@ -76,7 +111,7 @@ or the ML paid for the new typesetting, have not been ascertained.</p>
 <p><em>Power</em> sold 2,677 copies during the eighteen-month period May
 1942–October 1943, placing it in the fourth quarter of ML and Giant
 titles.</p>
-<h4>249b. Title page reset (1941)</h4>
+<h4><a href='/revision/249b.html'>249b. Title page reset (1941)</a></h4>
 <p>[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/E3.webp'>torchbearer E3</uvalib-modal-image-button>] | [4-line title and statement of responsibility
 within single rules] POWER | by Lion Feuchtwanger | TRANSLATED BY |
 WILLA AND EDWIN MUIR | [below frame] THE MODERN LIBRARY · NEW YORK</p>
@@ -86,7 +121,7 @@ VIKING PRESS. (<em>Fall 1940</em>)</p>
 <p><em>Jacket:</em> Non-pictorial in dark green (146) on cream paper with
 lettering and torchbearer in reverse against solid dark green
 background. Front flap as 249a. (<em>Spring 1941</em>)</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1815,7 +1850,7 @@ background. Front flap as 249a. (<em>Spring 1941</em>)</p>
 </elix-carousel-with-thumbnails>
 
 <sl-details summary="book"><pre>{
-  "full": "***LION FEUCHTWANGER. POWER. 1932–1945. (ML 206)**\n\n#### 249a. First printing (1932)\n\n\\[within double rules\\] POWER | \\[rule\\] | BY | LION FEUCHTWANGER |\n\\[rule\\] | TRANSLATED BY | WILLA <span class=\"smallcaps\">and</span>\nEDWIN MUIR | \\[rule\\] | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer A2</uvalib-modal-image-button>\\] | \\[rule\\] | BENNETT A. CERF\n· DONALD S. KLOPFER | THE MODERN LIBRARY | NEW YORK\n\nPp. \\[*6*\\], \\[1–2\\] 3–531 \\[532–538\\]. \\[1–17\\]<sup>16</sup>\n\n\\[*1*\\] half title; \\[*2*\\] pub. note A6; \\[*3*\\] title; \\[*4*\\]\n*Copyright,* 1926, BY THE VIKING PRESS | \\[short double rule\\] | *First\nModern Library Edition* | 1932; \\[*5*\\] CONTENTS; \\[*6*\\] blank; \\[1\\]\npart title: *Book One* | THE PRINCES; \\[2\\] blank; 3–531 text; \\[532\\]\nblank; \\[533–537\\] ML list; \\[538\\] blank. (*Fall 1932*)\n\n*Jacket:* Pictorial in deep orange (51) and black on cream paper\ndepicting a condemned man in cart with hands bound behind his back and\ngallows in background; borders in deep orange, lettering in black.\n(*Fall 1932*)\n\n> Front flap:<br>\n> An historical and spiritual revelation, *Power* is at once an unerring\n> psychological and throbbing physical evocation of a human being and of\n> the whole pageant of mankind. All the hope and frustration, the\n> idealism and iniquity, the sensualism and ascetism \\[*sic*\\] of an\n> epoch come into a magical synthesis on Feuchtwanger’s enormous canvas.\n> Süss, the Jew, becomes more than the central character of an\n> historical novel laid in eighteenth-century Württemberg; he is the\n> core and the symbol of a race whose intellectual and idealistic\n> mission is timeless and unending. (*Spring 1934*)\n\nMuir translation originally published in U.S. by Viking Press, 1926. ML\nedition printed from plates made from a new typesetting. Publication\nannounced for November 1932. *WR* 17 December 1932. First printing:\n6,000 copies. Discontinued 1 January 1946.\n\nThe Muir translation of Feuchtwanger’s *Jud* *Süß* was published in\nLondon under the title *Jew Süss* and in the U.S. as *Power*. The Viking\nplates were too large for the ML’s format. The ML paid Viking Press $800\non publication. Other financial details, including whether Viking Press\nor the ML paid for the new typesetting, have not been ascertained.\n\n*Power* sold 2,677 copies during the eighteen-month period May\n1942–October 1943, placing it in the fourth quarter of ML and Giant\ntitles.\n\n#### 249b. Title page reset (1941)\n\n\\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/E3.webp'>torchbearer E3</uvalib-modal-image-button>\\] | \\[4-line title and statement of responsibility\nwithin single rules\\] POWER | by Lion Feuchtwanger | TRANSLATED BY |\nWILLA AND EDWIN MUIR | \\[below frame\\] THE MODERN LIBRARY · NEW YORK\n\nPagination and collation as 249a.\n\nContents as 249a except: \\[*2*\\] blank; \\[*4*\\] COPYRIGHT, 1926, BY THE\nVIKING PRESS. (*Fall 1940*)\n\n*Jacket:* Non-pictorial in dark green (146) on cream paper with\nlettering and torchbearer in reverse against solid dark green\nbackground. Front flap as 249a. (*Spring 1941*)",
+  "full": "***LION FEUCHTWANGER. POWER. 1932–1945. (ML 206)**\n\n#### 249a. First printing (1932)\n\n\\[within double rules\\] POWER | \\[rule\\] | BY | LION FEUCHTWANGER |\n\\[rule\\] | TRANSLATED BY | WILLA <span class=\"smallcaps\">and</span>\nEDWIN MUIR | \\[rule\\] | \\[torchbearer A2\\] | \\[rule\\] | BENNETT A. CERF\n· DONALD S. KLOPFER | THE MODERN LIBRARY | NEW YORK\n\nPp. \\[*6*\\], \\[1–2\\] 3–531 \\[532–538\\]. \\[1–17\\]<sup>16</sup>\n\n\\[*1*\\] half title; \\[*2*\\] pub. note A6; \\[*3*\\] title; \\[*4*\\]\n*Copyright,* 1926, BY THE VIKING PRESS | \\[short double rule\\] | *First\nModern Library Edition* | 1932; \\[*5*\\] CONTENTS; \\[*6*\\] blank; \\[1\\]\npart title: *Book One* | THE PRINCES; \\[2\\] blank; 3–531 text; \\[532\\]\nblank; \\[533–537\\] ML list; \\[538\\] blank. (*Fall 1932*)\n\n*Jacket:* Pictorial in deep orange (51) and black on cream paper\ndepicting a condemned man in cart with hands bound behind his back and\ngallows in background; borders in deep orange, lettering in black.\n(*Fall 1932*)\n\n> Front flap:<br>\n> An historical and spiritual revelation, *Power* is at once an unerring\n> psychological and throbbing physical evocation of a human being and of\n> the whole pageant of mankind. All the hope and frustration, the\n> idealism and iniquity, the sensualism and ascetism \\[*sic*\\] of an\n> epoch come into a magical synthesis on Feuchtwanger’s enormous canvas.\n> Süss, the Jew, becomes more than the central character of an\n> historical novel laid in eighteenth-century Württemberg; he is the\n> core and the symbol of a race whose intellectual and idealistic\n> mission is timeless and unending. (*Spring 1934*)\n\nMuir translation originally published in U.S. by Viking Press, 1926. ML\nedition printed from plates made from a new typesetting. Publication\nannounced for November 1932. *WR* 17 December 1932. First printing:\n6,000 copies. Discontinued 1 January 1946.\n\nThe Muir translation of Feuchtwanger’s *Jud* *Süß* was published in\nLondon under the title *Jew Süss* and in the U.S. as *Power*. The Viking\nplates were too large for the ML’s format. The ML paid Viking Press $800\non publication. Other financial details, including whether Viking Press\nor the ML paid for the new typesetting, have not been ascertained.\n\n*Power* sold 2,677 copies during the eighteen-month period May\n1942–October 1943, placing it in the fourth quarter of ML and Giant\ntitles.\n\n#### 249b. Title page reset (1941)\n\n\\[torchbearer E3\\] | \\[4-line title and statement of responsibility\nwithin single rules\\] POWER | by Lion Feuchtwanger | TRANSLATED BY |\nWILLA AND EDWIN MUIR | \\[below frame\\] THE MODERN LIBRARY · NEW YORK\n\nPagination and collation as 249a.\n\nContents as 249a except: \\[*2*\\] blank; \\[*4*\\] COPYRIGHT, 1926, BY THE\nVIKING PRESS. (*Fall 1940*)\n\n*Jacket:* Non-pictorial in dark green (146) on cream paper with\nlettering and torchbearer in reverse against solid dark green\nbackground. Front flap as 249a. (*Spring 1941*)",
   "id": "249",
   "year": "1932",
   "title": "LION FEUCHTWANGER. POWER. 1932–1945. (ML 206)",
@@ -1823,18 +1858,19 @@ background. Front flap as 249a. (<em>Spring 1941</em>)</p>
     {
       "id": "249a",
       "title": "First printing (1932)",
-      "full": "\n\n\\[within double rules\\] POWER | \\[rule\\] | BY | LION FEUCHTWANGER |\n\\[rule\\] | TRANSLATED BY | WILLA <span class=\"smallcaps\">and</span>\nEDWIN MUIR | \\[rule\\] | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer A2</uvalib-modal-image-button>\\] | \\[rule\\] | BENNETT A. CERF\n· DONALD S. KLOPFER | THE MODERN LIBRARY | NEW YORK\n\nPp. \\[*6*\\], \\[1–2\\] 3–531 \\[532–538\\]. \\[1–17\\]<sup>16</sup>\n\n\\[*1*\\] half title; \\[*2*\\] pub. note A6; \\[*3*\\] title; \\[*4*\\]\n*Copyright,* 1926, BY THE VIKING PRESS | \\[short double rule\\] | *First\nModern Library Edition* | 1932; \\[*5*\\] CONTENTS; \\[*6*\\] blank; \\[1\\]\npart title: *Book One* | THE PRINCES; \\[2\\] blank; 3–531 text; \\[532\\]\nblank; \\[533–537\\] ML list; \\[538\\] blank. (*Fall 1932*)\n\n*Jacket:* Pictorial in deep orange (51) and black on cream paper\ndepicting a condemned man in cart with hands bound behind his back and\ngallows in background; borders in deep orange, lettering in black.\n(*Fall 1932*)\n\n> Front flap:<br>\n> An historical and spiritual revelation, *Power* is at once an unerring\n> psychological and throbbing physical evocation of a human being and of\n> the whole pageant of mankind. All the hope and frustration, the\n> idealism and iniquity, the sensualism and ascetism \\[*sic*\\] of an\n> epoch come into a magical synthesis on Feuchtwanger’s enormous canvas.\n> Süss, the Jew, becomes more than the central character of an\n> historical novel laid in eighteenth-century Württemberg; he is the\n> core and the symbol of a race whose intellectual and idealistic\n> mission is timeless and unending. (*Spring 1934*)\n\nMuir translation originally published in U.S. by Viking Press, 1926. ML\nedition printed from plates made from a new typesetting. Publication\nannounced for November 1932. *WR* 17 December 1932. First printing:\n6,000 copies. Discontinued 1 January 1946.\n\nThe Muir translation of Feuchtwanger’s *Jud* *Süß* was published in\nLondon under the title *Jew Süss* and in the U.S. as *Power*. The Viking\nplates were too large for the ML’s format. The ML paid Viking Press $800\non publication. Other financial details, including whether Viking Press\nor the ML paid for the new typesetting, have not been ascertained.\n\n*Power* sold 2,677 copies during the eighteen-month period May\n1942–October 1943, placing it in the fourth quarter of ML and Giant\ntitles.\n\n"
+      "full": "\n\n\\[within double rules\\] POWER | \\[rule\\] | BY | LION FEUCHTWANGER |\n\\[rule\\] | TRANSLATED BY | WILLA <span class=\"smallcaps\">and</span>\nEDWIN MUIR | \\[rule\\] | \\[torchbearer A2\\] | \\[rule\\] | BENNETT A. CERF\n· DONALD S. KLOPFER | THE MODERN LIBRARY | NEW YORK\n\nPp. \\[*6*\\], \\[1–2\\] 3–531 \\[532–538\\]. \\[1–17\\]<sup>16</sup>\n\n\\[*1*\\] half title; \\[*2*\\] pub. note A6; \\[*3*\\] title; \\[*4*\\]\n*Copyright,* 1926, BY THE VIKING PRESS | \\[short double rule\\] | *First\nModern Library Edition* | 1932; \\[*5*\\] CONTENTS; \\[*6*\\] blank; \\[1\\]\npart title: *Book One* | THE PRINCES; \\[2\\] blank; 3–531 text; \\[532\\]\nblank; \\[533–537\\] ML list; \\[538\\] blank. (*Fall 1932*)\n\n*Jacket:* Pictorial in deep orange (51) and black on cream paper\ndepicting a condemned man in cart with hands bound behind his back and\ngallows in background; borders in deep orange, lettering in black.\n(*Fall 1932*)\n\n> Front flap:<br>\n> An historical and spiritual revelation, *Power* is at once an unerring\n> psychological and throbbing physical evocation of a human being and of\n> the whole pageant of mankind. All the hope and frustration, the\n> idealism and iniquity, the sensualism and ascetism \\[*sic*\\] of an\n> epoch come into a magical synthesis on Feuchtwanger’s enormous canvas.\n> Süss, the Jew, becomes more than the central character of an\n> historical novel laid in eighteenth-century Württemberg; he is the\n> core and the symbol of a race whose intellectual and idealistic\n> mission is timeless and unending. (*Spring 1934*)\n\nMuir translation originally published in U.S. by Viking Press, 1926. ML\nedition printed from plates made from a new typesetting. Publication\nannounced for November 1932. *WR* 17 December 1932. First printing:\n6,000 copies. Discontinued 1 January 1946.\n\nThe Muir translation of Feuchtwanger’s *Jud* *Süß* was published in\nLondon under the title *Jew Süss* and in the U.S. as *Power*. The Viking\nplates were too large for the ML’s format. The ML paid Viking Press $800\non publication. Other financial details, including whether Viking Press\nor the ML paid for the new typesetting, have not been ascertained.\n\n*Power* sold 2,677 copies during the eighteen-month period May\n1942–October 1943, placing it in the fourth quarter of ML and Giant\ntitles.\n\n"
     },
     {
       "id": "249b",
       "title": "Title page reset (1941)",
-      "full": "\n\n\\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/E3.webp'>torchbearer E3</uvalib-modal-image-button>\\] | \\[4-line title and statement of responsibility\nwithin single rules\\] POWER | by Lion Feuchtwanger | TRANSLATED BY |\nWILLA AND EDWIN MUIR | \\[below frame\\] THE MODERN LIBRARY · NEW YORK\n\nPagination and collation as 249a.\n\nContents as 249a except: \\[*2*\\] blank; \\[*4*\\] COPYRIGHT, 1926, BY THE\nVIKING PRESS. (*Fall 1940*)\n\n*Jacket:* Non-pictorial in dark green (146) on cream paper with\nlettering and torchbearer in reverse against solid dark green\nbackground. Front flap as 249a. (*Spring 1941*)"
+      "full": "\n\n\\[torchbearer E3\\] | \\[4-line title and statement of responsibility\nwithin single rules\\] POWER | by Lion Feuchtwanger | TRANSLATED BY |\nWILLA AND EDWIN MUIR | \\[below frame\\] THE MODERN LIBRARY · NEW YORK\n\nPagination and collation as 249a.\n\nContents as 249a except: \\[*2*\\] blank; \\[*4*\\] COPYRIGHT, 1926, BY THE\nVIKING PRESS. (*Fall 1940*)\n\n*Jacket:* Non-pictorial in dark green (146) on cream paper with\nlettering and torchbearer in reverse against solid dark green\nbackground. Front flap as 249a. (*Spring 1941*)"
     }
   ]
 }</pre></sl-details>
 
 <script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
-</div>
+
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1853,7 +1889,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

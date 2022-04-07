@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -36,7 +71,7 @@
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/book/201.html">201</sl-breadcrumb-item>
 </sl-breadcrumb>
 
-<div class="md-block"><p><strong>HUGH WALPOLE. FORTITUDE. 1930–1971. (ML 178)</strong></p>
+<p><strong>HUGH WALPOLE. FORTITUDE. 1930–1971. (ML 178)</strong></p>
 <h4>201.1. First printing (1930)</h4>
 <p>[within double rules] FORTITUDE | [rule] | BY | HUGH WALPOLE |
 [rule] | INTRODUCTION BY | HUGH WALPOLE | [rule] | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer
@@ -120,7 +155,7 @@ LIBRARY, INC.</p>
 with lettering and torchbearer in reverse against solid strong purplish
 blue background. Front flap as 201.2a. (<em>Fall 1943</em>) Front flap slightly
 revised. (<em>Fall 1958</em>)</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1851,7 +1886,7 @@ revised. (<em>Fall 1958</em>)</p>
 </elix-carousel-with-thumbnails>
 
 <sl-details summary="book"><pre>{
-  "full": "**HUGH WALPOLE. FORTITUDE. 1930–1971. (ML 178)**\n\n#### 201.1. First printing (1930)\n\n\\[within double rules\\] FORTITUDE | \\[rule\\] | BY | HUGH WALPOLE |\n\\[rule\\] | INTRODUCTION BY | HUGH WALPOLE | \\[rule\\] | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer\nA2</uvalib-modal-image-button>\\] | \\[rule\\] | BENNETT A. CERF : DONALD S. KLOPFER | THE MODERN\nLIBRARY | PUBLISHERS : NEW YORK\n\nPp. \\[*6*\\], v–x, \\[7–10\\] 11–484 \\[485–490\\]. \\[1–15\\]<sup>16</sup>\n\\[16\\]<sup>8</sup>\n\n\\[*1*\\] half title; \\[*2*\\] pub. note A6; \\[*3*\\] title; \\[*4*\\]\n*Copyright,* 1913, BY GEORGE H. DORAN COMPANY | \\[short double rule\\] |\n*Introduction Copyright,* 1930, BY THE MODERN | LIBRARY, INC. | \\[short\ndouble rule\\] | *First Modern Library Edition* | 1930; \\[*5*\\]\ndedication; \\[*6*\\] blank; v–x A PREFACE TO *FORTITUDE* | BY | <span\nclass=\"smallcaps\">Hugh Walpole</span> signed p. x: <span\nclass=\"smallcaps\">Hugh Walpole</span>. | London, 1930.; \\[7–8\\]\nCONTENTS; \\[9\\] part title: BOOK I | SCAW HOUSE; \\[10\\] blank; 11–484\ntext; \\[485–488\\] ML list; \\[489–490\\] blank. (*Fall 1930*)\n\n*Jacket:* Pictorial in dark bluish green (165) and black on cream paper\nwith stylized illustration of a face in left profile, a book, a skull,\nand a figure riding a lion; borders in dark bluish green, lettering in\nblack. Signed: Loeffel. (*Fall 1930*)\n\nOriginally published in U.S. by George H. Doran Co., 1913, and from 1927\nby Doubleday, Doran & Co. ML edition (201.1, pp. \\[*5*\\], \\[7\\]–484)\nprinted from Doubleday, Doran plates. Published October 1930. *WR* 8\nNovember 1930. First printing: 6,000 copies. Discontinued 1971/72.\n\n*Fortitude* was one of four Doubleday titles to which the ML secured\nreprint rights at the time it purchased the Sun Dial Library from Garden\nCity Publishing Co. (see 199). The ML paid Doubleday, Doran royalties of\n12 cents a copy. Cerf told the press agent Lynn Farnol that Walpole\nreceived the highest advance against royalties that the ML had ever paid\n(Cerf to Farnol, 14 May 1941), but the amount was not indicated—and of\ncourse the advance would have been paid to Doubleday, Doran, which would\nhave split it with Walpole.\n\nCerf was unhappy with the appearance of the first printing. The plates,\nhe told Doubleday, “are lousy, and we need some new ones” (Cerf to\nRobert de Graff, Garden City Pub. Co., 5 November 1930). When he sent a\ncopy of the first printing to Walpole he apologized for its appearance\nand indicated that Doubleday had promised to supply new plates for\nsubsequent printings (Cerf to Walpole, 26 November 1930).\n\n*Fortitude* was in the middle of the fourth quarter of ML titles in\nterms of sales during the 18-month period May 1942–October 1943. It was\nnot among the 100 best-selling titles in the regular ML during the\n12-month period November 1951–October 1952.\n\n#### 201.2a. Text reset (1931)\n\nTitle as 201.1.\n\nPp. \\[i–vi\\] vii–xiv, \\[1–2\\] 3–497 \\[498\\]. \\[1–16\\]<sup>16</sup>\n\n\\[i\\] half title; \\[ii\\] pub. note D7; \\[iii\\] title; \\[iv\\]\n*Copyright,* 1913, BY GEORGE H. DORAN COMPANY | \\[short double rule\\] |\n*Introduction Copyright,* 1930, BY THE MODERN | LIBRARY, INC.; \\[v\\]\ndedication; \\[vi\\] blank; vii–xi A PREFACE TO *FORTITUDE* | BY | <span\nclass=\"smallcaps\">Hugh Walpole</span> signed p. xi: H<span\nclass=\"smallcaps\">ugh Walpole</span>. | London, 1930.; \\[xii\\] blank;\nxiii–xiv CONTENTS; \\[1\\] part title: BOOK I | SCAW HOUSE; \\[2\\] blank;\n3–497 text; \\[498\\] blank.\n\n*Jacket:* As 201.1. (*Spring 1931*)\n\n> Front flap:<br>\n> In the whole imposing list of novels written by Hugh Walpole there is\n> none that has reached and maintained the popularity of *Fortitude*.\n> The absorbing interest of its romantic story, its enthusiasm and its\n> conviction make of it a rare phenomenon among books in an epoch of\n> uncompromising realism. That it is Mr. Walpole’s favorite among all\n> his novels can be readily understood. He says of it: “*Fortitude* is a\n> romance—a fairy-tale about a young man who very naively believed in\n> almost everything.” (*Fall 1934*)\n\nPrinted from Doubleday, Doran plates made from a new typesetting. The\nplates appear to have been used exclusively by the ML. First printing\nfrom the new plates: 5,000 copies.\n\nAll subsequent ML printings were from the new plates. The second and\nthird printings from these plates in September 1934 and April 1936 were\nfor 2,000 copies each. Sales declined significantly by the 1960s; 1967\nsales were 600 copies.\n\n#### 201.2b. Title page reset (c. 1940)\n\nFortitude | BY HUGH WALPOLE | INTRODUCTION BY HUGH WALPOLE |\n\\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D4.webp'>torchbearer D4</uvalib-modal-image-button>\\] | \\[rule\\] | THE MODERN LIBRARY · NEW YORK | \\[rule\\]\n\nPagination and collation as 201.2a.\n\nContents as 201.2a except: \\[ii\\] blank; \\[iv\\] COPYRIGHT, 1913, BY\nGEORGE H. DORAN COMPANY | INTRODUCTION COPYRIGHT, 1930, | BY THE MODERN\nLIBRARY, INC.\n\n*Jacket:* Non-pictorial in strong purplish blue (196) on cream paper\nwith lettering and torchbearer in reverse against solid strong purplish\nblue background. Front flap as 201.2a. (*Fall 1943*) Front flap slightly\nrevised. (*Fall 1958*)",
+  "full": "**HUGH WALPOLE. FORTITUDE. 1930–1971. (ML 178)**\n\n#### 201.1. First printing (1930)\n\n\\[within double rules\\] FORTITUDE | \\[rule\\] | BY | HUGH WALPOLE |\n\\[rule\\] | INTRODUCTION BY | HUGH WALPOLE | \\[rule\\] | \\[torchbearer\nA2\\] | \\[rule\\] | BENNETT A. CERF : DONALD S. KLOPFER | THE MODERN\nLIBRARY | PUBLISHERS : NEW YORK\n\nPp. \\[*6*\\], v–x, \\[7–10\\] 11–484 \\[485–490\\]. \\[1–15\\]<sup>16</sup>\n\\[16\\]<sup>8</sup>\n\n\\[*1*\\] half title; \\[*2*\\] pub. note A6; \\[*3*\\] title; \\[*4*\\]\n*Copyright,* 1913, BY GEORGE H. DORAN COMPANY | \\[short double rule\\] |\n*Introduction Copyright,* 1930, BY THE MODERN | LIBRARY, INC. | \\[short\ndouble rule\\] | *First Modern Library Edition* | 1930; \\[*5*\\]\ndedication; \\[*6*\\] blank; v–x A PREFACE TO *FORTITUDE* | BY | <span\nclass=\"smallcaps\">Hugh Walpole</span> signed p. x: <span\nclass=\"smallcaps\">Hugh Walpole</span>. | London, 1930.; \\[7–8\\]\nCONTENTS; \\[9\\] part title: BOOK I | SCAW HOUSE; \\[10\\] blank; 11–484\ntext; \\[485–488\\] ML list; \\[489–490\\] blank. (*Fall 1930*)\n\n*Jacket:* Pictorial in dark bluish green (165) and black on cream paper\nwith stylized illustration of a face in left profile, a book, a skull,\nand a figure riding a lion; borders in dark bluish green, lettering in\nblack. Signed: Loeffel. (*Fall 1930*)\n\nOriginally published in U.S. by George H. Doran Co., 1913, and from 1927\nby Doubleday, Doran & Co. ML edition (201.1, pp. \\[*5*\\], \\[7\\]–484)\nprinted from Doubleday, Doran plates. Published October 1930. *WR* 8\nNovember 1930. First printing: 6,000 copies. Discontinued 1971/72.\n\n*Fortitude* was one of four Doubleday titles to which the ML secured\nreprint rights at the time it purchased the Sun Dial Library from Garden\nCity Publishing Co. (see 199). The ML paid Doubleday, Doran royalties of\n12 cents a copy. Cerf told the press agent Lynn Farnol that Walpole\nreceived the highest advance against royalties that the ML had ever paid\n(Cerf to Farnol, 14 May 1941), but the amount was not indicated—and of\ncourse the advance would have been paid to Doubleday, Doran, which would\nhave split it with Walpole.\n\nCerf was unhappy with the appearance of the first printing. The plates,\nhe told Doubleday, “are lousy, and we need some new ones” (Cerf to\nRobert de Graff, Garden City Pub. Co., 5 November 1930). When he sent a\ncopy of the first printing to Walpole he apologized for its appearance\nand indicated that Doubleday had promised to supply new plates for\nsubsequent printings (Cerf to Walpole, 26 November 1930).\n\n*Fortitude* was in the middle of the fourth quarter of ML titles in\nterms of sales during the 18-month period May 1942–October 1943. It was\nnot among the 100 best-selling titles in the regular ML during the\n12-month period November 1951–October 1952.\n\n#### 201.2a. Text reset (1931)\n\nTitle as 201.1.\n\nPp. \\[i–vi\\] vii–xiv, \\[1–2\\] 3–497 \\[498\\]. \\[1–16\\]<sup>16</sup>\n\n\\[i\\] half title; \\[ii\\] pub. note D7; \\[iii\\] title; \\[iv\\]\n*Copyright,* 1913, BY GEORGE H. DORAN COMPANY | \\[short double rule\\] |\n*Introduction Copyright,* 1930, BY THE MODERN | LIBRARY, INC.; \\[v\\]\ndedication; \\[vi\\] blank; vii–xi A PREFACE TO *FORTITUDE* | BY | <span\nclass=\"smallcaps\">Hugh Walpole</span> signed p. xi: H<span\nclass=\"smallcaps\">ugh Walpole</span>. | London, 1930.; \\[xii\\] blank;\nxiii–xiv CONTENTS; \\[1\\] part title: BOOK I | SCAW HOUSE; \\[2\\] blank;\n3–497 text; \\[498\\] blank.\n\n*Jacket:* As 201.1. (*Spring 1931*)\n\n> Front flap:<br>\n> In the whole imposing list of novels written by Hugh Walpole there is\n> none that has reached and maintained the popularity of *Fortitude*.\n> The absorbing interest of its romantic story, its enthusiasm and its\n> conviction make of it a rare phenomenon among books in an epoch of\n> uncompromising realism. That it is Mr. Walpole’s favorite among all\n> his novels can be readily understood. He says of it: “*Fortitude* is a\n> romance—a fairy-tale about a young man who very naively believed in\n> almost everything.” (*Fall 1934*)\n\nPrinted from Doubleday, Doran plates made from a new typesetting. The\nplates appear to have been used exclusively by the ML. First printing\nfrom the new plates: 5,000 copies.\n\nAll subsequent ML printings were from the new plates. The second and\nthird printings from these plates in September 1934 and April 1936 were\nfor 2,000 copies each. Sales declined significantly by the 1960s; 1967\nsales were 600 copies.\n\n#### 201.2b. Title page reset (c. 1940)\n\nFortitude | BY HUGH WALPOLE | INTRODUCTION BY HUGH WALPOLE |\n\\[torchbearer D4\\] | \\[rule\\] | THE MODERN LIBRARY · NEW YORK | \\[rule\\]\n\nPagination and collation as 201.2a.\n\nContents as 201.2a except: \\[ii\\] blank; \\[iv\\] COPYRIGHT, 1913, BY\nGEORGE H. DORAN COMPANY | INTRODUCTION COPYRIGHT, 1930, | BY THE MODERN\nLIBRARY, INC.\n\n*Jacket:* Non-pictorial in strong purplish blue (196) on cream paper\nwith lettering and torchbearer in reverse against solid strong purplish\nblue background. Front flap as 201.2a. (*Fall 1943*) Front flap slightly\nrevised. (*Fall 1958*)",
   "id": "201",
   "year": "1930",
   "title": "HUGH WALPOLE. FORTITUDE. 1930–1971. (ML 178)",
@@ -1859,7 +1894,8 @@ revised. (<em>Fall 1958</em>)</p>
 }</pre></sl-details>
 
 <script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
-</div>
+
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1878,7 +1914,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

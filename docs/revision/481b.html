@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -39,7 +74,7 @@
 
 <h1>481b</h1>
 <h2>Reissue format (1985)</h2>
-<div class="md-block"><p>VOLTAIRE | [title in reverse within single rules in reverse all on
+<p>VOLTAIRE | [title in reverse within single rules in reverse all on
 black rectangular panel] CANDIDE | [below panel] AND OTHER WRITINGS |
 EDITED, WITH AN INTRODUCTION | BY HASKELL M. BLOCK | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/N.webp'>torchbearer N</uvalib-modal-image-button>] |
 MODERN LIBRARY | NEW YORK</p>
@@ -75,7 +110,7 @@ himself often, “We must cultivate our garden.”</p>
 <p>Published spring 1985 at $7.95. ISBN 0-394-60522-5.</p>
 <p><span class="smallcaps">Also in the Modern Library</span></p>
 <p>Voltaire, <em>Candide</em> (1918–1955) 46</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1806,12 +1841,13 @@ himself often, “We must cultivate our garden.”</p>
 <sl-details summary="revision"><pre>{
   "id": "481b",
   "title": "Reissue format (1985)",
-  "full": "\n\nVOLTAIRE | \\[title in reverse within single rules in reverse all on\nblack rectangular panel\\] CANDIDE | \\[below panel\\] AND OTHER WRITINGS |\nEDITED, WITH AN INTRODUCTION | BY HASKELL M. BLOCK | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/N.webp'>torchbearer N</uvalib-modal-image-button>\\] |\nMODERN LIBRARY | NEW YORK\n\nPagination as 412a. Perfect bound.\n\nContents as 412a except: \\[i\\] woodcut illustration by Stephen Alcorn of\nCandide in wig and knee breeches seated in a chair holding a hoe, with\nrising sun in background and flowers and theatrical masks at his feet;\n\\[iv\\] FIRST MODERN LIBRARY EDITION | 1984 printing | Copyright © 1956\nby Random House, Inc. | Copyright renewed 1984 by Random House, Inc.;\n\\[577\\] ABOUT THE AUTHOR; \\[578–584\\] blank.\n\n*Jacket:* Pictorial reissue jacket in strong reddish brown (40) and\nblack on tan paper with woodcut illustration by Stephen Alcorn of a\nseated Candide holding a hoe; jacket design by R. D. Scudellari. Jacket\ntitle*: Candide*.\n\n> Front flap:<br>\n> The highly unusual story of a young man booted from Paradise,\n> *Candide* is Voltaire’s most famous novel as well as a scorching\n> indictment of the philosophy of Liebnitz \\[*sic*\\], which was summed\n> up by Voltaire in the thought: “All is for the best in this best of\n> all possible worlds.” Candide’s tutor, the philosophic Dr. Pangloss,\n> is the embodiment of this unlikely theory, maintaining it in spite of\n> the most blatant evidence to the contrary. The young Candide is\n> expelled from the castle of Thunder-ten-tronckh for making love to the\n> Baron’s daughter, Cunégonde; and thereafter he, Pangloss and Cunégonde\n> embark on what develops into a long series of adventures. Sometimes\n> together, usually apart, in various corners of the earth, they endure\n> a brutal succession of the most unfair and calamitous events\n> conceivable. Eventually they settle down together on a little farm.\n> Candide marries Cunégonde, now grown ugly as a radish, and tells\n> himself often, “We must cultivate our garden.”\n\nPublished spring 1985 at $7.95. ISBN 0-394-60522-5.\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\nVoltaire, *Candide* (1918–1955) 46",
+  "full": "\n\nVOLTAIRE | \\[title in reverse within single rules in reverse all on\nblack rectangular panel\\] CANDIDE | \\[below panel\\] AND OTHER WRITINGS |\nEDITED, WITH AN INTRODUCTION | BY HASKELL M. BLOCK | \\[torchbearer N\\] |\nMODERN LIBRARY | NEW YORK\n\nPagination as 412a. Perfect bound.\n\nContents as 412a except: \\[i\\] woodcut illustration by Stephen Alcorn of\nCandide in wig and knee breeches seated in a chair holding a hoe, with\nrising sun in background and flowers and theatrical masks at his feet;\n\\[iv\\] FIRST MODERN LIBRARY EDITION | 1984 printing | Copyright © 1956\nby Random House, Inc. | Copyright renewed 1984 by Random House, Inc.;\n\\[577\\] ABOUT THE AUTHOR; \\[578–584\\] blank.\n\n*Jacket:* Pictorial reissue jacket in strong reddish brown (40) and\nblack on tan paper with woodcut illustration by Stephen Alcorn of a\nseated Candide holding a hoe; jacket design by R. D. Scudellari. Jacket\ntitle*: Candide*.\n\n> Front flap:<br>\n> The highly unusual story of a young man booted from Paradise,\n> *Candide* is Voltaire’s most famous novel as well as a scorching\n> indictment of the philosophy of Liebnitz \\[*sic*\\], which was summed\n> up by Voltaire in the thought: “All is for the best in this best of\n> all possible worlds.” Candide’s tutor, the philosophic Dr. Pangloss,\n> is the embodiment of this unlikely theory, maintaining it in spite of\n> the most blatant evidence to the contrary. The young Candide is\n> expelled from the castle of Thunder-ten-tronckh for making love to the\n> Baron’s daughter, Cunégonde; and thereafter he, Pangloss and Cunégonde\n> embark on what develops into a long series of adventures. Sometimes\n> together, usually apart, in various corners of the earth, they endure\n> a brutal succession of the most unfair and calamitous events\n> conceivable. Eventually they settle down together on a little farm.\n> Candide marries Cunégonde, now grown ugly as a radish, and tells\n> himself often, “We must cultivate our garden.”\n\nPublished spring 1985 at $7.95. ISBN 0-394-60522-5.\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\nVoltaire, *Candide* (1918–1955) 46",
   "year": "1956",
   "book": "481"
 }</pre></sl-details>
 
-<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script></div>
+<script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1830,7 +1866,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

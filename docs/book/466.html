@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -36,9 +71,9 @@
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/book/466.html">466</sl-breadcrumb-item>
 </sl-breadcrumb>
 
-<div class="md-block"><p><strong>SAMUEL HOFFENSTEIN. THE COMPLETE POETRY OF SAMUEL HOFFENSTEIN.
+<p><strong>SAMUEL HOFFENSTEIN. THE COMPLETE POETRY OF SAMUEL HOFFENSTEIN.
 1954–1958. (ML 225)</strong></p>
-<h4>466. First printing (1954)</h4>
+<h4><a href='/revision/466.html'>466. First printing (1954)</a></h4>
 <p>THE COMPLETE POETRY | OF | SAMUEL | HOFFENSTEIN | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/E1.webp'>torchbearer E1</uvalib-modal-image-button>] |
 [decorative rule] | THE MODERN LIBRARY · NEW YORK | [decorative
 rule]</p>
@@ -82,7 +117,7 @@ say that we cannot possibly keep the Hoffenstein Poetry in the Modern
 Library. Quite frankly, it was one of the very poorest sellers we have
 ever had in the series. I am just as sorry about this as I know you are”
 (Cerf to David Hoffenstein, 23 December 1958).</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1811,7 +1846,7 @@ ever had in the series. I am just as sorry about this as I know you are”
 </elix-carousel-with-thumbnails>
 
 <sl-details summary="book"><pre>{
-  "full": "**SAMUEL HOFFENSTEIN. THE COMPLETE POETRY OF SAMUEL HOFFENSTEIN.\n1954–1958. (ML 225)**\n\n#### 466. First printing (1954)\n\nTHE COMPLETE POETRY | OF | SAMUEL | HOFFENSTEIN | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/E1.webp'>torchbearer E1</uvalib-modal-image-button>\\] |\n\\[decorative rule\\] | THE MODERN LIBRARY · NEW YORK | \\[decorative\nrule\\]\n\nPp. \\[i–iv\\] v–ix \\[x\\], \\[1–2\\] 3–373 \\[374\\]. \\[1–12\\]<sup>16</sup>\n\n\\[i\\] half title; \\[ii\\] blank; \\[iii\\] title; \\[iv\\] *First Modern\nLibrary Edition, 1954* | *Copyright, 1923, 1924, 1928, 1930, 1932, 1947,\nby Samuel Hoffenstein*; v–ix *Contents*; \\[x\\] blank; \\[1\\] part title:\nPoems in Praise of | Practically Nothing; \\[2\\] blank; 3–373 text;\n\\[374\\] blank.\n\n*Jacket:* Pictorial in dark red (16), brilliant yellow (83), strong\nbluish green (160) and black on coated white paper with title in strong\nbluish green and black, illustration of a sheet of paper, pencil and a\nvase of flowers on a window sill with skyscrapers in distance, all on\ninset white panel bordered in dark red; additional lettering in reverse\nbelow panel. Signed: PG \\[Paul Galdone\\].\n\n> Front flap:<br>\n> Samuel Hoffenstein practices in the tradition of sparkling light verse\n> that has become one of the most refreshing trends on the American\n> literary scene. And even in that tradition he is unique, as evidenced\n> by the constantly increasing corps of Hoffenstein devotees. In this\n> book, to their infinite joy and that of the hosts of newcomers who\n> will join their ranks upon its publication, the Modern Library\n> presents the complete Hoffenstein to date, the full texts of his three\n> volumes—*Poems in Praise of Practically Nothing, Year In, You’re Out,*\n> and *Pencil in the Air*. (*Spring 1954*)\n\n*Poems in Praise of Practically Nothing* originally published by Boni &\nLiveright, 1928; *Year In, You’re Out* originally published by Horace\nLiveright, 1930; *Pencil in the Air* originally published by Doubleday &\nCo., 1947. Original ML collection printed from plates made from a new\ntypesetting. Published May 1954. *WR* 29 May 1954. First (and only)\nprinting: 7,500 copies. Discontinued 1 January 1959.\n\nThe ML paid a $2,000 advance against royalties of 10 cents a copy.\nRights to *Pencil in the Air* had reverted to Hoffenstein’s estate, and\nthe advance was divided equally between Liveright and David Hoffenstein,\nthe author’s son. The ML edition sold about 6,000 copies in four and a\nhalf years (David Hoffenstein to Cerf, 9 December 1958). When the ML\nedition was discontinued Cerf wrote to David Hoffenstein, “I am sorry to\nsay that we cannot possibly keep the Hoffenstein Poetry in the Modern\nLibrary. Quite frankly, it was one of the very poorest sellers we have\never had in the series. I am just as sorry about this as I know you are”\n(Cerf to David Hoffenstein, 23 December 1958).",
+  "full": "**SAMUEL HOFFENSTEIN. THE COMPLETE POETRY OF SAMUEL HOFFENSTEIN.\n1954–1958. (ML 225)**\n\n#### 466. First printing (1954)\n\nTHE COMPLETE POETRY | OF | SAMUEL | HOFFENSTEIN | \\[torchbearer E1\\] |\n\\[decorative rule\\] | THE MODERN LIBRARY · NEW YORK | \\[decorative\nrule\\]\n\nPp. \\[i–iv\\] v–ix \\[x\\], \\[1–2\\] 3–373 \\[374\\]. \\[1–12\\]<sup>16</sup>\n\n\\[i\\] half title; \\[ii\\] blank; \\[iii\\] title; \\[iv\\] *First Modern\nLibrary Edition, 1954* | *Copyright, 1923, 1924, 1928, 1930, 1932, 1947,\nby Samuel Hoffenstein*; v–ix *Contents*; \\[x\\] blank; \\[1\\] part title:\nPoems in Praise of | Practically Nothing; \\[2\\] blank; 3–373 text;\n\\[374\\] blank.\n\n*Jacket:* Pictorial in dark red (16), brilliant yellow (83), strong\nbluish green (160) and black on coated white paper with title in strong\nbluish green and black, illustration of a sheet of paper, pencil and a\nvase of flowers on a window sill with skyscrapers in distance, all on\ninset white panel bordered in dark red; additional lettering in reverse\nbelow panel. Signed: PG \\[Paul Galdone\\].\n\n> Front flap:<br>\n> Samuel Hoffenstein practices in the tradition of sparkling light verse\n> that has become one of the most refreshing trends on the American\n> literary scene. And even in that tradition he is unique, as evidenced\n> by the constantly increasing corps of Hoffenstein devotees. In this\n> book, to their infinite joy and that of the hosts of newcomers who\n> will join their ranks upon its publication, the Modern Library\n> presents the complete Hoffenstein to date, the full texts of his three\n> volumes—*Poems in Praise of Practically Nothing, Year In, You’re Out,*\n> and *Pencil in the Air*. (*Spring 1954*)\n\n*Poems in Praise of Practically Nothing* originally published by Boni &\nLiveright, 1928; *Year In, You’re Out* originally published by Horace\nLiveright, 1930; *Pencil in the Air* originally published by Doubleday &\nCo., 1947. Original ML collection printed from plates made from a new\ntypesetting. Published May 1954. *WR* 29 May 1954. First (and only)\nprinting: 7,500 copies. Discontinued 1 January 1959.\n\nThe ML paid a $2,000 advance against royalties of 10 cents a copy.\nRights to *Pencil in the Air* had reverted to Hoffenstein’s estate, and\nthe advance was divided equally between Liveright and David Hoffenstein,\nthe author’s son. The ML edition sold about 6,000 copies in four and a\nhalf years (David Hoffenstein to Cerf, 9 December 1958). When the ML\nedition was discontinued Cerf wrote to David Hoffenstein, “I am sorry to\nsay that we cannot possibly keep the Hoffenstein Poetry in the Modern\nLibrary. Quite frankly, it was one of the very poorest sellers we have\never had in the series. I am just as sorry about this as I know you are”\n(Cerf to David Hoffenstein, 23 December 1958).",
   "id": "466",
   "year": "1954",
   "title": "SAMUEL HOFFENSTEIN. THE COMPLETE POETRY OF SAMUEL HOFFENSTEIN. 1954–1958. (ML 225)",
@@ -1819,13 +1854,14 @@ ever had in the series. I am just as sorry about this as I know you are”
     {
       "id": "466",
       "title": "First printing (1954)",
-      "full": "\n\nTHE COMPLETE POETRY | OF | SAMUEL | HOFFENSTEIN | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/E1.webp'>torchbearer E1</uvalib-modal-image-button>\\] |\n\\[decorative rule\\] | THE MODERN LIBRARY · NEW YORK | \\[decorative\nrule\\]\n\nPp. \\[i–iv\\] v–ix \\[x\\], \\[1–2\\] 3–373 \\[374\\]. \\[1–12\\]<sup>16</sup>\n\n\\[i\\] half title; \\[ii\\] blank; \\[iii\\] title; \\[iv\\] *First Modern\nLibrary Edition, 1954* | *Copyright, 1923, 1924, 1928, 1930, 1932, 1947,\nby Samuel Hoffenstein*; v–ix *Contents*; \\[x\\] blank; \\[1\\] part title:\nPoems in Praise of | Practically Nothing; \\[2\\] blank; 3–373 text;\n\\[374\\] blank.\n\n*Jacket:* Pictorial in dark red (16), brilliant yellow (83), strong\nbluish green (160) and black on coated white paper with title in strong\nbluish green and black, illustration of a sheet of paper, pencil and a\nvase of flowers on a window sill with skyscrapers in distance, all on\ninset white panel bordered in dark red; additional lettering in reverse\nbelow panel. Signed: PG \\[Paul Galdone\\].\n\n> Front flap:<br>\n> Samuel Hoffenstein practices in the tradition of sparkling light verse\n> that has become one of the most refreshing trends on the American\n> literary scene. And even in that tradition he is unique, as evidenced\n> by the constantly increasing corps of Hoffenstein devotees. In this\n> book, to their infinite joy and that of the hosts of newcomers who\n> will join their ranks upon its publication, the Modern Library\n> presents the complete Hoffenstein to date, the full texts of his three\n> volumes—*Poems in Praise of Practically Nothing, Year In, You’re Out,*\n> and *Pencil in the Air*. (*Spring 1954*)\n\n*Poems in Praise of Practically Nothing* originally published by Boni &\nLiveright, 1928; *Year In, You’re Out* originally published by Horace\nLiveright, 1930; *Pencil in the Air* originally published by Doubleday &\nCo., 1947. Original ML collection printed from plates made from a new\ntypesetting. Published May 1954. *WR* 29 May 1954. First (and only)\nprinting: 7,500 copies. Discontinued 1 January 1959.\n\nThe ML paid a $2,000 advance against royalties of 10 cents a copy.\nRights to *Pencil in the Air* had reverted to Hoffenstein’s estate, and\nthe advance was divided equally between Liveright and David Hoffenstein,\nthe author’s son. The ML edition sold about 6,000 copies in four and a\nhalf years (David Hoffenstein to Cerf, 9 December 1958). When the ML\nedition was discontinued Cerf wrote to David Hoffenstein, “I am sorry to\nsay that we cannot possibly keep the Hoffenstein Poetry in the Modern\nLibrary. Quite frankly, it was one of the very poorest sellers we have\never had in the series. I am just as sorry about this as I know you are”\n(Cerf to David Hoffenstein, 23 December 1958)."
+      "full": "\n\nTHE COMPLETE POETRY | OF | SAMUEL | HOFFENSTEIN | \\[torchbearer E1\\] |\n\\[decorative rule\\] | THE MODERN LIBRARY · NEW YORK | \\[decorative\nrule\\]\n\nPp. \\[i–iv\\] v–ix \\[x\\], \\[1–2\\] 3–373 \\[374\\]. \\[1–12\\]<sup>16</sup>\n\n\\[i\\] half title; \\[ii\\] blank; \\[iii\\] title; \\[iv\\] *First Modern\nLibrary Edition, 1954* | *Copyright, 1923, 1924, 1928, 1930, 1932, 1947,\nby Samuel Hoffenstein*; v–ix *Contents*; \\[x\\] blank; \\[1\\] part title:\nPoems in Praise of | Practically Nothing; \\[2\\] blank; 3–373 text;\n\\[374\\] blank.\n\n*Jacket:* Pictorial in dark red (16), brilliant yellow (83), strong\nbluish green (160) and black on coated white paper with title in strong\nbluish green and black, illustration of a sheet of paper, pencil and a\nvase of flowers on a window sill with skyscrapers in distance, all on\ninset white panel bordered in dark red; additional lettering in reverse\nbelow panel. Signed: PG \\[Paul Galdone\\].\n\n> Front flap:<br>\n> Samuel Hoffenstein practices in the tradition of sparkling light verse\n> that has become one of the most refreshing trends on the American\n> literary scene. And even in that tradition he is unique, as evidenced\n> by the constantly increasing corps of Hoffenstein devotees. In this\n> book, to their infinite joy and that of the hosts of newcomers who\n> will join their ranks upon its publication, the Modern Library\n> presents the complete Hoffenstein to date, the full texts of his three\n> volumes—*Poems in Praise of Practically Nothing, Year In, You’re Out,*\n> and *Pencil in the Air*. (*Spring 1954*)\n\n*Poems in Praise of Practically Nothing* originally published by Boni &\nLiveright, 1928; *Year In, You’re Out* originally published by Horace\nLiveright, 1930; *Pencil in the Air* originally published by Doubleday &\nCo., 1947. Original ML collection printed from plates made from a new\ntypesetting. Published May 1954. *WR* 29 May 1954. First (and only)\nprinting: 7,500 copies. Discontinued 1 January 1959.\n\nThe ML paid a $2,000 advance against royalties of 10 cents a copy.\nRights to *Pencil in the Air* had reverted to Hoffenstein’s estate, and\nthe advance was divided equally between Liveright and David Hoffenstein,\nthe author’s son. The ML edition sold about 6,000 copies in four and a\nhalf years (David Hoffenstein to Cerf, 9 December 1958). When the ML\nedition was discontinued Cerf wrote to David Hoffenstein, “I am sorry to\nsay that we cannot possibly keep the Hoffenstein Poetry in the Modern\nLibrary. Quite frankly, it was one of the very poorest sellers we have\never had in the series. I am just as sorry about this as I know you are”\n(Cerf to David Hoffenstein, 23 December 1958)."
     }
   ]
 }</pre></sl-details>
 
 <script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
-</div>
+
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1844,7 +1880,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

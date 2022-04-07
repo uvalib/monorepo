@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -36,7 +71,7 @@
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/book/240.html">240</sl-breadcrumb-item>
 </sl-breadcrumb>
 
-<div class="md-block"><p>*<strong>EIGHT FAMOUS ELIZABETHAN PLAYS. 1932–1969. (ML 94)</strong></p>
+<p>*<strong>EIGHT FAMOUS ELIZABETHAN PLAYS. 1932–1969. (ML 94)</strong></p>
 <h4>240a. First printing (1932)</h4>
 <p>[within double rules] EIGHT FAMOUS | ELIZABETHAN PLAYS | [rule] |
 INTRODUCTION BY | ESTHER CLOUDMAN DUNN | [rule] | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer A2</uvalib-modal-image-button>] |
@@ -144,7 +179,7 @@ College | 1950; xviii–xx SELECTED BIBLIOGRAPHY; [722] blank;
 Dunn received $50 for revising the introduction.</p>
 <p><span class="smallcaps">Also in the Modern Library</span></p>
 <p><em>Eighteenth-Century Plays</em> (1952–1970) 448</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1877,7 +1912,7 @@ Dunn received $50 for revising the introduction.</p>
 </elix-carousel-with-thumbnails>
 
 <sl-details summary="book"><pre>{
-  "full": "***EIGHT FAMOUS ELIZABETHAN PLAYS. 1932–1969. (ML 94)**\n\n#### 240a. First printing (1932)\n\n\\[within double rules\\] EIGHT FAMOUS | ELIZABETHAN PLAYS | \\[rule\\] |\nINTRODUCTION BY | ESTHER CLOUDMAN DUNN | \\[rule\\] | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/A2.webp'>torchbearer A2</uvalib-modal-image-button>\\] |\n\\[rule\\] | BENNETT A. CERF : DONALD S. KLOPFER | THE MODERN LIBRARY |\nNEW YORK\n\nPp. \\[i–vi\\] vii–xvi, \\[1–2\\] 3–721 \\[722–724\\]. \\[1\\]<sup>16</sup>(±9)\n\\[2–22\\]<sup>16</sup> \\[23\\]<sup>16</sup>(16+1.2)\n\n\\[i\\] half title; \\[ii\\] pub. note D14; \\[iii\\] title; \\[iv\\]\n*Copyright,* 1932, *by* THE MODERN LIBRARY, INC. | \\[short double rule\\]\n| *First Modern Library Edition* | 1932; \\[v\\] CONTENTS; \\[vi\\] blank;\nvii–xvi INTRODUCTION signed p. xvi: <span class=\"smallcaps\">Esther\nCloudman Dunn</span> | Smith College | April 1932; \\[1\\] part title: THE\nTRAGICAL HISTORY OF | DOCTOR FAUSTUS | by | <span\nclass=\"smallcaps\">Christopher Marlowe</span>; \\[2\\] PERSONS IN THE PLAY;\n3–721 text; \\[722–724\\] blank. *Note:* Pp. \\[1–2\\] have been cancelled\nand replaced by a newly printed leaf; pp. 721–\\[724\\] are an inserted\nfold.\n\n> *Variant A:* Pp. \\[i–vi\\] vii–xvi, \\[1–2\\] 3–721 \\[722\\].\n> \\[1\\]<sup>16</sup>(±9) \\[2–22\\]<sup>16</sup>\n> \\[23\\]<sup>16</sup>(16+1). Contents as 240a, including *First*\n> statement, except: \\[722\\] blank. *Note:* Pp. 721–\\[722\\] are an\n> inserted leaf. Priority with 240a not established, but 240a appears to\n> be more common.\n>\n> *Variant B:* Pp. \\[i–vi\\] vii–xvi, \\[1–2\\] 3–721 \\[722–728\\].\n> \\[1–22\\]<sup>16</sup> \\[23–24\\]<sup>8</sup> \\[25\\]<sup>4</sup>.\n> Contents as 240a except \\[ii\\] pub. note A7; \\[iv\\] *First* statement\n> omitted; \\[722\\] blank; \\[723–727\\] ML list; \\[728\\] blank. (*Fall\n> 1938*)\n\n*Contents:* The Tragical History of Doctor Faustus, by Christopher\nMarlowe – The Shoemaker’s Holiday, by Thomas Dekker – A Woman Killed\nwith Kindness, by Thomas Heywood – Volpone, or The Fox, by Ben Jonson –\nThe Maid’s Tragedy, by Francis Beaumont and John Fletcher – The Duchess\nof Malfi, by John Webster – A New Way to Pay Old Debts, by Philip\nMassinger – ’Tis Pity She’s a Whore, by John Ford.\n\n*Jacket:* Uniform typographic jacket F in strong red (12) and black on\ncream paper; borders and torchbearer in strong red, lettering in black.\n(*Fall 1932*)\n\n> Front flap:<br>\n> Selected for their variety and range, the eight plays in this volume\n> represent the complete pattern of an age. Separately and in their\n> entirety they exemplify the spirit of the Elizabethan period, the\n> richest in our literature, by their virility, daring and exuberant\n> outspokenness. A compilation which includes Marlowe, Dekker, Heywood,\n> Jonson, Beaumont and Fletcher, Webster, Massinger and Ford must be a\n> treasury to be cherished by every modern reader. It is a book that has\n> won for itself a distinguished place on the Modern Library shelf.\n> (*Fall 1934*)\n\nOriginal ML anthology. Published August 1932. *WR* 10 September 1932.\nFirst printing: Not ascertained. Discontinued 1969.\n\nThe plays in the anthology were selected by Cerf. He asked George C. D.\nOdell of Columbia University what he thought of the selection and\ninvited him to write the introduction (Cerf to Odell, 9 April 1931).\nOdell approved the plays but declined to write the introduction because\nhe was on sabbatical in Paris. That fall Cerf invited a succession of\nscholars to write the introduction—Hardin Craig of Stanford University,\nFelix E. Schelling of the University of Pennsylvania, J. F. A. Pyre of\nthe University of Wisconsin, and John Livingston Lowes of Harvard\nUniversity. As one after another declined, Cerf doubled the fee from\nfifty to one hundred dollars. Esther Cloudman Dunn of Smith College\naccepted the assignment in February 1932 and received the $100 fee.\n\n*Eight Famous Elizabethan Plays* sold 2,678 copies during the\neighteen-month period May 1942–October 1943, placing it in the fourth\nquarter of ML and Giant titles. It did not rank among the one hundred\nbest-selling titles in the regular ML during the twelve-month period\nNovember 1951–October 1952. The ML sold over 70,000 copies of *Eight\nFamous Elizabethan Plays* by 1969 when *Drama of the English\nRenaissance*, edited by M. L. Wine (615), was published in the ML with\nthe intent of superseding the earlier anthology.\n\n#### 240b. Title page reset (c. 1940)\n\nEIGHT | FAMOUS | ELIZABETHAN | PLAYS | INTRODUCTION BY | ESTHER CLOUDMAN\nDUNN | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D3.webp'>torchbearer D3</uvalib-modal-image-button>\\] | \\[rule\\] | THE MODERN LIBRARY · NEW YORK |\n\\[rule\\]\n\nPp. \\[i–vi\\] vii–xvi, \\[1–2\\] 3–721 \\[722\\]. \\[1–22\\]<sup>16</sup>\n\\[23\\]<sup>16</sup>(16+1). Note: Pp. 721–22 are an inserted leaf.\n\nContents as 240a except: \\[ii\\] blank; \\[iv\\] COPYRIGHT, 1932, BY THE\nMODERN LIBRARY, INC.; \\[722\\] blank.\n\n> *Variant:* Pp. \\[i–vi\\] vii–xvi, \\[1–2\\] 3–721 \\[722–728\\].\n> \\[1–22\\]<sup>16</sup> \\[23–24\\]<sup>8</sup> \\[25\\]<sup>4</sup>.\n> Contents as 240b except: \\[722–728\\] blank.\n\n*Jacket:* Non-pictorial in very deep red (14) and black on cream paper\nwith lettering in black on inset cream panel; background in very deep\nred with series in reverse above inset panel. Front flap as 240a. (*Fall\n1942*)\n\n#### 240c. Introduction revised (1950)\n\n*Eight* | *Famous* | *Elizabethan* | *Plays* | INTRODUCTION BY | ESTHER\nCLOUDMAN DUNN | *Mary Augusta Jordan Professor of English,* | *Smith\nCollege* | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/E5.webp'>torchbearer E5</uvalib-modal-image-button>\\] | THE MODERN LIBRARY · NEW YORK\n\nPp. \\[i–vi\\] vii–xx, \\[1–2\\] 3–721 \\[722–724\\]. \\[1\\]<sup>16</sup>\n\\[2–10\\]<sup>32</sup> \\[11\\]<sup>20</sup> \\[12\\]<sup>32</sup>\n\\[13\\]<sup>16</sup>\n\nContents as 240a except: \\[ii\\] blank; \\[iv\\] *Copyright, 1932, 1950, by\nRandom House, Inc.;* vii–xvii INTRODUCTION | By <span\nclass=\"smallcaps\">Esther Cloudman Dunn</span> dated p. xvii: Smith\nCollege | 1950; xviii–xx SELECTED BIBLIOGRAPHY; \\[722\\] blank;\n\\[723–724\\] ML Giants list. (*Fall 1956*)\n\n*Jacket:* As 240b. Front flap reset with additional phrase at end:\n“. . . Modern Library shelf of plays, old and new.” (*Spring* *1957*)\n\nOriginally published 1950 in MLCE and subsequently in the regular ML.\nDunn received $50 for revising the introduction.\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\n*Eighteenth-Century Plays* (1952–1970) 448",
+  "full": "***EIGHT FAMOUS ELIZABETHAN PLAYS. 1932–1969. (ML 94)**\n\n#### 240a. First printing (1932)\n\n\\[within double rules\\] EIGHT FAMOUS | ELIZABETHAN PLAYS | \\[rule\\] |\nINTRODUCTION BY | ESTHER CLOUDMAN DUNN | \\[rule\\] | \\[torchbearer A2\\] |\n\\[rule\\] | BENNETT A. CERF : DONALD S. KLOPFER | THE MODERN LIBRARY |\nNEW YORK\n\nPp. \\[i–vi\\] vii–xvi, \\[1–2\\] 3–721 \\[722–724\\]. \\[1\\]<sup>16</sup>(±9)\n\\[2–22\\]<sup>16</sup> \\[23\\]<sup>16</sup>(16+1.2)\n\n\\[i\\] half title; \\[ii\\] pub. note D14; \\[iii\\] title; \\[iv\\]\n*Copyright,* 1932, *by* THE MODERN LIBRARY, INC. | \\[short double rule\\]\n| *First Modern Library Edition* | 1932; \\[v\\] CONTENTS; \\[vi\\] blank;\nvii–xvi INTRODUCTION signed p. xvi: <span class=\"smallcaps\">Esther\nCloudman Dunn</span> | Smith College | April 1932; \\[1\\] part title: THE\nTRAGICAL HISTORY OF | DOCTOR FAUSTUS | by | <span\nclass=\"smallcaps\">Christopher Marlowe</span>; \\[2\\] PERSONS IN THE PLAY;\n3–721 text; \\[722–724\\] blank. *Note:* Pp. \\[1–2\\] have been cancelled\nand replaced by a newly printed leaf; pp. 721–\\[724\\] are an inserted\nfold.\n\n> *Variant A:* Pp. \\[i–vi\\] vii–xvi, \\[1–2\\] 3–721 \\[722\\].\n> \\[1\\]<sup>16</sup>(±9) \\[2–22\\]<sup>16</sup>\n> \\[23\\]<sup>16</sup>(16+1). Contents as 240a, including *First*\n> statement, except: \\[722\\] blank. *Note:* Pp. 721–\\[722\\] are an\n> inserted leaf. Priority with 240a not established, but 240a appears to\n> be more common.\n>\n> *Variant B:* Pp. \\[i–vi\\] vii–xvi, \\[1–2\\] 3–721 \\[722–728\\].\n> \\[1–22\\]<sup>16</sup> \\[23–24\\]<sup>8</sup> \\[25\\]<sup>4</sup>.\n> Contents as 240a except \\[ii\\] pub. note A7; \\[iv\\] *First* statement\n> omitted; \\[722\\] blank; \\[723–727\\] ML list; \\[728\\] blank. (*Fall\n> 1938*)\n\n*Contents:* The Tragical History of Doctor Faustus, by Christopher\nMarlowe – The Shoemaker’s Holiday, by Thomas Dekker – A Woman Killed\nwith Kindness, by Thomas Heywood – Volpone, or The Fox, by Ben Jonson –\nThe Maid’s Tragedy, by Francis Beaumont and John Fletcher – The Duchess\nof Malfi, by John Webster – A New Way to Pay Old Debts, by Philip\nMassinger – ’Tis Pity She’s a Whore, by John Ford.\n\n*Jacket:* Uniform typographic jacket F in strong red (12) and black on\ncream paper; borders and torchbearer in strong red, lettering in black.\n(*Fall 1932*)\n\n> Front flap:<br>\n> Selected for their variety and range, the eight plays in this volume\n> represent the complete pattern of an age. Separately and in their\n> entirety they exemplify the spirit of the Elizabethan period, the\n> richest in our literature, by their virility, daring and exuberant\n> outspokenness. A compilation which includes Marlowe, Dekker, Heywood,\n> Jonson, Beaumont and Fletcher, Webster, Massinger and Ford must be a\n> treasury to be cherished by every modern reader. It is a book that has\n> won for itself a distinguished place on the Modern Library shelf.\n> (*Fall 1934*)\n\nOriginal ML anthology. Published August 1932. *WR* 10 September 1932.\nFirst printing: Not ascertained. Discontinued 1969.\n\nThe plays in the anthology were selected by Cerf. He asked George C. D.\nOdell of Columbia University what he thought of the selection and\ninvited him to write the introduction (Cerf to Odell, 9 April 1931).\nOdell approved the plays but declined to write the introduction because\nhe was on sabbatical in Paris. That fall Cerf invited a succession of\nscholars to write the introduction—Hardin Craig of Stanford University,\nFelix E. Schelling of the University of Pennsylvania, J. F. A. Pyre of\nthe University of Wisconsin, and John Livingston Lowes of Harvard\nUniversity. As one after another declined, Cerf doubled the fee from\nfifty to one hundred dollars. Esther Cloudman Dunn of Smith College\naccepted the assignment in February 1932 and received the $100 fee.\n\n*Eight Famous Elizabethan Plays* sold 2,678 copies during the\neighteen-month period May 1942–October 1943, placing it in the fourth\nquarter of ML and Giant titles. It did not rank among the one hundred\nbest-selling titles in the regular ML during the twelve-month period\nNovember 1951–October 1952. The ML sold over 70,000 copies of *Eight\nFamous Elizabethan Plays* by 1969 when *Drama of the English\nRenaissance*, edited by M. L. Wine (615), was published in the ML with\nthe intent of superseding the earlier anthology.\n\n#### 240b. Title page reset (c. 1940)\n\nEIGHT | FAMOUS | ELIZABETHAN | PLAYS | INTRODUCTION BY | ESTHER CLOUDMAN\nDUNN | \\[torchbearer D3\\] | \\[rule\\] | THE MODERN LIBRARY · NEW YORK |\n\\[rule\\]\n\nPp. \\[i–vi\\] vii–xvi, \\[1–2\\] 3–721 \\[722\\]. \\[1–22\\]<sup>16</sup>\n\\[23\\]<sup>16</sup>(16+1). Note: Pp. 721–22 are an inserted leaf.\n\nContents as 240a except: \\[ii\\] blank; \\[iv\\] COPYRIGHT, 1932, BY THE\nMODERN LIBRARY, INC.; \\[722\\] blank.\n\n> *Variant:* Pp. \\[i–vi\\] vii–xvi, \\[1–2\\] 3–721 \\[722–728\\].\n> \\[1–22\\]<sup>16</sup> \\[23–24\\]<sup>8</sup> \\[25\\]<sup>4</sup>.\n> Contents as 240b except: \\[722–728\\] blank.\n\n*Jacket:* Non-pictorial in very deep red (14) and black on cream paper\nwith lettering in black on inset cream panel; background in very deep\nred with series in reverse above inset panel. Front flap as 240a. (*Fall\n1942*)\n\n#### 240c. Introduction revised (1950)\n\n*Eight* | *Famous* | *Elizabethan* | *Plays* | INTRODUCTION BY | ESTHER\nCLOUDMAN DUNN | *Mary Augusta Jordan Professor of English,* | *Smith\nCollege* | \\[torchbearer E5\\] | THE MODERN LIBRARY · NEW YORK\n\nPp. \\[i–vi\\] vii–xx, \\[1–2\\] 3–721 \\[722–724\\]. \\[1\\]<sup>16</sup>\n\\[2–10\\]<sup>32</sup> \\[11\\]<sup>20</sup> \\[12\\]<sup>32</sup>\n\\[13\\]<sup>16</sup>\n\nContents as 240a except: \\[ii\\] blank; \\[iv\\] *Copyright, 1932, 1950, by\nRandom House, Inc.;* vii–xvii INTRODUCTION | By <span\nclass=\"smallcaps\">Esther Cloudman Dunn</span> dated p. xvii: Smith\nCollege | 1950; xviii–xx SELECTED BIBLIOGRAPHY; \\[722\\] blank;\n\\[723–724\\] ML Giants list. (*Fall 1956*)\n\n*Jacket:* As 240b. Front flap reset with additional phrase at end:\n“. . . Modern Library shelf of plays, old and new.” (*Spring* *1957*)\n\nOriginally published 1950 in MLCE and subsequently in the regular ML.\nDunn received $50 for revising the introduction.\n\n<span class=\"smallcaps\">Also in the Modern Library</span>\n\n*Eighteenth-Century Plays* (1952–1970) 448",
   "id": "240",
   "year": "1932",
   "title": "EIGHT FAMOUS ELIZABETHAN PLAYS. 1932–1969. (ML 94)",
@@ -1885,7 +1920,8 @@ Dunn received $50 for revising the introduction.</p>
 }</pre></sl-details>
 
 <script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
-</div>
+
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1904,7 +1940,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -36,8 +71,8 @@
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/book/369.html">369</sl-breadcrumb-item>
 </sl-breadcrumb>
 
-<div class="md-block"><p><strong>GEORGE S. KAUFMAN and MOSS HART. SIX PLAYS. 1944–1971. (ML 233)</strong></p>
-<h4>369. First printing (1944)</h4>
+<p><strong>GEORGE S. KAUFMAN and MOSS HART. SIX PLAYS. 1944–1971. (ML 233)</strong></p>
+<h4><a href='/revision/369.html'>369. First printing (1944)</a></h4>
 <p>[title, statement of responsibility, contents, and device within single
 rules] Six Plays | <em>By Kaufman and Hart</em> | <em>With an Introduction by</em>
 B<span class="smallcaps">rooks Atkinson</span> | <em>Once in a Lifetime</em> |
@@ -88,7 +123,7 @@ printed from RH plates. Publication announced for February 1944. <em>WR</em> 15
 April 1944. First printing: Not ascertained. Discontinued 1971/72.</p>
 <p><em>Six Plays</em> was not among the 100 best-selling titles in the regular ML
 during the twelve-month period November 1951–October 1952.</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1819,7 +1854,7 @@ during the twelve-month period November 1951–October 1952.</p>
 </elix-carousel-with-thumbnails>
 
 <sl-details summary="book"><pre>{
-  "full": "**GEORGE S. KAUFMAN and MOSS HART. SIX PLAYS. 1944–1971. (ML 233)**\n\n#### 369. First printing (1944)\n\n\\[title, statement of responsibility, contents, and device within single\nrules\\] Six Plays | *By Kaufman and Hart* | *With an Introduction by*\nB<span class=\"smallcaps\">rooks Atkinson</span> | *Once in a Lifetime* |\n*Merrily We Roll Along* | *You Can’t Take It with You* | *The American\nWay* | *The Man Who Came to Dinner* | *George Washington Slept Here* |\n\\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/E3.webp'>torchbearer E3</uvalib-modal-image-button> at left\\] | \\[below frame\\] THE MODERN LIBRARY · NEW\nYORK\n\nPp. \\[i–viii\\] ix–xxxii, \\[1–2\\] 3–586 \\[587–592\\].\n\\[1–19\\]<sup>16</sup> \\[20\\]<sup>8</sup>\n\n\\[i\\] half title; \\[ii\\] blank; \\[iii\\] title; \\[iv\\] Copyright, 1930,\n1933, 1934, 1937, 1939, 1941 | by George S. Kaufman and Moss Hart |\n\\[short rule\\] | Copyright, 1942, by Random House, Inc. | \\[short rule\\]\n| \\[20-line rights statement; 2-line manufacturing statement\\] |\n*Published by A. S. Barnes & Co., Inc.* | *Distributed by Random House,\nInc.*; \\[v\\] dedication; \\[vi\\] blank; \\[vii\\] CONTENTS; \\[viii\\] blank;\nix–xvi INTRODUCTION | *<span class=\"smallcaps\">B</span>y* <span\nclass=\"smallcaps\">Brooks Atkinson</span>; xvii–xxvi MEN AT WORK | *by*\n<span class=\"smallcaps\">Moss Hart</span>; xxvii–xxxii FORKED LIGHTNING |\n*By* <span class=\"smallcaps\">George S. Kaufman</span>; \\[1\\] part title:\nONCE IN A LIFETIME; \\[2\\] blank; 3–4 cast of first production; \\[5\\]\nSCENES; \\[6\\] blank; 7–586 text; \\[587–592\\] ML list. (*Spring 1944*)\n\n> *Variant:* Pagination as 369. \\[1\\]<sup>16</sup> \\[2–8\\]<sup>32</sup>\n> \\[9\\]<sup>24</sup> \\[10\\]<sup>32</sup> \\[11\\]<sup>16</sup>. Contents\n> as 369 except: \\[iv\\] COPYRIGHT, 1930, 1933, 1934, 1937, 1939, 1941, |\n> AND RENEWED 1958, | BY GEORGE S. KAUFMAN AND MOSS HART | COPYRIGHT,\n> 1942, BY RANDOM HOUSE, INC.; statement about A. S. Barnes omitted;\n> \\[587–588\\] ML Giants list; \\[589–592\\] blank. (*Spring 1967*)\n\n*Jacket:* Non-pictorial in deep blue (183) and deep red (16) on light\nbluish grayish paper; title and authors’ names in reverse on inset deep\nblue panel; other lettering including titles of individual plays in dark\nred.\n\n> Front flap:<br>\n> In the entire world of the theatre, the legend “by Kaufman and Hart”\n> is the hallmark of themes so timely, workmanship so sure and dialogue\n> so sparkling that it is small wonder that in their own field these\n> collaborators are simply beyond competition. Besides the six plays, in\n> complete and unabridged versions, this volume offers an intimate\n> picture of George Kaufman by Moss Hart and an equally revealing\n> portrait of Moss Hart by George Kaufman, plus a serious introduction\n> by their friend and severest critic, Brooks Atkinson of the *New York\n> Times*. (*Spring 1944*)\n\nOriginally published by Random House, 1942. ML edition (pp. \\[v\\]–586)\nprinted from RH plates. Publication announced for February 1944. *WR* 15\nApril 1944. First printing: Not ascertained. Discontinued 1971/72.\n\n*Six Plays* was not among the 100 best-selling titles in the regular ML\nduring the twelve-month period November 1951–October 1952.",
+  "full": "**GEORGE S. KAUFMAN and MOSS HART. SIX PLAYS. 1944–1971. (ML 233)**\n\n#### 369. First printing (1944)\n\n\\[title, statement of responsibility, contents, and device within single\nrules\\] Six Plays | *By Kaufman and Hart* | *With an Introduction by*\nB<span class=\"smallcaps\">rooks Atkinson</span> | *Once in a Lifetime* |\n*Merrily We Roll Along* | *You Can’t Take It with You* | *The American\nWay* | *The Man Who Came to Dinner* | *George Washington Slept Here* |\n\\[torchbearer E3 at left\\] | \\[below frame\\] THE MODERN LIBRARY · NEW\nYORK\n\nPp. \\[i–viii\\] ix–xxxii, \\[1–2\\] 3–586 \\[587–592\\].\n\\[1–19\\]<sup>16</sup> \\[20\\]<sup>8</sup>\n\n\\[i\\] half title; \\[ii\\] blank; \\[iii\\] title; \\[iv\\] Copyright, 1930,\n1933, 1934, 1937, 1939, 1941 | by George S. Kaufman and Moss Hart |\n\\[short rule\\] | Copyright, 1942, by Random House, Inc. | \\[short rule\\]\n| \\[20-line rights statement; 2-line manufacturing statement\\] |\n*Published by A. S. Barnes & Co., Inc.* | *Distributed by Random House,\nInc.*; \\[v\\] dedication; \\[vi\\] blank; \\[vii\\] CONTENTS; \\[viii\\] blank;\nix–xvi INTRODUCTION | *<span class=\"smallcaps\">B</span>y* <span\nclass=\"smallcaps\">Brooks Atkinson</span>; xvii–xxvi MEN AT WORK | *by*\n<span class=\"smallcaps\">Moss Hart</span>; xxvii–xxxii FORKED LIGHTNING |\n*By* <span class=\"smallcaps\">George S. Kaufman</span>; \\[1\\] part title:\nONCE IN A LIFETIME; \\[2\\] blank; 3–4 cast of first production; \\[5\\]\nSCENES; \\[6\\] blank; 7–586 text; \\[587–592\\] ML list. (*Spring 1944*)\n\n> *Variant:* Pagination as 369. \\[1\\]<sup>16</sup> \\[2–8\\]<sup>32</sup>\n> \\[9\\]<sup>24</sup> \\[10\\]<sup>32</sup> \\[11\\]<sup>16</sup>. Contents\n> as 369 except: \\[iv\\] COPYRIGHT, 1930, 1933, 1934, 1937, 1939, 1941, |\n> AND RENEWED 1958, | BY GEORGE S. KAUFMAN AND MOSS HART | COPYRIGHT,\n> 1942, BY RANDOM HOUSE, INC.; statement about A. S. Barnes omitted;\n> \\[587–588\\] ML Giants list; \\[589–592\\] blank. (*Spring 1967*)\n\n*Jacket:* Non-pictorial in deep blue (183) and deep red (16) on light\nbluish grayish paper; title and authors’ names in reverse on inset deep\nblue panel; other lettering including titles of individual plays in dark\nred.\n\n> Front flap:<br>\n> In the entire world of the theatre, the legend “by Kaufman and Hart”\n> is the hallmark of themes so timely, workmanship so sure and dialogue\n> so sparkling that it is small wonder that in their own field these\n> collaborators are simply beyond competition. Besides the six plays, in\n> complete and unabridged versions, this volume offers an intimate\n> picture of George Kaufman by Moss Hart and an equally revealing\n> portrait of Moss Hart by George Kaufman, plus a serious introduction\n> by their friend and severest critic, Brooks Atkinson of the *New York\n> Times*. (*Spring 1944*)\n\nOriginally published by Random House, 1942. ML edition (pp. \\[v\\]–586)\nprinted from RH plates. Publication announced for February 1944. *WR* 15\nApril 1944. First printing: Not ascertained. Discontinued 1971/72.\n\n*Six Plays* was not among the 100 best-selling titles in the regular ML\nduring the twelve-month period November 1951–October 1952.",
   "id": "369",
   "year": "1944",
   "title": "GEORGE S. KAUFMAN and MOSS HART. SIX PLAYS. 1944–1971. (ML 233)",
@@ -1827,13 +1862,14 @@ during the twelve-month period November 1951–October 1952.</p>
     {
       "id": "369",
       "title": "First printing (1944)",
-      "full": "\n\n\\[title, statement of responsibility, contents, and device within single\nrules\\] Six Plays | *By Kaufman and Hart* | *With an Introduction by*\nB<span class=\"smallcaps\">rooks Atkinson</span> | *Once in a Lifetime* |\n*Merrily We Roll Along* | *You Can’t Take It with You* | *The American\nWay* | *The Man Who Came to Dinner* | *George Washington Slept Here* |\n\\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/E3.webp'>torchbearer E3</uvalib-modal-image-button> at left\\] | \\[below frame\\] THE MODERN LIBRARY · NEW\nYORK\n\nPp. \\[i–viii\\] ix–xxxii, \\[1–2\\] 3–586 \\[587–592\\].\n\\[1–19\\]<sup>16</sup> \\[20\\]<sup>8</sup>\n\n\\[i\\] half title; \\[ii\\] blank; \\[iii\\] title; \\[iv\\] Copyright, 1930,\n1933, 1934, 1937, 1939, 1941 | by George S. Kaufman and Moss Hart |\n\\[short rule\\] | Copyright, 1942, by Random House, Inc. | \\[short rule\\]\n| \\[20-line rights statement; 2-line manufacturing statement\\] |\n*Published by A. S. Barnes & Co., Inc.* | *Distributed by Random House,\nInc.*; \\[v\\] dedication; \\[vi\\] blank; \\[vii\\] CONTENTS; \\[viii\\] blank;\nix–xvi INTRODUCTION | *<span class=\"smallcaps\">B</span>y* <span\nclass=\"smallcaps\">Brooks Atkinson</span>; xvii–xxvi MEN AT WORK | *by*\n<span class=\"smallcaps\">Moss Hart</span>; xxvii–xxxii FORKED LIGHTNING |\n*By* <span class=\"smallcaps\">George S. Kaufman</span>; \\[1\\] part title:\nONCE IN A LIFETIME; \\[2\\] blank; 3–4 cast of first production; \\[5\\]\nSCENES; \\[6\\] blank; 7–586 text; \\[587–592\\] ML list. (*Spring 1944*)\n\n> *Variant:* Pagination as 369. \\[1\\]<sup>16</sup> \\[2–8\\]<sup>32</sup>\n> \\[9\\]<sup>24</sup> \\[10\\]<sup>32</sup> \\[11\\]<sup>16</sup>. Contents\n> as 369 except: \\[iv\\] COPYRIGHT, 1930, 1933, 1934, 1937, 1939, 1941, |\n> AND RENEWED 1958, | BY GEORGE S. KAUFMAN AND MOSS HART | COPYRIGHT,\n> 1942, BY RANDOM HOUSE, INC.; statement about A. S. Barnes omitted;\n> \\[587–588\\] ML Giants list; \\[589–592\\] blank. (*Spring 1967*)\n\n*Jacket:* Non-pictorial in deep blue (183) and deep red (16) on light\nbluish grayish paper; title and authors’ names in reverse on inset deep\nblue panel; other lettering including titles of individual plays in dark\nred.\n\n> Front flap:<br>\n> In the entire world of the theatre, the legend “by Kaufman and Hart”\n> is the hallmark of themes so timely, workmanship so sure and dialogue\n> so sparkling that it is small wonder that in their own field these\n> collaborators are simply beyond competition. Besides the six plays, in\n> complete and unabridged versions, this volume offers an intimate\n> picture of George Kaufman by Moss Hart and an equally revealing\n> portrait of Moss Hart by George Kaufman, plus a serious introduction\n> by their friend and severest critic, Brooks Atkinson of the *New York\n> Times*. (*Spring 1944*)\n\nOriginally published by Random House, 1942. ML edition (pp. \\[v\\]–586)\nprinted from RH plates. Publication announced for February 1944. *WR* 15\nApril 1944. First printing: Not ascertained. Discontinued 1971/72.\n\n*Six Plays* was not among the 100 best-selling titles in the regular ML\nduring the twelve-month period November 1951–October 1952."
+      "full": "\n\n\\[title, statement of responsibility, contents, and device within single\nrules\\] Six Plays | *By Kaufman and Hart* | *With an Introduction by*\nB<span class=\"smallcaps\">rooks Atkinson</span> | *Once in a Lifetime* |\n*Merrily We Roll Along* | *You Can’t Take It with You* | *The American\nWay* | *The Man Who Came to Dinner* | *George Washington Slept Here* |\n\\[torchbearer E3 at left\\] | \\[below frame\\] THE MODERN LIBRARY · NEW\nYORK\n\nPp. \\[i–viii\\] ix–xxxii, \\[1–2\\] 3–586 \\[587–592\\].\n\\[1–19\\]<sup>16</sup> \\[20\\]<sup>8</sup>\n\n\\[i\\] half title; \\[ii\\] blank; \\[iii\\] title; \\[iv\\] Copyright, 1930,\n1933, 1934, 1937, 1939, 1941 | by George S. Kaufman and Moss Hart |\n\\[short rule\\] | Copyright, 1942, by Random House, Inc. | \\[short rule\\]\n| \\[20-line rights statement; 2-line manufacturing statement\\] |\n*Published by A. S. Barnes & Co., Inc.* | *Distributed by Random House,\nInc.*; \\[v\\] dedication; \\[vi\\] blank; \\[vii\\] CONTENTS; \\[viii\\] blank;\nix–xvi INTRODUCTION | *<span class=\"smallcaps\">B</span>y* <span\nclass=\"smallcaps\">Brooks Atkinson</span>; xvii–xxvi MEN AT WORK | *by*\n<span class=\"smallcaps\">Moss Hart</span>; xxvii–xxxii FORKED LIGHTNING |\n*By* <span class=\"smallcaps\">George S. Kaufman</span>; \\[1\\] part title:\nONCE IN A LIFETIME; \\[2\\] blank; 3–4 cast of first production; \\[5\\]\nSCENES; \\[6\\] blank; 7–586 text; \\[587–592\\] ML list. (*Spring 1944*)\n\n> *Variant:* Pagination as 369. \\[1\\]<sup>16</sup> \\[2–8\\]<sup>32</sup>\n> \\[9\\]<sup>24</sup> \\[10\\]<sup>32</sup> \\[11\\]<sup>16</sup>. Contents\n> as 369 except: \\[iv\\] COPYRIGHT, 1930, 1933, 1934, 1937, 1939, 1941, |\n> AND RENEWED 1958, | BY GEORGE S. KAUFMAN AND MOSS HART | COPYRIGHT,\n> 1942, BY RANDOM HOUSE, INC.; statement about A. S. Barnes omitted;\n> \\[587–588\\] ML Giants list; \\[589–592\\] blank. (*Spring 1967*)\n\n*Jacket:* Non-pictorial in deep blue (183) and deep red (16) on light\nbluish grayish paper; title and authors’ names in reverse on inset deep\nblue panel; other lettering including titles of individual plays in dark\nred.\n\n> Front flap:<br>\n> In the entire world of the theatre, the legend “by Kaufman and Hart”\n> is the hallmark of themes so timely, workmanship so sure and dialogue\n> so sparkling that it is small wonder that in their own field these\n> collaborators are simply beyond competition. Besides the six plays, in\n> complete and unabridged versions, this volume offers an intimate\n> picture of George Kaufman by Moss Hart and an equally revealing\n> portrait of Moss Hart by George Kaufman, plus a serious introduction\n> by their friend and severest critic, Brooks Atkinson of the *New York\n> Times*. (*Spring 1944*)\n\nOriginally published by Random House, 1942. ML edition (pp. \\[v\\]–586)\nprinted from RH plates. Publication announced for February 1944. *WR* 15\nApril 1944. First printing: Not ascertained. Discontinued 1971/72.\n\n*Six Plays* was not among the 100 best-selling titles in the regular ML\nduring the twelve-month period November 1951–October 1952."
     }
   ]
 }</pre></sl-details>
 
 <script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
-</div>
+
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1852,7 +1888,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>

@@ -27,6 +27,41 @@
     </header>
 
     <div id="content">
+
+<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/modern-library-bibliography-tools/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/modern-library-bibliography-tools/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    The Modern Library Bibliography</h1>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    
 <sl-breadcrumb>
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/">
     <sl-icon slot="prefix" name="house"></sl-icon>
@@ -36,7 +71,7 @@
   <sl-breadcrumb-item href="/modern-library-bibliography-tools/book/404.html">404</sl-breadcrumb-item>
 </sl-breadcrumb>
 
-<div class="md-block"><p><strong>RUMER GODDEN. BLACK NARCISSUS. 1947–1954. (ML 256)</strong></p>
+<p><strong>RUMER GODDEN. BLACK NARCISSUS. 1947–1954. (ML 256)</strong></p>
 <h4>404. First printing (1947)</h4>
 <p>BLACK | NARCISSUS | <em>by</em> | RUMER GODDEN | [<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D3.webp'>torchbearer D3</uvalib-modal-image-button>] | [rule]
 | THE MODERN LIBRARY · NEW YORK | [rule]</p>
@@ -74,7 +109,7 @@ against royalties of 10 cents a copy (Cerf to McIntyre, 3 January 1947;
 <p>The only printing examined after the first has a spring 1954 ML list at
 the end of the volume. The ML edition of <em>Black Narcissus</em> was
 discontinued at the end of 1954.</p>
-</div>
+
 
 <elix-carousel-with-thumbnails style="width: 100%">
   
@@ -1803,7 +1838,7 @@ discontinued at the end of 1954.</p>
 </elix-carousel-with-thumbnails>
 
 <sl-details summary="book"><pre>{
-  "full": "**RUMER GODDEN. BLACK NARCISSUS. 1947–1954. (ML 256)**\n\n#### 404. First printing (1947)\n\nBLACK | NARCISSUS | *by* | RUMER GODDEN | \\[<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/D3.webp'>torchbearer D3</uvalib-modal-image-button>\\] | \\[rule\\]\n| THE MODERN LIBRARY · NEW YORK | \\[rule\\]\n\nPp. \\[*4*\\], \\[1–2\\] 3–294 \\[295–300\\]. \\[1–8\\]<sup>16</sup>\n\\[9\\]<sup>8</sup> \\[10\\]<sup>16</sup>\n\n\\[*1*\\] half title; \\[*2*\\] blank; \\[*3*\\] title; \\[*4*\\] COPYRIGHT,\n1939, BY RUMER GODDEN | FIRST *Modern Library* EDITION, 1947; \\[1\\] fly\ntitle; \\[2\\] blank; 3–294 text; \\[295–300\\] ML list. (*Fall 1947*)\n\n*Jacket:* Pictorial in moderate greenish blue (173), strong red (12),\nyellowish gray (93) and black on coated white paper depicting buildings\nin strong red at the top of a steep hill and snow-covered mountains in\nyellowish gray against background in moderate greenish blue; lettering\nin black.\n\n> Front flap:<br>\n> In the few years since *Black Narcissus* was published, Rumer Godden\n> at first enjoyed the distinction of being considered a real discovery\n> and then, with each new book, a novelist of growing stature and\n> importance. The originality of her writing, its enchantment and\n> subtlety and vividness, won for her hundreds of thousands of devoted\n> readers. *Black Narcissus*, hailed by the critics of England and\n> America with unqualified praise, soon became an international\n> best-seller, and now in the Modern Library series it achieves the\n> permanence it so richly deserves. (*Fall 1947*)\n\nOriginally published in U.S. by Little, Brown & Co., 1939. ML edition\n(pp. \\[1\\]–294) printed from Little, Brown plates. Published fall 1947.\n*WR* 10 January 1948. First printing: 10,000 copies. Discontinued 1\nJanuary 1955.\n\nThe ML edition was suggested by Alfred McIntyre, the president of\nLittle, Brown (McIntyre to Cerf, 30 December 1946). Cerf asked him to\nsend a copy of the book and two weeks later offered a $1,000 advance\nagainst royalties of 10 cents a copy (Cerf to McIntyre, 3 January 1947;\n17 January 1947). The ML had U.S. rights only.\n\nThe only printing examined after the first has a spring 1954 ML list at\nthe end of the volume. The ML edition of *Black Narcissus* was\ndiscontinued at the end of 1954.",
+  "full": "**RUMER GODDEN. BLACK NARCISSUS. 1947–1954. (ML 256)**\n\n#### 404. First printing (1947)\n\nBLACK | NARCISSUS | *by* | RUMER GODDEN | \\[torchbearer D3\\] | \\[rule\\]\n| THE MODERN LIBRARY · NEW YORK | \\[rule\\]\n\nPp. \\[*4*\\], \\[1–2\\] 3–294 \\[295–300\\]. \\[1–8\\]<sup>16</sup>\n\\[9\\]<sup>8</sup> \\[10\\]<sup>16</sup>\n\n\\[*1*\\] half title; \\[*2*\\] blank; \\[*3*\\] title; \\[*4*\\] COPYRIGHT,\n1939, BY RUMER GODDEN | FIRST *Modern Library* EDITION, 1947; \\[1\\] fly\ntitle; \\[2\\] blank; 3–294 text; \\[295–300\\] ML list. (*Fall 1947*)\n\n*Jacket:* Pictorial in moderate greenish blue (173), strong red (12),\nyellowish gray (93) and black on coated white paper depicting buildings\nin strong red at the top of a steep hill and snow-covered mountains in\nyellowish gray against background in moderate greenish blue; lettering\nin black.\n\n> Front flap:<br>\n> In the few years since *Black Narcissus* was published, Rumer Godden\n> at first enjoyed the distinction of being considered a real discovery\n> and then, with each new book, a novelist of growing stature and\n> importance. The originality of her writing, its enchantment and\n> subtlety and vividness, won for her hundreds of thousands of devoted\n> readers. *Black Narcissus*, hailed by the critics of England and\n> America with unqualified praise, soon became an international\n> best-seller, and now in the Modern Library series it achieves the\n> permanence it so richly deserves. (*Fall 1947*)\n\nOriginally published in U.S. by Little, Brown & Co., 1939. ML edition\n(pp. \\[1\\]–294) printed from Little, Brown plates. Published fall 1947.\n*WR* 10 January 1948. First printing: 10,000 copies. Discontinued 1\nJanuary 1955.\n\nThe ML edition was suggested by Alfred McIntyre, the president of\nLittle, Brown (McIntyre to Cerf, 30 December 1946). Cerf asked him to\nsend a copy of the book and two weeks later offered a $1,000 advance\nagainst royalties of 10 cents a copy (Cerf to McIntyre, 3 January 1947;\n17 January 1947). The ML had U.S. rights only.\n\nThe only printing examined after the first has a spring 1954 ML list at\nthe end of the volume. The ML edition of *Black Narcissus* was\ndiscontinued at the end of 1954.",
   "id": "404",
   "year": "1947",
   "title": "RUMER GODDEN. BLACK NARCISSUS. 1947–1954. (ML 256)",
@@ -1811,7 +1846,8 @@ discontinued at the end of 1954.</p>
 }</pre></sl-details>
 
 <script type="module" src="/modern-library-bibliography-tools/js/slideshow.js"></script>
-</div>
+
+    </div>
 
     <footer role="contentinfo">
         <div id="primary-footer-widget-area">
@@ -1830,7 +1866,8 @@ Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
 		</div>    </div>
             </footer>
     <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
-    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/images.js"></script>
+    <script type="module" src="/modern-library-bibliography-tools/js/layout.js"></script>
     
 </body>
 </html>
