@@ -2,6 +2,8 @@ const CleanCSS = require("clean-css");
 const elasticlunr = require('elasticlunr');
 const Fuse = require('fuse.js');
 
+const pathPrefix = process.env.PATH_PREFIX || "";
+
 let markdown = require("markdown-it")({
   html: true
 });
@@ -23,11 +25,11 @@ module.exports = function(eleventyConfig) {
     eleventyConfig.addFilter("addLinks", function(...args) {
       let md = args.shift();
       if (args.includes('torchbearer'))
-        md = md.replace(/(torchbearer\s+)([A-Z][1-9]?)/g,"<uvalib-modal-image-button alt=' ' src='/mlb/images/torchbearers/$2.webp'>$1$2</uvalib-modal-image-button>"); 
+        md = md.replace(/(torchbearer\s+)([A-Z][1-9]?)/g,`<uvalib-modal-image-button alt=' ' src='${pathPrefix}/mlb/images/torchbearers/$2.webp'>$1$2</uvalib-modal-image-button>`); 
       if (args.includes('book'))
-        md = md.replace(/^###\s+(\d\d\d)\s*\n/mg,"### <a href='/book/$1.html'>$1</a>\n");
+        md = md.replace(/^###\s+(\d\d\d)\s*\n/mg,`### <a href='${pathPrefix}/book/$1.html'>$1</a>\n`);
       if (args.includes('revision'))
-        md = md.replace(/^####\s+([1-9a-z]+)\.\s+(.+)\s*\n/mg,"#### <a href='/revision/$1.html'>$1. $2</a>\n");
+        md = md.replace(/^####\s+([1-9a-z]+)\.\s+(.+)\s*\n/mg,`#### <a href='${pathPrefix}/revision/$1.html'>$1. $2</a>\n`);
       return md;
     });
     eleventyConfig.addFilter("dump", function(obj) { return JSON.stringify(obj, null, 2) });
