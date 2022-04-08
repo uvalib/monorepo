@@ -33,7 +33,7 @@ title: Modern Library Bibliography &middot; Bibliographical Society
 
     <div id="content">
 
-<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+<sl-drawer id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
     <sl-menu>
         <sl-menu-item href="{{ '/' | url }}">Home</sl-menu-item>
         <sl-divider></sl-divider>
@@ -51,8 +51,10 @@ title: Modern Library Bibliography &middot; Bibliographical Society
     <sl-button slot="footer" variant="primary">Close</sl-button>
 </sl-drawer>
 
-    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
-    The Modern Library Bibliography</h1>
+    <div style="display: flex; flex-direction: row;">
+        <h1 style="flex-grow: 1;">The Modern Library Bibliography</h1>
+        <sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    </div>
 
 <script>
   const drawer = document.querySelector('#menudrawer');
