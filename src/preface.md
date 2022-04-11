@@ -2,7 +2,7 @@
 layout: page-layout.njk
 permalink: "preface.html"
 ---
-**PREFACE**
+## PREFACE
 
 The Modern Library was the most important American reprint series of
 significant works of literature and thought published in the twentieth

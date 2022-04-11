@@ -6,7 +6,10 @@ prefetch:
   - /yearsIndex.json
 ---
 
+
+<!--
 <uvalib-faceted-search-browse></uvalib-faceted-search-browse>
+-->
 
 <div class="years-group">
   {% for year in years %}
@@ -36,7 +39,11 @@ prefetch:
 </div>
 
 <script>window.lunr = {};</script>
+
+<!--
 <script type="module" src="{{ '/js/search.js' | url }}"></script>
+-->
+
 <script>
   const container = document.querySelector('.years-group');
 

@@ -28,7 +28,7 @@
 
     <div id="content">
 
-<sl-drawer placement="start" id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+<sl-drawer id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
     <sl-menu>
         <sl-menu-item href="/modern-library-bibliography-tools/">Home</sl-menu-item>
         <sl-divider></sl-divider>
@@ -46,8 +46,10 @@
     <sl-button slot="footer" variant="primary">Close</sl-button>
 </sl-drawer>
 
-    <h1><sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
-    The Modern Library Bibliography</h1>
+    <div style="display: flex; flex-direction: row;">
+        <h1 style="flex-grow: 1;">The Modern Library Bibliography</h1>
+        <sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    </div>
 
 <script>
   const drawer = document.querySelector('#menudrawer');
@@ -61,7 +63,7 @@
 
 </script>
 
-    <p><strong>PREFACE</strong></p>
+    <h2>PREFACE</h2>
 <p>The Modern Library was the most important American reprint series of
 significant works of literature and thought published in the twentieth
 century. The series was founded in spring 1917 and published initially

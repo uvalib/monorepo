@@ -1,0 +1,4 @@
+---
+permalink: "booksFuseIndex.json"
+---
+{{ books | fuseIndex('title','year','full') | dump | safe }}

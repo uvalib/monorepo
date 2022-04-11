@@ -1,6 +1,7 @@
 const CleanCSS = require("clean-css");
-const elasticlunr = require('elasticlunr');
 const Fuse = require('fuse.js');
+const lunr = require('lunr');
+const MiniSearch = require('minisearch');
 
 const pathPrefix = process.env.PATH_PREFIX || "";
 
@@ -34,20 +35,28 @@ module.exports = function(eleventyConfig) {
     });
     eleventyConfig.addFilter("dump", function(obj) { return JSON.stringify(obj, null, 2) });
     eleventyConfig.addFilter("isarray", function(obj) { return Array.isArray(obj) });
+
     eleventyConfig.addFilter('fuseIndex', function(...args){
       let documents = args.shift();
       let index = Fuse.createIndex(args, documents);
       return index.toJSON();
     });
-    eleventyConfig.addFilter('eLunarIndex', function(...args) {
+    eleventyConfig.addFilter('lunrIndex', function(...args) {
       let documents = args.shift();
-      let index = elasticlunr(function () {
-        args.forEach( function(field){ this.addField(field) }.bind(this) );
-        this.saveDocument(false);
+      let index = lunr(function (){
+        this.ref('id');
+        args.forEach( function(field){ this.field(field) }.bind(this) );
+        documents.forEach( function(doc){ this.add(doc) }.bind(this) );
       });
-      documents.forEach(d=>index.addDoc(d));
+      return index;
+    });
+    eleventyConfig.addFilter('miniIndex', function(...args){
+      let documents = args.shift();
+      let index = new MiniSearch({ fields: args });
+      index.addAll(documents);
       return index.toJSON();
     });
+
     eleventyConfig.addFilter('markdown', content=>markdown.render(content));
     eleventyConfig.addNunjucksShortcode("arrayOrStringPara", arrayOrStringToParaShortcode);
     eleventyConfig.addNunjucksShortcode("markdown",content => markdown.render(content));
