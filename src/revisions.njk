@@ -17,7 +17,7 @@ permalink: "revision/{{ rev.id }}.html"
   <sl-breadcrumb-item href="{{ '/revision/' | url }}{{ rev.id }}.html">{{ rev.id }}</sl-breadcrumb-item>
 </sl-breadcrumb>
 
-<h1>{{rev.id}}</h1>
+<h1>{{rev.id}} - {{rev.bookTitle}}</h1>
 <h2>{{rev.title}}</h2>
 {{ rev.full | addLinks('torchbearer') | markdown | safe }}
 

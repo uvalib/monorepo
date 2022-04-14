@@ -11,6 +11,7 @@ prefetch:
 <uvalib-faceted-search-browse></uvalib-faceted-search-browse>
 -->
 
+<h2>By Year</h2>
 <div class="years-group">
   {% for year in years %}
   <sl-details class="year" summary="{{ year.year }}">
@@ -22,16 +23,20 @@ prefetch:
     {% endif %}
      <a href="{{ '/year/' | url }}{{ year.year }}.html">[more]</a>
     <ul>
-    {% for bookID, book in year.books %}
-      <li><a href="/book/{{ bookID }}.html">{{ bookID }} {{ book.title }}</a>
-      <ul>
-        {% for rev in revisions %}
-          {% if rev.book == bookID %}
-            <li><a href="{{ '/revision/' | url }}{{ rev.id }}.html">{{ rev.id }}</a></li>
-          {% endif %}
-        {% endfor %}
-      </ul>
-      </li>
+    {% for bookID, bk in year.books %}
+      {% for book in books %}
+        {% if book.id == bookID %}
+          <li><a href="/book/{{ bookID }}.html">{{ book.title }}</a>
+          <ul>
+            {% for rev in revisions %}
+              {% if rev.book == bookID %}
+                <li><a href="{{ '/revision/' | url }}{{ rev.id }}.html">{{ rev.title }}</a></li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+          </li>
+        {% endif %}
+      {% endfor %}
     {% endfor %}
     </ul>
   </sl-details>

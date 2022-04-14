@@ -9,6 +9,7 @@ module.exports = async function() {
         b.revisions.forEach(r=>{
             r.year = b.year;
             r.book = b.id;
+            r.bookTitle = b.title;
             r.type = "revision";
             revisions.push(r);
         });
