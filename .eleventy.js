@@ -2,6 +2,7 @@ const CleanCSS = require("clean-css");
 const Fuse = require('fuse.js');
 const lunr = require('lunr');
 const MiniSearch = require('minisearch');
+const _ = require('lodash');
 
 const pathPrefix = process.env.PATH_PREFIX || "";
 
@@ -36,6 +37,14 @@ module.exports = function(eleventyConfig) {
     eleventyConfig.addFilter("dump", function(obj) { return JSON.stringify(obj, null, 2) });
     eleventyConfig.addFilter("isarray", function(obj) { return Array.isArray(obj) });
 
+    eleventyConfig.addFilter('concatList', function(docs1, docs2){
+      return [...docs1, ...docs2];
+    });
+    eleventyConfig.addFilter('pickList', function(...args){
+      let documents = args.shift();
+      return documents.map( d=>_.pick(d, args) );
+    } );
+
     eleventyConfig.addFilter('fuseIndex', function(...args){
       let documents = args.shift();
       let index = Fuse.createIndex(args, documents);
@@ -52,7 +61,7 @@ module.exports = function(eleventyConfig) {
     });
     eleventyConfig.addFilter('miniIndex', function(...args){
       let documents = args.shift();
-      let index = new MiniSearch({ fields: args });
+      let index = new MiniSearch({ fields: args, storeFields: args });
       index.addAll(documents);
       return index.toJSON();
     });

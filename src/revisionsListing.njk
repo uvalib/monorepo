@@ -1,0 +1,4 @@
+---
+permalink: "revisions.json"
+---
+{{ revisions | pickList('id', 'title', 'year', 'book', 'full') | dump | safe }}

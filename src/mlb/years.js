@@ -69,6 +69,7 @@ module.exports = async function() {
             });
             year.id = year.year;
             year.searchContent = content;
+            year.type = "year";
 
             years.push( year ); 
         }      

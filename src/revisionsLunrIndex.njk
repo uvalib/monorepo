@@ -1,0 +1,4 @@
+---
+permalink: "revisionsLunrIndex.json"
+---
+{{ revisions | lunrIndex('title','year','full','book') | dump | safe }}

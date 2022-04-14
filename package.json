@@ -17,6 +17,7 @@
     "@vaadin/vaadin-tabs": "^23.0.3",
     "@vaadin/vaadin-virtual-list": "^23.0.4",
     "elix": "^15.0.1",
+    "flexsearch": "^0.7.21",
     "fuse.js": "^6.5.3",
     "itemsjs": "^2.1.14",
     "lit": "^2.1.3",

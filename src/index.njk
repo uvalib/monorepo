@@ -14,13 +14,13 @@ prefetch:
 <div class="years-group">
   {% for year in years %}
   <sl-details class="year" summary="{{ year.year }}">
-    <h2><a href="{{ '/years/' | url }}{{ year.year }}.html">{{ year.title }}</a></h2>
+    <h2><a href="{{ '/year/' | url }}{{ year.year }}.html">{{ year.title }}</a></h2>
     {% if year.generalFirst %}
       {% markdown year.generalFirst %}
     {% else %}
       {% markdown year.general %}  
     {% endif %}
-     <a href="{{ '/years/' | url }}{{ year.year }}.html">[more]</a>
+     <a href="{{ '/year/' | url }}{{ year.year }}.html">[more]</a>
     <ul>
     {% for bookID, book in year.books %}
       <li><a href="/book/{{ bookID }}.html">{{ bookID }} {{ book.title }}</a>

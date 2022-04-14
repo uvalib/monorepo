@@ -23,7 +23,8 @@ module.exports = async function() {
                 })
             });
             y.books[bid].revisions = revisions;
-
+            y.books[bid].type = "book";
+        
             books.push(y.books[bid]);
         })
     })

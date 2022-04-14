@@ -1,4 +1,4 @@
-import { a as s, $ } from './lit-element-20b53a88.js';
+import { s, $ } from './lit-element-90518c22.js';
 
 class UVALibFacetedSearchIndex extends s {
     static properties = {
