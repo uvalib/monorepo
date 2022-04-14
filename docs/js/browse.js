@@ -58,7 +58,7 @@ class UVALibFacetedBrowse extends s {
         this._filter();
     }
     _filter(){
-        let options = {};
+        let options = {per_page: 1000};
         if (this.queryString) options.query = this.queryString;
         if (this.selectedTypes) options.filters = {type:this.selectedTypes};
         this.search = this._itemsjs.search(options);
