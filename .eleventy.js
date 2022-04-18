@@ -37,6 +37,12 @@ module.exports = function(eleventyConfig) {
     eleventyConfig.addFilter("dump", function(obj) { return JSON.stringify(obj, null, 2) });
     eleventyConfig.addFilter("isarray", function(obj) { return Array.isArray(obj) });
 
+    eleventyConfig.addFilter('findEqual', function(docs, key, value) { 
+      return docs.find( function(d){
+        return d[key]==value
+      })
+    });
+
     eleventyConfig.addFilter('concatList', function(docs1, docs2){
       return [...docs1, ...docs2];
     });

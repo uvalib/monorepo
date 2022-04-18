@@ -11,6 +11,9 @@ module.exports = async function() {
             r.book = b.id;
             r.bookTitle = b.title;
             r.type = "revision";
+
+            
+
             revisions.push(r);
         });
     })

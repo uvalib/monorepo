@@ -16,6 +16,13 @@ permalink: "book/{{ book.id }}.html"
   <sl-breadcrumb-item href="{{ '/book/' | url }}{{ book.id }}.html">{{ book.id }}</sl-breadcrumb-item>
 </sl-breadcrumb>
 
+<dl>
+  <dt>Label</dt><dd>{{book.label}}</dd>
+  <dt>Title</dt><dd>{{book.title}}</dd>
+  <dt>Date</dt><dd>{{book.date}}</dd>
+  <dt>Other</dt><dd>{{book.something}}</dd>
+</dl>
+
 {{ book.full | addLinks('torchbearer','revision') | markdown | safe }}
 
 <elix-carousel-with-thumbnails style="width: 100%">

@@ -21,14 +21,16 @@ permalink: "revision/{{ rev.id }}.html"
 <h2>{{rev.title}}</h2>
 {{ rev.full | addLinks('torchbearer') | markdown | safe }}
 
-<elix-carousel-with-thumbnails style="width: 100%">
-  {% for cover in covers %}
-    {% if cover.revision == rev.id %}
-    <img src="{{ cover.filename | url }}">
-    {% endif %}
-  {% endfor %}
-</elix-carousel-with-thumbnails>
+{% if covers | findEqual('revision', rev.id) %}
+  <elix-carousel-with-thumbnails style="width: 100%">
+    {% for cover in covers %}
+      {% if cover.revision == rev.id %}
+        <img src="{{ cover.filename | url }}">
+      {% endif %}
+    {% endfor %}
+  </elix-carousel-with-thumbnails>
+  <script type="module" src="{{ '/js/slideshow.js' | url }}"></script>
+{% endif %}
 
 <sl-details summary="revision"><pre>{{ rev | dump | safe }}</pre></sl-details>
 
-<script type="module" src="{{ '/js/slideshow.js' | url }}"></script>
