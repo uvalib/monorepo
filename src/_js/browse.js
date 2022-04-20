@@ -1,5 +1,5 @@
 
-import {LitElement, html} from 'lit';
+import {LitElement, html, css} from 'lit';
 import 'itemsjs/dist/itemsjs.min.js';
 import './result.js';
 
@@ -9,6 +9,7 @@ class UVALibFacetedBrowse extends LitElement {
         queryString: {attribute: true, reflect: true}, // Query string to filter on (using search Library)
         items: {type: Array, attribute: false},  // Items given Library,query,collection,etc
         search: {type: Object},
+        selectedTypes: {type: Array},
         selectedTypes: {type: Array}
     }
 
@@ -43,10 +44,16 @@ class UVALibFacetedBrowse extends LitElement {
             aggregations: {
                 type: {
                   title: 'Type',
-                  size: 10
+                  size: 10,
+                  conjunction: false
+                },
+                author: {
+                    title: 'Author',
+                    size: 10,
+                    conjunction: false
                 }
             },
-            searchableFields: ['title', 'year', 'generalFirst']
+            searchableFields: ['title', 'author', 'year', 'generalFirst']
         })
         this._filter();
 //        console.log( this._itemsjs.search() );
@@ -61,7 +68,10 @@ class UVALibFacetedBrowse extends LitElement {
     _filter(){
         let options = {per_page: 1000}
         if (this.queryString) options.query = this.queryString;
-        if (this.selectedTypes) options.filters = {type:this.selectedTypes};
+        let filters = {};
+        if (this.selectedTypes) filters.type = this.selectedTypes; //({type:this.selectedTypes});
+        if (this.selectedAuthors) filters.author = this.selectedAuthors; //filters.push({type:this.selectedAuthors});
+        options.filters = filters;
         this.search = this._itemsjs.search(options)
         this.items = this.search.data.items;
 
@@ -75,6 +85,21 @@ class UVALibFacetedBrowse extends LitElement {
         console.info(e.target.value)
     }
 
+    _setAuthor(e){
+        this.selectedAuthors = e.target.value;
+        this._filter();
+        console.info(`Author facet set to `);
+        console.info(e.target.value);
+    }
+
+    static get styles() {
+        return css`
+#results {
+    margin-top: 20px;
+}
+        `;
+    }
+
     render() {
         return html`
         <div id="searchbox" style="margin-top:15px; margin-bottom:15px;" >
@@ -86,6 +111,14 @@ class UVALibFacetedBrowse extends LitElement {
                 this.search.data.aggregations.type.buckets.map(type=>{
                     return type.doc_count>0?
                         html`<sl-menu-item value="${type.key}">${type.key} (${type.doc_count})</sl-menu-item>`:''
+                }):''  }
+        </sl-select>
+
+        <sl-select placeholder="Filter by Author" multiple clearable @sl-change="${this._setAuthor}">
+            ${(this.search && this.search.data)?
+                this.search.data.aggregations.author.buckets.map(author=>{
+                    return author.doc_count>0?
+                        html`<sl-menu-item value="${author.key}">${author.key} (${author.doc_count})</sl-menu-item>`:''
                 }):''  }
         </sl-select>
 
