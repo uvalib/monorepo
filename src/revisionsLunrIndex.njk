@@ -1,4 +1,4 @@
 ---
 permalink: "revisionsLunrIndex.json"
 ---
-{{ revisions | lunrIndex('title','year','full','book') | dump | safe }}
+{{ revisions | lunrIndex('title','type','year','full','book') | dump | safe }}

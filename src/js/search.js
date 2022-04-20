@@ -1,6 +1,5 @@
 import { s, $ } from './lit-element-90518c22.js';
-
-//import 'itemsjs/dist/itemsjs.min.js';
+import './result.js';
 
 class UVALibFacetedSearch extends s {
     static properties = {
@@ -366,15 +365,12 @@ class UVALibFacetedSearch extends s {
                 <sl-tab-panel name="${collId}">
                     <h2>${coll.title}</h2>
                     ${this.searchLibrary && coll.indexes[this.searchLibrary].results && coll.indexes[this.searchLibrary].results.length>0? $`
-                        <ul>
-                        ${coll.indexes[this.searchLibrary].results.map(result=>{
-                            //let result = res.item? res.item:res;
-                            //if (!result.id && result.ref) result.id = result.ref;
-                            //if (!result.title) result.title = coll.list 
+                        <div id="results">
+                        ${coll.indexes[this.searchLibrary].results.map(item=>{
                             return $`
-                                <li><a href="${coll.path}${result.id}.html">${result.title}</a></li>
+                                <uvalib-result .item="${item}"></uvalib-result>
                             `} )}
-                        </ul>
+                        </div>
                     `:$`
                         <p>Need to search for something and/or current search returned no results!</p>
                     `}

@@ -1,6 +1,7 @@
 
 import {LitElement, html} from 'lit';
 import 'itemsjs/dist/itemsjs.min.js';
+import './result.js';
 
 class UVALibFacetedBrowse extends LitElement {
     static properties = {
@@ -88,11 +89,11 @@ class UVALibFacetedBrowse extends LitElement {
                 }):''  }
         </sl-select>
 
-        <ul>
+        <div id="results">
             ${this.items.map(item=>html`
-                <li><strong>${item.type}</strong> <a href="/${item.type}/${item.id}.html">${item.title}</a></li>
+                <uvalib-result .item="${item}"></uvalib-result>
             `)}
-        </ul>
+        </div>
         `;
     }
 }

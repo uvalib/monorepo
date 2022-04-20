@@ -1,4 +1,4 @@
 ---
 permalink: "books.json"
 ---
-{{ books | pickList('id', 'title', 'year','full') | dump | safe }}
+{{ books | pickList('id','type','title', 'year','full') | dump | safe }}

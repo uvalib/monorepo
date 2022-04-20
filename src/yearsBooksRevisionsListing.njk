@@ -1,4 +1,4 @@
 ---
 permalink: "yearsBooksRevisions.json"
 ---
-{{ years | concatList(books) | concatList(revisions) | pickList('id', 'title', 'year', 'generalFirst','book','type') | dump | safe }}
+{{ years | concatList(books) | concatList(revisions) | pickList('id', 'author', 'title', 'year', 'generalFirst','book','type') | dump | safe }}
