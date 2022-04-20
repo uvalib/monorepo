@@ -2,6 +2,7 @@ const CleanCSS = require("clean-css");
 const Fuse = require('fuse.js');
 const lunr = require('lunr');
 const MiniSearch = require('minisearch');
+const FlexSearch = require('flexsearch');
 const _ = require('lodash');
 
 const pathPrefix = process.env.PATH_PREFIX || "";
@@ -60,8 +61,8 @@ module.exports = function(eleventyConfig) {
       let documents = args.shift();
       let index = lunr(function (){
         this.ref('id');
-        args.forEach( function(field){ this.field(field) }.bind(this) );
-        documents.forEach( function(doc){ this.add(doc) }.bind(this) );
+        args.forEach( field=>this.field(field), this );
+        documents.forEach( doc=>this.add(doc), this );
       });
       return index;
     });
@@ -71,6 +72,20 @@ module.exports = function(eleventyConfig) {
       index.addAll(documents);
       return index.toJSON();
     });
+    eleventyConfig.addNunjucksAsyncFilter('flexIndex', (documents,fields, callback)=>{
+      let document = new FlexSearch.Document({
+        id: "id",
+        index: fields //['title','year','full']
+      });
+      documents.forEach( doc=>document.add(doc) );
+      document.export((key,data)=>{
+          let result = {};
+          result[key] = data;
+          result.key = key;
+          result.fields = fields;  // need to know the fields in order to import the index
+          callback(null, result);
+      })      
+    })
 
     eleventyConfig.addFilter('markdown', content=>markdown.render(content));
     eleventyConfig.addNunjucksShortcode("arrayOrStringPara", arrayOrStringToParaShortcode);
