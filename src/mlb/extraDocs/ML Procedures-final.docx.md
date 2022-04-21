@@ -233,9 +233,7 @@ dating key can be used to date any list of Modern Library titles by
 spring or fall of a given year.
 
 The numbering system begins by identifying works published in the Modern
-Library
-
-in approximate chronological order as described above. This
+Library in approximate chronological order as described above. This
 bibliographic numbering system is distinct from the Modern Library
 system. Numbers in the bibliography that are not preceded with an ML
 pertain to the internal chronological numbering system. *Madame Bovary*
