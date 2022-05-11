@@ -71,7 +71,7 @@ class UVALibFacetedBrowse extends s {
         if (this.selectedAuthors) filters.author = this.selectedAuthors;
         options.filters = filters;
         this.search = this._itemsjs.search(options);
-        this.items = this.search.data.items;
+        this.items = this.search.data.items.sort((a, b) => (a.year > b.year)? 1 : -1);
 
         console.info(this.search);
     }
@@ -121,9 +121,15 @@ class UVALibFacetedBrowse extends s {
         </sl-select>
 
         <div id="results">
-            ${this.items.map(item=>$`
-                <uvalib-result .item="${item}"></uvalib-result>
-            `)}
+            ${this.items.find(item=>item.type==="year")?
+                // print out year then books 
+                this.items.filter(i=>i.type==="year").map(item=>$`
+                    <uvalib-result .item="${item}"></uvalib-result>
+                    ${this.items.filter(i=>i.type==="book"&&i.year===item.year).map(b=>$`<uvalib-result .item="${b}"></uvalib-result>`)}
+                `):
+                // just print out the list of books
+                this.items.map(item=>$`<uvalib-result .item="${item}"></uvalib-result>`)
+            }
         </div>
         `;
     }
