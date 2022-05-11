@@ -56,8 +56,6 @@ class UVALibFacetedBrowse extends LitElement {
             searchableFields: ['title', 'author', 'year', 'generalFirst']
         })
         this._filter();
-//        console.log( this._itemsjs.search() );
-//        console.log( this._itemsjs.aggregation( {name:'type'} ) );
     }
 
     _setQueryString(e) {
@@ -69,8 +67,8 @@ class UVALibFacetedBrowse extends LitElement {
         let options = {per_page: 1000}
         if (this.queryString) options.query = this.queryString;
         let filters = {};
-        if (this.selectedTypes) filters.type = this.selectedTypes; //({type:this.selectedTypes});
-        if (this.selectedAuthors) filters.author = this.selectedAuthors; //filters.push({type:this.selectedAuthors});
+        if (this.selectedTypes) filters.type = this.selectedTypes;
+        if (this.selectedAuthors) filters.author = this.selectedAuthors;
         options.filters = filters;
         this.search = this._itemsjs.search(options)
         this.items = this.search.data.items;
