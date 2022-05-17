@@ -6,7 +6,9 @@
   "private": true,
   "dependencies": {},
   "devDependencies": {
+    "@11ty/eleventy": "^1.0.1",
     "@nrwl/cli": "14.1.6",
+    "@nrwl/devkit": "14.1.6",
     "@nrwl/nx-cloud": "latest",
     "@nrwl/web": "^14.1.6",
     "@nrwl/workspace": "14.1.6",
