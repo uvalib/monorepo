@@ -35,7 +35,7 @@ export class UvalibModalImageButton extends UvalibAnalyticsMixin(LitElement) {
 
   render() {
     return (this.alt||this.alt=="")?
-      html`<button class="wrapper" @click="${this.enlarge}" aria-label="Enlarge image of ${this.alt}"><slot></slot></button>`:
+      html`<button part="button" class="wrapper" @click="${this.enlarge}" aria-label="Enlarge image of ${this.alt}"><slot></slot></button>`:
       html`<!-- uvalib-image needs an alt attribute even if it is empty! -->`;
   }
 
