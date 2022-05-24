@@ -3472,7 +3472,7 @@ class UvalibModalImageButton extends UvalibAnalyticsMixin(s$4) {
 
   render() {
     return (this.alt||this.alt=="")?
-      $$1`<button class="wrapper" @click="${this.enlarge}" aria-label="Enlarge image of ${this.alt}"><slot></slot></button>`:
+      $$1`<button part="button" class="wrapper" @click="${this.enlarge}" aria-label="Enlarge image of ${this.alt}"><slot></slot></button>`:
       $$1`<!-- uvalib-image needs an alt attribute even if it is empty! -->`;
   }
 

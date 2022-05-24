@@ -371,10 +371,10 @@
     lit-element "^2.5.1"
     lit-html "^1.4.1"
 
-"@uvalib/uvalib-image@^0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@uvalib/uvalib-image/-/uvalib-image-0.3.0.tgz#6e8c4f895a711682cb32bad55c47a4d454df24c4"
-  integrity sha512-iX4agJHgh6pefEV1krp5rmwU4bhZcpnEGzYPehEralUaIsMjMkzljqewVdTp+D9wmK22x3zlKFjmXaWkVq4P0A==
+"@uvalib/uvalib-image@^0.3.1":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@uvalib/uvalib-image/-/uvalib-image-0.3.1.tgz#04897fcc4972c03cb3c227fde83e260fd6466a3c"
+  integrity sha512-pdsaRjR7DWuaCoiFiL6EljUfbsFMNc2T8GfqBdPyKlNaqWNK1vWzte5B3H6Skv8cTtjpOWWCqKq7ee3kEUYF8g==
   dependencies:
     "@uvalib/uvalib-analytics" "^0.1.6"
     "@uvalib/uvalib-icon" "^0.0.7"

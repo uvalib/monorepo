@@ -1,6 +1,5 @@
 Acknowledgments
-
-<u>Private Collections of Modern Library Publications</u>
+<bold>Private Collections of Modern Library Publications</bold>
 
 Richard H. Allen, Lincoln, Nebraska
 

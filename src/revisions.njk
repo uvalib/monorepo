@@ -19,7 +19,7 @@ permalink: "revision/{{ rev.id }}.html"
 
 <h1>{{rev.id}} - {{rev.bookTitle}}</h1>
 <h2>{{rev.title}}</h2>
-{{ rev.full | addLinks('torchbearer') | markdown | safe }}
+{{ rev.full | addLinks('torchbearer','notes') | markdown | safe }}
 
 {% if covers | findEqual('revision', rev.id) %}
   <elix-carousel-with-thumbnails style="width: 100%">

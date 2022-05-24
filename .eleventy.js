@@ -28,7 +28,10 @@ module.exports = function(eleventyConfig) {
     eleventyConfig.addFilter("addLinks", function(...args) {
       let md = args.shift();
       if (args.includes('torchbearer'))
-        md = md.replace(/(torchbearer\s+)([A-Z][1-9]?)/g,`<uvalib-modal-image-button alt=' ' src='${pathPrefix}/mlb/images/torchbearers/$2.webp'>$1$2</uvalib-modal-image-button>`); 
+        md = md.replace(/(torchbearer\s+)([A-Z][1-9]?)/g,`<uvalib-modal-image-button alt='torchbearer' src='${pathPrefix}/mlb/images/torchbearers/$2.webp'>$1$2</uvalib-modal-image-button>`); 
+      if (args.includes('notes'))
+//      md = md.replace(/(pub. note )(D3)/g,`<uvalib-modal-image-button alt='publishers note' src='${pathPrefix}/mlb/images/notes/$2.webp'>$1$2</uvalib-modal-image-button>`);   
+        md = md.replace(/(pub\. note )([A-Z]1?[0-9]a?);/g,`<uvalib-modal-image-button alt='publishers note' src='${pathPrefix}/mlb/images/notes/$2.webp'>$1$2;</uvalib-modal-image-button>`);   
       if (args.includes('book'))
         md = md.replace(/^###\s+(\d\d\d)\s*\n/mg,`### <a href='${pathPrefix}/book/$1.html'>$1</a>\n`);
       if (args.includes('revision'))
