@@ -49,7 +49,6 @@ for r, d, f in os.walk( scandir ):
     for file in f:
 #for entry in scantree( scandir ):
 #        file = entry.path
-        print(file)
         if '.webp' in file:
             filepath = os.path.join(r, file)
             metafile = filepath.replace(".webp",".Faces.json")
@@ -57,6 +56,7 @@ for r, d, f in os.walk( scandir ):
 
                 #image = face_recognition.load_image_file(filepath)
                 #image = cv2.imread(filepath)
+                print('open '+filepath)
                 image = image_to_numpy.load_image_file(filepath)
 
                 #face_locations = face_recognition.face_locations(image, number_of_times_to_upsample=0, model="cnn")
