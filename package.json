@@ -15,6 +15,7 @@
     "@tensorflow/tfjs-node": "^3.18.0",
     "exiftool-vendored": "^16.4.0",
     "gm": "^1.23.1",
+    "jpeg-autorotate": "^8.0.1",
     "minimist": "^1.2.6",
     "mmmagic": "^0.5.3",
     "piexifjs": "^1.0.6",
