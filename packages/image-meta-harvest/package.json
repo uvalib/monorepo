@@ -3,7 +3,7 @@
  "description": "experimenting with ways to extract metadata from images in our collection",
  "version": "0.0.1",
  "scripts": {
-     "getAddison":"node src/getImages.js --in=\"/Volumes/lib_content107/Addison_2018/Shoots 2005\" --out=\"/Users/dhc4z/OneDrive - University of Virginia/Addison_2018\"",
+     "getAddison":"node src/getImages.js --in=\"/Volumes/lib_content107/Addison_2018/Shoots 2017\" --out=\"/Users/dhc4z/OneDrive - University of Virginia/Addison_2018\"",
      "classify":"node src/classify.js --in=\"/Users/dhc4z/OneDrive - University of Virginia/Addison_2018\"",
      "getObjects":"node src/objectDetect.js --in=\"/Users/dhc4z/OneDrive - University of Virginia/Addison_2018\"",
      "getFaces":"python src/faceDetect.py \"/Users/dhc4z/OneDrive - University of Virginia/Addison_2018\""

@@ -9,12 +9,15 @@ const { readFileSync, writeFileSync, existsSync } = require('fs');
 const { getFiles } = require('./shared.js');
 const webp = require('webp-converter');
 
+const jo = require('jpeg-autorotate')
+
 // Load the model.
 var model;
 
 async function getObjects(img, objectsFile) {
     await webp.dwebp(img, "/var/tmp/tmpobj.jpg","-o");
-    const imageBuffer = readFileSync("/var/tmp/tmpobj.jpg");
+    const imageBuffer = await jo.rotate("/var/tmp/tmpobj.jpg");
+//    const imageBuffer = readFileSync("/var/tmp/tmpobj.jpg");
     const tensor = tf.node.decodeImage(imageBuffer);
     // Objects from the image
     const predictions = await model.detect(tensor);
@@ -29,7 +32,7 @@ async function doit(){
     console.log(`Get images from ${argv.in}`)
     for await(const f of getFiles(argv.in)) {
         if (f.mime.indexOf("image")>-1) {
-            const objectsFile = f.file.replace('.webp', '.objects.json');
+            const objectsFile = f.file.replace('.webp', '.Objects.json');
             if ( !await existsSync(objectsFile) ) {
                 await getObjects(f.file, objectsFile);
             }
