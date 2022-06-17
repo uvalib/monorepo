@@ -7,7 +7,8 @@ const argv = require('minimist')(process.argv.slice(2));
 
 const { readFileSync, writeFileSync, existsSync } = require('fs');
 const { getFiles } = require('./shared.js');
-const webp = require('webp-converter');
+//const webp = require('webp-converter');
+const sharp = require('sharp');
 
 const jo = require('jpeg-autorotate')
 
@@ -15,7 +16,8 @@ const jo = require('jpeg-autorotate')
 var model;
 
 async function getObjects(img, objectsFile) {
-    await webp.dwebp(img, "/var/tmp/tmpobj.jpg","-o");
+//    await webp.dwebp(img, "/var/tmp/tmpobj.jpg","-o");
+    await sharp(img).withMetadata().jpeg().toFile("/var/tmp/tmpobj.jpg");
     const imageBuffer = await jo.rotate("/var/tmp/tmpobj.jpg");
 //    const imageBuffer = readFileSync("/var/tmp/tmpobj.jpg");
     const tensor = tf.node.decodeImage(imageBuffer);
