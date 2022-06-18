@@ -5,7 +5,7 @@ const cocoSsd = require('@tensorflow-models/coco-ssd');
 const tf = require('@tensorflow/tfjs-node');
 const argv = require('minimist')(process.argv.slice(2));
 
-const { readFileSync, writeFileSync, existsSync } = require('fs');
+const { readFileSync, writeFileSync, existsSync, unlinkSync } = require('fs');
 const { getFiles } = require('./shared.js');
 //const webp = require('webp-converter');
 const sharp = require('sharp');
@@ -37,6 +37,10 @@ async function doit(){
             const objectsFile = f.file.replace('.webp', '.Objects.json');
             if ( !await existsSync(objectsFile) ) {
                 await getObjects(f.file, objectsFile);
+            }
+            // cleanup old files
+            if ( await existsSync(objectsFile.replace('Objects','objects'))) {
+                await unlinkSync(objectsFile.replace('Objects','objects'));
             }
         }
     }
