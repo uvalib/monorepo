@@ -42,14 +42,10 @@ async function doit(){
 
     console.log(`Get images from ${argv.in}`)
     for await(const f of getFiles(argv.in)) {
-        if (f.mime.indexOf("image")>-1) {
+        if (f.mime.indexOf("image")>-1 && f.file.indexOf('_faces')<0 ) {
             const objectsFile = f.file.replace('.webp', '.Objects.json');
             if ( !await existsSync(objectsFile) ) {
                 await getObjects(f.file, objectsFile);
-            }
-            // cleanup old files
-            if ( await existsSync(objectsFile.replace('Objects','objects'))) {
-                await unlinkSync(objectsFile.replace('Objects','objects'));
             }
         }
     }
