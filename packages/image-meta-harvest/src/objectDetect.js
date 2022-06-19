@@ -18,7 +18,16 @@ var model;
 async function getObjects(img, objectsFile) {
 //    await webp.dwebp(img, "/var/tmp/tmpobj.jpg","-o");
     await sharp(img).withMetadata().jpeg().toFile("/var/tmp/tmpobj.jpg");
-    const imageBuffer = await jo.rotate("/var/tmp/tmpobj.jpg");
+    var imageBuffer;
+    await jo.rotate("/var/tmp/tmpobj.jpg")
+        .then(({buffer, orientation, dimensions, quality})=>{
+            console.log("Image has been rotated!");
+            imageBuffer = buffer;
+        })
+        .catch(()=>{
+            console.log("Image didn't need to be rotated!");
+            imageBuffer = readFileSync("/var/tmp/tmpobj.jpg");
+        });
 //    const imageBuffer = readFileSync("/var/tmp/tmpobj.jpg");
     const tensor = tf.node.decodeImage(imageBuffer);
     // Objects from the image
