@@ -17,6 +17,7 @@ function GM(image,meta,outputPath) {
         console.log("convert with Imagemagick");
         console.log(outputPath);
         gm(image)
+          .autoOrient()
           .write(outputPath, function(err) {
             if(err) {
                 console.log("couldn't convert with Imagemagick!!!!!!!")  
@@ -66,7 +67,7 @@ async function doit(){
             let convertError = null;
             const meta = await exiftool.read(f.file)
             writeFileSync(dest.replace('webp','meta.json'), JSON.stringify(meta))
-            await sharp(f.file).withMetadata().webp().toFile(dest)
+            await sharp(f.file).withMetadata().rotate().webp().toFile(dest)
                 .catch((err)=>{
                     console.log(err);
                     convertError = err;
