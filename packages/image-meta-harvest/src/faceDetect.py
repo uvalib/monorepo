@@ -85,56 +85,24 @@ for r, d, f in os.walk( scandir ):
                         mouth_right = landmarks["mouth_right"]
                         mouth_left = landmarks["mouth_left"]
 
-                        facial_img = postprocess.alignment_procedure(facial_img, right_eye, left_eye, nose)
-
-                        facial_img_aligned = facial_img[:, :, ::-1]
+                        facial_img_aligned = postprocess.alignment_procedure(facial_img, right_eye, left_eye, nose)
+                        facial_img_aligned = facial_img_aligned[:, :, ::-1]
 
                         str_loc = [str(int) for int in face["facial_area"] ]
                         faceimgpath = face_directory+'/'+'-'.join(str_loc)+'.webp'
 
-                        Image.fromarray(facial_img_aligned).save(faceimgpath)
+                        Image.fromarray(facial_img).save(faceimgpath)
+                        Image.fromarray(facial_img_aligned).save(faceimgpath.replace('.webp','.aligned.webp'))
 
                         analysis = DeepFace.analyze(faceimgpath, ['age', 'gender', 'race', 'emotion'], enforce_detection=False, detector_backend=detector_name)
 
                         face_locations.append({
                             'face': face,
                             'faceAnalysis': analysis,
-                            'image': faceimgpath
+                            'image': faceimgpath,
+                            'imageAligned': faceimgpath.replace('.webp','.aligned.webp')
                         })  
 
                 with open(metafile,'w') as outfile:
                     json.dump(face_locations, outfile, cls=NpEncoder)
                 print("**********")                                              
-
-                #face_locations = face_recognition.face_locations(image, number_of_times_to_upsample=0, model="cnn")
-                #faces = FaceDetector.detect_faces(detector, detector_name, image, False)
-#                faces = RetinaFace.detect_faces(image)
-
-#                print("found in "+filepath+": "+str(len(faces)))
-
-#                face_locations = []
-#                face_directory = filepath.replace('.webp','_faces')               
-#                for face in faces:
-#                    print(face)
-#                    face_img = Image.fromarray(face[0])
-#                    face_loc = face[1]
-
-#                    if not os.path.exists(face_directory):
-#                        os.makedirs(face_directory)
-#                    str_loc = [str(int) for int in face_loc]
-#                    faceimgpath = face_directory+'/'+'-'.join(str_loc)+'.webp'
-#                    face_img.save(faceimgpath)
-#
-#                    analysis = DeepFace.analyze(faceimgpath, ['age', 'gender', 'race', 'emotion'], enforce_detection=False, detector_backend=detector_name)
-#                    print(analysis)
-#
-#                    face_locations.append({
-#                            'faceLocation': face_loc,
-#                            'faceAnalysis': analysis,
-#                            'image': faceimgpath
-#                    })
-                    
-
-#                with open(metafile,'w') as outfile:
-#                    json.dump(face_locations, outfile, cls=NpEncoder)
-#                print("**********")
