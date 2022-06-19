@@ -1,6 +1,9 @@
 const { readdir, stat } = require('fs').promises;
 const { image } = require('@tensorflow/tfjs-core');
 const { resolve } = require('path');
+const { readFileSync, writeFileSync, existsSync, mkdirSync } = require('fs');
+const sharp = require('sharp');
+const jo = require('jpeg-autorotate')
 
 // use mmmagic to get the mimetypes of files to find images
 const mmm = require('mmmagic'),
@@ -58,3 +61,32 @@ const getFiles = async function*(dir) {
     }
 }
 exports.getFiles = getFiles;
+
+const walkImageFiles = async function(argv, metaExten, callable) {
+    console.log(`Get images from ${argv.in}`)
+    for await(const f of getFiles(argv.in)) {
+        if (f.mime.indexOf("image")>-1 && f.file.indexOf('_faces')<0 ) {
+            const metaFile = f.file.replace('.webp', metaExten);
+            if ( !await existsSync(metaFile) ) {
+                await callable(f.file, metaFile);
+            }
+        }
+    }
+}
+exports.walkImageFiles = walkImageFiles;
+
+const getImageBuffer = async function(imgpath, tmpFile ) {
+    await sharp(imgpath).withMetadata().jpeg().toFile(tmpFile);
+    var imageBuffer;
+    await jo.rotate(tmpFile)
+        .then(({buffer, orientation, dimensions, quality})=>{
+            console.log("Image has been rotated!");
+            imageBuffer = buffer;
+        })
+        .catch(()=>{
+            console.log("Image didn't need to be rotated!");
+            imageBuffer = readFileSync(tmpFile);
+        });
+    return imageBuffer;
+}
+exports.getImageBuffer = getImageBuffer;
