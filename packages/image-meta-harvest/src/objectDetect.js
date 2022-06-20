@@ -26,7 +26,7 @@ async function getObjects(img, objectsFile) {
 async function doit(){
     model = await cocoSsd.load({base:"mobilenet_v2"});
 
-    await walkImageFiles(argv, '.Objects.json', getObjects);
+    await walkImageFiles(argv.in, getObjects, '.Objects.json');
 
 }
 

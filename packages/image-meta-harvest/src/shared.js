@@ -62,13 +62,16 @@ const getFiles = async function*(dir) {
 }
 exports.getFiles = getFiles;
 
-const walkImageFiles = async function(argv, metaExten, callable) {
-    console.log(`Get images from ${argv.in}`)
-    for await(const f of getFiles(argv.in)) {
+const walkImageFiles = async function(dir, callable, metaExten='') {
+    console.log(`Get images from ${dir}`)
+    for await(const f of getFiles(dir)) {
+        console.log(`looking at the mime type of ${f}`)
         if (f.mime.indexOf("image")>-1 && f.file.indexOf('_faces')<0 ) {
             const metaFile = f.file.replace('.webp', metaExten);
-            if ( !await existsSync(metaFile) ) {
+            if ( metaExtn!='' && !await existsSync(metaFile) ) {
                 await callable(f.file, metaFile);
+            } else {
+                await callable(f.file);
             }
         }
     }
@@ -76,16 +79,19 @@ const walkImageFiles = async function(argv, metaExten, callable) {
 exports.walkImageFiles = walkImageFiles;
 
 const getImageBuffer = async function(imgpath, tmpFile ) {
-    await sharp(imgpath).withMetadata().jpeg().toFile(tmpFile);
-    var imageBuffer;
-    await jo.rotate(tmpFile)
+    let imageBuffer = await sharp(imgpath).withMetadata().jpeg().toBuffer();  //.toFile(tmpFile);
+    await jo.rotate(imageBuffer)
         .then(({buffer, orientation, dimensions, quality})=>{
             console.log("Image has been rotated!");
             imageBuffer = buffer;
         })
-        .catch(()=>{
-            console.log("Image didn't need to be rotated!");
-            imageBuffer = readFileSync(tmpFile);
+        .catch((e)=>{
+            if (e.code==jo.errors.correct_orientation) {
+                console.log("Image didn't need to be rotated!");
+                imageBuffer = readFileSync(tmpFile);
+            } else {
+                throw(e);
+            }
         });
     return imageBuffer;
 }

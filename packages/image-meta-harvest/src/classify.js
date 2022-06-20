@@ -22,7 +22,7 @@ async function getClassification(img, classFile) {
 async function doit(){
     model = await mobilenet.load();
 
-    await walkImageFiles(argv, '.Classify.json', getClassification);
+    await walkImageFiles(argv.in, getClassification, '.Classify.json');
 
 }
 
