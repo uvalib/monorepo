@@ -70,38 +70,43 @@ for r, d, f in os.walk( scandir ):
                 if type(obj) == dict:
                     for key in obj:
 
-                        if not os.path.exists(face_directory):
-                            os.makedirs(face_directory)
-
                         face = obj[key]
 
                         facial_area = face["facial_area"]
                         facial_img = image[facial_area[1]: facial_area[3], facial_area[0]: facial_area[2]]
+                        analysis = {}
+                        faceimgpath = ''
+                        
+                        # only bother getting img and analysis for faces above the threshold
+                        if face['score'] > .95:
 
-                        landmarks = face["landmarks"]
-                        left_eye = landmarks["left_eye"]
-                        right_eye = landmarks["right_eye"]
-                        nose = landmarks["nose"]
-                        mouth_right = landmarks["mouth_right"]
-                        mouth_left = landmarks["mouth_left"]
+                            if not os.path.exists(face_directory):
+                                os.makedirs(face_directory)
 
-                        facial_img_aligned = postprocess.alignment_procedure(facial_img, right_eye, left_eye, nose)
-                        facial_img_aligned = facial_img_aligned[:, :, ::-1]
+                            landmarks = face["landmarks"]
+                            left_eye = landmarks["left_eye"]
+                            right_eye = landmarks["right_eye"]
+                            nose = landmarks["nose"]
+                            mouth_right = landmarks["mouth_right"]
+                            mouth_left = landmarks["mouth_left"]
 
-                        str_loc = [str(int) for int in face["facial_area"] ]
-                        faceimgpath = face_directory+'/'+'-'.join(str_loc)+'.webp'
+                            facial_img_aligned = postprocess.alignment_procedure(facial_img, right_eye, left_eye, nose)
+                            facial_img_aligned = facial_img_aligned[:, :, ::-1]
 
-                        Image.fromarray(facial_img).save(faceimgpath)
-                        Image.fromarray(facial_img_aligned).save(faceimgpath.replace('.webp','.aligned.webp'))
+                            str_loc = [str(int) for int in face["facial_area"] ]
+                            faceimgpath = face_directory+'/'+'-'.join(str_loc)+'.webp'
 
-                        analysis = DeepFace.analyze(faceimgpath, ['age', 'gender', 'race', 'emotion'], enforce_detection=False, detector_backend=detector_name)
+                            Image.fromarray(facial_img).save(faceimgpath)
+                            Image.fromarray(facial_img_aligned).save(faceimgpath.replace('.webp','.aligned.webp'))
+
+                            analysis = DeepFace.analyze(faceimgpath, ['age', 'gender', 'race', 'emotion'], enforce_detection=False, detector_backend=detector_name)
 
                         face_locations.append({
-                            'face': face,
-                            'faceAnalysis': analysis,
-                            'image': faceimgpath,
-                            'imageAligned': faceimgpath.replace('.webp','.aligned.webp')
-                        })  
+                                'face': face,
+                                'faceAnalysis': analysis,
+                                'image': faceimgpath,
+                                'imageAligned': faceimgpath.replace('.webp','.aligned.webp')
+                        })
 
                 with open(metafile,'w') as outfile:
                     json.dump(face_locations, outfile, cls=NpEncoder)
