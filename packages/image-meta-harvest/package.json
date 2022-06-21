@@ -6,6 +6,8 @@
      "getAddison":"node src/getImages.js --in=\"/Volumes/lib_content107/Addison_2018/Shoots 2005/Shoots 12-05/Portraits and Paul Canor\" --out=\"/Users/dhc4z/Desktop/image-ml/Addison_2018\"",
      "classify":"node src/classify.js --in=\"/Users/dhc4z/Desktop/image-ml/Addison_2018\"",
      "getObjects":"node src/objectDetect.js --in=\"/Users/dhc4z/Desktop/image-ml/Addison_2018\"",
-     "getFaces":"python src/faceDetect.py \"/Volumes/image-ml/Addison_2018\""
+     "getFaces":"python src/faceDetect.py \"/Volumes/image-ml/Addison_2018\"",
+     "analyzeFaces":"python src/faceAnalyze.py \"/Volumes/image-ml/Addison_2018\"",
+     "indexFaces":"python src/indexFaces.py"
     }
 }

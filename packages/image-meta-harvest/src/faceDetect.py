@@ -14,7 +14,7 @@ import os.path
 
 #import face_recognition
 from PIL import Image
-from deepface import DeepFace
+#from deepface import DeepFace
 from deepface.detectors import FaceDetector
 import cv2
 detector_name = "retinaface"
@@ -40,19 +40,10 @@ class NpEncoder(json.JSONEncoder):
             return obj.tolist()
         return super(NpEncoder, self).default(obj)
 
-#def scantree(path):
-#    """Recursively yield DirEntry objects for given directory."""
-#    for entry in os.scandir(path):
-#        if entry.is_dir(follow_symlinks=False):
-#            yield from scantree(entry.path)  # see below for Python 2.x
-#        else:
-#            yield entry
-
 for r, d, f in os.walk( scandir ):
     for file in f:
-#for entry in scantree( scandir ):
-#        file = entry.path
-        if '.webp' in file:
+
+        if '.webp' in file and '_faces' not in r:
             filepath = os.path.join(r, file)
             metafile = filepath.replace(".webp",".Faces.json")
             if not os.path.isfile(metafile):
@@ -74,7 +65,7 @@ for r, d, f in os.walk( scandir ):
 
                         facial_area = face["facial_area"]
                         facial_img = image[facial_area[1]: facial_area[3], facial_area[0]: facial_area[2]]
-                        analysis = {}
+#                        analysis = {}
                         faceimgpath = ''
                         
                         # only bother getting img and analysis for faces above the threshold
@@ -97,17 +88,20 @@ for r, d, f in os.walk( scandir ):
                             faceimgpath = face_directory+'/'+'-'.join(str_loc)+'.webp'
 
                             Image.fromarray(facial_img).save(faceimgpath)
+                            print("**** Saved image "+faceimgpath)
                             Image.fromarray(facial_img_aligned).save(faceimgpath.replace('.webp','.aligned.webp'))
+                            print("---- Savedd aligned version")
 
-                            analysis = DeepFace.analyze(faceimgpath, ['age', 'gender', 'race', 'emotion'], enforce_detection=False, detector_backend=detector_name)
+#                            analysis = DeepFace.analyze(faceimgpath, ['age', 'gender', 'race', 'emotion'], enforce_detection=False, detector_backend=detector_name)
 
                         face_locations.append({
                                 'face': face,
-                                'faceAnalysis': analysis,
+#                                'faceAnalysis': analysis,
                                 'image': faceimgpath,
                                 'imageAligned': faceimgpath.replace('.webp','.aligned.webp')
                         })
 
                 with open(metafile,'w') as outfile:
                     json.dump(face_locations, outfile, cls=NpEncoder)
+                    print("wrote meta to "+metafile)
                 print("**********")                                              
