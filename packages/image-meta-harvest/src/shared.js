@@ -68,19 +68,17 @@ const walkImageFiles = async function(dir, callable, metaExten='') {
         console.log(`looking at the mime type of ${f}`)
         if (f.mime.indexOf("image")>-1 && f.file.indexOf('_faces')<0 ) {
             const metaFile = f.file.replace('.webp', metaExten);
-            if ( metaExtn!='' && !await existsSync(metaFile) ) {
+            if ( !await existsSync(metaFile) ) {
                 await callable(f.file, metaFile);
-            } else {
-                await callable(f.file);
-            }
+            } 
         }
     }
 }
 exports.walkImageFiles = walkImageFiles;
 
 const getImageBuffer = async function(imgpath, tmpFile ) {
-    let imageBuffer = await sharp(imgpath).withMetadata().jpeg().toBuffer();  //.toFile(tmpFile);
-    await jo.rotate(imageBuffer)
+    await sharp(imgpath).withMetadata().jpeg().toFile(tmpFile);
+    await jo.rotate(tmpFile)
         .then(({buffer, orientation, dimensions, quality})=>{
             console.log("Image has been rotated!");
             imageBuffer = buffer;
@@ -88,6 +86,9 @@ const getImageBuffer = async function(imgpath, tmpFile ) {
         .catch((e)=>{
             if (e.code==jo.errors.correct_orientation) {
                 console.log("Image didn't need to be rotated!");
+                imageBuffer = readFileSync(tmpFile);
+            } else if (e.code ==jo.errors.read_exif) {            
+                console.log("Couldn't read exif data from image");
                 imageBuffer = readFileSync(tmpFile);
             } else {
                 throw(e);
