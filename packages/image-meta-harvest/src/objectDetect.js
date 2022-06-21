@@ -18,6 +18,8 @@ async function getObjects(img, objectsFile) {
     const tensor = tf.node.decodeImage(imageBuffer);
     // Objects from the image
     const predictions = await model.detect(tensor);
+
+    console.log(objectsFile)
     writeFileSync(objectsFile, JSON.stringify(predictions));
     console.log(`Object predictions for ${img}: `);
     console.log(predictions);
