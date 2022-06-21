@@ -78,7 +78,7 @@ for r, d, f in os.walk( scandir ):
                         faceimgpath = ''
                         
                         # only bother getting img and analysis for faces above the threshold
-                        if face['score'] >= .998:
+                        if face['score'] >= .99:
 
                             if not os.path.exists(face_directory):
                                 os.makedirs(face_directory)
