@@ -6,6 +6,6 @@
      "getAddison":"node src/getImages.js --in=\"/Volumes/lib_content107/Addison_2018\" --out=\"/Users/dhc4z/Desktop/image-ml/Addison_2018\"",
      "classify":"node src/classify.js --in=\"/Users/dhc4z/Desktop/image-ml/Addison_2018\"",
      "getObjects":"node src/objectDetect.js --in=\"/Users/dhc4z/Desktop/image-ml/Addison_2018\"",
-     "getFaces":"python src/faceDetect.py \"/Users/dhc4z/Desktop/image-ml\""
+     "getFaces":"python src/faceDetect.py \"/Volumes/image-ml/Addison_2018\""
     }
 }
