@@ -4,10 +4,10 @@
  "version": "0.0.1",
  "scripts": {
      "getAddison":"node src/getImages.js --in=\"/Volumes/lib_content107/Addison_2018\" --out=\"/Users/dhc4z/Desktop/image-ml/Addison_2018\"",
-     "classify":"node src/classify.js --in=\"/Users/dhc4z/Desktop/image-ml/Addison_2018\"",
-     "getObjects":"node src/objectDetect.js --in=\"/Users/dhc4z/Desktop/image-ml/Addison_2018\"",
-     "getFaces":"python src/faceDetect.py \"/Volumes/image-ml/Addison_2018\"",
-     "analyzeFaces":"python src/faceAnalyze.py \"/Volumes/image-ml/Addison_2018\"",
-     "indexFaces":"python src/indexFaces.py"
+     "classify":"node src/classify.js --in=\"/Users/dhc4z/Desktop/image-ml/Addison_2018/Volumes\"",
+     "getObjects":"node src/objectDetect.js --in=\"/Users/dhc4z/Desktop/image-ml/Addison_2018/Volumes\"",
+     "getFaces":"python src/faceDetect.py \"/Volumes/image-ml/Addison_2018/Volumes\"",
+     "analyzeFaces":"python src/faceAnalyze.py \"/Volumes/image-ml/Addison_2018/Volumes\"",
+     "indexFaces":"python src/indexFaces.py \"/Volumes/image-ml/Addison_2018/Volumes\""
     }
 }
