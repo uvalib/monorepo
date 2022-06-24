@@ -3,7 +3,7 @@ const argv = require('minimist')(process.argv.slice(2));
 const { readFileSync, writeFileSync, existsSync, mkdirSync } = require('fs');
 const gm = require('gm').subClass({imageMagick: true});
 const im = require('imagemagick')
-const { getFiles } = require('./shared.js');
+const { getFiles, alterFileName } = require('./shared.js');
 
 
 // We're using the singleton here for convenience:
@@ -58,21 +58,7 @@ function GM(image,meta,outputPath) {
         reject(err);
       }
     });
-  }
-
-function alterFileName(data){
-  return data.replace(/[\:\*\?\"\<\>\|]/g, function (m) {
-        return {
-            ':': '',
-            '*': '',
-            '?': '',
-            '"': '',
-            '<': '',
-            '>': '',
-            '|': ''
-        }[m];
-    }).trim().replace(/\s*\/\s*/g,'/').replace(/\s\s+/g,' ');
-}    
+  }  
 
 async function doit(){
 //    var log = JSON.parse( readFileSync('./import-meta.json') );

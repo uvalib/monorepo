@@ -97,3 +97,18 @@ const getImageBuffer = async function(imgpath, tmpFile ) {
     return imageBuffer;
 }
 exports.getImageBuffer = getImageBuffer;
+
+const alterFileName = function(data){
+    return data.replace(/[\:\*\?\"\<\>\|]/g, function (m) {
+          return {
+              ':': '',
+              '*': '',
+              '?': '',
+              '"': '',
+              '<': '',
+              '>': '',
+              '|': ''
+          }[m];
+      }).trim().replace(/\s*\/\s*/g,'/').replace(/\s\s+/g,' ');
+  }
+  exports.alterFileName = alterFileName;

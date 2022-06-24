@@ -3,7 +3,8 @@
  "description": "experimenting with ways to extract metadata from images in our collection",
  "version": "0.0.1",
  "scripts": {
-     "getAddison":"node src/getImages.js --in=\"/Volumes/lib_content107/Addison_2018/Shoots 2007\" --out=\"/Users/dhc4z/Desktop/image-ml/Addison_2018\"",
+     "getAddison":"node src/getImages.js --in=\"/Volumes/lib_content107/Addison_2018/Shoots 2008\" --out=\"/Users/dhc4z/Desktop/image-ml/Addison_2018\"",
+     "getClumulusMeta":"node src/getClumulusMeta.js --csvin=\"addison_meta.csv\" --in=\"/Users/dhc4z/Desktop/image-ml/Addison_2018/Volumes\"",
      "classify":"node src/classify.js --in=\"/Users/dhc4z/Desktop/image-ml/Addison_2018/Volumes\"",
      "getObjects":"node src/objectDetect.js --in=\"/Users/dhc4z/Desktop/image-ml/Addison_2018/Volumes\"",
      "getFaces":"python src/faceDetect.py \"/Volumes/image-ml/Addison_2018/Volumes\"",
