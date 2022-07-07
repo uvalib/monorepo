@@ -32,47 +32,7 @@ async function doit(){
                 console.log(`wrote meta to ${f.id}.curatedMeta.json`)
             }
         }
-//        if (f.file.indexOf("_faces")>-1 || f.file.indexOf(".webp")<0) break;
-//        const id = f.id.replace(/^.+\/(.+)$/,"$1")
-//        console.log(id)
-//        const meta = metaRecords.find(m=>m['Asset Name'].replace(/\..+/,'')===id)
-//        console.log(meta)
-        
-//        const dest = alterFileName(`${argv.out}${f.id}.webp`);
-//        const destDir = alterFileName(dest.replace(/(.*)\/.*/,"$1"));
-//        console.log(`found ${f.name}`)
-//        if (!imagesSeen.includes(f.id) && f.mime.indexOf("image")>-1 && !await existsSync(dest) && !await existsSync(dest.replace('.webp','.error'))){
-//            console.log(`create directory path`)            
-//            if (!existsSync(destDir)) {
-//                mkdirSync(destDir, {recursive: true});
-//            }
-//
-//            console.log(`Attempt to convert ${f.file}`)
-//            let convertError = null;
-//            const meta = await exiftool.read(f.file)
-//            writeFileSync(dest.replace('webp','meta.json'), JSON.stringify(meta))
-//            await sharp(f.file).withMetadata().rotate().webp().toFile(dest)
-//                .catch((err)=>{
-//                    console.log(err);
-//                    convertError = err;
-//                })
-//            if (convertError) {
-//
-//              im.convert([f.file, dest], 
-//                function(err, stdout){
-//                  if (err) {
-//                    console.log("couldn't convert with Imagemagick!!!!!!!")  
-//                    //assume that the file is corrupt and move along
-//                    writeFileSync(dest.replace('webp','error'), "corrupt?");
-//                  }
-//                  console.log("converted with im ***");
-//                });  
-//            }
-//            f.copiedTo = dest;
-//            imagesSeen.push(f.id);
-//
-//            console.log(`Write image ${f.id} to ${argv.out} in webp format`);
-//        }
+
     }
 }
 

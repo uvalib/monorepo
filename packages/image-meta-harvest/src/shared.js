@@ -3,7 +3,8 @@ const { image } = require('@tensorflow/tfjs-core');
 const { resolve } = require('path');
 const { readFileSync, writeFileSync, existsSync, mkdirSync } = require('fs');
 const sharp = require('sharp');
-const jo = require('jpeg-autorotate')
+const jo = require('jpeg-autorotate');
+const im = require('imagemagick');
 
 // use mmmagic to get the mimetypes of files to find images
 const mmm = require('mmmagic'),
@@ -48,6 +49,9 @@ const filesSizeSorted = async function(dir, dirents) {
     return dirents;
 }
 
+const rawExts = ['.rw2','.raf','.cr2','.nrw','.erf','.nef','.arw','.rwz','.eip','.dng','.bay','.dcr','.raw','.crw','.3fr','.k25','.kc2','.mef','.dng','.cs1','.orf','.ari','.mos','.sr2','.srf','.cr3','.gpr','.mfw','.fff','.srw','.kdc','.mrw','.j6i','.rwl','.x3f','.pef','.iiq','.cxi','.nksc','.mdc']
+exports.rawExts = rawExts;
+
 // just a helper to find all the files in a dir      
 const getFiles = async function*(dir) {
     let dirents = await filesSizeSorted( dir, await readdir(dir, { withFileTypes: true }) );
@@ -65,10 +69,10 @@ exports.getFiles = getFiles;
 const walkImageFiles = async function(dir, callable, metaExten='') {
     console.log(`Get images from ${dir}`)
     for await(const f of getFiles(dir)) {
-        console.log(`looking at the mime type of ${f}`)
+//        console.log(`looking at the mime type of ${f.file}`)
         if (f.mime.indexOf("image")>-1 && f.file.indexOf('_faces')<0 ) {
             const metaFile = f.file.replace('.webp', metaExten);
-            if ( !await existsSync(metaFile) ) {
+            if ( !existsSync(metaFile) ) {
                 await callable(f.file, metaFile);
             } 
         }
@@ -112,3 +116,14 @@ const alterFileName = function(data){
       }).trim().replace(/\s*\/\s*/g,'/').replace(/\s\s+/g,' ');
   }
   exports.alterFileName = alterFileName;
+
+  asyncImConvert = (paths)=>new Promise( (resolve,reject) => im.convert(paths, (err,stdout)=>{
+    if (err) {
+        console.log("couldn't convert with Imagemagick!!!!!!!")  
+        //assume that the file is corrupt and move along
+        writeFileSync(dest.replace(argv.toext,'converterror'), "corrupt?");
+        reject(err);
+    }
+    resolve(stdout);
+}));
+exports.asyncImConvert = asyncImConvert;
