@@ -1,6 +1,6 @@
 const {parse} = require('csv-parse/sync');
 const { readFileSync, writeFileSync, existsSync, mkdirSync, statSync } = require('fs');
-const { rawExts } = require('./shared.js');
+const { rawExts, createDateFromMeta } = require('./shared.js');
 
 
 const writeOut = function(from, to ,ext) {
@@ -68,17 +68,19 @@ async function doit(){
         rec.fromExt = rec.fromMeta.FileName.replace(/^.*(\..+)\s*$/,"$1")
         rec.fromName = rec.fromMeta.FileName.replace(/^(.*)\..+$/,"$1")
         rec.fromNameNumbers = rec.fromName.replace(/[^0-9]/g,'')
-        rec.fromCreateDate = rec.fromMeta.DateTimeOriginal? rec.fromMeta.DateTimeOriginal.rawValue:
-                                rec.fromMeta.FileModifyDate? rec.fromMeta.FileModifyDate.rawValue:
-                                    null
+        rec.fromCreateDate = createDateFromMeta(rec.fromMeta).rawValue
+//        rec.fromMeta.DateTimeOriginal? rec.fromMeta.DateTimeOriginal.rawValue:
+//                                rec.fromMeta.FileModifyDate? rec.fromMeta.FileModifyDate.rawValue:
+//                                    null
         rec.toPath = dup.to.replace('.webp','')
         rec.toMeta = JSON.parse(readFileSync(rec.toPath+'.meta.json'))
         rec.toExt = rec.toMeta.FileName.replace(/^.*(\..+)\s*$/,"$1").toLowerCase()
         rec.toName = rec.toMeta.FileName.replace(/^(.*)\..+$/,"$1")
         rec.toNameNumbers = rec.toName.replace(/[^0-9]/g,'')
-        rec.toCreateDate = rec.toMeta.DateTimeOriginal? rec.toMeta.DateTimeOriginal.rawValue:
-                                rec.toMeta.FileModifyDate? rec.toMeta.FileModifyDate.rawValue:
-                                    null
+        rec.toCreateDate = createDateFromMeta(rec.toMeta).rawValue
+//        rec.toMeta.DateTimeOriginal? rec.toMeta.DateTimeOriginal.rawValue:
+//                                rec.toMeta.FileModifyDate? rec.toMeta.FileModifyDate.rawValue:
+//                                    null
 
         const dist = dup.distance
 

@@ -127,3 +127,8 @@ const alterFileName = function(data){
     resolve(stdout);
 }));
 exports.asyncImConvert = asyncImConvert;
+
+createDateFromMeta = (meta)=>meta.DateTimeOriginal? meta.DateTimeOriginal:
+                                meta.FileModifyDate? meta.FileModifyDate:
+                                    null
+exports.createDateFromMeta = createDateFromMeta;
