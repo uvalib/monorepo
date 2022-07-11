@@ -3,11 +3,12 @@
  "description": "experimenting with ways to extract metadata from images in our collection",
  "version": "0.0.1",
  "scripts": {
-     "getAddison":"node src/getImages.js --in=\"/Volumes/lib_content107/Addison_2018/Shoots 2014\" --out=\"/Volumes/easystore/work/Addison_2018\"",
+     "getAddison":"node src/getImages.js --in=\"/Volumes/lib_content107/Addison_2018/Shoots 2013\" --out=\"/Volumes/easystore/work/Addison_2018\"",
      "getClumulusMeta":"node src/getClumulusMeta.js --csvin=\"addison_meta.csv\" --in=\"/Volumes/easystore/work/Addison_2018/Volumes\"",
      "classify":"node src/classify.js --in=\"/Volumes/easystore/work/Addison_2018/Volumes/lib_content107/Addison_2018\"",
      "getObjects":"node src/objectDetect.js --in=\"/Volumes/easystore/work/Addison_2018/Volumes/lib_content107/Addison_2018\"",
      "exportJP2":"node src/exportjp2.js --in=\"/Volumes/easystore/work/Addison_2018/Volumes/lib_content107/Addison_2018/Shoots 2005/\" --out=\"/Volumes/easystore/work/Addison_jp2/\"",
+     "exportMeta":"node --max-old-space-size=8192 src/exportMeta.js --in=\"/Volumes/easystore/work/Addison_2018/Volumes/lib_content107/Addison_2018/Shoots 2005/\" --out=\"/Volumes/easystore/work/Addison_indexMeta/\"",
      "getFaces":"python src/faceDetect.py \"/Volumes/image-ml/Addison_2018/Volumes\"",
      "analyzeFaces":"python src/faceAnalyze.py \"/Volumes/image-ml/Addison_2018/Volumes\"",
      "indexFaces":"python src/indexFaces.py \"/Volumes/image-ml/Addison_2018/Volumes\"",

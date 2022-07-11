@@ -30,12 +30,14 @@ async function doit(){
             let convertError = null;
             const meta = await exiftool.read(f.file)
             writeFileSync(dest.replace('webp','meta.json'), JSON.stringify(meta))
-            await sharp(f.file).withMetadata().rotate().webp().toFile(dest)
-                .catch((err)=>{
-                    console.log(err);
-                    convertError = err;
-                })
-            if (convertError) {
+            if (f.file.toLowerCase().indexOf('.cr2')==-1) {
+                await sharp(f.file).withMetadata().rotate().webp().toFile(dest)
+                    .catch((err)=>{
+                        console.log(err);
+                        convertError = err;
+                    })
+            }
+            if (convertError || f.file.toLowerCase().indexOf('.cr2')>0) {
               im.convert([f.file, dest], 
                 function(err, stdout){
                   if (err) {
