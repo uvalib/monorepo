@@ -3,12 +3,19 @@
  "description": "experimenting with ways to extract metadata from images in our collection",
  "version": "0.0.1",
  "scripts": {
-     "getAddison":"node src/getImages.js --in=\"/Volumes/lib_content107/Addison_2018\" --out=\"/Users/dhc4z/Desktop/image-ml/Addison_2018\"",
-     "classify":"node src/classify.js --in=\"/Users/dhc4z/Desktop/image-ml/Addison_2018/Volumes\"",
-     "getObjects":"node src/objectDetect.js --in=\"/Users/dhc4z/Desktop/image-ml/Addison_2018/Volumes\"",
+     "getAddison":"node src/getImages.js --in=\"/Volumes/lib_content107/Addison_2018/Shoots 2013\" --out=\"/Volumes/easystore/work/Addison_2018\"",
+     "getClumulusMeta":"node src/getClumulusMeta.js --csvin=\"addison_meta.csv\" --in=\"/Volumes/easystore/work/Addison_2018/Volumes\"",
+     "classify":"node src/classify.js --in=\"/Volumes/easystore/work/Addison_2018/Volumes/lib_content107/Addison_2018\"",
+     "getObjects":"node src/objectDetect.js --in=\"/Volumes/easystore/work/Addison_2018/Volumes/lib_content107/Addison_2018\"",
+     "exportJP2":"node src/exportjp2.js --in=\"/Volumes/easystore/work/Addison_2018/Volumes/lib_content107/Addison_2018/Shoots 2005/\" --out=\"/Volumes/easystore/work/Addison_jp2/\"",
+     "exportMeta":"node --max-old-space-size=8192 src/exportMeta.js --in=\"/Volumes/easystore/work/Addison_2018/Volumes/lib_content107/Addison_2018/Shoots 2005/\" --out=\"/Volumes/easystore/work/Addison_indexMeta/\"",
      "getFaces":"python src/faceDetect.py \"/Volumes/Addison_2018/Volumes/\"",
      "analyzeFaces":"python src/faceAnalyze.py \"/Volumes/Addison_2018/Volumes\"",
      "recFaces":"python src/faceRecognize.py \"/Volumes/Addison_2018/Volumes/lib_content107/Addison_2018/Shoots 2005/\"",
-     "indexFaces":"python src/indexFaces.py \"/Volumes/Addison_2018/Volumes/\""
+     "indexFaces":"python src/indexFaces.py \"/Volumes/Addison_2018/Volumes/\"",
+     "dupes":"python src/dupes.py",
+     "de-dupe":"node src/dedupe.js",
+     "makejp2000":"node src/convertImages.js --in=\"/Volumes/easystore/work/Addison_2018/Volumes/lib_content107/Addison_2018/Shoots 2005\" --toext=\"jp2\"",
+     "assignId":"node src/assignId.js --in=\"/Volumes/easystore/work/Addison_2018/Volumes/lib_content107/Addison_2018\" --rootUUID=\"f22e21ad-6af2-431d-ac72-6adbfa0589f4\""
     }
 }
