@@ -2,6 +2,14 @@ const { walkImageFiles, asyncImConvert, createDateFromMeta } = require('./shared
 const argv = require('minimist')(process.argv.slice(2));
 const { readFileSync, writeFileSync, existsSync, mkdirSync, statSync, copyFileSync } = require('fs');
 
+const encodeXML = function (str) {
+    return str.replace(/&/g, '&amp;')
+               .replace(/</g, '&lt;')
+               .replace(/>/g, '&gt;')
+               .replace(/"/g, '&quot;')
+               .replace(/'/g, '&apos;');
+  };
+
 function getFile(path,def){
     if (existsSync(path)) {
         console.log(path)
@@ -47,9 +55,9 @@ async function getMeta(file) {
         const doc = `
             <add>
                 <doc>
-                    <field name="id">${meta.meta.UUID.replace(/\-/g,'')}</field>
+                    <field name="id">${ meta.meta.UUID.replace(/\-/g,'') }</field>
                     <field name="work_title2_key_ssort_stored">${
-                        file.replace(/.*\/Shoots \d\d\d\d\/(.+)\/.*\.webp/,"$1").replace('/', " - ")
+                        encodeXML( file.replace(/.*\/Shoots \d\d\d\d\/(.+)\/.*\.webp/,"$1").replace('/', " - ") )
                     }</field>
                     <field name="url_iiif_image_a">https://iiif-dev.internal.lib.virginia.edu/addison/${ meta.meta.jp2Path.replace(/.*\/(.+)\/(.+)\/(.+)\/(.+)\.jp2/i,"$1$2$3$4") }</field>
                     <field name="thumbnail_url_stored">https://iiif-dev.internal.lib.virginia.edu/addison/${ meta.meta.jp2Path.replace(/.*\/(.+)\/(.+)\/(.+)\/(.+)\.jp2/i,"$1$2$3$4") }/full/!200,200/0/default.jpg</field>
@@ -72,24 +80,24 @@ async function getMeta(file) {
                     <field name="internet_media_type_tsearch_stored">image/jpg</field>
                     <field name="images_tsearch">Rector and Visitors of the University of Virginia</field>
                     <field name="images_tsearch">Charlottesville, Va.</field>
-                    <field name="identifier_e_stored">${meta.meta.SourceFile}</field>
+                    <field name="identifier_e_stored">${encodeXML(meta.meta.SourceFile.replace('/Volumes/lib_content107',''))}</field>
 
                     <field name="images_tsearch">https://iiif-dev.internal.lib.virginia.edu/addison/${ meta.meta.jp2Path.replace(/.*\/(.+)\/(.+)\/(.+)\/(.+)\.jp2/i,"$1$2$3$4") }/full/!250,250/0/default.jpg</field>
                     <field name="data_source_str_stored">iiif-dev</field>
                     <field name="url_label_str_stored">View Online</field>
-                    <field name="images_tsearch">${ meta.meta.SourceFile.replace('/Volumes/lib_content107','') }</field>
+                    <field name="images_tsearch">${ encodeXML( meta.meta.SourceFile.replace('/Volumes/lib_content107','') ) }</field>
                     <field name="images_tsearch">${
                         meta.curated.Title? 
-                            meta.curated.Title: 
-                            file.replace(/.*\/Shoots \d\d\d\d\/(.+)\/.*\.webp/,"$1").replace('/', " - ")+" - Untitled"
+                            encodeXML( meta.curated.Title ): 
+                            encodeXML( file.replace(/.*\/Shoots \d\d\d\d\/(.+)\/.*\.webp/,"$1").replace('/', " - ")+" - Untitled" )
                     }</field>
                     <field name="title_tsearch_stored">${
                         meta.curated.Title? 
-                            meta.curated.Title: 
-                            file.replace(/.*\/Shoots \d\d\d\d\/(.+)\/.*\.webp/,"$1").replace('/', " - ")+" - Untitled"
+                            encodeXML( meta.curated.Title): 
+                            encodeXML( file.replace(/.*\/Shoots \d\d\d\d\/(.+)\/.*\.webp/,"$1").replace('/', " - ")+" - Untitled")
                     }</field>
                     ${ meta.curated.Description? 
-                        `<field name="abstract_tsearch_stored">${ meta.curated.Description }</field>`:
+                        `<field name="abstract_tsearch_stored">${ encodeXML( meta.curated.Description ) }</field>`:
                         ''
                     }
                     <field name="orig_creator_tsearch_stored">Addison, Dan</field>
@@ -99,13 +107,44 @@ async function getMeta(file) {
                     <field name="work_creator_tsearch_stored">Addison, Dan (American Photographer)</field>
                     <field name="work_date_tsearch_stored">${ createDateFromMeta(meta.meta).year }</field>
                     ${ meta.curated.Description? 
-                        `<field name="work_abstract_summary_tsearch_stored">${ meta.curated.Description }</field>`:
+                        `<field name="work_abstract_summary_tsearch_stored">${ encodeXML( meta.curated.Description ) }</field>`:
                         ''
                     }
                     <field name="images_tsearch">Dan Addison Archive</field>
                     <field name="images_tsearch">Addison, Dan</field>
                     <field name="rs_uri_a">http://rightsstatements.org/vocab/InC/1.0/</field>
-                    ${ meta.classify.map(tag=>{return tag.probability>.50? `<field name="subject_tsearchf_stored">${tag.className}</field>`:''}).join('\n') }
+
+                    ${ (meta.curated && meta.curated.Keywords)? meta.curated.Keywords.replace("\"",'').split(',').map(tag=>{return `<field name="curatedKeyword_tsearchf_stored">${encodeXML( tag )}</field>`}).join('\n'):'' }
+                    ${ (meta.curated && meta.curated.Categories)? meta.curated.Categories.replace("\"",'').split(',').map(tag=>{return `<field name="curatedCategories_tsearchf_stored">${encodeXML( tag )}</field>`}).join('\n'):'' }
+                    ${ meta.classify.map(tag=>{return tag.probability>.50? `<field name="predictedClassification_tsearchf_stored">${encodeXML( tag.className )}</field>`:''}).join('\n') }
+                    ${ meta.objects.map(object=>{return object.score>.50? `<field name="predictedObject_tsearchf_stored">${encodeXML( object.class )}</field>`:''}).join('\n') }
+
+                    ${ 
+                        meta.faces? 
+                            meta.faces.map(face=>{return face.faceAnalysis? `<field name="predictedFaceAge_stored">${ face.faceAnalysis.age }</field>`:''}).join('\n'):
+                            ""
+                    }
+                    ${ 
+                        meta.faces? 
+                            meta.faces.map(face=>{return face.faceAnalysis? `<field name="predictedFaceGender_tsearchf_stored">${ face.faceAnalysis.gender }</field>`:''}).join('\n'):
+                            ""
+                    }
+                    ${ 
+                        meta.faces? 
+                            meta.faces.map(face=>{return face.faceAnalysis && face.faceAnalysis.race[face.faceAnalysis.dominant_race]>.85? `<field name="predictedFaceRace_tsearchf_stored">${ face.faceAnalysis.dominant_race }</field>`:''}).join('\n'):
+                            ""
+                    } 
+                    ${ 
+                        meta.faces? 
+                            meta.faces.map(face=>{return face.faceAnalysis && face.faceAnalysis.emotion[face.faceAnalysis.dominant_emotion]>.85? `<field name="predictedFaceEmotion_tsearchf_stored">${ face.faceAnalysis.dominant_emotion }</field>`:''}).join('\n'):
+                            ""
+                    }
+                    ${
+                        meta.faces?
+                            meta.faces.map(face=>{return face.faceRec? Object.keys(face.faceRec).map(person=>{ return `<field name="predictedPerson_tsearchf">${ person }</field>` }).join('\n'):''}).join('\n'):
+                            ""
+                    }
+
                     <field name="digital_collection_tsearchf_stored">Dan Addison Archive</field>
                 </doc>
             </add>
