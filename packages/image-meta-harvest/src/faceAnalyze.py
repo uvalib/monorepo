@@ -21,8 +21,9 @@ for r, d, f in os.walk( scandir ):
             changed = False    
             for face in faces:
                 if 'image' in face.keys() and 'faceAnalysis' not in face.keys() and face['face']['score'] >= .99:
-                    print ('analyze image '+face['image'])
-                    analysis = DeepFace.analyze(face['image'], ['age', 'gender', 'race', 'emotion'], enforce_detection=False, detector_backend=detector_name)
+                    faceimage = face['image'].replace('/Volumes/image-ml/Addison_2018/Volumes', scandir)
+                    print ('analyze image '+faceimage)
+                    analysis = DeepFace.analyze(faceimage, ['age', 'gender', 'race', 'emotion'], enforce_detection=False, detector_backend=detector_name)
                     print(analysis)
                     face['faceAnalysis'] = analysis
                     changed = True
