@@ -13,6 +13,7 @@ export class UvalibHeader extends LitElement {
       homelink: { type: String },
       simple: { type: Boolean },
       nolinks: { type: Boolean },
+      detect-iframe: { type: Boolean }
     };
   }
 
