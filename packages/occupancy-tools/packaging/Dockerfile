@@ -5,7 +5,7 @@
 FROM node:16.1.0-buster-slim
 
 # update the packages
-RUN apt update
+RUN apt-get -y update && apt-get install -y iputils-ping curl traceroute
 
 # set environment vars
 ENV USER=webservice \
