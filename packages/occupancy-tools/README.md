@@ -5,7 +5,7 @@
 ## Usage
 
 ```
-export GOOGLE_APPLICATION_CREDENTIALS="path/to/keyfile"
+export FIREBASEKEY=$(cat /path/to/keyfile)
 export AXISUSER=user
 export AXISPASS=password
 npx occupancy-poller
