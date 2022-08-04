@@ -25,10 +25,11 @@
     "url": "https://github.com/uvalib/monorepo/issues"
   },
   "dependencies": {
+    "@adobe/node-fetch-retry": "^2.2.0",
     "digest-fetch": "^1.2.1",
     "firebase-admin": "^9.7.0",
     "luxon": "^1.26.0",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^3.2.10"
   },
   "type": "module",
   "bin": {
