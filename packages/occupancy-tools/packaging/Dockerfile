@@ -2,10 +2,10 @@
 # build the target container
 #
 
-FROM node:16.1.0-buster-slim
+FROM public.ecr.aws/docker/library/node:16.16.0-buster-slim
 
 # update the packages
-RUN apt-get -y update && apt-get install -y iputils-ping curl traceroute
+RUN apt-get -y update && apt-get install -y iputils-ping curl traceroute procps
 
 # set environment vars
 ENV USER=webservice \
