@@ -2,7 +2,7 @@
 # build the target container
 #
 
-FROM public.ecr.aws/docker/library/node:16.16.0-buster-slim
+FROM public.ecr.aws/docker/library/node:18.7.0-buster-slim
 
 # update the packages
 RUN apt-get -y update && apt-get install -y iputils-ping curl traceroute procps
