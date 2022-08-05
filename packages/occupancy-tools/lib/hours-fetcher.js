@@ -1,4 +1,4 @@
-import fetch from 'node-fetch';
+//import fetch from 'node-fetch';
 import OccupancyBase from './occupancy-base.js';
 
 export default class HoursFetcher extends OccupancyBase {

@@ -1,4 +1,4 @@
-import fetch from 'node-fetch';
+//import fetch from 'node-fetch';
 //import fetch from '@adobe/node-fetch-retry';
 import OccupancyBase from './occupancy-base.js';
 import {DateTime} from 'luxon';
