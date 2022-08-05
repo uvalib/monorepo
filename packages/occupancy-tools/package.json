@@ -1,6 +1,6 @@
 {
   "name": "@uvalib/occupancy-tools",
-  "version": "0.0.32",
+  "version": "0.0.33",
   "description": "Tools to help gather occupancy data at the Library",
   "author": "Doug Chestnut <dougchestnut@users.noreply.github.com>",
   "homepage": "https://github.com/uvalib/monorepo#readme",
@@ -27,8 +27,7 @@
   "dependencies": {
     "digest-fetch": "^1.1.6",
     "firebase-admin": "^9.7.0",
-    "luxon": "^1.26.0",
-    "node-fetch": "^2.6.1"
+    "luxon": "^1.26.0"
   },
   "type": "module",
   "bin": {

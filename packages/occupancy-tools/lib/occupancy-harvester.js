@@ -12,6 +12,7 @@
 import OccupancyBase from './occupancy-base.js';
 import DigestFetch from 'digest-fetch';
 
+
 export default class OccupancyHarvester extends OccupancyBase {
   fetchOccupancy() {
     this._logInfo('fetching occupancy...');
@@ -26,11 +27,33 @@ export default class OccupancyHarvester extends OccupancyBase {
           return;
         }
         const client = new DigestFetch(oe.userId, oe.pass, {algorithm: 'MD5'});
+        const retryFetch = (client, url, retries=5) => {
+            //console.info("Attempt to fetch "+url)
+            return client.fetch(url)
+              .then(res => {
+                if (res.ok) return res;
+                if (retries>0) {
+                  console.info("Trying to fetch again since we got "+res.status);
+                  return retryFetch(client, url, retries-1)
+                }
+                throw new Error(res.status)
+              }).catch((e)=>{
+                //console.info("Error!!!!!!!!!!!!!!!!!!")
+                if (retries>0) {
+                  console.info("Trying to fetch again since we got "+e.message);
+                  return retryFetch(client, url, retries-1)
+                } else {
+                  throw e;
+                }
+              })
+
+        }
         promises.push(
-          client
-            .fetch(
-              `http://${oe.domain}/local/occupancy-estimator/.api?live-occupancy.json`,
-            )
+          retryFetch(client, `http://${oe.domain}/local/occupancy-estimator/.api?live-occupancy.json`)
+//          client
+//            .fetch(
+//              `http://${oe.domain}/local/occupancy-estimator/.api?live-occupancy.json`,
+//            )
             .then((res) => res.json())
             .then((data) => {
               if (oe.fbpath && oe.fbpath.length>0) {
