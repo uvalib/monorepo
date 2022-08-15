@@ -1,6 +1,5 @@
 import { s, $ } from './lit-element-90518c22.js';
-
-//import 'itemsjs/dist/itemsjs.min.js';
+import './result.js';
 
 class UVALibFacetedSearch extends s {
     static properties = {
@@ -40,6 +39,7 @@ class UVALibFacetedSearch extends s {
                     title: "Years",
                     list: '/years.json',
                     indexes: {
+                        flex:{src:'/yearsFlexIndex.json'},
                         fuse:{src:'/yearsFuseIndex.json'},
                         mini:{src:'/yearsMiniIndex.json'},
                         lunr:{src:'/yearsLunrIndex.json'},
@@ -51,6 +51,7 @@ class UVALibFacetedSearch extends s {
                     title: "Books",
                     list: '/books.json',
                     indexes: {
+                        flex:{src:'/booksFlexIndex.json'},
                         fuse:{src:'/booksFuseIndex.json'},
                         mini:{src:'/booksMiniIndex.json'},
                         lunr:{src:'/booksLunrIndex.json'}
@@ -62,6 +63,7 @@ class UVALibFacetedSearch extends s {
                     title: "Revisions",
                     list: 'revisions.json',
                     indexes: {
+                        flex:{src:'/revisionsFlexIndex.json'},
                         fuse:{src:'/revisionsFuseIndex.json'},
                         mini:{src:'/revisionsMiniIndex.json'},
                         lunr:{src:'/revisionsLunrIndex.json'}
@@ -151,7 +153,7 @@ class UVALibFacetedSearch extends s {
         // fetch the searlized lunr indexes
         promises.push( this._loadIndexes('lunr') );
 
-        // Lunr needs the initial collection as well since this is not returned in the results
+        // Lunr needs the initial collection as well
         promises.push( this._loadListins() );
 
         return Promise.all(promises).then(()=>{
@@ -163,6 +165,38 @@ class UVALibFacetedSearch extends s {
              }, this);
         },this);        
 
+    };
+    _setupFlex(){
+        this._cleanupLibrary();
+        let promises = [];
+        // Load the Fuse search library
+        promises.push(
+            import('./document-6f0a7833.js')
+            .then(function(i) {this.FlexSearch = i.default;}.bind(this) )
+            .then(function(){
+                console.info('FlexSearch library loaded');
+            }.bind(this) ) 
+        );
+
+        // fetch the searlized fuse indexes
+        promises.push( this._loadIndexes('flex') );
+
+        // once we have our data, we need to create indexes with fuse
+        return Promise.all(promises).then(()=>{
+            // load the index properly now that we have both the index data and the library
+            Object.values(this.config.collections).forEach(coll=>{
+                coll.indexes.flex.idx = new this.FlexSearch(
+                    {
+                        id: "id",
+                        index: coll.indexes.flex.idxData.fields //['title','year','full']
+                    }
+                );
+                const key = coll.indexes.flex.idxData.key;
+                coll.indexes.flex.idx.import( key, coll.indexes.flex.idxData[key] );
+                delete coll.indexes.flex.idxData; // cleanup our footprint once loaded
+                console.info(`Flex index parsed for ${coll.title}`);
+            }, this);
+        }, this);
     };
     _setupFuse(){
         this._cleanupLibrary();
@@ -232,6 +266,8 @@ class UVALibFacetedSearch extends s {
                     this._setupFuse(); break;
                 case "mini":
                     this._setupMini(); break;
+                case "flex":
+                    this._setupFlex(); break;
             }            this.searchLibrary = e.target.value;
             
         }
@@ -247,6 +283,18 @@ class UVALibFacetedSearch extends s {
             });
             console.info(coll.indexes.fuse.results);
         });
+    }
+    _searchFlex(){
+        console.info(`search flex index for results using querystring '${this.queryString}'`);
+        // search for each collection (for search lib and query)
+        Object.values(this.config.collections).forEach(coll=>{
+            coll.indexes.flex.results = coll.indexes.flex.idx.search(this.queryString).map(r=>{
+                // try to normalize the results for templates
+                r.item.refIndex = r.refIndex;                
+                return r.item;
+            });
+            console.info(coll.indexes.flex.results);
+        });        
     }
     _searchLunr(){
         console.info('search lunr index for results using querystring');
@@ -273,6 +321,7 @@ class UVALibFacetedSearch extends s {
         switch(this.searchLibrary) {
             case "lunr": this._searchLunr(); break;
             case "fuse": this._searchFuse(); break;
+            case "flex": this._searchFlex(); break;
             case "mini": this._searchMini();
         }
     }
@@ -290,6 +339,7 @@ class UVALibFacetedSearch extends s {
             <sl-radio-button name="slib" value="fuse" ?checked="${this.searchLibrary === 'fuse'}" @sl-change="${this._libChanged}">Fuse</sl-radio-button>
             <sl-radio-button name="slib" value="lunr" ?checked="${this.searchLibrary === 'lunr'}" @sl-change="${this._libChanged}">Lunr</sl-radio-button>
             <sl-radio-button name="slib" value="mini" ?checked="${this.searchLibrary === 'mini'}" @sl-change="${this._libChanged}">MiniSearch</sl-radio-button>
+            <sl-radio-button name="slib" value="flex" ?checked="${this.searchLibrary === 'flex'}" @sl-change="${this._libChanged}">FlexSearch</sl-radio-button>
         </sl-radio-group>        
         `:''}
 
@@ -315,15 +365,12 @@ class UVALibFacetedSearch extends s {
                 <sl-tab-panel name="${collId}">
                     <h2>${coll.title}</h2>
                     ${this.searchLibrary && coll.indexes[this.searchLibrary].results && coll.indexes[this.searchLibrary].results.length>0? $`
-                        <ul>
-                        ${coll.indexes[this.searchLibrary].results.map(result=>{
-                            //let result = res.item? res.item:res;
-                            //if (!result.id && result.ref) result.id = result.ref;
-                            //if (!result.title) result.title = coll.list 
+                        <div id="results">
+                        ${coll.indexes[this.searchLibrary].results.map(item=>{
                             return $`
-                                <li><a href="${coll.path}${result.id}.html">${result.title}</a></li>
+                                <uvalib-result .item="${item}"></uvalib-result>
                             `} )}
-                        </ul>
+                        </div>
                     `:$`
                         <p>Need to search for something and/or current search returned no results!</p>
                     `}

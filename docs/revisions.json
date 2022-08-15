@@ -1,6 +1,7 @@
 [
   {
     "id": "116",
+    "type": "revision",
     "title": "First printing (1925)",
     "year": "1925",
     "book": "116",
@@ -8,6 +9,7 @@
   },
   {
     "id": "117a",
+    "type": "revision",
     "title": "First printing (1925)",
     "year": "1925",
     "book": "117",
@@ -15,6 +17,7 @@
   },
   {
     "id": "117b",
+    "type": "revision",
     "title": "Title page reset (c. 1940)",
     "year": "1925",
     "book": "117",
@@ -22,6 +25,7 @@
   },
   {
     "id": "118a",
+    "type": "revision",
     "title": "First printing (1925)",
     "year": "1925",
     "book": "118",
@@ -29,6 +33,7 @@
   },
   {
     "id": "118b",
+    "type": "revision",
     "title": "Title page reset (1925)",
     "year": "1925",
     "book": "118",
@@ -36,6 +41,7 @@
   },
   {
     "id": "119a",
+    "type": "revision",
     "title": "First printing (1925)",
     "year": "1925",
     "book": "119",
@@ -43,6 +49,7 @@
   },
   {
     "id": "119b",
+    "type": "revision",
     "title": "Title page reset (c. 1941)",
     "year": "1925",
     "book": "119",
@@ -50,6 +57,7 @@
   },
   {
     "id": "121",
+    "type": "revision",
     "title": "First printing (1926)",
     "year": "1926",
     "book": "121",
@@ -57,6 +65,7 @@
   },
   {
     "id": "122",
+    "type": "revision",
     "title": "First printing (1926)",
     "year": "1926",
     "book": "122",
@@ -64,6 +73,7 @@
   },
   {
     "id": "123",
+    "type": "revision",
     "title": "First printing (1926)",
     "year": "1926",
     "book": "123",
@@ -71,6 +81,7 @@
   },
   {
     "id": "124a",
+    "type": "revision",
     "title": "First printing (1926)",
     "year": "1926",
     "book": "124",
@@ -78,6 +89,7 @@
   },
   {
     "id": "124b",
+    "type": "revision",
     "title": "Title page reset (c. 1940)",
     "year": "1926",
     "book": "124",
@@ -85,6 +97,7 @@
   },
   {
     "id": "124c",
+    "type": "revision",
     "title": "Howard introduction added (1950)",
     "year": "1926",
     "book": "124",
@@ -92,6 +105,7 @@
   },
   {
     "id": "124d",
+    "type": "revision",
     "title": "Title-page device reset (1968/69)",
     "year": "1926",
     "book": "124",
@@ -99,6 +113,7 @@
   },
   {
     "id": "125",
+    "type": "revision",
     "title": "First printing (1926)",
     "year": "1926",
     "book": "125",
@@ -106,6 +121,7 @@
   },
   {
     "id": "126a",
+    "type": "revision",
     "title": "First printing (1926)",
     "year": "1926",
     "book": "126",
@@ -113,6 +129,7 @@
   },
   {
     "id": "126b",
+    "type": "revision",
     "title": "Title page reset (1927)",
     "year": "1926",
     "book": "126",
@@ -120,6 +137,7 @@
   },
   {
     "id": "126c",
+    "type": "revision",
     "title": "Preliminaries repaginated; printed from duplicate set of plates (1929)",
     "year": "1926",
     "book": "126",
@@ -127,6 +145,7 @@
   },
   {
     "id": "126d",
+    "type": "revision",
     "title": "Title page reset (1940)",
     "year": "1926",
     "book": "126",
@@ -134,6 +153,7 @@
   },
   {
     "id": "128a",
+    "type": "revision",
     "title": "First printing (1926)",
     "year": "1926",
     "book": "128",
@@ -141,6 +161,7 @@
   },
   {
     "id": "128c",
+    "type": "revision",
     "title": "Third printing (1928)",
     "year": "1926",
     "book": "128",
@@ -148,6 +169,7 @@
   },
   {
     "id": "128d",
+    "type": "revision",
     "title": "Fourth printing (1929)",
     "year": "1926",
     "book": "128",
@@ -155,6 +177,7 @@
   },
   {
     "id": "131",
+    "type": "revision",
     "title": "First printing (1927)",
     "year": "1927",
     "book": "131",
@@ -162,6 +185,7 @@
   },
   {
     "id": "132a",
+    "type": "revision",
     "title": "First printing (1927)",
     "year": "1927",
     "book": "132",
@@ -169,6 +193,7 @@
   },
   {
     "id": "132b",
+    "type": "revision",
     "title": "Title page reset (c. 1940)",
     "year": "1927",
     "book": "132",
@@ -176,6 +201,7 @@
   },
   {
     "id": "132c",
+    "type": "revision",
     "title": "Reissue format (1985)",
     "year": "1927",
     "book": "132",
@@ -183,6 +209,7 @@
   },
   {
     "id": "134a",
+    "type": "revision",
     "title": "First printing (1927)",
     "year": "1927",
     "book": "134",
@@ -190,6 +217,7 @@
   },
   {
     "id": "134b",
+    "type": "revision",
     "title": "Title page reset (c. 1941)",
     "year": "1927",
     "book": "134",
@@ -197,6 +225,7 @@
   },
   {
     "id": "135",
+    "type": "revision",
     "title": "First printing (1927)",
     "year": "1927",
     "book": "135",
@@ -204,6 +233,7 @@
   },
   {
     "id": "136a",
+    "type": "revision",
     "title": "First printing (1927)",
     "year": "1927",
     "book": "136",
@@ -211,6 +241,7 @@
   },
   {
     "id": "136b",
+    "type": "revision",
     "title": "Title page reset (1941)",
     "year": "1927",
     "book": "136",
@@ -218,6 +249,7 @@
   },
   {
     "id": "136c",
+    "type": "revision",
     "title": "Title page with Fujita torchbearer; 7½ inch format (1969/70)",
     "year": "1927",
     "book": "136",
@@ -225,6 +257,7 @@
   },
   {
     "id": "138a",
+    "type": "revision",
     "title": "First printing (1927)",
     "year": "1927",
     "book": "138",
@@ -232,6 +265,7 @@
   },
   {
     "id": "138b",
+    "type": "revision",
     "title": "Title page reset (1940)",
     "year": "1927",
     "book": "138",
@@ -239,6 +273,7 @@
   },
   {
     "id": "138c",
+    "type": "revision",
     "title": "Title page with Fujita torchbearer; 7½ inch format (1969/70)",
     "year": "1927",
     "book": "138",
@@ -246,6 +281,7 @@
   },
   {
     "id": "138d",
+    "type": "revision",
     "title": "Reissue format (1980)",
     "year": "1927",
     "book": "138",
@@ -253,6 +289,7 @@
   },
   {
     "id": "139a",
+    "type": "revision",
     "title": "First printing, trade issue (1927)",
     "year": "1927",
     "book": "139",
@@ -260,6 +297,7 @@
   },
   {
     "id": "139b",
+    "type": "revision",
     "title": "First printing, presentation issue (1927)",
     "year": "1927",
     "book": "139",
@@ -267,6 +305,7 @@
   },
   {
     "id": "141",
+    "type": "revision",
     "title": "First printing (1927)",
     "year": "1927",
     "book": "141",
@@ -274,6 +313,7 @@
   },
   {
     "id": "142a",
+    "type": "revision",
     "title": "First printing (1927)",
     "year": "1927",
     "book": "142",
@@ -281,6 +321,7 @@
   },
   {
     "id": "142b",
+    "type": "revision",
     "title": "Title page reset (1941)",
     "year": "1927",
     "book": "142",
@@ -288,6 +329,7 @@
   },
   {
     "id": "143a",
+    "type": "revision",
     "title": "First printing (1927)",
     "year": "1927",
     "book": "143",
@@ -295,6 +337,7 @@
   },
   {
     "id": "143b",
+    "type": "revision",
     "title": "Title page reset (1940)",
     "year": "1927",
     "book": "143",
@@ -302,6 +345,7 @@
   },
   {
     "id": "144a",
+    "type": "revision",
     "title": "First printing (1927)",
     "year": "1927",
     "book": "144",
@@ -309,6 +353,7 @@
   },
   {
     "id": "144b",
+    "type": "revision",
     "title": "Title page reset (1940)",
     "year": "1927",
     "book": "144",
@@ -316,6 +361,7 @@
   },
   {
     "id": "144c",
+    "type": "revision",
     "title": "Stevenson introduction added (1950)",
     "year": "1927",
     "book": "144",
@@ -323,6 +369,7 @@
   },
   {
     "id": "146a",
+    "type": "revision",
     "title": "First printing (1927)",
     "year": "1927",
     "book": "146",
@@ -330,6 +377,7 @@
   },
   {
     "id": "146b",
+    "type": "revision",
     "title": "*Erewhon Revised* added (1933)",
     "year": "1927",
     "book": "146",
@@ -337,6 +385,7 @@
   },
   {
     "id": "146c",
+    "type": "revision",
     "title": "Title page reset (1941)",
     "year": "1927",
     "book": "146",
@@ -344,6 +393,7 @@
   },
   {
     "id": "147a",
+    "type": "revision",
     "title": "First printing (1927)",
     "year": "1927",
     "book": "147",
@@ -351,6 +401,7 @@
   },
   {
     "id": "147b",
+    "type": "revision",
     "title": "Title page reset (1940)",
     "year": "1927",
     "book": "147",
@@ -358,6 +409,7 @@
   },
   {
     "id": "148",
+    "type": "revision",
     "title": "First printing (1927)",
     "year": "1927",
     "book": "148",
@@ -365,6 +417,7 @@
   },
   {
     "id": "149a",
+    "type": "revision",
     "title": "First printing (1927)",
     "year": "1927",
     "book": "149",
@@ -372,6 +425,7 @@
   },
   {
     "id": "149b",
+    "type": "revision",
     "title": "Title page reset (1941)",
     "year": "1927",
     "book": "149",
@@ -379,6 +433,7 @@
   },
   {
     "id": "152a",
+    "type": "revision",
     "title": "First printing (1928)",
     "year": "1928",
     "book": "152",
@@ -386,6 +441,7 @@
   },
   {
     "id": "152b",
+    "type": "revision",
     "title": "Title page reset (c. 1941)",
     "year": "1928",
     "book": "152",
@@ -393,6 +449,7 @@
   },
   {
     "id": "154a",
+    "type": "revision",
     "title": "First printing (1928)",
     "year": "1928",
     "book": "154",
@@ -400,6 +457,7 @@
   },
   {
     "id": "154b",
+    "type": "revision",
     "title": "Title page reset (1940)",
     "year": "1928",
     "book": "154",
@@ -407,6 +465,7 @@
   },
   {
     "id": "155a",
+    "type": "revision",
     "title": "First printing (1928)",
     "year": "1928",
     "book": "155",
@@ -414,6 +473,7 @@
   },
   {
     "id": "155b",
+    "type": "revision",
     "title": "Title page reset (c. 1940)",
     "year": "1928",
     "book": "155",
@@ -421,6 +481,7 @@
   },
   {
     "id": "156a",
+    "type": "revision",
     "title": "First printing (1928)",
     "year": "1928",
     "book": "156",
@@ -428,6 +489,7 @@
   },
   {
     "id": "156b",
+    "type": "revision",
     "title": "Title page reset (c. 1941)",
     "year": "1928",
     "book": "156",
@@ -435,6 +497,7 @@
   },
   {
     "id": "157",
+    "type": "revision",
     "title": "First printing (1928)",
     "year": "1928",
     "book": "157",
@@ -442,6 +505,7 @@
   },
   {
     "id": "159",
+    "type": "revision",
     "title": "First printing (1928)",
     "year": "1928",
     "book": "159",
@@ -449,6 +513,7 @@
   },
   {
     "id": "161",
+    "type": "revision",
     "title": "First printing (1928)",
     "year": "1928",
     "book": "161",
@@ -456,6 +521,7 @@
   },
   {
     "id": "162a",
+    "type": "revision",
     "title": "First printing (1928)",
     "year": "1928",
     "book": "162",
@@ -463,6 +529,7 @@
   },
   {
     "id": "162b",
+    "type": "revision",
     "title": "Title page reset (c. 1940)",
     "year": "1928",
     "book": "162",
@@ -470,6 +537,7 @@
   },
   {
     "id": "163",
+    "type": "revision",
     "title": "First printing (1928)",
     "year": "1928",
     "book": "163",
@@ -477,6 +545,7 @@
   },
   {
     "id": "164a",
+    "type": "revision",
     "title": "First printing (1928)",
     "year": "1928",
     "book": "164",
@@ -484,6 +553,7 @@
   },
   {
     "id": "164b",
+    "type": "revision",
     "title": "Title page reset (c. 1940)",
     "year": "1928",
     "book": "164",
@@ -491,6 +561,7 @@
   },
   {
     "id": "165a",
+    "type": "revision",
     "title": "First printing (1928)",
     "year": "1928",
     "book": "165",
@@ -498,6 +569,7 @@
   },
   {
     "id": "165b",
+    "type": "revision",
     "title": "Title page reset (c. 1941)",
     "year": "1928",
     "book": "165",
@@ -505,6 +577,7 @@
   },
   {
     "id": "165c",
+    "type": "revision",
     "title": "Title page with Fujita torchbearer; 7½ inch format (1969/70)",
     "year": "1928",
     "book": "165",
@@ -512,6 +585,7 @@
   },
   {
     "id": "167",
+    "type": "revision",
     "title": "First printing (1928)",
     "year": "1928",
     "book": "167",
@@ -519,6 +593,7 @@
   },
   {
     "id": "168a",
+    "type": "revision",
     "title": "First printing (1928)",
     "year": "1928",
     "book": "168",
@@ -526,6 +601,7 @@
   },
   {
     "id": "168b",
+    "type": "revision",
     "title": "Title page reset (c. 1940)",
     "year": "1928",
     "book": "168",
@@ -533,6 +609,7 @@
   },
   {
     "id": "173",
+    "type": "revision",
     "title": "First printing (1929)",
     "year": "1929",
     "book": "173",
@@ -540,6 +617,7 @@
   },
   {
     "id": "175",
+    "type": "revision",
     "title": "First printing (1929)",
     "year": "1929",
     "book": "175",
@@ -547,6 +625,7 @@
   },
   {
     "id": "176a",
+    "type": "revision",
     "title": "First printing (1929)",
     "year": "1929",
     "book": "176",
@@ -554,6 +633,7 @@
   },
   {
     "id": "176b",
+    "type": "revision",
     "title": "Title page reset (c. 1941)",
     "year": "1929",
     "book": "176",
@@ -561,6 +641,7 @@
   },
   {
     "id": "177a",
+    "type": "revision",
     "title": "First printing (1929)",
     "year": "1929",
     "book": "177",
@@ -568,6 +649,7 @@
   },
   {
     "id": "177b",
+    "type": "revision",
     "title": "Title page reset (c. 1941)",
     "year": "1929",
     "book": "177",
@@ -575,6 +657,7 @@
   },
   {
     "id": "177d",
+    "type": "revision",
     "title": "Title page with Fujita torchbearer; 7½ inch format (1969/70)",
     "year": "1929",
     "book": "177",
@@ -582,6 +665,7 @@
   },
   {
     "id": "177e",
+    "type": "revision",
     "title": "Reissue format (1984)",
     "year": "1929",
     "book": "177",
@@ -589,6 +673,7 @@
   },
   {
     "id": "178a",
+    "type": "revision",
     "title": "First printing (1929)",
     "year": "1929",
     "book": "178",
@@ -596,6 +681,7 @@
   },
   {
     "id": "178b",
+    "type": "revision",
     "title": "Title page reset (c. 1941)",
     "year": "1929",
     "book": "178",
@@ -603,6 +689,7 @@
   },
   {
     "id": "179a",
+    "type": "revision",
     "title": "First printing (1929)",
     "year": "1929",
     "book": "179",
@@ -610,6 +697,7 @@
   },
   {
     "id": "179b",
+    "type": "revision",
     "title": "Title page reset (1940)",
     "year": "1929",
     "book": "179",
@@ -617,6 +705,7 @@
   },
   {
     "id": "182a",
+    "type": "revision",
     "title": "First printing (1929)",
     "year": "1929",
     "book": "182",
@@ -624,6 +713,7 @@
   },
   {
     "id": "182b",
+    "type": "revision",
     "title": "Title page reset (1940)",
     "year": "1929",
     "book": "182",
@@ -631,6 +721,7 @@
   },
   {
     "id": "183b",
+    "type": "revision",
     "title": "Second printing** **(1930)",
     "year": "1929",
     "book": "183",
@@ -638,6 +729,7 @@
   },
   {
     "id": "183c",
+    "type": "revision",
     "title": "Title page reset (1941)",
     "year": "1929",
     "book": "183",
@@ -645,6 +737,7 @@
   },
   {
     "id": "184",
+    "type": "revision",
     "title": "First printing (1929)",
     "year": "1929",
     "book": "184",
@@ -652,6 +745,7 @@
   },
   {
     "id": "185a",
+    "type": "revision",
     "title": "First printing (1929)",
     "year": "1929",
     "book": "185",
@@ -659,6 +753,7 @@
   },
   {
     "id": "185b",
+    "type": "revision",
     "title": "Title page reset (c. 1940)",
     "year": "1929",
     "book": "185",
@@ -666,6 +761,7 @@
   },
   {
     "id": "188a",
+    "type": "revision",
     "title": "First printing (1930)",
     "year": "1930",
     "book": "188",
@@ -673,6 +769,7 @@
   },
   {
     "id": "188b",
+    "type": "revision",
     "title": "Title page reset (1940)",
     "year": "1930",
     "book": "188",
@@ -680,6 +777,7 @@
   },
   {
     "id": "189a",
+    "type": "revision",
     "title": "First printing (1930)",
     "year": "1930",
     "book": "189",
@@ -687,6 +785,7 @@
   },
   {
     "id": "189b",
+    "type": "revision",
     "title": "Title page reset (c. 1940)",
     "year": "1930",
     "book": "189",
@@ -694,6 +793,7 @@
   },
   {
     "id": "192a",
+    "type": "revision",
     "title": "First printing (1930)",
     "year": "1930",
     "book": "192",
@@ -701,6 +801,7 @@
   },
   {
     "id": "192b",
+    "type": "revision",
     "title": "Title page reset (1941)",
     "year": "1930",
     "book": "192",
@@ -708,6 +809,7 @@
   },
   {
     "id": "193a",
+    "type": "revision",
     "title": "First printing (1930)",
     "year": "1930",
     "book": "193",
@@ -715,6 +817,7 @@
   },
   {
     "id": "193b",
+    "type": "revision",
     "title": "Title page reset (1940)",
     "year": "1930",
     "book": "193",
@@ -722,6 +825,7 @@
   },
   {
     "id": "194a",
+    "type": "revision",
     "title": "First printing (1930)",
     "year": "1930",
     "book": "194",
@@ -729,6 +833,7 @@
   },
   {
     "id": "194b",
+    "type": "revision",
     "title": "Title page reset (1940)",
     "year": "1930",
     "book": "194",
@@ -736,6 +841,7 @@
   },
   {
     "id": "196",
+    "type": "revision",
     "title": "First printing (1930)",
     "year": "1930",
     "book": "196",
@@ -743,6 +849,7 @@
   },
   {
     "id": "198",
+    "type": "revision",
     "title": "First printing (1930)",
     "year": "1930",
     "book": "198",
@@ -750,6 +857,7 @@
   },
   {
     "id": "211d",
+    "type": "revision",
     "title": "Offset printing; 7½ inch format (1970)",
     "year": "1931",
     "book": "211",
@@ -757,6 +865,7 @@
   },
   {
     "id": "212a",
+    "type": "revision",
     "title": "First printing (1931)",
     "year": "1931",
     "book": "212",
@@ -764,6 +873,7 @@
   },
   {
     "id": "212b",
+    "type": "revision",
     "title": "Title page reset (1940)",
     "year": "1931",
     "book": "212",
@@ -771,6 +881,7 @@
   },
   {
     "id": "212c",
+    "type": "revision",
     "title": "Heilman introduction added (1950)",
     "year": "1931",
     "book": "212",
@@ -778,6 +889,7 @@
   },
   {
     "id": "221b",
+    "type": "revision",
     "title": "Title page reset (c. 1940)",
     "year": "1931",
     "book": "221",
@@ -785,6 +897,7 @@
   },
   {
     "id": "224b",
+    "type": "revision",
     "title": "Title page reset (c. 1940)",
     "year": "1931",
     "book": "224",
@@ -792,6 +905,7 @@
   },
   {
     "id": "226b",
+    "type": "revision",
     "title": "Title page reset (c. 1940)",
     "year": "1931",
     "book": "226",
@@ -799,6 +913,7 @@
   },
   {
     "id": "231d",
+    "type": "revision",
     "title": "Reissue format (1978)",
     "year": "1932",
     "book": "231",
@@ -806,6 +921,7 @@
   },
   {
     "id": "237a",
+    "type": "revision",
     "title": "First printing (1932)",
     "year": "1932",
     "book": "237",
@@ -813,6 +929,7 @@
   },
   {
     "id": "237b",
+    "type": "revision",
     "title": "Title page reset (c. 1940)",
     "year": "1932",
     "book": "237",
@@ -820,6 +937,7 @@
   },
   {
     "id": "238a",
+    "type": "revision",
     "title": "First printing (1932)",
     "year": "1932",
     "book": "238",
@@ -827,6 +945,7 @@
   },
   {
     "id": "238b",
+    "type": "revision",
     "title": "Title page reset (c. 1940)",
     "year": "1932",
     "book": "238",
@@ -834,6 +953,7 @@
   },
   {
     "id": "239a",
+    "type": "revision",
     "title": "First printing (1932)",
     "year": "1932",
     "book": "239",
@@ -841,6 +961,7 @@
   },
   {
     "id": "239b",
+    "type": "revision",
     "title": "Title page reset (c. 1940)",
     "year": "1932",
     "book": "239",
@@ -848,6 +969,7 @@
   },
   {
     "id": "241a",
+    "type": "revision",
     "title": "First printing (1932)",
     "year": "1932",
     "book": "241",
@@ -855,6 +977,7 @@
   },
   {
     "id": "241b",
+    "type": "revision",
     "title": "Title page reset (1940)",
     "year": "1932",
     "book": "241",
@@ -862,6 +985,7 @@
   },
   {
     "id": "241c",
+    "type": "revision",
     "title": "Title page with Fujita torchbearer; 7½ inch format (1969/70)",
     "year": "1932",
     "book": "241",
@@ -869,6 +993,7 @@
   },
   {
     "id": "241d",
+    "type": "revision",
     "title": "Reissue format; offset printing (1980)",
     "year": "1932",
     "book": "241",
@@ -876,6 +1001,7 @@
   },
   {
     "id": "242a",
+    "type": "revision",
     "title": "First printing (1932)",
     "year": "1932",
     "book": "242",
@@ -883,6 +1009,7 @@
   },
   {
     "id": "242b",
+    "type": "revision",
     "title": "Title page reset (1940)",
     "year": "1932",
     "book": "242",
@@ -890,6 +1017,7 @@
   },
   {
     "id": "243a",
+    "type": "revision",
     "title": "First printing (1932)",
     "year": "1932",
     "book": "243",
@@ -897,6 +1025,7 @@
   },
   {
     "id": "243b",
+    "type": "revision",
     "title": "Title changed; title page reset (1940)",
     "year": "1932",
     "book": "243",
@@ -904,6 +1033,7 @@
   },
   {
     "id": "244a",
+    "type": "revision",
     "title": "First printing (1932)",
     "year": "1932",
     "book": "244",
@@ -911,6 +1041,7 @@
   },
   {
     "id": "244b",
+    "type": "revision",
     "title": "Title page reset (c. 1940)",
     "year": "1932",
     "book": "244",
@@ -918,6 +1049,7 @@
   },
   {
     "id": "245a",
+    "type": "revision",
     "title": "First printing (1932)",
     "year": "1932",
     "book": "245",
@@ -925,6 +1057,7 @@
   },
   {
     "id": "245b",
+    "type": "revision",
     "title": "Title page reset (1940)",
     "year": "1932",
     "book": "245",
@@ -932,6 +1065,7 @@
   },
   {
     "id": "246a",
+    "type": "revision",
     "title": "First printing (1932)",
     "year": "1932",
     "book": "246",
@@ -939,6 +1073,7 @@
   },
   {
     "id": "246b",
+    "type": "revision",
     "title": "Title page reset (c. 1940)",
     "year": "1932",
     "book": "246",
@@ -946,6 +1081,7 @@
   },
   {
     "id": "246c",
+    "type": "revision",
     "title": "Title page reset; offset printing (1965)",
     "year": "1932",
     "book": "246",
@@ -953,6 +1089,7 @@
   },
   {
     "id": "248a",
+    "type": "revision",
     "title": "First printing (1932)",
     "year": "1932",
     "book": "248",
@@ -960,6 +1097,7 @@
   },
   {
     "id": "248b",
+    "type": "revision",
     "title": "Title page reset (c. 1940)",
     "year": "1932",
     "book": "248",
@@ -967,6 +1105,7 @@
   },
   {
     "id": "249a",
+    "type": "revision",
     "title": "First printing (1932)",
     "year": "1932",
     "book": "249",
@@ -974,6 +1113,7 @@
   },
   {
     "id": "249b",
+    "type": "revision",
     "title": "Title page reset (1941)",
     "year": "1932",
     "book": "249",
@@ -981,6 +1121,7 @@
   },
   {
     "id": "253a",
+    "type": "revision",
     "title": "First printing (1933)",
     "year": "1933",
     "book": "253",
@@ -988,6 +1129,7 @@
   },
   {
     "id": "253b",
+    "type": "revision",
     "title": "Title page reset (c. 1940)",
     "year": "1933",
     "book": "253",
@@ -995,6 +1137,7 @@
   },
   {
     "id": "253c",
+    "type": "revision",
     "title": "Reissue format (1984)",
     "year": "1933",
     "book": "253",
@@ -1002,6 +1145,7 @@
   },
   {
     "id": "255a",
+    "type": "revision",
     "title": "First printing (1933)",
     "year": "1933",
     "book": "255",
@@ -1009,6 +1153,7 @@
   },
   {
     "id": "255b",
+    "type": "revision",
     "title": "Title page reset (c. 1940)",
     "year": "1933",
     "book": "255",
@@ -1016,6 +1161,7 @@
   },
   {
     "id": "256a",
+    "type": "revision",
     "title": "First printing (1933)",
     "year": "1933",
     "book": "256",
@@ -1023,6 +1169,7 @@
   },
   {
     "id": "256b",
+    "type": "revision",
     "title": "Title page reset (c. 1940)",
     "year": "1933",
     "book": "256",
@@ -1030,6 +1177,7 @@
   },
   {
     "id": "257a",
+    "type": "revision",
     "title": "First printing (1933)",
     "year": "1933",
     "book": "257",
@@ -1037,6 +1185,7 @@
   },
   {
     "id": "257b",
+    "type": "revision",
     "title": "Title page reset (c. 1940)",
     "year": "1933",
     "book": "257",
@@ -1044,6 +1193,7 @@
   },
   {
     "id": "259",
+    "type": "revision",
     "title": "First printing (1933)",
     "year": "1933",
     "book": "259",
@@ -1051,6 +1201,7 @@
   },
   {
     "id": "261",
+    "type": "revision",
     "title": "First printing (1933)",
     "year": "1933",
     "book": "261",
@@ -1058,6 +1209,7 @@
   },
   {
     "id": "262",
+    "type": "revision",
     "title": "First printing (1933)",
     "year": "1933",
     "book": "262",
@@ -1065,6 +1217,7 @@
   },
   {
     "id": "263a",
+    "type": "revision",
     "title": "First printing (1933)",
     "year": "1933",
     "book": "263",
@@ -1072,6 +1225,7 @@
   },
   {
     "id": "263b",
+    "type": "revision",
     "title": "Title page reset (1939)",
     "year": "1933",
     "book": "263",
@@ -1079,6 +1233,7 @@
   },
   {
     "id": "264a",
+    "type": "revision",
     "title": "First printing (1933)",
     "year": "1933",
     "book": "264",
@@ -1086,6 +1241,7 @@
   },
   {
     "id": "264b",
+    "type": "revision",
     "title": "Title page reset (c. 1940)",
     "year": "1933",
     "book": "264",
@@ -1093,6 +1249,7 @@
   },
   {
     "id": "265b",
+    "type": "revision",
     "title": "Title page reset (c. 1940)",
     "year": "1934",
     "book": "265",
@@ -1100,6 +1257,7 @@
   },
   {
     "id": "265c",
+    "type": "revision",
     "title": "Title page with Fujita torchbearer; 7½ inch format (1969/70)",
     "year": "1934",
     "book": "265",
@@ -1107,6 +1265,7 @@
   },
   {
     "id": "265d",
+    "type": "revision",
     "title": "Reissue format (1977)",
     "year": "1934",
     "book": "265",
@@ -1114,6 +1273,7 @@
   },
   {
     "id": "267b",
+    "type": "revision",
     "title": "Title page reset (1940)",
     "year": "1934",
     "book": "267",
@@ -1121,6 +1281,7 @@
   },
   {
     "id": "269b",
+    "type": "revision",
     "title": "Title page reset (c. 1940)",
     "year": "1934",
     "book": "269",
@@ -1128,6 +1289,7 @@
   },
   {
     "id": "269c",
+    "type": "revision",
     "title": "Brown introduction added (1950)",
     "year": "1934",
     "book": "269",
@@ -1135,6 +1297,7 @@
   },
   {
     "id": "269d",
+    "type": "revision",
     "title": "Title page reset; offset printing (1966)",
     "year": "1934",
     "book": "269",
@@ -1142,6 +1305,7 @@
   },
   {
     "id": "271b",
+    "type": "revision",
     "title": "Title page reset (1940)",
     "year": "1934",
     "book": "271",
@@ -1149,6 +1313,7 @@
   },
   {
     "id": "276b",
+    "type": "revision",
     "title": "Title page reset (c. 1940)",
     "year": "1934",
     "book": "276",
@@ -1156,6 +1321,7 @@
   },
   {
     "id": "277b",
+    "type": "revision",
     "title": "Title page reset (c. 1940)",
     "year": "1934",
     "book": "277",
@@ -1163,6 +1329,7 @@
   },
   {
     "id": "277c",
+    "type": "revision",
     "title": "McDermott introduction added (1950)",
     "year": "1934",
     "book": "277",
@@ -1170,6 +1337,7 @@
   },
   {
     "id": "278a",
+    "type": "revision",
     "title": "First printing (1935)",
     "year": "1935",
     "book": "278",
@@ -1177,6 +1345,7 @@
   },
   {
     "id": "278b",
+    "type": "revision",
     "title": "Title page reset (1940)",
     "year": "1935",
     "book": "278",
@@ -1184,6 +1353,7 @@
   },
   {
     "id": "279a",
+    "type": "revision",
     "title": "First printing (1935)",
     "year": "1935",
     "book": "279",
@@ -1191,6 +1361,7 @@
   },
   {
     "id": "279b",
+    "type": "revision",
     "title": "Title page reset (c.1940)",
     "year": "1935",
     "book": "279",
@@ -1198,6 +1369,7 @@
   },
   {
     "id": "281",
+    "type": "revision",
     "title": "First printing (1935)",
     "year": "1935",
     "book": "281",
@@ -1205,6 +1377,7 @@
   },
   {
     "id": "282a",
+    "type": "revision",
     "title": "First printing (1935)",
     "year": "1935",
     "book": "282",
@@ -1212,6 +1385,7 @@
   },
   {
     "id": "282b",
+    "type": "revision",
     "title": "Title page reset (c.1940)",
     "year": "1935",
     "book": "282",
@@ -1219,6 +1393,7 @@
   },
   {
     "id": "284a",
+    "type": "revision",
     "title": "First printing (1935)",
     "year": "1935",
     "book": "284",
@@ -1226,6 +1401,7 @@
   },
   {
     "id": "284b",
+    "type": "revision",
     "title": "Title page reset (c.1940)",
     "year": "1935",
     "book": "284",
@@ -1233,6 +1409,7 @@
   },
   {
     "id": "284c",
+    "type": "revision",
     "title": "Wagenknecht introduction added (1950)",
     "year": "1935",
     "book": "284",
@@ -1240,6 +1417,7 @@
   },
   {
     "id": "285",
+    "type": "revision",
     "title": "First printing (1935)",
     "year": "1935",
     "book": "285",
@@ -1247,6 +1425,7 @@
   },
   {
     "id": "286",
+    "type": "revision",
     "title": "First printing (1935)",
     "year": "1935",
     "book": "286",
@@ -1254,6 +1433,7 @@
   },
   {
     "id": "287",
+    "type": "revision",
     "title": "First printing (1935)",
     "year": "1935",
     "book": "287",
@@ -1261,6 +1441,7 @@
   },
   {
     "id": "288a",
+    "type": "revision",
     "title": "First printing (1936)",
     "year": "1936",
     "book": "288",
@@ -1268,6 +1449,7 @@
   },
   {
     "id": "288b",
+    "type": "revision",
     "title": "Title page reset (1940)",
     "year": "1936",
     "book": "288",
@@ -1275,6 +1457,7 @@
   },
   {
     "id": "288c",
+    "type": "revision",
     "title": "Reissue format (1977)",
     "year": "1936",
     "book": "288",
@@ -1282,6 +1465,7 @@
   },
   {
     "id": "289a",
+    "type": "revision",
     "title": "First printing (1936)",
     "year": "1936",
     "book": "289",
@@ -1289,6 +1473,7 @@
   },
   {
     "id": "289b",
+    "type": "revision",
     "title": "Title page reset (1940)",
     "year": "1936",
     "book": "289",
@@ -1296,6 +1481,7 @@
   },
   {
     "id": "292a",
+    "type": "revision",
     "title": "First printing (1936)",
     "year": "1936",
     "book": "292",
@@ -1303,6 +1489,7 @@
   },
   {
     "id": "292b",
+    "type": "revision",
     "title": "Title page reset (1940)",
     "year": "1936",
     "book": "292",
@@ -1310,6 +1497,7 @@
   },
   {
     "id": "292c",
+    "type": "revision",
     "title": "Hatcher introduction added (1950)",
     "year": "1936",
     "book": "292",
@@ -1317,6 +1505,7 @@
   },
   {
     "id": "293a",
+    "type": "revision",
     "title": "First printing (1936)",
     "year": "1936",
     "book": "293",
@@ -1324,6 +1513,7 @@
   },
   {
     "id": "293b",
+    "type": "revision",
     "title": "Title page reset (1940)",
     "year": "1936",
     "book": "293",
@@ -1331,6 +1521,7 @@
   },
   {
     "id": "293c",
+    "type": "revision",
     "title": "Title page reset; 7½ inch format (1969/70)",
     "year": "1936",
     "book": "293",
@@ -1338,6 +1529,7 @@
   },
   {
     "id": "294a",
+    "type": "revision",
     "title": "First printing (1936)",
     "year": "1936",
     "book": "294",
@@ -1345,6 +1537,7 @@
   },
   {
     "id": "294b",
+    "type": "revision",
     "title": "Title page reset; letterpress printing (c. 1941)",
     "year": "1936",
     "book": "294",
@@ -1352,6 +1545,7 @@
   },
   {
     "id": "294c",
+    "type": "revision",
     "title": "Chevalier introduction dropped (1954)",
     "year": "1936",
     "book": "294",
@@ -1359,6 +1553,7 @@
   },
   {
     "id": "294d",
+    "type": "revision",
     "title": "Title page reset; offset printing (1964)",
     "year": "1936",
     "book": "294",
@@ -1366,6 +1561,7 @@
   },
   {
     "id": "295",
+    "type": "revision",
     "title": "First printing (1936)",
     "year": "1936",
     "book": "295",
@@ -1373,6 +1569,7 @@
   },
   {
     "id": "296b",
+    "type": "revision",
     "title": "Title page reset (c. 1940)",
     "year": "1936",
     "book": "296",
@@ -1380,6 +1577,7 @@
   },
   {
     "id": "296c",
+    "type": "revision",
     "title": "Title page reset; offset printing (1966/67)",
     "year": "1936",
     "book": "296",
@@ -1387,6 +1585,7 @@
   },
   {
     "id": "296d",
+    "type": "revision",
     "title": "Reissue format (1978)",
     "year": "1936",
     "book": "296",
@@ -1394,6 +1593,7 @@
   },
   {
     "id": "297a",
+    "type": "revision",
     "title": "First printing (1936)",
     "year": "1936",
     "book": "297",
@@ -1401,6 +1601,7 @@
   },
   {
     "id": "297b",
+    "type": "revision",
     "title": "Title page reset (c. 1940)",
     "year": "1936",
     "book": "297",
@@ -1408,6 +1609,7 @@
   },
   {
     "id": "297c",
+    "type": "revision",
     "title": "Ray introduction added (1950)",
     "year": "1936",
     "book": "297",
@@ -1415,6 +1617,7 @@
   },
   {
     "id": "298a",
+    "type": "revision",
     "title": "First printing (1937)",
     "year": "1937",
     "book": "298",
@@ -1422,6 +1625,7 @@
   },
   {
     "id": "298b",
+    "type": "revision",
     "title": "Title page reset (1940)",
     "year": "1937",
     "book": "298",
@@ -1429,6 +1633,7 @@
   },
   {
     "id": "299a",
+    "type": "revision",
     "title": "First printing (1937)",
     "year": "1937",
     "book": "299",
@@ -1436,6 +1641,7 @@
   },
   {
     "id": "299b",
+    "type": "revision",
     "title": "Title page reset (1940)",
     "year": "1937",
     "book": "299",
@@ -1443,6 +1649,7 @@
   },
   {
     "id": "299c",
+    "type": "revision",
     "title": "Title page with Fujita torchbearer; 7½ inch format (1969/70)",
     "year": "1937",
     "book": "299",
@@ -1450,6 +1657,7 @@
   },
   {
     "id": "311a",
+    "type": "revision",
     "title": "First printing (1938)",
     "year": "1938",
     "book": "311",
@@ -1457,6 +1665,7 @@
   },
   {
     "id": "311b",
+    "type": "revision",
     "title": "Title page reset (1940)",
     "year": "1938",
     "book": "311",
@@ -1464,6 +1673,7 @@
   },
   {
     "id": "311c",
+    "type": "revision",
     "title": "Reissue format (1979)",
     "year": "1938",
     "book": "311",
@@ -1471,6 +1681,7 @@
   },
   {
     "id": "313a",
+    "type": "revision",
     "title": "First printing (1938)",
     "year": "1938",
     "book": "313",
@@ -1478,6 +1689,7 @@
   },
   {
     "id": "313b",
+    "type": "revision",
     "title": "Title page reset (c. 1940)",
     "year": "1938",
     "book": "313",
@@ -1485,6 +1697,7 @@
   },
   {
     "id": "314a",
+    "type": "revision",
     "title": "First printing (1938)",
     "year": "1938",
     "book": "314",
@@ -1492,6 +1705,7 @@
   },
   {
     "id": "314b",
+    "type": "revision",
     "title": "Title page reset (c. 1940)",
     "year": "1938",
     "book": "314",
@@ -1499,6 +1713,7 @@
   },
   {
     "id": "315a",
+    "type": "revision",
     "title": "First printing (1938)",
     "year": "1938",
     "book": "315",
@@ -1506,6 +1721,7 @@
   },
   {
     "id": "315b",
+    "type": "revision",
     "title": "Title page reset (c. 1940)",
     "year": "1938",
     "book": "315",
@@ -1513,6 +1729,7 @@
   },
   {
     "id": "316a",
+    "type": "revision",
     "title": "First printing (1938)",
     "year": "1938",
     "book": "316",
@@ -1520,6 +1737,7 @@
   },
   {
     "id": "316b",
+    "type": "revision",
     "title": "Title page reset (c. 1940)",
     "year": "1938",
     "book": "316",
@@ -1527,6 +1745,7 @@
   },
   {
     "id": "317a",
+    "type": "revision",
     "title": "First printing (1939)",
     "year": "1939",
     "book": "317",
@@ -1534,6 +1753,7 @@
   },
   {
     "id": "317b",
+    "type": "revision",
     "title": "Title page reset (c. 1941)",
     "year": "1939",
     "book": "317",
@@ -1541,6 +1761,7 @@
   },
   {
     "id": "318a",
+    "type": "revision",
     "title": "First printing (1939)",
     "year": "1939",
     "book": "318",
@@ -1548,6 +1769,7 @@
   },
   {
     "id": "318b",
+    "type": "revision",
     "title": "Title page reset (1941)",
     "year": "1939",
     "book": "318",
@@ -1555,6 +1777,7 @@
   },
   {
     "id": "319a",
+    "type": "revision",
     "title": "First printing (1939)",
     "year": "1939",
     "book": "319",
@@ -1562,6 +1785,7 @@
   },
   {
     "id": "319b",
+    "type": "revision",
     "title": "Title page reset (c. 1940)",
     "year": "1939",
     "book": "319",
@@ -1569,6 +1793,7 @@
   },
   {
     "id": "319c",
+    "type": "revision",
     "title": "Keynes’s “Life of Izaak Walton” revised (1949)",
     "year": "1939",
     "book": "319",
@@ -1576,6 +1801,7 @@
   },
   {
     "id": "321a",
+    "type": "revision",
     "title": "First printing (1939)",
     "year": "1939",
     "book": "321",
@@ -1583,6 +1809,7 @@
   },
   {
     "id": "321b",
+    "type": "revision",
     "title": "Title page reset (1940)",
     "year": "1939",
     "book": "321",
@@ -1590,6 +1817,7 @@
   },
   {
     "id": "322a",
+    "type": "revision",
     "title": "First printing (1939)",
     "year": "1939",
     "book": "322",
@@ -1597,6 +1825,7 @@
   },
   {
     "id": "322b",
+    "type": "revision",
     "title": "Title page reset (c. 1940)",
     "year": "1939",
     "book": "322",
@@ -1604,6 +1833,7 @@
   },
   {
     "id": "323a",
+    "type": "revision",
     "title": "First printing (1939)",
     "year": "1939",
     "book": "323",
@@ -1611,6 +1841,7 @@
   },
   {
     "id": "323b",
+    "type": "revision",
     "title": "Title page reset (c. 1940)",
     "year": "1939",
     "book": "323",
@@ -1618,6 +1849,7 @@
   },
   {
     "id": "323c",
+    "type": "revision",
     "title": "Title page reset; bibliography added (1950)",
     "year": "1939",
     "book": "323",
@@ -1625,6 +1857,7 @@
   },
   {
     "id": "324",
+    "type": "revision",
     "title": "First printing (1939)",
     "year": "1939",
     "book": "324",
@@ -1632,6 +1865,7 @@
   },
   {
     "id": "325",
+    "type": "revision",
     "title": "First printing (1940)",
     "year": "1940",
     "book": "325",
@@ -1639,6 +1873,7 @@
   },
   {
     "id": "326a",
+    "type": "revision",
     "title": "First printing (1940)",
     "year": "1940",
     "book": "326",
@@ -1646,6 +1881,7 @@
   },
   {
     "id": "326b",
+    "type": "revision",
     "title": "Title page reset; offset printing (1966/67)",
     "year": "1940",
     "book": "326",
@@ -1653,6 +1889,7 @@
   },
   {
     "id": "327",
+    "type": "revision",
     "title": "First printing (1940)",
     "year": "1940",
     "book": "327",
@@ -1660,6 +1897,7 @@
   },
   {
     "id": "328a",
+    "type": "revision",
     "title": "First printing (1940)",
     "year": "1940",
     "book": "328",
@@ -1667,6 +1905,7 @@
   },
   {
     "id": "328b",
+    "type": "revision",
     "title": "Introduction revised; bibliography added (1950)",
     "year": "1940",
     "book": "328",
@@ -1674,6 +1913,7 @@
   },
   {
     "id": "329",
+    "type": "revision",
     "title": "First printing (1940)",
     "year": "1940",
     "book": "328",
@@ -1681,6 +1921,7 @@
   },
   {
     "id": "331",
+    "type": "revision",
     "title": "First printing (1940)",
     "year": "1940",
     "book": "331",
@@ -1688,6 +1929,7 @@
   },
   {
     "id": "332",
+    "type": "revision",
     "title": "First printing (1940)",
     "year": "1940",
     "book": "332",
@@ -1695,6 +1937,7 @@
   },
   {
     "id": "333a",
+    "type": "revision",
     "title": "First printing (1940)",
     "year": "1940",
     "book": "333",
@@ -1702,6 +1945,7 @@
   },
   {
     "id": "333b",
+    "type": "revision",
     "title": "Title page with Fujita torchbearer; 7½ inch format (1969/70)",
     "year": "1940",
     "book": "333",
@@ -1709,6 +1953,7 @@
   },
   {
     "id": "334a",
+    "type": "revision",
     "title": "First printing (1940)",
     "year": "1940",
     "book": "334",
@@ -1716,6 +1961,7 @@
   },
   {
     "id": "334b",
+    "type": "revision",
     "title": "McDowell foreword added (1950)",
     "year": "1940",
     "book": "334",
@@ -1723,6 +1969,7 @@
   },
   {
     "id": "334c",
+    "type": "revision",
     "title": "Title changed: Selected Writings (1960)",
     "year": "1940",
     "book": "334",
@@ -1730,6 +1977,7 @@
   },
   {
     "id": "334d",
+    "type": "revision",
     "title": "Title page reset; offset printing (1968)",
     "year": "1940",
     "book": "334",
@@ -1737,6 +1985,7 @@
   },
   {
     "id": "334e",
+    "type": "revision",
     "title": "Title page with Fujita torchbearer; 7½ inch format (1969/70)",
     "year": "1940",
     "book": "334",
@@ -1744,6 +1993,7 @@
   },
   {
     "id": "334f",
+    "type": "revision",
     "title": "Printing from letterpress plates; 7½ inch format (mid-1970s)",
     "year": "1940",
     "book": "334",
@@ -1751,6 +2001,7 @@
   },
   {
     "id": "334g",
+    "type": "revision",
     "title": "Reissue format (1977)",
     "year": "1940",
     "book": "334",
@@ -1758,6 +2009,7 @@
   },
   {
     "id": "335",
+    "type": "revision",
     "title": "First printing (1940)",
     "year": "1940",
     "book": "335",
@@ -1765,6 +2017,7 @@
   },
   {
     "id": "336",
+    "type": "revision",
     "title": "First printing (1941)",
     "year": "1941",
     "book": "336",
@@ -1772,6 +2025,7 @@
   },
   {
     "id": "337",
+    "type": "revision",
     "title": "First printing (1941)",
     "year": "1941",
     "book": "337",
@@ -1779,6 +2033,7 @@
   },
   {
     "id": "338b",
+    "type": "revision",
     "title": "Declaration of Independence added** **(1947)",
     "year": "1941",
     "book": "338",
@@ -1786,6 +2041,7 @@
   },
   {
     "id": "339",
+    "type": "revision",
     "title": "First printing (1941)",
     "year": "1941",
     "book": "339",
@@ -1793,6 +2049,7 @@
   },
   {
     "id": "341",
+    "type": "revision",
     "title": "First printing (1941)",
     "year": "1941",
     "book": "341",
@@ -1800,6 +2057,7 @@
   },
   {
     "id": "342a",
+    "type": "revision",
     "title": "First printing (1941)",
     "year": "1941",
     "book": "342",
@@ -1807,6 +2065,7 @@
   },
   {
     "id": "342b",
+    "type": "revision",
     "title": "Title page reset; offset printing (c. 1967)",
     "year": "1941",
     "book": "342",
@@ -1814,6 +2073,7 @@
   },
   {
     "id": "342c",
+    "type": "revision",
     "title": "Reissue format (1982)",
     "year": "1941",
     "book": "342",
@@ -1821,6 +2081,7 @@
   },
   {
     "id": "343",
+    "type": "revision",
     "title": "First printing (1941)",
     "year": "1941",
     "book": "343",
@@ -1828,6 +2089,7 @@
   },
   {
     "id": "344",
+    "type": "revision",
     "title": "First printing (1941)",
     "year": "1941",
     "book": "344",
@@ -1835,6 +2097,7 @@
   },
   {
     "id": "345",
+    "type": "revision",
     "title": "First printing (1941)",
     "year": "1941",
     "book": "345",
@@ -1842,6 +2105,7 @@
   },
   {
     "id": "346a",
+    "type": "revision",
     "title": "First printing (1942)",
     "year": "1942",
     "book": "346",
@@ -1849,6 +2113,7 @@
   },
   {
     "id": "346b",
+    "type": "revision",
     "title": "Title page with Fujita torchbearer; 7½ inch format (1969/70)",
     "year": "1942",
     "book": "346",
@@ -1856,6 +2121,7 @@
   },
   {
     "id": "348",
+    "type": "revision",
     "title": "First printing (1942)",
     "year": "1942",
     "book": "348",
@@ -1863,6 +2129,7 @@
   },
   {
     "id": "349",
+    "type": "revision",
     "title": "First printing (1942)",
     "year": "1942",
     "book": "349",
@@ -1870,6 +2137,7 @@
   },
   {
     "id": "351a",
+    "type": "revision",
     "title": "First printing (1942)",
     "year": "1942",
     "book": "351",
@@ -1877,6 +2145,7 @@
   },
   {
     "id": "351b",
+    "type": "revision",
     "title": "Expanded edition: *Six Plays* (1960)",
     "year": "1942",
     "book": "351",
@@ -1884,6 +2153,7 @@
   },
   {
     "id": "352",
+    "type": "revision",
     "title": "First printing (1942)",
     "year": "1942",
     "book": "352",
@@ -1891,6 +2161,7 @@
   },
   {
     "id": "353",
+    "type": "revision",
     "title": "First printing (1942)",
     "year": "1942",
     "book": "353",
@@ -1898,6 +2169,7 @@
   },
   {
     "id": "354a",
+    "type": "revision",
     "title": "First printing (1942)",
     "year": "1942",
     "book": "354",
@@ -1905,6 +2177,7 @@
   },
   {
     "id": "354b",
+    "type": "revision",
     "title": "Brooks introduction added (1950/51)",
     "year": "1942",
     "book": "354",
@@ -1912,6 +2185,7 @@
   },
   {
     "id": "354c",
+    "type": "revision",
     "title": "Title page with Fujita torchbearer; 7½ inch format (1969/70)",
     "year": "1942",
     "book": "354",
@@ -1919,6 +2193,7 @@
   },
   {
     "id": "355",
+    "type": "revision",
     "title": "First printing (1942)",
     "year": "1942",
     "book": "355",
@@ -1926,6 +2201,7 @@
   },
   {
     "id": "357a",
+    "type": "revision",
     "title": "First printing (1942)",
     "year": "1942",
     "book": "357",
@@ -1933,6 +2209,7 @@
   },
   {
     "id": "357b",
+    "type": "revision",
     "title": "Shurter introduction added (1951)",
     "year": "1942",
     "book": "357",
@@ -1940,6 +2217,7 @@
   },
   {
     "id": "358",
+    "type": "revision",
     "title": "First printing (1943)",
     "year": "1942",
     "book": "358",
@@ -1947,6 +2225,7 @@
   },
   {
     "id": "359",
+    "type": "revision",
     "title": "First printing (1943)",
     "year": "1943",
     "book": "359",
@@ -1954,6 +2233,7 @@
   },
   {
     "id": "362a",
+    "type": "revision",
     "title": "First printing (1943)",
     "year": "1943",
     "book": "362",
@@ -1961,6 +2241,7 @@
   },
   {
     "id": "362b",
+    "type": "revision",
     "title": "Title page revised; offset printing (1965)",
     "year": "1943",
     "book": "362",
@@ -1968,6 +2249,7 @@
   },
   {
     "id": "364a",
+    "type": "revision",
     "title": "First printing (1943)",
     "year": "1943",
     "book": "364",
@@ -1975,6 +2257,7 @@
   },
   {
     "id": "364b",
+    "type": "revision",
     "title": "Reprinted in 2 volumes (1947)",
     "year": "1943",
     "book": "364",
@@ -1982,6 +2265,7 @@
   },
   {
     "id": "364c",
+    "type": "revision",
     "title": "Ornamental headpieces added (1957)",
     "year": "1943",
     "book": "364",
@@ -1989,6 +2273,7 @@
   },
   {
     "id": "365a",
+    "type": "revision",
     "title": "First printing (1943)",
     "year": "1943",
     "book": "365",
@@ -1996,6 +2281,7 @@
   },
   {
     "id": "365b",
+    "type": "revision",
     "title": "Reprinted in 2 volumes (1947)",
     "year": "1943",
     "book": "365",
@@ -2003,6 +2289,7 @@
   },
   {
     "id": "365c",
+    "type": "revision",
     "title": "Ornamental headpieces added (1956/57)",
     "year": "1943",
     "book": "365",
@@ -2010,6 +2297,7 @@
   },
   {
     "id": "366a",
+    "type": "revision",
     "title": "First printing (1943)",
     "year": "1943",
     "book": "366",
@@ -2017,6 +2305,7 @@
   },
   {
     "id": "366b",
+    "type": "revision",
     "title": "Reprinted in 2 volumes (1947)",
     "year": "1943",
     "book": "366",
@@ -2024,6 +2313,7 @@
   },
   {
     "id": "366c",
+    "type": "revision",
     "title": "Ornamental headpieces added (1957)",
     "year": "1943",
     "book": "366",
@@ -2031,6 +2321,7 @@
   },
   {
     "id": "367",
+    "type": "revision",
     "title": "First printing (1944)",
     "year": "1944",
     "book": "367",
@@ -2038,6 +2329,7 @@
   },
   {
     "id": "368a",
+    "type": "revision",
     "title": "First printing (1944)",
     "year": "1944",
     "book": "368",
@@ -2045,6 +2337,7 @@
   },
   {
     "id": "368b",
+    "type": "revision",
     "title": "Title page with Fujita torchbearer; 7½ inch format (1969/70)",
     "year": "1944",
     "book": "368",
@@ -2052,6 +2345,7 @@
   },
   {
     "id": "369",
+    "type": "revision",
     "title": "First printing (1944)",
     "year": "1944",
     "book": "369",
@@ -2059,6 +2353,7 @@
   },
   {
     "id": "371a",
+    "type": "revision",
     "title": "First printing (1944)",
     "year": "1944",
     "book": "371",
@@ -2066,6 +2361,7 @@
   },
   {
     "id": "371b",
+    "type": "revision",
     "title": "Index added (c. 1951)",
     "year": "1944",
     "book": "371",
@@ -2073,6 +2369,7 @@
   },
   {
     "id": "371c",
+    "type": "revision",
     "title": "Title page with Fujita torchbearer; 7½ inch format (1969/70)",
     "year": "1944",
     "book": "371",
@@ -2080,6 +2377,7 @@
   },
   {
     "id": "371d",
+    "type": "revision",
     "title": "Reissue format (1978)",
     "year": "1944",
     "book": "371",
@@ -2087,6 +2385,7 @@
   },
   {
     "id": "372",
+    "type": "revision",
     "title": "First printing (1944)",
     "year": "1944",
     "book": "372",
@@ -2094,6 +2393,7 @@
   },
   {
     "id": "373a",
+    "type": "revision",
     "title": "First printing (1944)",
     "year": "1944",
     "book": "373",
@@ -2101,6 +2401,7 @@
   },
   {
     "id": "373b",
+    "type": "revision",
     "title": "Title page with Fujita torchbearer; 7½ inch format (1969/70)",
     "year": "1944",
     "book": "373",
@@ -2108,6 +2409,7 @@
   },
   {
     "id": "374a",
+    "type": "revision",
     "title": "First printing (1944)",
     "year": "1944",
     "book": "374",
@@ -2115,6 +2417,7 @@
   },
   {
     "id": "374b",
+    "type": "revision",
     "title": "Title page reset (1946)",
     "year": "1944",
     "book": "374",
@@ -2122,6 +2425,7 @@
   },
   {
     "id": "375a",
+    "type": "revision",
     "title": "First printing (1944)",
     "year": "1944",
     "book": "375",
@@ -2129,6 +2433,7 @@
   },
   {
     "id": "375b",
+    "type": "revision",
     "title": "Title page reset (1945)",
     "year": "1944",
     "book": "375",
@@ -2136,6 +2441,7 @@
   },
   {
     "id": "375c",
+    "type": "revision",
     "title": "Title page with Fujita torchbearer; 7½ inch format (1969/70)",
     "year": "1944",
     "book": "375",
@@ -2143,6 +2449,7 @@
   },
   {
     "id": "381a",
+    "type": "revision",
     "title": "First printing (1945)",
     "year": "1945",
     "book": "381",
@@ -2150,6 +2457,7 @@
   },
   {
     "id": "381b",
+    "type": "revision",
     "title": "“Concluding Chapter” added (1954)",
     "year": "1945",
     "book": "381",
@@ -2157,6 +2465,7 @@
   },
   {
     "id": "384",
+    "type": "revision",
     "title": "First printing (1946)",
     "year": "1946",
     "book": "384",
@@ -2164,6 +2473,7 @@
   },
   {
     "id": "385",
+    "type": "revision",
     "title": "First printing (1946)",
     "year": "1946",
     "book": "385",
@@ -2171,6 +2481,7 @@
   },
   {
     "id": "386",
+    "type": "revision",
     "title": "First printing (1946)",
     "year": "1946",
     "book": "386",
@@ -2178,6 +2489,7 @@
   },
   {
     "id": "387a",
+    "type": "revision",
     "title": "First printing (1946)",
     "year": "1946",
     "book": "387",
@@ -2185,6 +2497,7 @@
   },
   {
     "id": "387b",
+    "type": "revision",
     "title": "Title page with Fujita torchbearer; 7½ inch format (1969/70)",
     "year": "1946",
     "book": "387",
@@ -2192,6 +2505,7 @@
   },
   {
     "id": "388",
+    "type": "revision",
     "title": "First printing (1946)",
     "year": "1946",
     "book": "388",
@@ -2199,6 +2513,7 @@
   },
   {
     "id": "391",
+    "type": "revision",
     "title": "First printing (1946)",
     "year": "1946",
     "book": "391",
@@ -2206,6 +2521,7 @@
   },
   {
     "id": "392a",
+    "type": "revision",
     "title": "First printing (1946)",
     "year": "1946",
     "book": "392",
@@ -2213,6 +2529,7 @@
   },
   {
     "id": "392b",
+    "type": "revision",
     "title": "List of phonograph records omitted; index repaginated (1954)",
     "year": "1946",
     "book": "392",
@@ -2220,6 +2537,7 @@
   },
   {
     "id": "392c",
+    "type": "revision",
     "title": "Title page with Fujita torchbearer; 7½ inch format (1969/70)",
     "year": "1946",
     "book": "392",
@@ -2227,6 +2545,7 @@
   },
   {
     "id": "393",
+    "type": "revision",
     "title": "First printing (1946)",
     "year": "1946",
     "book": "393",
@@ -2234,6 +2553,7 @@
   },
   {
     "id": "394",
+    "type": "revision",
     "title": "First printing (1946)",
     "year": "1946",
     "book": "394",
@@ -2241,6 +2561,7 @@
   },
   {
     "id": "395",
+    "type": "revision",
     "title": "First printing (1947)",
     "year": "1947",
     "book": "395",
@@ -2248,6 +2569,7 @@
   },
   {
     "id": "396",
+    "type": "revision",
     "title": "First printing (1947)",
     "year": "1947",
     "book": "396",
@@ -2255,6 +2577,7 @@
   },
   {
     "id": "397a",
+    "type": "revision",
     "title": "First printing (1947)",
     "year": "1947",
     "book": "397",
@@ -2262,6 +2585,7 @@
   },
   {
     "id": "397b",
+    "type": "revision",
     "title": "Title page with Fujita torchbearer; 7½ inch format (1969)",
     "year": "1947",
     "book": "397",
@@ -2269,6 +2593,7 @@
   },
   {
     "id": "398",
+    "type": "revision",
     "title": "First printing (1947)",
     "year": "1947",
     "book": "398",
@@ -2276,6 +2601,7 @@
   },
   {
     "id": "399",
+    "type": "revision",
     "title": "First printing (1947)",
     "year": "1947",
     "book": "399",
@@ -2283,6 +2609,7 @@
   },
   {
     "id": "411a",
+    "type": "revision",
     "title": "First printing (1948)",
     "year": "1948",
     "book": "411",
@@ -2290,6 +2617,7 @@
   },
   {
     "id": "411b",
+    "type": "revision",
     "title": "Title page with Fujita torchbearer; 7½ inch format (1969/70)",
     "year": "1948",
     "book": "411",
@@ -2297,6 +2625,7 @@
   },
   {
     "id": "412",
+    "type": "revision",
     "title": "First printing (1948)",
     "year": "1948",
     "book": "412",
@@ -2304,6 +2633,7 @@
   },
   {
     "id": "413a",
+    "type": "revision",
     "title": "First printing (1948)",
     "year": "1948",
     "book": "413",
@@ -2311,6 +2641,7 @@
   },
   {
     "id": "413b",
+    "type": "revision",
     "title": "Reissue format; offset printing (1979)",
     "year": "1948",
     "book": "413",
@@ -2318,6 +2649,7 @@
   },
   {
     "id": "414",
+    "type": "revision",
     "title": "First printing (1949)",
     "year": "1949",
     "book": "414",
@@ -2325,6 +2657,7 @@
   },
   {
     "id": "415",
+    "type": "revision",
     "title": "First printing (1949)",
     "year": "1949",
     "book": "415",
@@ -2332,6 +2665,7 @@
   },
   {
     "id": "416a",
+    "type": "revision",
     "title": "First printing (1949)",
     "year": "1949",
     "book": "416",
@@ -2339,6 +2673,7 @@
   },
   {
     "id": "416b",
+    "type": "revision",
     "title": "Title page partially reset (1954)",
     "year": "1949",
     "book": "416",
@@ -2346,6 +2681,7 @@
   },
   {
     "id": "417a",
+    "type": "revision",
     "title": "First printing (1949)",
     "year": "1949",
     "book": "417",
@@ -2353,6 +2689,7 @@
   },
   {
     "id": "417b",
+    "type": "revision",
     "title": "Daiches introduction added (1950?)",
     "year": "1949",
     "book": "417",
@@ -2360,6 +2697,7 @@
   },
   {
     "id": "418",
+    "type": "revision",
     "title": "First printing (1949)",
     "year": "1949",
     "book": "418",
@@ -2367,6 +2705,7 @@
   },
   {
     "id": "419a",
+    "type": "revision",
     "title": "First printing (1949)",
     "year": "1949",
     "book": "419",
@@ -2374,6 +2713,7 @@
   },
   {
     "id": "419b",
+    "type": "revision",
     "title": "Title page corrected (early 1950s)",
     "year": "1949",
     "book": "419",
@@ -2381,6 +2721,7 @@
   },
   {
     "id": "421",
+    "type": "revision",
     "title": "First printing (1949)",
     "year": "1949",
     "book": "421",
@@ -2388,6 +2729,7 @@
   },
   {
     "id": "422a",
+    "type": "revision",
     "title": "First printing (1949)",
     "year": "1949",
     "book": "422",
@@ -2395,6 +2737,7 @@
   },
   {
     "id": "422b",
+    "type": "revision",
     "title": "Title page with Fujita torchbearer (late 1960s)",
     "year": "1949",
     "book": "422",
@@ -2402,6 +2745,7 @@
   },
   {
     "id": "422c",
+    "type": "revision",
     "title": "Reissue format (1978)",
     "year": "1949",
     "book": "422",
@@ -2409,6 +2753,7 @@
   },
   {
     "id": "423",
+    "type": "revision",
     "title": "First printing (1949)",
     "year": "1949",
     "book": "423",
@@ -2416,6 +2761,7 @@
   },
   {
     "id": "424",
+    "type": "revision",
     "title": "First printing (1949)",
     "year": "1949",
     "book": "424",
@@ -2423,6 +2769,7 @@
   },
   {
     "id": "425a",
+    "type": "revision",
     "title": "First printing (1950)",
     "year": "1950",
     "book": "425",
@@ -2430,6 +2777,7 @@
   },
   {
     "id": "425b",
+    "type": "revision",
     "title": "Title page with Fujita torchbearer; 7½ inch format (1969/70)",
     "year": "1950",
     "book": "425",
@@ -2437,6 +2785,7 @@
   },
   {
     "id": "425c",
+    "type": "revision",
     "title": "Reissue format with title page reset; offset printing (1978)",
     "year": "1950",
     "book": "425",
@@ -2444,6 +2793,7 @@
   },
   {
     "id": "426a",
+    "type": "revision",
     "title": "First printing (1950)",
     "year": "1950",
     "book": "426",
@@ -2451,6 +2801,7 @@
   },
   {
     "id": "426b",
+    "type": "revision",
     "title": "Title page reset; bibliography added (1951)",
     "year": "1950",
     "book": "426",
@@ -2458,6 +2809,7 @@
   },
   {
     "id": "426c",
+    "type": "revision",
     "title": "Title page with Fujita torchbearer; 7½ inch format (1969/70)",
     "year": "1950",
     "book": "426",
@@ -2465,6 +2817,7 @@
   },
   {
     "id": "427a",
+    "type": "revision",
     "title": "First printing (1950)",
     "year": "1950",
     "book": "427",
@@ -2472,6 +2825,7 @@
   },
   {
     "id": "427b",
+    "type": "revision",
     "title": "Title page with Fujita torchbearer; 7½ inch format (1969/70)",
     "year": "1950",
     "book": "427",
@@ -2479,6 +2833,7 @@
   },
   {
     "id": "428",
+    "type": "revision",
     "title": "First printing (1950)",
     "year": "1950",
     "book": "428",
@@ -2486,6 +2841,7 @@
   },
   {
     "id": "431",
+    "type": "revision",
     "title": "First printing (1950)",
     "year": "1950",
     "book": "431",
@@ -2493,6 +2849,7 @@
   },
   {
     "id": "432",
+    "type": "revision",
     "title": "First printing (1950)",
     "year": "1950",
     "book": "432",
@@ -2500,6 +2857,7 @@
   },
   {
     "id": "433a",
+    "type": "revision",
     "title": "First printing (1950)",
     "year": "1950",
     "book": "433",
@@ -2507,6 +2865,7 @@
   },
   {
     "id": "433b",
+    "type": "revision",
     "title": "Title page with Fujita torchbearer; 7½ inch format (1969/70)",
     "year": "1950",
     "book": "433",
@@ -2514,6 +2873,7 @@
   },
   {
     "id": "434a",
+    "type": "revision",
     "title": "First printing (1951)",
     "year": "1951",
     "book": "434",
@@ -2521,6 +2881,7 @@
   },
   {
     "id": "434c",
+    "type": "revision",
     "title": "Title page reset, offset printing (1964)",
     "year": "1951",
     "book": "434",
@@ -2528,6 +2889,7 @@
   },
   {
     "id": "435",
+    "type": "revision",
     "title": "First printing (1951)",
     "year": "1951",
     "book": "435",
@@ -2535,6 +2897,7 @@
   },
   {
     "id": "436",
+    "type": "revision",
     "title": "First printing (1951)",
     "year": "1951",
     "book": "436",
@@ -2542,6 +2905,7 @@
   },
   {
     "id": "437",
+    "type": "revision",
     "title": "First printing (1951)",
     "year": "1951",
     "book": "437",
@@ -2549,6 +2913,7 @@
   },
   {
     "id": "439a",
+    "type": "revision",
     "title": "First printing (1951)",
     "year": "1951",
     "book": "439",
@@ -2556,6 +2921,7 @@
   },
   {
     "id": "439b",
+    "type": "revision",
     "title": "Title page with Fujita torchbearer; 7½ inch format (1969/70)",
     "year": "1951",
     "book": "439",
@@ -2563,6 +2929,7 @@
   },
   {
     "id": "441a",
+    "type": "revision",
     "title": "First printing (1951)",
     "year": "1951",
     "book": "441",
@@ -2570,6 +2937,7 @@
   },
   {
     "id": "441b",
+    "type": "revision",
     "title": "Title page and part titles reset; offset printing (1967)",
     "year": "1951",
     "book": "441",
@@ -2577,6 +2945,7 @@
   },
   {
     "id": "442a",
+    "type": "revision",
     "title": "First printing (1951)",
     "year": "1951",
     "book": "442",
@@ -2584,6 +2953,7 @@
   },
   {
     "id": "442b",
+    "type": "revision",
     "title": "Title page with Fujita torchbearer; 7½ inch format (1969/70)",
     "year": "1951",
     "book": "442",
@@ -2591,6 +2961,7 @@
   },
   {
     "id": "443",
+    "type": "revision",
     "title": "First printing (1951)",
     "year": "1951",
     "book": "443",
@@ -2598,6 +2969,7 @@
   },
   {
     "id": "444",
+    "type": "revision",
     "title": "First printing (1951)",
     "year": "1951",
     "book": "444",
@@ -2605,6 +2977,7 @@
   },
   {
     "id": "445a",
+    "type": "revision",
     "title": "First printing (1951)",
     "year": "1951",
     "book": "445",
@@ -2612,6 +2985,7 @@
   },
   {
     "id": "445b",
+    "type": "revision",
     "title": "Title page with Fujita torchbearer; 7½ inch format (1969/70)",
     "year": "1951",
     "book": "445",
@@ -2619,6 +2993,7 @@
   },
   {
     "id": "445c",
+    "type": "revision",
     "title": "Reissue format; offset printing (1977)",
     "year": "1951",
     "book": "445",
@@ -2626,6 +3001,7 @@
   },
   {
     "id": "446a",
+    "type": "revision",
     "title": "First printing (1952)",
     "year": "1952",
     "book": "446",
@@ -2633,6 +3009,7 @@
   },
   {
     "id": "446b",
+    "type": "revision",
     "title": "Title page with Fujita torchbearer; 7½ inch format (1969/70)",
     "year": "1952",
     "book": "446",
@@ -2640,6 +3017,7 @@
   },
   {
     "id": "446c",
+    "type": "revision",
     "title": "Reissue format; offset printing (1977)",
     "year": "1952",
     "book": "446",
@@ -2647,6 +3025,7 @@
   },
   {
     "id": "447a",
+    "type": "revision",
     "title": "First printing (1952)",
     "year": "1952",
     "book": "447",
@@ -2654,6 +3033,7 @@
   },
   {
     "id": "447b",
+    "type": "revision",
     "title": "Title page with Fujita torchbearer; 7½ inch format (1969/70)",
     "year": "1952",
     "book": "447",
@@ -2661,6 +3041,7 @@
   },
   {
     "id": "448a",
+    "type": "revision",
     "title": "First printing (1952)",
     "year": "1952",
     "book": "448",
@@ -2668,6 +3049,7 @@
   },
   {
     "id": "449",
+    "type": "revision",
     "title": "First printing (1952)",
     "year": "1952",
     "book": "449",
@@ -2675,6 +3057,7 @@
   },
   {
     "id": "451",
+    "type": "revision",
     "title": "First printing (1952)",
     "year": "1952",
     "book": "451",
@@ -2682,6 +3065,7 @@
   },
   {
     "id": "452a",
+    "type": "revision",
     "title": "First printing (1952)",
     "year": "1952",
     "book": "452",
@@ -2689,6 +3073,7 @@
   },
   {
     "id": "452b",
+    "type": "revision",
     "title": "Title page with Fujita torchbearer; 7½ inch format (1969/70)",
     "year": "1952",
     "book": "452",
@@ -2696,6 +3081,7 @@
   },
   {
     "id": "453a",
+    "type": "revision",
     "title": "First printing (1952)",
     "year": "1952",
     "book": "453",
@@ -2703,6 +3089,7 @@
   },
   {
     "id": "453b",
+    "type": "revision",
     "title": "Title page with Fujita torchbearer; 7½ inch format (1969/70)",
     "year": "1952",
     "book": "453",
@@ -2710,6 +3097,7 @@
   },
   {
     "id": "453c",
+    "type": "revision",
     "title": "Reissue format (1977)",
     "year": "1952",
     "book": "453",
@@ -2717,6 +3105,7 @@
   },
   {
     "id": "454",
+    "type": "revision",
     "title": "First printing (1953)",
     "year": "1953",
     "book": "454",
@@ -2724,6 +3113,7 @@
   },
   {
     "id": "455",
+    "type": "revision",
     "title": "First printing (1953)",
     "year": "1953",
     "book": "455",
@@ -2731,6 +3121,7 @@
   },
   {
     "id": "456",
+    "type": "revision",
     "title": "First printing (1953)",
     "year": "1953",
     "book": "456",
@@ -2738,6 +3129,7 @@
   },
   {
     "id": "457a",
+    "type": "revision",
     "title": "First printing (1953)",
     "year": "1953",
     "book": "457",
@@ -2745,6 +3137,7 @@
   },
   {
     "id": "457b",
+    "type": "revision",
     "title": "Title page with Fujita torchbearer; 7½ inch format (1969/70)",
     "year": "1953",
     "book": "457",
@@ -2752,6 +3145,7 @@
   },
   {
     "id": "457c",
+    "type": "revision",
     "title": "Reissue format; offset printing (1979)",
     "year": "1953",
     "book": "457",
@@ -2759,6 +3153,7 @@
   },
   {
     "id": "458",
+    "type": "revision",
     "title": "First printing (1953)",
     "year": "1953",
     "book": "458",
@@ -2766,6 +3161,7 @@
   },
   {
     "id": "459a",
+    "type": "revision",
     "title": "First printing (1953)",
     "year": "1953",
     "book": "459",
@@ -2773,6 +3169,7 @@
   },
   {
     "id": "459c",
+    "type": "revision",
     "title": "Title page with Fujita torchbearer (1970/71)",
     "year": "1953",
     "book": "459",
@@ -2780,6 +3177,7 @@
   },
   {
     "id": "461",
+    "type": "revision",
     "title": "First printing (1953)",
     "year": "1953",
     "book": "461",
@@ -2787,6 +3185,7 @@
   },
   {
     "id": "462",
+    "type": "revision",
     "title": "First printing (1953)",
     "year": "1953",
     "book": "462",
@@ -2794,6 +3193,7 @@
   },
   {
     "id": "463",
+    "type": "revision",
     "title": "First printing (1953)",
     "year": "1953",
     "book": "463",
@@ -2801,6 +3201,7 @@
   },
   {
     "id": "464a",
+    "type": "revision",
     "title": "First printing (1954)",
     "year": "1954",
     "book": "464",
@@ -2808,6 +3209,7 @@
   },
   {
     "id": "464b",
+    "type": "revision",
     "title": "Reissue format (1980)",
     "year": "1954",
     "book": "464",
@@ -2815,6 +3217,7 @@
   },
   {
     "id": "466",
+    "type": "revision",
     "title": "First printing (1954)",
     "year": "1954",
     "book": "466",
@@ -2822,6 +3225,7 @@
   },
   {
     "id": "467",
+    "type": "revision",
     "title": "First printing (1954)",
     "year": "1954",
     "book": "467",
@@ -2829,6 +3233,7 @@
   },
   {
     "id": "468",
+    "type": "revision",
     "title": "First printing (1954)",
     "year": "1954",
     "book": "468",
@@ -2836,6 +3241,7 @@
   },
   {
     "id": "469a",
+    "type": "revision",
     "title": "First printing (1954)",
     "year": "1954",
     "book": "469",
@@ -2843,6 +3249,7 @@
   },
   {
     "id": "469b",
+    "type": "revision",
     "title": "Title page with Fujita torchbearer; 7½ inch format (1969/70)",
     "year": "1954",
     "book": "469",
@@ -2850,6 +3257,7 @@
   },
   {
     "id": "469c",
+    "type": "revision",
     "title": "Reissue format; offset printing (1977)",
     "year": "1954",
     "book": "469",
@@ -2857,6 +3265,7 @@
   },
   {
     "id": "471a",
+    "type": "revision",
     "title": "First printing (1954)",
     "year": "1954",
     "book": "471",
@@ -2864,6 +3273,7 @@
   },
   {
     "id": "471b",
+    "type": "revision",
     "title": "Title page with Fujita torchbearer; 7½ in. format (1969/70)",
     "year": "1954",
     "book": "471",
@@ -2871,6 +3281,7 @@
   },
   {
     "id": "471c",
+    "type": "revision",
     "title": "Reissue format (1977)",
     "year": "1954",
     "book": "471",
@@ -2878,6 +3289,7 @@
   },
   {
     "id": "473a",
+    "type": "revision",
     "title": "First printing (1955)",
     "year": "1955",
     "book": "473",
@@ -2885,6 +3297,7 @@
   },
   {
     "id": "473b",
+    "type": "revision",
     "title": "Title page reset; 7½ inch format (1969/70)",
     "year": "1955",
     "book": "473",
@@ -2892,6 +3305,7 @@
   },
   {
     "id": "474",
+    "type": "revision",
     "title": "First printing (1955)",
     "year": "1955",
     "book": "474",
@@ -2899,6 +3313,7 @@
   },
   {
     "id": "475",
+    "type": "revision",
     "title": "First printing (1955)",
     "year": "1955",
     "book": "475",
@@ -2906,6 +3321,7 @@
   },
   {
     "id": "476",
+    "type": "revision",
     "title": "First printing (1955)",
     "year": "1955",
     "book": "476",
@@ -2913,6 +3329,7 @@
   },
   {
     "id": "477",
+    "type": "revision",
     "title": "First printing (1955)",
     "year": "1955",
     "book": "477",
@@ -2920,6 +3337,7 @@
   },
   {
     "id": "477b",
+    "type": "revision",
     "title": "Title page with Fujita torchbearer; 7½ inch format (1969/70)",
     "year": "1955",
     "book": "477",
@@ -2927,6 +3345,7 @@
   },
   {
     "id": "478",
+    "type": "revision",
     "title": "First printing (1955)",
     "year": "1955",
     "book": "478",
@@ -2934,6 +3353,7 @@
   },
   {
     "id": "479a",
+    "type": "revision",
     "title": "First printing (1955)",
     "year": "1955",
     "book": "479",
@@ -2941,6 +3361,7 @@
   },
   {
     "id": "479b",
+    "type": "revision",
     "title": "Reissue format; offset printing (1979)",
     "year": "1955",
     "book": "479",
@@ -2948,6 +3369,7 @@
   },
   {
     "id": "481a",
+    "type": "revision",
     "title": "First printing (1956)",
     "year": "1956",
     "book": "481",
@@ -2955,6 +3377,7 @@
   },
   {
     "id": "481b",
+    "type": "revision",
     "title": "Reissue format (1985)",
     "year": "1956",
     "book": "481",
@@ -2962,6 +3385,7 @@
   },
   {
     "id": "482",
+    "type": "revision",
     "title": "First printing (1956)",
     "year": "1956",
     "book": "482",
@@ -2969,6 +3393,7 @@
   },
   {
     "id": "483a",
+    "type": "revision",
     "title": "First printing (1956)",
     "year": "1956",
     "book": "483",
@@ -2976,6 +3401,7 @@
   },
   {
     "id": "483b",
+    "type": "revision",
     "title": "Title page reset; bibliography updated (1967)",
     "year": "1956",
     "book": "483",
@@ -2983,6 +3409,7 @@
   },
   {
     "id": "484a",
+    "type": "revision",
     "title": "First printing (1956)",
     "year": "1956",
     "book": "484",
@@ -2990,6 +3417,7 @@
   },
   {
     "id": "484b",
+    "type": "revision",
     "title": "Reissue format; offset printing (1979)",
     "year": "1956",
     "book": "484",
@@ -2997,6 +3425,7 @@
   },
   {
     "id": "485",
+    "type": "revision",
     "title": "First printing (1956)",
     "year": "1956",
     "book": "485",
@@ -3004,6 +3433,7 @@
   },
   {
     "id": "486a",
+    "type": "revision",
     "title": "First printing (1956)",
     "year": "1956",
     "book": "486",
@@ -3011,6 +3441,7 @@
   },
   {
     "id": "486b",
+    "type": "revision",
     "title": "Title page with Fujita torchbearer; offset printing (c. 1970)",
     "year": "1956",
     "book": "486",
@@ -3018,6 +3449,7 @@
   },
   {
     "id": "487a",
+    "type": "revision",
     "title": "First printing (1956)",
     "year": "1956",
     "book": "487",
@@ -3025,6 +3457,7 @@
   },
   {
     "id": "487b",
+    "type": "revision",
     "title": "Title page with Fujita torchbearer; 7½ inch format (1969/70)",
     "year": "1956",
     "book": "487",
@@ -3032,6 +3465,7 @@
   },
   {
     "id": "487c",
+    "type": "revision",
     "title": "Reissue format (1978)",
     "year": "1956",
     "book": "487",
@@ -3039,6 +3473,7 @@
   },
   {
     "id": "488",
+    "type": "revision",
     "title": "First printing (1956)",
     "year": "1956",
     "book": "488",
@@ -3046,6 +3481,7 @@
   },
   {
     "id": "489a",
+    "type": "revision",
     "title": "First printing (1956)",
     "year": "1956",
     "book": "489",
@@ -3053,6 +3489,7 @@
   },
   {
     "id": "489b",
+    "type": "revision",
     "title": "Reissue format; offset printing (1980)",
     "year": "1956",
     "book": "489",
@@ -3060,6 +3497,7 @@
   },
   {
     "id": "491a",
+    "type": "revision",
     "title": "First printing (1957)",
     "year": "1957",
     "book": "491",
@@ -3067,6 +3505,7 @@
   },
   {
     "id": "491b",
+    "type": "revision",
     "title": "Title page with Fujita torchbearer; 7½ inch format (1969/70)",
     "year": "1957",
     "book": "491",
@@ -3074,6 +3513,7 @@
   },
   {
     "id": "492",
+    "type": "revision",
     "title": "First printing (1957)",
     "year": "1957",
     "book": "492",
@@ -3081,6 +3521,7 @@
   },
   {
     "id": "493",
+    "type": "revision",
     "title": "First printing (1957)",
     "year": "1957",
     "book": "493",
@@ -3088,6 +3529,7 @@
   },
   {
     "id": "494a",
+    "type": "revision",
     "title": "First printing (1957)",
     "year": "1957",
     "book": "494",
@@ -3095,6 +3537,7 @@
   },
   {
     "id": "494b",
+    "type": "revision",
     "title": "Title-page ornament omitted (1960)",
     "year": "1957",
     "book": "494",
@@ -3102,6 +3545,7 @@
   },
   {
     "id": "494c",
+    "type": "revision",
     "title": "Reissue format (1978)",
     "year": "1957",
     "book": "494",
@@ -3109,6 +3553,7 @@
   },
   {
     "id": "495",
+    "type": "revision",
     "title": "First printing (1957)",
     "year": "1957",
     "book": "495",
@@ -3116,6 +3561,7 @@
   },
   {
     "id": "496a",
+    "type": "revision",
     "title": "First printing (1957)",
     "year": "1957",
     "book": "496",
@@ -3123,6 +3569,7 @@
   },
   {
     "id": "496b",
+    "type": "revision",
     "title": "Reissue format (1979)",
     "year": "1957",
     "book": "496",
@@ -3130,6 +3577,7 @@
   },
   {
     "id": "497a",
+    "type": "revision",
     "title": "First printing (1957)",
     "year": "1957",
     "book": "497",
@@ -3137,6 +3585,7 @@
   },
   {
     "id": "497b",
+    "type": "revision",
     "title": "Title page revised (1962)",
     "year": "1957",
     "book": "497",
@@ -3144,6 +3593,7 @@
   },
   {
     "id": "498",
+    "type": "revision",
     "title": "First printing (1957)",
     "year": "1957",
     "book": "498",
@@ -3151,6 +3601,7 @@
   },
   {
     "id": "499",
+    "type": "revision",
     "title": "First printing (1957)",
     "year": "1957",
     "book": "499",
@@ -3158,6 +3609,7 @@
   },
   {
     "id": "511",
+    "type": "revision",
     "title": "First printing (1959)",
     "year": "1959",
     "book": "511",
@@ -3165,6 +3617,7 @@
   },
   {
     "id": "512",
+    "type": "revision",
     "title": "First printing (1959)",
     "year": "1959",
     "book": "512",
@@ -3172,6 +3625,7 @@
   },
   {
     "id": "513a",
+    "type": "revision",
     "title": "First printing (1959)",
     "year": "1959",
     "book": "513",
@@ -3179,6 +3633,7 @@
   },
   {
     "id": "513b",
+    "type": "revision",
     "title": "Title page with Fujita torchbearer; 7½ inch format (1969/70)",
     "year": "1959",
     "book": "513",
@@ -3186,6 +3641,7 @@
   },
   {
     "id": "513c",
+    "type": "revision",
     "title": "Reissue format (1977)",
     "year": "1959",
     "book": "513",
@@ -3193,6 +3649,7 @@
   },
   {
     "id": "514",
+    "type": "revision",
     "title": "First printing (1959)",
     "year": "1959",
     "book": "514",
@@ -3200,6 +3657,7 @@
   },
   {
     "id": "515",
+    "type": "revision",
     "title": "First printing (1959)",
     "year": "1959",
     "book": "515",
@@ -3207,6 +3665,7 @@
   },
   {
     "id": "516a",
+    "type": "revision",
     "title": "First printing (1959)",
     "year": "1959",
     "book": "516",
@@ -3214,6 +3673,7 @@
   },
   {
     "id": "516b",
+    "type": "revision",
     "title": "Decorative rules restored (1963)",
     "year": "1959",
     "book": "516",
@@ -3221,6 +3681,7 @@
   },
   {
     "id": "517",
+    "type": "revision",
     "title": "First printing (1959)",
     "year": "1959",
     "book": "517",
@@ -3228,6 +3689,7 @@
   },
   {
     "id": "518a",
+    "type": "revision",
     "title": "First printing (1959)",
     "year": "1959",
     "book": "518",
@@ -3235,6 +3697,7 @@
   },
   {
     "id": "518b",
+    "type": "revision",
     "title": "Title page with Fujita torchbearer; 7½ inch format (1969/70)",
     "year": "1959",
     "book": "518",
@@ -3242,6 +3705,7 @@
   },
   {
     "id": "518c",
+    "type": "revision",
     "title": "Reissue format (1978)",
     "year": "1959",
     "book": "518",
