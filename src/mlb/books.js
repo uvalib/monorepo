@@ -8,6 +8,7 @@ module.exports = async function() {
     let yrs = await years();
 
     yrs.forEach(y=>{
+/*        
         Object.keys(y.books).forEach(bid=>{
             y.books[bid].id = bid;
             y.books[bid].year = y.year;
@@ -31,7 +32,9 @@ module.exports = async function() {
         
             books.push(y.books[bid]);
         })
+*/
     })
+    
     return books;
 }
 

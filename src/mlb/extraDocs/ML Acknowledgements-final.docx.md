@@ -1,105 +1,103 @@
-Acknowledgments
-<bold>Private Collections of Modern Library Publications</bold>
+##**ACKNOWLEDGEMENTS** Private Collections of Modern Library Publications 
 
-Richard H. Allen, Lincoln, Nebraska
+ Richard H. Allen, Lincoln, Nebraska  
 
-Joseph and Sharon Blackburn, Lubbock, Texas
+ Joseph and Sharon Blackburn, Lubbock, Texas  
 
-Ralph Casperson, Niles, Michigan
+ Ralph Casperson, Niles, Michigan  
 
-Pete Chocheles, Metairie, Louisiana
+ Pete Chocheles, Metairie, Louisiana  
 
-the late John Day, Huntington, New York
+ the late John Day, Huntington, New York  
 
-the late John I. Ely, New Haven, Connecticut
+ the late John I. Ely, New Haven, Connecticut  
 
-Richard Glassman, Corte Madera, California
+ Richard Glassman, Corte Madera, California  
 
-Joe Hill, Hercules, California
+ Joe Hill, Hercules, California  
 
-Gary Jacobs, Beverly Hills, California
+ Gary Jacobs, Beverly Hills, California  
 
-Daniel and Katharine Leab, Washington, Connecticut
+ Daniel and Katharine Leab, Washington, Connecticut  
 
-Sandy McAdams, Charlottesville, Virginia
+ Sandy McAdams, Charlottesville, Virginia  
 
-Eva and the late David Menkin, Santa Barbara, California
+ Eva and the late David Menkin, Santa Barbara, California  
 
-Alan Oestreich, Cincinnati, Ohio
+ Alan Oestreich, Cincinnati, Ohio  
 
-G. Thomas Tanselle, New York, New York
+ G. Thomas Tanselle, New York, New York  
 
-John Z. C. Thomas III, Knoxville, Tennessee
+ John Z. C. Thomas III, Knoxville, Tennessee  
 
-Henry Toledano, San Francisco, California
+ Henry Toledano, San Francisco, California  
 
-<u>Libraries</u>
+ **Libraries**  
 
-Columbia University, Rare Book & Manuscript Library, Random House
-Collection
+ Columbia University, Rare Book & Manuscript Library, Random House Collection  
 
-Random House Library, Eleanor Carlucci
+ Random House Library, Eleanor Carlucci  
 
-University of Virginia Library
+ University of Virginia Library  
 
-University of Illinois at Urbana-Champaign Library
+ University of Illinois at Urbana-Champaign Library  
 
-University of Alabama Library
+ University of Alabama Library  
 
-Wayne State University Library
+ Wayne State University Library  
 
-<u>Collectors, Librarians, and Scholars</u>
+ **Collectors, Librarians, and Scholars**  
 
-Pierre Coustillas, La Madeleine, France
+ Pierre Coustillas, La Madeleine, France  
 
-Mark Samuels Lasner
+ Mark Samuels Lasner  
 
-David Mason, Fine & Rare Books, Toronto
+ David Mason, Fine & Rare Books, Toronto  
 
-Richard Schrader
+ Richard Schrader  
 
-Alfred and Shirley Slotnick
+ Alfred and Shirley Slotnick  
 
-Colin Smythe, Gerralds Cross, Buckinghamshire
+ Colin Smythe, Gerralds Cross, Buckinghamshire  
 
-<u>Graduate Student Assistants, University of Alabama</u>
+ **Graduate Student Assistants, University of Alabama**  
 
-Karen Byrd
+ Karen Byrd  
 
-Helen Claire Covey
+ Helen Claire Covey  
 
-Jean Johnson (Univ. of Illinois)
+ Jean Johnson (Univ. of Illinois)  
 
-Anne Miller
+ Anne Miller  
 
-John Paul Myrick
+ John Paul Myrick  
 
-Perry Otis
+ Perry Otis  
 
-Marsha Owens
+ Marsha Owens  
 
-<u>Graduate Student Assistants, Wayne State University</u>
+ **Graduate Student Assistants, Wayne State University**  
 
-Sandra Blakeney
+ Sandra Blakeney  
 
-Evan Dawson-Baglien
+ Evan Dawson-Baglien  
 
-Jeff Freeman
+ Jeff Freeman  
 
-John Gantt
+ John Gantt  
 
-John Mitchell
+ John Mitchell  
 
-William Morrissey
+ William Morrissey  
 
-Catherine Price
+ Catherine Price  
 
-<u>Grant Support</u>
+ **Grant Support**  
 
-Bibliographical Society of America Fellowship
+ Bibliographical Society of America Fellowship  
 
-National Endowment for the Humanities Travel to Collections Grant
+ National Endowment for the Humanities Travel to Collections Grant  
 
-Wayne State University summer research grant
+ Wayne State University summer research grant  
 
-Wayne State University Humanities Center
+ Wayne State University Humanities Center

@@ -2,9 +2,9 @@
 layout: page-layout.njk
 permalink: "sourcesCited.html"
 ---
-## SOURCES AND WORKS CITED
+## SOURCES AND WORKS CITE
 
-The number of bibliographies and other works that were consulted over
+dThe number of bibliographies and other works that were consulted over
 the decades in which this work was in progress is very large. Only
 published works that are cited in the bibliography are included.
 

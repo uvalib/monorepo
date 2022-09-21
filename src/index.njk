@@ -18,7 +18,7 @@ prefetch:
     <h2><a href="{{ '/year/' | url }}{{ year.year }}.html">{{ year.title }}</a></h2>
     {% if year.generalFirst %}
       {% markdown year.generalFirst %}
-    {% else %}
+    {% elif year.general %}
       {% markdown year.general %}  
     {% endif %}
      <a href="{{ '/year/' | url }}{{ year.year }}.html">[more]</a>

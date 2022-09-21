@@ -1,2557 +1,2531 @@
-# NUMERICAL INDEX
+## NUMERICAL INDEX  
 
-This index lists each ML title under the publisher’s catalogue number.
-The ML usually reassigned the catalogue numbers of discontinued titles
-to new titles that were added the following publishing season. The
-publisher’s catalogue number is unrelated to the bibliography number
-under which the entry is found.
+ This index lists each ML title under the publisher’s catalogue number.nThe ML usually reassigned the catalogue numbers of discontinued titlesnto new titles that were added the following publishing season. Thenpublisher’s catalogue number is unrelated to the bibliography numbernunder which the entry is found.  
 
-**1**
+ **1**nWilde, *Picture of Dorian Gray* (1917)  
 
-Wilde, *Picture of Dorian Gray* (1917)
+ Wilde, *Picture of Dorian Gray & De Profundis* (1934)  
 
-Wilde, *Picture of Dorian Gray & De Profundis* (1934)
+ Shakespeare, *Tragedies* (1943)  
 
-Shakespeare, *Tragedies* (1943)
+ Shakespeare, *Tragedies*, 2 vols. (1–1A, 1947)  
 
-Shakespeare, *Tragedies*, 2 vols. (1–1A, 1947)
+ *Modern Library Dictionary* (1959)  
 
-*Modern Library Dictionary* (1959)
+ **2**nStrindberg, *Married* (1917)  
 
-**2**
+ Strindberg, *Married & Miss Julie* (1929)  
 
-Strindberg, *Married* (1917)
+ Buck, *Good Earth* (1934)  
 
-Strindberg, *Married & Miss Julie* (1929)
+ Shakespeare, *Comedies* (1943)  
 
-Buck, *Good Earth* (1934)
+ Shakespeare, *Comedies*, 2 vols. (2–2A, 1947)  
 
-Shakespeare, *Comedies* (1943)
+ Shakespeare, *Tragedies*, v. 1 (1959)  
 
-Shakespeare, *Comedies*, 2 vols. (2–2A, 1947)
+ **3**nKipling, *Soldiers Three* (1917)  
 
-Shakespeare, *Tragedies*, v. 1 (1959)
+ Cellini, *Autobiography* (1927)  
 
-**3**
+ Shakespeare, *Histories and Poems* (1943)  
 
-Kipling, *Soldiers Three* (1917)
+ Shakespeare, *Histories and Poems*, 2 vols. (3–3A, 1947)  
 
-Cellini, *Autobiography* (1927)
+ Shakespeare, *Tragedies*, v. 2 (1959)  
 
-Shakespeare, *Histories and Poems* (1943)
+ **4**nStevenson, *Treasure Island* (1917)  
 
-Shakespeare, *Histories and Poems*, 2 vols. (3–3A, 1947)
+ Rabelais, *Gargantua & Pantagruel* (1928)  
 
-Shakespeare, *Tragedies*, v. 2 (1959)
+ Henry, O. *Best Short Stories* (1945)  
 
-**4**
+ *Modern Library Dictionary* (1959)  
 
-Stevenson, *Treasure Island* (1917)
+ Shakespeare, *Comedies*, v. 1 (1959)  
 
-Rabelais, *Gargantua & Pantagruel* (1928)
+ **5**nWells, *War in the Air* (1917)  
 
-Henry, O. *Best Short Stories* (1945)
+ Douglas, *South Wind* (1925)  
 
-*Modern Library Dictionary* (1959)
+ Shakespeare, *Comedies*, v. 2 (1959)  
 
-Shakespeare, *Comedies*, v. 1 (1959)
+ **6**nIbsen, *Doll’s House, Ghosts, An Enemy of the People* (1917)  
 
-**5**
+ Ibsen, *Master Builder* (1944)  
 
-Wells, *War in the Air* (1917)
+ Ibsen, *Six Plays* (1957)  
 
-Douglas, *South Wind* (1925)
+ Shakespeare, *Histories*, v. 1 (1959)  
 
-Shakespeare, *Comedies*, v. 2 (1959)
+ **7**nFrance, *Red Lily* (1917)  
 
-**6**
+ Confucius, *Wisdom* (1938)  
 
-Ibsen, *Doll’s House, Ghosts, An Enemy of the People* (1917)
+ Shakespeare, *Histories and Poems* (1959)  
 
-Ibsen, *Master Builder* (1944)
+ **8**nMaupassant, *Mademoiselle Fifi and Twelve Other Stories* (1917)  
 
-Ibsen, *Six Plays* (1957)
+ Dreiser, *Sister Carrie* (1932)  
 
-Shakespeare, *Histories*, v. 1 (1959)
+ **9**nNietzsche, *Thus Spake Zarathustra* (1917)  
 
-7
+ **10**nDostoyevsky, *Poor People* (1917)  
 
-France, *Red Lily* (1917)
+ Hémon, *Maria Chapdelaine* (1934)  
 
-Confucius, *Wisdom* (1938)
+ Richardson, *Clarissa* (1950)  
 
-Shakespeare, *Histories and Poems* (1959)
+ **11**nMaeterlinck, *Miracle of St. Anthony, etc.* (1917)  
 
-8
+ France, *Revolt of the Angels* (1928)  
 
-Maupassant, *Mademoiselle Fifi and Twelve Other Stories* (1917)
+ Stone, *Lust for Life* (1939)  
 
-Dreiser, *Sister Carrie* (1932)
+ 12  
 
-9
+ Schopenhauer, *Studies in Pessimism* (1917)  
 
-Nietzsche, *Thus Spake Zarathustra* (1917)
+ Hamsun, *Growth of the Soil* (1935)  
 
-10
+ Donne, *Complete Poetry and Selected Prose* (1952)  
 
-Dostoyevsky, *Poor People* (1917)
+ 13  
 
-Hémon, *Maria Chapdelaine* (1934)
+ Butler, *Way of All Flesh* (1917)  
 
-Richardson, *Clarissa* (1950)
+ 14  
 
-11
+ Meredith, *Diana of the Crossways* (1917)  
 
-Maeterlinck, *Miracle of St. Anthony, etc.* (1917)
+ Maugham, *Best Short Stories* (1957)  
 
-France, *Revolt of the Angels* (1928)
+ 15  
 
-Stone, *Lust for Life* (1939)
+ Shaw, *Unsocial Socialist* (1917)  
 
-12
+ Cabell, *Jurgen* (1934)  
 
-Schopenhauer, *Studies in Pessimism* (1917)
+ Buck, *Good Earth* (1943)  
 
-Hamsun, *Growth of the Soil* (1935)
+ Kosinski, *Painted Bird* (1970)  
 
-Donne, *Complete Poetry and Selected Prose* (1952)
+ 16  
 
-13
+ Moore, *Confessions of a Young Man* (1917)  
 
-Butler, *Way of All Flesh* (1917)
+ Liddell Hart, *War in Outline* (1939)  
 
-14
+ Hersey, *Bell for Adano* (1946)  
 
-Meredith, *Diana of the Crossways* (1917)
+ James, *The Bostonians* (1956)  
 
-Maugham, *Best Short Stories* (1957)
+ 17  
 
-15
+ Hardy, *Mayor of Casterbridge* (1917)  
 
-Shaw, *Unsocial Socialist* (1917)
+ 18  
 
-Cabell, *Jurgen* (1934)
+ *Best Russian Short Stories* (1917)  
 
-Buck, *Good Earth* (1943)
+ 19  
 
-Kosinski, *Painted Bird* (1970)
+ Wilde, *Poems* (1917)  
 
-16
+ Hemingway, *Farewell to Arms* (1932)  
 
-Moore, *Confessions of a Young Man* (1917)
+ Shaw, *Four Plays* (1953)  
 
-Liddell Hart, *War in Outline* (1939)
+ 20  
 
-Hersey, *Bell for Adano* (1946)
+ Nietzsche, *Beyond Good and Evil* (1917)  
 
-James, *The Bostonians* (1956)
+ Graves, *I, Claudius* (1937)  
 
-17
+ 21  
 
-Hardy, *Mayor of Casterbridge* (1917)
+ Turgenev, *Fathers and Sons* (1917)  
 
-18
+ 22  
 
-*Best Russian Short Stories* (1917)
+ France, *Crime of Sylvestre Bonnard* (1917)  
 
-19
+ Bellamy, *Looking Backward* (1942)  
 
-Wilde, *Poems* (1917)
+ 23  
 
-Hemingway, *Farewell to Arms* (1932)
+ Swinburne, *Poems* (1917)  
 
-Shaw, *Four Plays* (1953)
+ Dinesen, *Out of Africa* (1952)  
 
-20
+ 24  
 
-Nietzsche, *Beyond Good and Evil* (1917)
+ Ouida, *In a* *Winter City* (1923)  
 
-Graves, *I, Claudius* (1937)
+ Hudson, *Purple Land* (1927)  
 
-21
+ Byron, *Don Juan* (1949)  
 
-Turgenev, *Fathers and Sons* (1917)
+ 25  
 
-22
+ Howells, *Hazard of New Fortunes* (1917)  
 
-France, *Crime of Sylvestre Bonnard* (1917)
+ Cabell, *Beyond Life* (1923)  
 
-Bellamy, *Looking Backward* (1942)
+ Glasgow, *Barren Ground* (1936)  
 
-23
+ Dickinson, *Selected Poems of* (1948)  
 
-Swinburne, *Poems* (1917)
+ 26  
 
-Dinesen, *Out of Africa* (1952)
+ Gilbert, *Mikado, etc.* (1917)  
 
-24
+ Walton, *Compleat Angler* (1939)  
 
-Ouida, *In a* *Winter City* (1923)
+ Henry, O. *Best Short Stories* (1959)  
 
-Hudson, *Purple Land* (1927)
+ 27  
 
-Byron, *Don Juan* (1949)
+ Wells, *Ann Veronica* (1917)  
 
-25
+ Maugham, *Moon and Sixpence* (1935)  
 
-Howells, *Hazard of New Fortunes* (1917)
+ 28  
 
-Cabell, *Beyond Life* (1923)
+ Flaubert, *Madame Bovary* (1917)  
 
-Glasgow, *Barren Ground* (1936)
+ 29  
 
-Dickinson, *Selected Poems of* (1948)
+ Hecht, *Erik Dorn* (1917)  
 
-26
+ Steinbeck, *Of Mice and Men* (1938)  
 
-Gilbert, *Mikado, etc.* (1917)
+ 30  
 
-Walton, *Compleat Angler* (1939)
+ Stephens, *Mary, Mary* (1917)  
 
-Henry, O. *Best Short Stories* (1959)
+ Beebe, *Jungle Peace* (1925)  
 
-27
+ *Five Great Modern Irish Plays* (1941)  
 
-Wells, *Ann Veronica* (1917)
+ 31  
 
-Maugham, *Moon and Sixpence* (1935)
+ Chekhov, *Rothschild’s Fiddle and Other Stories* (1917)  
 
-28
+ Stoker, *Dracula* (1932)  
 
-Flaubert, *Madame Bovary* (1917)
+ 32  
 
-29
+ Schnitzler, *Anatol, Living Hours, The Green Cockatoo* (1918)  
 
-Hecht, *Erik Dorn* (1917)
+ Schnitzler, *Reigen*, *The Affairs of Anatol and Other Plays* (1933)  
 
-Steinbeck, *Of Mice and Men* (1938)
+ Sheean, *Personal History* (1940)  
 
-30
+ Burckhardt, *Civilization of the Renaissance in Italy* (1954)  
 
-Stephens, *Mary, Mary* (1917)
+ 33  
 
-Beebe, *Jungle Peace* (1925)
+ Sudermann, *Dame Care* (1918)  
 
-*Five Great Modern Irish Plays* (1941)
+ Malraux, *Man’s Fate* (1936)  
 
-31
+ 34  
 
-Chekhov, *Rothschild’s Fiddle and Other Stories* (1917)
+ Dunsany, *Dreamer’s Tales* (1918)  
 
-Stoker, *Dracula* (1932)
+ Conrad, *Victory* (1932)  
 
-32
+ 35  
 
-Schnitzler, *Anatol, Living Hours, The Green Cockatoo* (1918)
+ Chesterton, *Man Who Was Thursday* (1918)  
 
-Schnitzler, *Reigen*, *The Affairs of Anatol and Other Plays* (1933)
+ Ferber, *Show Boat* (1935)  
 
-Sheean, *Personal History* (1940)
+ Hugo, *Hunchback of Notre Dame* (1941)  
 
-Burckhardt, *Civilization of the Renaissance in Italy* (1954)
+ 36  
 
-33
+ Ibsen, *Hedda Gabler, etc.*(1918)  
 
-Sudermann, *Dame Care* (1918)
+ George, *Progress and Poverty* (1938)  
 
-Malraux, *Man’s Fate* (1936)
+ 37  
 
-34
+ *Evolution in Modern Thought* (1918)  
 
-Dunsany, *Dreamer’s Tales* (1918)
+ Tolstoy, *Anna Karenina* (1930)  
 
-Conrad, *Victory* (1932)
+ 38  
 
-35
+ Thompson, *Complete Poems* (1940)  
 
-Chesterton, *Man Who Was Thursday* (1918)
+ *Six American Plays for Today* (1961)  
 
-Ferber, *Show Boat* (1935)
+ 39  
 
-Hugo, *Hunchback of Notre Dame* (1941)
+ Schnitzler, *Bertha Garlan* (1918)  
 
-36
+ Franklin, *Autobiography of Benjamin Franklin* (1932)  
 
-Ibsen, *Hedda Gabler, etc.*(1918)
+ 40  
 
-George, *Progress and Poverty* (1938)
+ Balzac, *Short Stories* (1918)  
 
-37
+ Gogol, *Dead Souls* (1936)  
 
-*Evolution in Modern Thought* (1918)
+ 41  
 
-Tolstoy, *Anna Karenina* (1930)
+ Rodin, *Art of Rodin* (1918)  
 
-38
+ Trollope, *Barchester Towers & The Warden* (1936)  
 
-Thompson, *Complete Poems* (1940)
+ 42  
 
-*Six American Plays for Today* (1961)
+ Beardsley, *Art of Aubrey Beardsley* (1918)  
 
-39
+ Lewis, *Arrowsmith* (1933)  
 
-Schnitzler, *Bertha Garlan* (1918)
+ O’Hara, *Appointment in Samara* (1953)  
 
-Franklin, *Autobiography of Benjamin Franklin* (1932)
+ 43  
 
-40
+ Dunsany, *Book of Wonder* (1918)  
 
-Balzac, *Short Stories* (1918)
+ Huneker, *Painted Veils* (1930)  
 
-Gogol, *Dead Souls* (1936)
+ Byrne, *Messer Marco Polo* (1942)  
 
-41
+ Descartes, *Philosophical Writings* (1958)  
 
-Rodin, *Art of Rodin* (1918)
+ 44  
 
-Trollope, *Barchester Towers & The Warden* (1936)
+ Yeats, *Irish Fairy and Folk Tales* (1918)  
 
-42
+ 45  
 
-Beardsley, *Art of Aubrey Beardsley* (1918)
+ Andreyev, *Seven That Were Hanged, etc*. (1918)  
 
-Lewis, *Arrowsmith* (1933)
+ Hammett, *Maltese Falcon* (1934)  
 
-O’Hara, *Appointment in Samara* (1953)
+ Porter, *Pale Horse, Pale Rider* (1949)  
 
-43
+ 46  
 
-Dunsany, *Book of Wonder* (1918)
+ Gissing, *Private Papers of Henry Ryecroft* (1911)  
 
-Huneker, *Painted Veils* (1930)
+ Maurois, *Disraeli* (1942)  
 
-Byrne, *Messer Marco Polo* (1942)
+ 47  
 
-Descartes, *Philosophical Writings* (1958)
+ Voltaire, *Candide* (1918)  
 
-44
+ Voltaire, *Candide and Other Writings* (1956)  
 
-Yeats, *Irish Fairy and Folk Tales* (1918)
+ 48  
 
-45
+ Gorky, *Creatures That Once Were Men* (1918)  
 
-Andreyev, *Seven That Were Hanged, etc*. (1918)
+ Kronenberger, *Anthology of Light Verse* (1935)  
 
-Hammett, *Maltese Falcon* (1934)
+ Huxley, *Brave New World* (1956)  
 
-Porter, *Pale Horse, Pale Rider* (1949)
+ Capote, *In Cold Blood* (1968)  
 
-46
+ 49  
 
-Gissing, *Private Papers of Henry Ryecroft* (1911)
+ Stirner, *Ego and His Own* (1918)  
 
-Maurois, *Disraeli* (1942)
+ Symonds, *Life of Michelangelo Buonarroti* (1928)  
 
-47
+ 50  
 
-Voltaire, *Candide* (1918)
+ Beerbohm, *Zuleika Dobson* (1918)  
 
-Voltaire, *Candide and Other Writings* (1956)
+ Dreiser, *Free and Other Stories* (1924)  
 
-48
+ Tchekov, *Stories of Anton Tchekov* (1932)  
 
-Gorky, *Creatures That Once Were Men* (1918)
+ 51  
 
-Kronenberger, *Anthology of Light Verse* (1935)
+ Carpenter, *Love’s Coming of Age* (1918)  
 
-Huxley, *Brave New World* (1956)
+ Caldwell, *God’s Little Acre* (1934)  
 
-Capote, *In Cold Blood* (1968)
+ 52  
 
-49
+ Strindberg, *Miss Julie and Other Plays* (1918)  
 
-Stirner, *Ego and His Own* (1918)
+ Schopenhauer, *Philosophy* (1928 )  
 
-Symonds, *Life of Michelangelo Buonarroti* (1928)
+ 53  
 
-50
+ Gautier, *Mademoiselle de Maupin* (1918)  
 
-Beerbohm, *Zuleika Dobson* (1918)
+ Gautier, *Mademoiselle de Maupin & One of Cleopatra’s Nights* (1935)  
 
-Dreiser, *Free and Other Stories* (1924)
+ Runyon, *Treasury of Damon Runyon* (1958)  
 
-Tchekov, *Stories of Anton Tchekov* (1932)
+ 54  
 
-51
+ Ibsen, *Wild Duck, etc.*(1918)  
 
-Carpenter, *Love’s Coming of Age* (1918)
+ Roberts, *Time of Man* (1935)  
 
-Caldwell, *God’s Little Acre* (1934)
+ Dinesen, *Seven Gothic Tales* (1939)  
 
-52
+ 55  
 
-Strindberg, *Miss Julie and Other Plays* (1918)
+ Wilson, *Selected Addresses and Public Papers* (1918)  
 
-Schopenhauer, *Philosophy* (1928 )
+ *Oriental Romances* (1930)  
 
-53
+ Dostoyevsky, *The Possessed* (1936)  
 
-Gautier, *Mademoiselle de Maupin* (1918)
+ 56  
 
-Gautier, *Mademoiselle de Maupin & One of Cleopatra’s Nights* (1935)
+ Macy, *Spirit of American Literature* (1918)  
 
-Runyon, *Treasury of Damon Runyon* (1958)
+ Longfellow, *Poems* (1932)  
 
-54
+ 57  
 
-Ibsen, *Wild Duck, etc.*(1918)
+ Maupassant, *Une Vie* (1918)  
 
-Roberts, *Time of Man* (1935)
+ Maupassant, *Une Vie & Bel Ami* (1932)  
 
-Dinesen, *Seven Gothic Tales* (1939)
+ Mann, *Buddenbrooks* (1935)  
 
-55
+ *Short Bible* (1940)  
 
-Wilson, *Selected Addresses and Public Papers* (1918)
+ 58  
 
-*Oriental Romances* (1930)
+ Villon, *Poems* (1918)  
 
-Dostoyevsky, *The Possessed* (1936)
+ Thucydides, *Complete Writngs* (1934)  
 
-56
+ 59  
 
-Macy, *Spirit of American Literature* (1918)
+ *Woman Question* (1918)  
 
-Longfellow, *Poems* (1932)
+ Proust, *Swann’s Way* (1928)  
 
-57
+ 60  
 
-Maupassant, *Une Vie* (1918)
+ Norris, *McTeague* (1918)  
 
-Maupassant, *Une Vie & Bel Ami* (1932)
+ Davidson, *Poems* (1924)  
 
-Mann, *Buddenbrooks* (1935)
+ Spinoza, *Philosophy* (1927)  
 
-*Short Bible* (1940)
+ 61  
 
-58
+ Wilde, *Fairy Tales & Poems in Prose* (1918)  
 
-Villon, *Poems* (1918)
+ Faulkner, *Sanctuary* (1932)  
 
-Thucydides, *Complete Writngs* (1934)
+ 62  
 
-59
+ Nietzsche, *Genealogy of Morals* (1918)  
 
-*Woman Question* (1918)
+ Reade, *Cloister and the Hearth* (1937)  
 
-Proust, *Swann’s Way* (1928)
+ 63  
 
-60
+ James, *Daisy Miller; An International Episode* (1918)  
 
-Norris, *McTeague* (1918)
+ Veblen, *Theory of the Leisure Class* (1934)  
 
-Davidson, *Poems* (1924)
+ 64  
 
-Spinoza, *Philosophy* (1927)
+ Tolstoy, *Death of Ivan Ilyitch, etc.*(1918)  
 
-61
+ Brontë, *Jane Eyre* (1933)  
 
-Wilde, *Fairy Tales & Poems in Prose* (1918)
+ 65  
 
-Faulkner, *Sanctuary* (1932)
+ D’Annunzio, *Flame of Life* (1918)  
 
-62
+ Richardson, *Maurice Guest* (1936)  
 
-Nietzsche, *Genealogy of Morals* (1918)
+ Machiavelli, *The Prince & The Discourses* (1940)  
 
-Reade, *Cloister and the Hearth* (1937)
+ 66  
 
-63
+ *Outline of Psychoanalysis* (1924)  
 
-James, *Daisy Miller; An International Episode* (1918)
+ *Outline of Psychoanalysis* (1955)  
 
-Veblen, *Theory of the Leisure Class* (1934)
+ 67  
 
-64
+ France, *Thais* (1924)  
 
-Tolstoy, *Death of Ivan Ilyitch, etc.*(1918)
+ Odets, *Six Plays* (1939)  
 
-Brontë, *Jane Eyre* (1933)
+ 68  
 
-65
+ Sinclair, *The Belfry* (1918)  
 
-D’Annunzio, *Flame of Life* (1918)
+ Nietzsche, *Ecce Homo; Birth of Tragedy* (1927)  
 
-Richardson, *Maurice Guest* (1936)
+ Lawrence, *Women in Love* (1937)  
 
-Machiavelli, *The Prince & The Discourses* (1940)
+ 69  
 
-66
+ Ibanez, *The Cabin* (1920)  
 
-*Outline of Psychoanalysis* (1924)
+ Dumas, *Camille* (1925)  
 
-*Outline of Psychoanalysis* (1955)
+ 70  
 
-67
+ Baudelaire, *Prose and Poetry* (1919)  
 
-France, *Thais* (1924)
+ James, *Varieties of Religious Experience* (1936)  
 
-Odets, *Six Plays* (1939)
+ 71  
 
-68
+ Atherton, *Rezanov* (1919)  
 
-Sinclair, *The Belfry* (1918)
+ Kipling, *Soldiers Three* (1927)  
 
-Nietzsche, *Ecce Homo; Birth of Tragedy* (1927)
+ Boccaccio, *Decameron* (1931)  
 
-Lawrence, *Women in Love* (1937)
+ 72  
 
-69
+ Maupassant, *Love and Other Stories* (1919)  
 
-Ibanez, *The Cabin* (1920)
+ Hardy, *Tess of the D’Urbervilles* (1932)  
 
-Dumas, *Camille* (1925)
+ 73  
 
-70
+ *Best Ghost Stories* (1919)  
 
-Baudelaire, *Prose and Poetry* (1919)
+ 74  
 
-James, *Varieties of Religious Experience* (1936)
+ Dowson, *Poems and Prose* (1919)  
 
-71
+ Morley, *Human Being* (1940)  
 
-Atherton, *Rezanov* (1919)
+ Koestler, *Darkness at Noon* (1946)  
 
-Kipling, *Soldiers Three* (1927)
+ 75  
 
-Boccaccio, *Decameron* (1931)
+ George, *Bed of Roses* (1919)  
 
-72
+ Virgil, *Works* (1934)  
 
-Maupassant, *Love and Other Stories* (1919)
+ 76  
 
-Hardy, *Tess of the D’Urbervilles* (1932)
+ Goncourt, *Renee Mauperin* (1919)  
 
-73
+ Adams, *Education of Henry Adams* (1931)  
 
-*Best Ghost Stories* (1919)
+ 77  
 
-74
+ Tolstoy, *Redemption and Two Other Plays* (1919)  
 
-Dowson, *Poems and Prose* (1919)
+ Louys, *Aphrodite* (1933)  
 
-Morley, *Human Being* (1940)
+ 78  
 
-Koestler, *Darkness at Noon* (1946)
+ Molière, *Plays* (1924)  
 
-75
+ Molière, *Eight Plays* (1957)  
 
-George, *Bed of Roses* (1919)
+ 79  
 
-Virgil, *Works* (1934)
+ Carroll, *Alice’s Adventures in Wonderland, etc.* (1924)  
 
-76
+ 80  
 
-Goncourt, *Renee Mauperin* (1919)
+ Turgenev, *Smoke* (1920)  
 
-Adams, *Education of Henry Adams* (1931)
+ Thackeray, *Henry Esmond* (1936)  
 
-77
+ 81  
 
-Tolstoy, *Redemption and Two Other Plays* (1919)
+ *Modern Book of Criticism* (1920)  
 
-Louys, *Aphrodite* (1933)
+ Lundberg, *Imperial Hearst* (1937)  
 
-78
+ Nostradamus, *Oracles of Nostradamus* (1942)  
 
-Molière, *Plays* (1924)
+ 82  
 
-Molière, *Eight Plays* (1957)
+ Poe, *Best Tales* (1924)  
 
-79
+ Poe, *Selected Poetry and Prose* (1953)  
 
-Carroll, *Alice’s Adventures in Wonderland, etc.* (1924)
+ 83  
 
-80
+ Wilde, *Salome, etc.* (1920)  
 
-Turgenev, *Smoke* (1920)
+ Wilde, *Plays of Oscar Wilde* (1932)  
 
-Thackeray, *Henry Esmond* (1936)
+ 84  
 
-81
+ Wilde, *Ideal Husband, etc.* (1920)  
 
-*Modern Book of Criticism* (1920)
+ Wilde, *Poems and Fairy Tales* (1932)  
 
-Lundberg, *Imperial Hearst* (1937)
+ 85  
 
-Nostradamus, *Oracles of Nostradamus* (1942)
+ Daudet, *Sapho*; Prevost, *Manon Lescaut* (1920)  
 
-82
+ Daudet, *Sapho*; Prevost, *Manon Lescaut*; Mérimée, *Carmen* (1945)  
 
-Poe, *Best Tales* (1924)
+ Thurber, *Thurber Carnival* (1957)  
 
-Poe, *Selected Poetry and Prose* (1953)
+ 86  
 
-83
+ Pater, *The Renaissance* (1920)  
 
-Wilde, *Salome, etc.* (1920)
+ 87  
 
-Wilde, *Plays of Oscar Wilde* (1932)
+ *Best American Humorous Short Stories* (1920)  
 
-84
+ *Best American Humorous Short Stories* (1945)  
 
-Wilde, *Ideal Husband, etc.* (1920)
+ 88  
 
-Wilde, *Poems and Fairy Tales* (1932)
+ Latzko, *Men in War* (1920)  
 
-85
+ Apulieus, *Golden Ass* (1928)  
 
-Daudet, *Sapho*; Prevost, *Manon Lescaut* (1920)
+ Dos Passos, *42nd Parallel* (1937)  
 
-Daudet, *Sapho*; Prevost, *Manon Lescaut*; Mérimée, *Carmen* (1945)
+ Porter, *Flowering Judas* (1940)  
 
-Thurber, *Thurber Carnival* (1957)
+ Faulkner, *Light in August* (1950)  
 
-86
+ 89  
 
-Pater, *The Renaissance* (1920)
+ Hudson, *Green Mansions* (1921)  
 
-87
+ 90  
 
-*Best American Humorous Short Stories* (1920)
+ Pater, *Marius Epicurean* (1921)  
 
-*Best American Humorous Short Stories* (1945)
+ Salinger, *Catcher in the Rye* (1958)  
 
-88
+ *Four Contemporary French Plays* (1967)  
 
-Latzko, *Men in War* (1920)
+ 91  
 
-Apulieus, *Golden Ass* (1928)
+ Blake, *Poems* (1921)  
 
-Dos Passos, *42nd Parallel* (1937)
+ Emerson, *Selected Writings* (1940)  
 
-Porter, *Flowering Judas* (1940)
+ 92  
 
-Faulkner, *Light in August* (1950)
+ Flaubert, *Temptation of St. Anthony*  
 
-89
+ Norris, *The Pit* (1934)  
 
-Hudson, *Green Mansions* (1921)
+ Saroyan, *Daring Young Man on Flying Trapeze* (1941)  
 
-90
+ Defoe, *Robinson Crusoe & Journal of the Plague Year* (1948)  
 
-Pater, *Marius Epicurean* (1921)
+ 93  
 
-Salinger, *Catcher in the Rye* (1958)
+ Fleming, *Marjorie Fleming’s Book* (1921)  
 
-*Four Contemporary French Plays* (1967)
+ Hawthorne, *Scarlet Letter* (1927)  
 
-91
+ 94  
 
-Blake, *Poems* (1921)
+ Loti, *Madame Chrysanthème* (1921)  
 
-Emerson, *Selected Writings* (1940)
+ *Eight Famous Elizabethan Plays* (1932)  
 
-92
+ 95  
 
-Flaubert, *Temptation of St. Anthony*
+ Ellis, *New Spirit* (1921)  
 
-Norris, *The Pit* (1934)
+ Ludwig, *Napoleon* (1933)  
 
-Saroyan, *Daring Young Man on Flying Trapeze* (1941)
+ 96  
 
-Defoe, *Robinson Crusoe & Journal of the Plague Year* (1948)
+ Wilde, *Intentions* (1921)  
 
-93
+ Woolf, *Mrs. Dalloway* (1928)  
 
-Fleming, *Marjorie Fleming’s Book* (1921)
+ Freud, *Interpretation of Dreams* (1950)  
 
-Hawthorne, *Scarlet Letter* (1927)
+ 97  
 
-94
+ Whitman, *Poems* (1921)  
 
-Loti, *Madame Chrysanthème* (1921)
+ Whitman, *Leaves of Grass* (1930)  
 
-*Eight Famous Elizabethan Plays* (1932)
+ Whitman, *Leaves of Grass and Selected Prose* (1951)  
 
-95
+ 98  
 
-Ellis, *New Spirit* (1921)
+ D’Annunzio, *Child of Pleasure* (1925)  
 
-Ludwig, *Napoleon* (1933)
+ Maupassant, *Best Short Stories* (1932)  
 
-96
+ 99  
 
-Wilde, *Intentions* (1921)
+ *Contemporary Science* (1921)  
 
-Woolf, *Mrs. Dalloway* (1928)
+ Tomlinson, *Sea and Jungle* (1928)  
 
-Freud, *Interpretation of Dreams* (1950)
+ Kipling, *Kim* (1950)  
 
-97
+ 100  
 
-Whitman, *Poems* (1921)
+ Morrison, *Tales of Mean Streets* (1921)  
 
-Whitman, *Leaves of Grass* (1930)
+ Swift, *Gulliver’s Travels, Tale of a Tub, Battle of the Books* (1931)  
 
-Whitman, *Leaves of Grass and Selected Prose* (1951)
+ Swift, *Gulliver’s Travels and Other Writings* (1958)  
 
-98
+ 101  
 
-D’Annunzio, *Child of Pleasure* (1925)
+ Frenssen, *Jorn Uhl* (1921)  
 
-Maupassant, *Best Short Stories* (1932)
+ Aiken, ed., *Comprehensive Anthology of American Verse* (1929)  
 
-99
+ 102  
 
-*Contemporary Science* (1921)
+ Crane, *Men,* *Women, Boats* (1921)  
 
-Tomlinson, *Sea and Jungle* (1928)
+ Crane, *Maggie, A Girl of the Streets* (1933)  
 
-Kipling, *Kim* (1950)
+ Forester, *African Queen* (1940)  
 
-100
+ 103  
 
-Morrison, *Tales of Mean Streets* (1921)
+ Pepys, *Passages from the* *Diary* (1921)  
 
-Swift, *Gulliver’s Travels, Tale of a Tub, Battle of the Books* (1931)
+ 104  
 
-Swift, *Gulliver’s Travels and Other Writings* (1958)
+ Anderson, *Winesburg, Ohio* (1921)  
 
-101
+ 105  
 
-Frenssen, *Jorn Uhl* (1921)
+ Van Loon, *Ancient Man* (1922)  
 
-Aiken, ed., *Comprehensive Anthology of American Verse* (1929)
+ Cooper, *The Pathfinder* (1952)  
 
-102
+ 106  
 
-Crane, *Men,* *Women, Boats* (1921)
+ Brontë, *Wuthering Heights* (1926)  
 
-Crane, *Maggie, A Girl of the Streets* (1933)
+ 107  
 
-Forester, *African Queen* (1940)
+ Fabre, *Life of the Caterpillar* (1925)  
 
-103
+ Mencken, *Selected Prejudices* (1930)  
 
-Pepys, *Passages from the* *Diary* (1921)
+ James, *Portrait of a Lady* (1936)  
 
-104
+ 108  
 
-Anderson, *Winesburg, Ohio* (1921)
+ Paine, *Selections from the Writings of Thomas Paine* (1922)  
 
-105
+ *Great German Short Stories and Novels* (1933)  
 
-Van Loon, *Ancient Man* (1922)
+ *Great German Short Stories and Novels* (1952)  
 
-Cooper, *The Pathfinder* (1952)
+ 109  
 
-106
+ Lawrence, *Sons and Lovers* (1923)  
 
-Brontë, *Wuthering Heights* (1926)
+ Camus, *The Plague* (1961)  
 
-107
+ 110  
 
-Fabre, *Life of the Caterpillar* (1925)
+ France, *Queen Pedaque* (1922)  
 
-Mencken, *Selected Prejudices* (1930)
+ Dickens, *David Copperfield* (1934)  
 
-James, *Portrait of a Lady* (1936)
+ 111  
 
-108
+ O’Neill, *Moon of Caribbees, etc.*(1923)  
 
-Paine, *Selections from the Writings of Thomas Paine* (1922)
+ 112  
 
-*Great German Short Stories and Novels* (1933)
+ D’Annunzio, *Triumph of Death* (1923)  
 
-*Great German Short Stories and Novels* (1952)
+ Hughes, *Innocent Voyage* (1932)  
 
-109
+ Shaw, *Young Lions* (1958)  
 
-Lawrence, *Sons and Lovers* (1923)
+ 113  
 
-Camus, *The Plague* (1961)
+ Gilbert, *H.M.S. Pinafore and Other Plays* (1925)  
 
-110
+ Pearson, *Studies in Murder* (1938)  
 
-France, *Queen Pedaque* (1922)
+ Newman, *Apologia Pro Vita Sua* (1950)  
 
-Dickens, *David Copperfield* (1934)
+ 114  
 
-111
+ James, *Philosophy of William James* (1925)  
 
-O’Neill, *Moon of Caribbees, etc.*(1923)
+ 115  
 
-112
+ Anderson, *Poor White* (1926)  
 
-D’Annunzio, *Triumph of Death* (1923)
+ Steinbeck, *In Dubious Battle* (1939)  
 
-Hughes, *Innocent Voyage* (1932)
+ 116  
 
-Shaw, *Young Lions* (1958)
+ Beerbohm, *Zuleika Dobson* (1926)  
 
-113
+ 117  
 
-Gilbert, *H.M.S. Pinafore and Other Plays* (1925)
+ Wilde, *De Profundis* (1926)  
 
-Pearson, *Studies in Murder* (1938)
+ Fitzgerald, *Great Gatsby* (1934)  
 
-Newman, *Apologia Pro Vita Sua* (1950)
+ Fielding, *Joseph Andrews* (1939)  
 
-114
+ 118  
 
-James, *Philosophy of William James* (1925)
+ D’Annunzio, *Maidens of the Rocks* (1926)  
 
-115
+ Flaubert, *Salammbo* (1928)  
 
-Anderson, *Poor White* (1926)
+ Jeffers, *Roan Stallion, Tamar, and Other Poems* (1935)  
 
-Steinbeck, *In Dubious Battle* (1939)
+ *Stories of Modern Italy* (1960)  
 
-116
+ 119  
 
-Beerbohm, *Zuleika Dobson* (1926)
+ Melville, *Moby Dick* (1926)  
 
-117
+ 120  
 
-Wilde, *De Profundis* (1926)
+ Gourmont, *Night in the Luxembourg* (1926)  
 
-Fitzgerald, *Great Gatsby* (1934)
+ Waugh, *Vile Bodies* (1933)  
 
-Fielding, *Joseph Andrews* (1939)
+ Proust, *The Captive* (1941)  
 
-118
+ 121  
 
-D’Annunzio, *Maidens of the Rocks* (1926)
+ Hardy, *Return of Native* (1926)  
 
-Flaubert, *Salammbo* (1928)
+ 122  
 
-Jeffers, *Roan Stallion, Tamar, and Other Poems* (1935)
+ Defoe, *Moll Flanders* (1926)  
 
-*Stories of Modern Italy* (1960)
+ 123  
 
-119
+ Lewisohn, *Up Stream* (1926)  
 
-Melville, *Moby Dick* (1926)
+ Lewisohn, *Island Within* (1940)  
 
-120
+ Parker, *Collected Short Stories* (1942)  
 
-Gourmont, *Night in the Luxembourg* (1926)
+ 124  
 
-Waugh, *Vile Bodies* (1933)
+ Joyce, *Dubliners* (1926)  
 
-Proust, *The Captive* (1941)
+ 125  
 
-121
+ Gissing, *New Grub Street* (1926)  
 
-Hardy, *Return of Native* (1926)
+ Wilde, *Dorian Gray; De Profundis* (1943)  
 
-122
+ 126  
 
-Defoe, *Moll Flanders* (1926)
+ Cabell, *Cream of the Jest* (1927)  
 
-123
+ Chaucer, *Troilus and Cressida* (1940)  
 
-Lewisohn, *Up Stream* (1926)
+ Snow, *Red Star over China* (1944)  
 
-Lewisohn, *Island Within* (1940)
+ Mead, *Coming of Age in Samoa* (1953)  
 
-Parker, *Collected Short Stories* (1942)
+ Wodehouse, *Selected Stories* (1958)  
 
-124
+ 127  
 
-Joyce, *Dubliners* (1926)
+ Aiken, ed., *Modern American Poetry* (1927)  
 
-125
+ Aiken, ed., *Twentieth-Century American Poetry* (1945, 1963)  
 
-Gissing, *New Grub Street* (1926)
+ 128  
 
-Wilde, *Dorian Gray; De Profundis* (1943)
+ Lawrence, *The Rainbow* (1927)  
 
-126
+ 129  
 
-Cabell, *Cream of the Jest* (1927)
+ Douglas, *House with the Green Shutters* (1927)  
 
-Chaucer, *Troilus and Cressida* (1940)
+ Mansfield, *Garden Party* (1931)  
 
-Snow, *Red Star over China* (1944)
+ *Great Spanish Stories* (1956)  
 
-Mead, *Coming of Age in Samoa* (1953)
+ 130  
 
-Wodehouse, *Selected Stories* (1958)
+ Hearne, *Some Chinese Ghosts* (1927)  
 
-127
+ Fineman, *Hear, Ye Sons* (1939)  
 
-Aiken, ed., *Modern American Poetry* (1927)
+ Crane, *Red Badge of Courage* (1942)  
 
-Aiken, ed., *Twentieth-Century American Poetry* (1945, 1963)
+ 131  
 
-128
+ Gourmont, *Virgin Heart* (1927)  
 
-Lawrence, *The Rainbow* (1927)
+ Thackeray, *Vanity Fair* (1933)  
 
-129
+ 132  
 
-Douglas, *House with the Green Shutters* (1927)
+ Schreiner, *Story of an African Farm* (1927)  
 
-Mansfield, *Garden Party* (1931)
+ Milton, *Complete Poetry and Selected Prose* (1942)  
 
-*Great Spanish Stories* (1956)
+ 133  
 
-130
+ Bierce, *In the Midst of Life* (1927)  
 
-Hearne, *Some Chinese Ghosts* (1927)
+ *Medieval Romances* (1957)  
 
-Fineman, *Hear, Ye Sons* (1939)
+ 134  
 
-Crane, *Red Badge of Courage* (1942)
+ Meredith, *Ordeal of Richard Feverel* (1927)  
 
-131
+ 135  
 
-Gourmont, *Virgin Heart* (1927)
+ Hardy, *Jude the Obscure* (1927)  
 
-Thackeray, *Vanity Fair* (1933)
+ 136  
 
-132
+ Butler, *Erewhon* (1927)  
 
-Schreiner, *Story of an African Farm* (1927)
+ Butler, *Erewhon & Erewhon Revisited* (1933)  
 
-Milton, *Complete Poetry and Selected Prose* (1942)
+ 137  
 
-133
+ Russell, *Selected Papers* (1927)  
 
-Bierce, *In the Midst of Life* (1927)
+ 138  
 
-*Medieval Romances* (1957)
+ Merejkowski, *Romance of Leonardo da Vinci* (1928)  
 
-134
+ 139  
 
-Meredith, *Ordeal of Richard Feverel* (1927)
+ Saltus, *Imperial Orgy* (1927)  
 
-135
+ Wallace, *Ben Hur* (1933)  
 
-Hardy, *Jude the Obscure* (1927)
+ *The Federalist* (1941)  
 
-136
+ 140  
 
-Butler, *Erewhon* (1927)
+ Renan, *Life of Jesus* (1927)  
 
-Butler, *Erewhon & Erewhon Revisited* (1933)
+ 141  
 
-137
+ Douglas, *Old Calabria* (1928)  
 
-Russell, *Selected Papers* (1927)
+ Horace, *Complete Works* (1936)  
 
-138
+ 142  
 
-Merejkowski, *Romance of Leonardo da Vinci* (1928)
+ Zola, *Nana* (1924)  
 
-139
+ 143  
 
-Saltus, *Imperial Orgy* (1927)
+ Dumas, *Three Musketeers* (1928)  
 
-Wallace, *Ben Hur* (1933)
+ 144  
 
-*The Federalist* (1941)
+ *Fourteen Great Detective Stories* (1928)  
 
-140
+ 145  
 
-Renan, *Life of Jesus* (1927)
+ Joyce, *Portrait of the Artist as a Young Man* (1928)  
 
-141
+ Aleichem, *Selected Stories* (1956)  
 
-Douglas, *Old Calabria* (1928)
+ 146  
 
-Horace, *Complete Works* (1936)
+ O’Neill, *Emperor Jones & The Straw* (1928)  
 
-142
+ O’Neill, *Emperor Jones, Anna Christie, The Hairy Ape* (1937)  
 
-Zola, *Nana* (1924)
+ 147  
 
-143
+ Sterne, *Tristram Shandy* (1928)  
 
-Dumas, *Three Musketeers* (1928)
+ 148  
 
-144
+ Dreiser, *Twelve Men* (1928)  
 
-*Fourteen Great Detective Stories* (1928)
+ Heyward, *Porgy* (1934)  
 
-145
+ Steinbeck, *Grapes of Wrath* (1941)  
 
-Joyce, *Portrait of the Artist as a Young Man* (1928)
+ Lawrence, *Lady Chatterley’s Lover* (1960)  
 
-Aleichem, *Selected Stories* (1956)
+ 149  
 
-146
+ Hauptmann, *Heretic of Soana* (1928)  
 
-O’Neill, *Emperor Jones & The Straw* (1928)
+ *Making of Man* (1931)  
 
-O’Neill, *Emperor Jones, Anna Christie, The Hairy Ape* (1937)
+ 150  
 
-147
+ Whistler, *Art of Whistler* (1928)  
 
-Sterne, *Tristram Shandy* (1928)
+ Stendhal, *Charterhouse of Parma* (1937)  
 
-148
+ Cellini, *Autobiography* (1943)  
 
-Dreiser, *Twelve Men* (1928)
+ 151  
 
-Heyward, *Porgy* (1934)
+ Dostoyevsky, *Brothers Karzmazov* (1929)  
 
-Steinbeck, *Grapes of Wrath* (1941)
+ 152  
 
-Lawrence, *Lady Chatterley’s Lover* (1960)
+ Murphy, ed., *Outline of Abnormal Psychology* (1929)  
 
-149
+ *Outline of Abnormal Psychology* (1954)  
 
-Hauptmann, *Heretic of Soana* (1928)
+ 153  
 
-*Making of Man* (1931)
+ Merejkowski, *Death of Gods* (1929)  
 
-150
+ Plato, *The Republic* (1941)  
 
-Whistler, *Art of Whistler* (1928)
+ 154  
 
-Stendhal, *Charterhouse of Parma* (1937)
+ Rostand, *Cyrano de Bergerac* (1929)  
 
-Cellini, *Autobiography* (1943)
+ 155  
 
-151
+ Wilder, *The Cabala* (1929)  
 
-Dostoyevsky, *Brothers Karzmazov* (1929)
+ Thoreau, *Walden and Other Writings* (1937)  
 
-152
+ 156  
 
-Murphy, ed., *Outline of Abnormal Psychology* (1929)
+ Petronius, *Satyricon* (1929)  
 
-*Outline of Abnormal Psychology* (1954)
+ Leonardo da Vinci, *Notebooks* (1957)  
 
-153
+ 157  
 
-Merejkowski, *Death of Gods* (1929)
+ Stendhal, *Red and Black* (1929)  
 
-Plato, *The Republic* (1941)
+ 158  
 
-154
+ *Four Famous Greek Plays* (1929)  
 
-Rostand, *Cyrano de Bergerac* (1929)
+ *Seven Famous Greek Plays* (1950)  
 
-155
+ 159  
 
-Wilder, *The Cabala* (1929)
+ Smollett, *Humphrey Clinker* (1929)  
 
-Thoreau, *Walden and Other Writings* (1937)
+ 160  
 
-156
+ Ellis, *Dance of Life* (1929)  
 
-Petronius, *Satyricon* (1929)
+ Auden, *Selected Poetry* (1959)  
 
-Leonardo da Vinci, *Notebooks* (1957)
+ 161  
 
-157
+ Chaucer, *Canterbury Tales* (1929)  
 
-Stendhal, *Red and Black* (1929)
+ 162  
 
-158
+ Sudermann, *Song of Songs* (1929)  
 
-*Four Famous Greek Plays* (1929)
+ Lewis, *Babbitt* (1942)  
 
-*Seven Famous Greek Plays* (1950)
+ Twain, *Connecticut Yankee in King Arthur’s Court* (1949)  
 
-159
+ 163  
 
-Smollett, *Humphrey Clinker* (1929)
+ *Anthology of American Negro Literature* (1929)  
 
-160
+ *Anthology of American Negro Literature* (1944)  
 
-Ellis, *Dance of Life* (1929)
+ Haggard, *She & King Solomon’s Mines* (1957)  
 
-Auden, *Selected Poetry* (1959)
+ 164  
 
-161
+ Van Vechten, *Peter Whiffle* (1929)  
 
-Chaucer, *Canterbury Tales* (1929)
+ Newton, *Amenities of Book-Collecting* (1935)  
 
-162
+ Pascal, *Pensèes & Provincial Letters* (1941)  
 
-Sudermann, *Song of Songs* (1929)
+ 165  
 
-Lewis, *Babbitt* (1942)
+ *Memoirs of Casanova* (1929)  
 
-Twain, *Connecticut Yankee in King Arthur’s Court* (1949)
+ 166  
 
-163
+ Homer, *Iliad* (1929)  
 
-*Anthology of American Negro Literature* (1929)
+ 167  
 
-*Anthology of American Negro Literature* (1944)
+ Homer, *Odyssey* (1929)  
 
-Haggard, *She & King Solomon’s Mines* (1957)
+ 168  
 
-164
+ *Great Modern Short Stories* (1930)  
 
-Van Vechten, *Peter Whiffle* (1929)
+ *Great Modern Short Stories* (rev. 1943)  
 
-Newton, *Amenities of Book-Collecting* (1935)
+ 169  
 
-Pascal, *Pensèes & Provincial Letters* (1941)
+ James, *Turn of the Screw* (1930)  
 
-165
+ 170  
 
-*Memoirs of Casanova* (1929)
+ Hemingway, *Sun Also Rises* (1930)  
 
-166
+ Warren, *All the King’s Men* (1953)  
 
-Homer, *Iliad* (1929)
+ 171  
 
-167
+ Tchekov, *Plays* (1930)  
 
-Homer, *Odyssey* (1929)
+ Chekhov, *Best Plays* (1956)  
 
-168
+ 172  
 
-*Great Modern Short Stories* (1930)
+ Proust, *Within a Budding Grove* (1930)  
 
-*Great Modern Short Stories* (rev. 1943)
+ 173  
 
-169
+ Dewey, *Human Nature and Conduct* (1930)  
 
-James, *Turn of the Screw* (1930)
+ 174  
 
-170
+ Cervantes, *Don Quixote* (1930)  
 
-Hemingway, *Sun Also Rises* (1930)
+ 175  
 
-Warren, *All the King’s Men* (1953)
+ Merejkowski, *Peter and Alexis* (1930)  
 
-171
+ Bemelmans, *My War with the United States* (1941)  
 
-Tchekov, *Plays* (1930)
+ *Poetry of Freedom* (1948)  
 
-Chekhov, *Best Plays* (1956)
+ Faulkner, *Go Down, Moses* (1955)  
 
-172
+ 176  
 
-Proust, *Within a Budding Grove* (1930)
+ Maugham, *Of Human Bondage* (1930)  
 
-173
+ 177  
 
-Dewey, *Human Nature and Conduct* (1930)
+ Goethe, *Faust* (1930)  
 
-174
+ 178  
 
-Cervantes, *Don Quixote* (1930)
+ Walpole, *Fortitude* (1930)  
 
-175
+ 179  
 
-Merejkowski, *Peter and Alexis* (1930)
+ Young, *The Medici* (1930)  
 
-Bemelmans, *My War with the United States* (1941)
+ 180  
 
-*Poetry of Freedom* (1948)
+ Huxley, *Point Counter Point* (1930)  
 
-Faulkner, *Go Down, Moses* (1955)
+ 181  
 
-176
+ Plato, *Philosophy* (1930)  
 
-Maugham, *Of Human Bondage* (1930)
+ 182  
 
-177
+ Kent, *Wilderness* (1930)  
 
-Goethe, *Faust* (1930)
+ Marquand, *Late George Apley* (1940)  
 
-178
+ 183  
 
-Walpole, *Fortitude* (1930)
+ Huysmans, *Against the Grain* (1930)  
 
-179
+ *Making of Society,* ed. Calverton (1937)  
 
-Young, *The Medici* (1930)
+ *Making of Society*, ed. Bierstedt (1959)  
 
-180
+ 184  
 
-Huxley, *Point Counter Point* (1930)
+ Bennett, *Old Wives’ Tale* (1931)  
 
-181
+ 185  
 
-Plato, *Philosophy* (1930)
+ Fielding, *Tom Jones* (1931)  
 
-182
+ 186  
 
-Kent, *Wilderness* (1930)
+ Conrad, *Lord Jim* (1931)  
 
-Marquand, *Late George Apley* (1940)
+ 187  
 
-183
+ Gide, *Counterfeiters* (1931)  
 
-Huysmans, *Against the Grain* (1930)
+ Faulkner, *Sound and the Fury; As I Lay Dying* (1946)  
 
-*Making of Society,* ed. Calverton (1937)
+ Faulkner, *Sound and the Fury* (1966)  
 
-*Making of Society*, ed. Bierstedt (1959)
+ 188  
 
-184
+ Suetonius, *Lives of the Twelve Caesars* (1931)  
 
-Bennett, *Old Wives’ Tale* (1931)
+ 189  
 
-185
+ Artzibashev, *Sanine* (1931)  
 
-Fielding, *Tom Jones* (1931)
+ Dickens, *Tale of Two Cities* (1935)  
 
-186
+ 190  
 
-Conrad, *Lord Jim* (1931)
+ Morley, *Parnassus on Wheels* (1931)  
 
-187
+ McCord, ed., *What Cheer* (1955)  
 
-Gide, *Counterfeiters* (1931)
+ Vasari, *Lives* (1959)  
 
-Faulkner, *Sound and the Fury; As I Lay Dying* (1946)
+ 191  
 
-Faulkner, *Sound and the Fury* (1966)
+ Cather, *Death Comes to the Archbishop* (1931)  
 
-188
+ Edmonds, *Rome Haul* (1938)  
 
-Suetonius, *Lives of the Twelve Caesars* (1931)
+ Nash, *Selected Verse* (1946)  
 
-189
+ Burgess, *Clockwork Orange; Honey for Bears* (1968)  
 
-Artzibashev, *Sanine* (1931)
+ 192  
 
-Dickens, *Tale of Two Cities* (1935)
+ Corvo, *History of the Borgias* (1931)  
 
-190
+ Emerson, *Journals* (1960)  
 
-Morley, *Parnassus on Wheels* (1931)
+ 193  
 
-McCord, ed., *What Cheer* (1955)
+ Balzac, *Droll Stories* (1931)  
 
-Vasari, *Lives* (1959)
+ 194  
 
-191
+ Corneille & Racine, *Six Plays* (1931)  
 
-Cather, *Death Comes to the Archbishop* (1931)
+ 195  
 
-Edmonds, *Rome Haul* (1938)
+ McFee, *Casuals of the Sea* (1931)  
 
-Nash, *Selected Verse* (1946)
+ Byron, *Selected Poetry* (1954)  
 
-Burgess, *Clockwork Orange; Honey for Bears* (1968)
+ 196  
 
-192
+ Polo, *Travels of Marco Polo* (1931)  
 
-Corvo, *History of the Borgias* (1931)
+ Wells, *Tono-Bungay* (1931)  
 
-Emerson, *Journals* (1960)
+ 198  
 
-193
+ *Sex Problem in Modern Society* (1931)  
 
-Balzac, *Droll Stories* (1931)
+ Browning, *Selected Poetry* (1954)  
 
-194
+ 199  
 
-Corneille & Racine, *Six Plays* (1931)
+ Dostoyevsky, *Crime and Punishment* (1931)  
 
-195
+ 200  
 
-McFee, *Casuals of the Sea* (1931)
+ Mann, *Magic Mountain* (1932)  
 
-Byron, *Selected Poetry* (1954)
+ Canfield, *Deepening Stream* (1938)  
 
-196
+ Rodgers & Hammerstein, *Six Plays* (1959)  
 
-Polo, *Travels of Marco Polo* (1931)
+ 201  
 
-Wells, *Tono-Bungay* (1931)
+ *Arabian Nights* (1932)  
 
-198
+ 202  
 
-*Sex Problem in Modern Society* (1931)
+ Marx, *Capital, The Communist Manifesto and other Writings* (1932)  
 
-Browning, *Selected Poetry* (1954)
+ 203  
 
-199
+ Kuprin, *Yama* (1932)  
 
-Dostoyevsky, *Crime and Punishment* (1931)
+ *Greek Poets* (1952)  
 
-200
+ 204  
 
-Mann, *Magic Mountain* (1932)
+ Dickens, *Pickwick Papers* (1932)  
 
-Canfield, *Deepening Stream* (1938)
+ 205  
 
-Rodgers & Hammerstein, *Six Plays* (1959)
+ Dos Passos, *Three Soldiers* (1932)  
 
-201
+ *Buddhist Tradition* (1969)  
 
-*Arabian Nights* (1932)
+ 206  
 
-202
+ Feuchtwanger, *Power* (1932)  
 
-Marx, *Capital, The Communist Manifesto and other Writings* (1932)
+ Doyle, *Adventures and Memoirs of Sherlock Holmes* (1946)  
 
-203
+ 207  
 
-Kuprin, *Yama* (1932)
+ Du Maurier, *Peter Ibbetson* (1932)  
 
-*Greek Poets* (1952)
+ Zimmern, *Greek Commonwealth* (1956)  
 
-204
+ 208  
 
-Dickens, *Pickwick Papers* (1932)
+ Dante, *Divine Comedy* (1932)  
 
-205
+ 209  
 
-Dos Passos, *Three Soldiers* (1932)
+ Huxley, *Antic Hay* (1933)  
 
-*Buddhist Tradition* (1969)
+ 210  
 
-206
+ France, *Penguin Island* (1933)  
 
-Feuchtwanger, *Power* (1932)
+ 211  
 
-Doyle, *Adventures and Memoirs of Sherlock Holmes* (1946)
+ Stein, *Three Lives* (1933)  
 
-207
+ Lardner, *Collected Short Stories* (1941)  
 
-Du Maurier, *Peter Ibbetson* (1932)
+ O’Hara, *Selected Short Stories* (1956)  
 
-Zimmern, *Greek Commonwealth* (1956)
+ 212  
 
-208
+ Strachey, *Eminent Victorians* (1933)  
 
-Dante, *Divine Comedy* (1932)
+ 213  
 
-209
+ Proust, *Guermantes Way* (1933)  
 
-Huxley, *Antic Hay* (1933)
+ 214  
 
-210
+ Cummings, *Enormous Room* (1934)  
 
-France, *Penguin Island* (1933)
+ 215  
 
-211
+ Reed, *Ten Days That Shook the World* (1935)  
 
-Stein, *Three Lives* (1933)
+ 216  
 
-Lardner, *Collected Short Stories* (1941)
+ Steinbeck, *Tortilla Flat* (1937)  
 
-O’Hara, *Selected Short Stories* (1956)
+ 217  
 
-212
+ Woolf, *To the Lighthouse* (1937)  
 
-Strachey, *Eminent Victorians* (1933)
+ *Latin Poets* (1949)  
 
-213
+ 218  
 
-Proust, *Guermantes Way* (1933)
+ Forster, *Passage to India* (1940)  
 
-214
+ Montaigne, *Essays* (1949)  
 
-Cummings, *Enormous Room* (1934)
+ 219  
 
-215
+ Webb, *Precious Bane* (1938)  
 
-Reed, *Ten Days That Shook the World* (1935)
+ 220  
 
-216
+ Proust, *Cities of the Plain* (1938)  
 
-Steinbeck, *Tortilla Flat* (1937)
+ 221  
 
-217
+ Wright, *Native Son* (1942)  
 
-Woolf, *To the Lighthouse* (1937)
+ Lewis, *Cass Timberlake* (1957)  
 
-*Latin Poets* (1949)
+ 222  
 
-218
+ Tacitus, *Complete Works* (1942)  
 
-Forster, *Passage to India* (1940)
+ 223  
 
-Montaigne, *Essays* (1949)
+ Hellman, *Four Plays* (1942)  
 
-219
+ Hellman, *Six Plays* (1960)  
 
-Webb, *Precious Bane* (1938)
+ 224  
 
-220
+ Santayana, *Philosophy* (1942)  
 
-Proust, *Cities of the Plain* (1938)
+ *Eighteenth-Century Plays* (1952)  
 
-221
+ 225  
 
-Wright, *Native Son* (1942)
+ Paul, *Life and Death of a Spanish Town* (1943)  
 
-Lewis, *Cass Timberlake* (1957)
+ Hoffenstein, *Complete Poetry* (1954)  
 
-222
+ Weidman, *I Can Get It for You Wholesale* (1959)  
 
-Tacitus, *Complete Works* (1942)
+ 226  
 
-223
+ *Consolation of Philosophy* (1943)  
 
-Hellman, *Four Plays* (1942)
+ 227  
 
-Hellman, *Six Plays* (1960)
+ Du Maurier, *Rebecca* (1943)  
 
-224
+ 228  
 
-Santayana, *Philosophy* (1942)
+ Aristotle, *Politics* (1943)  
 
-*Eighteenth-Century Plays* (1952)
+ 229  
 
-225
+ Wharton, *Age of Innocence* (1943)  
 
-Paul, *Life and Death of a Spanish Town* (1943)
+ 230  
 
-Hoffenstein, *Complete Poetry* (1954)
+ Day, *Life with Father* (1944)  
 
-Weidman, *I Can Get It for You Wholesale* (1959)
+ Tennyson, *Selected Poetry* (1956)  
 
-226
+ 231  
 
-*Consolation of Philosophy* (1943)
+ Bergson, *Creative Evolution* (1944)  
 
-227
+ 232  
 
-Du Maurier, *Rebecca* (1943)
+ Palgrave, *Golden Treasury* (1944)  
 
-228
+ 233  
 
-Aristotle, *Politics* (1943)
+ Kaufman & Hart, *Six Plays* (1944)  
 
-229
+ 234  
 
-Wharton, *Age of Innocence* (1943)
+ Jefferson, *Life and Selected Writings* (1944)  
 
-230
+ 235  
 
-Day, *Life with Father* (1944)
+ Nevins & Commager, *Short History of the United States* (1945)  
 
-Tennyson, *Selected Poetry* (1956)
+ 236  
 
-231
+ Dana, *Two Years before Mast* (1945)  
 
-Bergson, *Creative Evolution* (1944)
+ 237  
 
-232
+ Parker, *Collected Poetry* (1944)  
 
-Palgrave, *Golden Treasury* (1944)
+ 238  
 
-233
+ *Great Tales of the American West* (1945)  
 
-Kaufman & Hart, *Six Plays* (1944)
+ 239  
 
-234
+ Fast, *The Unvanquished* (1945)  
 
-Jefferson, *Life and Selected Writings* (1944)
+ Hegel, *Philosophy of Hegel* (1953)  
 
-235
+ 240  
 
-Nevins & Commager, *Short History of the United States* (1945)
+ Irving, *Selected Writings* (1945)  
 
-236
+ 241  
 
-Dana, *Two Years before Mast* (1945)
+ Burk, *Life and Works of Beethoven* (1946)  
 
-237
+ 242  
 
-Parker, *Collected Poetry* (1944)
+ Frost, *Poems* (1946)  
 
-238
+ Dahl, *Selected Stories* (1968)  
 
-*Great Tales of the American West* (1945)
+ 243  
 
-239
+ Rousseau, *Confessions* (1946)  
 
-Fast, *The Unvanquished* (1945)
+ 244  
 
-Hegel, *Philosophy of Hegel* (1953)
+ James, *Wings of the Dove* (1946)  
 
-240
+ 245  
 
-Irving, *Selected Writings* (1945)
+ Balzac, *Pere Goriot, Eugenie Grandet* (1946)  
 
-241
+ 246  
 
-Burk, *Life and Works of Beethoven* (1946)
+ Rawlings, *The Yearling* (1946)  
 
-242
+ Aristotle, *Rhetoric & Poetics* (1954)  
 
-Frost, *Poems* (1946)
+ 247  
 
-Dahl, *Selected Stories* (1968)
+ Perelman, *Best of S. J. Perelman* (1947)  
 
-243
+ 248  
 
-Rousseau, *Confessions* (1946)
+ Aristotle, *Introduction to Aristotle* (1947)  
 
-244
+ 249  
 
-James, *Wings of the Dove* (1946)
+ Caldwell, *Tobacco Road* (1947)  
 
-245
+ 250  
 
-Balzac, *Pere Goriot, Eugenie Grandet* (1946)
+ Harte, *Best Stories* (1947)  
 
-246
+ 251  
 
-Rawlings, *The Yearling* (1946)
+ Trollope, *Eustace Diamonds* (1947)  
 
-Aristotle, *Rhetoric & Poetics* (1954)
+ Colette, *Six Novels* (1960)  
 
-247
+ 252  
 
-Perelman, *Best of S. J. Perelman* (1947)
+ Lewis, *Dodsworth* (1947)  
 
-248
+ 253  
 
-Aristotle, *Introduction to Aristotle* (1947)
+ Meredith, *The Egotist* (1947)  
 
-249
+ 254  
 
-Caldwell, *Tobacco Road* (1947)
+ Stewart, *Storm* (1947)  
 
-250
+ 255  
 
-Harte, *Best Stories* (1947)
+ Herodotus, *Persian Wars* (1947)  
 
-251
+ 256  
 
-Trollope, *Eustace Diamonds* (1947)
+ Godden, *Black Narcissus* (1947)  
 
-Colette, *Six Novels* (1960)
+ Bacon, *Selected Writings* (1955)  
 
-252
+ 257  
 
-Lewis, *Dodsworth* (1947)
+ Pope, *Selected Works* (1948)  
 
-253
+ 258  
 
-Meredith, *The Egotist* (1947)
+ Jackson, *Lost Weekend* (1948)  
 
-254
+ Alcott, *Little Women* (1950)  
 
-Stewart, *Storm* (1947)
+ *New Voices in the American Theatre* (1955)  
 
-255
+ 259  
 
-Herodotus, *Persian Wars* (1947)
+ Aquinas, *Introduction to St. Thomas Aquinas* (1948)  
 
-256
+ 260  
 
-Godden, *Black Narcissus* (1947)
+ Proust, *Sweet Cheat Gone* (1948)  
 
-Bacon, *Selected Writings* (1955)
+ 261  
 
-257
+ Stowe, *Uncle Tom’s Cabin* (1948)  
 
-Pope, *Selected Works* (1948)
+ 262  
 
-258
+ Laotse, *Poetry of Laotse* (1948)  
 
-Jackson, *Lost Weekend* (1948)
+ 263  
 
-Alcott, *Little Women* (1950)
+ Augustine, *Confessions* (1949)  
 
-*New Voices in the American Theatre* (1955)
+ 264  
 
-259
+ Austen, *Pride and Prejudice & Sense and Sensibility* (1949)  
 
-Aquinas, *Introduction to St. Thomas Aquinas* (1948)
+ 265  
 
-260
+ Hackett, *Personal History of Henry the Eighth* (1949)  
 
-Proust, *Sweet Cheat Gone* (1948)
+ 266  
 
-261
+ Kant, *Philosophy of Kant* (1949)  
 
-Stowe, *Uncle Tom’s Cabin* (1948)
+ 267  
 
-262
+ Parkman, *Oregon Trail* (1949)  
 
-Laotse, *Poetry of Laotse* (1948)
+ 268  
 
-263
+ Wordsworth, *Selected Poetry* (1950)  
 
-Augustine, *Confessions* (1949)
+ 269  
 
-264
+ James, *Washington Square* (1950)  
 
-Austen, *Pride and Prejudice & Sense and Sensibility* (1949)
+ 270  
 
-265
+ Maugham, *Cakes and Ale* (1950)  
 
-Hackett, *Personal History of Henry the Eighth* (1949)
+ 271  
 
-266
+ Faulkner, *Absalom, Absalom!* (1951)  
 
-Kant, *Philosophy of Kant* (1949)
+ 272  
 
-267
+ Cicero, *Basic Works* (1951)  
 
-Parkman, *Oregon Trail* (1949)
+ 273  
 
-268
+ Keats, *Complete Poetry and Selected Prose* (1951)  
 
-Wordsworth, *Selected Poetry* (1950)
+ 274  
 
-269
+ Shelley, *Selected Poetry* (1951)  
 
-James, *Washington Square* (1950)
+ 275  
 
-270
+ Conrad, *Nostromo* (1951)  
 
-Maugham, *Cakes and Ale* (1950)
+ 276  
 
-271
+ *Six Modern American Plays* (1951)  
 
-Faulkner, *Absalom, Absalom!* (1951)
+ 277  
 
-272
+ Howells, *Silas Lapham* (1951)  
 
-Cicero, *Basic Works* (1951)
+ 278  
 
-273
+ Proust, *Past Recaptured* (1951)  
 
-Keats, *Complete Poetry and Selected Prose* (1951)
+ 279  
 
-274
+ Coleridge, *Selected Poetry and Prose* (1951)  
 
-Shelley, *Selected Poetry* (1951)
+ 280  
 
-275
+ Saki, *Short Stories* (1951)  
 
-Conrad, *Nostromo* (1951)
+ 281  
 
-276
+ Schulberg, *What Makes Sammy Run?* (1952)  
 
-*Six Modern American Plays* (1951)
+ 282  
 
-277
+ Boswell, *Life of Samuel Johnson* (1952)  
 
-Howells, *Silas Lapham* (1951)
+ 283  
 
-278
+ Kafka, *Selected Short Stories* (1952)  
 
-Proust, *Past Recaptured* (1951)
+ 284  
 
-279
+ Porter, *Flowering Judas* (1953)  
 
-Coleridge, *Selected Poetry and Prose* (1951)
+ 285  
 
-280
+ Blake, *Poetry of William Blake* (1953)  
 
-Saki, *Short Stories* (1951)
+ 286  
 
-281
+ Gunther, *Death Be Not Proud* (1953)  
 
-Schulberg, *What Makes Sammy Run?* (1952)
+ 287  
 
-282
+ *Eight Famous Restoration Plays* (1953)  
 
-Boswell, *Life of Samuel Johnson* (1952)
+ 288  
 
-283
+ *Anthology of Irish Literature* (1954)  
 
-Kafka, *Selected Short Stories* (1952)
+ 289  
 
-284
+ Morier, *Adventures of Hajji Baba of Ispahan* (1954)  
 
-Porter, *Flowering Judas* (1953)
+ Burke, *Selected Writings* (1960)  
 
-285
+ 290  
 
-Blake, *Poetry of William Blake* (1953)
+ Welty, *Selected Stories* (1954)  
 
-286
+ 291  
 
-Gunther, *Death Be Not Proud* (1953)
+ Goldsmith, *Vicar of Wakefield and other Writings* (1955)  
 
-287
+ 292  
 
-*Eight Famous Restoration Plays* (1953)
+ Santayana, *Sense of Beauty* (1955)  
 
-288
+ 293  
 
-*Anthology of Irish Literature* (1954)
+ Dostoevsky, *Best Short Stories* (1955)  
 
-289
+ 294  
 
-Morier, *Adventures of Hajji Baba of Ispahan* (1954)
+ Shaw, *Saint Joan, Major Barbara, Androcles and the Lion* (1956)  
 
-Burke, *Selected Writings* (1960)
+ 295  
 
-290
+ Caesar, *Gallic War and Other Writings* (1957)  
 
-Welty, *Selected Stories* (1954)
+ 296  
 
-291
+ Michener, *Selected Writings* (1957)  
 
-Goldsmith, *Vicar of Wakefield and other Writings* (1955)
+ 297  
 
-292
+ Kant, *Critique of Pure Reason* (1958)  
 
-Santayana, *Sense of Beauty* (1955)
+ 298  
 
-293
+ Frank, *Diary of Young Girl* (1958)  
 
-Dostoevsky, *Best Short Stories* (1955)
+ 299  
 
-294
+ Balzac, *Cousin Bette* (1958)  
 
-Shaw, *Saint Joan, Major Barbara, Androcles and the Lion* (1956)
+ 300  
 
-295
+ Jung, *Basic Writings* (1959)  
 
-Caesar, *Gallic War and Other Writings* (1957)
+ 301  
 
-296
+ Salinger, *Nine Stories* (1959)  
 
-Michener, *Selected Writings* (1957)
+ *Renaissance Philosophy II: Transalpine Thinkers* (1969)  
 
-297
+ 302  
 
-Kant, *Critique of Pure Reason* (1958)
+ Howard, *World’s Great Operas* (1959)  
 
-298
+ 303  
 
-Frank, *Diary of Young Girl* (1958)
+ Kierkegaard, *Kierkegaard Anthology* (1959)  
 
-299
+ 304  
 
-Balzac, *Cousin Bette* (1958)
+ Douglas, *South Wind* (1959)  
 
-300
+ 305  
 
-Jung, *Basic Writings* (1959)
+ Ibsen, *Six Plays* (1959)  
 
-301
+ 306  
 
-Salinger, *Nine Stories* (1959)
+ *Widsom of Confucius* (1959)  
 
-*Renaissance Philosophy II: Transalpine Thinkers* (1969)
+ 307  
 
-302
+ Ibsen, *Wild Duck and other Plays* (1961)  
 
-Howard, *World’s Great Operas* (1959)
+ 308  
 
-303
+ Dickens, *Our Mutual Friend* (1960)  
 
-Kierkegaard, *Kierkegaard Anthology* (1959)
+ 309  
 
-304
+ Malthus, *On Population* (1960)  
 
-Douglas, *South Wind* (1959)
+ 310  
 
-305
+ *Complete Greek Tragedies, I* (1960)  
 
-Ibsen, *Six Plays* (1959)
+ 311  
 
-306
+ *Complete Greek Tragedies, II* (1962)  
 
-*Widsom of Confucius* (1959)
+ 312  
 
-307
+ *Complete Greek Tragedies, III* (1960)  
 
-Ibsen, *Wild Duck and other Plays* (1961)
+ 313  
 
-308
+ *Complete Greek Tragedies, IV* (1961)  
 
-Dickens, *Our Mutual Friend* (1960)
+ 314  
 
-309
+ *Complete Greek Tragedies, V* (1961)  
 
-Malthus, *On Population* (1960)
+ 315  
 
-310
+ *Complete Greek Tragedies, VI* (1963)  
 
-*Complete Greek Tragedies, I* (1960)
+ 316  
 
-311
+ *Complete Greek Tragedies, VII* (1963)  
 
-*Complete Greek Tragedies, II* (1962)
+ 317  
 
-312
+ Malamud, *Two Novels: The Natural & The Assistant* (1964)  
 
-*Complete Greek Tragedies, III* (1960)
+ 318  
 
-313
+ Kafka, *The Trial* (1961)  
 
-*Complete Greek Tragedies, IV* (1961)
+ 319  
 
-314
+ Shaw, *Selected Short Stories of Irwin Shaw* (1961)  
 
-*Complete Greek Tragedies, V* (1961)
+ 320  
 
-315
+ Hamilton, *Greek Way* (1961)  
 
-*Complete Greek Tragedies, VI* (1963)
+ 321  
 
-316
+ Mailer, *Naked and the Dead* (1961)  
 
-*Complete Greek Tragedies, VII* (1963)
+ 322  
 
-317
+ Mill, *Philosophy* (1961)  
 
-Malamud, *Two Novels: The Natural & The Assistant* (1964)
+ 323  
 
-318
+ O’Hara, *Butterfield 8* (1961)  
 
-Kafka, *The Trial* (1961)
+ 324  
 
-319
+ Faulkner, *Selected Short Stories* (1962)  
 
-Shaw, *Selected Short Stories of Irwin Shaw* (1961)
+ 325  
 
-320
+ Livy, *History of Rome* (1962)  
 
-Hamilton, *Greek Way* (1961)
+ 326  
 
-321
+ *Apocrypha* (1962)  
 
-Mailer, *Naked and the Dead* (1961)
+ 327  
 
-322
+ Gide, *Counterfeiters* (1962)  
 
-Mill, *Philosophy* (1961)
+ 328  
 
-323
+ Hersey, *Hiroshima* (1962)  
 
-O’Hara, *Butterfield 8* (1961)
+ 329  
 
-324
+ Hart, *Act One* (1962)  
 
-Faulkner, *Selected Short Stories* (1962)
+ 330  
 
-325
+ *Anthology of Medieval Lyrics* (1962)  
 
-Livy, *History of Rome* (1962)
+ 331  
 
-326
+ Erasmus, *Praise of Folly* (1962)  
 
-*Apocrypha* (1962)
+ 332  
 
-327
+ Stein, *Selected Writings of Gertrude Stein* (1962)  
 
-Gide, *Counterfeiters* (1962)
+ 333  
 
-328
+ Lawrence, *Sons and Lovers* (1962)  
 
-Hersey, *Hiroshima* (1962)
+ 334  
 
-329
+ Hesse, *Steppenwolf* (1963)  
 
-Hart, *Act One* (1962)
+ 335  
 
-330
+ Sartre, *Age of Reason* (1963)  
 
-*Anthology of Medieval Lyrics* (1962)
+ 336  
 
-331
+ Renault, *Last of the Wine* (1963)  
 
-Erasmus, *Praise of Folly* (1962)
+ 337  
 
-332
+ *Roman Comedies* (1963)  
 
-Stein, *Selected Writings of Gertrude Stein* (1962)
+ 338  
 
-333
+ Ellison, *Invisible Man* (1963)  
 
-Lawrence, *Sons and Lovers* (1962)
+ 339  
 
-334
+ Camus, *Resistance, Rebellion, and Death* (1963)  
 
-Hesse, *Steppenwolf* (1963)
+ 340  
 
-335
+ Hume, *Philosophy* (1963)  
 
-Sartre, *Age of Reason* (1963)
+ 341  
 
-336
+ *Twenty German Poets* (1963)  
 
-Renault, *Last of the Wine* (1963)
+ 342  
 
-337
+ O’Neill, *Ah, Wilderness! and Two Other Plays* (1964)  
 
-*Roman Comedies* (1963)
+ 343  
 
-338
+ Nash, *Verses from 1929 On* (1964)  
 
-Ellison, *Invisible Man* (1963)
+ 344  
 
-339
+ *Medieval Philosophy* (1964)  
 
-Camus, *Resistance, Rebellion, and Death* (1963)
+ 345  
 
-340
+ *Eight Spanish Plays of the Golden Age* (1964)  
 
-Hume, *Philosophy* (1963)
+ 346  
 
-341
+ Tolstoy, *Short Stories, v. 1* (1964)  
 
-*Twenty German Poets* (1963)
+ 347  
 
-342
+ Tolstoy, *Selected Essays* (1964)  
 
-O’Neill, *Ah, Wilderness! and Two Other Plays* (1964)
+ 348  
 
-343
+ Dewey, *John Dewey on Education* (1964)  
 
-Nash, *Verses from 1929 On* (1964)
+ 349  
 
-344
+ Camus, *Notebooks, 1935–1942* (1965)  
 
-*Medieval Philosophy* (1964)
+ 350  
 
-345
+ Styron, *Lie Down in Darkness* (1964)  
 
-*Eight Spanish Plays of the Golden Age* (1964)
+ 351  
 
-346
+ Faulkner, *Intruder in Dust* (1964)  
 
-Tolstoy, *Short Stories, v. 1* (1964)
+ 352  
 
-347
+ Camus, *The Fall & Exile and the Kingdom* (1964)  
 
-Tolstoy, *Selected Essays* (1964)
+ 353  
 
-348
+ Capote, *Selected Writings* (1965)  
 
-Dewey, *John Dewey on Education* (1964)
+ 354  
 
-349
+ Tolstoy, *Short Novels, v. 1* (1965)  
 
-Camus, *Notebooks, 1935–1942* (1965)
+ 355  
 
-350
+ Johnson, *Dictionary* (1965)  
 
-Styron, *Lie Down in Darkness* (1964)
+ 356  
 
-351
+ *Hellenistic Philosophy* (1965)  
 
-Faulkner, *Intruder in Dust* (1964)
+ 357  
 
-352
+ Updike, *Poorhouse Fair & Rabbit, Run* (1965)  
 
-Camus, *The Fall & Exile and the Kingdom* (1964)
+ 358  
 
-353
+ Genet, *Our Lady of Flowers* (1965)  
 
-Capote, *Selected Writings* (1965)
+ 359  
 
-354
+ Michelangelo, *Complete Poems and Selected Letters* (1965)  
 
-Tolstoy, *Short Novels, v. 1* (1965)
+ 360  
 
-355
+ Mann, *Confessions of Felix Krull, Confidence Man* (1965)  
 
-Johnson, *Dictionary* (1965)
+ 361  
 
-356
+ Tolstoy, *Short Stories, v. 2* (1965)  
 
-*Hellenistic Philosophy* (1965)
+ 362  
 
-357
+ Bellow, *Adventures of Augie March* (1965)  
 
-Updike, *Poorhouse Fair & Rabbit, Run* (1965)
+ 363  
 
-358
+ Johnson, *Johnson Reader* (1966)  
 
-Genet, *Our Lady of Flowers* (1965)
+ 364  
 
-359
+ *Hindu Tradition* (1966)  
 
-Michelangelo, *Complete Poems and Selected Letters* (1965)
+ 365  
 
-360
+ Mann, *Doctor Faustus* (1966)  
 
-Mann, *Confessions of Felix Krull, Confidence Man* (1965)
+ 366  
 
-361
+ Singer, *Selected Short Stories* (1966)  
 
-Tolstoy, *Short Stories, v. 2* (1965)
+ 367  
 
-362
+ Tolstoy, *Short Novels, v. 2* (1966)  
 
-Bellow, *Adventures of Augie March* (1965)
+ 368  
 
-363
+ Faulkner, *Fable* (1966)  
 
-Johnson, *Johnson Reader* (1966)
+ 369  
 
-364
+ Strindberg, *Plays, v. 1* (1966)  
 
-*Hindu Tradition* (1966)
+ 370  
 
-365
+ Sartre, *Philosophy* (1966)  
 
-Mann, *Doctor Faustus* (1966)
+ 371  
 
-366
+ Powers, *Morte D’Urban* (1966)  
 
-Singer, *Selected Short Stories* (1966)
+ 372  
 
-367
+ Pynchon, *V* (1966)  
 
-Tolstoy, *Short Novels, v. 2* (1966)
+ 373  
 
-368
+ Spark, *Momento Mori & Ballad of Peckham Rye* (1966)  
 
-Faulkner, *Fable* (1966)
+ 374  
 
-369
+ Roth, *Goodbye, Columbus* (1966)  
 
-Strindberg, *Plays, v. 1* (1966)
+ 375  
 
-370
+ Heller, *Catch 22* (1966)  
 
-Sartre, *Philosophy* (1966)
+ 376  
 
-371
+ *Renaissance Philosophy: Italian Philosophers* (1967)  
 
-Powers, *Morte D’Urban* (1966)
+ 377  
 
-372
+ Chandler, *Farewell, My Lovely & Lady in the Lake* (1967)  
 
-Pynchon, *V* (1966)
+ 378  
 
-373
+ Faulkner, *As I Lay Dying* (1967)  
 
-Spark, *Momento Mori & Ballad of Peckham Rye* (1966)
+ 379  
 
-374
+ Bradford, *Of Plymouth Plantation* (1967)  
 
-Roth, *Goodbye, Columbus* (1966)
+ 380  
 
-375
+ Faulkner, *Pylon* (1967)  
 
-Heller, *Catch 22* (1966)
+ 381  
 
-376
+ Sartre, *The Reprieve* (1967)  
 
-*Renaissance Philosophy: Italian Philosophers* (1967)
+ 382  
 
-377
+ Greene, *Quiet American* (1967)  
 
-Chandler, *Farewell, My Lovely & Lady in the Lake* (1967)
+ 383  
 
-378
+ Auchincloss, *Rector of Justin* (1967)  
 
-Faulkner, *As I Lay Dying* (1967)
+ 384  
 
-379
+ Swinburne, *Selected Poetry and Prose* (1968)  
 
-Bradford, *Of Plymouth Plantation* (1967)
+ 385  
 
-380
+ Forster, *Collected Tales* (1968)  
 
-Faulkner, *Pylon* (1967)
+ 386  
 
-381
+ Renault, *Bull from the Sea* (1968)  
 
-Sartre, *The Reprieve* (1967)
+ 387  
 
-382
+ Froissart, *Chronicles* (1968)  
 
-Greene, *Quiet American* (1967)
+ 388  
 
-383
+ Kafka, *The Castle* (1969)  
 
-Auchincloss, *Rector of Justin* (1967)
+ 389  
 
-384
+ Traven, *Treasure of Sierra Madre* (1969)  
 
-Swinburne, *Selected Poetry and Prose* (1968)
+ 390  
 
-385
+ Racine, *Complete Plays, v. 1* (1969)  
 
-Forster, *Collected Tales* (1968)
+ 391  
 
-386
+ Racine, *Complete Plays, v. 2* (1969)  
 
-Renault, *Bull from the Sea* (1968)
+ 392  
 
-387
+ *Drama of the English Renaissance* (1969)  
 
-Froissart, *Chronicles* (1968)
+ 393  
 
-388
+ Jacobs, *Death and Life of Great American Cities* (1969)  
 
-Kafka, *The Castle* (1969)
+ 394  
 
-389
+ Camus, *Notebooks, 1942–1951* (1970)  
 
-Traven, *Treasure of Sierra Madre* (1969)
+ 395  
 
-390
+ Vidal, *Julian* (1970)  
 
-Racine, *Complete Plays, v. 1* (1969)
+ GIANTS  
 
-391
+ G1  
 
-Racine, *Complete Plays, v. 2* (1969)
+ Tolstoy, *War and Peace* (1931)  
 
-392
+ G2  
 
-*Drama of the English Renaissance* (1969)
+ Boswell, *Life of Johnson* (1931)  
 
-393
+ G3  
 
-Jacobs, *Death and Life of Great American Cities* (1969)
+ Hugo, *Les Miserables* (1931)  
 
-394
+ G4  
 
-Camus, *Notebooks, 1942–1951* (1970)
+ Keats & Shelley, *Complete Works* (1932)  
 
-395
+ G5  
 
-Vidal, *Julian* (1970)
+ Plutarch, *Plutarch’s Lives* (1932)  
 
-GIANTS
+ G6  
 
-G1
+ Gibbon, *Decline and Fall of Roman Empire* (2 vols.), v. 1 (1932)  
 
-Tolstoy, *War and Peace* (1931)
+ Gibbon, *Decline and Fall of Roman Empire* (3 vols.), v. 1 (1946)  
 
-G2
+ G7  
 
-Boswell, *Life of Johnson* (1931)
+ Gibbon, *Decline and Fall of Roman Empire* (2 vols.), vol. 2 (1932)  
 
-G3
+ Gibbon, *Decline and Fall of Roman Empire* (3 vols.), vol. 2 (1946)  
 
-Hugo, *Les Miserables* (1931)
+ G8  
 
-G4
+ Austen, *Complete Works* (1933) transferred to G58, 1946)  
 
-Keats & Shelley, *Complete Works* (1932)
+ Gibbon, *Decline and Fall of Roman Empire* (3 vols.), v. 3 (1946)  
 
-G5
+ G9  
 
-Plutarch, *Plutarch’s Lives* (1932)
+ Young, *The Medici* (1933)  
 
-G6
+ De Quincey, *Selected Writings* (1949)  
 
-Gibbon, *Decline and Fall of Roman Empire* (2 vols.), v. 1 (1932)
+ *Great Voices of the Reformation* (1954)  
 
-Gibbon, *Decline and Fall of Roman Empire* (3 vols.), v. 1 (1946)
+ G10  
 
-G7
+ *Famous Restoration Plays* (1933)  
 
-Gibbon, *Decline and Fall of Roman Empire* (2 vols.), vol. 2 (1932)
+ G11  
 
-Gibbon, *Decline and Fall of Roman Empire* (3 vols.), vol. 2 (1946)
+ Montaigne, *Essays*, Florio trans. (1933)  
 
-G8
+ Montaigne, *Essays*, Trechmann trans. (1946)  
 
-Austen, *Complete Works* (1933) transferred to G58, 1946)
+ James, *Short Stories of Henry James* (1948)  
 
-Gibbon, *Decline and Fall of Roman Empire* (3 vols.), v. 3 (1946)
+ G12  
 
-G9
+ Scott, *Quentin Durward, Ivanhoe, Kenilworth* (1933)  
 
-Young, *The Medici* (1933)
+ G13  
 
-De Quincey, *Selected Writings* (1949)
+ Carlyle, *French Revolution* (1934)  
 
-*Great Voices of the Reformation* (1954)
+ G14  
 
-G10
+ *Bulfinch’s Mythology* (1934)  
 
-*Famous Restoration Plays* (1933)
+ G15  
 
-G11
+ Cervantes, *Don Quixote* (1934)  
 
-Montaigne, *Essays*, Florio trans. (1933)
+ G16  
 
-Montaigne, *Essays*, Trechmann trans. (1946)
+ Wolfe, *Look Homeward Angel* (1934)  
 
-James, *Short Stories of Henry James* (1948)
+ *European Philosophers from Descartes to Nietzsche* (1960)  
 
-G12
+ G17  
 
-Scott, *Quentin Durward, Ivanhoe, Kenilworth* (1933)
+ Browning, *Poems and Plays* (1934)  
 
-G13
+ G18  
 
-Carlyle, *French Revolution* (1934)
+ Ibsen, *Eleven Famous Plays* (1935)  
 
-G14
+ G19  
 
-*Bulfinch’s Mythology* (1934)
+ Homer, *Complete Works* (1935)  
 
-G15
+ G20  
 
-Cervantes, *Don Quixote* (1934)
+ Symonds, *Renaissance in Italy*, v. 1 (1935)  
 
-G16
+ *Life and Writings of Abraham Lincoln* (1942)  
 
-Wolfe, *Look Homeward Angel* (1934)
+ G21  
 
-*European Philosophers from Descartes to Nietzsche* (1960)
+ Symonds, *Renaissance in Italy*, v. 2 (1935)  
 
-G17
+ *Sixteen Famous American Plays* (1942)  
 
-Browning, *Poems and Plays* (1934)
+ G22  
 
-G18
+ Strachey, *Coming Struggle for Power* (1935)  
 
-Ibsen, *Eleven Famous Plays* (1935)
+ Clausewitz, *On War* (1943)  
 
-G19
+ *Thirty Famous One-Act Plays* (1949)  
 
-Homer, *Complete Works* (1935)
+ G23  
 
-G20
+ Tolstoy, *Anna Karenina* (1935)  
 
-Symonds, *Renaissance in Italy*, v. 1 (1935)
+ G24  
 
-*Life and Writings of Abraham Lincoln* (1942)
+ Lamb, *Complete Works and Letters* (1935)  
 
-G21
+ G25  
 
-Symonds, *Renaissance in Italy*, v. 2 (1935)
+ Gilbert and Sullivan, *Complete Plays* (1936)  
 
-*Sixteen Famous American Plays* (1942)
+ G26  
 
-G22
+ Marx, *Capital* (1936)  
 
-Strachey, *Coming Struggle for Power* (1935)
+ G27  
 
-Clausewitz, *On War* (1943)
+ Darwin, *Origin of Species & Descent of Man* (1936)  
 
-*Thirty Famous One-Act Plays* (1949)
+ G28  
 
-G23
+ Carroll, *Complete Works* (1936)  
 
-Tolstoy, *Anna Karenina* (1935)
+ G29  
 
-G24
+ Prescott, *Conquest of Mexico & Conquest of Peru* (1936)  
 
-Lamb, *Complete Works and Letters* (1935)
+ G30  
 
-G25
+ Myers, *History of the Great American Fortunes* (1936)  
 
-Gilbert and Sullivan, *Complete Plays* (1936)
+ G31  
 
-G26
+ Werfel, *Forty Days of Musa Dagh* (1937)  
 
-Marx, *Capital* (1936)
+ *Famous Science Fiction Stories* (1957)  
 
-G27
+ G32  
 
-Darwin, *Origin of Species & Descent of Man* (1936)
+ Smith, *Wealth of Nations* (1937)  
 
-G28
+ G33  
 
-Carroll, *Complete Works* (1936)
+ Collins, *The Moonstone & A Woman in White* (1937)  
 
-G29
+ G34  
 
-Prescott, *Conquest of Mexico & Conquest of Peru* (1936)
+ Nietzsche, *Philosophy* (1937)  
 
-G30
+ G35  
 
-Myers, *History of the Great American Fortunes* (1936)
+ Bury, *History of Greece* (1937)  
 
-G31
+ G36  
 
-Werfel, *Forty Days of Musa Dagh* (1937)
+ Dostoyevsky, *Brothers Karamazov* (1937)  
 
-*Famous Science Fiction Stories* (1957)
+ G37  
 
-G32
+ Hawthorne, *Complete Novels and Selected Tales* (1937)  
 
-Smith, *Wealth of Nations* (1937)
+ G38  
 
-G33
+ Rolland, *Jean Christophe* (1938)  
 
-Collins, *The Moonstone & A Woman in White* (1937)
+ Murasaki, *Tale of Genji* (1960)  
 
-G34
+ G39  
 
-Nietzsche, *Philosophy* (1937)
+ Freud, *Basic Writings* (1938)  
 
-G35
+ G40  
 
-Bury, *History of Greece* (1937)
+ Poe, *Complete Tales and Poems* (1938)  
 
-G36
+ G41  
 
-Dostoyevsky, *Brothers Karamazov* (1937)
+ Farrell, *Studs Lonigan* (1938)  
 
-G37
+ G42  
 
-Hawthorne, *Complete Novels and Selected Tales* (1937)
+ Tennyson, *Poems and Plays* (1938)  
 
-G38
+ G43  
 
-Rolland, *Jean Christophe* (1938)
+ Dewey, *Intelligence in the Modern World* (1939)  
 
-Murasaki, *Tale of Genji* (1960)
+ G44  
 
-G39
+ Dos Passos, *USA* (1939)  
 
-Freud, *Basic Writings* (1938)
+ Beauvoir, *Second Sex* (1968)  
 
-G40
+ G45  
 
-Poe, *Complete Tales and Poems* (1938)
+ Lewisohn, *Story of American Literature* (1939)  
 
-G41
+ *Stoic and Epicurean Philosophers* (1957)  
 
-Farrell, *Studs Lonigan* (1938)
+ G46  
 
-G42
+ Rodman, ed., *New Anthology of Modern Poetry* (1939; rev. ed., 1946)  
 
-Tennyson, *Poems and Plays* (1938)
+ G47  
 
-G43
+ *English Philosophers from Bacon to Mill* (1939)  
 
-Dewey, *Intelligence in the Modern World* (1939)
+ G48  
 
-G44
+ *Metropolitan Opera Guide* (1939)  
 
-Dos Passos, *USA* (1939)
+ G49  
 
-Beauvoir, *Second Sex* (1968)
+ Twain, *Tom Sawyer & Huckleberry Finn* (1940)  
 
-G45
+ G50  
 
-Lewisohn, *Story of American Literature* (1939)
+ Whitman, *Leaves of Grass* (1940)  
 
-*Stoic and Epicurean Philosophers* (1957)
+ G51  
 
-G46
+ Eliot, *Best-Known Novels of George Eliot* (1940)  
 
-Rodman, ed., *New Anthology of Modern Poetry* (1939; rev. ed., 1946)
+ G52  
 
-G47
+ Joyce, *Ulysses* (1940)  
 
-*English Philosophers from Bacon to Mill* (1939)
+ G53  
 
-G48
+ Sue, *Wandering Jew* (1940)  
 
-*Metropolitan Opera Guide* (1939)
+ G54  
 
-G49
+ Fielding, *Tom Jones* (1940)  
 
-Twain, *Tom Sawyer & Huckleberry Finn* (1940)
+ *Anthology of Famous British Stories* (1952)  
 
-G50
+ G55  
 
-Whitman, *Leaves of Grass* (1940)
+ O’Neill, *Nine Plays* (1941)  
 
-G51
+ G56  
 
-Eliot, *Best-Known Novels of George Eliot* (1940)
+ Sterne, *Tristram Shandy & A Sentimental Journey* (1941)  
 
-G52
+ *Wisdom of Catholicism* (1955)  
 
-Joyce, *Ulysses* (1940)
+ G57  
 
-G53
+ Brooks, *Flowering of New England* (1941)  
 
-Sue, *Wandering Jew* (1940)
+ Melville, *Selected Writings* (1951)  
 
-G54
+ G58  
 
-Fielding, *Tom Jones* (1940)
+ Malraux, *Man’s Hope* (1941)  
 
-*Anthology of Famous British Stories* (1952)
+ Austen, *Complete Works* (transferred 1946)  
 
-G55
+ G59  
 
-O’Neill, *Nine Plays* (1941)
+ Hemingway, *Short Stories* (1942)  
 
-G56
+ *Wisdom of China and India* (1955)  
 
-Sterne, *Tristram Shandy & A Sentimental Journey* (1941)
+ G60  
 
-*Wisdom of Catholicism* (1955)
+ Dostoyevsky, *The Idiot* (1942)  
 
-G57
+ G61  
 
-Brooks, *Flowering of New England* (1941)
+ Spaeth, *Guide to Great Orchestral Music* (1943)  
 
-Melville, *Selected Writings* (1951)
+ G62  
 
-G58
+ Pushkin, *Poems, Prose and Plays* (1943)  
 
-Malraux, *Man’s Hope* (1941)
+ G63  
 
-Austen, *Complete Works* (transferred 1946)
+ *Sixteen Famous British Plays* (1943)  
 
-G59
+ G64  
 
-Hemingway, *Short Stories* (1942)
+ Melville, *Moby Dick* (1944)  
 
-*Wisdom of China and India* (1955)
+ Thomas, *Abraham Lincoln* (1968)  
 
-G60
+ G65  
 
-Dostoyevsky, *The Idiot* (1942)
+ Rabelais, *Complete Works* (1945)  
 
-G61
+ G66  
 
-Spaeth, *Guide to Great Orchestral Music* (1943)
+ *Three Famous Murder Novels* (1945)  
 
-G62
+ G67  
 
-Pushkin, *Poems, Prose and Plays* (1943)
+ *Anthology of Famous English and American Poetry* (1945)  
 
-G63
+ G68  
 
-*Sixteen Famous British Plays* (1943)
+ Paine, *Selected Work*; Fast, *Citizen Tom Paine* (1946)  
 
-G64
+ G69  
 
-Melville, *Moby Dick* (1944)
+ Queen, ed., *101 Years Entertainment* (1946)  
 
-Thomas, *Abraham Lincoln* (1968)
+ G70  
 
-G65
+ Donne & Blake, *Complete Poetry* (1946)  
 
-Rabelais, *Complete Works* (1945)
+ G71  
 
-G66
+ *Sixteen Famous European Plays* (1947)  
 
-*Three Famous Murder Novels* (1945)
+ G72  
 
-G67
+ *Great Tales of Terror and the Supernatural* (1947)  
 
-*Anthology of Famous English and American Poetry* (1945)
+ G73  
 
-G68
+ *Subtreasury of American Humor* (1948)  
 
-Paine, *Selected Work*; Fast, *Citizen Tom Paine* (1946)
+ Gogol, *Collected Tales and Plays* (1969)  
 
-G69
+ G74  
 
-Queen, ed., *101 Years Entertainment* (1946)
+ St. Augustine, *City of God* (1950)  
 
-G70
+ G75  
 
-Donne & Blake, *Complete Poetry* (1946)
+ Stevenson, *Selected Writings* (1950)  
 
-G71
+ G76  
 
-*Sixteen Famous European Plays* (1947)
+ Grimm & Andersen, *Tales* (1952)  
 
-G72
+ G77  
 
-*Great Tales of Terror and the Supernatural* (1947)
+ *Anthology of Famous American Stories* (1953)  
 
-G73
+ G78  
 
-*Subtreasury of American Humor* (1948)
+ Holmes, *Mind and Faith of Justice Holmes* (1954)  
 
-Gogol, *Collected Tales and Plays* (1969)
+ G79  
 
-G74
+ *Wisdom of Israel* (1956)  
 
-St. Augustine, *City of God* (1950)
+ G80  
 
-G75
+ Dreiser, *American Tragedy* (1956)  
 
-Stevenson, *Selected Writings* (1950)
+ Nietzsche, *Basic Writings* (1968)  
 
-G76
+ G81  
 
-Grimm & Andersen, *Tales* (1952)
+ *Encyclopedia of Modern American Humor* (1958)  
 
-G77
+ G82  
 
-*Anthology of Famous American Stories* (1953)
+ Faulkner, *Faulkner Reader* (1959)  
 
-G78
+ G83  
 
-Holmes, *Mind and Faith of Justice Holmes* (1954)
+ Wilson, ed., *Shock of Recognition* (1961)  
 
-G79
+ G84  
 
-*Wisdom of Israel* (1956)
+ Mann, *Stories of Three Decades* (1961)  
 
-G80
+ G85  
 
-Dreiser, *American Tragedy* (1956)
+ *Great Ages and Ideas of the Jewish People* (1962)  
 
-Nietzsche, *Basic Writings* (1968)
+ G86  
 
-G81
+ Pasternak, *Doctor Zhivago* (1962)  
 
-*Encyclopedia of Modern American Humor* (1958)
+ G87  
 
-G82
+ *Medieval Epics* (1963)  
 
-Faulkner, *Faulkner Reader* (1959)
+ G88  
 
-G83
+ O’Hara, *49 Stories* (1963)  
 
-Wilson, ed., *Shock of Recognition* (1961)
+ G89  
 
-G84
+ *Great Classical Myths* (1964)  
 
-Mann, *Stories of Three Decades* (1961)
+ G90  
 
-G85
+ *Philosophies of Art and Beauty* (1964)  
 
-*Great Ages and Ideas of the Jewish People* (1962)
+ G91  
 
-G86
+ Spenser, *Selected Poetry* (1964)  
 
-Pasternak, *Doctor Zhivago* (1962)
+ G92  
 
-G87
+ Spengler, *Decline of the West* (1965)  
 
-*Medieval Epics* (1963)
+ G93  
 
-G88
+ Macdonald, ed., *Parodies* (1965)  
 
-O’Hara, *49 Stories* (1963)
+ G94  
 
-G89
+ Cooper, *Leatherstocking Saga* (1966)  
 
-*Great Classical Myths* (1964)
+ G95  
 
-G90
+ Brockway and Weinstock, *World of Opera* (1966)  
 
-*Philosophies of Art and Beauty* (1964)
+ G96  
 
-G91
+ James, *Writings of William James* (1968)  
 
-Spenser, *Selected Poetry* (1964)
+ G97  
 
-G92
+ Balzac, *Lost Illusions* (1967)  
 
-Spengler, *Decline of the West* (1965)
+ G98  
 
-G93
+ Hersey, *The Wall* (1967)  
 
-Macdonald, ed., *Parodies* (1965)
+ G99  
 
-G94
+ Olmsted, *Cotton Kingdom* (1969)  
 
-Cooper, *Leatherstocking Saga* (1966)
+ G100  
 
-G95
+ Lewis, *Children of Sanchez* (1969)  
 
-Brockway and Weinstock, *World of Opera* (1966)
+ G101  
 
-G96
+ *English Romantic Poets* (1970)  
 
-James, *Writings of William James* (1968)
+ G102  
 
-G97
-
-Balzac, *Lost Illusions* (1967)
-
-G98
-
-Hersey, *The Wall* (1967)
-
-G99
-
-Olmsted, *Cotton Kingdom* (1969)
-
-G100
-
-Lewis, *Children of Sanchez* (1969)
-
-G101
-
-*English Romantic Poets* (1970)
-
-G102
-
-*Between Hume and Mill* (1970)
+ *Between Hume and Mill* (1970)n

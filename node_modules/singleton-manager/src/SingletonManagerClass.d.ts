@@ -1,0 +1,20 @@
+export class SingletonManagerClass {
+    /** protected */
+    _map: any;
+    /**
+     * Ignores already existing keys (e.g. it will not override)
+     *
+     * @param {string} key
+     * @param {any} value
+     */
+    set(key: string, value: any): void;
+    /**
+     * @param {string} key
+     * @returns
+     */
+    get(key: string): any;
+    /**
+     * @param {string} key
+     */
+    has(key: string): any;
+}

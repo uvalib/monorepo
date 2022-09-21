@@ -70,9 +70,9 @@ Colin Smythe, Gerralds Cross, Buckinghamshire
 
 <u>Graduate Student Assistants, University of Alabama</u>
 
-Karen Byrd
+Karen Byr
 
-Helen Claire Covey
+dHelen Claire Covey
 
 Jean Johnson (Univ. of Illinois)
 

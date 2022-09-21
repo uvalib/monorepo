@@ -418,9 +418,9 @@ Corneille, Pierre; Racine, Jean, *Six Plays* (1931) 222
 Corvo, Frederick Baron, *History of the Borgias* (1931) 220
 
 Crane, Stephen, *Maggie, A Girl of the Streets and Other Stories* (1933)
-88d
+88
 
-Crane, Stephen, *Men, Women and Boats* (1921) 88
+dCrane, Stephen, *Men, Women and Boats* (1921) 88
 
 Crane, Stephen, *Red Badge of Courage* (1942) 347
 
@@ -1784,9 +1784,9 @@ Strachey, Lytton, *Eminent Victorians* (1933) 263
 
 Strindberg, August, *Married* (1917) 2
 
-2e (1929) *Miss Julie* added
+2e (1929) *Miss Julie* adde
 
-Strindberg, August, *Miss Julie and Other Plays* (1918) 50
+dStrindberg, August, *Miss Julie and Other Plays* (1918) 50
 
 Strindberg, August, *Plays*, vol. 1 (1966) 586
 
@@ -1812,9 +1812,9 @@ Books* (1931) 212
 
 Swinburne, Algernon Charles, *Poems* (1917) 22
 
-Swinburne, Algernon Charles, *Poetry of Swinburne* (jacket title) 22d
+Swinburne, Algernon Charles, *Poetry of Swinburne* (jacket title) 22
 
-Swinburne, Algernon Charles, *Selected Poetry and Prose* (1968) 604
+dSwinburne, Algernon Charles, *Selected Poetry and Prose* (1968) 604
 
 Symonds, John Addington, *Life of Buonarroti* (1928) 164
 

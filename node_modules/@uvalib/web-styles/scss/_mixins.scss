@@ -1,0 +1,44 @@
+@mixin be-accessible(){
+    outline: 3px dotted $accessibility-highlight;
+    outline-offset: 3px;
+ }
+ @mixin be-accessible-light(){
+    outline: 3px dotted $grey-lightest;
+    outline-offset: 3px;
+ }
+ 
+ @mixin be-accessible-field(){
+    outline: 0;
+    box-shadow: inset 0 0 5px 1px $accessibility-highlight;
+ }
+
+ @mixin accessibility-outline-for-light-bg(){
+    outline-offset: 0.25em;
+    outline: 2px dotted $accessibility-outline-color--bgislight;
+ }
+ 
+ @mixin apply-hover() {
+     background-color: $brand-blue-lightest;
+     color: $text-dark;
+ }
+
+ /**
+ * Screen Reader only text for use where text is needed for non visual users
+ *
+ * @mixin
+ * @section Accessibility Mixins
+ * @example
+ *  span.srOnly {
+ *    @include sr-only;
+ *  }
+ */
+@mixin sr-only {
+   clip: rect(1px, 1px, 1px, 1px);
+   clip-path: inset(50%);
+   height: 1px;
+   width: 1px;
+   margin: -1px;
+   overflow: hidden;
+   padding: 0;
+   position: absolute;
+ }

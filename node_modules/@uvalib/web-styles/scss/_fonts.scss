@@ -1,0 +1,100 @@
+////
+/// @group Fonts
+////
+
+@import url('https://use.typekit.net/tgy5tlj.css');
+
+/// Franklin Gothic Regular (Book) is the preferred typeface as instructed by UVA Brand.
+$font-primary: 'franklin-gothic-urw', arial, sans-serif;
+
+/// Bodoni (Poster) is also an approved typeface and is to be used very sparingly. (Currently only used for Drop Caps).
+$font-decorative: 'bodoni-urw', georgia, serif;
+
+@mixin font-decorative {
+  font-family: $font-decorative;
+  font-style: italic;
+  font-weight: $font-weight-heavy;
+  text-transform: uppercase;
+}
+
+//The base font size is set at 16pt. The minimum size for the majority of body text should not be less than 16pt. This is defined for the root, so often you can use "em" to designate font size (this method is preferred).
+$font-size-unit: 16px;
+
+$font-weight-light: 300;
+$font-weight-book: 400;
+$font-weight-medium: 500;
+$font-weight-demi: 700;
+$font-weight-heavy: 900;
+
+/// Colors currently used by the Virgo web client in App.vue
+/// @type Map
+$fonts: (
+  'font-size-unit': $font-size-unit,
+  'font-primary': $font-primary,
+  'font-decorative': $font-decorative,
+  'font-weight-light': $font-weight-light,
+  'font-weight-book': $font-weight-book,
+  'font-weight-medium': $font-weight-medium,
+  'font-weight-demi': $font-weight-demi,
+  'font-weight-heavy': $font-weight-heavy,
+) !default;
+
+@mixin font-base {
+  font-family: $font-primary;
+  font-weight: $font-weight-light;
+  margin-top: $spacing-unit;
+  margin-bottom: calc(#{$spacing-unit}/ 4);
+  text-transform: none;
+  color: $text;
+}
+
+@mixin h1 {
+  font-family: $font-primary;
+  font-weight: $font-weight-demi;
+  font-size: calc(#{$font-size-unit}* 3.75);
+  line-height: calc(#{$font-size-unit}* 3.75);
+  color: $h1-color;
+  margin-top: calc(#{$spacing-unit}/ 4);
+  margin-bottom: calc(#{$spacing-unit}/ 1.5);
+}
+@mixin h2 {
+  font-family: $font-primary;
+  font-weight: $font-weight-medium;
+  font-size: calc(#{$font-size-unit}* 2);
+  line-height: calc(#{$font-size-unit}* 2);
+  color: $h2-color;
+}
+@mixin h3 {
+  font-family: $font-primary;
+  font-weight: $font-weight-medium;
+  font-size: calc(#{$font-size-unit}* 1.5);
+  line-height: calc(#{$font-size-unit}* 1.5);
+  color: $h3-color;
+}
+@mixin h3-with-flair {
+  @include font-decorative;
+  font-size: calc(#{$font-size-unit}* 1.5);
+  line-height: calc(#{$font-size-unit}* 1.5);
+  color: $h3-color;
+}
+@mixin h4 {
+  font-family: $font-primary;
+  font-weight: $font-weight-medium;
+  font-size: calc(#{$font-size-unit}* 1.25);
+  line-height: calc(#{$font-size-unit}* 1.25);
+  color: $h4-color;
+}
+@mixin h5 {
+  font-family: $font-primary;
+  font-weight: $font-weight-medium;
+  font-size: $font-size-unit;
+  line-height: $font-size-unit;
+  color: $h5-color;
+}
+@mixin h6 {
+  font-family: $font-primary;
+  font-weight: $font-weight-book;
+  font-size: $font-size-unit;
+  line-height: $font-size-unit;
+  color: $h6-color;
+}

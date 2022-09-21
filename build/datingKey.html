@@ -1,0 +1,317 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <!-- No Robots for now -->
+    <meta name="robots" content="noindex" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Library Bibliography &amp;middot; Bibliographical Society</title>
+    <link href="/css/style.css" rel="stylesheet" media="all">
+    <link rel="alternate" type="application/rss+xml" title="Bibliographical Society &raquo; Feed" href="https://bsuva.org/feed/" />
+    <link rel="alternate" type="application/rss+xml" title="Bibliographical Society &raquo; Comments Feed" href="https://bsuva.org/comments/feed/" />
+    <link rel="alternate" type="application/rss+xml" title="Bibliographical Society &raquo; Home Page Comments Feed" href="https://bsuva.org/home-page/feed/" />
+
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.72/dist/themes/light.css" />
+<script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.72/dist/shoelace.js"></script>
+
+</head>
+<body class="home page-template page-template-homepage page-template-homepage-php page page-id-1157">
+    <header role="banner">
+        <h1><a href="https://bsuva.org"><img src="https://bsuva.org/wp-content/themes/bsuva/images/bsuva-logo.png" alt="Bibliographical Society" /></a></h1>
+    </header>
+
+    <div id="content">
+
+<sl-drawer id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
+    <sl-menu>
+        <sl-menu-item href="/">Home</sl-menu-item>
+        <!--<sl-menu-item href="/searchTest.html">Search</sl-menu-item>-->
+        <sl-menu-item href="/browseTest.html">Browse</sl-menu-item>
+        <sl-divider></sl-divider>
+        <sl-menu-item href="/acknowledgements.html">Acknowledgments</sl-menu-item>
+        <sl-menu-item href="/authorTitleIndex.html">Author/Title Index</sl-menu-item>
+        <sl-menu-item href="/biographicalDir.html">Other Publishing Personel</sl-menu-item>
+        <sl-menu-item href="/datingKey.html">Dating Key</sl-menu-item>
+        <sl-menu-item href="/defAbbrev.html">Definitions &amp; Abbreviations</sl-menu-item>
+        <sl-menu-item href="/introductions.html">Index to Introductions</sl-menu-item>
+        <sl-menu-item href="/numericalIndex.html">Numerical Index</sl-menu-item>
+        <sl-menu-item href="/preface.html">Preface</sl-menu-item>
+        <sl-menu-item href="/procedures.html">Procedures &amp; Format</sl-menu-item>
+        <sl-menu-item href="/sourcesCited.html">Sources &amp; Works Cited</sl-menu-item>
+    </sl-menu>
+    <sl-button slot="footer" variant="primary">Close</sl-button>
+</sl-drawer>
+
+    <div style="display: flex; flex-direction: row;">
+        <h1 style="flex-grow: 1;">The Modern Library Bibliography</h1>
+        <sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+    </div>
+
+<script>
+  const drawer = document.querySelector('#menudrawer');
+  const openButton = document.querySelector('#menubutton');
+  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
+  const menu = drawer.querySelector('sl-menu');
+
+  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
+  openButton.addEventListener('click', () => drawer.show());
+  closeButton.addEventListener('click', () => drawer.hide());
+
+</script>
+
+    <h2>DATING KEY TO MODERN LIBRARY LISTS AND JACKETS</h2>
+<p>This dating key can be used to date Modern Library books and jackets on
+the basis of Modern Library lists that appear at the end of many of the
+volumes and inside the jackets. The dating key indicates one title added
+in each season and one title (preceded by an <em>x</em>) that would not be
+added until the following season. This makes it possible to date any ML
+jacket and any ML book that contains a list as having been printed by
+spring or fall of a given year.</p>
+<p>From fall 1933 through spring 1963 the inside of the jackets included a
+heading, “WHICH OF THESE [#] OUTSTANDING BOOKS DO YOU WANT TO READ?”
+This number is indicated before the titles for these years. Lists of
+titles ceased to be printed inside the jackets beginning in 1964.</p>
+<p>1925 Fall Dumas, <em>Camille</em> xAnderson, <em>Poor White</em></p>
+<p>1926 Spring Anderson, <em>Poor White</em> xJoyce, <em>Dubliners</em></p>
+<p>Fall Joyce, <em>Dubliners</em> xHudson, <em>Purple Land</em></p>
+<p>1927 Spring Hudson, <em>Purple Land</em> xHardy, <em>Jude the Obscure</em></p>
+<p>Fall Hardy, <em>Jude the Obscure</em> xDumas, <em>Three Musketeers</em></p>
+<p>1928 Spring Dumas, <em>Three Musketeers</em> xApuleius, <em>Golden Ass</em></p>
+<p>Fall Apuleius, <em>Golden Ass</em> xDostoyevsky, <em>Brothers Karamazov</em></p>
+<p>1929 Spring Dostoyevsky, <em>Brothers Karamazov</em> xChaucer, <em>Canterbury
+Tales</em></p>
+<p>Fall Chaucer, <em>Canterbury Tales</em> xHemingway, <em>Sun Also Rises</em></p>
+<p>1930 Spring Hemingway, <em>Sun Also Rises</em> xGoethe, <em>Faust</em></p>
+<p>Fall Goethe, <em>Faust</em> xConrad, <em>Lord Jim</em></p>
+<p>1931 Spring Conrad, <em>Lord Jim</em> xBalzac, <em>Droll Stories</em></p>
+<p>Fall Balzac, <em>Droll Stories</em> xDreiser, <em>Sister Carrie</em></p>
+<p>1932 Spring Dreiser, <em>Sister Carrie</em> xDickens, <em>Pickwick Papers</em></p>
+<p>Fall Dickens, <em>Pickwick Papers</em> xLewis, <em>Arrowsmith</em></p>
+<p>1933 Spring Lewis, <em>Arrowsmith</em> xStein, <em>Three Lives</em></p>
+<p>Fall 225 Stein, <em>Three Lives</em> xCaldwell, <em>God’s Little Acre</em></p>
+<p>1934 Spring 225 Caldwell, <em>God’s Little Acre</em> xHeyward, <em>Porgy</em></p>
+<p>Fall 225 Heyward, <em>Porgy</em> xHamsun, <em>Growth of the Soil</em></p>
+<p>1935 Spring 236 Hamsun, <em>Growth of the Soil</em> xMann, <em>Buddenbrooks</em></p>
+<p>Fall 239 Mann, <em>Buddenbrooks</em> xGogol, <em>Dead Souls</em></p>
+<p>1936 Spring 242 Gogol, <em>Dead Souls</em> xMalraux, <em>Man’s Fate</em></p>
+<p>Fall 245 Malraux, <em>Man’s Fate</em> xGraves, <em>I, Claudius</em></p>
+<p>1937 Spring 246 Graves, <em>I, Claudius</em> xWoolf, <em>To the Lighthouse</em></p>
+<p>Fall 253 Woolf, <em>To the Lighthouse</em> xConfucius, <em>Wisdom</em></p>
+<p>1938 Spring 257 Confucius, <em>Wisdom</em> xProust, <em>Cities of the Plain</em></p>
+<p>Fall 262 Proust, <em>Cities of the Plain</em> xStone, <em>Lust for Life</em></p>
+<p>1939 Spring 265 Stone, <em>Lust for Life</em> xOdets, <em>Six Plays</em></p>
+<p>Fall 268 Odets, <em>Six Plays</em> xChaucer, <em>Troilus and Cressida</em></p>
+<p>1940 Spring 271 Chaucer, <em>Troilus and Cressida</em> xEmerson, <em>Complete
+Essays</em></p>
+<p>Fall 274 Emerson, <em>Complete Essays</em> xHugo, <em>Hunchback of Notre Dame</em></p>
+<p>1941 Spring 271 Hugo, <em>Hunchback of Notre Dame</em> xBemelmans, <em>My War with
+the United States</em></p>
+<p>Fall 278 Bemelmans, <em>My War with the United States</em> xLewis, <em>Babbitt</em>
+(also on dust jackets (dj’s) of spring 1942 titles)</p>
+<p>1942 Spring 281 Lewis, <em>Babbitt</em> xMaurois, <em>Disraeli</em> (on dj’s for most
+fall 1942 titles)</p>
+<p>Fall 284 Maurois, <em>Disraeli</em> xDu Maurier, <em>Rebecca</em> (on dj’s for most
+fall 1942 reprintings)</p>
+<p>1943 Spring 291 Du Maurier, <em>Rebecca</em> xShakespeare, <em>Tragedies,
+Comedies, Histories and Poems</em></p>
+<p>Fall 292 Shakespeare, <em>Tragedies, Comedies, Histories and Poems</em>
+xJefferson, <em>Life &amp; Selected Writings</em></p>
+<p>1944 Spring 299 Jefferson, <em>Life &amp; Selected Writings</em> xParker,
+<em>Collected Poetry</em></p>
+<p>Fall 303 Parker, <em>Collected Poetry</em> xO. Henry, <em>Best Short Stories</em></p>
+<p>1945 Spring 304 O. Henry, <em>Best Short Stories</em> xIrving, <em>Selected
+Writings</em></p>
+<p>Fall 306 Irving, <em>Selected Writings</em> xHersey, <em>Bell for Adano</em></p>
+<p>1946 Spring 309 Hersey, <em>Bell for Adano</em> xBalzac, <em>Père Goriot &amp; Eugénie
+Grandet</em></p>
+<p>Fall 316 Balzac, <em>Père Goriot &amp; Eugénie Grandet</em> xAristotle,
+<em>Introduction</em></p>
+<p>1947 Spring 322 Aristotle, <em>Introduction</em> xLewis, <em>Dodsworth</em></p>
+<p>Fall 329 Lewis, <em>Dodsworth</em> xAquinas, <em>Introduction</em></p>
+<p>1948 Spring 334 Aquinas, <em>Introduction</em> xDickinson, <em>Selected Poems</em></p>
+<p>Fall 334 Dickinson, <em>Selected Poems</em> xAusten, <em>Pride and Prejudice &amp;
+Sense and Sensibility</em></p>
+<p>1949 Spring 341 Austen, <em>Pride and Prejudice &amp; Sense and Sensibility</em>
+xByron, <em>Don Juan</em></p>
+<p>Fall 344 Byron, <em>Don Juan</em> xJames, <em>Washington Square</em></p>
+<p>1950 Spring 347 James, <em>Washington Square</em> xAlcott, <em>Little Women</em></p>
+<p>Fall 348 Alcott, <em>Little Women</em> xCicero, <em>Basic Works</em></p>
+<p>1951 Spring 352 Cicero, <em>Basic Works</em> xHowells, <em>Rise of Silas Lapham</em></p>
+<p>Fall 358 Howells, <em>Rise of Silas Lapham</em> xDinesen, <em>Out of Africa</em></p>
+<p>1952 Spring 360 Dinesen, <em>Out of Africa</em> xCooper, <em>The Pathfinder</em></p>
+<p>Fall 362 Cooper, <em>The Pathfinder</em> xGunther, <em>Death Be Not Proud</em></p>
+<p>1953 Spring 365 Gunther, <em>Death Be Not Proud</em> xBlake, <em>Selected Poetry
+and Prose</em></p>
+<p>Fall 367 Blake, <em>Selected Poetry and Prose</em> xByron, <em>Selected Poetry</em></p>
+<p>1954 Spring 370 Byron, <em>Selected Poetry</em> xBrowning, <em>Selected Poetry</em></p>
+<p>Fall 371 Browning, <em>Selected Poetry</em> xFaulkner, <em>Go Down, Moses</em></p>
+<p>1955 Spring 372 Faulkner, <em>Go Down, Moses</em> xSantayana, <em>Sense of Beauty</em></p>
+<p>Fall 374 Santayana, <em>Sense of Beauty</em> xTennyson, <em>Selected Poetry</em></p>
+<p>1956 Spring 376 Tennyson, <em>Selected Poetry</em> xHuxley, <em>Brave New World</em></p>
+<p>Fall 377 Huxley, <em>Brave New World</em> xCaesar, <em>Gallic War</em></p>
+<p>1957 Spring 379 Caesar, <em>Gallic War</em> xLewis, <em>Cass Timberlane</em></p>
+<p>Fall 379 Lewis, <em>Cass Timberlane</em> xDescartes, <em>Philosophical Writings</em></p>
+<p>1958 Spring 380 Descartes, <em>Philosophical Writings</em> xBalzac, <em>Cousin
+Bette</em></p>
+<p>Fall 383 Balzac, <em>Cousin Bette</em> xAuden, <em>Selected Poems</em></p>
+<p>1959 Spring 385 Auden, <em>Selected Poems</em> xSalinger, <em>Nine Stories</em></p>
+<p>Fall 388 Salinger, <em>Nine Stories</em> xColette, <em>Six Novels</em></p>
+<p>1960 Spring 388 Colette, <em>Six Novels</em> xDickens, <em>Our Mutual Friend</em></p>
+<p>Fall 393 Dickens, <em>Our Mutual Friend</em> xCamus, <em>The Plague</em></p>
+<p>1961 Spring 405 Camus, <em>The Plague</em> xMailer, <em>Naked and the Dead</em></p>
+<p>Fall 403 Mailer, <em>Naked and the Dead</em> xHersey, <em>Hiroshima</em></p>
+<p>1962 Spring 408 Hersey, <em>Hiroshima</em> xErasmus, <em>In Praise of Folly</em></p>
+<p>Fall 415 Erasmus, <em>In Praise of Folly</em> xHesse, <em>Steppenwolf</em></p>
+<p>1963 Spring 415 Hesse, <em>Steppenwolf</em> xEllison, <em>Invisible Man</em></p>
+<p>Fall Ellison, <em>Invisible Man</em> xMalamud, <em>Two Novels</em></p>
+<p>1964 Spring Malamud, <em>Two Novels</em> xDewey, <em>John Dewey on Education</em></p>
+<p>Fall Dewey, <em>John Dewey on Education</em> xCapote, <em>Selected Writings</em></p>
+<p>1965 Spring Capote, <em>Selected Writings</em> xMann, <em>Confessions of Felix
+Krull</em></p>
+<p>Fall Mann, <em>Confessions of Felix Krull</em> xMann <em>Doctor Faustus</em> (1st dj’s
+have spring 1965 lists)</p>
+<p>1966 Spring Mann, <em>Doctor Faustus</em> xHeller, <em>Catch-22</em></p>
+<p>Fall Heller, <em>Catch-22</em> xFaulkner, <em>As I Lay Dying</em></p>
+<p>1967 Spring Faulkner, <em>As I Lay Dying</em> xFaulkner, <em>Pylon</em></p>
+<p>Fall Faulkner, <em>Pylon</em> xForster, <em>Collected Tales</em></p>
+<p>1968 Spring Forster, <em>Collected Tales</em> xBurgess, <em>Clockwork Orange &amp;
+Honey for the Bears</em></p>
+<p>Fall Burgess, <em>Clockwork Orange &amp; Honey for the Bears</em> xKafka, <em>The
+Castle</em></p>
+<p>1969 Spring Kafka, <em>The Castle</em> xRacine, <em>Complete Plays</em></p>
+<p>Fall Racine, <em>Complete Plays</em> xStyron, <em>Confessions of Nat Turner</em></p>
+<p>1970 Spring Styron, <em>Confessions of Nat Turner</em> xKosinski, <em>Painted
+Bird</em></p>
+<p>Fall Kosinski, <em>Painted Bird</em></p>
+<p>**<br>
+Giants**</p>
+<p>1931 Fall G3 Hugo, Les Misérables xPlutarch, Lives</p>
+<p>1932 Spring G5 Plutarch, Lives xGibbon, Decline and Fall of the Roman
+Empire</p>
+<p>Fall G7 Gibbon, Decline and Fall of the Roman Empire xAusten, Complete
+Novels.</p>
+<p>1933 Spring G10 Austen, Complete Novels xScott, Quentin Durward,
+Ivanhoe, Kenilworth</p>
+<p>Fall G12 Scott, Quentin Durward, Ivanhoe, Kenilworth xBulfinch,
+Mythology</p>
+<p>1934 Spring G14 Bulfinch, Mythology xBrowning, Poems and Plays</p>
+<p>Fall G17 Browning, Poems and Plays xSymonds, Renaissancein Italy</p>
+<p>1935 Spring G21 Symonds, Renaissance in Italy xLamb, Complete Works</p>
+<p>Fall G24 Lamb, Complete Works xDarwin</p>
+<p>1936 Spring G27 Darwin xMyers, History of the Great American Fortunes</p>
+<p>Fall G30 Myers, History of the Great American Fortunes xNietzsche,
+Philosophy</p>
+<p>1937 Spring G34 Nietzsche, Philosophy xHawthorne, Complete Novels and
+Selected Tales</p>
+<p>Fall G37 Hawthorne, Complete Novels and Selected Tales xPoe, Complete
+Tales and Poems</p>
+<p>1938 Spring G40 Poe, Complete Tales and Poems xTennyson, Poems and Plays</p>
+<p>Fall G42 Tennyson, Poems and Plays xLewisohn, Story of American
+Literature</p>
+<p>1939 Spring G45 Lewisohn, Story of American Literature xMetropolitan
+Opera Guide</p>
+<p>Fall G48 Metropolitan Opera Guide xEliot, Best-Known Novels</p>
+<p>1940 Spring G51 Eliot, Best-Known Novels xFielding, Tom Jones</p>
+<p>Fall G54 Fielding, Tom Jones xSterne, Tristram Shandy &amp; A Sentimental
+Journey</p>
+<p>1941 Spring G56 Sterne, Tristram Shandy &amp; A Sentimental Journey
+xMalraux, Man’s Hope</p>
+<p>Fall G58 Malraux, Man’s Hope xSixteen Famous American Plays</p>
+<p>1942 Spring G21 Sixteen Famous American Plays xDostoyevsky, The Idiot</p>
+<p>Fall G60 Dostoyevsky, The Idiot xPushkin, Poems, Prose and Plays</p>
+<p>1943 Spring G62 Pushkin, Poems, Prose and Plays xSixteen Famous British
+Plays</p>
+<p>Fall G63 Sixteen Famous British Plays xRabelais, Complete Works</p>
+<p>1944 Spring G65 Rabelais, Complete Works xThree Famous Murder Novels</p>
+<p>Fall G65 <em>No new Giants; see regular ML dating key to identify fall 1944
+lists</em></p>
+<p>1945 Spring G66 Three Famous Murder Novels xAnthology of Famous English
+and American Poetry</p>
+<p>Fall G67 Anthology of Famous English and American Poetry xPaine</p>
+<p>1946 Spring G68 Paine xDonne &amp; Blake</p>
+<p>Fall G70 Donne &amp; Blake xSixteen Famous European Plays</p>
+<p>1947 Spring G71 Sixteen Famous European Plays xGreat Tales of Terror and
+the Supernatural</p>
+<p>Fall G72 Great Tales of Terror and the Supernatural xSubtreasury of
+American Humor</p>
+<p>1948 Spring G73 Subtreasury of American Humor xJames, Short Stories</p>
+<p>Fall G11 James, Short Stories xThirty Famous One-Act Plays</p>
+<p>1949 Spring G22 Thirty Famous One-Act Plays xDe Quincey</p>
+<p>Fall G9 De Quincey xSt. Augustine, City of God</p>
+<p>1950 Spring G74 Augustine, City of God xStevenson</p>
+<p>Fall G75 Stevenson xMelville, Selected Writings</p>
+<p>1951 Fall G57 Melville, Selected Writings xAnthology of Famous British
+Stories</p>
+<p>1952 Spring G54 Anthology of Famous British Stories xGrimm &amp; Andersen</p>
+<p>Fall G76 Grimm &amp; Andersen xAnthology of Famous American Stories</p>
+<p>1953 Fall G77 Anthology of Famous American Stories xHolmes, Mind and
+Faith</p>
+<p>1954 Spring G78 Holmes, Mind and Faith xGreat Voices of the Reformation</p>
+<p>Fall G9 Great Voices of the Reformation xWisdom of Catholicism</p>
+<p>1955 Spring G56 Wisdom of Catholicism xWisdom of China and India</p>
+<p>Fall G59 Wisdom of China and India xWisdom of Israel</p>
+<p>1956 Spring G79 Wisdom of Israel xDreiser, American Tragedy</p>
+<p>Fall G80 Dreiser, American Tragedy xStoic and Epicurean Philosophy</p>
+<p>1957 Spring G45 Stoic and Epicurean Philosophy xFamous Science Fiction
+Stories</p>
+<p>Fall G31 Famous Science Fiction Stories xEncyclopedia of Modern American</p>
+<p>Humor</p>
+<p>1958 Spring G81 Encyclopedia of Modern American Humor xFaulkner Reader</p>
+<p>1959 Spring G82 Faulkner Reader xMurasaki, Tale of Genji</p>
+<p>1960 Fall G38 Murasaki, Tale of Genji xWilson, Shock of Recognition</p>
+<p>1961 Spring G83 Wilson, Shock of Recognition xMann, Stories of Three
+Decades</p>
+<p>Fall G84 Mann, Stories of Three Decades xGreat Ages and Ideas of the
+Jewish People</p>
+<p>1962 Spring G85 Great Ages ad Ideas of the Jewish People xPasternak,
+Doctor Zhivago</p>
+<p>Fall G86 Pasternak, Doctor Zhivago xMedieval Epics</p>
+<p>1963 Spring G87 Medieval Epics xO’Hara, 49 Stories</p>
+<p>Fall G88 O’Hara, 49 Stories xGreat Classical Myths</p>
+<p>1964 Spring G89 Great Classical Myths xSpenser, Selected Poetry</p>
+<p>Fall G91 Spenser, Selected Poetry xSpengler, Decline of the West</p>
+<p>1965 Spring G92 Spengler, Decline of the West xParodies</p>
+<p>Fall G93 Parodies xCooper, Leatherstocking Saga</p>
+<p>1966 Spring G94 Cooper, Leatherstocking Saga xBrockway and Weinstock,
+World of Opera</p>
+<p>Fall G95 Brockway and Weinstock, World of Opera xBalzac, Lost Illusions</p>
+<p>1967 Spring G97 Balzac, Lost Illusions xHersey, The Wall</p>
+<p>Fall G98 Hersey, The Wall xThomas, Abraham Lincoln</p>
+<p>1968 Spring G64 Thomas, Abraham Lincoln xBeauvoir, Second Sex</p>
+<p>Fall G44 Beauvoir, Second Sex xGogol</p>
+<p>1969 Spring G73 Gogol xLewis, Children of Sanchez</p>
+<p>Fall G100 Lewis, Children of Sanchez xBetween Hume &amp; Mill</p>
+<p>1970 Spring G102 Between Hume &amp; Mill</p>
+
+    </div>
+
+    <footer role="contentinfo">
+        <div id="primary-footer-widget-area">
+    <div id="nav_menu-5" class="widget-container widget_nav_menu"><div class="menu-main-menu-container">
+    <ul id="menu-main-menu-1" class="menu">
+        <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-1157 current_page_item menu-item-1191"><a href="https://bsuva.org/" aria-current="page">Home</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1145"><a href="https://bsuva.org/about/">About</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1146"><a href="https://bsuva.org/membership/">Join BSUVA or Renew Membership</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1147"><a href="https://bsuva.org/publications-2/">Publications</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2247"><a href="https://bsuva.org/battestin-fellowships/">Battestin Fellowships</a></li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2417"><a href="https://bsuva.org/book-collecting-contest/">Book Collecting Contest</a></li>
+</ul></div></div>    </div>
+            <div id="secondary-footer-widget-area">
+    <div id="text-25" class="widget-container widget_text">			<div class="textwidget">BSUVA <br>
+2014 Hessian Rd <br>
+Charlottesville, VA 22903 <br>
+Email: <a href="mailto:bibsoc@virginia.edu">bibsoc@virginia.edu</a></div>
+		</div>    </div>
+            </footer>
+    <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
+    <script type="module" src="/js/images.js"></script>
+    <script type="module" src="/js/layout.js"></script>
+    
+</body>
+</html>
