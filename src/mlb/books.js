@@ -8,10 +8,10 @@ module.exports = async function() {
     let yrs = await years();
 
     yrs.forEach(y=>{
-/*        
+        
         Object.keys(y.books).forEach(bid=>{
             y.books[bid].id = bid;
-            y.books[bid].year = y.year;
+            y.books[bid].year = y.year;          
             y.books[bid].label = y.books[bid].full.match( /^([^]+?)\n\n/m )[1].replace(/[\*\n]/g," ").replace(/<[^>]*>?/gm, '').trim();
             y.books[bid].author = y.books[bid].label.replace( /(.+)\..+\..+\..+/, '$1');
             y.books[bid].title = y.books[bid].label.replace( /.+\.(.+)\..+\..+/, '$1');
@@ -32,7 +32,7 @@ module.exports = async function() {
         
             books.push(y.books[bid]);
         })
-*/
+
     })
     
     return books;

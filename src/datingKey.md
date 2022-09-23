@@ -2,394 +2,150 @@
 layout: page-layout.njk
 permalink: "datingKey.html"
 ---
-## DATING KEY TO MODERN LIBRARY LISTS AND JACKETS
+## DATING KEY TO MODERN LIBRARY LISTS AND JACKETS   
 
-This dating key can be used to date Modern Library books and jackets on
-the basis of Modern Library lists that appear at the end of many of the
-volumes and inside the jackets. The dating key indicates one title added
-in each season and one title (preceded by an *x*) that would not be
-added until the following season. This makes it possible to date any ML
-jacket and any ML book that contains a list as having been printed by
-spring or fall of a given year.
+This dating key can be used to date Modern Library books and jackets on the basis of Modern Library lists that appear at the end of many of the volumes and inside the jackets. The dating key indicates one title added in each season and one title (preceded by an *x*) that would not be added until the following season. This makes it possible to date any ML jacket and any ML book that contains a list as having been printed by spring or fall of a given year.   
 
-From fall 1933 through spring 1963 the inside of the jackets included a
-heading, “WHICH OF THESE \[#\] OUTSTANDING BOOKS DO YOU WANT TO READ?”
-This number is indicated before the titles for these years. Lists of
-titles ceased to be printed inside the jackets beginning in 1964.
+From fall 1933 through spring 1963 the inside of the jackets included a heading, “WHICH OF THESE \[#] OUTSTANDING BOOKS DO YOU WANT TO READ?” This number is indicated before the titles for these years. Lists of titles ceased to be printed inside the jackets beginning in 1964.
 
-1925 Fall Dumas, *Camille* xAnderson, *Poor White*
+<table>
+<tr><td>1925</td><td>Fall</td><td>Dumas, *Camille* xAnderson, *Poor White*</td></tr>
+<tr><td rowspan=2>1926</td><td>Spring</td><td>Anderson, *Poor White* xJoyce, *Dubliners*</td></tr>
+<tr><td>Fall</td><td>Joyce, *Dubliners* xHudson, *Purple Land*</td></tr>
 
-1926 Spring Anderson, *Poor White* xJoyce, *Dubliners*
+<tr><td rowspan=2>1927</td><td>Spring</td><td>Hudson, *Purple Land* xHardy, *Jude the Obscure*       
+<tr><td>Fall</td><td>Hardy, *Jude the Obscure* xDumas, *Three Musketeers*   
 
-Fall Joyce, *Dubliners* xHudson, *Purple Land*
+<tr><td rowspan=2>1928</td><td>Spring</td><td>Dumas, *Three Musketeers* xApuleius, *Golden Ass*       
+<tr><td>Fall</td><td>Apuleius, *Golden Ass* xDostoyevsky, *Brothers Karamazov*   
 
-1927 Spring Hudson, *Purple Land* xHardy, *Jude the Obscure*
+<tr><td rowspan=2>1929</td><td>Spring</td><td>Dostoyevsky, *Brothers Karamazov* xChaucer, *Canterbury Tales*       
+<tr><td>Fall</td><td>Chaucer, *Canterbury Tales* xHemingway, *Sun Also Rises*   
 
-Fall Hardy, *Jude the Obscure* xDumas, *Three Musketeers*
+<tr><td rowspan=2>1930</td><td>Spring</td><td>Hemingway, *Sun Also Rises* xGoethe, *Faust*       
+<tr><td>Fall</td><td>Goethe, *Faust* xConrad, *Lord Jim*   
 
-1928 Spring Dumas, *Three Musketeers* xApuleius, *Golden Ass*
+<tr><td rowspan=2>1931</td><td>Spring</td><td>Conrad, *Lord Jim* xBalzac, *Droll Stories*       
+<tr><td>Fall Balzac, *Droll Stories* xDreiser, *Sister Carrie*   
 
-Fall Apuleius, *Golden Ass* xDostoyevsky, *Brothers Karamazov*
+<tr><td rowspan=2>1932</td><td>Spring</td><td>Dreiser, *Sister Carrie* xDickens, *Pickwick Papers*       
+<tr><td>Fall</td><td>Dickens, *Pickwick Papers* xLewis, *Arrowsmith*   
 
-1929 Spring Dostoyevsky, *Brothers Karamazov* xChaucer, *Canterbury
-Tales*
+<tr><td rowspan=2>1933</td><td>Spring</td><td>Lewis, *Arrowsmith* xStein, *Three Lives*       
+<tr><td>Fall</td><td>(225) Stein, *Three Lives* xCaldwell, *God’s Little Acre*   
 
-Fall Chaucer, *Canterbury Tales* xHemingway, *Sun Also Rises*
+<tr><td rowspan=2>1934</td><td>Spring</td><td>(225) Caldwell, *God’s Little Acre* xHeyward, *Porgy*       
+<tr><td>Fall 225 Heyward, *Porgy* xHamsun, *Growth of the Soil*   
 
-1930 Spring Hemingway, *Sun Also Rises* xGoethe, *Faust*
+<tr><td rowspan=2>1935 Spring 236 Hamsun, *Growth of the Soil* xMann, *Buddenbrooks*       
+<tr><td>Fall 239 Mann, *Buddenbrooks* xGogol, *Dead Souls*   
 
-Fall Goethe, *Faust* xConrad, *Lord Jim*
+<tr><td rowspan=2>1936 Spring 242 Gogol, *Dead Souls* xMalraux, *Man’s Fate*       
+<tr><td>Fall 245 Malraux, *Man’s Fate* xGraves, *I, Claudius*   
 
-1931 Spring Conrad, *Lord Jim* xBalzac, *Droll Stories*
+<tr><td rowspan=2>1937 Spring 246 Graves, *I, Claudius* xWoolf, *To the Lighthouse*       
+<tr><td>Fall 253 Woolf, *To the Lighthouse* xConfucius, *Wisdom*   
 
-Fall Balzac, *Droll Stories* xDreiser, *Sister Carrie*
+<tr><td rowspan=2>1938 Spring 257 Confucius, *Wisdom* xProust, *Cities of the Plain*       
+<tr><td>Fall 262 Proust, *Cities of the Plain* xStone, *Lust for Life*   
 
-1932 Spring Dreiser, *Sister Carrie* xDickens, *Pickwick Papers*
+<tr><td rowspan=2>1939 Spring 265 Stone, *Lust for Life* xOdets, *Six Plays*       
+<tr><td>Fall 268 Odets, *Six Plays* xChaucer, *Troilus and Cressida*   
 
-Fall Dickens, *Pickwick Papers* xLewis, *Arrowsmith*
+<tr><td rowspan=2>1940 Spring 271 Chaucer, *Troilus and Cressida* xEmerson, *Complete Essays*       
+<tr><td>Fall 274 Emerson, *Complete Essays* xHugo, *Hunchback of Notre Dame*   
 
-1933 Spring Lewis, *Arrowsmith* xStein, *Three Lives*
+<tr><td rowspan=2>1941 Spring 271 Hugo, *Hunchback of Notre Dame* xBemelmans, *My War with the United States*       
+<tr><td rowspan=2>Fall 278 Bemelmans, *My War with the United States* xLewis, *Babbitt* (also on dust jackets (dj’s) of spring 1942 titles)   
 
-Fall 225 Stein, *Three Lives* xCaldwell, *God’s Little Acre*
+<tr><td rowspan=2>1942 Spring 281 Lewis, *Babbitt* xMaurois, *Disraeli* (on dj’s for most fall 1942 titles)
+<tr><td>Fall 284 Maurois, *Disraeli* xDu Maurier, *Rebecca* (on dj’s for most fall 1942 reprintings)   
 
-1934 Spring 225 Caldwell, *God’s Little Acre* xHeyward, *Porgy*
+<tr><td rowspan=2>1943 Spring 291 Du Maurier, *Rebecca* xShakespeare, *Tragedies, Comedies, Histories and Poems*       
+<tr><td>Fall 292 Shakespeare, *Tragedies, Comedies, Histories and Poems* xJefferson, *Life & Selected Writings*   
 
-Fall 225 Heyward, *Porgy* xHamsun, *Growth of the Soil*
+<tr><td rowspan=2>1944 Spring 299 Jefferson, *Life & Selected Writings* xParker, *Collected Poetry*       
+<tr><td>Fall 303 Parker, *Collected Poetry* xO. Henry, *Best Short Stories*   
 
-1935 Spring 236 Hamsun, *Growth of the Soil* xMann, *Buddenbrooks*
+<tr><td rowspan=2>1945 Spring 304 O. Henry, *Best Short Stories* xIrving, *Selected Writings*       
+<tr><td>Fall 306 Irving, *Selected Writings* xHersey, *Bell for Adano*   
 
-Fall 239 Mann, *Buddenbrooks* xGogol, *Dead Souls*
+<tr><td rowspan=2>1946 Spring 309 Hersey, *Bell for Adano* xBalzac, *Père Goriot & Eugénie Grandet*       
+<tr><td>Fall 316 Balzac, *Père Goriot & Eugénie Grandet* xAristotle, *Introduction*   
 
-1936 Spring 242 Gogol, *Dead Souls* xMalraux, *Man’s Fate*
+<tr><td rowspan=2>1947 Spring 322 Aristotle, *Introduction* xLewis, *Dodsworth*       
+<tr><td>Fall 329 Lewis, *Dodsworth* xAquinas, *Introduction*   
 
-Fall 245 Malraux, *Man’s Fate* xGraves, *I, Claudius*
+<tr><td rowspan=2>1948 Spring 334 Aquinas, *Introduction* xDickinson, *Selected Poems*       
+<tr><td>Fall 334 Dickinson, *Selected Poems* xAusten, *Pride and Prejudice & Sense and Sensibility*   
 
-1937 Spring 246 Graves, *I, Claudius* xWoolf, *To the Lighthouse*
+<tr><td rowspan=2>1949 Spring 341 Austen, *Pride and Prejudice & Sense and Sensibility* xByron, *Don Juan*       
+<tr><td>Fall 344 Byron, *Don Juan* xJames, *Washington Square*   
 
-Fall 253 Woolf, *To the Lighthouse* xConfucius, *Wisdom*
+<tr><td rowspan=2>1950 Spring 347 James, *Washington Square* xAlcott, *Little Women*       
+<tr><td>Fall 348 Alcott, *Little Women* xCicero, *Basic Works*   
 
-1938 Spring 257 Confucius, *Wisdom* xProust, *Cities of the Plain*
+<tr><td rowspan=2>1951 Spring 352 Cicero, *Basic Works* xHowells, *Rise of Silas Lapham*       
+<tr><td>Fall 358 Howells, *Rise of Silas Lapham* xDinesen, *Out of Africa*   
 
-Fall 262 Proust, *Cities of the Plain* xStone, *Lust for Life*
+<tr><td rowspan=2>1952 Spring 360 Dinesen, *Out of Africa* xCooper, *The Pathfinder*       
+<tr><td>Fall 362 Cooper, *The Pathfinder* xGunther, *Death Be Not Proud*   
 
-1939 Spring 265 Stone, *Lust for Life* xOdets, *Six Plays*
+<tr><td rowspan=2>1953 Spring 365 Gunther, *Death Be Not Proud* xBlake, *Selected Poetry and Prose*       
+<tr><td>Fall 367 Blake, *Selected Poetry and Prose* xByron, *Selected Poetry*   
 
-Fall 268 Odets, *Six Plays* xChaucer, *Troilus and Cressida*
+<tr><td rowspan=2>1954 Spring 370 Byron, *Selected Poetry* xBrowning, *Selected Poetry*       
+<tr><td>Fall 371 Browning, *Selected Poetry* xFaulkner, *Go Down, Moses*   
 
-1940 Spring 271 Chaucer, *Troilus and Cressida* xEmerson, *Complete
-Essays*
+<tr><td rowspan=2>1955 Spring 372 Faulkner, *Go Down, Moses* xSantayana, *Sense of Beauty*       
+<tr><td>Fall 374 Santayana, *Sense of Beauty* xTennyson, *Selected Poetry*   
 
-Fall 274 Emerson, *Complete Essays* xHugo, *Hunchback of Notre Dame*
+<tr><td rowspan=2>1956 Spring 376 Tennyson, *Selected Poetry* xHuxley, *Brave New World*       
+<tr><td>Fall 377 Huxley, *Brave New World* xCaesar, *Gallic War*   
 
-1941 Spring 271 Hugo, *Hunchback of Notre Dame* xBemelmans, *My War with
-the United States*
+<tr><td rowspan=2>1957 Spring 379 Caesar, *Gallic War* xLewis, *Cass Timberlane*       
+<tr><td>Fall 379 Lewis, *Cass Timberlane* xDescartes, *Philosophical Writings*   
 
-Fall 278 Bemelmans, *My War with the United States* xLewis, *Babbitt*
-(also on dust jackets (dj’s) of spring 1942 titles)
+<tr><td rowspan=2>1958 Spring 380 Descartes, *Philosophical Writings* xBalzac, *Cousin Bette*       
+<tr><td>Fall 383 Balzac, *Cousin Bette* xAuden, *Selected Poems*   
 
-1942 Spring 281 Lewis, *Babbitt* xMaurois, *Disraeli* (on dj’s for most
-fall 1942 titles)
+<tr><td rowspan=2>1959 Spring 385 Auden, *Selected Poems* xSalinger, *Nine Stories*       
+<tr><td>Fall 388 Salinger, *Nine Stories* xColette, *Six Novels*   
 
-Fall 284 Maurois, *Disraeli* xDu Maurier, *Rebecca* (on dj’s for most
-fall 1942 reprintings)
+<tr><td rowspan=2>1960 Spring 388 Colette, *Six Novels* xDickens, *Our Mutual Friend*       
+<tr><td>Fall 393 Dickens, *Our Mutual Friend* xCamus, *The Plague*   
 
-1943 Spring 291 Du Maurier, *Rebecca* xShakespeare, *Tragedies,
-Comedies, Histories and Poems*
+<tr><td rowspan=2>1961 Spring 405 Camus, *The Plague* xMailer, *Naked and the Dead*       
+<tr><td>Fall 403 Mailer, *Naked and the Dead* xHersey, *Hiroshima*   
 
-Fall 292 Shakespeare, *Tragedies, Comedies, Histories and Poems*
-xJefferson, *Life & Selected Writings*
+<tr><td rowspan=2>1962 Spring 408 Hersey, *Hiroshima* xErasmus, *In Praise of Folly*       
+<tr><td>Fall 415 Erasmus, *In Praise of Folly* xHesse, *Steppenwolf*   
 
-1944 Spring 299 Jefferson, *Life & Selected Writings* xParker,
-*Collected Poetry*
+<tr><td rowspan=2>1963 Spring 415 Hesse, *Steppenwolf* xEllison, *Invisible Man*       
+<tr><td>Fall Ellison, *Invisible Man* xMalamud, *Two Novels*   
 
-Fall 303 Parker, *Collected Poetry* xO. Henry, *Best Short Stories*
+<tr><td rowspan=2>1964 Spring Malamud, *Two Novels* xDewey, *John Dewey on Education*       
+<tr><td>Fall Dewey, *John Dewey on Education* xCapote, *Selected Writings*   
 
-1945 Spring 304 O. Henry, *Best Short Stories* xIrving, *Selected
-Writings*
+<tr><td rowspan=2>1965 Spring Capote, *Selected Writings* xMann, *Confessions of Felix Krull*       
+<tr><td>Fall Mann, *Confessions of Felix Krull* xMann *Doctor Faustus* (1st dj’s have spring 1965 lists)   
 
-Fall 306 Irving, *Selected Writings* xHersey, *Bell for Adano*
+<tr><td rowspan=2>1966 Spring Mann, *Doctor Faustus* xHeller, *Catch-22*       
+<tr><td>Fall Heller, *Catch-22* xFaulkner, *As I Lay Dying*   
 
-1946 Spring 309 Hersey, *Bell for Adano* xBalzac, *Père Goriot & Eugénie
-Grandet*
+<tr><td rowspan=2>1967 Spring Faulkner, *As I Lay Dying* xFaulkner, *Pylon*       
+<tr><td>Fall Faulkner, *Pylon* xForster, *Collected Tales*   
 
-Fall 316 Balzac, *Père Goriot & Eugénie Grandet* xAristotle,
-*Introduction*
+<tr><td rowspan=2>1968 Spring Forster, *Collected Tales* xBurgess, *Clockwork Orange & Honey for the Bears*       
+<tr><td>Fall Burgess, *Clockwork Orange & Honey for the Bears* xKafka, *The Castle*   
 
-1947 Spring 322 Aristotle, *Introduction* xLewis, *Dodsworth*
+<tr><td rowspan=2>1969 Spring Kafka, *The Castle* xRacine, *Complete Plays*       
+<tr><td>Fall Racine, *Complete Plays* xStyron, *Confessions of Nat Turner*   
 
-Fall 329 Lewis, *Dodsworth* xAquinas, *Introduction*
+<tr><td rowspan=2>1970 Spring Styron, *Confessions of Nat Turner* xKosinski, *Painted Bird*       
+<tr><td>Fall Kosinski, *Painted Bird* 
+</table>   
 
-1948 Spring 334 Aquinas, *Introduction* xDickinson, *Selected Poems*
-
-Fall 334 Dickinson, *Selected Poems* xAusten, *Pride and Prejudice &
-Sense and Sensibility*
-
-1949 Spring 341 Austen, *Pride and Prejudice & Sense and Sensibility*
-xByron, *Don Juan*
-
-Fall 344 Byron, *Don Juan* xJames, *Washington Square*
-
-1950 Spring 347 James, *Washington Square* xAlcott, *Little Women*
-
-Fall 348 Alcott, *Little Women* xCicero, *Basic Works*
-
-1951 Spring 352 Cicero, *Basic Works* xHowells, *Rise of Silas Lapham*
-
-Fall 358 Howells, *Rise of Silas Lapham* xDinesen, *Out of Africa*
-
-1952 Spring 360 Dinesen, *Out of Africa* xCooper, *The Pathfinder*
-
-Fall 362 Cooper, *The Pathfinder* xGunther, *Death Be Not Proud*
-
-1953 Spring 365 Gunther, *Death Be Not Proud* xBlake, *Selected Poetry
-and Prose*
-
-Fall 367 Blake, *Selected Poetry and Prose* xByron, *Selected Poetry*
-
-1954 Spring 370 Byron, *Selected Poetry* xBrowning, *Selected Poetry*
-
-Fall 371 Browning, *Selected Poetry* xFaulkner, *Go Down, Moses*
-
-1955 Spring 372 Faulkner, *Go Down, Moses* xSantayana, *Sense of Beauty*
-
-Fall 374 Santayana, *Sense of Beauty* xTennyson, *Selected Poetry*
-
-1956 Spring 376 Tennyson, *Selected Poetry* xHuxley, *Brave New World*
-
-Fall 377 Huxley, *Brave New World* xCaesar, *Gallic War*
-
-1957 Spring 379 Caesar, *Gallic War* xLewis, *Cass Timberlane*
-
-Fall 379 Lewis, *Cass Timberlane* xDescartes, *Philosophical Writings*
-
-1958 Spring 380 Descartes, *Philosophical Writings* xBalzac, *Cousin
-Bette*
-
-Fall 383 Balzac, *Cousin Bette* xAuden, *Selected Poems*
-
-1959 Spring 385 Auden, *Selected Poems* xSalinger, *Nine Stories*
-
-Fall 388 Salinger, *Nine Stories* xColette, *Six Novels*
-
-1960 Spring 388 Colette, *Six Novels* xDickens, *Our Mutual Friend*
-
-Fall 393 Dickens, *Our Mutual Friend* xCamus, *The Plague*
-
-1961 Spring 405 Camus, *The Plague* xMailer, *Naked and the Dead*
-
-Fall 403 Mailer, *Naked and the Dead* xHersey, *Hiroshima*
-
-1962 Spring 408 Hersey, *Hiroshima* xErasmus, *In Praise of Folly*
-
-Fall 415 Erasmus, *In Praise of Folly* xHesse, *Steppenwolf*
-
-1963 Spring 415 Hesse, *Steppenwolf* xEllison, *Invisible Man*
-
-Fall Ellison, *Invisible Man* xMalamud, *Two Novels*
-
-1964 Spring Malamud, *Two Novels* xDewey, *John Dewey on Education*
-
-Fall Dewey, *John Dewey on Education* xCapote, *Selected Writings*
-
-1965 Spring Capote, *Selected Writings* xMann, *Confessions of Felix
-Krull*
-
-Fall Mann, *Confessions of Felix Krull* xMann *Doctor Faustus* (1st dj’s
-have spring 1965 lists)
-
-1966 Spring Mann, *Doctor Faustus* xHeller, *Catch-22*
-
-Fall Heller, *Catch-22* xFaulkner, *As I Lay Dying*
-
-1967 Spring Faulkner, *As I Lay Dying* xFaulkner, *Pylon*
-
-Fall Faulkner, *Pylon* xForster, *Collected Tales*
-
-1968 Spring Forster, *Collected Tales* xBurgess, *Clockwork Orange &
-Honey for the Bears*
-
-Fall Burgess, *Clockwork Orange & Honey for the Bears* xKafka, *The
-Castle*
-
-1969 Spring Kafka, *The Castle* xRacine, *Complete Plays*
-
-Fall Racine, *Complete Plays* xStyron, *Confessions of Nat Turner*
-
-1970 Spring Styron, *Confessions of Nat Turner* xKosinski, *Painted
-Bird*
-
-Fall Kosinski, *Painted Bird*
-
-**  
-Giants**
-
-1931 Fall G3 Hugo, Les Misérables xPlutarch, Lives
-
-1932 Spring G5 Plutarch, Lives xGibbon, Decline and Fall of the Roman
-Empire
-
-Fall G7 Gibbon, Decline and Fall of the Roman Empire xAusten, Complete
-Novels.
-
-1933 Spring G10 Austen, Complete Novels xScott, Quentin Durward,
-Ivanhoe, Kenilworth
-
-Fall G12 Scott, Quentin Durward, Ivanhoe, Kenilworth xBulfinch,
-Mythology
-
-1934 Spring G14 Bulfinch, Mythology xBrowning, Poems and Plays
-
-Fall G17 Browning, Poems and Plays xSymonds, Renaissancein Italy
-
-1935 Spring G21 Symonds, Renaissance in Italy xLamb, Complete Works
-
-Fall G24 Lamb, Complete Works xDarwin
-
-1936 Spring G27 Darwin xMyers, History of the Great American Fortunes
-
-Fall G30 Myers, History of the Great American Fortunes xNietzsche,
-Philosophy
-
-1937 Spring G34 Nietzsche, Philosophy xHawthorne, Complete Novels and
-Selected Tales
-
-Fall G37 Hawthorne, Complete Novels and Selected Tales xPoe, Complete
-Tales and Poems
-
-1938 Spring G40 Poe, Complete Tales and Poems xTennyson, Poems and Plays
-
-Fall G42 Tennyson, Poems and Plays xLewisohn, Story of American
-Literature
-
-1939 Spring G45 Lewisohn, Story of American Literature xMetropolitan
-Opera Guide
-
-Fall G48 Metropolitan Opera Guide xEliot, Best-Known Novels
-
-1940 Spring G51 Eliot, Best-Known Novels xFielding, Tom Jones
-
-Fall G54 Fielding, Tom Jones xSterne, Tristram Shandy & A Sentimental
-Journey
-
-1941 Spring G56 Sterne, Tristram Shandy & A Sentimental Journey
-xMalraux, Man’s Hope
-
-Fall G58 Malraux, Man’s Hope xSixteen Famous American Plays
-
-1942 Spring G21 Sixteen Famous American Plays xDostoyevsky, The Idiot
-
-Fall G60 Dostoyevsky, The Idiot xPushkin, Poems, Prose and Plays
-
-1943 Spring G62 Pushkin, Poems, Prose and Plays xSixteen Famous British
-Plays
-
-Fall G63 Sixteen Famous British Plays xRabelais, Complete Works
-
-1944 Spring G65 Rabelais, Complete Works xThree Famous Murder Novels
-
-Fall G65 *No new Giants; see regular ML dating key to identify fall 1944
-lists*
-
-1945 Spring G66 Three Famous Murder Novels xAnthology of Famous English
-and American Poetry
-
-Fall G67 Anthology of Famous English and American Poetry xPaine
-
-1946 Spring G68 Paine xDonne & Blake
-
-Fall G70 Donne & Blake xSixteen Famous European Plays
-
-1947 Spring G71 Sixteen Famous European Plays xGreat Tales of Terror and
-the Supernatural
-
-Fall G72 Great Tales of Terror and the Supernatural xSubtreasury of
-American Humor
-
-1948 Spring G73 Subtreasury of American Humor xJames, Short Stories
-
-Fall G11 James, Short Stories xThirty Famous One-Act Plays
-
-1949 Spring G22 Thirty Famous One-Act Plays xDe Quincey
-
-Fall G9 De Quincey xSt. Augustine, City of God
-
-1950 Spring G74 Augustine, City of God xStevenson
-
-Fall G75 Stevenson xMelville, Selected Writings
-
-1951 Fall G57 Melville, Selected Writings xAnthology of Famous British
-Stories
-
-1952 Spring G54 Anthology of Famous British Stories xGrimm & Andersen
-
-Fall G76 Grimm & Andersen xAnthology of Famous American Stories
-
-1953 Fall G77 Anthology of Famous American Stories xHolmes, Mind and
-Faith
-
-1954 Spring G78 Holmes, Mind and Faith xGreat Voices of the Reformation
-
-Fall G9 Great Voices of the Reformation xWisdom of Catholicism
-
-1955 Spring G56 Wisdom of Catholicism xWisdom of China and India
-
-Fall G59 Wisdom of China and India xWisdom of Israel
-
-1956 Spring G79 Wisdom of Israel xDreiser, American Tragedy
-
-Fall G80 Dreiser, American Tragedy xStoic and Epicurean Philosophy
-
-1957 Spring G45 Stoic and Epicurean Philosophy xFamous Science Fiction
-Stories
-
-Fall G31 Famous Science Fiction Stories xEncyclopedia of Modern American
-
-Humor
-
-1958 Spring G81 Encyclopedia of Modern American Humor xFaulkner Reader
-
-1959 Spring G82 Faulkner Reader xMurasaki, Tale of Genji
-
-1960 Fall G38 Murasaki, Tale of Genji xWilson, Shock of Recognition
-
-1961 Spring G83 Wilson, Shock of Recognition xMann, Stories of Three
-Decades
-
-Fall G84 Mann, Stories of Three Decades xGreat Ages and Ideas of the
-Jewish People
-
-1962 Spring G85 Great Ages ad Ideas of the Jewish People xPasternak,
-Doctor Zhivago
-
-Fall G86 Pasternak, Doctor Zhivago xMedieval Epics
-
-1963 Spring G87 Medieval Epics xO’Hara, 49 Stories
-
-Fall G88 O’Hara, 49 Stories xGreat Classical Myths
-
-1964 Spring G89 Great Classical Myths xSpenser, Selected Poetry
-
-Fall G91 Spenser, Selected Poetry xSpengler, Decline of the West
-
-1965 Spring G92 Spengler, Decline of the West xParodies
-
-Fall G93 Parodies xCooper, Leatherstocking Saga
-
-1966 Spring G94 Cooper, Leatherstocking Saga xBrockway and Weinstock,
-World of Opera
-
-Fall G95 Brockway and Weinstock, World of Opera xBalzac, Lost Illusions
-
-1967 Spring G97 Balzac, Lost Illusions xHersey, The Wall
-
-Fall G98 Hersey, The Wall xThomas, Abraham Lincoln
-
-1968 Spring G64 Thomas, Abraham Lincoln xBeauvoir, Second Sex
-
-Fall G44 Beauvoir, Second Sex xGogol
-
-1969 Spring G73 Gogol xLewis, Children of Sanchez
-
-Fall G100 Lewis, Children of Sanchez xBetween Hume & Mill
-
-1970 Spring G102 Between Hume & Mill
+#Giants   
+ 
+ 1931 Fall G3 Hugo, Les Misérables xPlutarch, Lives   1932 Spring G5 Plutarch, Lives xGibbon, Decline and Fall of the Roman Empire       Fall G7 Gibbon, Decline and Fall of the Roman Empire xAusten, Complete Novels.   1933 Spring G10 Austen, Complete Novels xScott, Quentin Durward, Ivanhoe, Kenilworth       Fall G12 Scott, Quentin Durward, Ivanhoe, Kenilworth xBulfinch, Mythology   1934 Spring G14 Bulfinch, Mythology xBrowning, Poems and Plays       Fall G17 Browning, Poems and Plays xSymonds, Renaissancein Italy   1935 Spring G21 Symonds, Renaissance in Italy xLamb, Complete Works       Fall G24 Lamb, Complete Works xDarwin   1936 Spring G27 Darwin xMyers, History of the Great American Fortunes       Fall G30 Myers, History of the Great American Fortunes xNietzsche, Philosophy   1937 Spring G34 Nietzsche, Philosophy xHawthorne, Complete Novels and Selected Tales       Fall G37 Hawthorne, Complete Novels and Selected Tales xPoe, Complete Tales and Poems   1938 Spring G40 Poe, Complete Tales and Poems xTennyson, Poems and Plays       Fall G42 Tennyson, Poems and Plays xLewisohn, Story of American Literature   1939 Spring G45 Lewisohn, Story of American Literature xMetropolitan Opera Guide       Fall G48 Metropolitan Opera Guide xEliot, Best-Known Novels   1940 Spring G51 Eliot, Best-Known Novels xFielding, Tom Jones       Fall G54 Fielding, Tom Jones xSterne, Tristram Shandy & A Sentimental Journey   1941 Spring G56 Sterne, Tristram Shandy & A Sentimental Journey xMalraux, Man’s Hope       Fall G58 Malraux, Man’s Hope xSixteen Famous American Plays   1942 Spring G21 Sixteen Famous American Plays xDostoyevsky, The Idiot       Fall G60 Dostoyevsky, The Idiot xPushkin, Poems, Prose and Plays   1943 Spring G62 Pushkin, Poems, Prose and Plays xSixteen Famous British Plays       Fall G63 Sixteen Famous British Plays xRabelais, Complete Works   1944 Spring G65 Rabelais, Complete Works xThree Famous Murder Novels       Fall G65 *No new Giants; see regular ML dating key to identify fall 1944 lists*   1945 Spring G66 Three Famous Murder Novels xAnthology of Famous English and American Poetry       Fall G67 Anthology of Famous English and American Poetry xPaine   1946 Spring G68 Paine xDonne & Blake       Fall G70 Donne & Blake xSixteen Famous European Plays   1947 Spring G71 Sixteen Famous European Plays xGreat Tales of Terror and the Supernatural       Fall G72 Great Tales of Terror and the Supernatural xSubtreasury of American Humor   1948 Spring G73 Subtreasury of American Humor xJames, Short Stories       Fall G11 James, Short Stories xThirty Famous One-Act Plays   1949 Spring G22 Thirty Famous One-Act Plays xDe Quincey       Fall G9 De Quincey xSt. Augustine, City of God   1950 Spring G74 Augustine, City of God xStevenson       Fall G75 Stevenson xMelville, Selected Writings   1951 Fall G57 Melville, Selected Writings xAnthology of Famous British Stories   1952 Spring G54 Anthology of Famous British Stories xGrimm & Andersen       Fall G76 Grimm & Andersen xAnthology of Famous American Stories   1953 Fall G77 Anthology of Famous American Stories xHolmes, Mind and Faith   1954 Spring G78 Holmes, Mind and Faith xGreat Voices of the Reformation       Fall G9 Great Voices of the Reformation xWisdom of Catholicism   1955 Spring G56 Wisdom of Catholicism xWisdom of China and India       Fall G59 Wisdom of China and India xWisdom of Israel   1956 Spring G79 Wisdom of Israel xDreiser, American Tragedy       Fall G80 Dreiser, American Tragedy xStoic and Epicurean Philosophy   1957 Spring G45 Stoic and Epicurean Philosophy xFamous Science Fiction Stories       Fall G31 Famous Science Fiction Stories xEncyclopedia of Modern American Humor   1958 Spring (G81) Encyclopedia of Modern American Humor xFaulkner Reader   1959 Spring (G82) Faulkner Reader xMurasaki, Tale of Genji   1960 Fall (G38) Murasaki, Tale of Genji xWilson, Shock of Recognition   1961 Spring (G83) Wilson, Shock of Recognition xMann, Stories of Three Decades       Fall G84 Mann, Stories of Three Decades xGreat Ages and Ideas of the Jewish People   1962 Spring G85 Great Ages ad Ideas of the Jewish People xPasternak, Doctor Zhivago       Fall G86 Pasternak, Doctor Zhivago xMedieval Epics   1963 Spring G87 Medieval Epics xO’Hara, 49 Stories       Fall G88 O’Hara, 49 Stories xGreat Classical Myths   1964 Spring G89 Great Classical Myths xSpenser, Selected Poetry       Fall G91 Spenser, Selected Poetry xSpengler, Decline of the West   1965 Spring G92 Spengler, Decline of the West xParodies       Fall G93 Parodies xCooper, Leatherstocking Saga   1966 Spring G94 Cooper, Leatherstocking Saga xBrockway and Weinstock, World of Opera       Fall G95 Brockway and Weinstock, World of Opera xBalzac, Lost Illusions   1967 Spring G97 Balzac, Lost Illusions xHersey, The Wall       Fall G98 Hersey, The Wall xThomas, Abraham Lincoln   1968 Spring G64 Thomas, Abraham Lincoln xBeauvoir, Second Sex       Fall G44 Beauvoir, Second Sex xGogol   1969 Spring G73 Gogol xLewis, Children of Sanchez       Fall G100 Lewis, Children of Sanchez xBetween Hume & Mill   1970 Spring G102 Between Hume & Mill 
