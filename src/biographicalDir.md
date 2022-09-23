@@ -10,11 +10,11 @@ REFERRED TO IN PUBLISHING HISTORY NOTES
 
 Abrams, Harry N. (d. 1979). Founded Abrams Books in 1949.  
 
-Adler, Elmer (1884–1962). Proprietor of the Pynson Press; printed somenof Cerf and Klopfer’s early catalogues and served for a time as andirector of Random House (RH).  
+Adler, Elmer (1884–1962). Proprietor of the Pynson Press; printed some of Cerf and Klopfer’s early catalogues and served for a time as a director of Random House (RH).  
 
 Barber, Mary. Secretary to Cerf and Klopfer.  
 
-Baumgarten, Bernice (1902–78). Literary agent with the New York firmnBrandt and Brandt; married to James Gould Cozzens.  
+Baumgarten, Bernice (1902–78). Literary agent with the New York firm Brandt and Brandt; married to James Gould Cozzens.  
 
 Becker, Belle. RH editor who joined RH in 1930 as a secretary and taught herself to be an editor.  
 
@@ -92,7 +92,7 @@ Maule, Harry E. RH editor, 1939– ; edited ML anthology, *Great Tales of the Am
 
 McClelland, Ward. Independent sales representative based in Chicago. ML/RH sales representative in the South, 1937–38.  
 
-Miller, Lewis. Joined RH, 1936; RH sales manager, 1938– ; vice-president, RH, 19xx–1967. Klopfer credited him for RH being as bignas it was (GBN interview, 1978).  
+Miller, Lewis. Joined RH, 1936; RH sales manager, 1938– ; vice-president, RH, 19xx–1967. Klopfer credited him for RH being as big as it was (GBN interview, 1978).  
 
 Nourse, Floyd. ML sales representative for the West Coast, 1928/29–36. Also represented Doubleday Dollar Books.  
 
@@ -120,7 +120,7 @@ Simon, Richard. Parkway Printing Co., president, 1929–55 (?).
 
 Sloan, William (d. 1974). Publisher (Henry Holt), author and editor.  
 
-Smalley, Carl J. ML/RH sales representative for West Coast, 1930– ; soldnRH only, 1927–30. Independent sales representative, based in McPherson, Kansas.  
+Smalley, Carl J. ML/RH sales representative for West Coast, 1930– ; sold RH only, 1927–30. Independent sales representative, based in McPherson, Kansas.  
 
 Smith, Harrison. Co-founder of publishing house Smith and Haas with Robert K. Haas. Merged with RH, 1936; left 1 January 1937.  
 
