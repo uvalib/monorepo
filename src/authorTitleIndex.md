@@ -5,7 +5,7 @@ permalink: "authorTitleIndex.html"
 
 ## AUTHOR/TITLE INDEX  
 
-This index is an alphabetical listing of authors and editors of regularnML volumes, ML Giants, and Illustrated ML titles. There are also entriesnfor titles of anthologies and anonymous works and for illustrators ofnthe twenty volumes published in the Illustrated ML. The number at thenend of the index entry is the bibliography number under which thendescription is found. Nine ghost titles that were announced but nevernpublished or listed in otherwise reliable bibliographies are alsonincluded.  
+This index is an alphabetical listing of authors and editors of regular ML volumes, ML Giants, and Illustrated ML titles. There are also entries for titles of anthologies and anonymous works and for illustrators of the twenty volumes published in the Illustrated ML. The number at the end of the index entry is the bibliography number under which the description is found. Nine ghost titles that were announced but never published or listed in otherwise reliable bibliographies are also included.  
 
 *101 Years’ Entertainment*, ed. Ellery Queen (1946) G70  
 
@@ -19,17 +19,17 @@ Aeschylus, *Complete Greek Tragedies*, vol. 2 (1962) 543
 
 Aiken, Conrad, ed., *American Poetry 1671–1928* (1929) 169  
 
-Aiken, Conrad, ed., *Anthology of Modern American Poetry* (jacket title,n1927) 137  
+Aiken, Conrad, ed., *Anthology of Modern American Poetry* (jacket title, 1927) 137  
 
-Aiken, Conrad, ed., *Comprehensive Anthology of American Poetry* (1929,n1944/45) 169.2  
+Aiken, Conrad, ed., *Comprehensive Anthology of American Poetry* (1929, 1944/45) 169.2  
 
 Aiken, Conrad, ed., *Modern American Poetry* (1940) 137.1b  
 
 Aiken, Conrad, ed., *Modern American Poets* (1927) 137  
 
-Aiken, Conrad, ed., *Twentieth-Century American Poetry* (1945, 1963)n137.2  
+Aiken, Conrad, ed., *Twentieth-Century American Poetry* (1945, 1963) 137.2  
 
-Aiken, Conrad and Benét, William Rose, eds., *Anthology of FamousnEnglish and American Poetr*y (1945) G68  
+Aiken, Conrad and Benét, William Rose, eds., *Anthology of Famous English and American Poetr*y (1945) G68  
 
 Alcott, Louisa May, *Little Women* (1950) 431  
 
@@ -45,17 +45,17 @@ Anderson, Sherwood, *Winesburg, Ohio* (1921) 96
 
 Andreyev, Leonid, *Seven That Were Hanged* (1918) 44  
 
-*Anthology of Modern American Poetry* (jacket title), ed. Conrad Aikenn(1927) 137  
+*Anthology of Modern American Poetry* (jacket title), ed. Conrad Aiken (1927) 137  
 
 *Anthology of American Negro Literature*, ed. V. F. Calverton (1929) 183  
 
-*Anthology of American Negro Literature*, ed. Sylvestre C. Watkinsn(1944) 372  
+*Anthology of American Negro Literature*, ed. Sylvestre C. Watkins (1944) 372  
 
-*Anthology of Famous American Stories*, ed. Angus Burrell and BennettnCerf (1953) G83  
+*Anthology of Famous American Stories*, ed. Angus Burrell and Bennett Cerf (1953) G83  
 
-*Anthology of Famous British Stories*, ed. Bennett Cerf and Henry C.nMoriarty (1952) G81  
+*Anthology of Famous British Stories*, ed. Bennett Cerf and Henry C. Moriarty (1952) G81  
 
-*Anthology of Famous English and American Poetry*, ed. William RosenBenét and Conrad Aiken (1945) G68  
+*Anthology of Famous English and American Poetry*, ed. William Rose Benét and Conrad Aiken (1945) G68  
 
 *Anthology of Irish Literature*, ed. David H. Greene (1954) 470  
 
@@ -109,7 +109,7 @@ Baudelaire, Charles Pierre, *Prose and Poetry* (1919) 70
 
 Beardsley, Aubrey, *Art of Aubrey Beardsley* (1918) 41  
 
-Beardsley, Monroe C., ed., *European Philosophers from Descartes tonNietzsche* (1960) G94  
+Beardsley, Monroe C., ed., *European Philosophers from Descartes to Nietzsche* (1960) G94  
 
 Beauvoir, Simone de, *Second Sex* (1968) G114  
 
@@ -123,19 +123,19 @@ Bellow, Saul, *Adventures of Augie March* (1965) 579
 
 Bemelmans, Ludwig, *My War with the United States* (1941) 343  
 
-Benét, William Rose and Conrad Aiken, eds., *Anthology of Famous Englishnand American Poetr*y (1945) G68  
+Benét, William Rose and Conrad Aiken, eds., *Anthology of Famous English and American Poetr*y (1945) G68  
 
-Benét, William Rose, and Norman Cousins, ed., *Poetry of Freedom* (1948)n412  
+Benét, William Rose, and Norman Cousins, ed., *Poetry of Freedom* (1948) 412  
 
 Bennett, Arnold, *Old Wives’ Tale* (1931) 207  
 
-Benton, Thomas Hart, illus., *Autobiography of Benjamin Franklin &nSelections from His Writings* (Illus ML) IML 6  
+Benton, Thomas Hart, illus., *Autobiography of Benjamin Franklin & Selections from His Writings* (Illus ML) IML 6  
 
 Bergson, Henri, *Creative Evolution* (1944) 368  
 
 *Best American Humorous Short Stories*, ed. Alexander Jessup (1920) 80  
 
-*Best American Humorous Short Stories*, ed. Robert N. Linscott (1945)n380  
+*Best American Humorous Short Stories*, ed. Robert N. Linscott (1945) 380  
 
 *Best Ghost Stories* (1919) 67  
 
@@ -149,7 +149,7 @@ Bierce, Ambrose, *In the Midst of Life* (1927) 143
 
 Bierstedt, Robert, ed., *Making of Society* (1959) 514  
 
-Blake, William, *Complete Poetry and Selected Prose of John Donne &nComplete Poetry of William Blake* (1946) G71  
+Blake, William, *Complete Poetry and Selected Prose of John Donne & Complete Poetry of William Blake* (1946) G71  
 
 Blake, William, *Poems* (1921) 92  
 
@@ -207,9 +207,9 @@ Burk, John N., *Life and Works of Beethoven* (1946) 392
 
 Burke, Edmund, *Selected Works* (1960) 522  
 
-Burrell, Angus and Bennett Cerf, eds., *Anthology of Famous AmericannStorie*s (1953) G83  
+Burrell, Angus and Bennett Cerf, eds., *Anthology of Famous American Storie*s (1953) G83  
 
-Burtt, Edwin A., ed., *English Philosophers from Bacon to Mill* (1939)nG45  
+Burtt, Edwin A., ed., *English Philosophers from Bacon to Mill* (1939) G45  
 
 Bury, J. B., *History of Greece* (1937) G33  
 
@@ -237,7 +237,7 @@ Caldwell, Erskine, *God’s Little Acre* (1934) 268
 
 Caldwell, Erskine, *Tobacco Road* (1947) 397  
 
-Calverton, V. F., ed., *Anthology of American Negro Literature* (1929)n183  
+Calverton, V. F., ed., *Anthology of American Negro Literature* (1929) 183  
 
 Calverton, V. F., ed., *Making of Man* (1931) 215  
 
@@ -265,7 +265,7 @@ Carpenter, Edward, *Love’s Coming of Age* (1918) 49
 
 Carroll, Lewis, *Alice’s Adventures in Wonderland* (1947) IML 20  
 
-Carroll, Lewis, *Alice’s Adventures in Wonderland, Through thenLooking-Glass, The Hunting of the Snark* (1924) 111  
+Carroll, Lewis, *Alice’s Adventures in Wonderland, Through the Looking-Glass, The Hunting of the Snark* (1924) 111  
 
 Carroll, Lewis, *Complete Works* (1936) G26  
 
@@ -279,7 +279,7 @@ Cellini, Benvenuto, *Autobiography* (1927) 132
 
 Cerf, Bennett, ed., *Encyclopedia of Modern American Humor* (1958) G92  
 
-Cerf, Bennett A., ed., *Famous Ghost Stories* (1944) 373; Illus MLn(1946) IML 17  
+Cerf, Bennett A., ed., *Famous Ghost Stories* (1944) 373; Illus ML (1946) IML 17  
 
 Cerf, Bennett, ed., *Great German Short Novels and Stories* (1933) 256  
 
@@ -289,23 +289,23 @@ Cerf, Bennett, ed., *Six American Plays for Today* (1961) 528
 
 Cerf, Bennett A., ed., *Three Famous Murder Novels* (1945) G67  
 
-Cerf, Bennett A. and Van H. Cartmell, eds., *Sixteen Famous AmericannPlays* (1942) G58  
+Cerf, Bennett A. and Van H. Cartmell, eds., *Sixteen Famous American Plays* (1942) G58  
 
-Cerf, Bennett A. and Van H. Cartmell, eds., *Sixteen Famous BritishnPlays* (1943) G64  
+Cerf, Bennett A. and Van H. Cartmell, eds., *Sixteen Famous British Plays* (1943) G64  
 
-Cerf, Bennett A. and Van H. Cartmell, eds., *Sixteen Famous EuropeannPlays* (1947) G72  
+Cerf, Bennett A. and Van H. Cartmell, eds., *Sixteen Famous European Plays* (1947) G72  
 
-Cerf, Bennett A. and Van H. Cartmell, eds., *Thirty Famous One-ActnPlays* (1949) G76  
+Cerf, Bennett A. and Van H. Cartmell, eds., *Thirty Famous One-Act Plays* (1949) G76  
 
-Cerf, Bennett and Henry C. Moriarty, eds., *Anthology of Famous BritishnStories* (1952) G81  
+Cerf, Bennett and Henry C. Moriarty, eds., *Anthology of Famous British Stories* (1952) G81  
 
-Cervantes, Miguel de, *Don Quixote* (1930) 197; Giant (1934) G14; IllusnML (1946) IML 16  
+Cervantes, Miguel de, *Don Quixote* (1930) 197; Giant (1934) G14; Illus ML (1946) IML 16  
 
-Chandler, Raymond, *Farewell, My Lovely & The Lady in the Lake* (1967)n595  
+Chandler, Raymond, *Farewell, My Lovely & The Lady in the Lake* (1967) 595  
 
 Chandler, Raymond, *Raymond Chandler Omnibus* (1980) 622  
 
-Chappell, Warren, illus., Fielding, *History of Tom Jones* (Illus ML,n1943) IML 5  
+Chappell, Warren, illus., Fielding, *History of Tom Jones* (Illus ML, 1943) IML 5  
 
 Chappell, Warren, illus., Shakespeare, Tragedies (Illus ML, 1955) IML 14  
 
@@ -337,7 +337,7 @@ Colette, *Six Novels* (1960) 521
 
 Collins, Wilkie, *The Moonstone & The Woman in White* (1937) G31  
 
-Commager, Henry Steele and Allan Nevins, *Short History of the UnitednStates* (1945) 376  
+Commager, Henry Steele and Allan Nevins, *Short History of the United States* (1945) 376  
 
 *Complete Greek Tragedies*, vol. 1: *Aeschylus I* (1960) 526  
 
@@ -353,11 +353,11 @@ Commager, Henry Steele and Allan Nevins, *Short History of the UnitednStates* (1
 
 *Complete Greek Tragedies*, vol. 7: *Euripides III* (1963) 552  
 
-*Comprehensive Anthology of American Poetry*, ed. Conrad Aiken (1929,n1944/45) 169  
+*Comprehensive Anthology of American Poetry*, ed. Conrad Aiken (1929, 1944/45) 169  
 
 Confucius, *Wisdom of Confucius* (1938) 312; Illus ML (1943) IML 3  
 
-Congreve, William, *Comedies* (ghost). Announced in fall 1925 and springn1926 catalogs but never published. An edition of Congreve’s *Comedies*nedited by Bonamy Dobrée (1925) was published by Oxford University Pressnin its World’s Classics series.  
+Congreve, William, *Comedies* (ghost). Announced in fall 1925 and spring 1926 catalogs but never published. An edition of Congreve’s *Comedies* edited by Bonamy Dobrée (1925) was published by Oxford University Press in its World’s Classics series.  
 
 Conrad, Joseph, *Lord Jim* (1931) 210  
 
@@ -377,7 +377,7 @@ Corneille, Pierre; Racine, Jean, *Six Plays* (1931) 222
 
 Corvo, Frederick Baron, *History of the Borgias* (1931) 220  
 
-Crane, Stephen, *Maggie, A Girl of the Streets and Other Stories* (1933)n88  
+Crane, Stephen, *Maggie, A Girl of the Streets and Other Stories* (1933) 88  
 
 dCrane, Stephen, *Men, Women and Boats* (1921) 88  
 
@@ -385,7 +385,7 @@ Crane, Stephen, *Red Badge of Courage* (1942) 347
 
 Cummings, E. E., *Enormous Room* (1934) 265  
 
-Curry, John Steuart, illus., *Essays of Ralph Waldo Emerson* (Illus ML,n1944) IML 11  
+Curry, John Steuart, illus., *Essays of Ralph Waldo Emerson* (Illus ML, 1944) IML 11  
 
 D’Annunzio, Gabriele, *Child of Pleasure* (1925) 113  
 
@@ -399,7 +399,7 @@ Da Vinci, Leonardo, *Notebooks* (1957) 498
 
 Dahl, Roald, *Selected Stories* (1968) 609  
 
-Dali, Salvador, illus., Cervantes, *Don Quixote*. (Illus ML, 1946) IMLn16  
+Dali, Salvador, illus., Cervantes, *Don Quixote*. (Illus ML, 1946) IML 16  
 
 Dana, Richard Henry, *Two Years before the Mast* (1945) 381  
 
@@ -407,9 +407,9 @@ Dante Alighieri, *Divine Comedy* (1932) 251; Illus ML (1944) IML 7
 
 Darwin, Charles, *Origin of Species & Descent of Man* (1936) G25  
 
-Daudet, Alphonse, *Sapho*; Antoine François Prévost, *Manon Lescaut*n(1920) 78  
+Daudet, Alphonse, *Sapho*; Antoine François Prévost, *Manon Lescaut* (1920) 78  
 
-Daudet, Alphonse, *Sapho*; Antoine François Prévost, *Manon Lescaut;*nProsper Mérimée, *Carmen* (1945) 78.2  
+Daudet, Alphonse, *Sapho*; Antoine François Prévost, *Manon Lescaut;* Prosper Mérimée, *Carmen* (1945) 78.2  
 
 Davidson, John, *Poems* (1924) 107  
 
@@ -423,7 +423,7 @@ De Quincey, Thomas, *Selected Writings* (1949) G77
 
 Defoe, Daniel, *Moll Flanders* (1926) 127  
 
-Defoe, Daniel, *Robinson Crusoe & The Journal of the Plague Year* (1948)n411  
+Defoe, Daniel, *Robinson Crusoe & The Journal of the Plague Year* (1948) 411  
 
 Descartes, René, *Philosophical Writings* (1958) 500  
 
@@ -439,7 +439,7 @@ Dickens, Charles, *David Copperfield* (1934) 269
 
 Dickens, Charles, *Our Mutual Friend* (1960) 524  
 
-Dickens, Charles, *Posthumous Papers of the Pickwick Club* (1932) 247;nIllus ML (1943) IML 4  
+Dickens, Charles, *Posthumous Papers of the Pickwick Club* (1932) 247; Illus ML (1943) IML 4  
 
 Dickens, Charles, *Tale of Two Cities* (1935) 284  
 
@@ -451,7 +451,7 @@ Dinesen, Isak, *Seven Gothic Tales* (1939) 320
 
 Doctorow, E. L., *Book of Daniel* (1983) 631  
 
-Donne, John, *Complete Poetry and Selected Prose of John Donne &nComplete Poetry of William Blake* (1946) G71  
+Donne, John, *Complete Poetry and Selected Prose of John Donne & Complete Poetry of William Blake* (1946) G71  
 
 Donne, John, *Complete Poetry and Selected Prose* (1952) 446  
 
@@ -463,9 +463,9 @@ Dos Passos, John, *U.S.A.* (1939) G42
 
 Dostoevsky, Fyodor, *Best Short Stories* (1955) 479  
 
-Dostoyevsky, Fyodor, *Brothers Karamazov* (1929) 171; Giant (1937) G34;nIllus ML (1943) IML 2  
+Dostoyevsky, Fyodor, *Brothers Karamazov* (1929) 171; Giant (1937) G34; Illus ML (1943) IML 2  
 
-Dostoyevsky, Fyodor, *Crime and Punishment* (1932) 228; Illus ML (1944)nIML 10  
+Dostoyevsky, Fyodor, *Crime and Punishment* (1932) 228; Illus ML (1944) IML 10  
 
 Dostoyevsky, Fyodor, *The Idiot* (1942) G60  
 
@@ -481,7 +481,7 @@ Douglas, Norman, *South Wind* (1925) 114
 
 Dowson, Ernest, *Poems and Prose* (1919) 66  
 
-Doyle, Sir Arthur Conan, *Adventures and Memoirs of Sherlock Holmes*n(1946) 387  
+Doyle, Sir Arthur Conan, *Adventures and Memoirs of Sherlock Holmes* (1946) 387  
 
 *Drama of the English Renaissance*, ed. M. L. Wine (1969) 615  
 
@@ -511,7 +511,7 @@ Dunsany, Lord, *Dreamer’s Tales and Other Stories* (1918) 32
 
 Edmonds, Walter D., *Rome Haul* (1938) 310  
 
-Eichenberg, Fritz, illus., Brontë, *Wuthering Heights* (Illus ML, 1946)nIML 18  
+Eichenberg, Fritz, illus., Brontë, *Wuthering Heights* (Illus ML, 1946) IML 18  
 
 *Eight Famous Elizabethan Plays*, ed. Esther Cloudman Dunn (1932) 240  
 
@@ -553,21 +553,21 @@ Euripides, *Complete Greek Tragedies,* vol. 6 (1963) 548
 
 Euripides, *Complete Greek Tragedies*, vol. 7 (1963) 552  
 
-*European Philosophers from Descartes to Nietzsche*, ed. Monroe C.nBeardsley (1960) G94  
+*European Philosophers from Descartes to Nietzsche*, ed. Monroe C. Beardsley (1960) G94  
 
 *Evolution in Modern Thought* (1918) 35  
 
 Fabre, Jean Henri, *Life of the Caterpillar* (1925) 115  
 
-Fallico, Arturo B. and Herman Shapiro, eds., *Renaissance Philosophy*,nvol. 1: *The Italian Philosophers* (1967) 594  
+Fallico, Arturo B. and Herman Shapiro, eds., *Renaissance Philosophy*, vol. 1: *The Italian Philosophers* (1967) 594  
 
 *Famous Ghost Stories*, ed. Bennett A. Cerf (1944) 373  
 
-*Famous Science-Fiction Stories*, ed. Raymond J. Healy and J. FrancisnMcComas (1957) G91  
+*Famous Science-Fiction Stories*, ed. Raymond J. Healy and J. Francis McComas (1957) G91  
 
 Farrell, James T., *Studs Lonigan* (1938) G39  
 
-Fast, Howard; Thomas Paine, *Selected Work of Tom Paine & Citizen TomnPaine* (1946) G69  
+Fast, Howard; Thomas Paine, *Selected Work of Tom Paine & Citizen Tom Paine* (1946) G69  
 
 Fast, Howard, *The Unvanquished* (1945) 379  
 
