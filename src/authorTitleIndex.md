@@ -603,7 +603,7 @@ Ferber, Edna, *Show Boat* (1935) 286
 
 Feuchtwanger, Lion, *Power* (1932) 249  
 
-Fielding, Henry, *History of Tom Jones* (1931) 208; Giant (1940) G52;nIllus ML (1943) IML 5  
+Fielding, Henry, *History of Tom Jones* (1931) 208; Giant (1940) G52; Illus ML (1943) IML 5  
 
 Fielding, Henry, *Joseph Andrews* (1939) 323  
 
@@ -631,7 +631,7 @@ Forster, E. M., *Collected Tales* (1968) 605
 
 Forster, E. M., *Passage to India* (1940) 330  
 
-Fosdick, Harry Emerson, ed., *Great Voices of the Reformation* (1954)nG85  
+Fosdick, Harry Emerson, ed., *Great Voices of the Reformation* (1954) G85  
 
 *Four Contemporary French Plays* (1967) 598  
 
@@ -657,7 +657,7 @@ Frank, Anne, *Diary of a Young Girl* (1958) 507
 
 Franklin, Benjamin, *Autobiography* (1932) 236; Illus ML (1944) IML 6  
 
-Frederick, Harold, *Damnation of Theron Ware* (ghost). In *History ofnStone & Kimball and Herbert S. Stone & Co.* (Chicago, 1940), SidneynKramer refers to a ML edition of *Damnation of Theron Ware* published bynB&L with a preface by Robert Morss Lovett (p. 75). This was published bynAlbert and Charles Boni in 1924 and was never in the ML.  
+Frederick, Harold, *Damnation of Theron Ware* (ghost). In *History of Stone & Kimball and Herbert S. Stone & Co.* (Chicago, 1940), Sidney Kramer refers to a ML edition of *Damnation of Theron Ware* published by B&L with a preface by Robert Morss Lovett (p. 75). This was published by Albert and Charles Boni in 1924 and was never in the ML.  
 
 Frenssen, Gustav, *Jörn Uhl* (1921) 95  
 
@@ -671,7 +671,7 @@ Frost, Robert, *Poems* (1946) 393
 
 Gautier, Theophile, *Mademoiselle de Maupin* (1918) 51  
 
-Gautier, Theophile, *Mademoiselle de Maupin & One of Cleopatra’s Nights*n(1935) 51  
+Gautier, Theophile, *Mademoiselle de Maupin & One of Cleopatra’s Nights* (1935) 51  
 
 Genet, Jean, *Our Lady of the Flowers* (1965) 575  
 
@@ -679,11 +679,11 @@ George, Henry, *Progress and Poverty* (1938) 313
 
 George, W. L., *Bed of Roses* (1919) 68  
 
-Gibbon, Edward, *Decline and Fall of the Roman Empire*, 2 vols. (1932)nG6.1; 3 vols. (1946) G6.2  
+Gibbon, Edward, *Decline and Fall of the Roman Empire*, 2 vols. (1932) G6.1; 3 vols. (1946) G6.2  
 
 Gide, André, *The Counterfeiters* (1931) 216  
 
-Gide, André, *The Counterfeiters with Journal of "The Counterfeiters”*n(1962) 216.2  
+Gide, André, *The Counterfeiters with Journal of "The Counterfeiters”* (1962) 216.2  
 
 Gide, André, *The Immoralist* (1983) 630  
 
@@ -707,7 +707,7 @@ Godolphin, Francis R. B., ed., *Latin Poets* (1949) 415
 
 Goethe, Johann Wolfgang von, *Faust* (1930) 200  
 
-Goethe, Johann Wolfgang von, *Sorrows of Young Werther & Novella* (1984)n638  
+Goethe, Johann Wolfgang von, *Sorrows of Young Werther & Novella* (1984) 638  
 
 Gogol, Nikolai, *Collected Tales and Plays* (1969) G115  
 
@@ -719,7 +719,7 @@ Goldsmith, Oliver, *Vicar of Wakefield and Other Writings* (1955) 476
 
 Goncourt, E. and J. de, *Renée Mauperin* (1919) 69  
 
-Goodspeed, Edgar J., and J. M. Powis Smith, eds., *Short Bible* (1940)n331  
+Goodspeed, Edgar J., and J. M. Powis Smith, eds., *Short Bible* (1940) 331  
 
 Gorky, Maxim, *Creatures That Once Were Men* (1918) 47  
 
@@ -731,7 +731,7 @@ Graves, Robert, *Claudius the God* (1982) 626
 
 Graves, Robert, *I, Claudius* (1937) 301  
 
-*Great Ages and Ideas of the Jewish People*, ed. Leo W. Schwartz (1962)nG98  
+*Great Ages and Ideas of the Jewish People*, ed. Leo W. Schwartz (1962) G98  
 
 *Great Classical Myths*, ed. F. R. B. Godolphin (1964) G102  
 
@@ -745,7 +745,7 @@ Graves, Robert, *I, Claudius* (1937) 301
 
 *Great Spanish Stories*, ed. Angel Flores (1956) 482  
 
-*Great Tales of Terror and the Supernatural,* ed. Herbert A. Wise andnPhyllis Fraser (1947) G73  
+*Great Tales of Terror and the Supernatural,* ed. Herbert A. Wise and Phyllis Fraser (1947) G73  
 
 *Great Tales of the American West*, ed. Harry E. Maule (1945) 378  
 
@@ -803,7 +803,7 @@ Hawthorne, Nathaniel, *Scarlet Letter* (1927) 133
 
 Haycraft, Howard, ed., *Fourteen Great Detective Stories* (1949) 424  
 
-Healy, Raymond J. and J. Francis McComas, eds., *Famous Science-FictionnStories* (1957) G91  
+Healy, Raymond J. and J. Francis McComas, eds., *Famous Science-Fiction Stories* (1957) G91  
 
 Hearn, Lafcadio, *Some Chinese Ghosts* (1927) 140  
 
@@ -811,7 +811,7 @@ Hecht, Ben, *Erik Dorn* (1924) 105
 
 Hegel, Georg Wilhelm Friedrich, *Philosophy* (1953) 460  
 
-*Hellenistic Philosophy*, ed. Herman Shapiro and Edwin M. Curley (1965)n573  
+*Hellenistic Philosophy*, ed. Herman Shapiro and Edwin M. Curley (1965) 573  
 
 Heller, Joseph, *Catch-22* (1966) 592  
 
@@ -845,9 +845,9 @@ Heyward, DuBose, *Porgy* (1934) 275
 
 Hoffenstein, Samuel, *Complete Poetry* (1954) 466  
 
-Hofstadter, Albert, and Richard Kuhns, eds., *Philosophies of Art andnBeauty* (1964) G103  
+Hofstadter, Albert, and Richard Kuhns, eds., *Philosophies of Art and Beauty* (1964) G103  
 
-Holmes, Oliver Wendell, Jr., *Mind and Faith of Justice Holmes* (1954)nG84  
+Holmes, Oliver Wendell, Jr., *Mind and Faith of Justice Holmes* (1954) G84  
 
 *Holy Bible* (1943) IML 1  
 
@@ -891,13 +891,13 @@ Ibáñez, Vicente Blasco, *The Cabin* (1920) 73
 
 Ibsen, Henrik, *A Doll’s House, Ghosts, An Enemy of the People* (1917) 6  
 
-Ibsen, Henrik, *Doll’s House; Ghosts; An Enemy of the People; JohnnGabriel Borkman* (1936) 6.1f  
+Ibsen, Henrik, *Doll’s House; Ghosts; An Enemy of the People; John Gabriel Borkman* (1936) 6.1f  
 
-Ibsen, Henrik, *Doll’s House; Ghosts; An Enemy of the People; The MasternBuilder* (1946) 6.2  
+Ibsen, Henrik, *Doll’s House; Ghosts; An Enemy of the People; The Master Builder* (1946) 6.2  
 
 Ibsen, Henrik, *Eleven Plays* (1935) G17  
 
-Ibsen, Henrik, *Master Builder; Pillars of Society; Hedda Gabler* (1918)n34  
+Ibsen, Henrik, *Master Builder; Pillars of Society; Hedda Gabler* (1918) 34  
 
 Ibsen, Henrik, *Six Plays* (1957) 490  
 
@@ -963,7 +963,7 @@ Kant, Immanuel, *Critique of Pure Reason* (1958) 506
 
 Kant, Immanuel, *Philosophy* (1949) 422  
 
-Kauffer, E. McKnight, illus., Hudson, *Green Mansions* (Illus ML, 1944)nIML 13  
+Kauffer, E. McKnight, illus., Hudson, *Green Mansions* (Illus ML, 1944) IML 13  
 
 Kaufman, George S., and Moss Hart, *Six Plays* (1944) 369  
 
@@ -971,7 +971,7 @@ Kaufmann, Walter, ed., *Twenty German Poets* (1963) 557
 
 Keats, John, *Complete Poetry and Selected Prose* (1951) 436  
 
-Keats, John; Percy Bysshe Shelley, *Complete Poetical Works* (1932) G4;n*Complete Poems of John Keats and Percy Bysshe Shelley* (1978) G4c  
+Keats, John; Percy Bysshe Shelley, *Complete Poetical Works* (1932) G4; *Complete Poems of John Keats and Percy Bysshe Shelley* (1978) G4c  
 
 Kent, Rockwell, *Wilderness* (1930) 205  
 
@@ -989,7 +989,7 @@ Kosinski, Jerzy, *Painted Bird* (1970) 620
 
 Kosinski, Jerzy, *Steps* (1983) 632  
 
-Kredel, Fritz, illus., Carroll, *Alice in Wonderland*, with Tennielnillustrations colored by Kredel (Illus ML, 1947) IML 20  
+Kredel, Fritz, illus., Carroll, *Alice in Wonderland*, with Tenniel illustrations colored by Kredel (Illus ML, 1947) IML 20  
 
 Kredel, Fritz, illus., *Holy Bible* (Illus ML, 1943) IML 1  
 
@@ -1021,13 +1021,13 @@ Lawrence, D. H., *Sons and Lovers* (1923) 99
 
 Lawrence, D. H., *Women in Love* (1937) 302  
 
-Le Gallienne, Richard, ed., *Modern Book of American Verse* (ghost).nAnnounced as ML 67 in B&L catalogs; published as a B&L trade book undernthe title *Le Gallienne Anthology of American Verse* (1925).  
+Le Gallienne, Richard, ed., *Modern Book of American Verse* (ghost). Announced as ML 67 in B&L catalogs; published as a B&L trade book under the title *Le Gallienne Anthology of American Verse* (1925).  
 
-Le Gallienne, Richard, ed., *Modern Book of English Verse* (ghost).nAnnounced as ML 66 in B&L catalogs; published as a B&L trade book undernthe title *Le Gallienne Anthology of English Verse* (1922).  
+Le Gallienne, Richard, ed., *Modern Book of English Verse* (ghost). Announced as ML 66 in B&L catalogs; published as a B&L trade book under the title *Le Gallienne Anthology of English Verse* (1922).  
 
 Leonardo da Vinci, *Notebooks* (1957) 498  
 
-Lewis, Allen, illus., Henry Wadsworth Longfellow, *Poems of Longfellow*n(Illus ML, 1944) IML 9  
+Lewis, Allen, illus., Henry Wadsworth Longfellow, *Poems of Longfellow* (Illus ML, 1944) IML 9  
 
 Lewis, Oscar, *Children of Sanchez* (1969) G117  
 
@@ -1053,7 +1053,7 @@ Lin Yutang, ed., *Wisdom of China and India* (1955) G87
 
 Lincoln, Abraham, *Life and Writings* (1942) G57  
 
-Linscott, Robert N., ed., *Best American Humorous Short Stories* (1945)n380  
+Linscott, Robert N., ed., *Best American Humorous Short Stories* (1945) 380  
 
 Livy, *History of Rome* (1962) 540  
 
@@ -1061,7 +1061,7 @@ Locke, Charles, illus., Thoreau, *Walden*. (Illus ML, 1946) IML 19
 
 Longfellow, Henry Wadsworth, *Poems* (1932) 235; Illus ML (1944) IML 9  
 
-Loomis, Roger Sherman and Laura Hibbard Loomis, eds., *MedievalnRomances* (1957) 497  
+Loomis, Roger Sherman and Laura Hibbard Loomis, eds., *Medieval Romances* (1957) 497  
 
 Loti, Pierre, *Madame Chrysanthème* (1921) 84  
 
@@ -1079,9 +1079,9 @@ Machiavelli, Niccolò, *The Prince & The Discourses* (1940) 328
 
 Macy, John, *Spirit of American Literature* (1918) 53  
 
-Maeterlinck, Maurice, *Miracle of Saint Antony and Five Other Plays*n(1917) 11  
+Maeterlinck, Maurice, *Miracle of Saint Antony and Five Other Plays* (1917) 11  
 
-Maeterlinck, Maurice, *Pelleas and Melisande and Other Plays* (jacketntitle) 11e jacket B (1927)  
+Maeterlinck, Maurice, *Pelleas and Melisande and Other Plays* (jacket title) 11e jacket B (1927)  
 
 Mailer, Norman, *Naked and the Dead* (1961) 536  
 
@@ -1113,7 +1113,7 @@ Mansfield, Katherine, *Garden Party* (1931) 214
 
 Marquand, John P., *Late George Apley* (1940) 326  
 
-Marx, Karl, *Capital, The Communist Manifesto and Other Writings* (1932)n246  
+Marx, Karl, *Capital, The Communist Manifesto and Other Writings* (1932) 246  
 
 Marx, Karl, *Capital* (1936) G24  
 
@@ -1131,11 +1131,11 @@ Maupassant, Guy de, *Best Stories*, ed. Saxe Commins (1945) 383
 
 Maupassant, Guy de, *Best Stories*, trans. Michael Monahan (1940) 243b  
 
-Maupassant, Guy de, *Best Stories*, trans. Michael Monahan (jacketntitle) (1932) 243a  
+Maupassant, Guy de, *Best Stories*, trans. Michael Monahan (jacket title) (1932) 243a  
 
 Maupassant, Guy de, *Love and Other Stories* (1919) 72  
 
-Maupassant, Guy de, *Mademoiselle Fifi and Twelve Other Stories* (1917)n8  
+Maupassant, Guy de, *Mademoiselle Fifi and Twelve Other Stories* (1917) 8  
 
 Maupassant, Guy de, *Short Stories*, trans. Monahan (1932) 243a  
 
@@ -1159,7 +1159,7 @@ Mead, Margaret, *Coming of Age in Samoa* (1953) 455
 
 *Medieval Philosophy,* ed. Herman Shapiro (1964) 561  
 
-*Medieval Romances,* ed. Roger Sherman Loomis and Laura Hibbard Loomisn(1957) 497  
+*Medieval Romances,* ed. Roger Sherman Loomis and Laura Hibbard Loomis (1957) 497  
 
 Melville, Herman, *Moby Dick* (1926) 124; Giant (1944) G65  
 
@@ -1183,7 +1183,7 @@ Mérimée, Prosper, *Carmen* (1945);
 
 Alphonse Daudet, *Sapho;* Antoine François Prévost, *Manon Lescaut* 78  
 
-*Metropolitan Opera Guide*, by Mary Ellis Peltz and Robert Lawrencen(1939) G46  
+*Metropolitan Opera Guide*, by Mary Ellis Peltz and Robert Lawrence (1939) G46  
 
 Michelangelo, *Complete Poems and Selected Letters* (1965) 576  
 
@@ -1201,9 +1201,9 @@ Mitford, Nancy, *Pursuit of Love & Love in a Cold Climate* (1979) 621
 
 *Modern American Poets,* ed. Conrad Aiken (1927) 137  
 
-*Modern Book of American Verse*, ed. Richard Le Gallienne (ghost). *See*nLe Gallienne.  
+*Modern Book of American Verse*, ed. Richard Le Gallienne (ghost). *See* Le Gallienne.  
 
-*Modern Book of English Verse*, ed. Richard Le Gallienne (ghost). *See*nLe Gallienne.  
+*Modern Book of English Verse*, ed. Richard Le Gallienne (ghost). *See* Le Gallienne.  
 
 *Modern Book of Criticism,* ed. Ludwig Lewisohn (1920) 75  
 
@@ -1221,7 +1221,7 @@ Montaigne, Michel de, *Selected Essays* (1949) 419
 
 Moore, George, *Confessions of A Young Man* (1917) 16  
 
-Moriarty, Henry C. and Bennett Cerf, eds., *Anthology of Famous BritishnStories* (1952) G81  
+Moriarty, Henry C. and Bennett Cerf, eds., *Anthology of Famous British Stories* (1952) G81  
 
 Morier, James, *Adventures of Hajii Baba of Ispahan* (1954) 467  
 
@@ -1243,7 +1243,7 @@ Nash, Ogden, *Selected Verse* (1946) 388
 
 Nash, Ogden, *Verses from 1929 On* (1964) 560  
 
-Nevins, Allan and Henry Steele Commager, *Short History of the UnitednStates* (1945) 376  
+Nevins, Allan and Henry Steele Commager, *Short History of the United States* (1945) 376  
 
 *New Anthology of Modern Poetry,* ed. Selden Rodman (1939) G44  
 
@@ -1281,25 +1281,25 @@ O’Hara, John, *Selected Short Stories* (1956) 489
 
 O’Neill, Eugene, *Ah, Wilderness! and Two Other Plays* (1964) 559  
 
-O’Neill, Eugene, *Emperor Jones, Anna Christie, The Hairy Ape* (1937)n299  
+O’Neill, Eugene, *Emperor Jones, Anna Christie, The Hairy Ape* (1937) 299  
 
 O’Neill, Eugene, *Emperor Jones; The Straw* (1928) 157  
 
 O’Neill, Eugene, *Long Voyage Home* (1940) 101e  
 
-O’Neill, Eugene, *Moon of the Caribbees and Six Other Plays of the Sea*n(1923) 101  
+O’Neill, Eugene, *Moon of the Caribbees and Six Other Plays of the Sea* (1923) 101  
 
 O’Neill, Eugene, *Nine Plays* (1941) G53  
 
 O’Neill, Eugene, *Plays*, 3 vols. (1982) 624  
 
-Oates, Whitney J. and Eugene O’Neill Jr., eds., *Seven Famous GreeknPlays* (1951) 439  
+Oates, Whitney J. and Eugene O’Neill Jr., eds., *Seven Famous Greek Plays* (1951) 439  
 
 Oates, Whitney J., ed., *Stoic and Epicurean Philosophers* (1957) G90  
 
 Odets, Clifford, *Six Plays* (1939) 321  
 
-Olmsted, Frederick Law, *Cotton Kingdom* (1969c, *Rubáiyát of OmarnKhayyám*, appended to Palgrave, ed., *Golden Treasury* (1944) 370  
+Olmsted, Frederick Law, *Cotton Kingdom* (1969c, *Rubáiyát of Omar Khayyám*, appended to Palgrave, ed., *Golden Treasury* (1944) 370  
 
 *Oriental Romances,* ed. Manuel Komroff (1930) 196  
 
@@ -1307,15 +1307,15 @@ Ouida, *In A Winter City* (1923) 103
 
 *Outline of Abnormal Psychology,* ed. Gardner Murphy (1929) 172  
 
-*Outline of Abnormal Psychology* (rev.), ed. Gardner Murphy and ArthurnJ. Bachrach (1954) 172.2  
+*Outline of Abnormal Psychology* (rev.), ed. Gardner Murphy and Arthur J. Bachrach (1954) 172.2  
 
 *Outline of Psychoanalysis,* ed. J. S. Van Teslaar (1924) 108  
 
-*Outline of Psychoanalysis,* ed. Clara Thompson, Milton Mazer, and EarlnWittenberg (1955) 472  
+*Outline of Psychoanalysis,* ed. Clara Thompson, Milton Mazer, and Earl Wittenberg (1955) 472  
 
 Overton, Grant, ed., *Great Modern Short Stories* (1930) 188  
 
-Paine, Thomas; Howard Fast, *Selected Work of Tom Paine & Citizen TomnPaine* (1946) G69  
+Paine, Thomas; Howard Fast, *Selected Work of Tom Paine & Citizen Tom Paine* (1946) G69  
 
 Paine, Thomas, *Selections from the Writings of Thomas Paine* (1922) 98  
 
@@ -1343,7 +1343,7 @@ Pearson, Edmund, *Studies in Murder* (1938) 309
 
 Pegis, Anton C., ed., *Wisdom of Catholicism* (1955) G86  
 
-Peltz, Mary Ellis and Robert Lawrence, *Metropolitan Opera Guide* (1939)nG46  
+Peltz, Mary Ellis and Robert Lawrence, *Metropolitan Opera Guide* (1939) G46  
 
 Pennell, Elizabeth Robins, *Art of Whistler* (1928) 161  
 
@@ -1355,7 +1355,7 @@ Perelman, S. J., *Best* (1947) 395
 
 Petronius, *Satyricon* (1929) 176  
 
-*Philosophies of Art and Beauty,* ed. Albert Hofstadter and RichardnKuhns (1964) G103  
+*Philosophies of Art and Beauty,* ed. Albert Hofstadter and RichardnK hns (1964) G103  
 
 Plato, *The Republic* (1941) 342  
 
@@ -1371,7 +1371,7 @@ Poe, Edgar Allan, *Complete Tales and Poems* (1938) G38
 
 Poe, Edgar Allan, *Selected Poetry and Prose* (1953) 463  
 
-*Poetry of Freedom,* ed. William Rose Benet and Norman Cousins (1948)n412  
+*Poetry of Freedom,* ed. William Rose Benet and Norman Cousins (1948) 412  
 
 Polo, Marco, *Travels of Marco Polo* (1931) 224  
 
@@ -1383,9 +1383,9 @@ Porter, Katherine Anne, *Pale Horse, Pale Rider* (1949) 418
 
 Powers, J. F., *Morte D’Urban* (1966) 588  
 
-Prescott, William H, *History of the Conquest of Mexico & History of thenConquest of Peru* (1936) G27  
+Prescott, William H, *History of the Conquest of Mexico & History of the Conquest of Peru* (1936) G27  
 
-Prevost, Antoine François, *Manon Lescaut*; Alphonse Daudet, *Sapho;*nProsper Mérimée, *Carmen* (1920) 78  
+Prevost, Antoine François, *Manon Lescaut*; Alphonse Daudet, *Sapho;* Prosper Mérimée, *Carmen* (1920) 78  
 
 Proust, Marcel, *The Captive* (1941) 340  
 
@@ -1423,13 +1423,13 @@ Reade, Charles, *Cloister and the Hearth* (1937) 303
 
 Reed, John, *Ten Days That Shook the World* (1935) 280  
 
-Reeve, Arthur B., ed., *Best Ghost Stories* (1941) 67c *Note:* Jacketncredits Reeve as editor. Title page lists Reeve as author ofnintroduction.  
+Reeve, Arthur B., ed., *Best Ghost Stories* (1941) 67c *Note:* Jacket credits Reeve as editor. Title page lists Reeve as author of introduction.  
 
-Reisman, Philip, illus., Dostoyevsky, *Crime and Punishment* (Illus ML,n1944) IML 10  
+Reisman, Philip, illus., Dostoyevsky, *Crime and Punishment* (Illus ML, 1944) IML 10  
 
-*Renaissance Philosophy*, vol. 1: *The Italian Philosophers,* ed. ArturonB. Fallico and Herman Shapiro (1967) 594  
+*Renaissance Philosophy*, vol. 1: *The Italian Philosophers,* ed. Arturo B. Fallico and Herman Shapiro (1967) 594  
 
-*Renaissance Philosophy*, vol. 2: *The Transalpine Thinkers,* ed. HermannShapiro and Arturo B. Fallico (1969) 611  
+*Renaissance Philosophy*, vol. 2: *The Transalpine Thinkers,* ed. Herman Shapiro and Arturo B. Fallico (1969) 611  
 
 Renan, Ernest, *Life of Jesus* (1927) 149  
 
@@ -1445,7 +1445,7 @@ Richardson, Samuel, *Clarissa* (1950) 430
 
 Roberts, Elizabeth Madox, *Time of Man* (1935) 281  
 
-Robinson, Boardman, illus., Whitman, *Leaves of Grass* (Illus ML, 1944)nIML 12  
+Robinson, Boardman, illus., Whitman, *Leaves of Grass* (Illus ML, 1944) IML 12  
 
 Rodgers, Richard, and Oscar Hammerstein II, *Six Plays* (1959) 511  
 
@@ -1459,7 +1459,7 @@ Rolland, Romain, *Jean-Christophe* (1938) G36
 
 *Roman Comedies,* ed. George E. Duckworth (1963) 553  
 
-Roosevelt, Theodore, *Selected Addresses and Public Papers*, ed. AlbertnBushnell Hart (ghost). Announced as ML 78 by B&L in 1919 but nevernpublished.  
+Roosevelt, Theodore, *Selected Addresses and Public Papers*, ed. Albert Bushnell Hart (ghost). Announced as ML 78 by B&L in 1919 but never published.  
 
 Rostand, Edmond, *Cyrano de Bergerac* (1929) 174  
 
@@ -1467,7 +1467,7 @@ Roth, Philip, *Goodbye, Columbus* (1966) 591
 
 Roth, Philip, *Portnoy’s Complaint* (1982) 625  
 
-Roth, Philip, *When She Was Good* (ghost). Listed as ML 397 in PTLA 1970nbut never published.  
+Roth, Philip, *When She Was Good* (ghost). Listed as ML 397 in PTLA 1970 but never published.  
 
 Rousseau, Jean Jacques, *Confessions* (1946) 384  
 
@@ -1499,7 +1499,7 @@ Schnitzler, Arthur, *Anatol, Living Hours, The Green Cockatoo* (1918) 30
 
 Schnitzler, Arthur, *Bertha Garlan* (1918) 38  
 
-Schnitzler, Arthur, *Reigen, The Affairs of Anatol and Other Plays*n(1933) 30  
+Schnitzler, Arthur, *Reigen, The Affairs of Anatol and Other Plays* (1933) 30  
 
 Schopenhauer, Arthur, *Philosophy* (1928) 165  
 
@@ -1509,13 +1509,13 @@ Schreiner, Olive, *Story of an African Farm* (1927) 142
 
 Schulberg, Budd, *What Makes Sammy Run?* (1952) 449  
 
-Schwartz, Leo W., ed., *Great Ages and Ideas of the Jewish People*n(1962) G98  
+Schwartz, Leo W., ed., *Great Ages and Ideas of the Jewish People* (1962) G98  
 
 Scott, Sir Walter, *Quentin Durward; Ivanhoe; Kenilworth* (1933) G11  
 
 Seltzer, Thomas, ed., *Best Russian Short Stories* (1917) 18  
 
-*Seven Famous Greek Plays,* ed. Whitney J. Oates and Eugene O’Neill Jr.n(1951) 439  
+*Seven Famous Greek Plays,* ed. Whitney J. Oates and Eugene O’Neill Jr. (1951) 439  
 
 *Sex Problem in Modern Society,* ed. John Francis McDermott (1931) 226  
 
@@ -1525,19 +1525,19 @@ Shakespeare, William, *Histories and Poems* (1943) 366
 
 Shakespeare, William, *Tragedies* (1943) 364; Illus ML (1944) IML 14  
 
-Shapiro, Herman and Edwin M. Curley, eds., *Hellenistic Philosophy*n(1965) 573  
+Shapiro, Herman and Edwin M. Curley, eds., *Hellenistic Philosophy* (1965) 573  
 
-Shapiro, Herman and Arturo B. Fallico, eds., *Renaissance Philosophy*,nvol. 2: *The Transalpine Thinkers* (1969) 611  
+Shapiro, Herman and Arturo B. Fallico, eds., *Renaissance Philosophy*, vol. 2: *The Transalpine Thinkers* (1969) 611  
 
 Shapiro, Herman, ed., *Medieval Philosophy* (1964) 561  
 
-Sharp, William, illus., Dostoyevsky, *Brothers Karamazov* (Illus ML,n1943) IML 2  
+Sharp, William, illus., Dostoyevsky, *Brothers Karamazov* (Illus ML, 1943) IML 2  
 
-Sharp, William, illus., *Famous Ghost Stories*, ed. Bennett Cerf. (IllusnML, 1946) IML 17  
+Sharp, William, illus., *Famous Ghost Stories*, ed. Bennett Cerf. (Illus ML, 1946) IML 17  
 
 Shaw, Bernard, *Four Plays* (1953) 458  
 
-Shaw, Bernard, *Saint Joan, Major Barbara, Androcles and the Lion*n(1956) 484  
+Shaw, Bernard, *Saint Joan, Major Barbara, Androcles and the Lion* (1956) 484  
 
 Shaw, George Bernard, *An Unsocial Socialist* (1917) 15  
 
@@ -1551,7 +1551,7 @@ Shelley, Mary, *Frankenstein* (1984) 635
 
 Shelley, Percy Bysshe, *Selected Poetry and Prose* (1951) 437  
 
-Shelley, Percy Bysshe; John Keats, *Complete Poetical Works* (1932) G4;n*Complete Poems of John Keats and Percy Bysshe Shelley* (1978) G4c  
+Shelley, Percy Bysshe; John Keats, *Complete Poetical Works* (1932) G4; *Complete Poems of John Keats and Percy Bysshe Shelley* (1978) G4c  
 
 *Shock of Recognition,* ed. Edmund Wilson (1961) G96  
 
@@ -1567,11 +1567,11 @@ Singer, Isaac Bashevis, *Selected Short Stories* (1966) 583
 
 *Six Modern American Plays,* introd. Allan G. Halline (1951) 441  
 
-*Sixteen Famous American Plays,* ed. Bennett A. Cerf and Van H. Cartmelln(1942) G58  
+*Sixteen Famous American Plays,* ed. Bennett A. Cerf and Van H. Cartmell (1942) G58  
 
-*Sixteen Famous British Plays,* ed. Bennett A. Cerf and Van H. Cartmelln(1943) G64  
+*Sixteen Famous British Plays,* ed. Bennett A. Cerf and Van H. Cartmell (1943) G64  
 
-*Sixteen Famous European Plays,* ed. Bennett A. Cerf and Van H. Cartmelln(1947) G72  
+*Sixteen Famous European Plays,* ed. Bennett A. Cerf and Van H. Cartmell (1947) G72  
 
 Smith, Adam, *Wealth of Nations* (1937) G30  
 
@@ -1617,7 +1617,7 @@ Steinbeck, John, *Of Mice and Men* (1938) 311
 
 Steinbeck, John, *Tortilla Flat* (1937) 304  
 
-Steiner-Prag, Hugo, illus., *Famous Ghost Stories*, ed. Bennett Cerf.n(Illus ML, 1946) IML 17  
+Steiner-Prag, Hugo, illus., *Famous Ghost Stories*, ed. Bennett Cerf. (Illus ML, 1946) IML 17  
 
 Stendhal, *Charterhouse of Parma* (1937) 298  
 
@@ -1663,7 +1663,7 @@ Styron, William, *Confessions of Nat Turner* (1970) 618
 
 Styron, William, *Lie Down in Darkness* (1964) 566  
 
-*Subtreasury of American Humor,* ed. E. B. White and Katharine S. Whiten(1948) G74  
+*Subtreasury of American Humor,* ed. E. B. White and Katharine S. White (1948) G74  
 
 Sudermann, Hermann, *Dame Care* (1918) 31  
 
@@ -1675,7 +1675,7 @@ Suetonius, *Lives of the Twelve Caesars* (1931) 217
 
 Swift, Jonathan, *Gulliver’s Travels and Other Writings* (1958) 502  
 
-Swift, Jonathan, *Gulliver’s Travels, A Tale of a Tub, The Battle of thenBooks* (1931) 212  
+Swift, Jonathan, *Gulliver’s Travels, A Tale of a Tub, The Battle of the Books* (1931) 212  
 
 Swinburne, Algernon Charles, *Poems* (1917) 22  
 
@@ -1693,7 +1693,7 @@ Tchekov, Anton, *Stories of Anton Tchekov* (1932) 232
 
 Tchekov, Anton, *Plays of Anton Tchekov* (1930) 193  
 
-*see also* Chekhov. The ML used the spelling “Tchekov” between 1930 andn1956.  
+*see also* Chekhov. The ML used the spelling “Tchekov” between 1930 and 1956.  
 
 Tennyson, Alfred Lord, *Selected Poetry* (1956) 483  
 
@@ -1703,7 +1703,7 @@ Thackeray, William Makepeace, *History of Henry Esmond* (1936) 297
 
 Thackeray, William Makepeace, *Vanity Fair* (1933) 258  
 
-*Thirty Famous One-Act Plays,* ed. Bennett A. Cerf and Van H. Cartmelln(1949) G76  
+*Thirty Famous One-Act Plays,* ed. Bennett A. Cerf and Van H. Cartmell (1949) G76  
 
 Thomas à Kempis, *Imitation of Christ* (1943) 359  
 
@@ -1711,9 +1711,9 @@ Thomas Aquinas, Saint, *Introduction to Saint Thomas Aquinas* (1948) 407
 
 Thomas, Benjamin P., *Abraham Lincoln* (1968) G112  
 
-Thompson, Clara; Milton Mazer; and Earl Wittenberg, eds., *Outline ofnPsychoanalysis* (1955) 472  
+Thompson, Clara; Milton Mazer; and Earl Wittenberg, eds., *Outline of Psychoanalysis* (1955) 472  
 
-Thompson, Francis, *Complete Poetical Works* (1918) 37a–d; *CompletenPoems* (1940) 37e  
+Thompson, Francis, *Complete Poetical Works* (1918) 37a–d; *Complete Poems* (1940) 37e  
 
 Thoreau, Henry David, *Walden and Other Writings* (1937) 305  
 
@@ -1745,7 +1745,7 @@ Tolstoy, Leo, *War and Peace* (1931) G1
 
 Tomlinson, H. M., *Sea and the Jungle* (1928) 152  
 
-Traubel, Horace, *Chants Communal* (ghost). Announced as ML 79 by B&Lnbut never published.  
+Traubel, Horace, *Chants Communal* (ghost). Announced as ML 79 by B&L but never published.  
 
 Traven, B., *Treasure of Sierra Madre* (1969) 612  
 
@@ -1761,11 +1761,11 @@ Turgenev, Ivan S., *Smoke* (1920) 74
 
 Twain, Mark, *Adventures of Huckleberry Finn* (1985) 642  
 
-Twain, Mark, *Adventures of Tom Sawyer & Adventures of Huckleberry Finn*n(1940) G47  
+Twain, Mark, *Adventures of Tom Sawyer & Adventures of Huckleberry Finn* (1940) G47  
 
 Twain, Mark, *Connecticut Yankee in King Arthur’s Court* (1949) 414  
 
-*Twelve Famous Plays of the Restoration and Eighteenth Century* (1933)nG9  
+*Twelve Famous Plays of the Restoration and Eighteenth Century* (1933) G9  
 
 *Twentieth-Century American Poetry,* ed. Conrad Aiken (1945, 1963) 137  
 
@@ -1779,7 +1779,7 @@ Van Teslaar, J. S., ed., *Outline of Psychoanalysis* (1924) 108
 
 Van Vechten, Carl, *Peter Whiffle* (1929) 184  
 
-Vasari, Giorgio, *Lives of the Most Eminent Painters, Sculptors, andnArchitects* (1959) 515  
+Vasari, Giorgio, *Lives of the Most Eminent Painters, Sculptors, and Architects* (1959) 515  
 
 Veblen, Thorstein, *Theory of the Leisure Class* (1934) 274  
 
@@ -1793,7 +1793,7 @@ Voltaire, *Candide* (1918) 46
 
 Voltaire, *Candide and Other Writings* (1956) 481  
 
-Wagner, Richard, *Art and Revolution* (ghost). Announced as ML 106 butnnever published. Wagner’s essay “Kunst und die Revolution” was publishednin 1898 and translated into French the same year. An English translationnwas included in a collection of Wagner’s works published in New York bynthe German Publication Co. (1914). It is not known whether the ML hopednto reprint that volume or to commission its own translation.  
+Wagner, Richard, *Art and Revolution* (ghost). Announced as ML 106 but never published. Wagner’s essay “Kunst und die Revolution” was published in 1898 and translated into French the same year. An English translation was included in a collection of Wagner’s works published in New York by the German Publication Co. (1914). It is not known whether the ML hoped to reprint that volume or to commission its own translation.  
 
 Wallace, Lew, *Ben-Hur* (1933) 262  
 
@@ -1805,7 +1805,7 @@ Ward, Charles A., *Oracles of Nostradamus* (1942) 346
 
 Warren, Robert Penn, *All the King’s Men* (1953) 459  
 
-Watkins, Sylvestre C., ed., *Anthology of American Negro Literature*n(1944) 372  
+Watkins, Sylvestre C., ed., *Anthology of American Negro Literature* (1944) 372  
 
 Waugh, Evelyn, *Vile Bodies* (1933) 259  
 
@@ -1829,11 +1829,11 @@ Wharton, Edith, *Age of Innocence* (1943) 363
 
 *What Cheer,* ed. David McCord (1955) 474  
 
-White, E. B., and Katharine S. White, eds., *Subtreasury of AmericannHumor* (1948) G74  
+White, E. B., and Katharine S. White, eds., *Subtreasury of American Humor* (1948) G74  
 
-Whistler, James MacNeill, *Art of Whistler* (1928) 161 see Pennell,nElizabeth Robbins  
+Whistler, James MacNeill, *Art of Whistler* (1928) 161 see Pennell, Elizabeth Robbins  
 
-Whitman, Walt, *Leaves of Grass* (1929) 94.1e; Giant (1940) G48; IllusnML (1944) IML 12  
+Whitman, Walt, *Leaves of Grass* (1929) 94.1e; Giant (1940) G48; Illus ML (1944) IML 12  
 
 Whitman, Walt, *Leaves of Grass and Selected Prose* (1951) 440  
 
@@ -1847,7 +1847,7 @@ Wilde, Oscar, *Ideal Husband, A Woman of No Importance* (1920) 77
 
 Wilde, Oscar, *Intentions* (1921) 93  
 
-Wilde, Oscar, *Pen, Pencil and Poison and Other Essays* (jacket titlenfor final printing of *Intentions*) (1925) 93c jacket B  
+Wilde, Oscar, *Pen, Pencil and Poison and Other Essays* (jacket title for final printing of *Intentions*) (1925) 93c jacket B  
 
 Wilde, Oscar, *Picture of Dorian Gray* (1917) 1  
 
@@ -1859,13 +1859,13 @@ Wilde, Oscar, *Poems* (1917) 19
 
 Wilde, Oscar, *Poems and Fairy Tales* (1932) 242  
 
-Wilde, Oscar, *Salomé, The Importance of Being Earnest, LadynWindermere’s Fan* (1920) 76  
+Wilde, Oscar, *Salomé, The Importance of Being Earnest, Lady Windermere’s Fan* (1920) 76  
 
 Wilder, Thornton, *The Cabala* (1929) 175  
 
 Wilson, Edmund, ed., *Shock of Recognition* (1961) G96  
 
-Wilson, Edward A., illus., Charlotte Brontë, *Jane Eyre* (Illus ML) IMLn8  
+Wilson, Edward A., illus., Charlotte Brontë, *Jane Eyre* (Illus ML) IML 8  
 
 Wilson, Woodrow, *Selected Addresses and Public Papers* (1918) 63  
 
@@ -1877,7 +1877,7 @@ Wine, M. L., ed., *Drama of the English Renaissance* (1969) 615
 
 *Wisdom of Israel*, ed. Lewis Browne (1956) G88  
 
-Wise, Herbert A., and Phyllis Fraser, eds., *Great Tales of Terror andnthe Supernatural* (1947) G73  
+Wise, Herbert A., and Phyllis Fraser, eds., *Great Tales of Terror and the Supernatural* (1947) G73  
 
 Wodehouse, P. G., *Selected Stories* (1958) 505  
 
@@ -1895,7 +1895,7 @@ Wordsworth, William, *Selected Poetry* (1950) 426
 
 Wright, Richard, *Native Son* (1942) 349  
 
-Wright, W. H., *Best French Epigrams* (ghost). Listed as ML 29 but nevernpublished.  
+Wright, W. H., *Best French Epigrams* (ghost). Listed as ML 29 but never published.  
 
 Yeats, W. B., ed., *Irish Fairy and Folk Tales* (1918) 43  
 
