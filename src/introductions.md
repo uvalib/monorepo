@@ -4,7 +4,7 @@ permalink: "introductions.html"
 ---
 ## INDEX TO AUTHORS OF INTRODUCTIONS 
 
-This is an index to authors of introductions to ML books. The author of the introduction is the first element of the index entry. This is followed by the author, title, publication date, and bibliography number of the ML book being introduced. Authors who wrote introductions tontheir own books are followed directly by the title; see, for example, Sherwood Anderson’s introduction to the ML edition of his novel, *Poor White*. Introductions commissioned by and originally published in the ML are identified by an asterisk before the author or title of the book being introduced. The lack of an asterisk indicates that the introduction was reprinted from an earlier edition or first appeared in a periodical. Introductions by editors of ML anthologies are not included if the anthology appears under the editor’s name in the Index of Authors, Editors, Anthology Titles.  
+This is an index to authors of introductions to ML books. The author of the introduction is the first element of the index entry. This is followed by the author, title, publication date, and bibliography number of the ML book being introduced. Authors who wrote introductions to their own books are followed directly by the title; see, for example, Sherwood Anderson’s introduction to the ML edition of his novel, *Poor White*. Introductions commissioned by and originally published in the ML are identified by an asterisk before the author or title of the book being introduced. The lack of an asterisk indicates that the introduction was reprinted from an earlier edition or first appeared in a periodical. Introductions by editors of ML anthologies are not included if the anthology appears under the editor’s name in the Index of Authors, Editors, Anthology Titles.  
 
 <span class="smallcaps">Adams, Franklin P</span>. \*Parker, *Collected Stories of Dorothy Parker* (1942) <span class="smallcaps">353</span>  
 
@@ -226,7 +226,7 @@ B<span class="smallcaps">ates, Blanchard</span>. \*Montaigne, *Selected Essays* 
 
 <span class="smallcaps">Gerber, John C</span>. \*Hawthorne, *Scarlet Letter* (1950) 133.2  
 
-<span class="smallcaps">Gettmann, Royal A</span>. \*Brontë, *Wutheri gnHeights* (1950) 120.2b  
+<span class="smallcaps">Gettmann, Royal A</span>. \*Brontë, *Wuthering Heights* (1950) 120.2b  
 
 <span class="smallcaps">Gilbert, Creighton</span>. \*Michelangelo, *Complete Poems and Selected Letters* (1965) 576  
 
@@ -310,7 +310,7 @@ B<span class="smallcaps">ates, Blanchard</span>. \*Montaigne, *Selected Essays* 
 
 <span class="smallcaps">Howard, Leon</span>. \*Melville, *Moby Dick* (1950) 124c  
 
-<span class="smallcaps">Howe, Irving</span>. \*James, *The Bostonians*n(1956) 480; \*Singer, *Selected Short Stories* (1966) 583; Gissing, *New Grub Street* (1985) 130.2  
+<span class="smallcaps">Howe, Irving</span>. \*James, *The Bostonians* (1956) 480; \*Singer, *Selected Short Stories* (1966) 583; Gissing, *New Grub Street* (1985) 130.2  
 
 <span class="smallcaps">Howells, W. D</span>. James, *Daisy Miller; An International Episode* (1918) 60  
 
@@ -460,7 +460,7 @@ B<span class="smallcaps">ates, Blanchard</span>. \*Montaigne, *Selected Essays* 
 
 <span class="smallcaps">Muller, Herbert J</span>. \*Turgenev, *Fathers and Sons* (1950) 20.1e  
 
-<span class="smallcaps">Mumford, Lewis</span>. \*Butler, *Erewho *n(1927) 146a; \*Butler, *Erewhon & Erewhon Revisited* (1933) 146b  
+<span class="smallcaps">Mumford, Lewis</span>. \*Butler, *Erewho * (1927) 146a; \*Butler, *Erewhon & Erewhon Revisited* (1933) 146b  
 
 <span class="smallcaps">Nathan, George Jean</span>. \*O’Neill, *Moon of the Caribbees and Six Other Plays of the Sea* (1923) 101; \**Five Great Modern Irish Plays* (1941) 339  
 
