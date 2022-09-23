@@ -4,7 +4,7 @@ permalink: "numericalIndex.html"
 ---
 ## NUMERICAL INDEX  
 
-This index lists each ML title under the publisher’s catalogue number.nThe ML usually reassigned the catalogue numbers of discontinued titlesnto new titles that were added the following publishing season. Thenpublisher’s catalogue number is unrelated to the bibliography numbernunder which the entry is found.  
+This index lists each ML title under the publisher’s catalogue number. The ML usually reassigned the catalogue numbers of discontinued titles to new titles that were added the following publishing season. The publisher’s catalogue number is unrelated to the bibliography number under which the entry is found.  
 
 #### 1
 
