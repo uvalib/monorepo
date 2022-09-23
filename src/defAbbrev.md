@@ -10,21 +10,21 @@ permalink: "defAbbrev.html"
 
 **B&L**: Boni & Liveright  
 
-**backstrip**:  Portion of a book jacket that covers the spine and remainsnvisible when a book is shelved between other books. Backstrips of MLnjackets commonly displayed the title running vertically toward the footnor bottom of the jacket. Author’s names were usually displayednhorizontally at the top of the jacket, and the imprint “Modern Library”nappeared horizontally at the foot, along with a Modern Library device.nIt was also common for titles to be displayed horizontally. The only MLnjackets with titles running vertically toward the top were printed innEngland for the British publisher Hamish Hamilton, who imported a numbernof ML books in sheets in the late 1930s and sold them with tipped-inntitle pages and his own bindings and jackets.  
+**backstrip**:  Portion of a book jacket that covers the spine and remains visible when a book is shelved between other books. Backstrips of ML jackets commonly displayed the title running vertically toward the foot or bottom of the jacket. Author’s names were usually displayed horizontally at the top of the jacket, and the imprint “Modern Library” appeared horizontally at the foot, along with a Modern Library device. It was also common for titles to be displayed horizontally. The only ML jackets with titles running vertically toward the top were printed in England for the British publisher Hamish Hamilton, who imported a number of ML books in sheets in the late 1930s and sold them with tipped-in title pages and his own bindings and jackets.  
 
-**bibliographical edition**: Bibliographers define all copies of a work printed from a givenntypesetting as part of the same edition. In the context of the ModernnLibrary, which printed all of its books from plates, an edition can bendefined as all copies of a work printed from plates made from the samentypesetting. In this bibliography the source of the plates used by thenML is always indicated; thereafter for the sake of convenience thisnbibliography uses the phrase “Modern Library edition” to refer tonfamilies of Modern Library printings made from the same plates.  
+**bibliographical edition**: Bibliographers define all copies of a work printed from a given typesetting as part of the same edition. In the context of the Modern Library, which printed all of its books from plates, an edition can be defined as all copies of a work printed from plates made from the same typesetting. In this bibliography the source of the plates used by the ML is always indicated; thereafter for the sake of convenience this bibliography uses the phrase “Modern Library edition” to refer to families of Modern Library printings made from the same plates.  
 
 **BOMC**: Book-of-the-Month Club  
 
 **c**.: Circa (approximately), used with dates. Example c. 1940  
 
-**cancel, cancellation**: These terms refer to the removal of one or more leaves from a printed book, usually because of errors in the text, censorship, or othernlegal issues. Canceled leaves are often replaced by newly printednleaves with altered text. Single replacement leaves and inserted foldsnare usually pasted to the stub of the canceled leaf; insertedngatherings may be sewn in.  
+**cancel, cancellation**: These terms refer to the removal of one or more leaves from a printed book, usually because of errors in the text, censorship, or other legal issues. Canceled leaves are often replaced by newly printed leaves with altered text. Single replacement leaves and inserted folds are usually pasted to the stub of the canceled leaf; inserted gatherings may be sewn in.  
 
-In the collation, canceled leaves are indicated by a minus sign; leavesnthat are canceled and replaced by newly printed leaves are indicated bynthe plus/minus sign (±). Leaves that are inserted/added without thencancellation of printed leaves are indicated by a plus sign. Cancelsnmade prior to publication are usually found in all copies of the firstnprinting. The first ML printing of Joyce, *Dubliners* (129.1a) appearsnto be an example of this. In all copies examined, the first leaf of thenintroduction to the ML edition has been cut out and replaced by a newlynprinted leaf.  
+In the collation, canceled leaves are indicated by a minus sign; leaves that are canceled and replaced by newly printed leaves are indicated by the plus/minus sign (±). Leaves that are inserted/added without the cancellation of printed leaves are indicated by a plus sign. Cancels made prior to publication are usually found in all copies of the first printing. The first ML printing of Joyce, *Dubliners* (129.1a) appears to be an example of this. In all copies examined, the first leaf of the introduction to the ML edition has been cut out and replaced by a newly printed leaf.  
 
-Cancels made following publication are usually found in the portion ofnthe printing that remained in the publisher’s warehouse after thenproblem was discovered. See *Anthology of American Negro Literature*n(183.a).  
+Cancels made following publication are usually found in the portion of the printing that remained in the publisher’s warehouse after the problem was discovered. See *Anthology of American Negro Literature* (183.a).  
 
-**Cerf Papers**: Bennett Cerf Papers, Columbia University Rare Book andnManuscript Library.  
+**Cerf Papers**: Bennett Cerf Papers, Columbia University Rare Book and Manuscript Library.  
 
 **cf**.: Abbreviation for Latin *confer* (compare).  
 
@@ -38,67 +38,67 @@ Cancels made following publication are usually found in the portion ofnthe print
 
 **collection**:  A volume consisting of multiple works by a single author  
 
-**conjunct**: Two leaves that consist of a single piece of paper folded innhalf to form two leaves; a sheet printed in octavo format (8 leaves, 16npages) produces a gathering where the 1st and 8th leaves, the 2nd andn7th leaves, the 3rd and 6th leaves, and the 4th and 5th leaves arenconjunct.  
+**conjunct**: Two leaves that consist of a single piece of paper folded in half to form two leaves; a sheet printed in octavo format (8 leaves, 16 pages) produces a gathering where the 1st and 8th leaves, the 2nd and 7th leaves, the 3rd and 6th leaves, and the 4th and 5th leaves are conjunct.  
 
 **cont**.: Continue  
 
-d**©**: International copyright symbol; transcribed in bibliographicalndescriptions when it appears as part of the copyright statement on thenverso of the title page.  
+d**©**: International copyright symbol; transcribed in bibliographical descriptions when it appears as part of the copyright statement on the verso of the title page.  
 
-**dates**: The date of an event that extends over the course of two or morenyears is indicated with an en dash, for example 2006–07; the date of annevent that cannot be assigned to a specific year is dated as preciselynas possible using a slash, for example 2006/07. Approximate dates arenindicated by the abbreviation “c.” (circa).  
+**dates**: The date of an event that extends over the course of two or more years is indicated with an en dash, for example 2006–07; the date of annevent that cannot be assigned to a specific year is dated as precisely as possible using a slash, for example 2006/07. Approximate dates are indicated by the abbreviation “c.” (circa).  
 
-**dating key**: Beginning in fall 1925, current ML lists for spring or fallnof a given year were printed on ML jackets and at the end of many MLnbooks. Lists at the end of ML books were printed as part of the lastngathering containing text; lists were not included when the lastngathering did not have enough pages to accommodate them. The dating keynindicates one title added in each season and one title (preceded by ann*x*) that would not be added until the following season and thus makesnit possible to date any ML jacket and any ML book that contains a listnas having been printed by spring or fall of a given year. Importantnpoints to note in using the dating key include the following: (1) MLntitles published in January usually have lists from the previous fall;n(2) lists were not updated after spring 1967, so books with spring 1967nlists may have been printed later—and did not contain jackets withnlists; (3) although jackets can be dated conclusively on the basis ofntheir lists of ML titles, jackets were sometimes switched from one copynof a book to another, so the jacket cannot by itself conclusively datenthe book inside it, especially when the book has no list of its own. (4)nbooks printed by offset lithography were often made from photographs ofnearlier editions and cannot be conclusively dated.  
+**dating key**: Beginning in fall 1925, current ML lists for spring or fall of a given year were printed on ML jackets and at the end of many ML books. Lists at the end of ML books were printed as part of the last gathering containing text; lists were not included when the last gathering did not have enough pages to accommodate them. The dating key indicates one title added in each season and one title (preceded by an *x*) that would not be added until the following season and thus makes it possible to date any ML jacket and any ML book that contains a list as having been printed by spring or fall of a given year. Important points to note in using the dating key include the following: (1) ML titles published in January usually have lists from the previous fall; (2) lists were not updated after spring 1967, so books with spring 1967 lists may have been printed later—and did not contain jackets with lists; (3) although jackets can be dated conclusively on the basis of their lists of ML titles, jackets were sometimes switched from one copy of a book to another, so the jacket cannot by itself conclusively date the book inside it, especially when the book has no list of its own. (4) books printed by offset lithography were often made from photographs of earlier editions and cannot be conclusively dated.  
 
 **ed**.: Editor or edited by  
 
-**edition**: A slippery term with multiple meanings. In bibliographicalnterms, all printings from a given typesetting are part of the samen“edition.”  
+**edition**: A slippery term with multiple meanings. In bibliographical terms, all printings from a given typesetting are part of the same “edition.”  
 
 **edition costs**: Cf. plant costs  
 
-**endpapers**: Distinct from inserted fold. Of two types: paste-down endpapernand free endpaper.  
+**endpapers**: Distinct from inserted fold. Of two types: paste-down endpaper and free endpaper.  
 
-**first edition**: In popular usage, the first printing of a book. The firstnprintings of most Modern Library titles published after the Boni &nLiveright period include the statement “First Modern Library Edition” orn“First Modern Library Giant Edition” on the verso of the title page;nsometimes “First Printing.” Statement usually removed from the platesnafter the first printing, sometimes not. ML books printed from offsetnlithographic plates usually retained the “first” statement on allnprintings. Apart from transcribing “first” statements on the books, thisnbibliography refers to first printing as distinct from first edition.  
+**first edition**: In popular usage, the first printing of a book. The first printings of most Modern Library titles published after the Boni & Liveright period include the statement “First Modern Library Edition” or “First Modern Library Giant Edition” on the verso of the title page; sometimes “First Printing.” Statement usually removed from the plates after the first printing, sometimes not. ML books printed from offset lithographic plates usually retained the “first” statement on all printings. Apart from transcribing “first” statements on the books, this bibliography refers to first printing as distinct from first edition.  
 
-**fly title**:  Title or short title of a book that follows the preliminaries.nThe fly title normally lacks a printed page number and is counted as thenfirst page of the text; its verso is usually blank and is counted as thensecond page of the text. When a fly title leaf is present, the firstnchapter normally begins on p. 3. In American usage, the fly title isnoften referred to as a second half title (*Chicago Manual of Style*)nwhile British usage commonly prefers “fly title” (John Carter, *ABC fornBook Collectors*). Since the half title is part of the preliminaries andnthe fly title is part of the text (or body of the text/numbered innArabic not Roman numerals), I have chosen to distinguish them by usingndifferent terms.  
+**fly title**:  Title or short title of a book that follows the preliminaries. The fly title normally lacks a printed page number and is counted as the first page of the text; its verso is usually blank and is counted as the second page of the text. When a fly title leaf is present, the first chapter normally begins on p. 3. In American usage, the fly title is often referred to as a second half title (*Chicago Manual of Style*) while British usage commonly prefers “fly title” (John Carter, *ABC for Book Collectors*). Since the half title is part of the preliminaries and the fly title is part of the text (or body of the text/numbered in Arabic not Roman numerals), I have chosen to distinguish them by using different terms.  
 
 **folio**: A sheet of paper folded to form two leaves or four pages of a book  
 
 **foot**: The bottom of a page; also the bottom of the spine  
 
-**gathering**: Single large piece of paper that has been folded into leavesnfor binding  
+**gathering**: Single large piece of paper that has been folded into leaves for binding  
 
-**gravure**:  A type of intaglio printing process, in which an image isnengraved onto a rotating copper cylinder.  
+**gravure**:  A type of intaglio printing process, in which an image is engraved onto a rotating copper cylinder.  
 
-**half title**: Title or short title of a book that precedes the title page.nAlways on recto, usually of first leaf. The half title is part of thenpreliminaries that precede the body of the text. Cf. fly title.  
+**half title**: Title or short title of a book that precedes the title page. Always on recto, usually of first leaf. The half title is part of the preliminaries that precede the body of the text. Cf. fly title.  
 
 **head**: The top of a page; also the top of the spine  
 
-**headline**: A heading consisting of a single line at the top of a page;nusually/commonly printed in capital letters. *See also* “running head.”  
+**headline**: A heading consisting of a single line at the top of a page; usually/commonly printed in capital letters. *See also* “running head.”  
 
 **GBN**: Gordon B. Neavill  
 
 **IML**: Illustrated Modern Library, published 1943–48.  
 
-**impression**: A given printing of a book; the term “printing” is usedninstead of “impression” in this bibliography.  
+**impression**: A given printing of a book; the term “printing” is used instead of “impression” in this bibliography.  
 
-**imprint**:  Statement at the foot of the title page indicating the name ofnthe publisher and commonly the place of publication. The year ofnpublication may also be included in the imprint, though many publishersnhave relegated the year of publication to the verso of the title page ornomitted it altogether, especially if there is a copyright date.  
+**imprint**:  Statement at the foot of the title page indicating the name of the publisher and commonly the place of publication. The year of publication may also be included in the imprint, though many publishers have relegated the year of publication to the verso of the title page or omitted it altogether, especially if there is a copyright date.  
 
 **in**.: Inch or inches  
 
-**inserted fold**: Two conjunct leaves (4 pages) added to a gathering,nusually at the en  
+**inserted fold**: Two conjunct leaves (4 pages) added to a gathering, usually at the en  
 
-d**inserted leaf**: A single leaf (2 pages) added to a gathering, frequentlynbut not always at the end of a gathering  
+d**inserted leaf**: A single leaf (2 pages) added to a gathering, frequently but not always at the end of a gathering  
 
-**ISBN**: International Standard Book Number. The ISBN, introduced in 1972,nis an international standard that uniquely identifies specific editionsnof books. The ISBN originally consisted of ten digits in four fieldsnseparated by hyphens. The first field indicates the language area orncountry of publication; the second indicates the publisher; the thirdnidentifies a specific format in which a given work is available from angiven publisher (for example, hardbound, paperback, different series,nwith different introductions, etc., or revised versions of a given work,ntranslations); the fourth is a check digit that allows a computer tonflag ISBN’s that have been entered incorrectly. Check digits range fromn0 to 10; since the fourth field is limited to a single digit, “10” isnrepresented by the Roman numeral “X”. Revised editions of a work haventheir own ISBN’s.  
+**ISBN**: International Standard Book Number. The ISBN, introduced in 1972, is an international standard that uniquely identifies specific editions of books. The ISBN originally consisted of ten digits in four fields separated by hyphens. The first field indicates the language area or country of publication; the second indicates the publisher; the third identifies a specific format in which a given work is available from a given publisher (for example, hardbound, paperback, different series, with different introductions, etc., or revised versions of a given work, translations); the fourth is a check digit that allows a computer to flag ISBN’s that have been entered incorrectly. Check digits range from 0 to 10; since the fourth field is limited to a single digit, “10” is represented by the Roman numeral “X”. Revised editions of a work have their own ISBN’s.  
 
-Publishers began assigning 13-digit ISBN’s in 2006–07. These have a newnprefix (978 or 979) that makes the ISBN consistent with the 13-digitnsystem of bar codes known as EAN (International Article Number) that isnused throughout the world. EAN originally stood for European ArticlenNumber, but the acronym was so well established that it remained in usenafter the 13-digit system of bar codes was adopted internationally.  
+Publishers began assigning 13-digit ISBN’s in 2006–07. These have a new prefix (978 or 979) that makes the ISBN consistent with the 13-digit system of bar codes known as EAN (International Article Number) that is used throughout the world. EAN originally stood for European Article Number, but the acronym was so well established that it remained in use after the 13-digit system of bar codes was adopted internationally.  
 
-Most ML books with ISBN’s were published in the “reissue” formatnbeginning in 1977. Some ML books with jackets designed by S. Neil Fujitanin the late 1960s and early 1970s also have ISBNs. Nearly all ML booksnwith ISBN’s printed them on the back panel of the jacket, beginning withnthe three digits (394) that indicated the publisher as Random House. Theninitial field (“0”) for the English-language area was usually omitted.nThese ISBN’s are recorded in complete form with the initial “0” added.  
+Most ML books with ISBN’s were published in the “reissue” format beginning in 1977. Some ML books with jackets designed by S. Neil Fujita in the late 1960s and early 1970s also have ISBNs. Nearly all ML books with ISBN’s printed them on the back panel of the jacket, beginning with the three digits (394) that indicated the publisher as Random House. The initial field (“0”) for the English-language area was usually omitted. These ISBN’s are recorded in complete form with the initial “0” added.  
 
-ISBN’s today are printed on the verso of the title page. The only MLnvolume included in this bibliography with an ISBN on the verso of thentitle page is a late printing of Thomas Mann’s *Doctor Faustus*n(582b). *See also* SBN.  
+ISBN’s today are printed on the verso of the title page. The only ML volume included in this bibliography with an ISBN on the verso of the title page is a late printing of Thomas Mann’s *Doctor Faustus* (582b). *See also* SBN.  
 
-**issue**: A bibliographical term that is widely misused bynnon-bibliographers. An “issue” is created by an alteration of the textnthat affects the conditions of publication or sale of some copies of anparticular printing. The alteration usually consists of a change in thentitle page. Issues occur only within printings; there cannot be a firstnissue without a second issue. For additional information and examples,nsee “Issue” under Bibliographical Procedures. The verb “issue” isnsometimes used as a synonym for “publish.”  
+**issue**: A bibliographical term that is widely misused by non-bibliographers. An “issue” is created by an alteration of the text that affects the conditions of publication or sale of some copies of a particular printing. The alteration usually consists of a change in the title page. Issues occur only within printings; there cannot be a first issue without a second issue. For additional information and examples, see “Issue” under Bibliographical Procedures. The verb “issue” is sometimes used as a synonym for “publish.”  
 
-**kraft paper**: Strong light brown paper made from pulp derived from woodnchips; used for ML jackets between 1977 and the “relaunch” of the ML inn1992.  
+**kraft paper**: Strong light brown paper made from pulp derived from wood chips; used for ML jackets between 1977 and the “relaunch” of the ML in 1992.  
 
 **leaf**: A leaf has two pages: the recto, which is always an odd-numberednpage, and the verso, which is always an even-numbered page. A leaf cannbe grasped between the thumb and forefinger; a page can be touched butnnot grasped. Properly speaking, the common phrase “turning the pages”nshould be “turning the leaves.”  
 
