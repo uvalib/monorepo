@@ -25,13 +25,16 @@
     "url": "https://github.com/uvalib/monorepo/issues"
   },
   "dependencies": {
+    "command-line-args": "^5.2.1",
+    "csv-stringify": "^6.2.0",
     "digest-fetch": "^1.1.6",
     "firebase-admin": "^9.7.0",
     "luxon": "^1.26.0"
   },
   "type": "module",
   "bin": {
-    "occupancy-poller": "./lib/occupancy-poller.js"
+    "occupancy-poller": "./lib/occupancy-poller.js",
+    "fetch-csv-logs": "./bin/getLocCSV.js"
   },
   "devDependencies": {
     "@uvalib/eslint-config": "^0.0.11",
