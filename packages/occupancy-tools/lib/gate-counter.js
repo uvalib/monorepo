@@ -23,7 +23,7 @@ const gateIDs = {
     "TBD: Harrison Small" : 18
 };
 
-export default class OccupancyHarvester extends OccupancyBase {
+export default class GateCounter extends OccupancyBase {
     getGateCounts() {
 
         // This script would run once a day to pull the 24h bin for the previous day. So get the current date.
