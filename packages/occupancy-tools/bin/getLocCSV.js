@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import commandLineArgs from 'command-line-args';
-import stringify from 'csv-stringify';
+//import stringify from 'csv-stringify';
 
 const optionDefinitions = [
     // one or more of 'clemons', 'fine-arts', 'music', ...

@@ -2,10 +2,12 @@
 import OH from './occupancy-harvester.js';
 import OF from './hours-fetcher.js';
 import OA from './hours-analyzer.js';
+import GC from './gate-counter.js';
 
 const harvester = new OH();
 const hoursFetcher = new OF();
 const hoursAnalyzer = new OA();
+const gateCounter = new GC();
 
 harvester.fetchOccupancy();
 // run every minute
