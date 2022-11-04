@@ -92,16 +92,14 @@ export default class GateCounter extends OccupancyBase {
                             }
                             return;
                         })
-                        .catch((e) =>
-                            this._logError(`fetch from endpoint at ${oe.url}: ${e}`);
-                        ),
+                        .catch((e) => this._logError(`fetch from endpoint at ${oe.url}: ${e}`) ),
                 );
             });
             Promise.all(promises)
             .then((data) => {
                 //console.log(gateLocationsData);
                 if (gateLocationsData.length > 0) {
-                    nodeFetch('https://virginia.libinsight.com/...',
+                    fetch(`https://virginia.libinsight.com/add.php?wid=34&type=5&token=${process.env.LIBINSIGHTTOKEN}&data=json`,
                     { method: 'POST', body: JSON.stringify(gateLocationsData), headers: headerObjJson })
                     .then(res => res.text())
                     .then(body => {
