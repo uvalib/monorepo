@@ -8834,6 +8834,11 @@ date-and-time@^1.0.0:
   resolved "https://registry.npmjs.org/date-and-time/-/date-and-time-1.0.1.tgz"
   integrity sha512-7u+uNfnjWkX+YFQfivvW24TjaJG6ahvTrfw1auq7KlC7osuGcZBIWGBvB9UcENjH6JnLVhMqlRripk1dSHjAUA==
 
+date-and-time@^2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/date-and-time/-/date-and-time-2.4.1.tgz#e028851fcaf01e2626934742cf625e75d9bc2258"
+  integrity sha512-fG+ClATev+wHryqxOoGcTTegr5RhYE+tz/XHUkTQ/zvpWqQ90oOxjOhuMQ02bw87Oy9N3qBENCHHHSKdWJjgTg==
+
 date-fns@^1.27.2:
   version "1.30.1"
   resolved "https://registry.npmjs.org/date-fns/-/date-fns-1.30.1.tgz"
