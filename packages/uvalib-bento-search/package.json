@@ -1,5 +1,5 @@
 {
-  "name": "uvalib-bento-search",
+  "name": "@uvalib/uvalib-bento-search",
   "description": "Webcomponent uvalib-bento-search following open-wc recommendations",
   "license": "MIT",
   "author": "uvalib-bento-search",
@@ -16,6 +16,7 @@
     "prepublish": "tsc"
   },
   "dependencies": {
+    "@uvalib/dataWrap": "*",
     "lit": "^2.0.0-rc.2"
   },
   "devDependencies": {

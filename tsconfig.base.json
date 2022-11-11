@@ -16,7 +16,11 @@
     "baseUrl": ".",
     "paths": {
       "@uvalib/dataWrap": ["packages/data-wrap/src/index.ts"],
-      "my-lib": ["packages/my-lib/src/index.ts"]
+      "@uvalib/foo-bar": ["packages/foobar/src/index.ts"],
+      "@uvalib/uvalib-bento-search": [
+        "packages/uvalib-bento-search/src/index.ts"
+      ],
+      "@uvalib/uvalib-viz": ["packages/uvalib-viz/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

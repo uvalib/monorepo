@@ -1,6 +1,8 @@
 import { html, css, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 
+import { DHAtUVAData } from '@uvalib/dataWrap';
+
 export class DHViz extends LitElement {
   static styles = css`
     :host {
@@ -11,8 +13,12 @@ export class DHViz extends LitElement {
   `;
 
   @property({ type: String }) title = 'Hey there';
-
   @property({ type: Number }) counter = 5;
+
+  constructor() {
+    super();
+    let dhData = new DHAtUVAData();
+  }
 
   __increment() {
     this.counter += 1;

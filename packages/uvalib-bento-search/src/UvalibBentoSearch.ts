@@ -1,6 +1,8 @@
 import { html, css, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 
+import { Virgo } from '@uvalib/dataWrap';
+
 export class UvalibBentoSearch extends LitElement {
   static styles = css`
     :host {
@@ -11,7 +13,6 @@ export class UvalibBentoSearch extends LitElement {
   `;
 
   @property({ type: String }) title = 'Hey there';
-
   @property({ type: Number }) counter = 5;
 
   __increment() {

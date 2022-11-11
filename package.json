@@ -12,6 +12,7 @@
     "@nrwl/js": "^15.0.13",
     "@nrwl/linter": "15.0.13",
     "@nrwl/nx-cloud": "latest",
+    "@nrwl/web": "^15.0.13",
     "@types/jest": "28.1.1",
     "@types/node": "16.11.7",
     "@typescript-eslint/eslint-plugin": "^5.36.1",

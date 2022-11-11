@@ -1,4 +1,5 @@
 {
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "target": "es2018",
     "module": "esnext",
@@ -10,13 +11,13 @@
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "outDir": "dist",
+    "outDir": "./dist",
     "sourceMap": true,
     "inlineSources": true,
-    "rootDir": "./",
     "declaration": true,
     "incremental": true,
     "strictPropertyInitialization": false,
   },
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts"],
+  "exclude": ["dist/**/*.ts"]
 }
