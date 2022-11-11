@@ -1,0 +1,71 @@
+{
+  "name": "site-mock",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "packages/site/mock/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nrwl/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/packages/site/mock",
+        "compiler": "babel",
+        "main": "packages/site/mock/src/main.ts",
+        "tsConfig": "packages/site/mock/tsconfig.app.json",
+        "assets": [
+          "packages/site/mock/src/favicon.ico",
+          "packages/site/mock/src/assets"
+        ],
+        "index": "packages/site/mock/src/index.html",
+        "baseHref": "/",
+        "polyfills": "packages/site/mock/src/polyfills.ts",
+        "styles": ["packages/site/mock/src/styles.css"],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false,
+          "fileReplacements": [
+            {
+              "replace": "packages/site/mock/src/environments/environment.ts",
+              "with": "packages/site/mock/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/webpack:dev-server",
+      "options": {
+        "buildTarget": "site-mock:build"
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "site-mock:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/site/mock/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "packages/site/mock/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

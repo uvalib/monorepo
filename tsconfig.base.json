@@ -15,12 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@uvalib/dataWrap": ["packages/data-wrap/src/index.ts"],
-      "@uvalib/foo-bar": ["packages/foobar/src/index.ts"],
-      "@uvalib/uvalib-bento-search": [
-        "packages/uvalib-bento-search/src/index.ts"
-      ],
-      "@uvalib/uvalib-viz": ["packages/uvalib-viz/src/index.ts"]
+      "@uvalib/bento-box": ["packages/wc/bento-box/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
