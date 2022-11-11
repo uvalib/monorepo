@@ -1,0 +1,34 @@
+{
+  "name": "@uvalib/uvalib-viz",
+  "description": "Webcomponent uvalib-viz following open-wc recommendations",
+  "license": "MIT",
+  "author": "uvalib-viz",
+  "version": "0.0.0",
+  "main": "dist/src/index.js",
+  "module": "dist/src/index.js",
+  "exports": {
+    ".": "./dist/src/index.js",
+    "./uvalib-viz.js": "./dist/src/uvalib-viz.js"
+  },
+  "scripts": {
+    "start-broke": "tsc && rollup -c && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
+    "start": "tsc && rollup -c && serve demo",
+    "build": "tsc && rollup -c",
+    "prepublish": "tsc"
+  },
+  "dependencies": {
+    "@antv/vis-predict-engine": "^0.1.1",
+    "lit": "^2.0.0-rc.2"
+  },
+  "devDependencies": {
+    "@antv/g6": "^4.7.12",
+    "@rollup/plugin-commonjs": "^21.1.0",
+    "@rollup/plugin-node-resolve": "^15.0.1",
+    "@web/dev-server": "^0.1.21",
+    "@web/dev-server-rollup": "^0.3.19",
+    "concurrently": "^5.3.0",
+    "serve": "^14.1.1",
+    "tslib": "^2.3.1",
+    "typescript": "^4.3.5"
+  }
+}
