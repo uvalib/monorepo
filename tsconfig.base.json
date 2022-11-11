@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@uvalib/dataWrap": ["packages/data-wrap/src/index.ts"],
       "my-lib": ["packages/my-lib/src/index.ts"]
     }
   },

@@ -120499,3 +120499,35 @@ __decorate([
 ], UvalibVizAntG6.prototype, "edges", void 0);
 
 window.customElements.define('uvalib-viz-ant-g6', UvalibVizAntG6);
+
+class DHViz extends s$1 {
+    constructor() {
+        super(...arguments);
+        this.title = 'Hey there';
+        this.counter = 5;
+    }
+    __increment() {
+        this.counter += 1;
+    }
+    render() {
+        return y$4 `
+      <h2>${this.title} Nr. ${this.counter}!</h2>
+      <button @click=${this.__increment}>increment</button>
+    `;
+    }
+}
+DHViz.styles = i$3 `
+    :host {
+      display: block;
+      padding: 25px;
+      color: var(--uvalib-viz-text-color, #000);
+    }
+  `;
+__decorate([
+    e$1({ type: String })
+], DHViz.prototype, "title", void 0);
+__decorate([
+    e$1({ type: Number })
+], DHViz.prototype, "counter", void 0);
+
+window.customElements.define('dh-viz', DHViz);

@@ -18,7 +18,8 @@
   },
   "dependencies": {
     "@antv/vis-predict-engine": "^0.1.1",
-    "lit": "^2.0.0-rc.2"
+    "lit": "^2.0.0-rc.2",
+    "@uvalib/dataWrap": "*"
   },
   "devDependencies": {
     "@antv/g6": "^4.7.12",
