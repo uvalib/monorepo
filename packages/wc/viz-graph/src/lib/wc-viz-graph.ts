@@ -48,11 +48,11 @@ export class VizGraphAntG6 extends LitElement {
 
   override firstUpdated(changedProps: PropertyValueMap<unknown> | Map<PropertyKey, unknown>) {
     super.firstUpdated(changedProps);
-//    GraphLayoutPredict.predict({nodes:this.nodes, edges:this.edges}).then(function(predict){
-//        const predictLayout = predict.predictLayout;
-//        const confidence = predict.confidence;
-//        console.log("----predictLayout---", predictLayout);
-//        console.log("----confidence---", confidence); 
+  //  GraphLayoutPredict.predict({nodes:this.nodes, edges:this.edges}).then(function(predict){
+  //      const predictLayout = predict.predictLayout;
+  //      const confidence = predict.confidence;
+  //      console.log("----predictLayout---", predictLayout);
+  //      console.log("----confidence---", confidence); 
         if (this.shadowRoot) {
           const container = this.shadowRoot.getElementById("container");
           if (container) {
@@ -65,7 +65,7 @@ export class VizGraphAntG6 extends LitElement {
               offsetY: 10,
               // the types of items that allow the tooltip show up
               // 允许出现 tooltip 的 item 类型
-              itemTypes: ['node'],
+              itemTypes: ['node','edge'],
               // custom the tooltip's content
               // 自定义 tooltip 内容
               getContent: (e) => {
@@ -73,7 +73,7 @@ export class VizGraphAntG6 extends LitElement {
                 outDiv.style.width = 'fit-content';
                 //outDiv.style.padding = '0px 0px 20px 0px';
                 outDiv.innerHTML = `
-                  <div class="tooltip">${e.item.getModel().label || e.item.getModel().id}</div>
+                  <div class="tooltip">${e.item.getModel().desc || e.item.getModel().label || e.item.getModel().id }</div>
                   `;
                 return outDiv;
               },
@@ -127,6 +127,6 @@ export class VizGraphAntG6 extends LitElement {
             if (this.nodes || this.edges)  this.__renderGraph();
           }  
         }
-//    }.bind(this));  
+    //}.bind(this));  
   }  
 }
