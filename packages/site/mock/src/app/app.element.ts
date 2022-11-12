@@ -10,7 +10,6 @@ export class AppElement extends HTMLElement {
     <div class="wrapper">
       <div class="container">
 
-<h1>Hello World</h1>
 <bento-box></bento-box>
 
         <!--  WELCOME  -->
