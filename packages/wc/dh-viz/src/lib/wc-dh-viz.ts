@@ -16,6 +16,13 @@ export class DHViz extends VizGraphAntG6 {
   constructor(){
     super();
     this.#dataHandle = new DHAtUVAData();
+    this.#dataHandle.fetchData().then(()=>{
+      this.nodes = this.#dataHandle.nodes;
+      this.edges = this.#dataHandle.edges;
+      console.log(this.nodes);
+      console.log(this.edges);
+      this.__renderGraph();
+    });
   }
 
 }
