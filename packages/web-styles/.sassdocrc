@@ -1,8 +1,0 @@
-{
-    "groups": {
-        "undefined": "General",
-        "colors": "Colors",
-        "bordersContainersRules": "Borders, Containers & Rules"
-    },
-//    "theme": "@uvalib/sassdoctheme"
-}

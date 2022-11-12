@@ -1,1 +1,0 @@
-import facebooksquare from './facebook-square.svg.js';import instagram from './instagram.svg.js';import twittersquare from './twitter-square.svg.js';import flickr from './flickr.svg.js';import vimeo from './vimeo.svg.js';import youtube from './youtube.svg.js'; export { facebooksquare,instagram,twittersquare,flickr,vimeo,youtube, };
