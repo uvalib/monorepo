@@ -2,24 +2,20 @@
 //  return 'wc-dh-viz';
 //}
 
-import {LitElement, css, html} from 'lit';
-import {customElement, property} from 'lit/decorators.js';
+import {customElement} from 'lit/decorators.js';
+
+import { VizGraphAntG6 } from '@uvalib/viz-graph';
+
+import { DHAtUVAData } from '@uvalib/data-wrap';
 
 @customElement('dh-viz')
-export class DHViz extends LitElement {
-  // Define scoped styles right with your component, in plain CSS
-  static override styles = css`
-    :host {
-      color: blue;
-    }
-  `;
+export class DHViz extends VizGraphAntG6 {
+  
+  #dataHandle: DHAtUVAData;
 
-  // Declare reactive properties
-  @property()
-  name?: string = 'World';
-
-  // Render the UI as a function of component state
-  override render() {
-    return html`<p>Yo, ${this.name}!</p>`;
+  constructor(){
+    super();
+    this.#dataHandle = new DHAtUVAData();
   }
+
 }
