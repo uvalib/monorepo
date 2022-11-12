@@ -28,7 +28,7 @@ export class DHAtUVAData {
                 if (ta && !techApps.has(ta)) {
                     techApps.add(ta);
                     // push Tech Approach onto the stack
-                    this.nodes.push({id:ta, label:ta, type:'rect'});
+                    this.nodes.push({id:ta, desc:ta, type:'image', img:'https://site-assets.fontawesome.com/releases/v6.2.0/svgs/solid/book.svg', size:[15,15]});
                 }
                 // push tech app -> project edge
                 this.edges.push({source:id, target:ta, desc:"Technical Approach"});
