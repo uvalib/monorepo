@@ -1,5 +1,8 @@
 {
   "name": "@uvalib/viz-graph",
   "version": "0.0.1",
-  "type": "commonjs"
+  "type": "commonjs",
+  "dependencies": {
+    "@antv/g6": "^4.7.13"
+  }
 }

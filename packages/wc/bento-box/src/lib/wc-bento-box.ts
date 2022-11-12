@@ -1,7 +1,3 @@
-//export function wcBentoBox(): string {
-//  return 'wc-bento-box';
-//}
-
 import {LitElement, css, html} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 
