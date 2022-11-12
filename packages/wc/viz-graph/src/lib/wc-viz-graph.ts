@@ -17,6 +17,9 @@ export class VizGraphAntG6 extends LitElement {
     :host {
       display: block;
     }
+    .tooltip {
+      
+    }
   `;
 
   // Listen for changes to data for graph updates
@@ -55,6 +58,49 @@ export class VizGraphAntG6 extends LitElement {
           if (container) {
             const width = container.scrollWidth;
             const height = container.scrollHeight || 500;
+
+
+            const tooltip = new G6.Tooltip({
+              offsetX: 10,
+              offsetY: 10,
+              // the types of items that allow the tooltip show up
+              // 允许出现 tooltip 的 item 类型
+              itemTypes: ['node'],
+              // custom the tooltip's content
+              // 自定义 tooltip 内容
+              getContent: (e) => {
+                const outDiv = document.createElement('div');
+                outDiv.style.width = 'fit-content';
+                //outDiv.style.padding = '0px 0px 20px 0px';
+                outDiv.innerHTML = `
+                  <div class="tooltip">${e.item.getModel().label || e.item.getModel().id}</div>
+                  `;
+                return outDiv;
+              },
+              shouldBegin: (e) => {
+                console.log(e.target);
+                let res = true;
+                switch (e.item.getModel().id) {
+                  case '1':
+                    res = false;
+                    break;
+                  case '2':
+                    if (e.target.get('name') === 'text-shape') res = true;
+                    else res = false;
+                    break;
+                  case '3':
+                    if (e.target.get('name') !== 'text-shape') res = true;
+                    else res = false;
+                    break;
+                  default:
+                    res = true;
+                    break;
+                }
+                return res;
+              },
+            });
+
+
             this.graph = new G6.Graph({
                 container: container,
                 width: width,
@@ -65,6 +111,7 @@ export class VizGraphAntG6 extends LitElement {
                     preventOverlap: true,
                     nodeSize: 20,
                 },
+                plugins: [tooltip],
                 modes: {
                   default: ['drag-node',"zoom-canvas",'drag-canvas'],
                 },

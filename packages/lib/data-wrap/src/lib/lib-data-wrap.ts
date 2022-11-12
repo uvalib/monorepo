@@ -27,13 +27,25 @@ export class DHAtUVAData {
               tas.split(",").forEach(ta=>{
                 if (ta && !techApps.has(ta)) {
                     techApps.add(ta);
+                    // push Tech Approach onto the stack
                     this.nodes.push({id:ta, label:ta, type:'rect'});
                 }
+                // push tech app -> project edge
                 this.edges.push({source:id, target:ta});
               })
             }
-            this.nodes.push({id:id, label:n.node['title'], size: 10});
+            // push project onto the stack
+            this.nodes.push({id:id, type:'image', img: 'https://site-assets.fontawesome.com/releases/v6.2.0/svgs/solid/gear.svg', size:[20,20]});
+        } else if (n.node['Content Type']==="People") {
+          const id = n.node['Name']
+          // push person onto the stack
+          this.nodes.push({id:id, type:'image', img: 'https://site-assets.fontawesome.com/releases/v6.2.0/svgs/solid/person.svg', size: [15,20]});
+          // create edges for this person
+          data.nodes.filter(n=>n.node['Instructor']===id).forEach(n=>{
+            this.edges.push({source:id, target:n.node['I am connected to:'], label:n.node['My connection type is:']});
+          });
         }
+        // https://site-assets.fontawesome.com/releases/v6.2.0/svgs/solid/screwdriver-wrench.svg
     })       
   }
 

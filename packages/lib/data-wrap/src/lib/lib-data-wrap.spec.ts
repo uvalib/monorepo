@@ -1,7 +1,7 @@
-import { libDataWrap } from './lib-data-wrap';
+import { DataWrap } from './lib-data-wrap';
 
-describe('libDataWrap', () => {
+describe('DataWrap', () => {
   it('should work', () => {
-    expect(libDataWrap()).toEqual('lib-data-wrap');
+    expect(DataWrap()).toEqual('lib-data-wrap');
   });
 });
