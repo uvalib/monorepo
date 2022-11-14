@@ -3,6 +3,8 @@ import '@uvalib/dh-viz';
 import '@uvalib/viz-graph';
 import '@uvalib/bento-box';
 
+import '@uvalib/foo-bar';
+
 import { 
   allComponents, 
   provideFASTDesignSystem 
@@ -20,7 +22,10 @@ export class AppElement extends HTMLElement {
     this.innerHTML = `
     <div class="wrapper">
       <div class="container">
-      <bento-box>
+
+      <foo-bar></foo-bar>
+
+      <bento-box></bento-box>
 <!--
 <uvalib-tabs>
       <uvalib-tab slot="tab">DH@UVA Visualizations</uvalib-tab>

@@ -18,12 +18,11 @@ export class BentoCard extends LitElement {
       display: block;
       padding: 0 10px 10px; 
       color: var(--neutral-foreground-rest);
-    }
-        
+    }        
   `;
 
   // Declare reactive properties
-  @property()
+  @property({type: String})
   keyword?: string = '';
 
   @property({type: String})
@@ -35,6 +34,7 @@ export class BentoCard extends LitElement {
 
 <uvalib-card>
     <h3>${this.sourcetitle}</h3>
+    ${this.keyword}
     ${this.keyword? html`<h4>Search for ${this.keyword}</h4>`:''}
     <p>At purus lectus quis habitant commodo, cras. Aliquam malesuada velit a tortor. Felis orci tellus netus risus et ultricies augue aliquet.</p>
     <uvalib-button>Learn more</uvalib-button>

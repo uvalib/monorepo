@@ -18,6 +18,7 @@
       "@uvalib/bento-box": ["packages/wc/bento-box/src/index.ts"],
       "@uvalib/data-wrap": ["packages/lib/data-wrap/src/index.ts"],
       "@uvalib/dh-viz": ["packages/wc/dh-viz/src/index.ts"],
+      "@uvalib/foo-bar": ["packages/wc/foobar/src/index.ts"],
       "@uvalib/viz-graph": ["packages/wc/viz-graph/src/index.ts"]
     }
   },

@@ -17,19 +17,18 @@ export class BentoBox extends LitElement {
   #searchBox: BentoSearch;
 
   // Declare reactive properties
-  @property({type: String}) keyword?: string = 'foobar';
+  @property({type: String}) keyword?: string = 'foot';
 
   // Render the UI as a function of component state
   override render() {
     return html`
-
-<bento-search id="searchBox" .keyword="${this.keyword}" @search="${this.search}"></bento-search>
-<bento-card .keyword="${this.keyword}" sourcetitle="Virgo: Catalog"></bento-card>
-<bento-card .keyword="${this.keyword}" sourcetitle="Virgo: Articles"></bento-card>
-<bento-card .keyword="${this.keyword}" sourcetitle="Library Website"></bento-card>
-<bento-card .keyword="${this.keyword}" sourcetitle="LibGuides"></bento-card>
-<bento-card .keyword="${this.keyword}" sourcetitle="Talk to a subject expert"></bento-card>
-
+    <h1>Hello world! ${this.keyword}</h1>
+    <bento-search id="searchBox" .keyword="${this.keyword}" @search="${this.search}"></bento-search>
+    <bento-card .keyword="${this.keyword}" sourcetitle="Virgo: Catalog"></bento-card>
+    <bento-card .keyword="${this.keyword}" sourcetitle="Virgo: Articles"></bento-card>
+    <bento-card .keyword="${this.keyword}" sourcetitle="Library Website"></bento-card>
+    <bento-card .keyword="${this.keyword}" sourcetitle="LibGuides"></bento-card>
+    <bento-card .keyword="${this.keyword}" sourcetitle="Talk to a subject expert"></bento-card>
     `;
   }
 
