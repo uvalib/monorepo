@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "type": "commonjs",
   "dependencies": {
-    "@antv/g6": "^4.7.13"
+    "@antv/g6": "^4.7.13",
+    "@antv/vis-predict-engine": "^0.1.1"
   }
 }

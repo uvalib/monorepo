@@ -15,6 +15,7 @@ export class DHViz extends VizGraphAntG6 {
 
   constructor(){
     super();
+    this.overlap = false;
     this.#dataHandle = new DHAtUVAData();
     this.#dataHandle.fetchData().then(()=>{
       this.nodes = this.#dataHandle.nodes;

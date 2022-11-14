@@ -8,7 +8,7 @@ export class AppElement extends HTMLElement {
   public static observedAttributes = [];
 
   connectedCallback() {
-    const title = 'site-mock';
+//    const title = 'site-mock';
     this.innerHTML = `
     <div class="wrapper">
       <div class="container">

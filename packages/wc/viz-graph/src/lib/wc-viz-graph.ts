@@ -12,13 +12,18 @@ export class VizGraphAntG6 extends LitElement {
   @property({ type: Object }) graph;
   @property({ type: Array }) nodes;
   @property({ type: Array }) edges;
+  @property({ type: String }) layout = "force";
+  @property({ type: Boolean }) overlap = true;
 
   static override styles = css`
     :host {
       display: block;
     }
     .tooltip {
-      
+      background-color: white;
+      border-radius: 15px;
+      border: 2px solid #73AD21;
+      padding: 10px;
     }
   `;
 
@@ -32,13 +37,24 @@ export class VizGraphAntG6 extends LitElement {
 
   __renderGraph() {
     if (this != null && this.graph != null) {
-      this.graph.data({nodes:this.nodes, edges:this.edges});
-      this.graph.render();
-      const _this = this;
-      this.graph.on("afterlayout", function(){
-          _this.graph!.fitView();
-      } );
-      console.info("rendered graph");
+      const graphData = {nodes:this.nodes, edges:this.edges};
+//      GraphLayoutPredict.predict(graphData).then(function(predict){
+//        const predictLayout = predict.predictLayout;
+//        const confidence = predict.confidence;
+//        console.log("----predictLayout---", predictLayout);
+//        console.log("----confidence---", confidence);  
+        this.graph.updateLayout({
+          type:this.layout,
+          preventOverlap:!this.overlap
+        });     
+            this.graph.data(graphData);
+            this.graph.render();
+            const _this = this;
+            this.graph.on("afterlayout", function(){
+                _this.graph!.fitView();
+            } );
+            console.info("rendered graph");
+//      }.bind(this));    
     }
   }  
 
@@ -78,7 +94,7 @@ export class VizGraphAntG6 extends LitElement {
                 return outDiv;
               },
               shouldBegin: (e) => {
-                console.log(e.target);
+//                console.log(e.target);
                 let res = true;
                 switch (e.item.getModel().id) {
                   case '1':
@@ -107,13 +123,13 @@ export class VizGraphAntG6 extends LitElement {
                 height: height,
                 layout: {
     //                type: predictLayout,
-                    type: "force",
-                    preventOverlap: true,
+                    type: this.layout,
+                    preventOverlap: !this.overlap,
                     nodeSize: 20,
                 },
                 plugins: [tooltip],
                 modes: {
-                  default: ['drag-node',"zoom-canvas",'drag-canvas'],
+                  default: ['drag-node',"zoom-canvas",'drag-canvas','activate-relations'],
                 },
                 defaultNode: {
                 size: 20,
@@ -125,6 +141,44 @@ export class VizGraphAntG6 extends LitElement {
                 }
             });
             if (this.nodes || this.edges)  this.__renderGraph();
+
+//            this.graph.on('node:click', function (evt) {
+//              const target = evt.target;
+//          
+//              const type = target.get('type');
+//              const hasChangeBg = target.get('hasChangeBg');
+//              if (type === 'image') {
+//                if (!hasChangeBg) {
+//                  // 点击图片节点时，切换背景图片
+//                  target.attr('img', img2);
+//                  target.attr('imgSrc', 'http://seopic.699pic.com/photo/50055/5642.jpg_wh1200.jpg');
+//                  target.set('hasChangeBg', true);
+//                } else {
+//                  target.attr('img', img);
+//                  target.attr(
+//                    'imgSrc',
+//                    'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1566553535233&di=b0b17eeea7bd7356a6f42ebfd48e9441&imgtype=0&src=http%3A%2F%2Fa2.att.hudong.com%2F64%2F29%2F01300543361379145388299988437_s.jpg',
+//                  );
+//                  target.set('hasChangeBg', false);
+//                }
+//                graph.paint();
+//              }
+//            });            
+
+//            this.graph.on('node:dragstart', function () {
+//              this.graph.layout();
+//              refreshDragedNodePosition(e);
+//            });
+//            this.graph.on('node:drag', function () {
+//              const forceLayout = this.graph.get('layoutController').layoutMethods[0];
+//              forceLayout.execute();
+////              refreshDragedNodePosition(e);
+//            });
+//            this.graph.on('node:dragend', function (e: { item: { get: (arg0: string) => { (): unknown; new(): unknown; fx: unknown; fy: unknown; }; }; }) {
+//              e.item.get('model').fx = null;
+//              e.item.get('model').fy = null;
+//            });
+
           }  
         }
     //}.bind(this));  
