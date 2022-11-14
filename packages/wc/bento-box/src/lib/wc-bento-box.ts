@@ -1,31 +1,44 @@
-import {LitElement, css, html} from 'lit';
+import {LitElement, css, html, PropertyValueMap} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import './wc-bento-card';
+import './wc-bento-search';
+import { BentoSearch } from './wc-bento-search';
 
 @customElement('bento-box')
 export class BentoBox extends LitElement {
   // Define scoped styles right with your component, in plain CSS
   static override styles = css`
     :host {
+      display: block;
       padding: 0 10px 10px; 
-      color: var(--neutral-foreground-rest);
     }
   `;
 
+  #searchBox: BentoSearch;
+
   // Declare reactive properties
-  @property()
-  keyword?: string = 'bento';
+  @property({type: String}) keyword?: string = 'foobar';
 
   // Render the UI as a function of component state
   override render() {
     return html`
 
-<bento-card sourcetitle="Virgo: Catalog"></bento-card>
-<bento-card sourcetitle="Virgo: Articles"></bento-card>
-<bento-card sourcetitle="Library Website"></bento-card>
-<bento-card sourcetitle="LibGuides"></bento-card>
-<bento-card sourcetitle="Talk to a subject expert"></bento-card>
+<bento-search id="searchBox" .keyword="${this.keyword}" @search="${this.search}"></bento-search>
+<bento-card .keyword="${this.keyword}" sourcetitle="Virgo: Catalog"></bento-card>
+<bento-card .keyword="${this.keyword}" sourcetitle="Virgo: Articles"></bento-card>
+<bento-card .keyword="${this.keyword}" sourcetitle="Library Website"></bento-card>
+<bento-card .keyword="${this.keyword}" sourcetitle="LibGuides"></bento-card>
+<bento-card .keyword="${this.keyword}" sourcetitle="Talk to a subject expert"></bento-card>
 
     `;
+  }
+
+  protected firstUpdated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
+      this.#searchBox = <BentoSearch>this.shadowRoot.getElementById('searchBox');
+  }
+
+  search(e: Event) {
+    console.log(`we have a search for ${ this.#searchBox.keyword }`);
+    this.keyword = this.#searchBox.keyword;
   }
 }
