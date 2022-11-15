@@ -11,6 +11,10 @@
         // (and not the monorepo root)
         "outputs": ["dist/**"]
       },
+      "start": {
+        "dependsOn": ["^build"],
+        "outputs": []
+      },
       "test": {
         // A package's `test` script depends on that package's
         // own `build` script being completed first.

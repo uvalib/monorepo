@@ -7,7 +7,9 @@
     "build": "turbo run build",
     "test": "turbo run test",
     "lint": "turbo run lint",
-    "dev": "turbo run dev"
+    "dev": "turbo run dev",
+    "mkPkg": "cd packages; npm init @open-wc",
+    "mkApp": "cd apps; npm init @open-wc"
   },
   "keywords": [],
   "author": "",
