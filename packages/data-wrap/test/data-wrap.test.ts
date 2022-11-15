@@ -4,6 +4,8 @@ import { DataWrap } from '../src/DataWrap.js';
 import '../src/data-wrap.js';
 
 describe('DataWrap', () => {
+
+/*
   it('has a default title "Hey there" and counter 5', async () => {
     const el = await fixture<DataWrap>(html`<data-wrap></data-wrap>`);
 
@@ -29,4 +31,5 @@ describe('DataWrap', () => {
 
     await expect(el).shadowDom.to.be.accessible();
   });
+*/  
 });
