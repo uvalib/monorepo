@@ -58,3 +58,7 @@ Make an application (something to be built and deployed):
 ```
 pnpm run mkApp
 ```
+
+* If your project is meant to be published and consumed via npm you will want to prepend '@uvalib/' to the name in it's package.json file.
+
+To add a dependency across the monorepo you simply cd into the dependent package and install the dependency `pnpm add [package name]`.
