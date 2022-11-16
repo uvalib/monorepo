@@ -18,6 +18,10 @@ export class BentoBox extends LitElement {
 
   @property({ type: String }) keyword = '';
 
+  createRenderRoot() {
+    return this;
+  }
+
   render() {
     return html`
       <bento-search id="searchBox" .keyword="${this.keyword}" @search="${this.search}"></bento-search>
