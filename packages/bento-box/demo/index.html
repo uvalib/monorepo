@@ -9,21 +9,9 @@
   </style>
 </head>
 <body>
-  <div id="demo"></div>
-
-  <script type="module">
-    import { html, render } from 'lit';
-    import '../dist/src/bento-box.js';
-
-    const title = 'Hello owc World!';
-    render(
-      html`
-        <bento-box .title=${title}>
-          some light-dom
-        </bento-box>
-      `,
-      document.querySelector('#demo')
-    );
-  </script>
+  <div id="demo">
+    <script type="module" src="../dist/src/bento-box.js"></script>
+    <bento-box keyword="food"></bento-box>
+  </div>
 </body>
 </html>

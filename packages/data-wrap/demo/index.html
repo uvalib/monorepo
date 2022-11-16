@@ -15,15 +15,22 @@
     import { html, render } from 'lit';
     import '../dist/src/data-wrap.js';
 
-    const title = 'Hello owc World!';
+    const url = 'https://uvalib-api-occupancy.firebaseio.com/locations-schemaorg/location/clemons/occupancy.json';
+    const poll = 10000;  // every 10 seconds
     render(
       html`
-        <data-wrap .title=${title}>
-          some light-dom
-        </data-wrap>
+        <div id="out"></div>
+        <data-wrap auto .url=${url} .poll=${poll}></data-wrap>
       `,
       document.querySelector('#demo')
     );
+
+    let dataWrap = document.querySelector('data-wrap');
+    let out = document.getElementById("out");
+    dataWrap.addEventListener('response', ()=>{
+      console.log("We got a response!")
+      out.innerHTML = `Clemons occupancy is currently at ${dataWrap.lastResponse.value}`;
+    })
   </script>
 </body>
 </html>

@@ -1,9 +1,10 @@
-import { html } from 'lit';
-import { fixture, expect } from '@open-wc/testing';
-import { BentoBox } from '../src/BentoBox.js';
+// import { html } from 'lit';
+// import { fixture, expect } from '@open-wc/testing';
+// import { BentoBox } from '../src/BentoBox.js';
 import '../src/bento-box.js';
 
 describe('BentoBox', () => {
+  /*
   it('has a default title "Hey there" and counter 5', async () => {
     const el = await fixture<BentoBox>(html`<bento-box></bento-box>`);
 
@@ -29,4 +30,5 @@ describe('BentoBox', () => {
 
     await expect(el).shadowDom.to.be.accessible();
   });
+  */
 });
