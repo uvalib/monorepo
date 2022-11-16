@@ -1,13 +1,18 @@
 interface DHNode {
     node: { 
-        title: string; 
-        Name: string;
-        "I am connected to:": string; 
-        Instructor: string; 
-        "My connection type is:": string;
-        "Content Type": string;
-        "Project URL": string;
-        "Technical Approach": string;
+        title: string | undefined; 
+        Name: string | undefined;
+        Email: string | undefined;
+        Body: string | undefined;
+        Subtitle: string | undefined;
+        "UVA ID": string | undefined;
+        "I am connected to:": string | undefined; 
+        Instructor: string | undefined; 
+        "My connection type is:": string | undefined;
+        "Content Type": string | undefined;
+        "Project URL": string | undefined;
+        "Technical Approach": string | undefined;
+        "Secondary PDF/word doc": string | undefined;
     };     
 }
 
@@ -23,7 +28,7 @@ export class DHAtUVAData {
   
     async fetchData(){
       // This should be fetched live from the site under normal conditions
-      const data = await import('./data/graph-data-api-test.js');
+      const data = await import('./data/graph-data-api.js');
       this.#parseData( <DHNodeItems>data.default.DHData );
       return data.default;
     }
