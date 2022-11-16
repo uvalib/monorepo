@@ -8,7 +8,8 @@
   "module": "dist/src/index.js",
   "exports": {
     ".": "./dist/src/index.js",
-    "./data-wrap.js": "./dist/src/data-wrap.js"
+    "./data-wrap.js": "./dist/src/data-wrap.js",
+    "./VirgoData.js": "./dist/src/VirgoData.js"
   },
   "scripts": {
     "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",

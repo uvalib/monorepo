@@ -3,6 +3,7 @@ import { html, css, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 
 import './bento-card.js';
+import './virgo-bento-card.js';
 import './bento-search.js';
 import { BentoSearch } from './BentoSearch.js';
 
@@ -20,11 +21,11 @@ export class BentoBox extends LitElement {
   render() {
     return html`
       <bento-search id="searchBox" .keyword="${this.keyword}" @search="${this.search}"></bento-search>
-      <bento-card .keyword="${this.keyword}" sourcetitle="Virgo: Catalog"></bento-card>
-      <bento-card .keyword="${this.keyword}" sourcetitle="Virgo: Articles"></bento-card>
-      <bento-card .keyword="${this.keyword}" sourcetitle="Library Website"></bento-card>
-      <bento-card .keyword="${this.keyword}" sourcetitle="LibGuides"></bento-card>
-      <bento-card .keyword="${this.keyword}" sourcetitle="Talk to a subject expert"></bento-card>
+      <virgo-bento-card .keyword="${this.keyword}"></virgo-bento-card>
+      <bento-card .keyword="${this.keyword}" title="Virgo: Articles"></bento-card>
+      <bento-card .keyword="${this.keyword}" title="Library Website"></bento-card>
+      <bento-card .keyword="${this.keyword}" title="LibGuides"></bento-card>
+      <bento-card .keyword="${this.keyword}" title="Talk to a subject expert"></bento-card>
     `;
   }
 
