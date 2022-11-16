@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { html, css, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
@@ -17,7 +18,7 @@ export class BentoSearch extends LitElement {
 
   render() {
     return html`
-      <input id="search" .value="${this.keyword}"></input>
+      <input id="search" .value="${this.keyword}" @keyup="${(e: { key: string; keyCode: number; })=>{if (e.key === 'Enter' || e.keyCode === 13) this.search()}}"></input>
       <button @click="${this.search}">Search</button>
     `;
   }

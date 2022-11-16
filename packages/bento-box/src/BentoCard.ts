@@ -13,16 +13,9 @@ export class BentoCard extends LitElement {
 
   @property({ type: String }) keyword = 'Hey there';
 
-  @property({ type: Number }) counter = 5;
-
-  __increment() {
-    this.counter += 1;
-  }
-
   render() {
     return html`
-      <h2>${this.keyword} Nr. ${this.counter}!</h2>
-      <button @click=${this.__increment}>increment</button>
+      <h2>Search for ${this.keyword}</h2>
     `;
   }
 }
