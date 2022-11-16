@@ -15,7 +15,6 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/jsdom": "^20.0.1",
     "@types/mocha": "^10.0.0",
     "@types/node": "^18.11.9",
     "tslib": "^2.3.1",
