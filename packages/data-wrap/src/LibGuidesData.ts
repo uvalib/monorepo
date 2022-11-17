@@ -31,6 +31,7 @@ export class LibGuidesData {
         description: node.querySelector('.s-srch-result-meta')?.innerHTML.replace(/\s\s/g, ' '),
         link:""
       }));
+      dummydiv.remove();
       // this.items = [{title:"bar",description:"foo",link:"https://bar.foo"}];
     }
   
