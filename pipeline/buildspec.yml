@@ -26,7 +26,7 @@ phases:
   build:
     commands:
       - npm install -g pnpm
-      - pnpm install
+      - pnpm install --no-frozen-lockfile
       - npx turbo run build --filter=site-mock
       - echo "Uploading to ${target_bucket}/${target_root}/${ASSET_VERSION}"
       - echo "Uploading to ${target_bucket}/${target_root}/latest"
