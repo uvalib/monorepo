@@ -47,7 +47,7 @@
     libguides.fetchData().then(data=>{
       data.slice(0,5).forEach(result => {
         const li = document.createElement('li');
-        li.innerHTML = result.title;
+        li.innerHTML = `${result.title}<br />${result.description}`;
         libguidOut.appendChild(li);
       });
     })

@@ -24,11 +24,12 @@ export class LibGuidesData {
     #parseResults(data: string){
       const dummydiv = document.createElement('div');
       dummydiv.innerHTML = data;
+console.log(dummydiv);      
       const resultNodes = dummydiv.querySelectorAll('.s-srch-result');
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-console
       this.items = Array.from(resultNodes).map((node)=>({
         title: node.querySelector('.s-srch-result-title')?.innerHTML.replace(/\s\s/g, ' '),
-        description: node.querySelector('.s-srch-result-meta')?.innerHTML.replace(/\s\s/g, ' '),
+        description: node.querySelectorAll('.s-srch-result-meta')[1]?.innerHTML.replace(/\s\s/g, ' '),
         link:""
       }));
       dummydiv.remove();
