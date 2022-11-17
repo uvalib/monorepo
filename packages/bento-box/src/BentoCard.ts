@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { html, css, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
-import { GeneralSearchResult } from '@uvalib/data-wrap/dist/src/connections/GeneralSearchResult.js';
+import { GeneralSearchResult } from '@uvalib/data-wrap';
 
 export class BentoCard extends LitElement {
   static styles = css`
