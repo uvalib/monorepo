@@ -16,7 +16,7 @@
     import '../dist/src/data-wrap.js';
 
     import { LibGuidesData } from '../dist/src/LibGuidesData.js';
-    import { LibrariesData } from '../dist/src/Libraries.js';
+    import { LibrariesData } from '../dist/src/LibrariesData.js';
 
     const url = 'https://uvalib-api-occupancy.firebaseio.com/locations-schemaorg/location/clemons/occupancy.json';
     const poll = 10000;  // every 10 seconds
@@ -49,9 +49,10 @@
     });
 
     // list libraries
-    let libraries - new LibrariesData();
-    libraries.fetchData().then(libraries=>{
-      
+    let librariesData = new LibrariesData();
+    librariesData.fetchData().then(libraries=>{
+      console.log(libraries);
+      libraries.forEach(lib=>console.log(lib))
     });
 
     // get some search results from the libguides data wrapper
