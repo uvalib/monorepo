@@ -34,3 +34,5 @@ yarn-error.log*
 build/**
 dist/**
 
+.idea
+tmp
