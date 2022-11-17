@@ -1,0 +1,39 @@
+#
+# buildspec.yml
+#
+
+version: 0.2
+
+env:
+  variables:
+    package_file: apps/site-mock/package.json
+    target_bucket: unpkg.internal.lib.virginia.edu
+    target_root: web-components
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+#    commands:
+
+  pre_build:
+    commands:
+      - BUILD_VERSION=$(date --date="@$(echo $CODEBUILD_START_TIME | cut -c1-10)" +"%Y%m%d%H%M%S")
+      - PACKAGE_VERSION=$(grep "\"version\":" ${package_file} | awk '{print $2}' | tr -d "\",")
+      - ASSET_VERSION=${PACKAGE_VERSION}-${BUILD_VERSION}
+      - COMMIT_TAG=gitcommit-$CODEBUILD_RESOLVED_SOURCE_VERSION
+
+  build:
+    commands:
+      - npm install -g pnpm
+      - pnpm install
+      - npx turbo run build --filter=site-mock
+      - echo "Uploading to ${target_bucket}/${target_root}/${ASSET_VERSION}"
+      #- aws s3 cp $BUILD_TARFILE s3://${target_bucket}/${target_root}/${ASSET_VERSION} --quiet
+
+#  post_build:
+#    commands:
+
+#
+# end of file
+#
