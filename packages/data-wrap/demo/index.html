@@ -16,6 +16,7 @@
     import '../dist/src/data-wrap.js';
 
     import { LibGuidesData } from '../dist/src/LibGuidesData.js';
+    import { LibrariesData } from '../dist/src/Libraries.js';
 
     const url = 'https://uvalib-api-occupancy.firebaseio.com/locations-schemaorg/location/clemons/occupancy.json';
     const poll = 10000;  // every 10 seconds
@@ -25,6 +26,12 @@
         <div id="out"></div>
         <data-wrap auto .url=${url} .poll=${poll}></data-wrap>
         
+        <h2>Example of LibariesData</h2>
+        <div>
+          <ul id="libraries"></ul>
+        </div>
+
+
         <h2>Example of LibGuidesData</h2>
         <div>
           <h3>Search for 'food'</h3>
@@ -39,7 +46,13 @@
     let out = document.getElementById("out");
     dataWrap.addEventListener('response', ()=>{
       out.innerHTML = `Clemons occupancy is currently at ${dataWrap.lastResponse.value}`;
-    })
+    });
+
+    // list libraries
+    let libraries - new LibrariesData();
+    libraries.fetchData().then(libraries=>{
+      
+    });
 
     // get some search results from the libguides data wrapper
     let libguides = new LibGuidesData({query:"food"});
