@@ -10,7 +10,6 @@
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "outDir": "dist",
     "sourceMap": true,
     "inlineSources": true,
     "declaration": true,
