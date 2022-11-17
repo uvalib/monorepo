@@ -1,1 +1,0 @@
-{"version":3,"file":"Library.js","sourceRoot":"","sources":["../../../data-wrap/src/Library.ts"],"names":[],"mappings":"","sourcesContent":["export interface Library { \n    title: string | undefined; \n    description: string | undefined;\n    link: string | undefined;     \n}"]}

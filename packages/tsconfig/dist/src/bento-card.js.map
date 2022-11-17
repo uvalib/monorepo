@@ -1,1 +1,0 @@
-{"version":3,"file":"bento-card.js","sourceRoot":"","sources":["../../../bento-box/src/bento-card.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,gBAAgB,CAAC;AAE3C,MAAM,CAAC,cAAc,CAAC,MAAM,CAAC,YAAY,EAAE,SAAS,CAAC,CAAC","sourcesContent":["import { BentoCard } from './BentoCard.js';\n\nwindow.customElements.define('bento-card', BentoCard);\n"]}

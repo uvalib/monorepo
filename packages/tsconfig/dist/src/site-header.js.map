@@ -1,1 +1,0 @@
-{"version":3,"file":"site-header.js","sourceRoot":"","sources":["../../../site-header/src/site-header.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,UAAU,EAAE,MAAM,iBAAiB,CAAC;AAE7C,MAAM,CAAC,cAAc,CAAC,MAAM,CAAC,aAAa,EAAE,UAAU,CAAC,CAAC","sourcesContent":["import { SiteHeader } from './SiteHeader.js';\n\nwindow.customElements.define('site-header', SiteHeader);\n"]}

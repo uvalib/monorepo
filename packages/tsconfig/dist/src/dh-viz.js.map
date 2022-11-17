@@ -1,1 +1,0 @@
-{"version":3,"file":"dh-viz.js","sourceRoot":"","sources":["../../../dh-viz/src/dh-viz.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,KAAK,EAAE,MAAM,YAAY,CAAC;AAEnC,MAAM,CAAC,cAAc,CAAC,MAAM,CAAC,QAAQ,EAAE,KAAK,CAAC,CAAC","sourcesContent":["import { DhViz } from './DhViz.js';\n\nwindow.customElements.define('dh-viz', DhViz);\n"]}

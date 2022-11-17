@@ -1,1 +1,0 @@
-{"version":3,"file":"GeneralSearchResult.js","sourceRoot":"","sources":["../../../data-wrap/src/GeneralSearchResult.ts"],"names":[],"mappings":"","sourcesContent":["export interface GeneralSearchResult { \n    title: string | undefined; \n    description: string | undefined;\n    link: string | undefined;     \n}"]}

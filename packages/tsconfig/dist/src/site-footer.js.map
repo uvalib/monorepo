@@ -1,1 +1,0 @@
-{"version":3,"file":"site-footer.js","sourceRoot":"","sources":["../../../site-footer/src/site-footer.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,UAAU,EAAE,MAAM,iBAAiB,CAAC;AAE7C,MAAM,CAAC,cAAc,CAAC,MAAM,CAAC,aAAa,EAAE,UAAU,CAAC,CAAC","sourcesContent":["import { SiteFooter } from './SiteFooter.js';\n\nwindow.customElements.define('site-footer', SiteFooter);\n"]}

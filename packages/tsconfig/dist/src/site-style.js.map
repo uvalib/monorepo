@@ -1,1 +1,0 @@
-{"version":3,"file":"site-style.js","sourceRoot":"","sources":["../../../site-style/src/site-style.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,gBAAgB,CAAC;AAE3C,MAAM,CAAC,cAAc,CAAC,MAAM,CAAC,YAAY,EAAE,SAAS,CAAC,CAAC","sourcesContent":["import { SiteStyle } from './SiteStyle.js';\n\nwindow.customElements.define('site-style', SiteStyle);\n"]}

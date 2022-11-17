@@ -1,1 +1,0 @@
-{"version":3,"file":"data-wrap.js","sourceRoot":"","sources":["../../../data-wrap/src/data-wrap.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,QAAQ,EAAE,MAAM,eAAe,CAAC;AAEzC,MAAM,CAAC,cAAc,CAAC,MAAM,CAAC,WAAW,EAAE,QAAQ,CAAC,CAAC","sourcesContent":["import { DataWrap } from './DataWrap.js';\n\nwindow.customElements.define('data-wrap', DataWrap);\n"]}
