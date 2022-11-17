@@ -4,6 +4,7 @@ import { property } from 'lit/decorators.js';
 
 import './bento-card.js';
 import './virgo-bento-card.js';
+import './libguides-bento-card.js';
 import './bento-search.js';
 import { BentoSearch } from './BentoSearch.js';
 
@@ -28,7 +29,7 @@ export class BentoBox extends LitElement {
       <virgo-bento-card .keyword="${this.keyword}"></virgo-bento-card>
       <bento-card .keyword="${this.keyword}" title="Virgo: Articles"></bento-card>
       <bento-card .keyword="${this.keyword}" title="Library Website"></bento-card>
-      <bento-card .keyword="${this.keyword}" title="LibGuides"></bento-card>
+      <libguides-bento-card .keyword="${this.keyword}"></libguides-bento-card>
       <bento-card .keyword="${this.keyword}" title="Talk to a subject expert"></bento-card>
     `;
   }

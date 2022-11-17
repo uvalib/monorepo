@@ -1,5 +1,5 @@
 export interface GeneralSearchResult { 
-    title: string; 
+    title: string | undefined; 
     description: string | undefined;
-    link: string;     
+    link: string | undefined;     
 }
