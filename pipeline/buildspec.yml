@@ -13,7 +13,7 @@ env:
 phases:
   install:
     runtime-versions:
-      nodejs: 18
+      nodejs: 16
 #    commands:
 
   pre_build:
@@ -29,6 +29,7 @@ phases:
       - pnpm install
       - npx turbo run build --filter=site-mock
       - echo "Uploading to ${target_bucket}/${target_root}/${ASSET_VERSION}"
+      - echo "Uploading to ${target_bucket}/${target_root}/latest"
       #- aws s3 cp $BUILD_TARFILE s3://${target_bucket}/${target_root}/${ASSET_VERSION} --quiet
 
 #  post_build:
