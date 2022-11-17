@@ -1,0 +1,1 @@
+{"version":3,"file":"bento-search.js","sourceRoot":"","sources":["../../../bento-box/src/bento-search.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,WAAW,EAAE,MAAM,kBAAkB,CAAC;AAE/C,MAAM,CAAC,cAAc,CAAC,MAAM,CAAC,cAAc,EAAE,WAAW,CAAC,CAAC","sourcesContent":["import { BentoSearch } from './BentoSearch.js';\n\nwindow.customElements.define('bento-search', BentoSearch);\n"]}

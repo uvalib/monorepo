@@ -26,6 +26,7 @@
     "lit": "^2.0.0-rc.2"
   },
   "devDependencies": {
+    "tsconfig": "workspace:*",
     "@open-wc/eslint-config": "^4.3.0",
     "@open-wc/testing": "next",
     "@typescript-eslint/eslint-plugin": "^4.29.2",

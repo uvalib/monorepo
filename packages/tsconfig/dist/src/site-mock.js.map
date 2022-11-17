@@ -1,0 +1,1 @@
+{"version":3,"file":"site-mock.js","sourceRoot":"","sources":["../../../../apps/site-mock/src/site-mock.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,QAAQ,EAAE,MAAM,eAAe,CAAC;AAEzC,cAAc,CAAC,MAAM,CAAC,WAAW,EAAE,QAAQ,CAAC,CAAC","sourcesContent":["import { SiteMock } from './SiteMock.js';\n\ncustomElements.define('site-mock', SiteMock);\n"]}

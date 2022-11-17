@@ -1,0 +1,1 @@
+{"version":3,"file":"bento-box.js","sourceRoot":"","sources":["../../../bento-box/src/bento-box.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,QAAQ,EAAE,MAAM,eAAe,CAAC;AAEzC,MAAM,CAAC,cAAc,CAAC,MAAM,CAAC,WAAW,EAAE,QAAQ,CAAC,CAAC","sourcesContent":["import { BentoBox } from './BentoBox.js';\n\nwindow.customElements.define('bento-box', BentoBox);\n"]}
