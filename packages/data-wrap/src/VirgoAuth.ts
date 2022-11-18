@@ -1,15 +1,20 @@
 export class VirgoAuth {
-  guestToken: string;
 
-  readonly authURL: string = "https://search-dev.lib.virginia.edu/authorize"
 
-  constructor(){
-    this.guestToken = VirgoAuth.guestAuth();
-  }
+  static readonly authURL: string = "https://search.lib.virginia.edu/authorize"
 
-  static guestAuth(): string {
+  static async guestAuth() {
+    const options = {
+      method: "POST"
+    }
 
-    return "";
+    const data = await fetch(this.authURL, options)
+    .then(r=>r.text())
+
+    if (data !== undefined){
+      return `Bearer ${data}`
+    }
+    return ""
   }
 
 }

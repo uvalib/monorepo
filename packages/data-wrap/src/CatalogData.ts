@@ -1,4 +1,5 @@
 import { GeneralSearchResult } from './GeneralSearchResult.js'
+import { VirgoAuth } from './VirgoAuth.js';
 
 const virgoCatalogPoolURL = "https://pool-solr-ws-uva-library.internal.lib.virginia.edu/api/search"
 
@@ -25,7 +26,7 @@ export class CatalogData {
         headers: {
         Accept: "application/json",
           "Content-Type": "application/json;charset=UTF-8",
-          "Authorization": "Bearer replaceMe"
+          "Authorization": await VirgoAuth.guestAuth()
 
         },
         body: JSON.stringify(
