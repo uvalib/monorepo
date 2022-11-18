@@ -1,6 +1,6 @@
 {
+  "extends": "tsconfig/base.json",
   "compilerOptions": {
-    "extends": "tsconfig/base.json",
     "target": "es2018",
     "module": "esnext",
     "moduleResolution": "node",
