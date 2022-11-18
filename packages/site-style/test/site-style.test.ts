@@ -4,6 +4,7 @@ import { SiteStyle } from '../src/SiteStyle.js';
 import '../src/site-style.js';
 
 describe('SiteStyle', () => {
+/*
   it('has a default title "Hey there" and counter 5', async () => {
     const el = await fixture<SiteStyle>(html`<site-style></site-style>`);
 
@@ -29,4 +30,5 @@ describe('SiteStyle', () => {
 
     await expect(el).shadowDom.to.be.accessible();
   });
+*/
 });

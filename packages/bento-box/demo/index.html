@@ -11,7 +11,12 @@
 <body>
   <div id="demo">
     <script type="module" src="../dist/src/bento-box.js"></script>
-    <bento-box keyword="food"></bento-box>
+    <script type="module">
+      import '@uvalib/site-style/site-style.js';
+    </script>
+    <site-style>
+      <bento-box keyword="food"></bento-box>
+    </site-style>
   </div>
 </body>
 </html>
