@@ -37,7 +37,7 @@ phases:
       - aws s3 rm s3://${latest_target} --recursive --quiet
       - echo "Uploading to s3://${latest_target}"
       - aws s3 cp ${target_assets} s3://${latest_target} --recursive --quiet
-      - aws cloudfront create-invalidation --distribution-id ${DISTRIBUTION_ID} --paths "/${web-components}/latest"
+      - aws cloudfront create-invalidation --distribution-id ${DISTRIBUTION_ID} --paths "/${target_root}/latest"
 
 #  post_build:
 #    commands:
