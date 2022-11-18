@@ -32,11 +32,11 @@ phases:
       - pnpm install --no-frozen-lockfile
       - npx turbo run build --filter=site-mock
       - echo "Uploading to s3://${versioned_target}"
-      - aws s3 cp ${target_assets} s3://${versioned_target} --recursive --quiet --dryrun
-      - echo "Cleaning s3://${latest_target}"
-      - aws s3 rm s3://${latest_target} --recursive --quiet --dryrun
+      - aws s3 cp ${target_assets} s3://${versioned_target} --recursive --quiet
+      #- echo "Cleaning s3://${latest_target}"
+      #- aws s3 rm s3://${latest_target} --recursive --quiet --dryrun
       - echo "Uploading to s3://${latest_target}"
-      - aws s3 cp ${target_assets} s3://${latest_target} --recursive --quiet --dryrun
+      - aws s3 cp ${target_assets} s3://${latest_target} --recursive --quiet
 
 #  post_build:
 #    commands:
