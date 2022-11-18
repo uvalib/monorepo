@@ -15,7 +15,7 @@ export class LibGuidesData {
   
     // eslint-disable-next-line class-methods-use-this
     async fetchData(){
-      return fetch(`${libGuidesAPIURL}q=${this.query}`)
+      return fetch(`${libGuidesAPIURL}&q=${this.query}`)
         .then(r=>r.json())
         .then(d=>{
           this.#parseResults(d.data.results);

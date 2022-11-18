@@ -7,6 +7,8 @@ const librariesEndpointURL = "https://api.library.virginia.edu/drupal/libs?_form
 
 export class LibrariesData {
 
+    #fuse: object | unknown = null;
+
     query: string = "";
 
     items: GeneralSearchResult[] = [];
@@ -20,6 +22,13 @@ export class LibrariesData {
           this.#parseResults(data);
           return this.libraries;
         })
+    }
+
+    async search(query: string){
+      const fuse = await import('fuse.js');
+      // eslint-disable-next-line no-new, new-cap
+      const fs = new fuse.default(this.libraries, {keys:['body','title','shortTitle','donorTitle']})      
+      return fs.search(query)
     }
 
     // eslint-disable-next-line class-methods-use-this

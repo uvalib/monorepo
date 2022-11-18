@@ -6,8 +6,11 @@ importers:
     specifiers:
       '@types/mocha': ^10.0.0
       '@types/node': ^18.11.9
+      fuse.js: ^6.6.2
       tslib: ^2.3.1
       turbo: ^1.6.3
+    dependencies:
+      fuse.js: 6.6.2
     devDependencies:
       '@types/mocha': 10.0.0
       '@types/node': 18.11.9
@@ -112,6 +115,7 @@ importers:
       concurrently: ^5.3.0
       eslint: ^7.32.0
       eslint-config-prettier: ^8.3.0
+      fuse.js: ^6.6.2
       husky: ^4.3.8
       lint-staged: ^10.5.4
       lit: ^2.0.0-rc.2
@@ -120,6 +124,7 @@ importers:
       tslib: ^2.3.1
       typescript: ^4.3.5
     dependencies:
+      fuse.js: 6.6.2
       lit: 2.4.1
     devDependencies:
       '@open-wc/eslint-config': 4.3.0_sz4i7qznf44sliit4yqchbvfk4
@@ -5314,6 +5319,11 @@ packages:
   /functions-have-names/1.2.3:
     resolution: {integrity: sha512-xckBUXyTIqT97tq2x2AMb+g163b5JFysYk0x4qxNFwbfQkmNZoiRHb6sPzI9/QV33WeuvVYBUIiD4NzNIyqaRQ==}
     dev: true
+
+  /fuse.js/6.6.2:
+    resolution: {integrity: sha512-cJaJkxCCxC8qIIcPBF9yGxY0W/tVZS3uEISDxhYIdtk8OL93pe+6Zj7LjCqVV4dzbqcriOZ+kQ/NE4RXZHsIGA==}
+    engines: {node: '>=10'}
+    dev: false
 
   /gensync/1.0.0-beta.2:
     resolution: {integrity: sha512-3hN7NaskYvMDLQY55gnW3NQ+mesEAepTqlg+VEbj7zzqEMBVNhzcGYYeqFo/TlYz6eQiFcp1HcsCZO+nGgS8zg==}
