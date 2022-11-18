@@ -1,5 +1,7 @@
 import { css } from 'lit';
 
+// colors from https://github.com/uvalib/uvalib-drupal-theme/blob/main/scss/base/_colors.scss
+// need to setup a dependency and process to autosync from that authority
 export const LibraryColors = css`
 :host {
   --uva-brand-blue-lightest: #87B9D9;
