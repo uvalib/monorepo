@@ -68,7 +68,7 @@ importers:
       '@typescript-eslint/eslint-plugin': ^4.29.2
       '@typescript-eslint/parser': ^4.29.2
       '@uvalib/data-wrap': workspace:*
-      '@uvalib/site-style': workspace:^0.0.0
+      '@uvalib/site-style': workspace:*
       '@web/dev-server': ^0.1.21
       '@web/dev-server-storybook': next
       '@web/test-runner': next

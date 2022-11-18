@@ -1,22 +1,22 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { html, PropertyValueMap } from 'lit';
-import { VirgoData } from '@uvalib/data-wrap';
-import { GeneralSearchResult } from '@uvalib/data-wrap';
+import { GeneralSearchResult, CatalogData } from '@uvalib/data-wrap';
 import { BentoCard } from './BentoCard.js'
 
-export class VirgoBentoCard extends BentoCard {
+export class CatalogBentoCard extends BentoCard {
 
-  #virgoData: VirgoData;
+  #catalogData: CatalogData;
 
   constructor(){
     super();
-    this.title = "Virgo";
-    this.#virgoData = new VirgoData()
+    this.title = "Virgo: Catalog";
+    this.#catalogData = new CatalogData({query:""})
   }
 
   protected updated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
       if (_changedProperties.has('keyword')) {
-        this.#virgoData.fetchData()
+        this.#catalogData.query = this.keyword;
+        this.#catalogData.fetchData()
           .then((data: GeneralSearchResult[])=>{this.items = data});
       }
   }

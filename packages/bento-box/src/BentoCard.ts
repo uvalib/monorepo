@@ -36,8 +36,9 @@ export class BentoCard extends SiteStyle {
           <a href="${item.link}">${item.title}</a>: ${item.description}
           `:html`
           ${item.title}: ${item.description}
-          `}
-        `)}</li>
+          `}</li>
+        `)}
+
       </ul>
     `;
   }
