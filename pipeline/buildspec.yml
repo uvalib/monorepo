@@ -33,10 +33,11 @@ phases:
       - npx turbo run build --filter=site-mock
       - echo "Uploading to s3://${versioned_target}"
       - aws s3 cp ${target_assets} s3://${versioned_target} --recursive --quiet
-      #- echo "Cleaning s3://${latest_target}"
-      #- aws s3 rm s3://${latest_target} --recursive --quiet --dryrun
+      - echo "Cleaning s3://${latest_target}"
+      - aws s3 rm s3://${latest_target} --recursive --quiet
       - echo "Uploading to s3://${latest_target}"
       - aws s3 cp ${target_assets} s3://${latest_target} --recursive --quiet
+      - # invalidate CDN here...
 
 #  post_build:
 #    commands:
