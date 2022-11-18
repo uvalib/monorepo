@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { html, css, LitElement } from 'lit';
+import { html, css } from 'lit';
 import { property } from 'lit/decorators.js';
 
 import './bento-card.js';
@@ -7,32 +7,36 @@ import './virgo-bento-card.js';
 import './libguides-bento-card.js';
 import './bento-search.js';
 import './libraries-bento-card.js';
+import { SiteStyle } from '@uvalib/site-style';
 import { BentoSearch } from './BentoSearch.js';
 
-export class BentoBox extends LitElement {
-  static styles = css`
-    :host {
-      display: block;
-      padding: 25px;
-      color: var(--bento-box-text-color, #000);
-    }
-  `;
+export class BentoBox extends SiteStyle {
+
+  static get styles() {
+    return [
+      ...super.styles,
+      css`
+      :host {
+        display: block;
+        padding: 25px;
+        color: var(--uva-text-color-base, #000);
+      }
+      `
+    ]
+  }
+
 
   @property({ type: String }) keyword = '';
 
-  createRenderRoot() {
-    return this;
-  }
-
   render() {
     return html`
-      <bento-search id="searchBox" .keyword="${this.keyword}" @search="${this.search}"></bento-search>
-      <virgo-bento-card .keyword="${this.keyword}"></virgo-bento-card>
-      <bento-card .keyword="${this.keyword}" title="Virgo: Articles"></bento-card>
-      <bento-card .keyword="${this.keyword}" title="Library Website"></bento-card>
-      <libguides-bento-card .keyword="${this.keyword}"></libguides-bento-card>
-      <bento-card .keyword="${this.keyword}" title="Talk to a subject expert"></bento-card>
-      <libraries-bento-card .keyword="${this.keyword}"></libraries-bento-card>
+      <bento-search .noShadowDom="${this.noShadowDom}" id="searchBox" .keyword="${this.keyword}" @search="${this.search}"></bento-search>
+      <virgo-bento-card .noShadowDom="${this.noShadowDom}" .keyword="${this.keyword}"></virgo-bento-card>
+      <bento-card .noShadowDom="${this.noShadowDom}" .keyword="${this.keyword}" title="Virgo: Articles"></bento-card>
+      <bento-card .noShadowDom="${this.noShadowDom}" .keyword="${this.keyword}" title="Library Website"></bento-card>
+      <libguides-bento-card .noShadowDom="${this.noShadowDom}" .keyword="${this.keyword}"></libguides-bento-card>
+      <bento-card .noShadowDom="${this.noShadowDom}" .keyword="${this.keyword}" title="Talk to a subject expert"></bento-card>
+      <libraries-bento-card .noShadowDom="${this.noShadowDom}" .keyword="${this.keyword}"></libraries-bento-card>
     `;
   }
 

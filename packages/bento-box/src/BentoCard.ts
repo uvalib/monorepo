@@ -1,18 +1,24 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { html, css, LitElement } from 'lit';
+import { html, css } from 'lit';
 import { property } from 'lit/decorators.js';
 import { GeneralSearchResult } from '@uvalib/data-wrap';
+import { SiteStyle } from '@uvalib/site-style';
 
-export class BentoCard extends LitElement {
-  static styles = css`
-    :host {
-      display: block;
-      padding: 25px;
-      color: var(--bento-box-text-color, #000);
-      border: 1px solid black;
-      border-radius: 16px;
-    }
-  `;
+export class BentoCard extends SiteStyle {
+  static get styles() {
+    return [
+      ...super.styles,
+      css`
+      :host {
+        display: block;
+        padding: 25px;
+        color: var(--uva-text-color-base, #000);
+        border: 1px solid black;
+        border-radius: 16px;
+      }
+      `
+    ]
+  }
 
   @property({ type: String }) keyword = '';
 
@@ -26,8 +32,12 @@ export class BentoCard extends LitElement {
       <h2>Search for ${this.keyword}</h2>
       <ul>
         ${this.items.map(item=>html`
-          <li><a href="${item.link}">${item.title}</a>: ${item.description}</li>
-        `)}
+          <li>${item.link? html`
+          <a href="${item.link}">${item.title}</a>: ${item.description}
+          `:html`
+          ${item.title}: ${item.description}
+          `}
+        `)}</li>
       </ul>
     `;
   }

@@ -23,10 +23,10 @@
   },
   "dependencies": {
     "@uvalib/data-wrap": "workspace:*",
-    "lit": "^2.0.0-rc.2"
+    "lit": "^2.0.0-rc.2",
+    "@uvalib/site-style": "workspace:*"
   },
   "devDependencies": {
-    "@uvalib/site-style": "workspace:*",
     "@open-wc/eslint-config": "^4.3.0",
     "@open-wc/testing": "next",
     "@types/mocha": "^10.0.0",

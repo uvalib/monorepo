@@ -3,14 +3,21 @@
 import { html, css, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 
-export class BentoSearch extends LitElement {
-  static styles = css`
-    :host {
-      display: block;
-      padding: 25px;
-      color: var(--bento-box-text-color, #000);
-    }
-  `;
+import { SiteStyle } from '@uvalib/site-style';
+
+export class BentoSearch extends SiteStyle {
+  static get styles() {
+    return [
+      ...super.styles,
+      css`
+      :host {
+        display: block;
+        padding: 25px;
+        color: var(--uva-text-color-base, #000);
+      }
+      `
+    ]
+  }
 
   @property({ type: String }) keyword = '';
 
@@ -24,7 +31,7 @@ export class BentoSearch extends LitElement {
   }
 
   search(){
-    const input = <HTMLInputElement>this.shadowRoot?.getElementById('search');
+    const input = <HTMLInputElement>this.renderRoot?.querySelector('#search');
     this.keyword = input.value;
     this.dispatchEvent(new Event('search',{bubbles: true, composed:true}))
   }
