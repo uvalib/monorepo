@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable camelcase */
 import { GeneralSearchResult } from './GeneralSearchResult.js';
 import { Library} from './Library.js';
@@ -23,33 +24,32 @@ export class LibrariesData {
 
     // eslint-disable-next-line class-methods-use-this
     #parseResults(d: any) {
-      // eslint-disable-next-line no-console
-      console.log(d);
       this.libraries = d.map((l: {
-        field_closure_override: string | any[];
-        field_parent: string | any[];
-        field_google_my_business: string | any[];
-        field_zip_code: string | any[];
-        field_slug: string | any[];
-        field_social_media: string | any[];
-        field_phone_number: string | any[];
-        field_mygroup_id: string | any[];
-        field_fm_location: string | any[];
-        field_facilities_management_key: string | any[];
-        field_main_image: string | any[];
-        field_library_site_link: string | any[];
-        field_library_feed: any;
-        field_libcal_id: any
-        field_hours_information: any;
-        field_donor_description: any;
-        field_email_address: any;
-        field_donor_title: any;
-        field_contact_form: any;
-        field_type_basic: any;
-        field_short_title: any;
-        body: any;
-        title: any;
-        uuid: any; nid: any; 
+        field_closure_override: string[] | any[];
+        field_parent: string[] | any[];
+        field_google_my_business: string[] | any[];
+        field_zip_code: string[] | any[];
+        field_slug: string[] | any[];
+        field_social_media: string[] | any[];
+        field_phone_number: string[] | any[];
+        field_mygroup_id: string[] | any[];
+        field_fm_location: string[] | any[];
+        field_facilities_management_key: string[] | any[];
+        field_main_image: string[] | any[];
+        field_library_site_link: string[] | any[];
+        field_library_feed: any[];
+        field_libcal_id: any[];
+        field_hours_information: any[];
+        field_donor_description: any[];
+        field_email_address: any[];
+        field_donor_title: any[];
+        field_contact_form: any[];
+        field_type_basic: any[];
+        field_short_title: any[];
+        body: any[];
+        title: any[];
+        uuid: any[]; 
+        nid: any[]; 
       })=>({
           id: this.#getValue(l.nid),
           uuid: this.#getValue(l.uuid),
@@ -80,26 +80,20 @@ export class LibrariesData {
     }
 
     // eslint-disable-next-line class-methods-use-this
-    #getValue(prop: string | any[]){
-      // eslint-disable-next-line no-nested-ternary
-      return prop && prop.length>0? 
-        // eslint-disable-next-line no-nested-ternary
-        prop[0].value?
-          prop[0].value:
-          // eslint-disable-next-line no-nested-ternary
-          prop[0].url? // an image
-            {
-              alt:prop[0].alt,
-              url:prop[0].url,
-              uuid:prop[0].target_uuid
-            }:
-            prop[0].uri? // social media?
-              {
-                uri: prop[0].uri,
-                title: prop[0].title
-              }:
-              null
-        :null;
+    #getValue(props: string[] | any[]){
+      return props.map(prop=>prop.value?
+                prop.value:
+                prop.url? // an image
+                  {
+                    alt:prop.alt,
+                    url:prop.url,
+                    uuid:prop.target_uuid
+                  }:
+                  prop.uri? // social media?
+                    {
+                      uri: prop.uri,
+                      title: prop.title
+                    }:
+                    null);
     }
-  
   }
