@@ -26,6 +26,16 @@ export class LibrariesData {
       // eslint-disable-next-line no-console
       console.log(d);
       this.libraries = d.map((l: {
+        field_closure_override: string | any[];
+        field_parent: string | any[];
+        field_google_my_business: string | any[];
+        field_zip_code: string | any[];
+        field_slug: string | any[];
+        field_social_media: string | any[];
+        field_phone_number: string | any[];
+        field_mygroup_id: string | any[];
+        field_fm_location: string | any[];
+        field_facilities_management_key: string | any[];
         field_main_image: string | any[];
         field_library_site_link: string | any[];
         field_library_feed: any;
@@ -55,15 +65,41 @@ export class LibrariesData {
           libcalID: this.#getValue(l.field_libcal_id),
           libraryFeed: this.#getValue(l.field_library_feed),
           siteLink: this.#getValue(l.field_library_site_link),
-          //mainImage: this.#getValue(l.field_main_image),
+          mainImage: this.#getValue(l.field_main_image),
+          fmKey: this.#getValue(l.field_facilities_management_key),
+          location: this.#getValue(l.field_fm_location),
+          mygroupID: this.#getValue(l.field_mygroup_id),
+          phoneNumber: this.#getValue(l.field_phone_number),
+          socialMedia: this.#getValue(l.field_social_media),
+          slug: this.#getValue(l.field_slug),
+          zipCode: this.#getValue(l.field_zip_code),
+          googleMyBusiness: this.#getValue(l.field_google_my_business),
+          parent: this.#getValue(l.field_parent),
+          closureOverride: this.#getValue(l.field_closure_override)
         }))
     }
 
     // eslint-disable-next-line class-methods-use-this
     #getValue(prop: string | any[]){
+      // eslint-disable-next-line no-nested-ternary
       return prop && prop.length>0? 
-        prop[0].value: 
-        null;
+        // eslint-disable-next-line no-nested-ternary
+        prop[0].value?
+          prop[0].value:
+          // eslint-disable-next-line no-nested-ternary
+          prop[0].url? // an image
+            {
+              alt:prop[0].alt,
+              url:prop[0].url,
+              uuid:prop[0].target_uuid
+            }:
+            prop[0].uri? // social media?
+              {
+                uri: prop[0].uri,
+                title: prop[0].title
+              }:
+              null
+        :null;
     }
   
   }

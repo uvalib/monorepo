@@ -50,9 +50,9 @@
 
     // list libraries
     let librariesData = new LibrariesData();
+    const libraryList = document.getElementById('libraries');
     librariesData.fetchData().then(libraries=>{
-      console.log(libraries);
-      libraries.forEach(lib=>console.log(lib))
+      render(html`${libraries.map(l=>html`<li>${l.title}</li>`)}`, document.getElementById('libraries'))
     });
 
     // get some search results from the libguides data wrapper
