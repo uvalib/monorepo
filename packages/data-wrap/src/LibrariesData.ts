@@ -27,8 +27,8 @@ export class LibrariesData {
     async search(query: string){
       const fuse = await import('fuse.js');
       // eslint-disable-next-line no-new, new-cap
-      const fs = new fuse.default(this.libraries, {keys:['body','title','shortTitle','donorTitle']})      
-      return fs.search(query)
+      const fs = new fuse.default<Library>(this.libraries, {threshold:0.0, keys:['body','title']}); // ,'shortTitle','donorTitle']});
+      return fs.search(query).map(({ item })=>item);
     }
 
     // eslint-disable-next-line class-methods-use-this

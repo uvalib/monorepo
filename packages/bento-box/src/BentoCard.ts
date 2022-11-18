@@ -14,7 +14,7 @@ export class BentoCard extends LitElement {
     }
   `;
 
-  @property({ type: String }) keyword = 'Hey there';
+  @property({ type: String }) keyword = '';
 
   @property({ type: String }) title = "";
 
