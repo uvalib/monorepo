@@ -8,6 +8,7 @@ importers:
       '@types/node': ^18.11.9
       fuse.js: ^6.6.2
       lit: ^2.4.1
+      rollup: ^2.79.1
       tslib: ^2.3.1
       turbo: ^1.6.3
     dependencies:
@@ -16,6 +17,7 @@ importers:
     devDependencies:
       '@types/mocha': 10.0.0
       '@types/node': 18.11.9
+      rollup: 2.79.1
       tslib: 2.4.1
       turbo: 1.6.3
 
