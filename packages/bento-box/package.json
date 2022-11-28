@@ -23,7 +23,6 @@
   },
   "dependencies": {
     "@uvalib/data-wrap": "workspace:*",
-    "lit": "^2.0.0-rc.2",
     "@uvalib/site-style": "workspace:*"
   },
   "devDependencies": {

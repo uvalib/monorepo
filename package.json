@@ -21,6 +21,7 @@
     "turbo": "^1.6.3"
   },
   "dependencies": {
-    "fuse.js": "^6.6.2"
+    "fuse.js": "^6.6.2",
+    "lit": "^2.4.1"
   }
 }
