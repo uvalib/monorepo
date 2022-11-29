@@ -32,12 +32,17 @@ export class SiteStyle extends LitElement {
     }      
   }
 
-  createRenderRoot() {
+  connectedCallback(): void {
     if (this.noShadowDom) {
       // this is such a hack, pushing water uphill...
       this.#styleNode = document.createElement('style');
       this.appendChild(this.#styleNode); 
       render(html`${ Object.getPrototypeOf(this).constructor.styles.map((s: { toString: () => any; }) => s.toString().replace(/:host/m,this.tagName.toLowerCase() ) ) }`,this.#styleNode);
+    }
+  }
+
+  createRenderRoot() {
+    if (this.noShadowDom) {
       return this;
     }
     return super.createRenderRoot();
