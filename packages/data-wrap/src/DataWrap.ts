@@ -18,7 +18,7 @@ export class DataWrap extends LitElement {
 
     fetchResults() {
         // eslint-disable-next-line no-console
-        console.log("call to fetch results!")       
+        console.log("call to fetch results!")
         if (this.url) {
             const url = new URL(this.url);
             if (this.params)
@@ -32,7 +32,7 @@ export class DataWrap extends LitElement {
 
     updated(changedProperties: Map<string, unknown>) {
         if (this.auto) {
-            if (changedProperties.has('auto') || changedProperties.has('url') || changedProperties.has('params') || changedProperties.has('poll')) 
+            if (changedProperties.has('auto') || changedProperties.has('url') || changedProperties.has('params') || changedProperties.has('poll'))
                 this.fetchResults();
         }
         if (this.lastResponse) this.dispatchEvent(new Event('response', {bubbles: true, composed: true}))
