@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      background: #fafafa;
+    }
+  </style>
+</head>
+<body>
+  <div id="demo">
+    <script type="module" src="../dist/src/bento-box.js"></script>
+    <script type="module">
+      import '@uvalib/site-style/site-style.js';
+    </script>
+    <site-style no-shadow-dom imports='{"bento-box":"../../../bento-box/dist/src/BentoBoxStyle.js","bento-search":"../../../bento-box/dist/src/BentoSearchStyle.js","bento-card,catalog-bento-card,libguides-bento-card,libraries-bento-card":"../../../bento-box/dist/src/BentoCardStyle.js"}'>
+      <bento-box no-shadow-dom keyword="food"></bento-box>  
+    </site-style>
+  </div>
+</body>
+</html>
