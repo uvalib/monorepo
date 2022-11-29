@@ -9,21 +9,15 @@
   </style>
 </head>
 <body>
-  <div id="demo"></div>
+  <div id="demo">
+    <site-style>
+      <wait-spinner></wait-spinner>
+    </site-style>
+  </div>
 
   <script type="module">
-    import { html, render } from 'lit';
+    import '@uvalib/site-style/site-style.js';
     import '../dist/src/wait-spinner.js';
-
-    const title = 'Hello owc World!';
-    render(
-      html`
-        <wait-spinner .title=${title}>
-          some light-dom
-        </wait-spinner>
-      `,
-      document.querySelector('#demo')
-    );
   </script>
 </body>
 </html>

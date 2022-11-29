@@ -1,6 +1,7 @@
 import { html, LitElement, render } from 'lit';
 import { property } from 'lit/decorators.js';
 import { LibraryColors } from './SiteStyleColors.js';
+import { LibraryVariables } from './SiteStyleVariables.js'
 
 export class SiteStyle extends LitElement {
 
@@ -14,7 +15,7 @@ export class SiteStyle extends LitElement {
 
   static get styles() {
     return [
-      LibraryColors
+      LibraryColors, LibraryVariables
     ]
   }
 
