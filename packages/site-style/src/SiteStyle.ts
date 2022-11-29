@@ -32,7 +32,9 @@ export class SiteStyle extends LitElement {
     }      
   }
 
+
   connectedCallback(): void {
+    super.connectedCallback();
     if (this.noShadowDom) {
       // this is such a hack, pushing water uphill...
       this.#styleNode = document.createElement('style');
