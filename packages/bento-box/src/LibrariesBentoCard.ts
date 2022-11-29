@@ -19,8 +19,6 @@ export class LibrariesBentoCard extends BentoCard {
         this.#librariesData.fetchData().then(()=>{
           this.#librariesData.search(this.keyword)
             .then((data)=>{
-              // eslint-disable-next-line no-console
-              console.log(data)
               this.items = data.map(lib=><GeneralSearchResult>{title:(lib.title)?lib.title[0]:'', description:(lib.body)?lib.body[0]:''});
             });
         })
