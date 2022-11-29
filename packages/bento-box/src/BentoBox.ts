@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { html, css } from 'lit';
+import { html } from 'lit';
 import { property } from 'lit/decorators.js';
 
 import './bento-card.js';
@@ -9,22 +9,16 @@ import './bento-search.js';
 import './libraries-bento-card.js';
 import { SiteStyle } from '@uvalib/site-style';
 import { BentoSearch } from './BentoSearch.js';
+import BentoBoxStyle from './BentoBoxStyle.js';
 
 export class BentoBox extends SiteStyle {
 
   static get styles() {
     return [
       ...super.styles,
-      css`
-      :host {
-        display: block;
-        padding: 25px;
-        color: var(--uva-text-color-base, #000);
-      }
-      `
+      BentoBoxStyle
     ]
   }
-
 
   @property({ type: String }) keyword = '';
 

@@ -3,20 +3,13 @@ import { html, css } from 'lit';
 import { property } from 'lit/decorators.js';
 import { GeneralSearchResult } from '@uvalib/data-wrap';
 import { SiteStyle } from '@uvalib/site-style';
+import BentoCardStyle from './BentoCardStyle.js';
 
 export class BentoCard extends SiteStyle {
   static get styles() {
     return [
       ...super.styles,
-      css`
-      :host {
-        display: block;
-        padding: 25px;
-        color: var(--uva-text-color-base, #000);
-        border: 1px solid black;
-        border-radius: 16px;
-      }
-      `
+      BentoCardStyle
     ]
   }
 

@@ -22,7 +22,6 @@
     "storybook:build": "tsc && build-storybook"
   },
   "devDependencies": {
-    "tsconfig": "workspace:*",
     "@open-wc/eslint-config": "^4.3.0",
     "@open-wc/testing": "next",
     "@typescript-eslint/eslint-plugin": "^4.29.2",
@@ -36,6 +35,7 @@
     "husky": "^4.3.8",
     "lint-staged": "^10.5.4",
     "prettier": "^2.3.2",
+    "tsconfig": "workspace:*",
     "tslib": "^2.3.1",
     "typescript": "^4.3.5"
   },
@@ -77,5 +77,8 @@
       "eslint --fix",
       "prettier --write"
     ]
+  },
+  "dependencies": {
+    
   }
 }

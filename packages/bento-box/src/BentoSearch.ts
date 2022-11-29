@@ -4,18 +4,13 @@ import { html, css, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 
 import { SiteStyle } from '@uvalib/site-style';
+import BentoSearchStyle from './BentoSearchStyle.js';
 
 export class BentoSearch extends SiteStyle {
   static get styles() {
     return [
       ...super.styles,
-      css`
-      :host {
-        display: block;
-        padding: 25px;
-        color: var(--uva-text-color-base, #000);
-      }
-      `
+      BentoSearchStyle
     ]
   }
 
