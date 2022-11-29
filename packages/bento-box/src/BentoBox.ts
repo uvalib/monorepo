@@ -20,28 +20,28 @@ export class BentoBox extends SiteStyle {
     ]
   }
 
-  @property({ type: String }) keyword = '';
+  @property({ type: String }) query = '';
 
   @property({ type: Array }) boxes = ['catalog','articles','libraries','website','libguides','talk'];
 
   render() {
     return html`
-      <bento-search .noShadowDom="${this.noShadowDom}" id="searchBox" .keyword="${this.keyword}" @search="${this.search}"></bento-search>
+      <bento-search .noShadowDom="${this.noShadowDom}" id="searchBox" .query="${this.query}" @search="${this.search}"></bento-search>
       ${this.boxes.map(box=>{
         // eslint-disable-next-line default-case
         switch (box) {
           case 'catalog':
-            return html`<catalog-bento-card .noShadowDom="${this.noShadowDom}" .keyword="${this.keyword}"></catalog-bento-card>`;
+            return html`<catalog-bento-card .noShadowDom="${this.noShadowDom}" .query="${this.query}"></catalog-bento-card>`;
           case 'articles':
-            return html`<bento-card .noShadowDom="${this.noShadowDom}" .keyword="${this.keyword}" title="Virgo: Articles"></bento-card>`;
+            return html`<bento-card .noShadowDom="${this.noShadowDom}" .query="${this.query}" title="Virgo: Articles"></bento-card>`;
           case 'website':
-            return html`<bento-card .noShadowDom="${this.noShadowDom}" .keyword="${this.keyword}" title="Library Website"></bento-card>`;
+            return html`<bento-card .noShadowDom="${this.noShadowDom}" .query="${this.query}" title="Library Website"></bento-card>`;
           case 'libguides':
-            return html`<libguides-bento-card .noShadowDom="${this.noShadowDom}" .keyword="${this.keyword}"></libguides-bento-card>`;  
+            return html`<libguides-bento-card .noShadowDom="${this.noShadowDom}" .query="${this.query}"></libguides-bento-card>`;  
           case 'talk':
-            return html`<bento-card .noShadowDom="${this.noShadowDom}" .keyword="${this.keyword}" title="Talk to a subject expert"></bento-card>`;
+            return html`<bento-card .noShadowDom="${this.noShadowDom}" .query="${this.query}" title="Talk to a subject expert"></bento-card>`;
           case 'libraries':
-            return html`<libraries-bento-card .noShadowDom="${this.noShadowDom}" .keyword="${this.keyword}"></libraries-bento-card>`;
+            return html`<libraries-bento-card .noShadowDom="${this.noShadowDom}" .query="${this.query}"></libraries-bento-card>`;
         }
       })}
       
@@ -50,6 +50,6 @@ export class BentoBox extends SiteStyle {
   }
 
   search(e: { target: BentoSearch }){
-    this.keyword = e.target.keyword;
+    this.query = e.target.query;
   }
 }

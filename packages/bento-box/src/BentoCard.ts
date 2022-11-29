@@ -13,7 +13,7 @@ export class BentoCard extends SiteStyle {
     ]
   }
 
-  @property({ type: String }) keyword = '';
+  @property({ type: String }) query = '';
 
   @property({ type: String }) title = "";
 
@@ -22,7 +22,7 @@ export class BentoCard extends SiteStyle {
   render() {
     return html`
       <h1>${this.title}</h1>
-      <h2>Search for ${this.keyword}</h2>
+      <h2>Search for ${this.query}</h2>
       <ul>
         ${this.items.map(item=>html`
           <li>${item.link? html`

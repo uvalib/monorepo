@@ -15,8 +15,8 @@ export class LibGuidesBentoCard extends BentoCard {
   }
 
   protected updated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
-      if (_changedProperties.has('keyword')) {
-        this.#libGuidesData.query = this.keyword;
+      if (_changedProperties.has('query')) {
+        this.#libGuidesData.query = this.query;
         this.#libGuidesData.fetchData()
           .then((data: GeneralSearchResult[])=>{this.items = data});
       }
@@ -25,7 +25,7 @@ export class LibGuidesBentoCard extends BentoCard {
   render() {
     return html`
       <h1>${unsafeHTML(this.title)}</h1>
-      <h2>Search for ${this.keyword}</h2>
+      <h2>Search for ${this.query}</h2>
       <ul>
         ${this.items.map(item=>html`
           <li>

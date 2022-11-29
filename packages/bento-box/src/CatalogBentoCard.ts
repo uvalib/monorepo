@@ -14,8 +14,8 @@ export class CatalogBentoCard extends BentoCard {
   }
 
   protected updated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
-      if (_changedProperties.has('keyword')) {
-        this.#catalogData.query = this.keyword;
+      if (_changedProperties.has('query')) {
+        this.#catalogData.query = this.query;
         this.#catalogData.fetchData()
           .then((data: GeneralSearchResult[])=>{this.items = data});
       }
