@@ -23,7 +23,8 @@
   },
   "dependencies": {
     "@uvalib/data-wrap": "workspace:*",
-    "@uvalib/site-style": "workspace:*"
+    "@uvalib/site-style": "workspace:*",
+    "@uvalib/wait-spinner": "workspace:*"
   },
   "devDependencies": {
     "@open-wc/eslint-config": "^4.3.0",
