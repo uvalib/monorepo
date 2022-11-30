@@ -65,7 +65,7 @@
     let librariesData = new LibrariesData();
     const libraryList = document.getElementById('libraries');
     librariesData.fetchData().then(()=>{
-      render(html`${librariesData.libraries.map(l=>html`<li>${l.title}</li>`)}`, libraryList)
+      render(html`${librariesData.items.map(l=>html`<li>${l.title}</li>`)}`, libraryList)
     });
 
     // get some search results from the libguides data wrapper

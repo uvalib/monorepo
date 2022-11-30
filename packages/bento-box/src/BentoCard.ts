@@ -26,7 +26,7 @@ export class BentoCard extends SiteStyle {
   render() {
     return html`
       <h1>${this.title}</h1>
-      <h2>Search for ${this.query}</h2>
+      <h2 ?hidden="${this.loading}">Search for ${this.query}</h2>
       <wait-spinner ?hidden="${!this.loading}"></wait-spinner>
       <ul ?hidden="${this.loading}">
         ${this.items.map(item=>html`
