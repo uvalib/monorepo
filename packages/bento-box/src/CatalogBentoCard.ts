@@ -15,9 +15,13 @@ export class CatalogBentoCard extends BentoCard {
 
   protected updated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
       if (_changedProperties.has('query')) {
+        this.loading = true;
         this.#catalogData.query = this.query;
         this.#catalogData.fetchData()
-          .then((data: GeneralSearchResult[])=>{this.items = data});
+          .then((data: GeneralSearchResult[])=>{
+            this.items = data;
+            this.loading = false;
+          });
       }
   }
 

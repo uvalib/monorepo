@@ -16,28 +16,15 @@ export class LibrariesBentoCard extends BentoCard {
 
   protected updated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
       if (_changedProperties.has('query')) {
+        this.loading = true;
         this.#librariesData.fetchData().then(()=>{
           this.#librariesData.search(this.query)
             .then((data)=>{
               this.items = data.map(lib=><GeneralSearchResult>{title:(lib.title)?lib.title[0]:'', description:(lib.body)?lib.body[0]:''});
+              this.loading = false;
             });
         })
       }
   }
-
-  render() {
-    return html`
-      <h1>${unsafeHTML(this.title)}</h1>
-      <h2>Search for ${this.query}</h2>
-      <ul>
-        ${this.items.map(item=>html`
-          <li>
-            ${unsafeHTML(item.title)}<br />
-            ${unsafeHTML(item.description)}
-          </li>
-        `)}
-      </ul>
-    `;
-  }  
 
 }

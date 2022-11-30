@@ -35,11 +35,14 @@ export class SiteStyle extends LitElement {
 
   connectedCallback(): void {
     super.connectedCallback();
+console.log('connected - check on shadowDom')    
     if (this.noShadowDom) {
+console.log('no shadowDom this time')
       // this is such a hack, pushing water uphill...
       this.#styleNode = document.createElement('style');
       this.appendChild(this.#styleNode); 
       render(html`${ Object.getPrototypeOf(this).constructor.styles.map((s: { toString: () => any; }) => s.toString().replace(/:host/m,this.tagName.toLowerCase() ) ) }`,this.#styleNode);
+console.log('wrote style')
     }
   }
 

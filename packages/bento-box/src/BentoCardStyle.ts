@@ -8,4 +8,7 @@ export default css`
         border: 1px solid black;
         border-radius: 16px;
     }
+    [hidden] {
+        display: none;
+    }
 `;

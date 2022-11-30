@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { html, PropertyValueMap } from 'lit';
-import {unsafeHTML} from 'lit/directives/unsafe-html.js';
 import { LibGuidesData, GeneralSearchResult } from '@uvalib/data-wrap';
 import { BentoCard } from './BentoCard.js'
 
@@ -16,25 +15,14 @@ export class LibGuidesBentoCard extends BentoCard {
 
   protected updated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
       if (_changedProperties.has('query')) {
+        this.loading = true;
         this.#libGuidesData.query = this.query;
         this.#libGuidesData.fetchData()
-          .then((data: GeneralSearchResult[])=>{this.items = data});
+          .then((data: GeneralSearchResult[])=>{
+            this.items = data;
+            this.loading = false;
+          });
       }
   }
-
-  render() {
-    return html`
-      <h1>${unsafeHTML(this.title)}</h1>
-      <h2>Search for ${this.query}</h2>
-      <ul>
-        ${this.items.map(item=>html`
-          <li>
-            ${unsafeHTML(item.title)}<br />
-            ${unsafeHTML(item.description)}
-          </li>
-        `)}
-      </ul>
-    `;
-  }  
 
 }
