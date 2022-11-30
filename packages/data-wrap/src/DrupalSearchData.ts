@@ -33,7 +33,7 @@ export class DrupalSearchData {
         body: any; title: any; 
       }; })=>({
         title: n.attributes.title,
-        description: n.attributes.body.value
+        description: n.attributes.body? n.attributes.body.value:null
       }))
 
     }
