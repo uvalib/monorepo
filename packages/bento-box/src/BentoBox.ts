@@ -18,7 +18,7 @@ export class BentoBox extends SiteStyle {
 
   @property({ type: String }) query = '';
 
-  @property({ type: Array }) boxes = ['catalog','articles','libraries','website','libguides','talk'];
+  @property({ type: Array }) boxes = ['events','catalog','articles','libraries','website','libguides','talk'];
 
   render() {
     return html`
@@ -44,6 +44,9 @@ export class BentoBox extends SiteStyle {
           case 'libraries':
             import('./libraries-bento-section.js');
             return html`<libraries-bento-section ?no-shadow-dom="${this.noShadowDom}" .query="${this.query}"></libraries-bento-section>`;
+          case 'events':
+            import('./events-bento-section.js');
+            return html`<events-bento-section ?no-shadow-dom="${this.noShadowDom}" .query="${this.query}"></events-bento-section>`;
         }
       })}
       

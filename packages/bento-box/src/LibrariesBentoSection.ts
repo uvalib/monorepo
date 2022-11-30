@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { html, PropertyValueMap } from 'lit';
-import {unsafeHTML} from 'lit/directives/unsafe-html.js';
-import { Library, LibrariesData, GeneralSearchResult } from '@uvalib/data-wrap';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { PropertyValueMap } from 'lit';
+import { LibrariesData } from '@uvalib/data-wrap';
 import { BentoSection } from './BentoSection.js'
 
 export class LibrariesBentoSection extends BentoSection {
