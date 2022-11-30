@@ -4,14 +4,14 @@ import {unsafeHTML} from 'lit/directives/unsafe-html.js';
 import { property } from 'lit/decorators.js';
 import { GeneralSearchResult } from '@uvalib/data-wrap';
 import { SiteStyle } from '@uvalib/site-style';
-import BentoCardStyle from './BentoCardStyle.js';
+import BentoSectionStyle from './BentoSectionStyle.js';
 import '@uvalib/wait-spinner/wait-spinner.js';
 
-export class BentoCard extends SiteStyle {
+export class BentoSection extends SiteStyle {
   static get styles() {
     return [
       ...super.styles,
-      BentoCardStyle
+      BentoSectionStyle
     ]
   }
 

@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { html, PropertyValueMap } from 'lit';
 import { GeneralSearchResult, CatalogData } from '@uvalib/data-wrap';
-import { BentoCard } from './BentoCard.js'
+import { BentoSection } from './BentoSection.js'
 
-export class CatalogBentoCard extends BentoCard {
+export class CatalogBentoSection extends BentoSection {
 
   #catalogData: CatalogData;
 

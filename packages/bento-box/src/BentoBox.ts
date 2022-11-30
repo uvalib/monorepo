@@ -27,23 +27,23 @@ export class BentoBox extends SiteStyle {
         // eslint-disable-next-line default-case
         switch (box) {
           case 'catalog':
-            import('./catalog-bento-card.js');
-            return html`<catalog-bento-card ?no-shadow-dom="${this.noShadowDom}" .query="${this.query}"></catalog-bento-card>`;
+            import('./catalog-bento-section.js');
+            return html`<catalog-bento-section ?no-shadow-dom="${this.noShadowDom}" .query="${this.query}"></catalog-bento-section>`;
           case 'articles':
-            import('./bento-card.js');
-            return html`<bento-card ?no-shadow-dom="${this.noShadowDom}" .query="${this.query}" title="Virgo: Articles"></bento-card>`;
+            import('./bento-section.js');
+            return html`<bento-section ?no-shadow-dom="${this.noShadowDom}" .query="${this.query}" title="Virgo: Articles"></bento-section>`;
           case 'website':
-            import('./bento-card.js');
-            return html`<bento-card ?no-shadow-dom="${this.noShadowDom}" .query="${this.query}" title="Library Website"></bento-card>`;
+            import('./bento-section.js');
+            return html`<bento-section ?no-shadow-dom="${this.noShadowDom}" .query="${this.query}" title="Library Website"></bento-section>`;
           case 'libguides':
-            import('./libguides-bento-card.js');
-            return html`<libguides-bento-card ?no-shadow-dom="${this.noShadowDom}" .query="${this.query}"></libguides-bento-card>`;  
+            import('./libguides-bento-section.js');
+            return html`<libguides-bento-section ?no-shadow-dom="${this.noShadowDom}" .query="${this.query}"></libguides-bento-section>`;  
           case 'talk':
-            import('./bento-card.js');
-            return html`<bento-card ?no-shadow-dom="${this.noShadowDom}" .query="${this.query}" title="Talk to a subject expert"></bento-card>`;
+            import('./bento-section.js');
+            return html`<bento-section ?no-shadow-dom="${this.noShadowDom}" .query="${this.query}" title="Talk to a subject expert"></bento-section>`;
           case 'libraries':
-            import('./libraries-bento-card.js');
-            return html`<libraries-bento-card ?no-shadow-dom="${this.noShadowDom}" .query="${this.query}"></libraries-bento-card>`;
+            import('./libraries-bento-section.js');
+            return html`<libraries-bento-section ?no-shadow-dom="${this.noShadowDom}" .query="${this.query}"></libraries-bento-section>`;
         }
       })}
       

@@ -2,9 +2,9 @@
 import { html, PropertyValueMap } from 'lit';
 import {unsafeHTML} from 'lit/directives/unsafe-html.js';
 import { Library, LibrariesData, GeneralSearchResult } from '@uvalib/data-wrap';
-import { BentoCard } from './BentoCard.js'
+import { BentoSection } from './BentoSection.js'
 
-export class LibrariesBentoCard extends BentoCard {
+export class LibrariesBentoSection extends BentoSection {
 
   #librariesData: LibrariesData;
 
