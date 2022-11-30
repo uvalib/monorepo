@@ -24,10 +24,7 @@ export class DrupalSearchData {
         })
     }
 
-    // eslint-disable-next-line class-methods-use-this
     _parseResults(d: any) {
-      console.log(d);
-
       // Setup generic results
       this.items = d.data.map((n: { attributes: {
         body: any; title: any; 
@@ -35,7 +32,6 @@ export class DrupalSearchData {
         title: n.attributes.title,
         description: n.attributes.body? n.attributes.body.value:null
       }))
-
     }
 
   }

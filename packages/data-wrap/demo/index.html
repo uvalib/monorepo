@@ -18,6 +18,7 @@
     import { LibGuidesData } from '../dist/src/LibGuidesData.js';
     import { LibrariesData } from '../dist/src/LibrariesData.js';
     import { DrupalSearchData } from '../dist/src/DrupalSearchData.js';
+    import { EventsData } from '../dist/src/EventsData.js';
 
     const url = 'https://uvalib-api-occupancy.firebaseio.com/locations-schemaorg/location/clemons/occupancy.json';
     const poll = 10000;  // every 10 seconds
@@ -32,11 +33,15 @@
           <ul id="drupal"></ul>
         </div>
 
+        <h2>Example of EventsData</h2>
+        <div>
+          <ul id="events"></ul>
+        </div>
+
         <h2>Example of LibariesData</h2>
         <div>
           <ul id="libraries"></ul>
         </div>
-
 
         <h2>Example of LibGuidesData</h2>
         <div>
@@ -66,6 +71,13 @@
     const libraryList = document.getElementById('libraries');
     librariesData.fetchData().then(()=>{
       render(html`${librariesData.items.map(l=>html`<li>${l.title}</li>`)}`, libraryList)
+    });
+
+    // list events
+    let eventsData = new EventsData();
+    const eventsList = document.getElementById('events');
+    eventsData.fetchData().then(()=>{
+      render(html`${eventsData.items.map(e=>html`<li>${e.title}</li>`)}`,eventsList)
     });
 
     // get some search results from the libguides data wrapper
