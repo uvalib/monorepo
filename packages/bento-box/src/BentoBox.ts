@@ -33,8 +33,8 @@ export class BentoBox extends SiteStyle {
             import('./bento-section.js');
             return html`<bento-section ?no-shadow-dom="${this.noShadowDom}" .query="${this.query}" title="Virgo: Articles"></bento-section>`;
           case 'website':
-            import('./bento-section.js');
-            return html`<bento-section ?no-shadow-dom="${this.noShadowDom}" .query="${this.query}" title="Library Website"></bento-section>`;
+            import('./website-bento-section.js');
+            return html`<website-bento-section ?no-shadow-dom="${this.noShadowDom}" .query="${this.query}"></website-bento-section>`;
           case 'libguides':
             import('./libguides-bento-section.js');
             return html`<libguides-bento-section ?no-shadow-dom="${this.noShadowDom}" .query="${this.query}"></libguides-bento-section>`;  
