@@ -17,6 +17,7 @@
 
     import { LibGuidesData } from '../dist/src/LibGuidesData.js';
     import { LibrariesData } from '../dist/src/LibrariesData.js';
+    import { DrupalSearchData } from '../dist/src/DrupalSearchData.js';
 
     const url = 'https://uvalib-api-occupancy.firebaseio.com/locations-schemaorg/location/clemons/occupancy.json';
     const poll = 10000;  // every 10 seconds
@@ -26,6 +27,11 @@
         <div id="out"></div>
         <data-wrap auto .url=${url} .poll=${poll}></data-wrap>
         
+        <h2>Example of DrupalSearchData</h2>
+        <div>
+          <ul id="drupal"></ul>
+        </div>
+
         <h2>Example of LibariesData</h2>
         <div>
           <ul id="libraries"></ul>
@@ -48,11 +54,18 @@
       out.innerHTML = `Clemons occupancy is currently at ${dataWrap.lastResponse.value}`;
     });
 
+    // Get some Drupal content
+    let drupalData = new DrupalSearchData();
+    const drupalList = document.getElementById('drupal');
+    drupalData.fetchData().then(()=>{
+      render(html`${drupalData.items.map(n=>html`<li>${n.title}</li>`)}`, drupalList);
+    });
+
     // list libraries
     let librariesData = new LibrariesData();
     const libraryList = document.getElementById('libraries');
-    librariesData.fetchData().then(libraries=>{
-      render(html`${libraries.map(l=>html`<li>${l.title}</li>`)}`, document.getElementById('libraries'))
+    librariesData.fetchData().then(()=>{
+      render(html`${librariesData.items.map(l=>html`<li>${l.title}</li>`)}`, libraryList)
     });
 
     // get some search results from the libguides data wrapper

@@ -17,12 +17,11 @@ export class LibrariesBentoCard extends BentoCard {
   protected updated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
       if (_changedProperties.has('query')) {
         this.loading = true;
+        this.#librariesData.query = this.query;
         this.#librariesData.fetchData().then(()=>{
-          this.#librariesData.search(this.query)
-            .then((data)=>{
-              this.items = data.map(lib=><GeneralSearchResult>{title:(lib.title)?lib.title[0]:'', description:(lib.body)?lib.body[0]:''});
-              this.loading = false;
-            });
+          console.log(this.#librariesData)
+          this.items = this.#librariesData.items;
+          this.loading = false;
         })
       }
   }
