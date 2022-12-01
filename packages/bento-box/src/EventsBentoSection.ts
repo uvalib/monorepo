@@ -13,7 +13,7 @@ export class EventsBentoSection extends BentoSection {
 
   constructor(){
     super();
-    this.title = "Events";
+    this.title = "";
     this.#eventsData = new EventsData();
   }
 
@@ -45,7 +45,7 @@ export class EventsBentoSection extends BentoSection {
 
   render() {
     return html`
-<h2>${this.title}</h2>
+${this.title? html`<h2>${this.title}</h2>`:''}
 <div class="event-container">
   <wait-spinner ?hidden="${!this.loading}"></wait-spinner>
   ${ this.items.map((event) =>html`
@@ -57,7 +57,8 @@ export class EventsBentoSection extends BentoSection {
       </a>
     </div>  
   `) }
-<p class="event-see-all"><a href="https://cal.lib.virginia.edu/events">See all Library events</a></p></div>
+  <slot name="see-more"></slot>
+</div>  
       
     `;
   }
