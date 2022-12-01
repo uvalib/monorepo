@@ -92,6 +92,7 @@ importers:
       '@web/dev-server-storybook': next
       '@web/test-runner': next
       concurrently: ^5.3.0
+      date-fns: ^2.29.3
       eslint: ^7.32.0
       eslint-config-prettier: ^8.3.0
       lint-staged: ^10.5.4
@@ -103,6 +104,7 @@ importers:
       '@uvalib/data-wrap': link:../data-wrap
       '@uvalib/site-style': link:../site-style
       '@uvalib/wait-spinner': link:../wait-spinner
+      date-fns: 2.29.3
     devDependencies:
       '@open-wc/eslint-config': 4.3.0_sz4i7qznf44sliit4yqchbvfk4
       '@open-wc/testing': 3.0.0-next.5
@@ -131,20 +133,20 @@ importers:
       '@web/dev-server-storybook': next
       '@web/test-runner': next
       concurrently: ^5.3.0
+      date-fns: ^2.29.3
       eslint: ^7.32.0
       eslint-config-prettier: ^8.3.0
       fuse.js: ^6.6.2
       lint-staged: ^10.5.4
       lit: ^2.4.1
-      mixwith: ^0.1.1
       prettier: ^2.3.2
       tsconfig: workspace:*
       tslib: ^2.3.1
       typescript: ^4.3.5
     dependencies:
+      date-fns: 2.29.3
       fuse.js: 6.6.2
       lit: 2.4.1
-      mixwith: 0.1.1
     devDependencies:
       '@open-wc/eslint-config': 4.3.0_sz4i7qznf44sliit4yqchbvfk4
       '@open-wc/testing': 3.0.0-next.5
@@ -4583,7 +4585,6 @@ packages:
   /date-fns/2.29.3:
     resolution: {integrity: sha512-dDCnyH2WnnKusqvZZ6+jA1O51Ibt8ZMRNkDZdyAyK4YfbDwa/cEmuztzG5pk6hqlp9aSBPYcjOlktquahGwGeA==}
     engines: {node: '>=0.11'}
-    dev: true
 
   /debounce/1.2.1:
     resolution: {integrity: sha512-XRRe6Glud4rd/ZGQfiV1ruXSfbvfJedlV9Y6zOlP+2K04vBYiJEte6stfFkCP03aMnY5tsipamumUjL14fofug==}
@@ -6744,10 +6745,6 @@ packages:
   /minimist/1.2.7:
     resolution: {integrity: sha512-bzfL1YUZsP41gmu/qjrEk0Q6i2ix/cVeAhbCbqH9u3zYutS1cLg00qhrD0M2MVdCcx4Sc0UpP2eBWo9rotpq6g==}
     dev: true
-
-  /mixwith/0.1.1:
-    resolution: {integrity: sha512-DQsf/liljH/9e+94jR+xfK8vlKceeKdOM9H9UEXLwGuvEEpO6debNtJ9yt1ZKzPKPrwqGxzMdu0BR1fnQb6i4A==}
-    dev: false
 
   /mkdirp-classic/0.5.3:
     resolution: {integrity: sha512-gKLcREMhtuZRwRAfqP3RFW+TK4JqApVBtOIftVgjuABpAtpxhPGaDcfvbhNvD0B8iD1oUr/txX35NjcaY6Ns/A==}

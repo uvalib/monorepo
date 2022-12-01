@@ -1,5 +1,3 @@
-/* eslint-disable no-nested-ternary */
-/* eslint-disable camelcase */
 import { GeneralSearchResult } from './GeneralSearchResult.js';
 
 const drupalSearchEndpointURL = "https://api.library.virginia.edu/drupal/jsonapi/index/default_index";

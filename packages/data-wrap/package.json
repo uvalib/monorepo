@@ -23,9 +23,9 @@
     "storybook:build": "tsc && build-storybook"
   },
   "dependencies": {
+    "date-fns": "^2.29.3",
     "fuse.js": "^6.6.2",
-    "lit": "^2.4.1",
-    "mixwith": "^0.1.1"
+    "lit": "^2.4.1"
   },
   "devDependencies": {
     "@open-wc/eslint-config": "^4.3.0",

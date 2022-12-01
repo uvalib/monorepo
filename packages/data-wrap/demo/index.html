@@ -76,8 +76,8 @@
     // list events
     let eventsData = new EventsData();
     const eventsList = document.getElementById('events');
-    eventsData.fetchData().then(()=>{
-      render(html`${eventsData.items.map(e=>html`<li>${e.title}</li>`)}`,eventsList)
+    eventsData.fetchData().then((items)=>{
+      render(html`${items.map(e=>html`<li>${e.title} - ${e.start}</li>`)}`,eventsList)
     });
 
     // get some search results from the libguides data wrapper

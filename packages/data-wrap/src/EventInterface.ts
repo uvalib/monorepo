@@ -1,0 +1,31 @@
+export interface Event { 
+    id: number | undefined;
+    title: string | undefined;
+    allday: boolean | undefined;
+    start: number | undefined;
+    end: number | undefined;
+    description: string | undefined;
+    link: string | undefined;
+    location: string | undefined;
+    campusLocation: string | undefined;
+    category: string | undefined;
+    owner: string | undefined;
+    presenter: string | undefined;
+    calendar: {name: string, url: string} | undefined;
+    registration: boolean | undefined;
+    registrationOpen: boolean | undefined;
+    registrationClosed: boolean | undefined;
+    seats: number | undefined;
+    seatsTaken: number | undefined;
+    physicalSeats: number | undefined;
+    physicalSeatsTaken: number | undefined;
+    onlineSeats: number | undefined;
+    onlineSeatsTaken: number | undefined;
+    waitList: boolean | undefined;
+    image: string | undefined;
+    futureDates: { id: number, start: number }[] | undefined;
+    registrationCost: number | undefined;
+    moreInfo: string | undefined;
+    setupTime: number | undefined;
+    teardownTime: number | undefined;
+}

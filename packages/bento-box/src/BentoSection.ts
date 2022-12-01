@@ -17,7 +17,11 @@ export class BentoSection extends SiteStyle {
 
   @property({ type: String }) query = '';
 
+  @property({ type: Number }) limit: number|null = null;
+
   @property({ type: String }) title = "";
+
+  @property({ type: String }) label: string|null = null;
 
   @property({ type: Array }) items: GeneralSearchResult[] = [];
 
@@ -26,15 +30,20 @@ export class BentoSection extends SiteStyle {
   render() {
     return html`
       <h1>${this.title}</h1>
-      <h2 ?hidden="${this.loading}">Search for ${this.query}</h2>
+      ${this.label==null || this.label!==""? html`
+        <h2 ?hidden="${this.loading}">${this.label? this.label:html`Search for ${this.query}`}</h2>
+      `:''}
       <wait-spinner ?hidden="${!this.loading}"></wait-spinner>
       <ul ?hidden="${this.loading}">
         ${this.items.map(item=>html`
-          <li>${item.link? html`
-          <a href="${item.link}">${unsafeHTML(item.title)}</a>: ${unsafeHTML(item.description)}
-          `:html`
-          ${unsafeHTML(item.title)}: ${unsafeHTML(item.description)}
-          `}</li>
+          <li>
+            ${item.link? html`
+              <div ?hidden="${!this.title}" class="bento-section-title"><a href="${item.link}">${unsafeHTML(item.title)}</a></div>
+            `:html`
+              <div ?hidden="${!this.title}" class="bento-section-title">${unsafeHTML(item.title)}</div>
+            `}
+            <div class="bento-section-desc">${unsafeHTML(item.description)}</div>
+          </li>
         `)}
 
       </ul>

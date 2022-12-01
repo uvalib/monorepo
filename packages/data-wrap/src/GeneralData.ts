@@ -6,8 +6,11 @@ export class GeneralData {
 
     items: GeneralSearchResult[] = [];
 
+    limit: Number | null = null
+
     async fetchData(){
       this.items = []
+      return Promise.resolve(this.items);
     }
 
 }
