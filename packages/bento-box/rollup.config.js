@@ -13,7 +13,7 @@ export default {
   },
 
   plugins: [
-    multiInput(),
+    multiInput({relative: 'dist/src'}),
     /** Resolve bare module imports */
     nodeResolve(),
     /** Minify JS */
