@@ -1,6 +1,6 @@
-import { LibraryInterface } from './LibraryInterface.js';
+const libcalURL = "https://api3.libcal.com/api_hours_grid.php?iid=863&format=json&weeks=1";
 
-export class Library implements LibraryInterface {
+export class Library {
     id: string | undefined;
 
     uuid: string | undefined;
@@ -37,13 +37,13 @@ export class Library implements LibraryInterface {
 
     fmKey: string | undefined;
 
-    location: { lat: string; lng: string; } | undefined;
+    location: { lat: string; lng: string; } | undefined | null;
 
     mygroupId: string | undefined;
 
     phoneNumber: string | undefined;
 
-    socialMedia: { uri: string; title: string; }[] | undefined;
+    socialMedia: { uri: string; title: string; }[] | undefined | null;
 
     slug: string | undefined;
 
@@ -54,6 +54,13 @@ export class Library implements LibraryInterface {
     parent: string | undefined;
 
     closureOverride: number | undefined; 
+
+    async fetchHours() {
+        if (this.libcalId) {
+
+        }
+        else throw new Error(`libcalId is undefined`);
+    }
 
     constructor(init?:Partial<Library>) {
         Object.assign(this, init);

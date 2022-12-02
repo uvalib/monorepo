@@ -47,10 +47,10 @@ export class BentoBox extends SiteStyle {
             import('./libraries-bento-section.js');
             return html`<libraries-bento-section ?no-shadow-dom="${this.noShadowDom}" .limit="${this.limit}" .query="${this.query}"></libraries-bento-section>`;
           case 'events':
-            import('./events-bento-section.js');
-            return html`<events-bento-section title="Events" ?no-shadow-dom="${this.noShadowDom}" .limit="${this.limit}" .query="${this.query}">
+            import('./events-section.js');
+            return html`<events-section title="Events" ?no-shadow-dom="${this.noShadowDom}" .limit="${this.limit}" .query="${this.query}">
                           <p slot="see-more" class="event-see-all"><a href="https://cal.lib.virginia.edu/events">See all Library events</a></p>
-                        </events-bento-section>`;
+                        </events-section>`;
         }
       })}
       

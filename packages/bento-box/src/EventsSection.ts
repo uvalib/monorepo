@@ -5,7 +5,7 @@ import { EventsData, Event } from '@uvalib/data-wrap';
 import { isSameDay } from 'date-fns';
 import { BentoSection } from './BentoSection.js';
 
-export class EventsBentoSection extends BentoSection {
+export class EventsSection extends BentoSection {
 
   @property({ type: Array }) items: Event[] = [];
 

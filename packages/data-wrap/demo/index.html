@@ -24,6 +24,11 @@
     const poll = 10000;  // every 10 seconds
     render(
       html`
+        <h2>Example of LibariesData</h2>
+        <div>
+          <ul id="libraries"></ul>
+        </div>
+
         <h2>Example of &lt;data-wrap&gt; usage</h2>
         <div id="out"></div>
         <data-wrap auto .url=${url} .poll=${poll}></data-wrap>
@@ -36,11 +41,6 @@
         <h2>Example of EventsData</h2>
         <div>
           <ul id="events"></ul>
-        </div>
-
-        <h2>Example of LibariesData</h2>
-        <div>
-          <ul id="libraries"></ul>
         </div>
 
         <h2>Example of LibGuidesData</h2>
