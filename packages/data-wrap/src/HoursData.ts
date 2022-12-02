@@ -10,16 +10,25 @@ export class HoursData extends GeneralData {
 
   public items: Hours[] = [];
 
+  public ids: number[] = [];
+
 //  _parseResults(n: any) {
 //    // Setup Library results
 //    this.items = n.data.map(parseHours)
 //  }
 
-  async fetchHours(calIds: number[]){
-    return fetch(hoursEndpointURL.replace("[[calIds]]",calIds.join(',')))
+  constructor(init?:Partial<HoursData>) {
+    super();
+    Object.assign(this, init);
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  async fetchData(){
+    return fetch(hoursEndpointURL.replace("[[calIds]]",this.ids.join(',')))
           .then(res=>res.json())
           .then(hoursData=>{
             console.log(hoursData)
+            return hoursData;
           });
   }
 

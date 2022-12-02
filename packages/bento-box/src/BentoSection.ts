@@ -33,7 +33,7 @@ export class BentoSection extends SiteStyle {
       ${this.label==null || this.label!==""? html`
         <h2 ?hidden="${this.loading}">${this.label? this.label:html`Search for ${this.query}`}</h2>
       `:''}
-      <wait-spinner ?hidden="${!this.loading}"></wait-spinner>
+      ${this.loading? html`<wait-spinner></wait-spinner>`:''}
       <ul ?hidden="${this.loading}">
         ${this.items.map(item=>html`
           <li>

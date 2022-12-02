@@ -47,7 +47,7 @@ export class EventsSection extends BentoSection {
     return html`
 ${this.title? html`<h2>${this.title}</h2>`:''}
 <div class="event-container">
-  <wait-spinner ?hidden="${!this.loading}"></wait-spinner>
+  ${this.loading? html`<wait-spinner></wait-spinner>`:''}
   ${ this.items.map((event) =>html`
     <div class="event">
       <a href="${event.link}" class="event-url">

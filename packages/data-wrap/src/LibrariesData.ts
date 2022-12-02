@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import { Library } from './Library.js';
 import { DrupalSearchData } from './DrupalSearchData.js';
-import { json } from 'stream/consumers';
+import { HoursData } from './HoursData.js'
 
 const hoursEndpointURL = "https://cal.lib.virginia.edu/api/1.0/hours/[[calids]]?key=e4b27d40b7099e8e392113da2f8bf30a";
 
@@ -50,15 +50,18 @@ export class LibrariesData extends DrupalSearchData {
 
   type: string = "library";
 
-  items: Library[] = [];
+  public items: Library[] = [];
 
   _parseResults(n: any) {
     // Setup Library results
     this.items = n.data.map(parseLibrary)
   }
 
+  // While individual Library entities should be able to fetch their own hours, we 
+  // need to be able to make a single api fetch when necessary (to save on network data)
   async fetchHours(){
-    const calids = this.items.map(lib=>lib.hoursId).filter(id=>id!==null);
+    const hoursIds = this.items.map(lib=>lib.hoursId).filter(id=>id!==null);
+//    return new HoursData().
     return Promise.resolve();
 //    return fetch(hoursEndpointURL.replace("[[calids]]",calids.join(',')))
 //          .then(res=>res.json())
