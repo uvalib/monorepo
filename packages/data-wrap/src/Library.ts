@@ -1,66 +1,66 @@
 const libcalURL = "https://api3.libcal.com/api_hours_grid.php?iid=863&format=json&weeks=1";
 
 export class Library {
-    id: string | undefined;
+    public id: string | undefined;
 
-    uuid: string | undefined;
+    public uuid: string | undefined;
 
-    title: string | undefined;
+    public title: string | undefined;
 
-    body: string | undefined;
+    public body: string | undefined;
 
-    description: string | undefined;
+    public description: string | undefined;
 
-    shortTitle: string | undefined;
+    public shortTitle: string | undefined;
 
-    placeType: string | undefined;
+    public placeType: string | undefined;
 
-    contactForm: string | undefined;
+    public contactForm: string | undefined;
 
-    donorDescription: string | undefined;
+    public donorDescription: string | undefined;
 
-    donorTitle: string | undefined;
+    public donorTitle: string | undefined;
 
-    emailAddress: string | undefined;
+    public emailAddress: string | undefined;
 
-    hoursInformation: string | undefined;
+    public hoursInformation: string | undefined;
 
-    libcalId: string | undefined;
+    public hoursId: string | undefined;
 
-    libraryFeed: string | undefined;
+    public libraryFeed: string | undefined;
 
-    link: string | undefined;
+    public link: string | undefined;
 
-    siteLink: string | undefined;
+    public siteLink: string | undefined;
 
-    mainImage: { alt: string; url: string; uuid: string; } | undefined;
+    public mainImage: { alt: string; url: string; uuid: string; } | undefined;
 
-    fmKey: string | undefined;
+    public fmKey: string | undefined;
 
-    location: { lat: string; lng: string; } | undefined | null;
+    public location: { lat: string; lng: string; } | undefined | null;
 
-    mygroupId: string | undefined;
+    public mygroupId: string | undefined;
 
-    phoneNumber: string | undefined;
+    public phoneNumber: string | undefined;
 
-    socialMedia: { uri: string; title: string; }[] | undefined | null;
+    public socialMedia: { uri: string; title: string; }[] | undefined | null;
 
-    slug: string | undefined;
+    public slug: string | undefined;
 
-    zipCode: string | undefined;
+    public zipCode: string | undefined;
 
-    googleMyBusiness: boolean | undefined;
+    public googleMyBusiness: boolean | undefined;
 
-    parent: string | undefined;
+    public parent: string | undefined;
 
-    closureOverride: number | undefined; 
+    public closureOverride: number | undefined; 
 
-    async fetchHours() {
-        if (this.libcalId) {
-
-        }
-        else throw new Error(`libcalId is undefined`);
-    }
+//    public async fetchHours() {
+//        if (this.hoursId) {
+//
+//        }
+//        else throw new Error(`hoursId is undefined`);
+//    }
 
     constructor(init?:Partial<Library>) {
         Object.assign(this, init);

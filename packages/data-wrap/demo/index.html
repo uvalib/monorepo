@@ -70,7 +70,10 @@
     let librariesData = new LibrariesData();
     const libraryList = document.getElementById('libraries');
     librariesData.fetchData().then(()=>{
-      render(html`${librariesData.items.map(l=>html`<li>${l.title}</li>`)}`, libraryList)
+      librariesData.fetchHours()
+        .then(()=>{
+          render(html`${librariesData.items.map(l=>html`<li>${l.title}</li>`)}`, libraryList);
+        })
     });
 
     // list events
