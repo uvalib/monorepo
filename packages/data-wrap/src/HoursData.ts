@@ -2,7 +2,13 @@ import { hoursEndpointURL, Hours } from './Hours.js';
 import { GeneralData } from './GeneralData.js';
 
 export function parseHours(hoursData: any){
-  return new Hours(hoursData)
+  return new Hours({
+    id: hoursData.lid,
+    title: hoursData.name,
+    description: hoursData.desc,
+    link: hoursData.url,
+    rawDates: hoursData.dates
+  })
 }
 export class HoursData extends GeneralData {
 
@@ -28,7 +34,7 @@ export class HoursData extends GeneralData {
           .then(res=>res.json())
           .then(hoursData=>{
             console.log(hoursData)
-            return hoursData;
+            return hoursData.map((hours: Partial<Hours> | undefined)=>parseHours(hours));
           });
   }
 

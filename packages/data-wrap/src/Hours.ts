@@ -9,6 +9,8 @@ export class Hours {
 
     public link: string | undefined;
 
+    public rawDates: any | undefined; 
+
 //    public async fetchHours() {
 //        if (this.hoursId) {
 //
