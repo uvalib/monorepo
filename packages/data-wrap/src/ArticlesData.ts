@@ -2,16 +2,15 @@ import { GeneralSearchResult } from './GeneralSearchResult.js'
 import { VirgoUtils } from './VirgoUtils.js';
 
 
-export class CatalogData {
+export class ArticlesData {
 
     query: string = "";
 
     items: GeneralSearchResult[] = [];
 
-    readonly virgoCatalogPoolURL = "https://pool-solr-ws-uva-library.internal.lib.virginia.edu/api/search"
+    readonly articlePoolURL: string = "https://pool-eds-ws.internal.lib.virginia.edu/api/search";
 
-    readonly catalogLinkBase: string = "https://search.lib.virginia.edu/sources/uva_library/items"
-
+    readonly articleLinkBaseURL: string = "https://search.lib.virginia.edu/sources/articles/items";
 
     constructor(init: {query: string}){
       // setup initial parameters
@@ -19,6 +18,9 @@ export class CatalogData {
     }
 
     async fetchData(){
-      return VirgoUtils.fetchData(this.virgoCatalogPoolURL, this.catalogLinkBase, this.query)
+      return VirgoUtils.fetchData(this.articlePoolURL, this.articleLinkBaseURL, this.query)
+
     }
+
+
   }

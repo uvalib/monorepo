@@ -32,14 +32,14 @@ export class BentoBox extends SiteStyle {
             import('./catalog-bento-section.js');
             return html`<catalog-bento-section ?no-shadow-dom="${this.noShadowDom}" .limit="${this.limit}" .query="${this.query}"></catalog-bento-section>`;
           case 'articles':
-            import('./bento-section.js');
-            return html`<bento-section ?no-shadow-dom="${this.noShadowDom}" .limit="${this.limit}" .query="${this.query}" title="Virgo: Articles"></bento-section>`;
+            import('./articles-bento-section.js');
+            return html`<articles-bento-section ?no-shadow-dom="${this.noShadowDom}" .limit="${this.limit}" .query="${this.query}"></articles-bento-section>`;
           case 'website':
             import('./website-bento-section.js');
             return html`<website-bento-section ?no-shadow-dom="${this.noShadowDom}" .limit="${this.limit}" .query="${this.query}"></website-bento-section>`;
           case 'libguides':
             import('./libguides-bento-section.js');
-            return html`<libguides-bento-section ?no-shadow-dom="${this.noShadowDom}" .limit="${this.limit}" .query="${this.query}"></libguides-bento-section>`;  
+            return html`<libguides-bento-section ?no-shadow-dom="${this.noShadowDom}" .limit="${this.limit}" .query="${this.query}"></libguides-bento-section>`;
           case 'talk':
             import('./bento-section.js');
             return html`<bento-section ?no-shadow-dom="${this.noShadowDom}" .limit="${this.limit}" .query="${this.query}" title="Talk to a subject expert"></bento-section>`;
@@ -52,8 +52,9 @@ export class BentoBox extends SiteStyle {
                           <p slot="see-more" class="event-see-all"><a href="https://cal.lib.virginia.edu/events">See all Library events</a></p>
                         </events-section>`;
         }
+
       })}
-      
+
 
     `;
   }
