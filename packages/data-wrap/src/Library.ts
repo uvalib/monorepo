@@ -1,3 +1,5 @@
+import { Hours } from "./Hours.js";
+
 const libcalURL = "https://api3.libcal.com/api_hours_grid.php?iid=863&format=json&weeks=1";
 
 export class Library {
@@ -54,6 +56,12 @@ export class Library {
     public parent: string | undefined;
 
     public closureOverride: number | undefined; 
+
+    public hours: Hours | undefined;
+
+    public setHours(h: Hours | undefined) {
+        this.hours = h;
+    }
 
 //    public async fetchHours() {
 //        if (this.hoursId) {

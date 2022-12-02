@@ -64,13 +64,12 @@ export class LibrariesData extends DrupalSearchData {
     return new HoursData({ids:hoursIds}).fetchData()
       .then((hours: any)=>{
         console.log(hours);
+        this.items.forEach(library=>{
+          // Libraries can get their own hours but we are spoon feeding them in this case so we can make one request for all
+          if (library.hoursId) library.setHours( hours.find((h: { id: string | undefined; })=>parseInt(<string>h.id, 10)===parseInt(<string>library.hoursId, 10) ) );
+        })
+        console.log(this.items);
       });
-//    return Promise.resolve();
-//    return fetch(hoursEndpointURL.replace("[[calids]]",calids.join(',')))
-//          .then(res=>res.json())
-//          .then(hoursData=>{
-//            console.log(hoursData)
-//          });
   }
 
 }
