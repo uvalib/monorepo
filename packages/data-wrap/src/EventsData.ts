@@ -65,11 +65,14 @@ export function parseEvent(event: {
 
 export class EventsData extends GeneralData {
 
+    category: string | undefined;
+
     items: Event[] = [];
 
     #endpointURL(){
       let params = this.query?`&search=${this.query}`:'';
       params += this.limit?`&limit=${this.limit}`:'';
+      params += this.category?`&category=${this.category}`:'';
       return this.query?
         `${eventsSearchEndpointURL}${params}`:`${eventsEndpointURL}${params}`;
     }

@@ -7,6 +7,8 @@ import { BentoSection } from './BentoSection.js';
 
 export class EventsSection extends BentoSection {
 
+  @property({ type: String }) category: string|undefined;
+
   @property({ type: Array }) items: Event[] = [];
 
   #eventsData: EventsData;
@@ -18,10 +20,11 @@ export class EventsSection extends BentoSection {
   }
 
   protected updated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
-      if (_changedProperties.has('query') || _changedProperties.has('limit')) {
+      if (_changedProperties.has('query') || _changedProperties.has('limit') || _changedProperties.has('category')) {
         this.loading = true;
         this.#eventsData.query = this.query;
         this.#eventsData.limit = this.limit;
+        this.#eventsData.category = this.category;
         this.#eventsData.fetchData().then(items=>{
           this.items = items;
           this.loading = false;
