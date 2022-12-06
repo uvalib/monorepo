@@ -13,17 +13,19 @@ export class LibGuidesData {
     }
 
     items: GeneralSearchResult[] = [];
+
+    limit: number = 5;
     
     meta: GeneralSearchMeta = {totalResults:0};
   
     // eslint-disable-next-line class-methods-use-this
-    async fetchData(){
+    async fetchData(params?:{limit?:number}){
       return fetch(`${libGuidesAPIURL}&q=${this.query}`)
         .then(r=>r.json())
         .then(d=>{
           this.meta.url = d.data.fulllink;
           this.#parseResults(d.data.results);
-          return {items:this.items, meta:this.meta};
+          return {items:this.items.slice(0,params&&params.limit? params.limit:this.limit), meta:this.meta};
         })
     }
 
@@ -35,7 +37,7 @@ export class LibGuidesData {
         title: node.querySelector('.s-srch-result-title')?.innerHTML.replace(/\s\s/g, ' '),
         description: node.querySelectorAll('.s-srch-result-meta')[1]?.innerHTML.replace(/\s\s/g, ' '),
         link:""
-      }));
+      })).slice(0);
       
       detachedDiv.remove();
     }

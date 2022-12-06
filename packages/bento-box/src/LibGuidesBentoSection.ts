@@ -20,7 +20,7 @@ export class LibGuidesBentoSection extends BentoSection {
       if (_changedProperties.has('query')) {
         this.loading = true;
         this.#libGuidesData.query = this.query;
-        this.#libGuidesData.fetchData()
+        this.#libGuidesData.fetchData({limit: <number|undefined>this.limit})
           .then((data: {items:GeneralSearchResult[], meta:GeneralSearchMeta} )=>{
             this.items = data.items;
             this.meta = data.meta;
@@ -50,7 +50,7 @@ export class LibGuidesBentoSection extends BentoSection {
             ${this.items.map(result=>html`
                 <li class="bs-results--list--entry bs-results-title"><span class="bs-results--title">${unsafeHTML(result.title)}</span>
                     <ul class="ul-0">
-                        <li class="bs-results--teaser li-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ex nulla, dignissim sed mollis eu, viverra sit amet nulla. Maecenas cursus rhoncus pellentesque.</li>
+                        <li class="bs-results--teaser li-1">${unsafeHTML(result.description)}</li>
                     </ul>
                 </li>
               `)}
