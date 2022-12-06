@@ -13,13 +13,14 @@ export class CatalogBentoSection extends BentoSection {
     super();
     this.title = "Virgo Catalog";
     this.#catalogData = new CatalogData({query:""})
+    this.limit = 5;
   }
 
   protected updated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
-      if (_changedProperties.has('query')) {
+      if (_changedProperties.has('query') || _changedProperties.has('limit')) {
         this.loading = true;
         this.#catalogData.query = this.query;
-        this.#catalogData.fetchData()
+        this.#catalogData.fetchData({limit: <number|undefined>this.limit})
           .then((data: {meta: GeneralSearchMeta, items: GeneralSearchResult[]} )=>{
             this.items = data.items;
             this.meta = data.meta;

@@ -44,25 +44,25 @@ export class BentoBox extends SiteStyle {
         switch (box) {
           case 'catalog':
             import('./catalog-bento-section.js');
-            return html`<catalog-bento-section class="bs-results--block" ?no-shadow-dom="${this.noShadowDom}" ?no-style="${this.noStyle}" .limit="${this.limit}" .query="${this.query}"></catalog-bento-section>`;
+            return html`<catalog-bento-section class="bs-results--block" ?no-shadow-dom="${this.noShadowDom}" ?no-style="${this.noStyle}" limit="${this.limit}" query="${this.query}"></catalog-bento-section>`;
           case 'articles':
             import('./articles-bento-section.js');
-            return html`<articles-bento-section class="bs-results--block" ?no-shadow-dom="${this.noShadowDom}" ?no-style="${this.noStyle}" .limit="${this.limit}" .query="${this.query}"></articles-bento-section>`;
+            return html`<articles-bento-section class="bs-results--block" ?no-shadow-dom="${this.noShadowDom}" ?no-style="${this.noStyle}" limit="${this.limit}" query="${this.query}"></articles-bento-section>`;
           case 'website':
             import('./website-bento-section.js');
-            return html`<website-bento-section class="bs-results--block" ?no-shadow-dom="${this.noShadowDom}" ?no-style="${this.noStyle}" .limit="${this.limit}" .query="${this.query}"></website-bento-section>`;
+            return html`<website-bento-section class="bs-results--block" ?no-shadow-dom="${this.noShadowDom}" ?no-style="${this.noStyle}" limit="${this.limit}" query="${this.query}"></website-bento-section>`;
           case 'libguides':
             import('./libguides-bento-section.js');
-            return html`<libguides-bento-section class="bs-results--block" ?no-shadow-dom="${this.noShadowDom}" ?no-style="${this.noStyle}" .limit="${this.limit}" .query="${this.query}"></libguides-bento-section>`;
+            return html`<libguides-bento-section class="bs-results--block" ?no-shadow-dom="${this.noShadowDom}" ?no-style="${this.noStyle}" limit="${this.limit}" query="${this.query}"></libguides-bento-section>`;
           case 'talk':
             import('./bento-section.js');
-            return html`<bento-section class="bs-results--block" ?no-shadow-dom="${this.noShadowDom}" ?no-style="${this.noStyle}" .limit="${this.limit}" .query="${this.query}" title="Talk to a subject expert"></bento-section>`;
+            return html`<bento-section class="bs-results--block" ?no-shadow-dom="${this.noShadowDom}" ?no-style="${this.noStyle}" limit="${this.limit}" query="${this.query}" title="Talk to a subject expert"></bento-section>`;
           case 'libraries':
             import('./libraries-bento-section.js');
-            return html`<libraries-bento-section class="bs-results--block" ?no-shadow-dom="${this.noShadowDom}" ?no-style="${this.noStyle}" .limit="${this.limit}" .query="${this.query}"></libraries-bento-section>`;
+            return html`<libraries-bento-section class="bs-results--block" ?no-shadow-dom="${this.noShadowDom}" ?no-style="${this.noStyle}" limit="${this.limit}" query="${this.query}"></libraries-bento-section>`;
           case 'events':
             import('./events-section.js');
-            return html`<events-section class="bs-results--block" title="Events" ?no-shadow-dom="${this.noShadowDom}" ?no-style="${this.noStyle}" .limit="${this.limit}" .query="${this.query}">
+            return html`<events-section class="bs-results--block" title="Events" ?no-shadow-dom="${this.noShadowDom}" ?no-style="${this.noStyle}" limit="${this.limit}" query="${this.query}">
                           <p slot="see-more" class="event-see-all"><a href="https://cal.lib.virginia.edu/events">See all Library events</a></p>
                         </events-section>`;
           default:

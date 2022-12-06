@@ -8,6 +8,8 @@ export class ArticlesData {
 
     items: GeneralSearchResult[] = [];
 
+    limit: number = 5;
+
     meta: GeneralSearchMeta = {totalResults:0};
 
     readonly articlePoolURL: string = "https://pool-eds-ws.internal.lib.virginia.edu/api/search";
@@ -19,9 +21,9 @@ export class ArticlesData {
       if (init.query) this.query = init.query;
     }
 
-    async fetchData(){
-      //return VirgoUtils.fetchData(this.articlePoolURL, this.articleLinkBaseURL, this.query)
-      return VirgoUtils.fetchData(this.articlePoolURL, this.articleLinkBaseURL, this.query)
+    async fetchData(params?:{limit?:number}){
+      console.log(`limit of ${ params&&params.limit? params.limit:this.limit }`)
+      return VirgoUtils.fetchData(this.articlePoolURL, this.articleLinkBaseURL, this.query, params&&params.limit? params.limit:this.limit)
                 .then((results:{meta: GeneralSearchMeta, items: GeneralSearchResult[]})=>{
                   // eslint-disable-next-line no-param-reassign
                   results.meta.url = `https://search.lib.virginia.edu/?q=keyword:+{${this.query}}&pool=articles`

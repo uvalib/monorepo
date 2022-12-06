@@ -16,10 +16,10 @@ export class ArticlesBentoSection extends BentoSection {
   }
 
   protected updated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
-      if (_changedProperties.has('query')) {
+      if (_changedProperties.has('query') || _changedProperties.has('query')) {
         this.loading = true;
         this.#articlesData.query = this.query;
-        this.#articlesData.fetchData()
+        this.#articlesData.fetchData({limit:<number|undefined>this.limit})
           .then((data: {meta: GeneralSearchMeta, items: GeneralSearchResult[]} )=>{
             this.items = data.items;
             this.meta = data.meta;

@@ -21,7 +21,7 @@ export class VirgoUtils {
     return ""
   }
 
-  static async fetchData(searchURL:string, linkBaseURL:string, query:string){
+  static async fetchData(searchURL:string, linkBaseURL:string, query:string, limit:number=5){
 
     const options = {
       method: "POST",
@@ -36,7 +36,7 @@ export class VirgoUtils {
           "query": `keyword: {${query}}`,
           "pagination": {
             "start": 0,
-            "rows": 5
+            "rows": limit
           },
           "sort": {
             "sort_id": "SortRelevance",

@@ -7,6 +7,8 @@ export class CatalogData {
 
     query: string = "";
 
+    limit: number = 5;
+
     items: GeneralSearchResult[] = [];
     
     meta: GeneralSearchMeta = {totalResults:0};
@@ -21,8 +23,8 @@ export class CatalogData {
       if (init.query) this.query = init.query;
     }
 
-    async fetchData(){
-      return VirgoUtils.fetchData(this.virgoCatalogPoolURL, this.catalogLinkBase, this.query)
+    async fetchData(params?:{limit?:number}){
+      return VirgoUtils.fetchData(this.virgoCatalogPoolURL, this.catalogLinkBase, this.query, params&&params.limit? params.limit:this.limit)
                 .then((results:{meta: GeneralSearchMeta, items: GeneralSearchResult[]})=>{
                   // eslint-disable-next-line no-param-reassign
                   results.meta.url = `https://search.lib.virginia.edu/?q=${this.query}&pool=uva_library`

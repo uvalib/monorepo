@@ -1,3 +1,4 @@
+import { GeneralSearchMeta } from './GeneralSearchMeta.js';
 import { GeneralSearchResult } from './GeneralSearchResult.js'
 
 // needs a q (query) parameter appended onto the end!
@@ -12,14 +13,17 @@ export class LibGuidesData {
     }
 
     items: GeneralSearchResult[] = [];
+    
+    meta: GeneralSearchMeta = {totalResults:0};
   
     // eslint-disable-next-line class-methods-use-this
     async fetchData(){
       return fetch(`${libGuidesAPIURL}&q=${this.query}`)
         .then(r=>r.json())
         .then(d=>{
+          this.meta.url = d.data.fulllink;
           this.#parseResults(d.data.results);
-          return this.items;
+          return {items:this.items, meta:this.meta};
         })
     }
 
@@ -32,6 +36,7 @@ export class LibGuidesData {
         description: node.querySelectorAll('.s-srch-result-meta')[1]?.innerHTML.replace(/\s\s/g, ' '),
         link:""
       }));
+      
       detachedDiv.remove();
     }
   
