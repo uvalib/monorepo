@@ -1,12 +1,14 @@
 import { GeneralSearchResult } from './GeneralSearchResult.js'
+import { GeneralSearchMeta } from './GeneralSearchMeta.js';
 import { VirgoUtils } from './VirgoUtils.js';
-
 
 export class ArticlesData {
 
     query: string = "";
 
     items: GeneralSearchResult[] = [];
+
+    meta: GeneralSearchMeta = {totalResults:0};
 
     readonly articlePoolURL: string = "https://pool-eds-ws.internal.lib.virginia.edu/api/search";
 
@@ -18,8 +20,15 @@ export class ArticlesData {
     }
 
     async fetchData(){
+      //return VirgoUtils.fetchData(this.articlePoolURL, this.articleLinkBaseURL, this.query)
       return VirgoUtils.fetchData(this.articlePoolURL, this.articleLinkBaseURL, this.query)
-
+                .then((results:{meta: GeneralSearchMeta, items: GeneralSearchResult[]})=>{
+                  // eslint-disable-next-line no-param-reassign
+                  results.meta.url = `https://search.lib.virginia.edu/?q=keyword:+{${this.query}}&pool=articles`
+                  this.items = results.items;
+                  this.meta = results.meta;                  
+                  return results;
+                });
     }
 
 

@@ -1,5 +1,6 @@
 import { css } from 'lit';
 
+
 // colors from https://github.com/uvalib/uvalib-drupal-theme/blob/main/scss/base/_colors.scss
 // need to setup a dependency and process to autosync from that authority
 export const LibraryColors = css`
@@ -35,7 +36,7 @@ export const LibraryColors = css`
   --uva-blue-alt-dark: #005679;
   --uva-blue-alt-darkest: #141E3C;
 
-  --uva-blue-alt-400: #E6F2F7; //new color
+  --uva-blue-alt-400: #E6F2F7; /* new color */
   --uva-blue-alt-300: var(--uva-blue-alt-lightest);
   --uva-blue-alt-200: var(--uva-blue-alt-lighter);
   --uva-blue-alt-100: var(--uva-blue-alt-light);

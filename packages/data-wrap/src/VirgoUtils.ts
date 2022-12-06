@@ -1,4 +1,6 @@
+/* eslint-disable no-console */
 import { GeneralSearchResult } from "./GeneralSearchResult.js"
+import { GeneralSearchMeta } from "./GeneralSearchMeta.js";
 
 export class VirgoUtils {
 
@@ -53,12 +55,14 @@ export class VirgoUtils {
     const data = await fetch(searchURL, options)
       .then(r=>r.json())
 
-    const items:GeneralSearchResult[] = VirgoUtils.parseResults(linkBaseURL, data);
-    return items;
+    const results:{items:GeneralSearchResult[],meta:GeneralSearchMeta} = VirgoUtils.parseResults(linkBaseURL, data);
+    return results;
   }
 
   static parseResults(linkBaseURL: string, data: any){
     const items:GeneralSearchResult[] = []
+    const meta:GeneralSearchMeta = data.pagination && data.pagination.total? 
+                                    {totalResults: data.pagination.total}:{totalResults:0};
     if (data.group_list !== undefined) {
       data.group_list.forEach((g: any) =>{
         if (g.count === 1) {
@@ -78,7 +82,7 @@ export class VirgoUtils {
 
       })
     }
-    return items
+    return {items, meta}
   }
 
 

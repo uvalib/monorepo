@@ -9,7 +9,7 @@ export class LibGuidesBentoSection extends BentoSection {
 
   constructor(){
     super();
-    this.title = "LibGuides";
+    this.title = "Subject Guides";
     this.#libGuidesData = new LibGuidesData({query:""})
   }
 

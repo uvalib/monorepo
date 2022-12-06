@@ -10,7 +10,7 @@ export class WebsiteBentoSection extends BentoSection {
 
   constructor(){
     super();
-    this.title = "Library Website";
+    this.title = "Website";
     this.#librariesData = new LibrariesData();
   }
 
