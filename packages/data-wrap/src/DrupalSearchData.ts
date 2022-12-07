@@ -25,6 +25,7 @@ export class DrupalSearchData {
         .then(r=>r.json())
         .then(data=>{
           this._parseResults(data);
+console.log(this.items)          
           return {items:this.items, meta:this.meta};
         })
 //        .then(d=>{

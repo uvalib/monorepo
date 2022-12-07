@@ -48,21 +48,15 @@ export class WebsiteBentoSection extends BentoSection {
         <div class="bs-results--body">
             <p>Results from the main Library website.</p>
             <ol class="bs-results--list">
-                <li class="bs-results--list--entry"><a href="#" class="bs-results--title">Title</a>
+
+              ${this.items.map(result=>html`
+                <li class="bs-results--list--entry"><a href="${result.link}" class="bs-results--title">${result.title}</a>
                     <ul class="ul-0">
-                        <li class="bs-results--teaser li-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ex nulla, dignissim sed mollis eu, viverra sit amet nulla. Maecenas cursus rhoncus pellentesque.</li>
+                        <li class="bs-results--teaser li-1">${unsafeHTML(result.description)}</li>
                     </ul>
                 </li>
-                <li class="bs-results--list--entry"><a href="#" class="bs-results--title">Title</a>
-                    <ul class="ul-0">
-                        <li class="bs-results--teaser li-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ex nulla, dignissim sed mollis eu, viverra sit amet nulla. Maecenas cursus rhoncus pellentesque.</li>
-                    </ul>
-                </li>
-                <li class="bs-results--list--entry"><a href="#" class="bs-results--title">Title</a>
-                    <ul class="ul-0">
-                        <li class="bs-results--teaser li-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ex nulla, dignissim sed mollis eu, viverra sit amet nulla. Maecenas cursus rhoncus pellentesque.</li>
-                    </ul>
-                </li>
+              `)}
+
             </ol>
         </div>
     </div>      
