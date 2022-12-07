@@ -28,7 +28,7 @@ export class BentoBox extends SiteStyle {
   render() {
     return html`
   <style>
-    [hidden] {display:none;}
+    [hidden] { display: none !important; }
   </style>
 
   <bento-search class="bento-search-bar" ?no-shadow-dom="${this.noShadowDom}" ?no-style="${this.noStyle}" id="searchBox" .query="${this.query}" @search="${this.search}"></bento-search>
@@ -72,32 +72,6 @@ export class BentoBox extends SiteStyle {
 
       } )}  
 
-    <div class="bs-results--block">
-        <div class="bs-results--header">
-            <h3>Website</h3>
-            <button class="uvalib-button">See all <span class="bs-results--qty">123465789</span> results</button>
-        </div>
-        <div class="bs-results--body">
-            <p>Results from the main Library website.</p>
-            <ol class="bs-results--list">
-                <li class="bs-results--list--entry"><a href="#" class="bs-results--title">Title</a>
-                    <ul class="ul-0">
-                        <li class="bs-results--teaser li-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ex nulla, dignissim sed mollis eu, viverra sit amet nulla. Maecenas cursus rhoncus pellentesque.</li>
-                    </ul>
-                </li>
-                <li class="bs-results--list--entry"><a href="#" class="bs-results--title">Title</a>
-                    <ul class="ul-0">
-                        <li class="bs-results--teaser li-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ex nulla, dignissim sed mollis eu, viverra sit amet nulla. Maecenas cursus rhoncus pellentesque.</li>
-                    </ul>
-                </li>
-                <li class="bs-results--list--entry"><a href="#" class="bs-results--title">Title</a>
-                    <ul class="ul-0">
-                        <li class="bs-results--teaser li-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ex nulla, dignissim sed mollis eu, viverra sit amet nulla. Maecenas cursus rhoncus pellentesque.</li>
-                    </ul>
-                </li>
-            </ol>
-        </div>
-    </div>
   </div>
 
 

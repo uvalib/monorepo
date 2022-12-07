@@ -8,3 +8,5 @@ export { Library } from './Library.js';
 export { LibrariesData } from './LibrariesData.js';
 export { EventsData } from './EventsData.js';
 export { Event } from './EventInterface.js';
+export { Webpage } from './Webpage.js';
+export { WebpageData } from './WebpageData.js';
