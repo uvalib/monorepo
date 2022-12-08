@@ -7,7 +7,7 @@ export class DrupalSearchData {
 
     query: string = "";
 
-    limit: number = 5;
+    limit: number = 25;
 
     type: string = "";
 

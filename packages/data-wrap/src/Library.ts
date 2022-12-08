@@ -25,7 +25,7 @@ export class Library {
 
     public emailAddress: string | undefined;
 
-    public hoursInformation: string | undefined;
+    public hoursInformation: {processed: string} | undefined;
 
     public hoursId: string | undefined;
 
@@ -33,7 +33,7 @@ export class Library {
 
     public link: string | undefined;
 
-    public siteLink: string | undefined;
+    public siteLink: {title: string, uri: string} | undefined;
 
     public mainImage: { alt: string; url: string; uuid: string; } | undefined;
 
