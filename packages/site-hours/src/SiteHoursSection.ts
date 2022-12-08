@@ -56,7 +56,7 @@ export class SiteHoursSection extends SiteStyle {
     return html`
       <div class="home-hours-block">
         <div id="homehoursdate" class="home-hour-date">${this.formattedDate}</div>
-        <p class="hour-head">Today's hours</p>
+        <h3 class="hour-head">Today's hours</h3>
         <dl class="dl--inline hours-locations">
           ${this.libraries.map(lib=>html`
             <dt class="location">${lib.shortTitle? lib.shortTitle:lib.title}</dt>
