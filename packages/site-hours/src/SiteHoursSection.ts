@@ -8,11 +8,13 @@ import {unsafeHTML} from 'lit/directives/unsafe-html.js';
 
 export class SiteHoursSection extends SiteStyle {
 
-  @property({type:String}) formattedDate = "Wednesday, December 7";
+  @property({type:String}) formattedDate = "Wednesday, December 8";
 
   @property({type:String, attribute:"place-type"}) placeType = null;
 
   @property({type:Boolean}) unlimited = false;
+
+  @property({type:Boolean}) limited = false;
   
   @property({type:Array}) libraries: Library[] = [];
 
@@ -26,6 +28,7 @@ export class SiteHoursSection extends SiteStyle {
         this.libraries = libraries.items
                 .filter(lib=>this.placeType? lib.placeType===this.placeType:true)
                 .filter(lib=>this.unlimited? true:lib.hours || lib.hoursInformation)
+                .filter(lib=>this.limited? lib.placeType==='Library' && lib.hours:true)
                 .sort((a,b) => ( (a.title?a.title:'') > (b.title?b.title:'') )? 1:-1);
       })
     })
