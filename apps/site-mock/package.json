@@ -10,7 +10,8 @@
     "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\""
   },
   "dependencies": {
-    "@uvalib/bento-box": "workspace:0.0.0",
+    "@uvalib/bento-box": "workspace:*",
+    "@uvalib/cdn-builds": "workspace:*",
     "lit": "^2.4.1"
   },
   "devDependencies": {
