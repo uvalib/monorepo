@@ -32,6 +32,7 @@ export class WebpageData extends DrupalSearchData {
     // Setup Library results
     this.items = n.data.map(parseWebpage)
     this.meta.totalResults = n.meta.count;
+    this.meta.url = `https://library-drupal-dev.internal.lib.virginia.edu/search/node?keys=${ this.query }`
   }
 
 }
