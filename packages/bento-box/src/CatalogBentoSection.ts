@@ -1,11 +1,15 @@
+/* eslint-disable lit/no-value-attribute */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { html, PropertyValueMap } from 'lit';
-import { GeneralSearchResult, GeneralSearchMeta, CatalogData } from '@uvalib/data-wrap';
-import { BentoSection } from './BentoSection.js'
+import { VirgoResult, GeneralSearchMeta, CatalogData } from '@uvalib/data-wrap';
+import { property } from 'lit/decorators.js';
+import { BentoSection } from './BentoSection.js';
 
 export class CatalogBentoSection extends BentoSection {
 
   #catalogData: CatalogData;
+
+  @property({ type: Array }) items: VirgoResult[] = [];
 
   meta: GeneralSearchMeta = {totalResults:0};
 
@@ -21,7 +25,8 @@ export class CatalogBentoSection extends BentoSection {
         this.loading = true;
         this.#catalogData.query = this.query;
         this.#catalogData.fetchData({limit: <number|undefined>this.limit})
-          .then((data: {meta: GeneralSearchMeta, items: GeneralSearchResult[]} )=>{
+          .then((data: {meta: GeneralSearchMeta, items: VirgoResult[]} )=>{
+console.log(data.items)            
             this.items = data.items;
             this.meta = data.meta;
             this.loading = false;
@@ -50,9 +55,9 @@ export class CatalogBentoSection extends BentoSection {
             <ol class="bs-results--list">
 
             ${this.items.map(result=>html`
-                <li class="bs-results--list--entry"><a href="${result.link}" class="bs-results--title">${result.title}</a>
+                <li class="bs-results--list--entry"><a href="${result.link? result.link:''}" class="bs-results--title">${result.title}</a>
                     <ul class="ul-0">
-                        <li class="bs-results--author li-1">List author</li>
+                      ${result.author? html`<li class="bs-results--author li-1">${result.author.join(', ')}</li>`:''}
                         <ul class="ul-1">
                             <li class="bs-results--date li-1">Pub date </li>
                             <li class="bs-results--format li-1" aria-label="[insert-format]">book/CD/film/PDF</li>

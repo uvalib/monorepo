@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
-import { GeneralSearchResult } from "./GeneralSearchResult.js"
+//import { GeneralSearchResult } from "./GeneralSearchResult.js"
 import { GeneralSearchMeta } from "./GeneralSearchMeta.js";
+import { VirgoResult } from "./VirgoResult.js";
 
 export class VirgoUtils {
 
@@ -55,12 +56,12 @@ export class VirgoUtils {
     const data = await fetch(searchURL, options)
       .then(r=>r.json())
 
-    const results:{items:GeneralSearchResult[],meta:GeneralSearchMeta} = VirgoUtils.parseResults(linkBaseURL, data);
+    const results:{items:VirgoResult[],meta:GeneralSearchMeta} = VirgoUtils.parseResults(linkBaseURL, data);
     return results;
   }
 
   static parseResults(linkBaseURL: string, data: any){
-    const items:GeneralSearchResult[] = []
+    const items:VirgoResult[] = []
     const meta:GeneralSearchMeta = data.pagination && data.pagination.total? 
                                     {totalResults: data.pagination.total}:{totalResults:0};
     if (data.group_list !== undefined) {
@@ -69,10 +70,14 @@ export class VirgoUtils {
           const hit = g.record_list[0]
           const id = hit.fields.find((f: any)=> f.type === "identifier").value
           const virgoLink = id ? `${linkBaseURL}/${id}` : undefined
-          const item: GeneralSearchResult = {
+          console.log(hit);
+          const item: VirgoResult = {
+            id: hit.fields.find((f: any)=> f.type === "identifier").value,            
             title:  hit.fields.find((f: any)=> f.type === "title").value,
-            description: "",
-            link: virgoLink
+            description: ``,
+            link: virgoLink,
+            author: hit.fields.filter((f: any)=> f.type === "author")
+                              .map((a: any)=> (a.value))
           }
           items.push(item)
 

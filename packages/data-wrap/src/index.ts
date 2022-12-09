@@ -10,3 +10,4 @@ export { EventsData } from './EventsData.js';
 export { Event } from './EventInterface.js';
 export { Webpage } from './Webpage.js';
 export { WebpageData } from './WebpageData.js';
+export { VirgoResult } from './VirgoResult.js';
