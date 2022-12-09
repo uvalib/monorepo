@@ -59,7 +59,7 @@ console.log(data.items)
                     <ul class="ul-0">
                       ${result.author? html`<li class="bs-results--author li-1">${result.author.join(', ')}</li>`:''}
                         <ul class="ul-1">
-                            <li class="bs-results--date li-1">Pub date </li>
+                            <li class="bs-results--date li-1">${ result.datePublished? result.datePublished.toLocaleDateString("en-US"):'' }</li>
                             <li class="bs-results--format li-1" aria-label="[insert-format]">book/CD/film/PDF</li>
                         </ul>
                         <li class="bs-results--teaser li-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ex nulla, dignissim sed mollis eu, viverra sit amet nulla. Maecenas cursus rhoncus pellentesque.</li>

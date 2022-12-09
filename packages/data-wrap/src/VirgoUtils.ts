@@ -77,7 +77,8 @@ export class VirgoUtils {
             description: ``,
             link: virgoLink,
             author: hit.fields.filter((f: any)=> f.type === "author")
-                              .map((a: any)=> (a.value))
+                              .map((a: any)=> (a.value)),
+            datePublished: new Date( Date.UTC.apply(null, hit.fields.find((f: any)=> f.name === "published_date").value.split('-') ) )
           }
           items.push(item)
 
