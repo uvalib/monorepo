@@ -22,7 +22,6 @@ export class ArticlesData {
     }
 
     async fetchData(params?:{limit?:number}){
-      console.log(`limit of ${ params&&params.limit? params.limit:this.limit }`)
       return VirgoUtils.fetchData(this.articlePoolURL, this.articleLinkBaseURL, this.query, params&&params.limit? params.limit:this.limit)
                 .then((results:{meta: GeneralSearchMeta, items: GeneralSearchResult[]})=>{
                   // eslint-disable-next-line no-param-reassign
