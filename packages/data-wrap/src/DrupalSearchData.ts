@@ -24,8 +24,7 @@ export class DrupalSearchData {
       return fetch(this._makeURL())
         .then(r=>r.json())
         .then(data=>{
-          this._parseResults(data);
-console.log(this.items)          
+          this._parseResults(data);         
           return {items:this.items, meta:this.meta};
         })
 //        .then(d=>{
