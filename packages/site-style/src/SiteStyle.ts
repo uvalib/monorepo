@@ -17,6 +17,17 @@ export class SiteStyle extends LitElement {
 
   #styleNode: HTMLElement|null = null;
 
+  private _resizeController: any;
+
+  // Use ResizeObserver to make this.offsetWidth and this.offsetHeight reactive
+  // lazy loaded as this isn't used that often
+  // see https://lit.dev/blog/2022-01-05-lit-2.1-release/ 
+  protected resizeReactive() {
+    import('@lit-labs/observers/resize_controller.js').then(({ResizeController})=>{
+      this._resizeController = new ResizeController(this,{});
+    })
+  }
+
   static get styles() {
     // need to figure out how to dynamically load these (or not)
     return [

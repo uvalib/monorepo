@@ -65,5 +65,8 @@
   "prettier": {
     "singleQuote": true,
     "arrowParens": "avoid"
+  },
+  "dependencies": {
+    "@lit-labs/observers": "^1.1.0"
   }
 }
