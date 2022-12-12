@@ -24,18 +24,24 @@ export class LibGuidesData {
         .then(r=>r.json())
         .then(d=>{
           this.meta.url = d.data.fulllink;
-          this.#parseResults(d.data.results);
+          this.parseResults(d.data.results);
           return {items:this.items.slice(0,params&&params.limit? params.limit:this.limit), meta:this.meta};
         })
     }
 
-    #parseResults(data: string){
+    // just putting this here in case we need to adjust the markup returned here
+    // eslint-disable-next-line class-methods-use-this
+    private descriptionMarkupFix(data: string){
+      return data;
+    }
+
+    private parseResults(data: string){
       const detachedDiv = document.createElement('div');
       detachedDiv.innerHTML = data;    
       const resultNodes = detachedDiv.querySelectorAll('.s-srch-result');
       this.items = Array.from(resultNodes).map((node)=>({
         title: node.querySelector('.s-srch-result-title')?.innerHTML.replace(/\s\s/g, ' '),
-        description: node.querySelectorAll('.s-srch-result-meta')[1]?.innerHTML.replace(/\s\s/g, ' '),
+        description: this.descriptionMarkupFix( node.querySelectorAll('.s-srch-result-meta')[1]?.innerHTML.replace(/\s\s/g, ' ') ),
         link:""
       })).slice(0);
       

@@ -11,7 +11,7 @@ export function parseWebpage(page: {
     uuid: page.id,
     title: page.attributes.title,
     body: page.attributes.body.processed,
-    description: page.meta.excerpt,
+    description: page.meta.excerpt.replace(/<(\/?)strong>/g,"<$1mark>"),
     path: page.attributes.path.alias,
     link: `http://library-drupal-dev-0.internal.lib.virginia.edu:8080${page.attributes.path.alias}`
   })
