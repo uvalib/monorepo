@@ -71,7 +71,6 @@ export class VirgoUtils {
           const id = hit.fields.find((f: any)=> f.type === "identifier").value
           const virgoLink = id ? `${linkBaseURL}/${id}` : undefined
 //          console.log(hit);
-//          console.log( hit.fields.filter((f: any)=> f.name === "pub_type").map((a: any)=>(a.value)).join('/') );
           const item: VirgoResult = {
             id: hit.fields.find((f: any)=> f.type === "identifier").value,            
             title:  hit.fields.find((f: any)=> f.type === "title").value,

@@ -1,4 +1,4 @@
-import { GeneralSearchResult } from './GeneralSearchResult.js'
+import { VirgoResult } from './VirgoResult.js'
 import { GeneralSearchMeta } from './GeneralSearchMeta.js';
 import { VirgoUtils } from './VirgoUtils.js';
 
@@ -6,7 +6,7 @@ export class ArticlesData {
 
     query: string = "";
 
-    items: GeneralSearchResult[] = [];
+    items: VirgoResult[] = [];
 
     limit: number = 5;
 
@@ -23,7 +23,7 @@ export class ArticlesData {
 
     async fetchData(params?:{limit?:number}){
       return VirgoUtils.fetchData(this.articlePoolURL, this.articleLinkBaseURL, this.query, params&&params.limit? params.limit:this.limit)
-                .then((results:{meta: GeneralSearchMeta, items: GeneralSearchResult[]})=>{
+                .then((results:{meta: GeneralSearchMeta, items: VirgoResult[]})=>{
                   // eslint-disable-next-line no-param-reassign
                   results.meta.url = `https://search.lib.virginia.edu/?q=keyword:+{${this.query}}&pool=articles`
                   this.items = results.items;

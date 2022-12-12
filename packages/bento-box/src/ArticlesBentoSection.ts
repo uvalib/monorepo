@@ -1,11 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { GeneralSearchResult, GeneralSearchMeta, ArticlesData } from '@uvalib/data-wrap';
+import { VirgoResult, GeneralSearchMeta, ArticlesData } from '@uvalib/data-wrap';
 import { PropertyValueMap, html } from 'lit';
+import { property } from 'lit/decorators.js';
 import { BentoSection } from './BentoSection.js'
 
 export class ArticlesBentoSection extends BentoSection {
 
   #articlesData: ArticlesData;
+
+  @property({ type: Array }) items: VirgoResult[] = [];
 
   meta: GeneralSearchMeta = {totalResults:0};
 
@@ -20,7 +23,7 @@ export class ArticlesBentoSection extends BentoSection {
         this.loading = true;
         this.#articlesData.query = this.query;
         this.#articlesData.fetchData({limit:<number|undefined>this.limit})
-          .then((data: {meta: GeneralSearchMeta, items: GeneralSearchResult[]} )=>{
+          .then((data: {meta: GeneralSearchMeta, items: VirgoResult[]} )=>{
             this.items = data.items;
             this.meta = data.meta;
             this.loading = false;
@@ -49,14 +52,16 @@ export class ArticlesBentoSection extends BentoSection {
             <ol class="bs-results--list">
 
             ${this.items.map(result=>html`
-                <li class="bs-results--list--entry"><a href="${result.link}" class="bs-results--title">${result.title}</a>
+                  <li class="bs-results--list--entry"><a href="${result.link? result.link:''}" class="bs-results--title">${result.title}</a>
                     <ul class="ul-0">
-                        <li class="bs-results--author li-1">List author</li>
+                      ${result.author? html`<li class="bs-results--author li-1">${result.author.join(', ')}</li>`:''}
                         <ul class="ul-1">
-                            <li class="bs-results--date li-1">Pub date </li>
-                            <li class="bs-results--format li-1" aria-label="[insert-format]">book/CD/film/PDF</li>
+                            ${ result.datePublished? html`<li class="bs-results--date li-1">${ result.datePublished.toLocaleDateString("en-US") }</li>`:'' }
+                            ${ result.publicationType && result.publicationType.length>0? html`<li class="bs-results--format li-1" aria-label="${ result.publicationType.join('/') }">${ result.publicationType.join('/') }</li>`:'' }
                         </ul>
+<!-- I'm not sure we have teaser info for article results                        
                         <li class="bs-results--teaser li-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ex nulla, dignissim sed mollis eu, viverra sit amet nulla. Maecenas cursus rhoncus pellentesque.</li>
+  -->
                     </ul>
                 </li>
             `)}    

@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      background: #fafafa;
+    }
+  </style>
+</head>
+<body>
+  <h2>Example of ArticleData</h2>
+  <div>
+    <ul id="article"></ul>
+  </div>
+
+  <script type="module">
+
+    import { ArticlesData } from '../dist/src/index.js';
+
+    let articlesData = new ArticlesData({query:"foot"});
+    articlesData.fetchData().then(results=>{
+      console.log(results);
+    })
+
+  </script>
+</body>
+</html>
