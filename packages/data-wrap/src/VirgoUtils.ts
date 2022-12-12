@@ -70,7 +70,8 @@ export class VirgoUtils {
           const hit = g.record_list[0]
           const id = hit.fields.find((f: any)=> f.type === "identifier").value
           const virgoLink = id ? `${linkBaseURL}/${id}` : undefined
-          console.log(hit);
+//          console.log(hit);
+//          console.log( hit.fields.filter((f: any)=> f.name === "pub_type").map((a: any)=>(a.value)).join('/') );
           const item: VirgoResult = {
             id: hit.fields.find((f: any)=> f.type === "identifier").value,            
             title:  hit.fields.find((f: any)=> f.type === "title").value,
@@ -78,8 +79,11 @@ export class VirgoUtils {
             link: virgoLink,
             author: hit.fields.filter((f: any)=> f.type === "author")
                               .map((a: any)=> (a.value)),
-            datePublished: new Date( Date.UTC.apply(null, hit.fields.find((f: any)=> f.name === "published_date").value.split('-') ) )
+            datePublished: new Date( Date.UTC.apply(null, hit.fields.find((f: any)=> f.name === "published_date").value.split('-') ) ),
+            publicationType: hit.fields.filter((f: any)=> f.name === "pub_type").map((a: any)=>(a.value)),
+            format: hit.fields.filter((f: any)=>f.name==="format").map((a: any)=>(a.value))
           }
+//console.log(item);          
           items.push(item)
 
         } else {
@@ -88,6 +92,7 @@ export class VirgoUtils {
 
       })
     }
+    console.log(items)
     return {items, meta}
   }
 

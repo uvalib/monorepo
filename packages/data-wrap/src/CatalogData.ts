@@ -1,5 +1,6 @@
 import { GeneralSearchMeta } from './GeneralSearchMeta.js';
-import { GeneralSearchResult } from './GeneralSearchResult.js'
+//import { GeneralSearchResult } from './GeneralSearchResult.js'
+import { VirgoResult } from './VirgoResult.js';
 import { VirgoUtils } from './VirgoUtils.js';
 
 
@@ -9,7 +10,7 @@ export class CatalogData {
 
     limit: number = 5;
 
-    items: GeneralSearchResult[] = [];
+    items: VirgoResult[] = [];
     
     meta: GeneralSearchMeta = {totalResults:0};
 
@@ -25,9 +26,10 @@ export class CatalogData {
 
     async fetchData(params?:{limit?:number}){
       return VirgoUtils.fetchData(this.virgoCatalogPoolURL, this.catalogLinkBase, this.query, params&&params.limit? params.limit:this.limit)
-                .then((results:{meta: GeneralSearchMeta, items: GeneralSearchResult[]})=>{
+                .then((results:{meta: GeneralSearchMeta, items: VirgoResult[]})=>{
                   // eslint-disable-next-line no-param-reassign
                   results.meta.url = `https://search.lib.virginia.edu/?q=${this.query}&pool=uva_library`
+
                   this.items = results.items;
                   this.meta = results.meta;
                   return results;

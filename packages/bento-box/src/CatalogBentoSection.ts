@@ -35,6 +35,7 @@ console.log(data.items)
   }
 
   render() {
+    console.log(this.items)
     return html`
         <div class="bs-results--header">
             <h3>${this.title}</h3>
@@ -59,8 +60,8 @@ console.log(data.items)
                     <ul class="ul-0">
                       ${result.author? html`<li class="bs-results--author li-1">${result.author.join(', ')}</li>`:''}
                         <ul class="ul-1">
-                            <li class="bs-results--date li-1">${ result.datePublished? result.datePublished.toLocaleDateString("en-US"):'' }</li>
-                            <li class="bs-results--format li-1" aria-label="[insert-format]">book/CD/film/PDF</li>
+                            ${ result.datePublished? html`<li class="bs-results--date li-1">${ result.datePublished.toLocaleDateString("en-US") }</li>`:'' }
+                            ${ result.format && result.format.length>0? html`<li class="bs-results--format li-1" aria-label="${ result.format.join('/') }">${ result.format.join('/') }</li>`:'' }
                         </ul>
                         <li class="bs-results--teaser li-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ex nulla, dignissim sed mollis eu, viverra sit amet nulla. Maecenas cursus rhoncus pellentesque.</li>
                     </ul>

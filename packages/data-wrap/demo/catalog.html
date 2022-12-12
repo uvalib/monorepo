@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      background: #fafafa;
+    }
+  </style>
+</head>
+<body>
+  <h2>Example of CatalogData</h2>
+  <div>
+    <ul id="catalog"></ul>
+  </div>
+
+  <script type="module">
+
+    import { CatalogData } from '../dist/src/index.js';
+
+    let catalogData = new CatalogData({query:"foot"});
+    catalogData.fetchData().then(results=>{
+      console.log(results);
+    })
+
+  </script>
+</body>
+</html>

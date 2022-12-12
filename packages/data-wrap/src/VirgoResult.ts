@@ -11,6 +11,10 @@ export class VirgoResult {
 
     public datePublished?: Date;
 
+    public publicationType?: string[];
+
+    public format?: string[];
+
     constructor(init?:Partial<VirgoResult>) {
         Object.assign(this, init);
     }
