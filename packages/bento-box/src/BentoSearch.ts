@@ -26,7 +26,7 @@ export class BentoSearch extends SiteStyle {
 
 <form action="https://search.lib.virginia.edu/search" id="searchForm" method="get" @submit="${this.search}">
 <span class="icon-search"></span>
-	<input name="q" id="search" type="text" placeholder="Search everything…" .value="${this.query}" />
+	<input name="q" id="search" type="text" aria-label="Search everything…" placeholder="Search everything…" .value="${this.query}" />
 	<button type="submit" class="uvalib-button-home-search" aria-label="Search" @submit="${this.search}"></button>
 </form>
 <p>${this.describe}</p>
