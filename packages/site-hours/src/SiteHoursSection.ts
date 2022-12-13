@@ -8,7 +8,7 @@ import {unsafeHTML} from 'lit/directives/unsafe-html.js';
 
 export class SiteHoursSection extends SiteStyle {
 
-  @property({type:String}) formattedDate = "Wednesday, December 8";
+  @property({type:String}) formattedDate = `Wednesday, December ${ new Date().getDate() }`;
 
   @property({type:String, attribute:"place-type"}) placeType = null;
 

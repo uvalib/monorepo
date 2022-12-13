@@ -27,6 +27,12 @@ export class BentoSection extends SiteStyle {
 
   @property({ type: Boolean }) loading = false;
 
+  @property({ type: String, attribute: "no-result-describe" }) noResultDescribe = "";
+
+  protected isEmptySearch(){
+    return this.loading || (this.items && this.items.length === 0);
+  }
+
   render() {
     return html`
       <h1>${this.title}</h1>
@@ -34,6 +40,7 @@ export class BentoSection extends SiteStyle {
         <h2 ?hidden="${this.loading}">${this.label? this.label:html`Search for ${this.query}`}</h2>
       `:''}
       ${this.loading? html`<wait-spinner></wait-spinner>`:''}
+      <p id="no-results" ?hidden="${this.isEmptySearch()}">${this.noResultDescribe}</p>
       <ul ?hidden="${this.loading}">
         ${this.items.map(item=>html`
           <li>

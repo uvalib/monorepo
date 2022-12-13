@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      background: #fafafa;
+    }
+  </style>
+</head>
+<body>
+  <ul id="website"></ul>
+
+  <script type="module">
+    import { html, render } from 'lit';
+    import { WebsiteData } from '../dist/src/index.js';
+
+    // Get some Website content
+    let website = new WebsiteData();
+    const websiteList = document.getElementById('website');
+    website.fetchData().then(()=>{
+      render(html`${website.items.map(n=>html`<li>${n.title}</li>`)}`, websiteList);
+    });
+
+  </script>
+</body>
+</html>

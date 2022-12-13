@@ -11,17 +11,27 @@ export class DrupalSearchData {
 
     type: string = "";
 
+    types: string[] = [];
+
     items: GeneralSearchResult[] = [];
 
     meta: GeneralSearchMeta = {totalResults:0};
   
-    _makeURL(){
-      return `${drupalSearchEndpointURL}?${this.query?`filter[fulltext]=${this.query}&`:""}${this.type?`filter[type]=${this.type}&page[limit]=${this.limit}`:""}`
+    protected makeQueryString(){
+      if (this.types && this.types.length>0) {
+        return `${this.query?`filter[fulltext]=${this.query}&`:""}${this.type?`filter[type]=${this.type}&page[limit]=${this.limit}`:''}`;
+      } else {
+        
+      }
+    }
+
+    protected makeURL(){
+      return `${drupalSearchEndpointURL}?${this.makeQueryString()}`
     }
 
     async fetchData(params?:{limit?:number}){
       if (params && params.limit) this.limit = params.limit;
-      return fetch(this._makeURL())
+      return fetch(this.makeURL())
         .then(r=>r.json())
         .then(data=>{
           this._parseResults(data);         
@@ -45,7 +55,7 @@ export class DrupalSearchData {
         title: n.attributes.title,
         description: n.attributes.body? n.attributes.body.value:null
       }))
-      this.meta.totalResults = d.data.meta.count;
+      this.meta.totalResults = d.data.meta? d.data.meta.count:0;
     }
 
   }

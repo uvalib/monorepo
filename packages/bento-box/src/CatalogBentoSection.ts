@@ -46,7 +46,7 @@ console.log(data.items)
                       <input type="hidden" name="${values[0]}" value="${values[1]}" />
                     `)
                     :'' }
-              <button type="submit" class="uvalib-button">See all <span class="bs-results--qty">${this.meta.totalResults}</span> results</button>            
+              <button type="submit" ?hidden="${this.isEmptySearch()}" class="uvalib-button">See all <span class="bs-results--qty">${this.meta.totalResults}</span> results</button>            
             </form>
             `:''}
         </div>

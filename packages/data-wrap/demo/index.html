@@ -15,12 +15,17 @@
     import { html, render } from 'lit';
     import '../dist/src/data-wrap.js';
 
-    import { CatalogData, LibGuidesData, LibrariesData, DrupalSearchData, EventsData } from '../dist/src/index.js';
+    import { PersonData, CatalogData, LibGuidesData, LibrariesData, DrupalSearchData, EventsData } from '../dist/src/index.js';
 
     const url = 'https://uvalib-api-occupancy.firebaseio.com/locations-schemaorg/location/clemons/occupancy.json';
     const poll = 10000;  // every 10 seconds
     render(
       html`
+        <h2>Example of PersonData</h2>
+        <div>
+          <ul id="people"></ul>
+        </div>
+
         <h2>Example of LibariesData</h2>
         <div>
           <ul id="libraries"></ul>
@@ -72,6 +77,13 @@
     drupalData.fetchData().then(()=>{
       render(html`${drupalData.items.map(n=>html`<li>${n.title}</li>`)}`, drupalList);
     });
+
+    // list people
+    let people = new PersonData();
+    const personList = document.getElementById('people');
+    people.fetchData().then(()=>{
+      render(people.items.map(p=>html`<li>${p.title}</li>`),personList)
+    })
 
     // list libraries
     let librariesData = new LibrariesData();

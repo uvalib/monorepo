@@ -23,6 +23,10 @@ export class BentoBox extends SiteStyle {
 
   @property({ type: Number }) limit = 5;
 
+  @property({ type: String, attribute: "search-describe" }) searchDescribe = "Search Description";
+
+  @property({ type: String, attribute: "no-result-describe" }) noResultDescribe = "no results here";
+
   @property({ type: Array }) boxes = ['catalog','articles','libguides','website'];
 
   render() {
@@ -31,7 +35,7 @@ export class BentoBox extends SiteStyle {
     [hidden] { display: none !important; }
   </style>
 
-  <bento-search class="bento-search-bar" ?no-shadow-dom="${this.noShadowDom}" ?no-style="${this.noStyle}" id="searchBox" .query="${this.query}" @search="${this.search}"></bento-search>
+  <bento-search .describe="${this.searchDescribe}" class="bento-search-bar" ?no-shadow-dom="${this.noShadowDom}" ?no-style="${this.noStyle}" id="searchBox" .query="${this.query}" @search="${this.search}"></bento-search>
 
   <div class="bs-header" ?hidden="${!this.query}">
     <h2>You searched for <span class="bs-search-term">${this.query}</span></h2>

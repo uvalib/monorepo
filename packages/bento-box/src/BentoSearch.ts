@@ -17,6 +17,8 @@ export class BentoSearch extends SiteStyle {
 
   @property({ type: String }) query = '';
 
+  @property({ type: String }) describe = '';
+
   @property({ type: String, attribute: "source-title"}) sourceTitle = 'UVA Library';
 
   render() {
@@ -27,7 +29,7 @@ export class BentoSearch extends SiteStyle {
 	<input name="q" id="search" type="text" placeholder="Search everything…" .value="${this.query}" />
 	<button type="submit" class="uvalib-button-home-search" aria-label="Search" @submit="${this.search}"></button>
 </form>
-<p>This is placeholder text on what you can expect to search for.</p>
+<p>${this.describe}</p>
 
     `;
   }

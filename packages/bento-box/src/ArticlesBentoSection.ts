@@ -42,13 +42,15 @@ export class ArticlesBentoSection extends BentoSection {
                       <input type="hidden" name="${values[0]}" value="${values[1]}" />
                     `)
                     :'' }
-              <button type="submit" class="uvalib-button">See all <span class="bs-results--qty">${this.meta.totalResults}</span> results</button>            
+              <a class="uvalib-button" ?hidden="${!this.isEmptySearch()}">Search Articles</a>
+              <button type="submit" ?hidden="${this.isEmptySearch()}" class="uvalib-button">See all <span class="bs-results--qty">${this.meta.totalResults}</span> results</button>            
             </form>
             `:''}
         </div>
 
         <div class="bs-results--body">
             <p>An aggregation of tens of millions of articles made available through Library subscriptions.</p>
+            <p id="no-results" ?hidden="${this.loading || (this.items && this.items.length === 0)}">${this.noResultDescribe}</p>
             <ol class="bs-results--list">
 
             ${this.items.map(result=>html`
