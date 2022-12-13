@@ -33,7 +33,7 @@ export class WebsiteBentoSection extends BentoSection {
 
   render() {
     return html`
-    <div class="bs-results--block">
+    <!--<div class="bs-results--block">-->
         <div class="bs-results--header">
             <h3>${this.title}</h3>
             <form action="${this.meta.url}" method='get' style="display:inline">
@@ -59,7 +59,7 @@ export class WebsiteBentoSection extends BentoSection {
 
             </ol>
         </div>
-    </div>      
+    <!--</div>-->      
     `
   }
 
