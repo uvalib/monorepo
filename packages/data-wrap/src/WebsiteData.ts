@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import { Page, parsePage } from './Page.js';
 import { Person, parsePerson } from './Person.js';
-import { DrupalSearchData } from './DrupalSearchData.js';
+import { DrupalSearchData, WebSearchPageURL } from './DrupalSearchData.js';
 
 export class WebsiteData extends DrupalSearchData {
 
@@ -31,5 +31,6 @@ console.log(d)
     // eslint-disable-next-line no-nested-ternary
     this.meta.totalResults = d.data?.meta? d.data.meta.count:
                                 d.meta? d.meta.count:0;
+    this.meta.url = `${WebSearchPageURL}?search_api_fulltext=${ this.query }`
   }
 }
