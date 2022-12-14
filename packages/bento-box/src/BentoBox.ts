@@ -29,6 +29,22 @@ export class BentoBox extends SiteStyle {
 
   @property({ type: Array }) boxes = ['catalog','articles','libguides','website'];
 
+  constructor() {
+    super();
+    window.onpopstate = (event) => {
+      console.log(`location: ${document.location}, state: ${JSON.stringify(event.state)}`)
+      this.query = event.state && event.state.query? event.state.query:'';
+    }
+  }
+
+  protected firstUpdated(): void {
+      super.firstUpdated();
+
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has('query')) this.query = <string>urlParams.get('query');
+
+  }
+
   render() {
     return html`
   <style>
@@ -84,5 +100,7 @@ export class BentoBox extends SiteStyle {
 
   search(e: { target: BentoSearch }){
     this.query = e.target.query;
+    // eslint-disable-next-line no-restricted-globals
+    history.pushState({query: this.query}, `Search for this.query`, `?query=${this.query}`);
   }
 }

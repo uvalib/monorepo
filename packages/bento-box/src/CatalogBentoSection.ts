@@ -26,8 +26,7 @@ export class CatalogBentoSection extends BentoSection {
         this.loading = true;
         this.#catalogData.query = this.query;
         this.#catalogData.fetchData({limit: <number|undefined>this.limit})
-          .then((data: {meta: GeneralSearchMeta, items: VirgoResult[]} )=>{
-console.log(data.items)            
+          .then((data: {meta: GeneralSearchMeta, items: VirgoResult[]} )=>{          
             this.items = data.items;
             this.meta = data.meta;
             this.loading = false;
@@ -36,7 +35,6 @@ console.log(data.items)
   }
 
   render() {
-    console.log(this.items)
     return html`
         <div class="bs-results--header">
             <h3>${this.title}</h3>
@@ -64,9 +62,6 @@ console.log(data.items)
                             ${ result.datePublished? html`<li class="bs-results--date li-1">${ result.datePublished.toLocaleDateString("en-US") }</li>`:'' }
                             ${ result.format && result.format.length>0? html`<li class="bs-results--format li-1" aria-label="${ result.format.join('/') }">${ result.format.join('/') }</li>`:'' }
                         </ul>
-<!-- I'm not sure we have teaser info for catalog results                        
-                        <li class="bs-results--teaser li-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ex nulla, dignissim sed mollis eu, viverra sit amet nulla. Maecenas cursus rhoncus pellentesque.</li>
-  -->
                     </ul>
                 </li>            
             `)}

@@ -91,7 +91,7 @@ export class VirgoUtils {
 
       })
     }
-    console.log(items)
+//    console.log(items)
     return {items, meta}
   }
 
