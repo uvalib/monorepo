@@ -42,11 +42,7 @@ export class BentoSection extends SiteStyle {
 
   @property({ type: Boolean, attribute: "is-empty-search" }) isEmptySearch=true;
 
-//  protected isEmptySearch(){
-//    return this.loading || (this.items && this.items.length === 0);
-//  }
-
-    protected updated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
+  protected updated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
       if (_changedProperties.has('items') || _changedProperties.has('loading')) {
         this.isEmptySearch = this.loading || !this.items || this.items.length === 0;
       }

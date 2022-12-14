@@ -4,9 +4,10 @@ import {unsafeHTML} from 'lit/directives/unsafe-html.js';
 import { WebsiteData, GeneralSearchResult, GeneralSearchMeta, WebSearchPageURL } from '@uvalib/data-wrap';
 import { BentoSection } from './BentoSection.js';
 
-import { Library } from '@uvalib/data-wrap';
+import { Library, Person } from '@uvalib/data-wrap';
 import { renderBriefItem } from './BentoSection.js';
 import { renderBriefItem as renderBriefLibraryItem } from './LibrariesSection.js';
+import { renderBriefItem as renderBriefPersonItem } from './PeopleSection.js';
 
 export class WebsiteSection extends BentoSection {
 
@@ -40,6 +41,8 @@ console.log(data);
   renderBriefItem(item: any) {
     if ( item instanceof Library )
       return renderBriefLibraryItem(item);
+    if ( item instanceof Person )
+      return renderBriefPersonItem(item);
     return renderBriefItem(item);
   }
 
