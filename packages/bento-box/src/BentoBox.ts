@@ -40,6 +40,7 @@ export class BentoBox extends SiteStyle {
   protected firstUpdated(): void {
       super.firstUpdated();
 
+      // set query from url, done here so it overwrites query set via dom attribute
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.has('query')) this.query = <string>urlParams.get('query');
 
