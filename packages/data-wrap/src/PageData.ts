@@ -1,12 +1,12 @@
 /* eslint-disable camelcase */
-import { Person, parsePerson } from './Person.js';
-import { DrupalSearchData } from './DrupalSearchData.js';
+import { Page, parsePage } from './Page.js';
+import { DrupalSearchData, WebSearchPageURL } from './DrupalSearchData.js';
 
-export class PersonData extends DrupalSearchData {
+export class PageData extends DrupalSearchData {
 
-  type: string = "person";
+  type: string = "page";
 
-  public items: Person[] = [];
+  public items: Page[] = [];
 
   _parseResults(n: any) {
     // parse out the excerpts that are located in a meta section of the response
@@ -16,9 +16,9 @@ export class PersonData extends DrupalSearchData {
       res.meta = meta;
     });
     // Setup Library results
-    this.items = n.data.map(parsePerson)
+    this.items = n.data.map(parsePage)
     this.meta.totalResults = n.meta.count;
-    this.meta.url = `https://library-drupal-dev.internal.lib.virginia.edu/search/node?keys=${ this.query }`
+    this.meta.url = `${WebSearchPageURL}?keys=${ this.query }`
   }
 
 }

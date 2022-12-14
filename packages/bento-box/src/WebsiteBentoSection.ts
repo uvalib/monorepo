@@ -1,18 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { html, PropertyValueMap } from 'lit';
 import {unsafeHTML} from 'lit/directives/unsafe-html.js';
-import { WebpageData, GeneralSearchResult, GeneralSearchMeta, WebSearchPageURL } from '@uvalib/data-wrap';
+import { WebsiteData, GeneralSearchResult, GeneralSearchMeta, WebSearchPageURL } from '@uvalib/data-wrap';
 import { BentoSection } from './BentoSection.js';
 export class WebsiteBentoSection extends BentoSection {
 
-  private websearch: WebpageData;
+  private websearch: WebsiteData;
 
   meta: GeneralSearchMeta = {totalResults:0}
 
   constructor(){
     super();
     this.title = "Website";
-    this.websearch = new WebpageData();
+    this.websearch = new WebsiteData();
   }
 
   protected updated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
@@ -22,6 +22,7 @@ export class WebsiteBentoSection extends BentoSection {
         this.websearch.query = this.query;
         this.websearch.fetchData({limit: <number|undefined>this.limit})
           .then((data: {meta: GeneralSearchMeta, items: GeneralSearchResult[]} )=>{
+console.log(data);            
             this.items = data.items;
             this.meta = data.meta;
             this.loading = false;
