@@ -68,7 +68,9 @@ console.log(data);
             <p ?hidden="${this.isEmptySearch}">Results from the main Library website.</p>
             <ol ?hidden="${this.isEmptySearch}" class="bs-results--list">
 
-              ${this.items.map(result=>this.renderBriefItem(result))}
+              ${this.items.map(result=>html`
+                <li>${this.renderBriefItem(result)}</li>
+              `)}
 
             </ol>
         </div>   
