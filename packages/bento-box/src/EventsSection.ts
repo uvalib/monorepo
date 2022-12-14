@@ -20,6 +20,7 @@ export class EventsSection extends BentoSection {
   }
 
   protected updated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
+      super.updated(_changedProperties);
       if (_changedProperties.has('query') || _changedProperties.has('limit') || _changedProperties.has('category')) {
         this.loading = true;
         this.#eventsData.query = this.query;

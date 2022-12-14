@@ -15,6 +15,7 @@ export class LibrariesBentoSection extends BentoSection {
   }
 
   protected updated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
+      super.updated(_changedProperties);
       if (_changedProperties.has('query')) {
         this.loading = true;
         this.#librariesData.query = this.query;

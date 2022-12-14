@@ -1,6 +1,8 @@
 import { GeneralSearchResult } from './GeneralSearchResult.js';
 import { GeneralSearchMeta } from './GeneralSearchMeta.js';
 
+export const WebSearchPageURL = "https://library-drupal-dev.internal.lib.virginia.edu/search/content";
+
 const drupalSearchEndpointURL = "https://api.library.virginia.edu/drupal/jsonapi/index/default_index";
 
 export class DrupalSearchData {
@@ -20,9 +22,8 @@ export class DrupalSearchData {
     protected makeQueryString(){
       if (this.types && this.types.length>0) {
         return `${this.query?`filter[fulltext]=${this.query}&`:""}${this.type?`filter[type]=${this.type}&page[limit]=${this.limit}`:''}`;
-      } else {
-        
-      }
+      } 
+      return `${this.query?`filter[fulltext]=${this.query}&`:""}${this.type?`filter[type]=${this.type}&page[limit]=${this.limit}`:''}`;
     }
 
     protected makeURL(){
@@ -37,14 +38,6 @@ export class DrupalSearchData {
           this._parseResults(data);         
           return {items:this.items, meta:this.meta};
         })
-//        .then(d=>{
-//          this.meta.url = d.data.fulllink;
-//          this.#parseResults(d.data.results);
-//          return {items:this.items, meta:this.meta};
-//        })
-
-
-
     }
 
     _parseResults(d: any) {

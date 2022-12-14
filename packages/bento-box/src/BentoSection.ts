@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { html, css } from 'lit';
+import { html, css, PropertyValueMap } from 'lit';
 import {unsafeHTML} from 'lit/directives/unsafe-html.js';
 import { property } from 'lit/decorators.js';
 import { GeneralSearchResult } from '@uvalib/data-wrap';
@@ -29,8 +29,16 @@ export class BentoSection extends SiteStyle {
 
   @property({ type: String, attribute: "no-result-describe" }) noResultDescribe = "";
 
-  protected isEmptySearch(){
-    return this.loading || (this.items && this.items.length === 0);
+  @property({ type: Boolean, attribute: "is-empty-search" }) isEmptySearch=true;
+
+//  protected isEmptySearch(){
+//    return this.loading || (this.items && this.items.length === 0);
+//  }
+
+    protected updated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
+      if (_changedProperties.has('items') || _changedProperties.has('loading')) {
+        this.isEmptySearch = this.loading || !this.items || this.items.length === 0;
+      }
   }
 
   render() {
@@ -40,7 +48,7 @@ export class BentoSection extends SiteStyle {
         <h2 ?hidden="${this.loading}">${this.label? this.label:html`Search for ${this.query}`}</h2>
       `:''}
       ${this.loading? html`<wait-spinner></wait-spinner>`:''}
-      <p id="no-results" ?hidden="${this.isEmptySearch()}">${this.noResultDescribe}</p>
+      <p id="no-results" ?hidden="${this.isEmptySearch}">${this.noResultDescribe}</p>
       <ul ?hidden="${this.loading}">
         ${this.items.map(item=>html`
           <li>

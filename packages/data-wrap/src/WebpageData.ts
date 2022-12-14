@@ -1,6 +1,8 @@
 /* eslint-disable camelcase */
 import { Webpage } from './Webpage.js';
-import { DrupalSearchData } from './DrupalSearchData.js';
+import { DrupalSearchData, WebSearchPageURL } from './DrupalSearchData.js';
+
+
 
 export function parseWebpage(page: {
   meta: any;
@@ -11,7 +13,7 @@ export function parseWebpage(page: {
     uuid: page.id,
     title: page.attributes.title,
     body: page.attributes.body.processed,
-    description: page.meta.excerpt.replace(/<(\/?)strong>/g,"<$1mark>"),
+    description: page.meta && page.meta.excerpt? page.meta.excerpt.replace(/<(\/?)strong>/g,"<$1mark>"):"",
     path: page.attributes.path.alias,
     link: `http://library-drupal-dev-0.internal.lib.virginia.edu:8080${page.attributes.path.alias}`
   })
@@ -32,7 +34,7 @@ export class WebpageData extends DrupalSearchData {
     // Setup Library results
     this.items = n.data.map(parseWebpage)
     this.meta.totalResults = n.meta.count;
-    this.meta.url = `https://library-drupal-dev.internal.lib.virginia.edu/search/node?keys=${ this.query }`
+    this.meta.url = `${WebSearchPageURL}?keys=${ this.query }`
   }
 
 }

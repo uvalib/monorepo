@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { html, PropertyValueMap } from 'lit';
 import {unsafeHTML} from 'lit/directives/unsafe-html.js';
-import { WebpageData, GeneralSearchResult, GeneralSearchMeta } from '@uvalib/data-wrap';
-import { BentoSection } from './BentoSection.js'
-
+import { WebpageData, GeneralSearchResult, GeneralSearchMeta, WebSearchPageURL } from '@uvalib/data-wrap';
+import { BentoSection } from './BentoSection.js';
 export class WebsiteBentoSection extends BentoSection {
 
   private websearch: WebpageData;
@@ -17,6 +16,7 @@ export class WebsiteBentoSection extends BentoSection {
   }
 
   protected updated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
+      super.updated(_changedProperties);
       if (_changedProperties.has('query')) {
         this.loading = true;
         this.websearch.query = this.query;
@@ -27,27 +27,30 @@ export class WebsiteBentoSection extends BentoSection {
             this.loading = false;
           });
 
-//        })
       }
   }
 
   render() {
     return html`
-    <!--<div class="bs-results--block">-->
+    <style>
+      [hidden] { display: none !important; }
+    </style>
         <div class="bs-results--header">
             <h3>${this.title}</h3>
-            <form action="${this.meta.url}" method='get' style="display:inline">
+            <div ?hidden="${!this.isEmptySearch}"><a href="${WebSearchPageURL}" class="uvalib-button">Search Library website</a></div>
+            <form ?hidden="${this.isEmptySearch}" action="${this.meta.url}" method='get' style="display:inline">
               ${ this.meta.url && this.meta.url.indexOf('?')>0? 
                     [...new URLSearchParams( this.meta.url.replace(/^.*\?/,'') )].map((values)=>html`
                       <input type="hidden" name="${values[0]}" value="${values[1]}" />
                     `)
                     :'' }
-              <button type="submit" ?hidden="${this.isEmptySearch()}" class="uvalib-button">See all <span class="bs-results--qty">${this.meta.totalResults}</span> results</button>            
+              <button type="submit" class="uvalib-button">See all <span class="bs-results--qty">${this.meta.totalResults}</span> results</button>            
             </form>            
         </div>
         <div class="bs-results--body">
-            <p>Results from the main Library website.</p>
-            <ol class="bs-results--list">
+            <p id="no-results" ?hidden="${!this.isEmptySearch}">${this.noResultDescribe}</p>
+            <p ?hidden="${this.isEmptySearch}">Results from the main Library website.</p>
+            <ol ?hidden="${this.isEmptySearch}" class="bs-results--list">
 
               ${this.items.map(result=>html`
                 <li class="bs-results--list--entry"><a href="${result.link}" class="bs-results--title">${result.title}</a>
@@ -58,8 +61,7 @@ export class WebsiteBentoSection extends BentoSection {
               `)}
 
             </ol>
-        </div>
-    <!--</div>-->      
+        </div>   
     `
   }
 

@@ -11,7 +11,7 @@ export { Event } from './EventInterface.js';
 export { Webpage } from './Webpage.js';
 export { WebpageData } from './WebpageData.js';
 export { VirgoResult } from './VirgoResult.js';
-export { DrupalSearchData } from './DrupalSearchData.js';
+export { DrupalSearchData, WebSearchPageURL } from './DrupalSearchData.js';
 export { Person } from './Person.js';
 export { PersonData } from './PersonData.js';
 export { WebsiteData } from './WebsiteData.js';
