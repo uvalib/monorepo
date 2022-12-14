@@ -1,8 +1,20 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { PropertyValueMap } from 'lit';
-import { LibrariesData } from '@uvalib/data-wrap';
+import { PropertyValueMap, html } from 'lit';
+import { LibrariesData, Library } from '@uvalib/data-wrap';
 import { BentoSection } from './BentoSection.js'
+
+export function renderBriefItem(item: Library) {
+  console.log(item);
+  return html`  
+      ${item.link? html`
+        <div class="bento-section-title"><a href="${item.link}">${item.title}</a></div>
+      `:html`
+        <div class="bento-section-title"><a href="http://library-drupal-dev-0.internal.lib.virginia.edu:8080/hours#${item.slug}">${item.title}</a></div>
+      `}
+      <div class="bento-section-desc"><!-- put todays hours here --></div>
+    `;          
+}
 
 export class LibrariesSection extends BentoSection {
 
@@ -25,6 +37,11 @@ export class LibrariesSection extends BentoSection {
           this.loading = false;
         })
       }
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  renderBriefItem(item: Library) {
+    return renderBriefItem(item);
   }
 
 }

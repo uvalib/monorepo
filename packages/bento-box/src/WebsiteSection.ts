@@ -4,6 +4,10 @@ import {unsafeHTML} from 'lit/directives/unsafe-html.js';
 import { WebsiteData, GeneralSearchResult, GeneralSearchMeta, WebSearchPageURL } from '@uvalib/data-wrap';
 import { BentoSection } from './BentoSection.js';
 
+import { Library } from '@uvalib/data-wrap';
+import { renderBriefItem } from './BentoSection.js';
+import { renderBriefItem as renderBriefLibraryItem } from './LibrariesSection.js';
+
 export class WebsiteSection extends BentoSection {
 
   private websearch: WebsiteData;
@@ -32,6 +36,13 @@ console.log(data);
       }
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  renderBriefItem(item: any) {
+    if ( item instanceof Library )
+      return renderBriefLibraryItem(item);
+    return renderBriefItem(item);
+  }
+
   render() {
     return html`
     <style>
@@ -54,13 +65,7 @@ console.log(data);
             <p ?hidden="${this.isEmptySearch}">Results from the main Library website.</p>
             <ol ?hidden="${this.isEmptySearch}" class="bs-results--list">
 
-              ${this.items.map(result=>html`
-                <li class="bs-results--list--entry"><a href="${result.link}" class="bs-results--title">${result.title}</a>
-                    <ul class="ul-0">
-                        <li class="bs-results--teaser li-1">${unsafeHTML(result.description)}</li>
-                    </ul>
-                </li>
-              `)}
+              ${this.items.map(result=>this.renderBriefItem(result))}
 
             </ol>
         </div>   
