@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
-import { Page, parsePage } from './Page.js';
-import { Person, parsePerson } from './Person.js';
+import { Page, parse as parsePage } from './Page.js';
+import { Person, parse as parsePerson } from './Person.js';
 import { DrupalSearchData, WebSearchPageURL } from './DrupalSearchData.js';
 
 export class WebsiteData extends DrupalSearchData {

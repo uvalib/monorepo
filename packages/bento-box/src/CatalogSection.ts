@@ -5,7 +5,7 @@ import { VirgoResult, GeneralSearchMeta, CatalogData } from '@uvalib/data-wrap';
 import { property } from 'lit/decorators.js';
 import { BentoSection } from './BentoSection.js';
 
-export class CatalogBentoSection extends BentoSection {
+export class CatalogSection extends BentoSection {
 
   #catalogData: CatalogData;
 

@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { Person, parsePerson } from './Person.js';
+import { Person, parse } from './Person.js';
 import { DrupalSearchData } from './DrupalSearchData.js';
 
 export class PersonData extends DrupalSearchData {
@@ -16,7 +16,7 @@ export class PersonData extends DrupalSearchData {
       res.meta = meta;
     });
     // Setup Library results
-    this.items = n.data.map(parsePerson)
+    this.items = n.data.map(parse)
     this.meta.totalResults = n.meta.count;
     this.meta.url = `https://library-drupal-dev.internal.lib.virginia.edu/search/node?keys=${ this.query }`
   }

@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 export class Person {
     public id?: string | undefined;
 
@@ -13,16 +14,21 @@ export class Person {
 
     public link: string | undefined;
 
+    public jobTitle?: string[]; 
+
     constructor(init?:Partial<Person>) {
         Object.assign(this, init);
     }
 }
 
-export function parsePerson(person: { id: any; attributes: { title: any; body: { processed: any; }; path: { alias: any; }; }; }){
+export function parse(person: { id: any; attributes: {
+  field_uva_ldap_title: string[] | undefined; title: any; body: { processed: any; }; path: { alias: any; }; 
+}; }){
     return new Person({
       id: person.id,
       uuid: person.id,
       title: person.attributes.title,
+      jobTitle: person.attributes.field_uva_ldap_title,
       body: person.attributes.body? person.attributes.body.processed:'',
       description: person.attributes.body? person.attributes.body.processed:'',
       path: person.attributes.path.alias,

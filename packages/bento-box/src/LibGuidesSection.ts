@@ -4,7 +4,7 @@ import {unsafeHTML} from 'lit/directives/unsafe-html.js';
 import { LibGuidesData, GeneralSearchResult, GeneralSearchMeta } from '@uvalib/data-wrap';
 import { BentoSection } from './BentoSection.js'
 
-export class LibGuidesBentoSection extends BentoSection {
+export class LibGuidesSection extends BentoSection {
 
   #libGuidesData: LibGuidesData;
   

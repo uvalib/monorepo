@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { Page, parsePage } from './Page.js';
+import { Page, parse } from './Page.js';
 import { DrupalSearchData, WebSearchPageURL } from './DrupalSearchData.js';
 
 export class PageData extends DrupalSearchData {
@@ -16,7 +16,7 @@ export class PageData extends DrupalSearchData {
       res.meta = meta;
     });
     // Setup Library results
-    this.items = n.data.map(parsePage)
+    this.items = n.data.map(parse)
     this.meta.totalResults = n.meta.count;
     this.meta.url = `${WebSearchPageURL}?keys=${ this.query }`
   }

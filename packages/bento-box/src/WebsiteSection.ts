@@ -3,7 +3,8 @@ import { html, PropertyValueMap } from 'lit';
 import {unsafeHTML} from 'lit/directives/unsafe-html.js';
 import { WebsiteData, GeneralSearchResult, GeneralSearchMeta, WebSearchPageURL } from '@uvalib/data-wrap';
 import { BentoSection } from './BentoSection.js';
-export class WebsiteBentoSection extends BentoSection {
+
+export class WebsiteSection extends BentoSection {
 
   private websearch: WebsiteData;
 

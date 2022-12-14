@@ -4,7 +4,7 @@ import { PropertyValueMap, html } from 'lit';
 import { property } from 'lit/decorators.js';
 import { BentoSection } from './BentoSection.js'
 
-export class ArticlesBentoSection extends BentoSection {
+export class ArticlesSection extends BentoSection {
 
   #articlesData: ArticlesData;
 

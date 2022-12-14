@@ -4,7 +4,7 @@ import { PropertyValueMap } from 'lit';
 import { LibrariesData } from '@uvalib/data-wrap';
 import { BentoSection } from './BentoSection.js'
 
-export class LibrariesBentoSection extends BentoSection {
+export class LibrariesSection extends BentoSection {
 
   #librariesData: LibrariesData;
 

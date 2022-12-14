@@ -7,6 +7,17 @@ import { SiteStyle } from '@uvalib/site-style';
 import BentoSectionStyle from './BentoSectionStyle.js';
 import '@uvalib/wait-spinner/wait-spinner.js';
 
+export function renderBriefItem(item: GeneralSearchResult) {
+  return html`
+      ${item.link? html`
+        <div ?hidden="${!item.title} class="bento-section-title"><a href="${item.link}">${unsafeHTML(item.title)}</a></div>
+      `:html`
+        <div ?hidden="${!item.title}" class="bento-section-title">${unsafeHTML(item.title)}</div>
+      `}
+      <div class="bento-section-desc">${unsafeHTML(item.description)}</div>
+    `;          
+}
+
 export class BentoSection extends SiteStyle {
   static get styles() {
     return [
@@ -52,12 +63,7 @@ export class BentoSection extends SiteStyle {
       <ul ?hidden="${this.loading}">
         ${this.items.map(item=>html`
           <li>
-            ${item.link? html`
-              <div ?hidden="${!this.title}" class="bento-section-title"><a href="${item.link}">${unsafeHTML(item.title)}</a></div>
-            `:html`
-              <div ?hidden="${!this.title}" class="bento-section-title">${unsafeHTML(item.title)}</div>
-            `}
-            <div class="bento-section-desc">${unsafeHTML(item.description)}</div>
+            ${renderBriefItem(item)}
           </li>
         `)}
 

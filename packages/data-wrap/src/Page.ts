@@ -18,7 +18,7 @@ export class Page {
     }
 }
 
-export function parsePage(page: {
+export function parse(page: {
     meta: any;
     attributes: any; id: any; title: any; body: { processed: any; }; path: { alias: any; }; 
   }){
