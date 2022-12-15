@@ -28,7 +28,6 @@ export class WebsiteSection extends BentoSection {
         this.websearch.query = this.query;
         this.websearch.fetchData({limit: <number|undefined>this.limit})
           .then((data: {meta: GeneralSearchMeta, items: GeneralSearchResult[]} )=>{
-console.log(data);            
             this.items = data.items;
             this.meta = data.meta;
             this.loading = false;

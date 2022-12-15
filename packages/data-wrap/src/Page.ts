@@ -30,6 +30,6 @@ export function parse(page: {
       body: page.attributes.body?.processed,
       description: page.meta && page.meta.excerpt? page.meta.excerpt.replace(/<(\/?)strong>/g,"<$1mark>"):"",
       path: page.attributes.path.alias,
-      link: `http://library-drupal-dev-0.internal.lib.virginia.edu:8080${page.attributes.path.alias}`
+      link: `http://library.virginia.edu${page.attributes.path.alias}`
     })
   }

@@ -10,7 +10,7 @@ export function renderBriefItem(item: Library) {
       ${item.link? html`
         <div class="bento-section-title"><a href="${item.link}">${item.title}</a></div>
       `:html`
-        <div class="bento-section-title"><a href="http://library-drupal-dev-0.internal.lib.virginia.edu:8080/hours#${item.slug}">${item.title}</a></div>
+        <div class="bento-section-title"><a href="http://library.virginia.edu/hours#${item.slug}">${item.title}</a></div>
       `}
       <div class="bento-section-desc"><!-- put todays hours here --></div>
     `;          

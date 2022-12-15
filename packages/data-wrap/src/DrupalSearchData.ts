@@ -1,7 +1,7 @@
 import { GeneralSearchResult } from './GeneralSearchResult.js';
 import { GeneralSearchMeta } from './GeneralSearchMeta.js';
 
-export const WebSearchPageURL = "https://library-drupal-dev.internal.lib.virginia.edu/search/content";
+export const WebSearchPageURL = "https://library.virginia.edu/search/content";
 
 const drupalSearchEndpointURL = "https://api.library.virginia.edu/drupal/jsonapi/index/default_index";
 

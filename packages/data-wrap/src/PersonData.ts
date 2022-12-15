@@ -18,7 +18,7 @@ export class PersonData extends DrupalSearchData {
     // Setup Library results
     this.items = n.data.map(parse)
     this.meta.totalResults = n.meta.count;
-    this.meta.url = `https://library-drupal-dev.internal.lib.virginia.edu/search/node?keys=${ this.query }`
+    this.meta.url = `https://library.virginia.edu/search/node?keys=${ this.query }`
   }
 
 }

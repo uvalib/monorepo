@@ -32,6 +32,6 @@ export function parse(person: { id: any; attributes: {
       body: person.attributes.body? person.attributes.body.processed:'',
       description: person.attributes.body? person.attributes.body.processed:'',
       path: person.attributes.path.alias,
-      link: `http://library-drupal-dev-0.internal.lib.virginia.edu:8080${person.attributes.path.alias}`
+      link: `http://library.virginia.edu${person.attributes.path.alias}`
     })
   }
