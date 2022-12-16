@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-//import { GeneralSearchResult } from "./GeneralSearchResult.js"
 import { GeneralSearchMeta } from "./GeneralSearchMeta.js";
 import { VirgoResult } from "./VirgoResult.js";
 
@@ -62,7 +61,7 @@ export class VirgoUtils {
 
   static parseResults(linkBaseURL: string, data: any){
     const items:VirgoResult[] = []
-    const meta:GeneralSearchMeta = data.pagination && data.pagination.total? 
+    const meta:GeneralSearchMeta = data.pagination && data.pagination.total?
                                     {totalResults: data.pagination.total}:{totalResults:0};
     if (data.group_list !== undefined) {
       data.group_list.forEach((g: any) =>{
@@ -70,19 +69,19 @@ export class VirgoUtils {
           const hit = g.record_list[0]
           const id = hit.fields.find((f: any)=> f.type === "identifier").value
           const virgoLink = id ? `${linkBaseURL}/${id}` : undefined
+          const datePublished = hit.fields.find((f: any)=> f.name === "published_date")
 //          console.log(hit);
           const item: VirgoResult = {
-            id: hit.fields.find((f: any)=> f.type === "identifier").value,            
+            id: hit.fields.find((f: any)=> f.type === "identifier").value,
             title:  hit.fields.find((f: any)=> f.type === "title").value,
             description: ``,
             link: virgoLink,
             author: hit.fields.filter((f: any)=> f.type === "author")
                               .map((a: any)=> (a.value)),
-            datePublished: new Date( Date.UTC.apply(null, hit.fields.find((f: any)=> f.name === "published_date").value.split('-') ) ),
+            datePublished: datePublished ? new Date( Date.UTC.apply(null, datePublished.value.split('-') )) : undefined,
             publicationType: hit.fields.filter((f: any)=> f.name === "pub_type").map((a: any)=>(a.value)),
             format: hit.fields.filter((f: any)=>f.name==="format").map((a: any)=>(a.value))
           }
-//console.log(item);          
           items.push(item)
 
         } else {
