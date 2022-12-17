@@ -5,7 +5,7 @@
   "author": "site-mock",
   "version": "0.0.0",
   "scripts": {
-    "deploy": "pnpm run build; rimraf ../../docs; cp -r dist ../../docs; touch ../../docs/.nojekyll",
+    "deploy": "pnpm run build; rimraf ../../docs; cp -r dist ../../docs; touch ../../docs/.nojekyll; replace-in-files --string='<base href=\"/\">' --replacement='<base href=\"/monorepo/\">' ../../docs/index.html;",
     "build": "rimraf dist && tsc && rollup -c rollup.config.js",
     "start:build": "web-dev-server --root-dir dist --app-index index.html --open",
     "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\""
@@ -27,6 +27,7 @@
     "babel-plugin-template-html-minifier": "^4.1.0",
     "concurrently": "^5.3.0",
     "deepmerge": "^4.2.2",
+    "replace-in-files-cli": "^2.0.0",
     "rollup-plugin-workbox": "^6.2.0",
     "tsconfig": "workspace:*",
     "tslib": "^2.4.1",
