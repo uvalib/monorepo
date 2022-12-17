@@ -1,24 +1,16 @@
+import { __decorate } from "tslib";
 import { LitElement, html, css } from 'lit';
 import { property } from 'lit/decorators.js';
-
 import "@uvalib/bento-box/bento-box.js";
 import "playground-elements/playground-ide.js";
-
 const logo = new URL('../../assets/open-wc-logo.svg', import.meta.url).href;
-
 export class SiteMock extends LitElement {
-  @property({ type: String }) title = 'My app';
-
-  static styles = css`
-    :host {
-      min-height: 100vh;
-      display: block;
+    constructor() {
+        super(...arguments);
+        this.title = 'My app';
     }
-
-  `;
-
-  render() {
-    return html`
+    render() {
+        return html `
       <main>
 
       <playground-ide editable-file-system line-numbers resizable>
@@ -61,5 +53,16 @@ export class SiteMock extends LitElement {
         >.
       </p>
     `;
-  }
+    }
 }
+SiteMock.styles = css `
+    :host {
+      min-height: 100vh;
+      display: block;
+    }
+
+  `;
+__decorate([
+    property({ type: String })
+], SiteMock.prototype, "title", void 0);
+//# sourceMappingURL=SiteMock.js.map
