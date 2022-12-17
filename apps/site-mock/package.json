@@ -5,7 +5,7 @@
   "author": "site-mock",
   "version": "0.0.0",
   "scripts": {
-    "deploy": "pnpm run build; rimraf ../../docs; cp -r dist ../../docs",
+    "deploy": "pnpm run build; rimraf ../../docs; cp -r dist ../../docs; touch ../../docs/.nojekyll",
     "build": "rimraf dist && tsc && rollup -c rollup.config.js",
     "start:build": "web-dev-server --root-dir dist --app-index index.html --open",
     "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\""
