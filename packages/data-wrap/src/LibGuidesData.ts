@@ -1,26 +1,12 @@
-import { GeneralSearchMeta } from './GeneralSearchMeta.js';
-import { GeneralSearchResult } from './GeneralSearchResult.js'
+import { GeneralData } from './GeneralData.js';
 
-// needs a q (query) parameter appended onto the end!
-const libGuidesAPIURL = "https://api.library.virginia.edu/libguides/srch_process_cs.php?action=580&search_source_id=0&layout=tab&start=0&group_id=0&guide_id=0&f_group_id=&f_guide_type_id=&f_guide_owner_id=&f_guide_tag_ids=&f_guide_subject_ids=&sort=_score"
-export class LibGuidesData {
+export class LibGuidesData extends GeneralData {
 
-    query: string = "";
-
-    constructor(init: {query: string}){
-      // setup initial parameters
-      if (init.query) this.query = init.query;
-    }
-
-    items: GeneralSearchResult[] = [];
-
-    limit: number = 5;
-    
-    meta: GeneralSearchMeta = {totalResults:0};
+    protected readonly libGuidesAPIURL = "https://api.library.virginia.edu/libguides/srch_process_cs.php?action=580&search_source_id=0&layout=tab&start=0&group_id=0&guide_id=0&f_group_id=&f_guide_type_id=&f_guide_owner_id=&f_guide_tag_ids=&f_guide_subject_ids=&sort=_score";
   
     // eslint-disable-next-line class-methods-use-this
     async fetchData(params?:{limit?:number}){
-      return fetch(`${libGuidesAPIURL}&q=${this.query}`)
+      return fetch(`${this.libGuidesAPIURL}&q=${this.query}`)
         .then(r=>r.json())
         .then(d=>{
           this.meta.url = d.data.fulllink;
@@ -31,11 +17,11 @@ export class LibGuidesData {
 
     // just putting this here in case we need to adjust the markup returned here
     // eslint-disable-next-line class-methods-use-this
-    private descriptionMarkupFix(data: string){
+    protected descriptionMarkupFix(data: string){
       return data;
     }
 
-    private parseResults(data: string){
+    protected parseResults(data: string){
       const detachedDiv = document.createElement('div');
       detachedDiv.innerHTML = data;    
       const resultNodes = detachedDiv.querySelectorAll('.s-srch-result');

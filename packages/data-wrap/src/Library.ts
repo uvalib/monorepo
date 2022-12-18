@@ -1,65 +1,63 @@
 import { Hours } from "./Hours.js";
 
-const libcalURL = "https://api3.libcal.com/api_hours_grid.php?iid=863&format=json&weeks=1";
-
 export class Library {
-    public id: string | undefined;
+    public id?: string;
 
-    public uuid: string | undefined;
+    public uuid?: string;
 
-    public title: string | undefined;
+    public title?: string;
 
-    public body: string | undefined;
+    public body?: string;
 
-    public description: string | undefined;
+    public description?: string;
 
-    public shortTitle: string | undefined;
+    public shortTitle?: string;
 
-    public placeType: string | undefined;
+    public placeType?: string;
 
-    public contactForm: string | undefined;
+    public contactForm?: string;
 
-    public donorDescription: string | undefined;
+    public donorDescription?: string;
 
-    public donorTitle: string | undefined;
+    public donorTitle?: string;
 
-    public emailAddress: string | undefined;
+    public emailAddress?: string;
 
-    public hoursInformation: {processed: string} | undefined;
+    public hoursInformation?: {processed: string};
 
-    public hoursId: string | undefined;
+    public hoursId?: string;
 
-    public libraryFeed: string | undefined;
+    public libraryFeed?: string;
 
-    public link: string | undefined;
+    public link?: string;
 
-    public siteLink: {title: string, uri: string} | undefined;
+    public siteLink?: {title: string, uri: string};
 
-    public mainImage: { alt: string; url: string; uuid: string; } | undefined;
+    public mainImage?: { alt: string; url: string; uuid: string; };
 
-    public fmKey: string | undefined;
+    public fmKey?: string;
 
-    public location: { lat: string; lng: string; } | undefined | null;
+    public location?: { lat: string; lng: string; };
 
-    public mygroupId: string | undefined;
+    public mygroupId?: string;
 
-    public phoneNumber: string | undefined;
+    public phoneNumber?: string;
 
-    public socialMedia: { uri: string; title: string; }[] | undefined | null;
+    public socialMedia?: { uri: string; title: string; }[];
 
-    public slug: string | undefined;
+    public slug?: string;
 
-    public zipCode: string | undefined;
+    public zipCode?: string;
 
-    public googleMyBusiness: boolean | undefined;
+    public googleMyBusiness?: boolean;
 
-    public parent: string | undefined;
+    public parent?: string;
 
-    public closureOverride: number | undefined; 
+    public closureOverride?: number; 
 
-    public hours: Hours | undefined;
+    public hours?: Hours;
 
-    public setHours(h: Hours | undefined) {
+    public setHours(h?: Hours) {
         this.hours = h;
     }
 
@@ -75,7 +73,7 @@ export class Library {
     }
 }
 
-export function parse(lib: { id: any; attributes: { title: any; body: { processed: any; }; field_short_title: any; field_type_basic: any; field_contact_form: any; field_donor_description: any; field_donor_title: any; field_email_address: any; field_hours_information: any; field_libcal_id: any; field_library_feed: any; field_library_site_link: any; field_location_key: any; field_fm_location: { lat: any; lng: any; }; field_mygroup_id: any; field_phone_number: any; field_social_media: { uri: any; title: any; }[]; field_slug: any; field_zip_code: any; field_google_my_business: any; field_parent: { data: { id: any; }; }; field_closure_override: any; }; }){
+export function parse(lib: { id: any; attributes: { title: any; body: { processed: any; }; field_short_title: any; field_type_basic: any; field_contact_form: any; field_donor_description: any; field_donor_title: any; field_email_address: any; field_hours_information: any; field_libcal_id: any; field_library_feed: any; field_library_site_link: { uri: any; }; field_location_key: any; field_fm_location: { lat: any; lng: any; }; field_mygroup_id: any; field_phone_number: any; field_social_media: { uri: any; title: any; }[]; field_slug: any; field_zip_code: any; field_google_my_business: any; field_parent: { data: { id: string | undefined; }; }; field_closure_override: any; }; }){
     return new Library({
       id: lib.id,
       uuid: lib.id,
@@ -103,16 +101,18 @@ export function parse(lib: { id: any; attributes: { title: any; body: { processe
       location: lib.attributes.field_fm_location? {
         lat: lib.attributes.field_fm_location.lat,
         lng: lib.attributes.field_fm_location.lng
-      }:null,
+      }:undefined,
       mygroupId: lib.attributes.field_mygroup_id,
       phoneNumber: lib.attributes.field_phone_number,
       socialMedia: lib.attributes.field_social_media? 
-        lib.attributes.field_social_media.map((sm: { uri: any; title: any; })=>({uri:sm.uri, title:sm.title})):null,
+        lib.attributes.field_social_media.map((sm: { uri: any; title: any; })=>({uri:sm.uri, title:sm.title})):
+        undefined,
       slug: lib.attributes.field_slug,
       zipCode: lib.attributes.field_zip_code,
       googleMyBusiness: lib.attributes.field_google_my_business,
       parent: lib.attributes.field_parent && lib.attributes.field_parent.data && lib.attributes.field_parent.data.id? 
-        lib.attributes.field_parent.data.id: null,
+        lib.attributes.field_parent.data.id:
+        undefined,
       closureOverride: lib.attributes.field_closure_override
     })
   }

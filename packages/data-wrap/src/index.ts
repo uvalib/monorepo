@@ -7,7 +7,7 @@ export { LibGuidesData } from './LibGuidesData.js';
 export { Library } from './Library.js';
 export { LibrariesData } from './LibrariesData.js';
 export { EventsData } from './EventsData.js';
-export { Event } from './EventInterface.js';
+export { Event } from './Event.js';
 export { Page } from './Page.js';
 export { PageData } from './PageData.js';
 export { VirgoResult } from './VirgoResult.js';

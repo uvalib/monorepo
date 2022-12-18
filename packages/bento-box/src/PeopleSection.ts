@@ -5,7 +5,6 @@ import { PersonData, Person } from '@uvalib/data-wrap';
 import { BentoSection } from './BentoSection.js'
 
 export function renderBriefItem(item: Person) {
-  console.log(item);
   return html`  
       <div class="bento-section-title"><a href="${item.link}">${item.title}</a></div>
       <div class="bento-section-desc">${item.jobTitle}</div>
@@ -28,7 +27,6 @@ export class PeopleSection extends BentoSection {
         this.loading = true;
         this.#personData.query = this.query;
         this.#personData.fetchData().then(()=>{
-          console.log(this.#personData)
           this.items = this.#personData.items;
           this.loading = false;
         })

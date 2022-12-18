@@ -1,28 +1,24 @@
 export class Page {
-    public id?: string | undefined;
+    public id?: string;
 
-    public uuid?: string | undefined;
+    public uuid?: string;
 
-    public title: string | undefined;
+    public title?: string;
 
-    public body: string | undefined;
+    public body?: string;
 
-    public description: string | undefined;
+    public description?: string;
 
-    public path?: string | undefined;
+    public path?: string;
 
-    public link: string | undefined;
+    public link?: string;
 
     constructor(init?:Partial<Page>) {
         Object.assign(this, init);
     }
 }
 
-export function parse(page: {
-    meta: any;
-    attributes: any; id: any; title: any; body: { processed: any; }; path: { alias: any; }; 
-  }){
-
+export function parse(page: { id: any; attributes: { title: any; body: { processed: any; }; path: { alias: any; }; }; meta: { excerpt: string; }; }){
     return new Page({
       id: page.id,
       uuid: page.id,

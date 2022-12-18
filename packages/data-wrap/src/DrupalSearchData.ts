@@ -1,24 +1,20 @@
-import { GeneralSearchResult } from './GeneralSearchResult.js';
-import { GeneralSearchMeta } from './GeneralSearchMeta.js';
+import { GeneralData } from './GeneralData.js';
 
 export const WebSearchPageURL = "https://library.virginia.edu/search/content";
 
-const drupalSearchEndpointURL = "https://api.library.virginia.edu/drupal/jsonapi/index/default_index";
+export class DrupalSearchData extends GeneralData {
 
-export class DrupalSearchData {
+    static readonly drupalSearchEndpointURL = "https://api.library.virginia.edu/drupal/jsonapi/index/default_index";
 
-    query: string = "";
+    protected type: string = "";
 
-    limit: number = 25;
-
-    type: string = "";
-
-    types: string[] = [];
-
-    items: GeneralSearchResult[] = [];
-
-    meta: GeneralSearchMeta = {totalResults:0};
+    public types: string[] = [];
   
+    constructor(init?:Partial<DrupalSearchData>) {
+      super();
+      Object.assign(this, init);
+    }
+
     protected makeQueryString(){
       if (this.types && this.types.length>0) {
         // we are going to filter by multiple types
@@ -38,7 +34,7 @@ export class DrupalSearchData {
     }
 
     protected makeURL(){
-      return `${drupalSearchEndpointURL}?${this.makeQueryString()}`
+      return `${DrupalSearchData.drupalSearchEndpointURL}?${this.makeQueryString()}`
     }
 
     async fetchData(params?:{limit?:number}){

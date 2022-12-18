@@ -12,16 +12,9 @@ export function parseHours(hoursData: any){
 }
 export class HoursData extends GeneralData {
 
-  public type: string = "hours";
-
   public items: Hours[] = [];
 
   public ids: number[] = [];
-
-//  _parseResults(n: any) {
-//    // Setup Library results
-//    this.items = n.data.map(parseHours)
-//  }
 
   constructor(init?:Partial<HoursData>) {
     super();
@@ -32,10 +25,7 @@ export class HoursData extends GeneralData {
   async fetchData(){
     return fetch(hoursEndpointURL.replace("[[calIds]]",this.ids.join(',')))
           .then(res=>res.json())
-          .then(hoursData=>{
-            console.log(hoursData)
-            return hoursData.map((hours: Partial<Hours> | undefined)=>parseHours(hours));
-          });
+          .then(hoursData=>hoursData.map((hours: Partial<Hours> | undefined)=>parseHours(hours)));
   }
 
 }

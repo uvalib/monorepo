@@ -1,31 +1,10 @@
-interface DHNode {
-    node: { 
-        title: string | undefined; 
-        Name: string | undefined;
-        Email: string | undefined;
-        Body: string | undefined;
-        Subtitle: string | undefined;
-        "UVA ID": string | undefined;
-        "I am connected to:": string | undefined; 
-        Instructor: string | undefined; 
-        "My connection type is:": string | undefined;
-        "Content Type": string | undefined;
-        "Project URL": string | undefined;
-        "Technical Approach": string | undefined;
-        "Secondary PDF/word doc": string | undefined;
-    };     
-}
+import { DHatPerson } from './DHatPerson.js'
+import { GeneralData } from './GeneralData.js';
 
-interface DHNodeItems {
-    nodes: Array<DHNode>
-}
+export class DHatData extends GeneralData {
 
-export class DHAtUVAData {
-
-    nodes: Array<unknown> = [];
-
-    edges: Array<unknown> = [];
-  
+    public items: (DHatPerson)[] = [];
+/*  
     async fetchData(){
       // This should be fetched live from the site under normal conditions
       const data = await import('./data/graph-data-api.js');
@@ -69,5 +48,5 @@ export class DHAtUVAData {
           }
       })       
     }
-  
+*/  
   }

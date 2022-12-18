@@ -4,7 +4,7 @@ import { DrupalSearchData } from './DrupalSearchData.js';
 
 export class PersonData extends DrupalSearchData {
 
-  type: string = "person";
+  protected type: string = "person";
 
   public items: Person[] = [];
 

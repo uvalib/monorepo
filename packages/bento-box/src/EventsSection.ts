@@ -26,8 +26,8 @@ export class EventsSection extends BentoSection {
         this.#eventsData.query = this.query;
         this.#eventsData.limit = this.limit;
         this.#eventsData.category = this.category;
-        this.#eventsData.fetchData().then(items=>{
-          this.items = items;
+        this.#eventsData.fetchData().then(results=>{
+          this.items = results.items;
           this.loading = false;
         })
       }

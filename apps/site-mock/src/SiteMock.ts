@@ -21,6 +21,9 @@ export class SiteMock extends LitElement {
     return html`
       <main>
 
+      <h1>UVA Library Web Dev Sandbox</h1>
+
+      </h2>Catalog DataWrap</h2>
       <playground-ide editable-file-system line-numbers resizable>
         <script type="sample/html" filename="index.html">
           <!doctype html>
@@ -31,7 +34,6 @@ export class SiteMock extends LitElement {
             <script type="module" src="./index.js">&lt;/script>
           </body>
         </script>
-
         <script type="sample/ts" filename="index.ts">
           // You need the module
           import { CatalogData } from '@uvalib/data-wrap';
@@ -46,7 +48,33 @@ export class SiteMock extends LitElement {
             resultJar.innerHTML=results.items.map(r=>"<li>"+r.title+"</li>").join();
           });        
         </script>
+      </playground-ide>
 
+      </h2>People DataWrap</h2>
+      <playground-ide editable-file-system line-numbers resizable>
+        <script type="sample/html" filename="index.html">
+          <!doctype html>
+          <body>
+            <h1>UVA Library Staff Search Results</h1>
+            <p id="resultMeta"></p>
+            <ul id="results"></ul>
+            <script type="module" src="./index.js">&lt;/script>
+          </body>
+        </script>
+        <script type="sample/ts" filename="index.ts">
+          // You need the module
+          import { PersonData } from '@uvalib/data-wrap';
+
+          // Just getting the elements to show the results in
+          const resultJar = document.getElementById("results");
+          const metaJar = document.getElementById("resultMeta");
+
+          // A sample query and then make the results visible!
+          new PersonData({limit:3}).fetchData().then(results=>{
+            metaJar.innerHTML="Search has "+results.meta.totalResults+" results!";
+            resultJar.innerHTML=results.items.map(r=>"<li>"+r.title+"</li>").join();
+          });        
+        </script>
       </playground-ide>
 
       </main>

@@ -1,16 +1,23 @@
-import { GeneralSearchResult } from './GeneralSearchResult.js'
+import { GeneralSearchResult } from './GeneralSearchResult.js';
+import { GeneralSearchMeta } from './GeneralSearchMeta.js';
 
 export class GeneralData {
 
-    query: string = "";
+    public query?: string;
 
-    items: GeneralSearchResult[] = [];
+    public items: GeneralSearchResult[] = [];
 
-    limit: Number | null = null
+    public meta: GeneralSearchMeta = {totalResults:0};
+
+    public limit?: number;
+
+    constructor(init?:Partial<GeneralData>) {
+      Object.assign(this, init);
+    }
 
     async fetchData(){
       this.items = []
-      return Promise.resolve(this.items);
+      return Promise.resolve({items: this.items, meta: this.meta});
     }
 
 }

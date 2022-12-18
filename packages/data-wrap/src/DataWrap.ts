@@ -17,8 +17,6 @@ export class DataWrap extends LitElement {
     @property({ type: Object }) lastResponse: Object | undefined;
 
     fetchResults() {
-        // eslint-disable-next-line no-console
-        console.log("call to fetch results!")
         if (this.url) {
             const url = new URL(this.url);
             if (this.params)

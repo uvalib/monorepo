@@ -4,7 +4,7 @@ import { DrupalSearchData, WebSearchPageURL } from './DrupalSearchData.js';
 
 export class PageData extends DrupalSearchData {
 
-  type: string = "page";
+  protected type: string = "page"
 
   public items: Page[] = [];
 

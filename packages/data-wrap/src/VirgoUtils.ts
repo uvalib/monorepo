@@ -21,8 +21,7 @@ export class VirgoUtils {
     return ""
   }
 
-  static async fetchData(searchURL:string, linkBaseURL:string, query:string, limit:number=5){
-
+  static async fetchData(searchURL:string, linkBaseURL:string, query?:string, limit:number=5){
     const options = {
       method: "POST",
       headers: {
@@ -33,7 +32,7 @@ export class VirgoUtils {
       },
       body: JSON.stringify(
         {
-          "query": `keyword: {${query}}`,
+          "query": `keyword: {${ query===undefined?"":query  }}`,
           "pagination": {
             "start": 0,
             "rows": limit

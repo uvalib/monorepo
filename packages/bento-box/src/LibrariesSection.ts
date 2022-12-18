@@ -5,7 +5,6 @@ import { LibrariesData, Library } from '@uvalib/data-wrap';
 import { BentoSection } from './BentoSection.js'
 
 export function renderBriefItem(item: Library) {
-  console.log(item);
   return html`  
       ${item.link? html`
         <div class="bento-section-title"><a href="${item.link}">${item.title}</a></div>
@@ -32,7 +31,6 @@ export class LibrariesSection extends BentoSection {
         this.loading = true;
         this.#librariesData.query = this.query;
         this.#librariesData.fetchData().then(()=>{
-          console.log(this.#librariesData)
           this.items = this.#librariesData.items;
           this.loading = false;
         })

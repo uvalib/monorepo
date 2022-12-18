@@ -21,6 +21,7 @@
     let catalogData = new CatalogData({query:"foot"});
     catalogData.fetchData().then(results=>{
       console.log(results);
+      document.getElementById('catalog').innerHTML = results.items.map(r=>`<li>${r.title}</li>`).join();
     })
 
   </script>

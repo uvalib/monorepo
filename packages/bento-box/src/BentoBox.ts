@@ -32,7 +32,6 @@ export class BentoBox extends SiteStyle {
   constructor() {
     super();
     window.onpopstate = (event) => {
-      console.log(`location: ${document.location}, state: ${JSON.stringify(event.state)}`)
       this.query = event.state && event.state.query? event.state.query:'';
     }
   }

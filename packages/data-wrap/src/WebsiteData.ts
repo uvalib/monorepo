@@ -30,7 +30,7 @@ export class WebsiteData extends DrupalSearchData {
         description: n.attributes.body? n.attributes.body.value:null
       }
     }):[]
-console.log(d)    
+      
     // eslint-disable-next-line no-nested-ternary
     this.meta.totalResults = d.data?.meta? d.data.meta.count:
                                 d.meta? d.meta.count:0;
