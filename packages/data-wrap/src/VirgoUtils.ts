@@ -4,7 +4,6 @@ import { VirgoResult } from "./VirgoResult.js";
 
 export class VirgoUtils {
 
-
   static readonly authURL: string = "https://search.lib.virginia.edu/authorize"
 
   static async guestAuthToken() {
@@ -69,7 +68,6 @@ export class VirgoUtils {
           const id = hit.fields.find((f: any)=> f.type === "identifier").value
           const virgoLink = id ? `${linkBaseURL}/${id}` : undefined
           const datePublished = hit.fields.find((f: any)=> f.name === "published_date")
-//          console.log(hit);
           const item: VirgoResult = {
             id: hit.fields.find((f: any)=> f.type === "identifier").value,
             title:  hit.fields.find((f: any)=> f.type === "title").value,
@@ -89,7 +87,6 @@ export class VirgoUtils {
 
       })
     }
-//    console.log(items)
     return {items, meta}
   }
 
