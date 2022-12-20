@@ -85,21 +85,25 @@ export class BarcodeFillHold extends UvalibAnalyticsMixin(LitElement) {
 
       @media print {
         :host {
-          min-height: inherit !important;
+/*          min-height: inherit !important; */
+          min-height: fit-content !important;
+          height: fit-content !important;
           align-items: left !important;
           text-align: left !important;
         }
         :host main {
+          height: fit-content !important;
           display: none !important;
         }
         :host #printView {
+          height: fit-content !important;
           display: block !important;
         }
         :host sp-underlay {
           display: none !important;
         }
         dl {
-          page-break-after: always;
+/*          page-break-after: always; */
         }
       }
     `;
