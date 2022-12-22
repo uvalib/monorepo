@@ -30,7 +30,17 @@ export class SiteHoursSection extends SiteStyle {
                 .filter(lib=>this.unlimited? true:lib.hours || lib.hoursInformation)
                 .filter(lib=>this.limited? lib.placeType==='Library' && lib.hours:true)
                 .sort((a,b) => ( (a.title?a.title:'') > (b.title?b.title:'') )? 1:-1);
+        this.dispatchEvent(new CustomEvent('got-library-hours', {
+          detail: { message: 'fetched hours for libraries'},
+          bubbles: true,
+          composed: true
+        }));        
       })
+      this.dispatchEvent(new CustomEvent('got-libraries', {
+        detail: { message: 'fetched libraries'},
+        bubbles: true,
+        composed: true
+      }));
     })
   }
 
