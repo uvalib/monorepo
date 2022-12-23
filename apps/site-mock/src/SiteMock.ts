@@ -28,13 +28,27 @@ export class SiteMock extends LitElement {
       name: "Events at the Library",
       query: "data"
     },
-    GeneralData:{},
   //  HoursData:{},
-    LibGuidesData:{},
-    LibrariesData:{},
-    PageData:{},
-    PersonData:{},
-    WebsiteData:{}
+    LibGuidesData:{
+      name: "Libguides at the Library",
+      query: "3d"
+    },
+    LibrariesData:{
+      name: "Libraries",
+      query: "clemons"
+    },
+    PageData:{
+      name: "Pages from the Library Website",
+      query: "about"
+    },
+    PersonData:{
+      name: "Library Staff",
+      query: "chestnut"
+    },
+    WebsiteData:{
+      name: "Mixed data from the Library Website",
+      query: "Unsworth"
+    }
   }
 
   static styles = css`
@@ -44,6 +58,11 @@ export class SiteMock extends LitElement {
     }
 
   `;
+
+  constructor(){
+    super();
+    this.example = this.loadExample(this.selectedToy);
+  }
 
   private selectToy(e:Event) {
     const target = <HTMLSelectElement> e.currentTarget;

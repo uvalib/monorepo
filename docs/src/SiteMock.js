@@ -7,7 +7,7 @@ import "playground-elements/playground-ide.js";
 const logo = new URL('../../assets/open-wc-logo.svg', import.meta.url).href;
 export class SiteMock extends LitElement {
     constructor() {
-        super(...arguments);
+        super();
         this.title = 'My app';
         this.selectedToy = "CatalogData";
         this.toys = {
@@ -24,14 +24,29 @@ export class SiteMock extends LitElement {
                 name: "Events at the Library",
                 query: "data"
             },
-            GeneralData: {},
             //  HoursData:{},
-            LibGuidesData: {},
-            LibrariesData: {},
-            PageData: {},
-            PersonData: {},
-            WebsiteData: {}
+            LibGuidesData: {
+                name: "Libguides at the Library",
+                query: "3d"
+            },
+            LibrariesData: {
+                name: "Libraries",
+                query: "clemons"
+            },
+            PageData: {
+                name: "Pages from the Library Website",
+                query: "about"
+            },
+            PersonData: {
+                name: "Library Staff",
+                query: "chestnut"
+            },
+            WebsiteData: {
+                name: "Mixed data from the Library Website",
+                query: "Unsworth"
+            }
         };
+        this.example = this.loadExample(this.selectedToy);
     }
     selectToy(e) {
         const target = e.currentTarget;
