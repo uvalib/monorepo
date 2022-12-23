@@ -23,7 +23,9 @@ export class SiteMock extends LitElement {
       name: "UVA Library Catalog",
       query: "football"
     },
-  //  DHatData:{},
+    DHatData:{
+      name: "DH@UVA Entities"
+    },
     EventsData:{
       name: "Events at the Library",
       query: "data"
