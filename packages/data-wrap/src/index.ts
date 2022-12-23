@@ -15,3 +15,4 @@ export { DrupalSearchData, WebSearchPageURL } from './DrupalSearchData.js';
 export { Person } from './Person.js';
 export { PersonData } from './PersonData.js';
 export { WebsiteData } from './WebsiteData.js';
+export { DHatData } from './DHatData.js';

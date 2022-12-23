@@ -1,4 +1,4 @@
-const DHData = {
+export const DHData = {
   nodes: [
     {
       node: {

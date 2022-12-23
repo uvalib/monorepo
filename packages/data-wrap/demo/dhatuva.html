@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      background: #fafafa;
+    }
+  </style>
+</head>
+<body>
+  <ul id="dhdata"></ul>
+
+  <script type="module">
+    import { html, render } from 'lit';
+    import { DHatData } from '../dist/src/index.js';
+
+    // Get some Website content
+    let dhdata = new DHatData({limit:5});
+    const dataList = document.getElementById('dhdata');
+    dhdata.fetchData().then((res)=>{
+console.log(res);
+      render(html`${res.items.map(n=>html`<li>${n.title}</li>`)}`, dataList);
+    });
+
+  </script>
+</body>
+</html>
