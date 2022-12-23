@@ -68,6 +68,7 @@
   },
   "dependencies": {
     "@uvalib/site-alert": "workspace:*",
+    "@uvalib/site-nav": "workspace:^0.0.0",
     "@uvalib/site-style": "workspace:*"
   }
 }

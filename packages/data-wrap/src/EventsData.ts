@@ -36,6 +36,7 @@ export class EventsData extends GeneralData {
     _parseResults(d: any) {
       // Setup Library results
       this.items = d.events.map(parseEvent)
+      this.meta.totalResults = d.events.length;
     }
 
 }

@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      background: #fafafa;
+    }
+  </style>
+</head>
+<body>
+  <h2>Example of EventsData</h2>
+  <div>
+    <ul id="events"></ul>
+  </div>
+
+  <script type="module">
+
+    import { EventsData } from '../dist/src/index.js';
+
+    let eventsData = new EventsData({query:"data"});
+    eventsData.fetchData().then(results=>{
+      console.log(results);
+      document.getElementById('events').innerHTML = results.items.map(r=>`<li>${r.title}</li>`).join();
+    })
+
+  </script>
+</body>
+</html>
