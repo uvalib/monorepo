@@ -1,6 +1,7 @@
 import { __decorate } from "tslib";
 import { LitElement, html, css } from 'lit';
 import { property } from 'lit/decorators.js';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import "@uvalib/bento-box/bento-box.js";
 import "playground-elements/playground-ide.js";
 const logo = new URL('../../assets/open-wc-logo.svg', import.meta.url).href;
@@ -8,38 +9,79 @@ export class SiteMock extends LitElement {
     constructor() {
         super(...arguments);
         this.title = 'My app';
+        this.selectedToy = "CatalogData";
+        this.toys = {
+            ArticlesData: {
+                name: "UVA Library Article Search",
+                query: "food"
+            },
+            CatalogData: {
+                name: "UVA Library Catalog",
+                query: "football"
+            },
+            //  DHatData:{},
+            EventsData: {
+                name: "Events at the Library",
+                query: "data"
+            },
+            GeneralData: {},
+            //  HoursData:{},
+            LibGuidesData: {},
+            LibrariesData: {},
+            PageData: {},
+            PersonData: {},
+            WebsiteData: {}
+        };
     }
-    render() {
-        return html `
-      <main>
-
+    selectToy(e) {
+        const target = e.currentTarget;
+        this.selectedToy = target.value;
+        this.example = this.loadExample(this.selectedToy);
+    }
+    loadExample(t) {
+        const toy = this.toys[t];
+        return `
+      </h2>Example of ${toy.name}</h2>
       <playground-ide editable-file-system line-numbers resizable>
         <script type="sample/html" filename="index.html">
           <!doctype html>
           <body>
-            <h1>Search Results from UVA Library Catalog</h1>
+            <h1>Search Results from ${this.selectedToy}</h1>
             <p id="resultMeta"></p>
             <ul id="results"></ul>
             <script type="module" src="./index.js">&lt;/script>
           </body>
         </script>
-
         <script type="sample/ts" filename="index.ts">
           // You need the module
-          import { CatalogData } from '@uvalib/data-wrap';
+          import { ${this.selectedToy} } from '@uvalib/data-wrap';
 
           // Just getting the elements to show the results in
           const resultJar = document.getElementById("results");
           const metaJar = document.getElementById("resultMeta");
 
           // A sample query and then make the results visible!
-          new CatalogData({query:"football"}).fetchData().then(results=>{
+          new ${this.selectedToy}({query:"${toy.query}"}).fetchData().then(results=>{
             metaJar.innerHTML="Search has "+results.meta.totalResults+" results!";
             resultJar.innerHTML=results.items.map(r=>"<li>"+r.title+"</li>").join();
           });        
         </script>
+      </playground-ide>    
+    `;
+    }
+    render() {
+        return html `
+      <main>
 
-      </playground-ide>
+      <h1>UVA Library Web Dev Sandbox</h1>
+
+      <div id="selectToy">
+          <select @change="${this.selectToy}">
+            ${Object.keys(this.toys).map(k => html `<option ?selected="${k === this.selectedToy}" value="${k}">${k}</option>`)}
+          </select>
+      </div>
+
+      ${unsafeHTML(this.example)}
 
       </main>
 
@@ -65,4 +107,13 @@ SiteMock.styles = css `
 __decorate([
     property({ type: String })
 ], SiteMock.prototype, "title", void 0);
+__decorate([
+    property({ type: String, attribute: "selected-toy" })
+], SiteMock.prototype, "selectedToy", void 0);
+__decorate([
+    property({ type: Object })
+], SiteMock.prototype, "example", void 0);
+__decorate([
+    property({ type: Object })
+], SiteMock.prototype, "toys", void 0);
 //# sourceMappingURL=SiteMock.js.map
