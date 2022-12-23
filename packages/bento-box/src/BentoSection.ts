@@ -5,7 +5,7 @@ import { property } from 'lit/decorators.js';
 import { GeneralSearchResult } from '@uvalib/data-wrap';
 import { SiteStyle } from '@uvalib/site-style';
 import BentoSectionStyle from './BentoSectionStyle.js';
-import '@uvalib/wait-spinner/wait-spinner.js';
+import '@uvalib/site-spinner/site-spinner.js';
 
 export function renderBriefItem(item: GeneralSearchResult) {
   return html`
@@ -59,7 +59,7 @@ export class BentoSection extends SiteStyle {
       ${this.label==null || this.label!==""? html`
         <h2 ?hidden="${this.loading}">${this.label? this.label:html`Search for ${this.query}`}</h2>
       `:''}
-      ${this.loading? html`<wait-spinner></wait-spinner>`:''}
+      ${this.loading? html`<site-spinner></site-spinner>`:''}
       <p id="no-results" ?hidden="${this.isEmptySearch}">${this.noResultDescribe}</p>
       <ul ?hidden="${this.loading}">
         ${this.items.map(item=>html`

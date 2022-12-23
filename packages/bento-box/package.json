@@ -24,7 +24,7 @@
   "dependencies": {
     "@uvalib/data-wrap": "workspace:*",
     "@uvalib/site-style": "workspace:*",
-    "@uvalib/wait-spinner": "workspace:*",
+    "@uvalib/site-spinner": "workspace:*",
     "date-fns": "^2.29.3",
     "lit": "^2.4.1",
     "rollup-plugin-multi-input": "^1.3.1"
