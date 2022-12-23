@@ -3,7 +3,9 @@ import { html, LitElement, render } from 'lit';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { property } from 'lit/decorators.js';
 import { LibraryColors } from './SiteStyleColors.js';
-import { LibraryVariables } from './SiteStyleVariables.js'
+import { LibraryVariables } from './SiteStyleVariables.js';
+import { W3CSS } from './SiteStyleW3.js';
+import { LibraryMain } from './SiteStyleMain.js';
 
 export class SiteStyle extends LitElement {
 
@@ -31,7 +33,7 @@ export class SiteStyle extends LitElement {
   static get styles() {
     // need to figure out how to dynamically load these (or not)
     return [
-      LibraryColors, LibraryVariables
+      LibraryColors, LibraryVariables, W3CSS, LibraryMain
     ];
   }
 
@@ -68,7 +70,6 @@ export class SiteStyle extends LitElement {
 
   render() {
     return html`
-
       ${this.noShadowDom?'':html`<slot></slot>`}
     `;
   }

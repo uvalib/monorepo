@@ -1,29 +1,20 @@
-import { html, css, LitElement } from 'lit';
+import { html, css } from 'lit';
 import { property } from 'lit/decorators.js';
+import '@uvalib/site-alert/site-alert.js';
+import { SiteStyle } from '@uvalib/site-style';
+import SiteHeaderStyle from './SiteHeaderStyle.js';
+export class SiteHeader extends SiteStyle {
 
-export class SiteHeader extends LitElement {
-  static styles = css`
-    :host {
-      display: block;
-      padding: 25px;
-      color: var(--site-header-text-color, #000);
-    }
-  `;
+  static get styles() {
+    return [
+      ...super.styles,
+      SiteHeaderStyle
+    ]
+  }
 
   render() {
     return html`
-<!-- Start: Pre-Header -->
-<div id="pre_header" class="w3-col w3-clear w3-theme-l5 ">
-	<div id="pre_header-inner" class="w3-row pre_header-inner w3-width-1360">
-    <section class="views-element-container alert-sitewide-lvl4 w3-block w3-block-wrapper block-views block-views-blockalert4-published-sitewide-block-1" id="block-uvalibrary-v2a-views-block-alert4-published-sitewide-block-1">
-      <div>
-        <div class="uva-alert--sitewide view view-alert4-published-sitewide view-id-alert4_published_sitewide view-display-id-block_1 js-view-dom-id-96ab9ea9272ee605d9b31310c4122d2c05e78303f30d7fdcdf9e122499f8369f">
-        </div>
-      </div>
-    </section>
-  </div>
-</div>
-<!-- End: Pre-Header -->
+<site-alert></site-alert>
 <!-- Start: Header -->
 <header id="header" class="w3-col w3-clear w3-theme-l4 none " role="banner" aria-label="Site header">
 	<div id="header-inner" class="w3-container header-inner w3-width-1360">
