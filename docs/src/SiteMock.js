@@ -2,6 +2,8 @@ import { __decorate } from "tslib";
 import { LitElement, html, css } from 'lit';
 import { property } from 'lit/decorators.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import "@uvalib/site-components/site-tabs.js";
+import "@uvalib/site-components/site-select.js";
 import "@uvalib/bento-box/bento-box.js";
 import "playground-elements/playground-ide.js";
 const logo = new URL('../../assets/open-wc-logo.svg', import.meta.url).href;
@@ -92,13 +94,25 @@ export class SiteMock extends LitElement {
 
       <h1>UVA Library Web Dev Sandbox</h1>
 
-      <div id="selectToy">
-          <select @change="${this.selectToy}">
-            ${Object.keys(this.toys).map(k => html `<option ?selected="${k === this.selectedToy}" value="${k}">${k}</option>`)}
-          </select>
-      </div>
+      <site-tabs activeid="dataWrap">
+        <site-tab id="dataWrap">Library Data</site-tab>
+        <site-tab id="siteComponents">Site Components</site-tab>
+        <site-tab id="siteWidgets">Site Widgets</site-tab>
+        <site-tab-panel id="dataWrapPanel">
+          <div id="selectToy">
+              <site-select @change="${this.selectToy}">
+                ${Object.keys(this.toys).map(k => html `<site-option ?selected="${k === this.selectedToy}" value="${k}">${k}</site-option>`)}
+              </site-select>
+          </div>
+          ${unsafeHTML(this.example)}        
+        </site-tab-panel>
+        <site-tab-panel id="siteComponentsPanel">
 
-      ${unsafeHTML(this.example)}
+        </site-tab-panel>
+        <site-tab-panel id="siteWidgetsPanel">
+        
+        </site-tab-panel>
+      </site-tabs>
 
       </main>
 
