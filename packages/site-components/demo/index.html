@@ -14,40 +14,25 @@
   <script type="module">
     import { html, render } from 'lit';
     import '../dist/src/site-tabs.js';
+    import '../dist/src/site-data-grid.js';
+    import '../dist/src/site-select.js';
 
-    const title = 'Hello owc World!';
     render(
       html`
       <site-tabs activeid="entrees">
-    <site-tab id="apps">Appetizers</site-tab>
-    <site-tab id="entrees">Entrees</site-tab>
-    <site-tab id="desserts">Desserts</site-tab>
-    <site-tab-panel id="appsPanel">
-        <ol>
-            <li><a href="#" appearance="hypertext">Stuffed artichokes</a></li>
-            <li><a href="#" appearance="hypertext">Bruschetta</a></li>
-            <li><a href="#" appearance="hypertext">Oven-baked polenta</a></li>
-            <li><a href="#" appearance="hypertext">Salami and Fig Crostini with Ricotta</a></li>
-            <li><a href="#" appearance="hypertext">Rosemary-Potato Focaccia with Goat Cheese</a></li>
-        </ol>
-    </site-tab-panel>
-    <site-tab-panel id="entreesPanel">
-        <ol>
-            <li><a href="#" appearance="hypertext">Mushroom-Sausage Ragù</a></li>
-            <li><a href="#" appearance="hypertext">Tomato Bread Soup with Steamed Mussels</a></li>
-            <li><a href="#" appearance="hypertext">Grilled Fish with Artichoke Caponata</a></li>
-            <li><a href="#" appearance="hypertext">Celery Root and Mushroom Lasagna</a></li>
-            <li><a href="#" appearance="hypertext">Osso Buco with Citrus Gremolata</a></li>
-        </ol>
-    </site-tab-panel>
-    <site-tab-panel id="dessertsPanel">
-        <ol>
-            <li><a href="#" appearance="hypertext">Tiramisu</a></li>
-            <li><a href="#" appearance="hypertext">Spumoni</a></li>
-            <li><a href="#" appearance="hypertext">Limoncello and Ice Cream with Biscotti</a></li>
-        </ol>
-    </site-tab-panel>
-</site-tabs>
+        <site-tab id="apps">Appetizers</site-tab>
+        <site-tab id="entrees">Entrees</site-tab>
+        <site-tab id="desserts">Desserts</site-tab>
+        <site-tab-panel id="appsPanel">
+          <div>App content</div>
+        </site-tab-panel>
+        <site-tab-panel id="entreesPanel">
+          <div>Entree content</div>
+        </site-tab-panel>
+        <site-tab-panel id="dessertsPanel">
+          <div>Dessert content</div>
+        </site-tab-panel>
+      </site-tabs>
       `,
       document.querySelector('#demo')
     );
