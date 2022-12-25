@@ -19,6 +19,7 @@
 
     render(
       html`
+      <h2>Tabs</h2>
       <site-tabs activeid="entrees">
         <site-tab id="apps">Appetizers</site-tab>
         <site-tab id="entrees">Entrees</site-tab>
@@ -33,9 +34,15 @@
           <div>Dessert content</div>
         </site-tab-panel>
       </site-tabs>
+
+      <h2>Data Grid</h2>
+      <site-data-grid></site-data-grid>  
       `,
       document.querySelector('#demo')
     );
+
+    const grid = document.querySelector('site-data-grid');
+    grid.rowsData=[{"column 1":"data","column 2":"data"},{"column 1":"data","column 2":"data"}];
   </script>
 </body>
 </html>
