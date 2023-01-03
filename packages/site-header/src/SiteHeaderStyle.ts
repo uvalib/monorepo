@@ -4,6 +4,12 @@ export default css`
     :host {
       display: block;
     }
+    * {
+      font-family: franklin-gothic-urw, Arial, Helvetica, sans-serif !important;
+    }
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
     #header {
       background-color: white;
       background-color: #ffffff !important;
@@ -39,6 +45,33 @@ export default css`
     }
     .open-mobile-menu {
         display: none;
+    }
+    #utility-nav ul:first-of-type {
+      display: flex;
+      list-style-type: none;
+      gap: 1.5rem;
+    }
+    #utility-nav a {
+      color: #232D4B !important;
+    }
+    a:not([class]) {
+      text-decoration-skip-ink: auto;
+    }
+    ul li a {
+      text-decoration: underline !important;
+    }
+
+    .visually-hidden {
+        position: absolute !important;
+        overflow: hidden;
+        clip: rect(1px, 1px, 1px, 1px);
+        width: 1px;
+        height: 1px;
+        word-wrap: normal;
+    }
+
+    #utility-nav {
+      float: right;
     }
 
     @media (max-width: 992px) {
