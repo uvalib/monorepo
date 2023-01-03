@@ -12,8 +12,9 @@
   },
   "dependencies": {
     "@uvalib/bento-box": "workspace:*",
-    "@uvalib/site-components": "workspace:*",
     "@uvalib/cdn-builds": "workspace:*",
+    "@uvalib/site-components": "workspace:*",
+    "@uvalib/site-header": "workspace:*",
     "lit": "^2.4.1",
     "playground-elements": "^0.17.0"
   },
