@@ -2,6 +2,7 @@ import { __decorate } from "tslib";
 import { LitElement, html, css } from 'lit';
 import { property } from 'lit/decorators.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
+import "@uvalib/site-header/site-header.js";
 import "@uvalib/site-components/site-tabs.js";
 import "@uvalib/site-components/site-select.js";
 import "@uvalib/bento-box/bento-box.js";
@@ -93,6 +94,7 @@ export class SiteMock extends LitElement {
     }
     render() {
         return html `
+      <site-header></site-header>
       <main>
 
       <h1>UVA Library Web Dev Sandbox</h1>
@@ -109,7 +111,10 @@ export class SiteMock extends LitElement {
           </div>
           ${unsafeHTML(this.example)}        
         </site-tab-panel>
+
         <site-tab-panel id="siteComponentsPanel">
+          <p>Site Components are base web components used to make more complex components and widgets.
+            These components are custom named and styled implemetations of <a href="https://www.fast.design/">FAST Components</a>.</p>
           <div>
 
             <h2>&lt;site-data-grid&gt;</h2>
@@ -135,19 +140,81 @@ export class SiteMock extends LitElement {
             </div>
 
             <h2>&lt;site-select&gt;</h2>
+      <playground-ide editable-file-system line-numbers resizable>
+        <script type="sample/html" filename="index.html">
+          <!doctype html>
+          <body>
+            <site-select>
+              <site-option>Option #1</site-option>
+              <site-option>Option #2</site-option>
+            </site-select> 
+            <script type="module" src="./index.js">&lt;/script>          
+          </body>
+        </script>
+        <script type="sample/ts" filename="index.ts">
+          // Get the module
+          import "@uvalib/site-components/site-select.js";
+
+          // listen to the select
+          const select = document.querySelector("site-select");
+          select.addEventListener('change',(e)=>console.log(e.target.value))
+
+        </script>
+      </playground-ide>             
             <div>
 
             </div>
 
             <h2>&lt;site-tabs&gt;</h2>
             <div>
+            <playground-ide editable-file-system line-numbers resizable>
+<script type="sample/html" filename="index.html">
+  <!doctype html>
+  <body>
+    <site-tabs>
+      <site-tab>Tab one</site-tab>
+      <site-tab>Tab two</site-tab>
+      <site-tab>Tab three</site-tab>
+      <site-tab-panel>Tab panel 1</site-tab-panel>
+      <site-tab-panel>Tab panel 2</site-tab-panel>
+      <site-tab-panel>Tab panel 3</site-tab-panel>
+    </site-tabs> 
+    <script type="module" src="./index.js">&lt;/script>          
+  </body>
+</script>
+<script type="sample/ts" filename="index.ts">
+  // Get the module
+  import "@uvalib/site-components/site-tabs.js";
 
+</script>
+</playground-ide>     
             </div>
 
           </div>
         </site-tab-panel>
         <site-tab-panel id="siteWidgetsPanel">
-        
+       
+          <p>Site Widgets are web components that are usually made from other base componets, widgets and libraries.</p>
+          <div>
+
+            <h2>&lt;site-header&gt;</h2>
+            <div>
+      <playground-ide editable-file-system line-numbers resizable>
+        <script type="sample/html" filename="index.html">
+          <!doctype html>
+          <body>
+            <site-header></site-header> 
+            <script type="module" src="./index.js">&lt;/script>          
+          </body>
+        </script>
+        <script type="sample/ts" filename="index.ts">
+          // Get the module
+          import "@uvalib/site-header/site-header.js";
+        </script>
+      </playground-ide> 
+            </div>
+
+
         </site-tab-panel>
       </site-tabs>
 

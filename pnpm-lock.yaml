@@ -16,6 +16,7 @@ importers:
       '@rollup/plugin-json': ^5.0.2
       '@rollup/plugin-node-resolve': ^13.0.4
       '@rollup/plugin-terser': ^0.1.0
+      '@types/chai': ^4.3.4
       '@types/mocha': ^10.0.0
       '@types/node': ^18.11.9
       fuse.js: ^6.6.2
@@ -40,6 +41,7 @@ importers:
       '@rollup/plugin-json': 5.0.2_rollup@2.79.1
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.79.1
       '@rollup/plugin-terser': 0.1.0_rollup@2.79.1
+      '@types/chai': 4.3.4
       '@types/mocha': 10.0.1
       '@types/node': 18.11.9
       get-port-cli: 3.0.0

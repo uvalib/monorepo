@@ -1,4 +1,5 @@
 import { LitElement } from 'lit';
+import "@uvalib/site-header/site-header.js";
 import "@uvalib/site-components/site-tabs.js";
 import "@uvalib/site-components/site-select.js";
 import "@uvalib/bento-box/bento-box.js";
