@@ -12,6 +12,7 @@ export declare class SiteMock extends LitElement {
     static styles: import("lit").CSSResult;
     constructor();
     private selectToy;
+    private mkPlayground;
     private loadExample;
     render(): import("lit").TemplateResult<1>;
 }

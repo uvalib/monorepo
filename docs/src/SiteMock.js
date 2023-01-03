@@ -58,38 +58,47 @@ export class SiteMock extends LitElement {
         this.selectedToy = target.value;
         this.example = this.loadExample(this.selectedToy);
     }
+    mkPlayground(scr, htm) {
+        return `
+    <playground-ide editable-file-system line-numbers resizable>
+      <script type="sample/html" filename="index.html">
+        <!doctype html>
+        <body>
+          ${htm} 
+          <script type="module" src="./index.js">&lt;/script>          
+        </body>
+      </script>
+      <script type="sample/ts" filename="index.ts">
+        ${scr}
+      </script>
+    </playground-ide>    
+    `;
+    }
     loadExample(t) {
         const toy = this.toys[t];
         return `
       </h2>Example of ${toy.name}</h2>
-      <playground-ide editable-file-system line-numbers resizable>
-        <script type="sample/html" filename="index.html">
-          <!doctype html>
-          <body>
-            <h1>Search Results from ${this.selectedToy}</h1>
-            <p id="resultMeta"></p>
-            <site-data-grid id="results"></site-data-grid>
-            <script type="module" src="./index.js">&lt;/script>
-          </body>
-        </script>
-        <script type="sample/ts" filename="index.ts">
-          // We are using a site-data-grid to stuff results into
-          import "@uvalib/site-components/site-data-grid.js";
+      ${this.mkPlayground(`
+        // We are using a site-data-grid to stuff results into
+        import "@uvalib/site-components/site-data-grid.js";
 
-          // You need the module
-          import { ${this.selectedToy} } from '@uvalib/data-wrap';
+        // You need the module
+        import { ${this.selectedToy} } from '@uvalib/data-wrap';
 
-          // Just getting the elements to show the results in
-          const resultJar = document.getElementById("results");
-          const metaJar = document.getElementById("resultMeta");
+        // Just getting the elements to show the results in
+        const resultJar = document.getElementById("results");
+        const metaJar = document.getElementById("resultMeta");
 
-          // A sample query and then make the results visible!
-          new ${this.selectedToy}({query:"${toy.query}"}).fetchData().then(results=>{
-            metaJar.innerHTML="Search has "+results.meta.totalResults+" results!";
-            resultJar.rowsData = results.items.map(r=>({Title:r.title}));
-          });        
-        </script>
-      </playground-ide>    
+        // A sample query and then make the results visible!
+        new ${this.selectedToy}({query:"${toy.query}"}).fetchData().then(results=>{
+          metaJar.innerHTML="Search has "+results.meta.totalResults+" results!";
+          resultJar.rowsData = results.items.map(r=>({Title:r.title}));
+        });        
+      `, `
+        <h1>Search Results from ${this.selectedToy}</h1>
+        <p id="resultMeta"></p>
+        <site-data-grid id="results"></site-data-grid>     
+      `)}   
     `;
     }
     render() {
@@ -119,75 +128,51 @@ export class SiteMock extends LitElement {
 
             <h2>&lt;site-data-grid&gt;</h2>
             <div>
-      <playground-ide editable-file-system line-numbers resizable>
-        <script type="sample/html" filename="index.html">
-          <!doctype html>
-          <body>
-            <site-data-grid></site-data-grid> 
-            <script type="module" src="./index.js">&lt;/script>          
-          </body>
-        </script>
-        <script type="sample/ts" filename="index.ts">
-          // Get the module
-          import "@uvalib/site-components/site-data-grid.js";
+              ${unsafeHTML(this.mkPlayground(`
+                // Get the module
+                import "@uvalib/site-components/site-data-grid.js";
 
-          // populate the grid by adding an array to the rowsData property
-          const grid = document.querySelector("site-data-grid");
-
-          grid.rowsData = [{"column 1":"value","column 2":"value"},{"column 1":"another value","column 2":"another value"}]       
-        </script>
-      </playground-ide> 
+                // populate the grid by adding an array to the rowsData property
+                const grid = document.querySelector("site-data-grid");
+                
+                grid.rowsData = [{"column 1":"value","column 2":"value"},{"column 1":"another value","column 2":"another value"}]                
+              `, `
+                <site-data-grid></site-data-grid>               
+              `))}
             </div>
 
             <h2>&lt;site-select&gt;</h2>
-      <playground-ide editable-file-system line-numbers resizable>
-        <script type="sample/html" filename="index.html">
-          <!doctype html>
-          <body>
-            <site-select>
-              <site-option>Option #1</site-option>
-              <site-option>Option #2</site-option>
-            </site-select> 
-            <script type="module" src="./index.js">&lt;/script>          
-          </body>
-        </script>
-        <script type="sample/ts" filename="index.ts">
-          // Get the module
-          import "@uvalib/site-components/site-select.js";
-
-          // listen to the select
-          const select = document.querySelector("site-select");
-          select.addEventListener('change',(e)=>console.log(e.target.value))
-
-        </script>
-      </playground-ide>             
             <div>
-
-            </div>
+            ${unsafeHTML(this.mkPlayground(`
+              // Get the module
+              import "@uvalib/site-components/site-select.js";
+    
+              // listen to the select
+              const select = document.querySelector("site-select");
+              select.addEventListener('change',(e)=>console.log(e.target.value))
+            `, `
+              <site-select>
+                <site-option>Option #1</site-option>
+                <site-option>Option #2</site-option>
+              </site-select>            
+            `))}    
+            </div>        
 
             <h2>&lt;site-tabs&gt;</h2>
             <div>
-            <playground-ide editable-file-system line-numbers resizable>
-<script type="sample/html" filename="index.html">
-  <!doctype html>
-  <body>
-    <site-tabs>
-      <site-tab>Tab one</site-tab>
-      <site-tab>Tab two</site-tab>
-      <site-tab>Tab three</site-tab>
-      <site-tab-panel>Tab panel 1</site-tab-panel>
-      <site-tab-panel>Tab panel 2</site-tab-panel>
-      <site-tab-panel>Tab panel 3</site-tab-panel>
-    </site-tabs> 
-    <script type="module" src="./index.js">&lt;/script>          
-  </body>
-</script>
-<script type="sample/ts" filename="index.ts">
-  // Get the module
-  import "@uvalib/site-components/site-tabs.js";
-
-</script>
-</playground-ide>     
+              ${unsafeHTML(this.mkPlayground(`
+                // Get the module
+                import "@uvalib/site-components/site-tabs.js";
+              `, `
+                <site-tabs>
+                  <site-tab>Tab one</site-tab>
+                  <site-tab>Tab two</site-tab>
+                  <site-tab>Tab three</site-tab>
+                  <site-tab-panel>Tab panel 1</site-tab-panel>
+                  <site-tab-panel>Tab panel 2</site-tab-panel>
+                  <site-tab-panel>Tab panel 3</site-tab-panel>
+                </site-tabs> 
+              `))}    
             </div>
 
           </div>
@@ -199,19 +184,12 @@ export class SiteMock extends LitElement {
 
             <h2>&lt;site-header&gt;</h2>
             <div>
-      <playground-ide editable-file-system line-numbers resizable>
-        <script type="sample/html" filename="index.html">
-          <!doctype html>
-          <body>
-            <site-header></site-header> 
-            <script type="module" src="./index.js">&lt;/script>          
-          </body>
-        </script>
-        <script type="sample/ts" filename="index.ts">
-          // Get the module
-          import "@uvalib/site-header/site-header.js";
-        </script>
-      </playground-ide> 
+              ${unsafeHTML(this.mkPlayground(`
+                // Get the module
+                import "@uvalib/site-header/site-header.js";
+              `, `
+                <site-header></site-header>
+              `))} 
             </div>
 
 
