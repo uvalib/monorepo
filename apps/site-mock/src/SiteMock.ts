@@ -257,6 +257,16 @@ export class SiteMock extends LitElement {
               `) )}
             </div>
 
+            <h2>&lt;site-hours-section&gt;</h2>
+            <div>
+              ${unsafeHTML( this.mkPlayground(`
+                // load the module
+                import "@uvalib/site-hours/site-hours-section.js";
+              `,`
+                <site-hours-section limited></site-hours-section>
+              `) )}
+            </div>
+
         </site-tab-panel>
       </site-tabs>
 
