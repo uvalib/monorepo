@@ -11,7 +11,8 @@
     "./site-components.js": "./dist/src/site-components.js",
     "./site-tabs.js": "./dist/src/site-tabs.js",
     "./site-select.js": "./dist/src/site-select.js",
-    "./site-data-grid.js": "./dist/src/site-data-grid.js"
+    "./site-data-grid.js": "./dist/src/site-data-grid.js",
+    "./site-switch.js": "./dist/src/site-switch.js"
   },
   "scripts": {
     "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
