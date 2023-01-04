@@ -8,6 +8,7 @@ import "@uvalib/site-components/site-select.js";
 import "@uvalib/bento-box/bento-box.js";
 import "@uvalib/bento-box/events-section.js";
 import "playground-elements/playground-ide.js";
+import "@uvalib/site-style/site-style.js";
 const logo = new URL('../../assets/open-wc-logo.svg', import.meta.url).href;
 export class SiteMock extends LitElement {
     constructor() {
@@ -65,11 +66,14 @@ export class SiteMock extends LitElement {
       <script type="sample/html" filename="index.html">
         <!doctype html>
         <body>
+          <site-style>
           ${htm} 
+          <site-style>
           <script type="module" src="./index.js">&lt;/script>          
         </body>
       </script>
       <script type="sample/ts" filename="index.ts">
+        import "@uvalib/site-style/site-style.js";
         ${scr}
       </script>
     </playground-ide>    
@@ -104,6 +108,7 @@ export class SiteMock extends LitElement {
     }
     render() {
         return html `
+<site-style>    
       <site-header></site-header>
       <main>
 
@@ -176,6 +181,26 @@ export class SiteMock extends LitElement {
               `))}    
             </div>
 
+            <h2>&lt;site-switch&gt;</h2>
+            <div>
+              ${unsafeHTML(this.mkPlayground(`
+                // Get the module
+                import "@uvalib/site-components/site-switch.js";
+              `, `
+              <div>
+                <site-switch></site-switch>
+              </div>
+
+              <div>
+                <site-switch>
+                  Theme
+                  <span slot="checked-message">Dark</span>
+                  <span slot="unchecked-message">Light</span>
+                </site-switch>
+              </div>  
+              `))}    
+            </div>            
+
           </div>
         </site-tab-panel>
         <site-tab-panel id="siteWidgetsPanel">
@@ -227,6 +252,7 @@ export class SiteMock extends LitElement {
           >open-wc</a
         >.
       </p>
+  </site-style>      
     `;
     }
 }

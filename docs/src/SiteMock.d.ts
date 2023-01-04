@@ -5,6 +5,7 @@ import "@uvalib/site-components/site-select.js";
 import "@uvalib/bento-box/bento-box.js";
 import "@uvalib/bento-box/events-section.js";
 import "playground-elements/playground-ide.js";
+import "@uvalib/site-style/site-style.js";
 export declare class SiteMock extends LitElement {
     title: string;
     selectedToy: string;

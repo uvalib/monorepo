@@ -1,5 +1,6 @@
 import { css } from "@microsoft/fast-element";
 
+// Mapping UVA Library colors to Fast Elements Design tokens
 export const styleMap = css`
     :host {
         --accent-fill-rest: var(--uva-grey-lightest) !important;

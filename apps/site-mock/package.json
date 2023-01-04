@@ -15,6 +15,7 @@
     "@uvalib/cdn-builds": "workspace:*",
     "@uvalib/site-components": "workspace:*",
     "@uvalib/site-header": "workspace:*",
+    "@uvalib/site-style": "workspace:^0.0.0",
     "lit": "^2.4.1",
     "playground-elements": "^0.17.0"
   },

@@ -63,6 +63,7 @@ importers:
       '@uvalib/cdn-builds': workspace:*
       '@uvalib/site-components': workspace:*
       '@uvalib/site-header': workspace:*
+      '@uvalib/site-style': workspace:^0.0.0
       '@web/dev-server': ^0.1.35
       '@web/rollup-plugin-html': ^1.11.0
       '@web/rollup-plugin-import-meta-assets': ^1.0.7
@@ -81,6 +82,7 @@ importers:
       '@uvalib/cdn-builds': link:../../packages/cdn-builds
       '@uvalib/site-components': link:../../packages/site-components
       '@uvalib/site-header': link:../../packages/site-header
+      '@uvalib/site-style': link:../../packages/site-style
       lit: 2.4.1
       playground-elements: 0.17.0
     devDependencies:
