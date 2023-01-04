@@ -192,6 +192,15 @@ export class SiteMock extends LitElement {
               `))} 
             </div>
 
+            <h2>&lt;bento-box&gt;</h2>
+            <div>
+              ${unsafeHTML(this.mkPlayground(`
+                // load the module
+                import "@uvalib/bento-box/bento-box.js";
+              `, `
+                <bento-box></bento-box>
+              `))}
+            </div>
 
         </site-tab-panel>
       </site-tabs>

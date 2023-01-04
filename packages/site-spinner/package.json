@@ -3,7 +3,7 @@
   "description": "Webcomponent site-spinner following open-wc recommendations",
   "license": "MIT",
   "author": "site-spinner",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "main": "dist/src/index.js",
   "module": "dist/src/index.js",
   "exports": {
