@@ -6,6 +6,7 @@ import "@uvalib/site-header/site-header.js";
 import "@uvalib/site-components/site-tabs.js";
 import "@uvalib/site-components/site-select.js";
 import "@uvalib/bento-box/bento-box.js";
+import "@uvalib/bento-box/events-section.js";
 import "playground-elements/playground-ide.js";
 
 const logo = new URL('../../assets/open-wc-logo.svg', import.meta.url).href;
@@ -218,6 +219,16 @@ export class SiteMock extends LitElement {
                 import "@uvalib/bento-box/bento-box.js";
               `,`
                 <bento-box></bento-box>
+              `) )}
+            </div>
+
+            <h2>&lt;events-section&gt;</h2>
+            <div>
+              ${unsafeHTML( this.mkPlayground(`
+                // load the module
+                import "@uvalib/bento-box/events-section.js";
+              `,`
+                <events-section limit="5"></events-section>
               `) )}
             </div>
 
