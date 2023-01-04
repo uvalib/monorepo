@@ -3,12 +3,13 @@
   "description": "Webcomponent bento-box following open-wc recommendations",
   "license": "MIT",
   "author": "bento-box",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "dist/src/index.js",
   "module": "dist/src/index.js",
   "exports": {
     ".": "./dist/src/index.js",
-    "./bento-box.js": "./dist/src/bento-box.js"
+    "./bento-box.js": "./dist/src/bento-box.js",
+    "./events-section.js": "./dist/src/events-section.js"
   },
   "scripts": {
     "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
