@@ -1,0 +1,15 @@
+import { css } from "@microsoft/fast-element";
+
+export const styleMap = css`
+    :host {
+        --accent-fill-rest: var(--uva-grey-lightest) !important;
+        --accent-fill-hover: var(--uva-grey-light, grey) !important;
+        --foreground-on-accent-hover: var(--uva-grey-base) !important;
+        --foreground-on-accent-rest: var(--uva-grey-base) !important;
+        --neutral-fill-input-hover: var(--uva-grey-light, grey) !important;
+        --neutral-fill-input-rest: var(--uva-grey-lightest, white) !important;
+        --neutral-foreground-rest: var(--uva-text-color-base, black) !important;
+        --neutral-fill-stealth-rest: var(--uva-grey-lightest, white) !important;
+        --neutral-fill-stealth-hover: var(--uva-grey-light, grey) !important;
+    }
+`;

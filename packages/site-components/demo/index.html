@@ -17,13 +17,23 @@
     import '../dist/src/site-data-grid.js';
     import '../dist/src/site-select.js';
     import '../dist/src/site-switch.js';
+    import '@uvalib/site-style/site-style.js';
 
     render(
       html`
+<site-style>
+
       <h2>Switch</h2>
       <div>
         <site-switch></site-switch>
       </div>
+      <div>
+        <site-switch>
+                  Theme
+                  <span slot="checked-message">Dark</span>
+                  <span slot="unchecked-message">Light</span>
+                </site-switch>
+                </div>
 
       <h2>Select</h2>
       <site-select>
@@ -50,6 +60,8 @@
 
       <h2>Data Grid</h2>
       <site-data-grid></site-data-grid>  
+
+</site-style>      
       `,
       document.querySelector('#demo')
     );

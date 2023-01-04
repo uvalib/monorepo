@@ -2,7 +2,7 @@ import {
     provideFASTDesignSystem,
     fastSwitch, switchStyles
 } from "@microsoft/fast-components";
-import { css } from "@microsoft/fast-element";
+import { styleMap } from './SiteStyleMapping.js';
 
 provideFASTDesignSystem()
     .withPrefix("site")
@@ -10,9 +10,7 @@ provideFASTDesignSystem()
         fastSwitch({
             // eslint-disable-next-line arrow-body-style
             styles: (context, definition) => {
-                return [switchStyles(context,definition),css`
-/* Our custom css here - including mapping of custom css properties (design tokens) */
-                `];
+                return [styleMap,switchStyles(context,definition)];
             }
         })
     );

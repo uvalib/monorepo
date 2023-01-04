@@ -98,5 +98,6 @@ export const LibraryColors = css`
 
   --uva-text-color-base: var(--uva-grey-A);
   --uva-text-color-dark: var(--uva-grey-B);
+  --uva-white: #fff;
 }
 `;

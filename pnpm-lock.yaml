@@ -289,6 +289,7 @@ importers:
       '@open-wc/testing': next
       '@typescript-eslint/eslint-plugin': ^4.29.2
       '@typescript-eslint/parser': ^4.29.2
+      '@uvalib/site-style': workspace:^0.0.0
       '@web/dev-server': ^0.1.21
       '@web/dev-server-storybook': next
       '@web/test-runner': next
@@ -310,6 +311,7 @@ importers:
       '@open-wc/testing': 3.0.0-next.5
       '@typescript-eslint/eslint-plugin': 4.33.0_b437dje45jwsli5vlhomcei76i
       '@typescript-eslint/parser': 4.33.0_77fvizpdb3y4icyeo2mf4eo7em
+      '@uvalib/site-style': link:../site-style
       '@web/dev-server': 0.1.35
       '@web/dev-server-storybook': 0.3.7-next.0
       '@web/test-runner': 0.13.16-next.0

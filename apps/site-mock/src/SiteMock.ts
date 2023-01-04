@@ -195,6 +195,26 @@ export class SiteMock extends LitElement {
               `) )}    
             </div>
 
+            <h2>&lt;site-switch&gt;</h2>
+            <div>
+              ${unsafeHTML( this.mkPlayground(`
+                // Get the module
+                import "@uvalib/site-components/site-switch.js";
+              `,`
+              <div>
+                <site-switch></site-switch>
+              </div>
+
+              <div>
+                <site-switch>
+                  Theme
+                  <span slot="checked-message">Dark</span>
+                  <span slot="unchecked-message">Light</span>
+                </site-switch>
+              </div>  
+              `) )}    
+            </div>            
+
           </div>
         </site-tab-panel>
         <site-tab-panel id="siteWidgetsPanel">
