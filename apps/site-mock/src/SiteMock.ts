@@ -262,15 +262,7 @@ export class SiteMock extends LitElement {
 
       </main>
 
-      <p class="app-footer">
-        🚽 Made with love by
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://github.com/open-wc"
-          >open-wc</a
-        >.
-      </p>
+      
   </site-style>      
     `;
   }
