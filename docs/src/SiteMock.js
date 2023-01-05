@@ -82,7 +82,7 @@ export class SiteMock extends LitElement {
     loadExample(t) {
         const toy = this.toys[t];
         return `
-      </h2>Example of ${toy.name}</h2>
+      <h2>Example of ${this.selectedToy} (${toy.name})</h2>
       ${this.mkPlayground(`
         // We are using a site-data-grid to stuff results into
         import "@uvalib/site-components/site-data-grid.js";
