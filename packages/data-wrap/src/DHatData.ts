@@ -1,4 +1,5 @@
-import { DHatPerson, parse as parsePerson } from './DHatPerson.js'
+import { DHatPerson, parse as parsePerson } from './DHatPerson.js';
+import { DHatTool, parse as parseTool } from './DHatTool.js';
 import { GeneralData } from './GeneralData.js';
 
 export class DHatData extends GeneralData {
@@ -7,7 +8,7 @@ export class DHatData extends GeneralData {
 
     public limit: number = 10000;
 
-    public types: string[] = ["People"];
+    public types: string[] = ["People","Tools"];
 
     constructor(init?:Partial<DHatData>) {
       super();
@@ -25,7 +26,12 @@ export class DHatData extends GeneralData {
       this.items = d.nodes.filter((n:any)=>this.types.includes( n.node['Content Type'] ))
              // eslint-disable-next-line arrow-body-style
              .map((n:any)=>{
-                return parsePerson(n.node);
+                if (n.node['Content Type']==='People')
+                  return parsePerson(n.node);
+                if (n.node['Content Type']==='Tools')
+                  return parseTool(n.node);
+                console.log(n.node)
+                return {};
              })
       return { items: this.items.slice(0,this.limit), meta: {totalResults: this.items.length} }
     } 

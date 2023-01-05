@@ -20,6 +20,8 @@ export class Person {
 
     public email?: string;
 
+    public images?: { alt: string; url: string; }[];
+
     constructor(init?:Partial<Person>) {
         Object.assign(this, init);
     }

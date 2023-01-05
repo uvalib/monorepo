@@ -16,10 +16,10 @@
     import { DHatData } from '../dist/src/index.js';
 
     // Get some Website content
-    let dhdata = new DHatData({limit:5});
+    let dhdata = new DHatData();
     const dataList = document.getElementById('dhdata');
     dhdata.fetchData().then((res)=>{
-console.log(res);
+      console.log(res);
       render(html`${res.items.map(n=>html`<li>${n.title}</li>`)}`, dataList);
     });
 
