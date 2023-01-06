@@ -151,6 +151,17 @@ export class SiteMock extends LitElement {
             These components are custom named and styled implemetations of <a href="https://www.fast.design/">FAST Components</a>.</p>
           <div>
 
+            <h2>&lt;site-button&gt;</h2>
+            <div>
+              ${unsafeHTML( this.mkPlayground(`
+                // Get the module
+                import "@uvalib/site-components/site-button.js";
+              `,`
+              <div>
+                <site-button>Click Me</site-button>
+              </div>
+            </div>
+
             <h2>&lt;site-data-grid&gt;</h2>
             <div>
               ${ unsafeHTML(this.mkPlayground(`

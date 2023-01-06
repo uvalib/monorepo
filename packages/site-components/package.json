@@ -3,7 +3,7 @@
   "description": "Webcomponent site-components following open-wc recommendations",
   "license": "MIT",
   "author": "site-components",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "main": "dist/src/index.js",
   "module": "dist/src/index.js",
   "exports": {
@@ -12,7 +12,9 @@
     "./site-tabs.js": "./dist/src/site-tabs.js",
     "./site-select.js": "./dist/src/site-select.js",
     "./site-data-grid.js": "./dist/src/site-data-grid.js",
-    "./site-switch.js": "./dist/src/site-switch.js"
+    "./site-switch.js": "./dist/src/site-switch.js",
+    "./site-button.js": "./dist/src/site-button.js",
+    "./site-card.js": "./dist/src/site-card.js"
   },
   "scripts": {
     "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
