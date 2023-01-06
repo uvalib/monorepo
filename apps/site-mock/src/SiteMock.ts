@@ -160,7 +160,23 @@ export class SiteMock extends LitElement {
               <div>
                 <site-button>Click Me</site-button>
               </div>
+              `))}
             </div>
+
+            <h2>&lt;site-card&gt;</h2>
+            <div>
+              ${unsafeHTML( this.mkPlayground(`
+                // Get the module
+                import "@uvalib/site-components/site-card.js";
+              `,`
+              <div>
+                <site-card>
+                  <h3>Card title</h3>
+                  <p>At purus lectus quis habitant commodo, cras. Aliquam malesuada velit a tortor. Felis orci tellus netus risus et ultricies augue aliquet.</p>
+                </site-card>
+              </div>
+              `))}
+            </div>            
 
             <h2>&lt;site-data-grid&gt;</h2>
             <div>

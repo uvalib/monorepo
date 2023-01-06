@@ -82,7 +82,7 @@ export class SiteMock extends LitElement {
     loadExample(t) {
         const toy = this.toys[t];
         return `
-      <h2>Example of ${this.selectedToy} (${toy.name})</h2>
+      <h2>Example of <a href="https://github.com/uvalib/monorepo/tree/main/packages/data-wrap">${this.selectedToy}</a> (${toy.name})</h2>
       ${this.mkPlayground(`
         // We are using a site-data-grid to stuff results into
         import "@uvalib/site-components/site-data-grid.js";
@@ -128,9 +128,36 @@ export class SiteMock extends LitElement {
         </site-tab-panel>
 
         <site-tab-panel id="siteComponentsPanel">
-          <p>Site Components are base web components used to make more complex components and widgets.
+          <p><a href="https://github.com/uvalib/monorepo/tree/main/packages/site-components">Site Components</a> are base web components used to make more complex components and widgets.
             These components are custom named and styled implemetations of <a href="https://www.fast.design/">FAST Components</a>.</p>
           <div>
+
+            <h2>&lt;site-button&gt;</h2>
+            <div>
+              ${unsafeHTML(this.mkPlayground(`
+                // Get the module
+                import "@uvalib/site-components/site-button.js";
+              `, `
+              <div>
+                <site-button>Click Me</site-button>
+              </div>
+              `))}
+            </div>
+
+            <h2>&lt;site-card&gt;</h2>
+            <div>
+              ${unsafeHTML(this.mkPlayground(`
+                // Get the module
+                import "@uvalib/site-components/site-card.js";
+              `, `
+              <div>
+                <site-card>
+                  <h3>Card title</h3>
+                  <p>At purus lectus quis habitant commodo, cras. Aliquam malesuada velit a tortor. Felis orci tellus netus risus et ultricies augue aliquet.</p>
+                </site-card>
+              </div>
+              `))}
+            </div>            
 
             <h2>&lt;site-data-grid&gt;</h2>
             <div>
@@ -208,7 +235,7 @@ export class SiteMock extends LitElement {
           <p>Site Widgets are web components that are usually made from other base componets, widgets and libraries.</p>
           <div>
 
-            <h2>&lt;site-header&gt;</h2>
+            <h2><a href="https://github.com/uvalib/monorepo/tree/main/packages/site-header">&lt;site-header&gt;</a></h2>
             <div>
               ${unsafeHTML(this.mkPlayground(`
                 // Get the module
@@ -218,7 +245,7 @@ export class SiteMock extends LitElement {
               `))} 
             </div>
 
-            <h2>&lt;bento-box&gt;</h2>
+            <h2><a href="https://github.com/uvalib/monorepo/tree/main/packages/bento-box">&lt;bento-box&gt;</a></h2>
             <div>
               ${unsafeHTML(this.mkPlayground(`
                 // load the module
@@ -228,7 +255,7 @@ export class SiteMock extends LitElement {
               `))}
             </div>
 
-            <h2>&lt;events-section&gt;</h2>
+            <h2><a href="https://github.com/uvalib/monorepo/tree/main/packages/bento-box">&lt;events-section&gt;</a></h2>
             <div>
               ${unsafeHTML(this.mkPlayground(`
                 // load the module
@@ -238,7 +265,7 @@ export class SiteMock extends LitElement {
               `))}
             </div>
 
-            <h2>&lt;site-hours-section&gt;</h2>
+            <h2><a href="https://github.com/uvalib/monorepo/tree/main/packages/site-hours">&lt;site-hours-section&gt;</a></h2>
             <div>
               ${unsafeHTML(this.mkPlayground(`
                 // load the module
