@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "build": "rimraf build && tsc && rollup -c rollup.config.js",
+    "build": "rimraf build && tsc && rollup -c rollup.config.mjs",
     "test": "echo \"Error: no test specified\" && exit 0"
   },
   "keywords": [],
@@ -12,7 +12,8 @@
   "license": "ISC",
   "dependencies": {
     "@uvalib/bento-box": "workspace:*",
-    "@uvalib/site-hours": "workspace:*"
+    "@uvalib/site-hours": "workspace:*",
+    "@uvalib/viz-graph": "workspace:*"
   },
   "devDependencies": {
     "tsconfig": "workspace:*"

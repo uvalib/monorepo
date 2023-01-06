@@ -7,7 +7,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 
 export default {
-  input: ['dist/*.js'],
+  input: ['dist/src/*.js'],
   output: {
     format: 'esm',
     dir: 'build',
@@ -15,7 +15,7 @@ export default {
 
   plugins: [
     commonjs(),
-    multiInput({relative: 'dist'}),
+    multiInput.default({relative: 'dist'}),
     /** Resolve bare module imports */
     nodeResolve(),
     json({
