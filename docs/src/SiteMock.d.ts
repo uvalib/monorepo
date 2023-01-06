@@ -2,6 +2,7 @@ import { LitElement } from 'lit';
 import "@uvalib/site-header/site-header.js";
 import "@uvalib/site-components/site-tabs.js";
 import "@uvalib/site-components/site-select.js";
+import "@uvalib/site-components/site-avatar.js";
 import "@uvalib/bento-box/bento-box.js";
 import "@uvalib/bento-box/events-section.js";
 import "playground-elements/playground-ide.js";

@@ -5,6 +5,7 @@ import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import "@uvalib/site-header/site-header.js";
 import "@uvalib/site-components/site-tabs.js";
 import "@uvalib/site-components/site-select.js";
+import "@uvalib/site-components/site-avatar.js";
 import "@uvalib/bento-box/bento-box.js";
 import "@uvalib/bento-box/events-section.js";
 import "playground-elements/playground-ide.js";
@@ -131,6 +132,18 @@ export class SiteMock extends LitElement {
           <p><a href="https://github.com/uvalib/monorepo/tree/main/packages/site-components">Site Components</a> are base web components used to make more complex components and widgets.
             These components are custom named and styled implemetations of <a href="https://www.fast.design/">FAST Components</a>.</p>
           <div>
+
+            <h2>&lt;site-avatar&gt;</h2>
+            <div>
+              ${unsafeHTML(this.mkPlayground(`
+                // Get the module
+                import "@uvalib/site-components/site-avatar.js";
+              `, `
+              <div>
+                <site-avatar src="https://www.library.virginia.edu/sites/default/files/styles/bio_page_photo/public/2020-05/unsworth.jpg?itok=FFjEtOQg"></site-avatar>
+              </div>
+              `))}
+            </div>
 
             <h2>&lt;site-button&gt;</h2>
             <div>
