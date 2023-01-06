@@ -34,7 +34,7 @@ export class DrupalSearchData extends GeneralData {
     }
 
     protected makeURL(){
-      return `${DrupalSearchData.drupalSearchEndpointURL}?${this.makeQueryString()}`
+      return `${DrupalSearchData.drupalSearchEndpointURL}?${this.makeQueryString()}`.replace(/^(.*)\?$/,"$1")
     }
 
     async fetchData(params?:{limit?:number}){

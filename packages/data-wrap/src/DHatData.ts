@@ -17,7 +17,9 @@ export class DHatData extends GeneralData {
   
     async fetchData(){
       // This should be fetched live from the site under normal conditions
-      return import('./data/graph-data-api.js').then(({DHData})=>this.parseResults(DHData));
+      return fetch('https://api.library.virginia.edu/dh/node-listing')
+              .then(r=>r.json())
+              .then((DHData)=>this.parseResults(DHData));
     }
 
     // eslint-disable-next-line class-methods-use-this
@@ -30,7 +32,6 @@ export class DHatData extends GeneralData {
                   return parsePerson(n.node);
                 if (n.node['Content Type']==='Tools')
                   return parseTool(n.node);
-                console.log(n.node)
                 return {};
              })
       return { items: this.items.slice(0,this.limit), meta: {totalResults: this.items.length} }
