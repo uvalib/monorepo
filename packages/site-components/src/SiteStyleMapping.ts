@@ -7,6 +7,8 @@ export const styleMap = css`
         --accent-fill-hover: var(--uva-grey-light, grey) !important;
         --foreground-on-accent-hover: var(--uva-grey-base) !important;
         --foreground-on-accent-rest: var(--uva-grey-base) !important;
+        --neutral-fill-rest: var(--uva-blue-alt-base, blue) !important;
+        --neutral-fill-hover: var(--uva-blue-alt-dark, darkblue) !important;
         --neutral-fill-input-hover: var(--uva-grey-light, grey) !important;
         --neutral-fill-input-rest: var(--uva-grey-lightest, white) !important;
         --neutral-foreground-rest: var(--uva-text-color-base, black) !important;

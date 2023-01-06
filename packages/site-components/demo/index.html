@@ -17,11 +17,27 @@
     import '../dist/src/site-data-grid.js';
     import '../dist/src/site-select.js';
     import '../dist/src/site-switch.js';
+    import '../dist/src/site-card.js';
+    import '../dist/src/site-button.js';
     import '@uvalib/site-style/site-style.js';
 
     render(
       html`
 <site-style>
+
+      <h2>Button</h2>
+      <div>
+        <site-button>Button</site-button>
+      </div>
+
+      <h2>Card</h2>
+      <div>
+        <site-card>
+          <h3>Card title</h3>
+          <p>At purus lectus quis habitant commodo, cras. Aliquam malesuada velit a tortor. Felis orci tellus netus risus et ultricies augue aliquet.</p>
+          <site-button>Learn more</site-button>
+        </site-card>
+      </div>
 
       <h2>Switch</h2>
       <div>
@@ -32,8 +48,8 @@
                   Theme
                   <span slot="checked-message">Dark</span>
                   <span slot="unchecked-message">Light</span>
-                </site-switch>
-                </div>
+        </site-switch>
+      </div>
 
       <h2>Select</h2>
       <site-select>

@@ -22,6 +22,5 @@ provideFASTDesignSystem()
             styles: (context, definition) => css`
                 ${ styleMap }
                 ${ optionStyles(context,definition) }
-
             `})
     );
