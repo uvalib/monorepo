@@ -149,10 +149,11 @@ export class SiteMock extends LitElement {
 
         <site-tab-panel id="siteComponentsPanel">
           <p><a href="https://github.com/uvalib/monorepo/tree/main/packages/site-components">Site Components</a> are base web components used to make more complex components and widgets.
-            These components are custom named and styled implemetations of <a href="https://www.fast.design/">FAST Components</a>.</p>
+            They are generally "borrowed" from various design libraries and abstracted to be used for Library web assets.</p>
           <div>
 
             <h2>&lt;viz-graph&gt;</h2>
+            <p>The &lt;viz-graph&gt; component wraps up the <a href="https://g6.antv.antgroup.com/en">AntV G6</a> Visualization Engine.</p>
             <div>
               ${unsafeHTML( this.mkPlayground(`
                 // Get the module
@@ -166,6 +167,7 @@ export class SiteMock extends LitElement {
             </div>
 
             <h2>&lt;site-avatar&gt;</h2>
+            <p>The &lt;site-avatar&gt; is a customized/themed version of the <a href="https://explore.fast.design/components/fast-avatar">FAST Avatar component</a>.</p>
             <div>
               ${unsafeHTML( this.mkPlayground(`
                 // Get the module
