@@ -130,10 +130,25 @@ export class SiteMock extends LitElement {
 
         <site-tab-panel id="siteComponentsPanel">
           <p><a href="https://github.com/uvalib/monorepo/tree/main/packages/site-components">Site Components</a> are base web components used to make more complex components and widgets.
-            These components are custom named and styled implemetations of <a href="https://www.fast.design/">FAST Components</a>.</p>
+            They are generally "borrowed" from various design libraries and abstracted to be used for Library web assets.</p>
           <div>
 
+            <h2>&lt;viz-graph&gt;</h2>
+            <p>The &lt;viz-graph&gt; component wraps up the <a href="https://g6.antv.antgroup.com/en">AntV G6</a> Visualization Engine.</p>
+            <div>
+              ${unsafeHTML(this.mkPlayground(`
+                // Get the module
+                import "@uvalib/viz-graph/viz-graph.js";
+              `, `
+              <div>
+                <viz-graph nodes='[{ "id": "node0", "size": 50 },{ "id": "node1", "size": 30 },{ "id": "node2", "size": 30 },{ "id": "node3", "size": 30 },{ "id": "node4", "size": 30, "isLeaf": true },{ "id": "node5", "size": 30, "isLeaf": true },{ "id": "node6", "size": 15, "isLeaf": true },{ "id": "node7", "size": 15, "isLeaf": true },{ "id": "node8", "size": 15, "isLeaf": true },{ "id": "node9", "size": 15, "isLeaf": true },{ "id": "node10", "size": 15, "isLeaf": true },{ "id": "node11", "size": 15, "isLeaf": true },{ "id": "node12", "size": 15, "isLeaf": true },{ "id": "node13", "size": 15, "isLeaf": true },{ "id": "node14", "size": 15, "isLeaf": true },{ "id": "node15", "size": 15, "isLeaf": true },{ "id": "node16", "size": 15, "isLeaf": true }]' 
+                  edges='[{ "source": "node0", "target": "node1" },{ "source": "node0", "target": "node2" },{ "source": "node0", "target": "node3" },{ "source": "node0", "target": "node4" },{ "source": "node0", "target": "node5" },{ "source": "node1", "target": "node6" },{ "source": "node1", "target": "node7" },{ "source": "node2", "target": "node8" },{ "source": "node2", "target": "node9" },{ "source": "node2", "target": "node10" },{ "source": "node2", "target": "node11" },{ "source": "node2", "target": "node12" },{ "source": "node2", "target": "node13" },{ "source": "node3", "target": "node14" },{ "source": "node3", "target": "node15" },{ "source": "node3", "target": "node16" }]'></viz-graph>
+              </div>
+              `))}
+            </div>
+
             <h2>&lt;site-avatar&gt;</h2>
+            <p>The &lt;site-avatar&gt; is a customized/themed version of the <a href="https://explore.fast.design/components/fast-avatar">FAST Avatar component</a>.</p>
             <div>
               ${unsafeHTML(this.mkPlayground(`
                 // Get the module
