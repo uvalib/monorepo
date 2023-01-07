@@ -1,4 +1,5 @@
 export class DHatTool {
+
   public id?: string;
 
   public title?: string;

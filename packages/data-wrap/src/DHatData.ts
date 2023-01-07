@@ -1,14 +1,28 @@
 import { DHatPerson, parse as parsePerson } from './DHatPerson.js';
 import { DHatTool, parse as parseTool } from './DHatTool.js';
+import { DHatNews, parse as parseNews } from './DHatNews.js';
+import { DHatEvent, parse as parseEvent } from './DHatEvent.js';
+import { DHatOrganization, parse as parseOrganization } from './DHatOrganization.js';
 import { GeneralData } from './GeneralData.js';
 
 export class DHatData extends GeneralData {
 
-    public items: (DHatPerson)[] = [];
+    public items: (DHatPerson|DHatTool|DHatOrganization|DHatNews|DHatEvent)[] = [];
 
     public limit: number = 10000;
 
-    public types: string[] = ["People","Tools"];
+    // entity types are defined in different fields depending on type
+    public types = {
+      "Content Type":{
+        "People":parsePerson,
+        "Tools":parseTool,
+        "Organizations":parseOrganization
+      },
+      "Type":{
+        "News":parseNews,
+        "Event":parseEvent
+      }
+    };
 
     constructor(init?:Partial<DHatData>) {
       super();
@@ -22,17 +36,27 @@ export class DHatData extends GeneralData {
               .then((DHData)=>this.parseResults(DHData));
     }
 
+    private filterTypes(node: { [x: string]: any; }){
+      for (const [typeKey, types] of Object.entries(this.types)) {
+        if ( Object.keys(types).includes( node[typeKey] ) ) return true;
+      }
+      return false;
+    }
+
     // eslint-disable-next-line class-methods-use-this
     private parseResults(d: any) {
-      console.log(d);
-      this.items = d.nodes.filter((n:any)=>this.types.includes( n.node['Content Type'] ))
+      this.items = d.nodes.filter((n:any)=>this.filterTypes(n.node)) // this.types.includes( n.node['Content Type'] ))
              // eslint-disable-next-line arrow-body-style
              .map((n:any)=>{
-                if (n.node['Content Type']==='People')
-                  return parsePerson(n.node);
-                if (n.node['Content Type']==='Tools')
-                  return parseTool(n.node);
-                return {};
+
+for (const [typeKey, types] of Object.entries(this.types)) {
+  if ( n.node[typeKey] )
+    for (const [type, parseMethod] of Object.entries(types)){
+      if (n.node[typeKey]===type) return parseMethod(n.node);
+    }
+}
+return {};              
+
              })
       return { items: this.items.slice(0,this.limit), meta: {totalResults: this.items.length} }
     } 
