@@ -65,5 +65,8 @@
   "prettier": {
     "singleQuote": true,
     "arrowParens": "avoid"
+  },
+  "dependencies": {
+    "@uvalib/viz-graph": "workspace:*"
   }
 }

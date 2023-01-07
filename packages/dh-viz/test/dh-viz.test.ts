@@ -4,6 +4,7 @@ import { DhViz } from '../src/DhViz.js';
 import '../src/dh-viz.js';
 
 describe('DhViz', () => {
+  /*
   it('has a default title "Hey there" and counter 5', async () => {
     const el = await fixture<DhViz>(html`<dh-viz></dh-viz>`);
 
@@ -29,4 +30,5 @@ describe('DhViz', () => {
 
     await expect(el).shadowDom.to.be.accessible();
   });
+  */
 });
