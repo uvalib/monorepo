@@ -33,10 +33,11 @@ phases:
       - npx turbo run build --filter=site-mock
       - echo "Uploading to s3://${versioned_target}"
       - aws s3 cp ${target_assets} s3://${versioned_target} --recursive --quiet
-      - echo "Cleaning s3://${latest_target}"
-      - aws s3 rm s3://${latest_target} --recursive --quiet
-      - echo "Uploading to s3://${latest_target}"
-      - aws s3 cp ${target_assets} s3://${latest_target} --recursive --quiet
+      #- echo "Cleaning s3://${latest_target}"
+      #- aws s3 rm s3://${latest_target} --recursive --quiet
+      - echo "Syncing s3://${versioned_target} -> s3://${latest_target}"
+      - aws s3 sync s3://${versioned_target} s3://${latest_target} --delete # --quiet
+      - echo "Invalidating CDN cache"
       - aws cloudfront create-invalidation --distribution-id ${DISTRIBUTION_ID} --paths "/${target_root}/latest"
 
 #  post_build:
