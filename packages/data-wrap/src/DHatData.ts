@@ -1,27 +1,25 @@
 import { DHatPerson, parse as parsePerson } from './DHatPerson.js';
-import { DHatTool, parse as parseTool } from './DHatTool.js';
-import { DHatNews, parse as parseNews } from './DHatNews.js';
+import { DHatNode, parse as parseNode } from './DHatNode.js';
 import { DHatEvent, parse as parseEvent } from './DHatEvent.js';
-import { DHatOrganization, parse as parseOrganization } from './DHatOrganization.js';
 import { GeneralData } from './GeneralData.js';
 
 export class DHatData extends GeneralData {
 
-    public items: (DHatPerson|DHatTool|DHatOrganization|DHatNews|DHatEvent)[] = [];
+    public items: (DHatPerson|DHatNode|DHatEvent)[] = [];
 
     public limit: number = 10000;
 
-    // entity types are defined in different fields depending on type
-    public types = {
-      "Content Type":{
-        "People":parsePerson,
-        "Tools":parseTool,
-        "Organizations":parseOrganization
-      },
-      "Type":{
-        "News":parseNews,
-        "Event":parseEvent
-      }
+    // type types of nodes we know about and how to parse them
+    public types: {[key: string]:any} = {
+      "Organization":parseNode,
+      "Profile":parsePerson,
+      "Tool":parseNode,
+      "News":parseNode,
+      "Event":parseEvent,
+      "Relationship":parseNode,
+      "job":parseNode,
+      "Basic page":parseNode,
+      "Course":parseNode
     };
 
     constructor(init?:Partial<DHatData>) {
@@ -36,27 +34,14 @@ export class DHatData extends GeneralData {
               .then((DHData)=>this.parseResults(DHData));
     }
 
-    private filterTypes(node: { [x: string]: any; }){
-      for (const [typeKey, types] of Object.entries(this.types)) {
-        if ( Object.keys(types).includes( node[typeKey] ) ) return true;
-      }
-      return false;
-    }
-
     // eslint-disable-next-line class-methods-use-this
-    private parseResults(d: any) {
-      this.items = d.nodes.filter((n:any)=>this.filterTypes(n.node)) // this.types.includes( n.node['Content Type'] ))
+    private parseResults(d: { nodes: any[]; }) {          
+      this.items = d.nodes.filter((n: any)=> Object.keys(this.types).includes(n.node.Type) ) 
              // eslint-disable-next-line arrow-body-style
-             .map((n:any)=>{
-
-for (const [typeKey, types] of Object.entries(this.types)) {
-  if ( n.node[typeKey] )
-    for (const [type, parseMethod] of Object.entries(types)){
-      if (n.node[typeKey]===type) return parseMethod(n.node);
-    }
-}
-return {};              
-
+             .map((n)=>{              
+              if (Object.keys(this.types).includes(n.node.Type))
+                return this.types[ n.node.Type ](n.node);
+              return parseNode(n.node);
              })
       return { items: this.items.slice(0,this.limit), meta: {totalResults: this.items.length} }
     } 

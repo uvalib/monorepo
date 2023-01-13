@@ -1,8 +1,7 @@
 import { Person } from './Person.js';
+import { parse as parseNode } from './DHatNode.js';
 
-export class DHatPerson extends Person {
-   
-}
+export class DHatPerson extends Person {}
 
 function parseWebLinks(person: { [x: string]: any; title?: any; Name?: any; Email?: any; blogTitles?: any; blogURLs?: any; }){
   let links;
@@ -27,15 +26,10 @@ function parseWebLinks(person: { [x: string]: any; title?: any; Name?: any; Emai
 }
 
 export function parse(person: { [x: string]: any; title: any; Name: any; Email: any; }){
-    return new DHatPerson({
-      id: person.title,
-      title: person.title,
-      webLinks: parseWebLinks(person),
-      email: person.Email,
-      link: `https://dh.library.virginia.edu${person.Path}`,
-      name: person.Name,
-      computingId: person["UVA ID"],
-      description: person.Description? person.Description: undefined,
-      images: person["Featured Image"]? [{alt:person["Featured Image"].alt, src:person["Featured Image"].src}]: undefined
-    })
+  const pep = <DHatPerson>parseNode(person);
+  pep.webLinks = parseWebLinks(person);
+  pep.email = person.Email;
+  pep.name = person.Name;
+  pep.computingId = person["UVA ID"];
+  return pep; 
 }
