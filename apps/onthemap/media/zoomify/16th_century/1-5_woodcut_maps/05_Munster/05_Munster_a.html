@@ -8,13 +8,10 @@
 	  <TABLE BGCOLOR=#ffffff CELLPADDING=0 CELLSPACING=0 BORDER=0 WIDTH=100%>
 		<TR>
 		  <TD>
-		  	  <OBJECT CLASSID="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" CODEBASE="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0" WIDTH="900" HEIGHT="600" ID="theMovie">
-                		<PARAM NAME="FlashVars" VALUE="zoomifyImagePath=05_Munster_a_img&zoomifyNavigatorVisible=true">
-                		<PARAM NAME="BGCOLOR" VALUE="#ffffff">
-                		<PARAM NAME="MENU" VALUE="FALSE">
-				<PARAM NAME="SRC" VALUE="05_Munster_a_img/zoomifyViewer.swf">
-               			<EMBED FlashVars="zoomifyImagePath=05_Munster_a_img&zoomifyNavigatorVisible=true" SRC="05_Munster_a_img/zoomifyViewer.swf" BGCOLOR="#ffffff" MENU="false" PLUGINSPAGE="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash"  WIDTH="900" HEIGHT="600" NAME="theMovie"></EMBED>
-             		 </OBJECT></TD>
+			<script type="text/javascript" src="/exhibits/onthemap/js/ZoomifyImageViewerFree-min.js"></script>
+			<script type="text/javascript"> Z.showImage("myContainer", "05_Munster_a_img"); </script>
+			<div id="myContainer" style="width:900px; height:500px; margin:auto; border:1px; border-style:solid; " ></div>
+          </TD>
 		</TR>
 	  </TABLE>
 	</TD>
