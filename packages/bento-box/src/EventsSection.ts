@@ -33,17 +33,23 @@ export class EventsSection extends BentoSection {
       }
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  _dateRange(_start: number|undefined, _end: number|undefined){
+  static formatDate(day: Date|number|undefined){
+    return html`
+        <span id="homehoursMonth" class="event--month">${ new Intl.DateTimeFormat('en-US', { month: "short", timeZone: 'America/New_York' }).format(day) }</span>
+        <span id="homehoursDay" class="event--day">${ new Intl.DateTimeFormat('en-US', { day: "numeric", timeZone: 'America/New_York' }).format(day) }</span>
+        <span id="homehoursWeekDay" class="event--wkday">${ new Intl.DateTimeFormat('en-US', { weekday: 'long', timeZone: 'America/New_York' }).format(day) }</span>      
+    `
+  }
+
+  static dateRange(_start: number|undefined, _end: number|undefined){
     const start = _start? new Date(_start): new Date();
     const end = _end? new Date(_end): new Date();
     if (isSameDay(start, end))    
-      return new Intl.DateTimeFormat('en-US', { month: "short", day: "numeric", year: "numeric", timeZone: 'America/New_York' }).format(start);
-    return `${new Intl.DateTimeFormat('en-US', { month: "short", day: "numeric", timeZone: 'America/New_York' }).format(start)  } - ${  new Intl.DateTimeFormat('en-US', { month: "short", day: "numeric", year: "numeric", timeZone: 'America/New_York' }).format(end)}`;
+      return EventsSection.formatDate(start);
+    return html`${ EventsSection.formatDate(start) } - ${ EventsSection.formatDate(end) }`;
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  _timeRange(_start: any, _end:any){
+  static timeRange(_start: any, _end:any){
     return `${new Intl.DateTimeFormat('en-US', { hour:"numeric", minute:"2-digit", timeZone: 'America/New_York' }).format(_start)  } - ${  new Intl.DateTimeFormat('en-US', { hour:"numeric", minute:"2-digit", timeZoneName:"short", timeZone: 'America/New_York' }).format(_end)}`
   }
 
@@ -56,8 +62,8 @@ ${this.title? html`<h2>${this.title}</h2>`:''}
     <div class="event">
       <a href="${event.link}" class="event-url">
         <h4 class="event-title">${event.title}</h4>
-        <p class="event-date">${this._dateRange(event.start, event.end)}</p>
-        <p class="event-time">${this._timeRange(event.start, event.end)}</p>
+        <p class="event-date">${EventsSection.dateRange(event.start, event.end)}</p>
+        <p class="event-time">${EventsSection.timeRange(event.start, event.end)}</p>
       </a>
     </div>  
   `) }
