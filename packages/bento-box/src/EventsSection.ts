@@ -37,7 +37,7 @@ export class EventsSection extends BentoSection {
     return html`
         <span id="homehoursMonth" class="event--month">${ new Intl.DateTimeFormat('en-US', { month: "short", timeZone: 'America/New_York' }).format(day) }</span>
         <span id="homehoursDay" class="event--day">${ new Intl.DateTimeFormat('en-US', { day: "numeric", timeZone: 'America/New_York' }).format(day) }</span>
-        <span id="homehoursWeekDay" class="event--wkday">${ new Intl.DateTimeFormat('en-US', { weekday: 'long', timeZone: 'America/New_York' }).format(day) }</span>      
+        <span id="homehoursWeekDay" class="event--wkday">${ new Intl.DateTimeFormat('en-US', { weekday: 'short', timeZone: 'America/New_York' }).format(day) }</span>      
     `
   }
 
