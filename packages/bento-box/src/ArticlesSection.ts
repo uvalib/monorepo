@@ -38,12 +38,12 @@ export class ArticlesSection extends BentoSection {
             <h3>${this.title}</h3>
             <div ?hidden="${!this.isEmptySearch}"><a href="${this.meta?.url?.replace(/(.*)\?.*/,"$1")}" class="uvalib-button">Search articles</a></div>
             <form ?hidden="${this.isEmptySearch}" action="${this.meta.url}" method='get' style="display:inline">
-              ${ this.meta.url && this.meta.url.indexOf('?')>0? 
+              ${ this.meta.url && this.meta.url.indexOf('?')>0?
                     [...new URLSearchParams( this.meta.url.replace(/^.*\?/,'') )].map((values)=>html`
                       <input type="hidden" name="${values[0]}" value="${values[1]}" />
                     `)
                     :'' }
-              <button type="submit" class="uvalib-button">See all <span class="bs-results--qty">${this.meta.totalResults}</span> results</button>            
+              <button type="submit" class="uvalib-button">See all <span class="bs-results--qty">${this.meta.totalResults}</span> results</button>
             </form>
         </div>
 
@@ -53,21 +53,18 @@ export class ArticlesSection extends BentoSection {
             <ol ?hidden="${this.isEmptySearch}" class="bs-results--list">
 
             ${this.items.map(result=>html`
-                  <li class="bs-results--list--entry"><a href="${result.link? result.link:''}" class="bs-results--title">${result.title}</a>
-                    <ul class="ul-0">
-                      ${result.author? html`<li class="bs-results--author li-1">${result.author.join(', ')}</li>`:''}
-                        <ul class="ul-1">
-                            ${ result.datePublished? html`<li class="bs-results--date li-1">${ result.datePublished.toLocaleDateString("en-US") }</li>`:'' }
-                            ${ result.publicationType && result.publicationType.length>0? html`<li class="bs-results--format li-1" aria-label="${ result.publicationType.join('/') }">${ result.publicationType.join('/') }</li>`:'' }
-                        </ul>
-<!-- I'm not sure we have teaser info for article results                        
-                        <li class="bs-results--teaser li-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ex nulla, dignissim sed mollis eu, viverra sit amet nulla. Maecenas cursus rhoncus pellentesque.</li>
-  -->
+              <li class="bs-results--list--entry"><a href="${result.link? result.link:''}" class="bs-results--title">${result.title}</a>
+                <ul class="ul-0">
+                  ${result.author? html`<li class="bs-results--author li-1">${result.author.join('; ')}</li>`:''}
+                    <ul class="ul-1">
+                        ${ result.datePublished? html`<li class="bs-results--date li-1">${ result.datePublished.toLocaleDateString("en-US") }</li>`:'' }
+                        ${ result.publicationType && result.publicationType.length>0? html`<li class="bs-results--format li-1" aria-label="${ result.publicationType.join('/') }">${ result.publicationType.join('/') }</li>`:'' }
                     </ul>
-                </li>
-            `)}    
+                </ul>
+              </li>
+            `)}
             </ol>
-        </div> 
+        </div>
     `;
   }
 
