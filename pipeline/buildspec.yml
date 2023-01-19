@@ -36,7 +36,7 @@ phases:
       - echo "Syncing s3://${versioned_target} -> s3://${latest_target}"
       - aws s3 sync s3://${versioned_target} s3://${latest_target} --delete --quiet
       - echo "Invalidating CDN cache"
-      - aws cloudfront create-invalidation --distribution-id ${DISTRIBUTION_ID} --paths "/${target_root}/latest"
+      - AWS_MAX_ATTEMPTS=10 aws cloudfront create-invalidation --distribution-id ${DISTRIBUTION_ID} --paths "/${target_root}/latest"
 
 #  post_build:
 #    commands:
