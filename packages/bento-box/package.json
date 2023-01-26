@@ -3,7 +3,7 @@
   "description": "Webcomponent bento-box following open-wc recommendations",
   "license": "MIT",
   "author": "bento-box",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "dist/src/index.js",
   "module": "dist/src/index.js",
   "exports": {
