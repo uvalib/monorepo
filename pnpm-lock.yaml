@@ -152,12 +152,18 @@ importers:
   packages/cdn-builds:
     specifiers:
       '@uvalib/bento-box': workspace:*
+      '@uvalib/data-wrap': workspace:*
+      '@uvalib/site-components': workspace:*
       '@uvalib/site-hours': workspace:*
+      '@uvalib/site-style': workspace:*
       '@uvalib/viz-graph': workspace:*
       tsconfig: workspace:*
     dependencies:
       '@uvalib/bento-box': link:../bento-box
+      '@uvalib/data-wrap': link:../data-wrap
+      '@uvalib/site-components': link:../site-components
       '@uvalib/site-hours': link:../site-hours
+      '@uvalib/site-style': link:../site-style
       '@uvalib/viz-graph': link:../viz-graph
     devDependencies:
       tsconfig: link:../tsconfig
@@ -209,7 +215,7 @@ importers:
       '@open-wc/testing': next
       '@typescript-eslint/eslint-plugin': ^4.29.2
       '@typescript-eslint/parser': ^4.29.2
-      '@uvalib/viz-graph': workspace:^0.0.0
+      '@uvalib/viz-graph': workspace:*
       '@web/dev-server': ^0.1.21
       '@web/dev-server-storybook': next
       '@web/test-runner': next

@@ -1,6 +1,6 @@
 {
   "name": "@uvalib/cdn-builds",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -13,7 +13,10 @@
   "dependencies": {
     "@uvalib/bento-box": "workspace:*",
     "@uvalib/site-hours": "workspace:*",
-    "@uvalib/viz-graph": "workspace:*"
+    "@uvalib/viz-graph": "workspace:*",
+    "@uvalib/site-style": "workspace:*",
+    "@uvalib/site-components": "workspace:*",
+    "@uvalib/data-wrap": "workspace:*"
   },
   "devDependencies": {
     "tsconfig": "workspace:*"
