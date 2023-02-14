@@ -1,6 +1,6 @@
 {
   "name": "@uvalib/cdn-builds",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -20,5 +20,15 @@
   },
   "devDependencies": {
     "tsconfig": "workspace:*"
+  },
+  "exports": {
+    ".": "./build/index.js",
+    "./bento-box/bento-box.js": "./build/@uvalib/bento-box/bento-box.js",
+    "./bento-box/events-section.js": "./build/@uvalib/bento-box/events-section.js",
+    "./data-wrap/data-wrap.js": "./build/@uvalib/data-wrap/data-wrap.js",
+    "./site-components/site-data-grid.js": "./build/@uvalib/site-components/site-data-grid.js",
+    "./site-hours/site-hours-section.js": "./build/@uvalib/site-hours/site-hours-section.js",
+    "./site-style/site-style.js": "./build/@uvalib/site-style/site-style.js",
+    "./viz-graph/viz-graph.js": "./build/@uvalib/viz-graph/viz-graph.js"
   }
 }
