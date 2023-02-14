@@ -7,7 +7,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 
 export default {
-  input: ['dist/*.js'],
+  input: ['dist/**/*.js'],
   output: {
     format: 'esm',
     dir: 'build',
