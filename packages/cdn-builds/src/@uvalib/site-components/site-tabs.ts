@@ -1,0 +1,1 @@
+import "@uvalib/site-components/site-tabs.js";

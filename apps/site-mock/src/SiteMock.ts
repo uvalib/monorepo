@@ -91,7 +91,7 @@ export class SiteMock extends LitElement {
         </body>
       </script>
       <script type="sample/ts" filename="index.ts">
-        import "@uvalib/site-style/site-style.js";
+        import "@uvalib/cdn-builds/site-style/site-style.js";
         ${scr}
       </script>
     </playground-ide>    
@@ -104,10 +104,10 @@ export class SiteMock extends LitElement {
       <h2>Example of <a href="https://github.com/uvalib/monorepo/tree/main/packages/data-wrap">${this.selectedToy}</a> (${toy.name})</h2>
       ${this.mkPlayground(`
         // We are using a site-data-grid to stuff results into
-        import "@uvalib/site-components/site-data-grid.js";
+        import "@uvalib/cdn-builds/site-components/site-data-grid.js";
 
         // You need the module
-        import { ${this.selectedToy} } from '@uvalib/data-wrap';
+        import { ${this.selectedToy} } from '@uvalib/cdn-builds/data-wrap/data-wrap.js';
 
         // Just getting the elements to show the results in
         const resultJar = document.getElementById("results");
@@ -157,7 +157,7 @@ export class SiteMock extends LitElement {
             <div>
               ${unsafeHTML( this.mkPlayground(`
                 // Get the module
-                import "@uvalib/viz-graph/viz-graph.js";
+                import "@uvalib/cdn-builds/viz-graph/viz-graph.js";
               `,`
               <div>
                 <viz-graph nodes='[{ "id": "node0", "size": 50 },{ "id": "node1", "size": 30 },{ "id": "node2", "size": 30 },{ "id": "node3", "size": 30 },{ "id": "node4", "size": 30, "isLeaf": true },{ "id": "node5", "size": 30, "isLeaf": true },{ "id": "node6", "size": 15, "isLeaf": true },{ "id": "node7", "size": 15, "isLeaf": true },{ "id": "node8", "size": 15, "isLeaf": true },{ "id": "node9", "size": 15, "isLeaf": true },{ "id": "node10", "size": 15, "isLeaf": true },{ "id": "node11", "size": 15, "isLeaf": true },{ "id": "node12", "size": 15, "isLeaf": true },{ "id": "node13", "size": 15, "isLeaf": true },{ "id": "node14", "size": 15, "isLeaf": true },{ "id": "node15", "size": 15, "isLeaf": true },{ "id": "node16", "size": 15, "isLeaf": true }]' 
@@ -171,7 +171,7 @@ export class SiteMock extends LitElement {
             <div>
               ${unsafeHTML( this.mkPlayground(`
                 // Get the module
-                import "@uvalib/site-components/site-avatar.js";
+                import "@uvalib/cdn-builds/site-components/site-avatar.js";
               `,`
               <div>
                 <site-avatar src="https://www.library.virginia.edu/sites/default/files/styles/bio_page_photo/public/2020-05/unsworth.jpg?itok=FFjEtOQg"></site-avatar>
@@ -195,7 +195,7 @@ export class SiteMock extends LitElement {
             <div>
               ${unsafeHTML( this.mkPlayground(`
                 // Get the module
-                import "@uvalib/site-components/site-card.js";
+                import "@uvalib/cdn-builds/site-components/site-card.js";
               `,`
               <div>
                 <site-card>
@@ -210,7 +210,7 @@ export class SiteMock extends LitElement {
             <div>
               ${ unsafeHTML(this.mkPlayground(`
                 // Get the module
-                import "@uvalib/site-components/site-data-grid.js";
+                import "@uvalib/cdn-builds/site-components/site-data-grid.js";
 
                 // populate the grid by adding an array to the rowsData property
                 const grid = document.querySelector("site-data-grid");
@@ -225,7 +225,7 @@ export class SiteMock extends LitElement {
             <div>
             ${unsafeHTML(this.mkPlayground(`
               // Get the module
-              import "@uvalib/site-components/site-select.js";
+              import "@uvalib/cdn-builds/site-components/site-select.js";
     
               // listen to the select
               const select = document.querySelector("site-select");
@@ -242,7 +242,7 @@ export class SiteMock extends LitElement {
             <div>
               ${unsafeHTML( this.mkPlayground(`
                 // Get the module
-                import "@uvalib/site-components/site-tabs.js";
+                import "@uvalib/cdn-builds/site-components/site-tabs.js";
               `,`
                 <site-tabs>
                   <site-tab>Tab one</site-tab>
@@ -259,7 +259,7 @@ export class SiteMock extends LitElement {
             <div>
               ${unsafeHTML( this.mkPlayground(`
                 // Get the module
-                import "@uvalib/site-components/site-switch.js";
+                import "@uvalib/cdn-builds/site-components/site-switch.js";
               `,`
               <div>
                 <site-switch></site-switch>
