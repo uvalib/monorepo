@@ -5,8 +5,6 @@ permalink: "acknowledgements.html"
 
 ## ACKNOWLEDGEMENTS Private Collections of Modern Library Publications 
 
-### TEST
-
 Richard H. Allen, Lincoln, Nebraska  
 
 Joseph and Sharon Blackburn, Lubbock, Texas  
