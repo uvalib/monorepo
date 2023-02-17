@@ -9,7 +9,8 @@
     "lint": "turbo run lint",
     "dev": "turbo run dev",
     "mkPkg": "cd packages; npm init @open-wc",
-    "mkApp": "cd apps; npm init @open-wc"
+    "mkApp": "cd apps; npm init @open-wc",
+    "postpublish" : "PACKAGE_VERSION=$(cat package.json | grep \\\"version\\\" | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && git tag v$PACKAGE_VERSION && git push --tags"
   },
   "keywords": [],
   "author": "",
