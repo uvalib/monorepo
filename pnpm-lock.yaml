@@ -154,6 +154,7 @@ importers:
       '@uvalib/bento-box': workspace:*
       '@uvalib/data-wrap': workspace:*
       '@uvalib/site-components': workspace:*
+      '@uvalib/site-header': workspace:*
       '@uvalib/site-hours': workspace:*
       '@uvalib/site-style': workspace:*
       '@uvalib/viz-graph': workspace:*
@@ -162,6 +163,7 @@ importers:
       '@uvalib/bento-box': link:../bento-box
       '@uvalib/data-wrap': link:../data-wrap
       '@uvalib/site-components': link:../site-components
+      '@uvalib/site-header': link:../site-header
       '@uvalib/site-hours': link:../site-hours
       '@uvalib/site-style': link:../site-style
       '@uvalib/viz-graph': link:../viz-graph

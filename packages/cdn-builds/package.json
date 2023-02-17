@@ -2,7 +2,7 @@
   "name": "@uvalib/cdn-builds",
   "version": "2.0.2",
   "description": "",
-  "main": "dist/index.js",
+  "main": "build/index.js",
   "scripts": {
     "build": "rimraf build && tsc && rollup -c rollup.config.mjs",
     "test": "echo \"Error: no test specified\" && exit 0"
