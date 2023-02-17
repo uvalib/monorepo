@@ -19,11 +19,8 @@ phases:
 
   pre_build:
     commands:
-      - BUILD_VERSION=$(date --date="@$(echo $CODEBUILD_START_TIME | cut -c1-10)" +"%Y%m%d%H%M%S")
-      - PACKAGE_VERSION=$(grep "\"version\":" ${package_file} | awk '{print $2}' | tr -d "\",")
-      - ASSET_VERSION=${PACKAGE_VERSION}-${BUILD_VERSION}
-      - COMMIT_TAG=gitcommit-$CODEBUILD_RESOLVED_SOURCE_VERSION
-      - versioned_target=${target_bucket}/${target_root}/${ASSET_VERSION}
+      - published_version=${git describe --tags --abbrev=0 --first-parent --match "v[0-9]*"}
+      - published_target="${target_bucket}/${target_root}/${published_version}"
       - latest_target=${target_bucket}/${target_root}/latest
 
   build:
@@ -31,10 +28,15 @@ phases:
       - npm install -g pnpm
       - pnpm install --no-frozen-lockfile
       - npx turbo run build --filter=site-mock
-      - echo "Uploading to s3://${versioned_target}"
-      - aws s3 cp ${target_assets} s3://${versioned_target} --recursive --quiet
-      - echo "Syncing s3://${versioned_target} -> s3://${latest_target}"
-      - aws s3 sync s3://${versioned_target} s3://${latest_target} --delete --quiet
+      - echo "Uploading to s3://${latest_target}"
+      - aws s3 cp ${target_assets} s3://${latest_target} --recursive --quiet
+      - |
+        if [[ $published_version ]]; then
+          echo "Syncing s3://${latest_target} -> s3://${published_target}"
+          aws s3 sync s3://${latest_target} s3://${published_target} --delete --quiet
+        else
+          echo "No published tag detected on this commit"
+        fi
       - echo "Invalidating CDN cache"
       - AWS_MAX_ATTEMPTS=10 aws cloudfront create-invalidation --distribution-id ${DISTRIBUTION_ID} --paths "/${target_root}/latest"
 
