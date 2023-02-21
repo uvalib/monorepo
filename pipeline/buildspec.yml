@@ -31,7 +31,7 @@ phases:
       - echo "Uploading to s3://${latest_target}"
       - aws s3 sync ${target_assets} s3://${latest_target} --delete --quiet
       - |
-        if [ $published_version ]; then
+        if [ $published_version != 0 ]; then
           echo "Syncing s3://${latest_target} -> s3://${published_target}"
           aws s3 sync s3://${latest_target} s3://${published_target} --delete --quiet
         else
