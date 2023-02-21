@@ -5,7 +5,8 @@
   "main": "build/index.js",
   "scripts": {
     "build": "rimraf build && tsc && rollup -c rollup.config.mjs",
-    "test": "echo \"Error: no test specified\" && exit 0"
+    "test": "echo \"Error: no test specified\" && exit 0",
+    "postpublish" : "PACKAGE_VERSION=$(cat package.json | grep \\\"version\\\" | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && git tag cdn-v$PACKAGE_VERSION && git push --tags"
   },
   "keywords": [],
   "author": "",

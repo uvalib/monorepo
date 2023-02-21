@@ -6,10 +6,10 @@ version: 0.2
 
 env:
   variables:
-    target_assets: apps/site-mock/node_modules/
+    target_assets: packages/cdn-builds/build/
     target_bucket: unpkg.internal.lib.virginia.edu
     target_root: web-components
-    package_file: apps/site-mock/package.json
+    package_file: packages/cdn-builds/package.json
 
 phases:
   install:
@@ -19,7 +19,7 @@ phases:
 
   pre_build:
     commands:
-      - published_version=$(git describe --tags --abbrev=0 --first-parent --match "v[0-9]*" || echo 0)
+      - published_version=$(git describe --tags --abbrev=0 --first-parent --match "cdn-v[0-9]*" || echo 0)
       - published_target="${target_bucket}/${target_root}/${published_version}"
       - latest_target=${target_bucket}/${target_root}/latest
 
@@ -27,7 +27,7 @@ phases:
     commands:
       - npm install -g pnpm
       - pnpm install --no-frozen-lockfile
-      - npx turbo run build --filter=site-mock
+      - pnpm turbo run build --filter=cdn-builds
       - echo "Uploading to s3://${latest_target}"
       - aws s3 cp ${target_assets} s3://${latest_target} --recursive --quiet
       - |
