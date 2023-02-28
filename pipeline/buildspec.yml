@@ -25,7 +25,7 @@ phases:
       - yarn install
       - yarn run build
       - echo "Syncing s3://${S3_BUCKET}"
-      - aws s3 sync build s3://${S3_BUCKET} --recursive --quiet
+      - aws s3 sync build s3://${S3_BUCKET} --delete --quiet
       - echo "Invalidating CDN cache"
       - AWS_MAX_ATTEMPTS=10 aws cloudfront create-invalidation --distribution-id ${DISTRIBUTION_ID} --paths "/"
 
