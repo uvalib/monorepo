@@ -1,0 +1,38 @@
+#
+# buildspec.yml
+#
+
+version: 0.2
+
+env:
+  variables:
+    target_bucket: mlbib-dev.internal.lib.virginia.edu
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 16
+#    commands:
+
+  pre_build:
+    commands:
+      - git clone https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/uvalib/dcmd/modern-library-bibliography.git
+      - ln -s modern-library-bibliography/MSWord .
+      - ln -s modern-library-bibliography/TransmogXML .
+
+  build:
+    commands:
+      - npm install -g yarn
+      - yarn install
+      - yarn run build
+      - echo "Syncing s3://${target_bucket}"
+      - aws s3 sync build s3://${target_bucket} --recursive --quiet
+      - echo "Invalidating CDN cache"
+      - AWS_MAX_ATTEMPTS=10 aws cloudfront create-invalidation --distribution-id ${DISTRIBUTION_ID} --paths "/"
+
+#  post_build:
+#    commands:
+
+#
+# end of file
+#
