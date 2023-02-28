@@ -4,9 +4,8 @@
 
 version: 0.2
 
-env:
-  variables:
-    target_bucket: mlbib-dev.internal.lib.virginia.edu
+#env:
+#  variables:
 
 phases:
   install:
@@ -25,8 +24,8 @@ phases:
       - npm install -g yarn
       - yarn install
       - yarn run build
-      - echo "Syncing s3://${target_bucket}"
-      - aws s3 sync build s3://${target_bucket} --recursive --quiet
+      - echo "Syncing s3://${S3_BUCKET}"
+      - aws s3 sync build s3://${S3_BUCKET} --recursive --quiet
       - echo "Invalidating CDN cache"
       - AWS_MAX_ATTEMPTS=10 aws cloudfront create-invalidation --distribution-id ${DISTRIBUTION_ID} --paths "/"
 
