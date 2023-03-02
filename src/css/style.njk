@@ -5,6 +5,12 @@ permalink: "css/style.css"
   {% include "src/css/bsuva.org.njk" %}
   {% include "node_modules/@shoelace-style/shoelace/dist/themes/light.css" %}
 
+@font-face {
+  font-family: 'UnifrakturMaguntia';
+  src: url('../fonts/unifrakturmaguntia-regular-webfont.woff2') format('woff2'),
+       url('../fonts/unifrakturmaguntia-regular-webfont.woff') format('woff');
+}
+
   uvalib-modal-image-button::part(button) {
     font-size: inherit;
     margin: 0;
@@ -15,5 +21,7 @@ permalink: "css/style.css"
   uvalib-modal-image-button::part(button):focus {outline:0;}
 
   .smallcaps {font-variant-caps: small-caps;}
+
+  
 {% endset %}
 {{ css | cssmin | safe }}
