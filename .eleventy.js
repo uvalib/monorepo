@@ -101,6 +101,7 @@ module.exports = function(eleventyConfig) {
     eleventyConfig.addPassthroughCopy("src/.nojekyll");
     eleventyConfig.addPassthroughCopy("src/mlb/images");
     eleventyConfig.addPassthroughCopy("src/images");
+    eleventyConfig.addPassthroughCopy("src/fonts");
     eleventyConfig.addFilter("cssmin", function(code) { return new CleanCSS({}).minify(code).styles; });
     
     return {
