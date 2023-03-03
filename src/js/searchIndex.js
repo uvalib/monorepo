@@ -1,4 +1,4 @@
-import { s, $ } from './lit-element-90518c22.js';
+import { s, y } from './lit-element-6528530d.js';
 
 class UVALibFacetedSearchIndex extends s {
     static properties = {
@@ -35,7 +35,7 @@ class UVALibFacetedSearchIndex extends s {
         myElement.dispatchEvent(event);
     }
     render() {
-        return $`<h1>Foo Bar</h1>`;
+        return y`<h1>Foo Bar</h1>`;
     }
 }
 customElements.define('uvalib-faceted-search-index', UVALibFacetedSearchIndex);

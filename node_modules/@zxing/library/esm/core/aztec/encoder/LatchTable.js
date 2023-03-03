@@ -3,7 +3,7 @@
 // be up to 14 bits.  In the best possible case, we are already there!
 // The high half-word of each entry gives the number of bits.
 // The low half-word of each entry are the actual bits necessary to change
-export var LATCH_TABLE = [
+export const LATCH_TABLE = [
     Int32Array.from([
         0,
         (5 << 16) + 28,

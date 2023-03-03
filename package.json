@@ -23,6 +23,7 @@
         "lit": "^2.1.3",
         "lunr": "^2.3.9",
         "markdown-it": "^12.3.2",
+        "markdown-it-ignore": "^0.1.0",
         "minisearch": "^4.0.3",
         "pandoc": "^0.2.0"
     },

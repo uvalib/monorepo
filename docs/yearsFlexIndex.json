@@ -14,7 +14,8 @@
         "type",
         "year",
         "searchContent"
-      ]
+      ],
+      "getFn": null
     }
   ],
   "records": [

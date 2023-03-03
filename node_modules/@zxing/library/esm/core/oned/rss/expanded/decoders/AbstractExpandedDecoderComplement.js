@@ -15,17 +15,17 @@ export function createDecoder(information) {
         if (!information.get(2)) {
             return new AnyAIDecoder(information);
         }
-        var fourBitEncodationMethod = GeneralAppIdDecoder.extractNumericValueFromBitArray(information, 1, 4);
+        let fourBitEncodationMethod = GeneralAppIdDecoder.extractNumericValueFromBitArray(information, 1, 4);
         switch (fourBitEncodationMethod) {
             case 4: return new AI013103decoder(information);
             case 5: return new AI01320xDecoder(information);
         }
-        var fiveBitEncodationMethod = GeneralAppIdDecoder.extractNumericValueFromBitArray(information, 1, 5);
+        let fiveBitEncodationMethod = GeneralAppIdDecoder.extractNumericValueFromBitArray(information, 1, 5);
         switch (fiveBitEncodationMethod) {
             case 12: return new AI01392xDecoder(information);
             case 13: return new AI01393xDecoder(information);
         }
-        var sevenBitEncodationMethod = GeneralAppIdDecoder.extractNumericValueFromBitArray(information, 1, 7);
+        let sevenBitEncodationMethod = GeneralAppIdDecoder.extractNumericValueFromBitArray(information, 1, 7);
         switch (sevenBitEncodationMethod) {
             case 56: return new AI013x0x1xDecoder(information, '310', '11');
             case 57: return new AI013x0x1xDecoder(information, '320', '11');

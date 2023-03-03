@@ -1,4 +1,4 @@
-import { s, $ } from './lit-element-90518c22.js';
+import { s, y } from './lit-element-6528530d.js';
 import './result.js';
 
 class UVALibFacetedSearch extends s {
@@ -171,7 +171,7 @@ class UVALibFacetedSearch extends s {
         let promises = [];
         // Load the Fuse search library
         promises.push(
-            import('./document-6f0a7833.js')
+            import('./document-8f4aac62.js')
             .then(function(i) {this.FlexSearch = i.default;}.bind(this) )
             .then(function(){
                 console.info('FlexSearch library loaded');
@@ -203,7 +203,7 @@ class UVALibFacetedSearch extends s {
         let promises = [];
         // Load the Fuse search library
         promises.push(
-            import('./fuse.esm-83aa61ae.js')
+            import('./fuse.esm-420eb49a.js')
             .then(function(i) {this.Fuse = i.default;}.bind(this) )
             .then(function(){
                 console.info('Fuse library loaded');
@@ -332,9 +332,9 @@ class UVALibFacetedSearch extends s {
     }
 
     render() {
-        return $`
+        return y`
         <!-- The Available Search Libraries to pick from (depending on the indexes we have available from the selected collection) -->
-        ${this.selectLibrary?$`
+        ${this.selectLibrary?y`
         <sl-radio-group label="Select a search library" fieldset style="display: inline-block;">
             <sl-radio-button name="slib" value="fuse" ?checked="${this.searchLibrary === 'fuse'}" @sl-change="${this._libChanged}">Fuse</sl-radio-button>
             <sl-radio-button name="slib" value="lunr" ?checked="${this.searchLibrary === 'lunr'}" @sl-change="${this._libChanged}">Lunr</sl-radio-button>
@@ -352,8 +352,8 @@ class UVALibFacetedSearch extends s {
             <!-- Tabs to select from -->
             ${ Object.keys(this.config.collections).map(colId=>{
                 const col = this.config.collections[colId];
-                return $`<sl-tab slot="nav" panel="${colId}" style="position:relative">${col.title}
-                        ${this.searchLibrary && col.indexes[this.searchLibrary].results && this.queryString? $`
+                return y`<sl-tab slot="nav" panel="${colId}" style="position:relative">${col.title}
+                        ${this.searchLibrary && col.indexes[this.searchLibrary].results && this.queryString? y`
                         <sl-badge pill style="position:absolute;top:0px;right:-5px;">${col.indexes[this.searchLibrary].results.length}</sl-badge>
                         `:''}
                     </sl-tab>`
@@ -361,17 +361,17 @@ class UVALibFacetedSearch extends s {
             <!-- Tab containers -->
             ${ Object.keys(this.config.collections).map(collId=>{
                 const coll = this.config.collections[collId];
-                return $`
+                return y`
                 <sl-tab-panel name="${collId}">
                     <h2>${coll.title}</h2>
-                    ${this.searchLibrary && coll.indexes[this.searchLibrary].results && coll.indexes[this.searchLibrary].results.length>0? $`
+                    ${this.searchLibrary && coll.indexes[this.searchLibrary].results && coll.indexes[this.searchLibrary].results.length>0? y`
                         <div id="results">
                         ${coll.indexes[this.searchLibrary].results.map(item=>{
-                            return $`
+                            return y`
                                 <uvalib-result .item="${item}"></uvalib-result>
                             `} )}
                         </div>
-                    `:$`
+                    `:y`
                         <p>Need to search for something and/or current search returned no results!</p>
                     `}
                 </sl-tab-panel>

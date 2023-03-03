@@ -10,6 +10,8 @@ const pathPrefix = process.env.PATH_PREFIX || "";
 let markdown = require("markdown-it")({
   html: true
 });
+const markdownIt = require("markdown-it");
+const markdownItIgnore = require("markdown-it-ignore");
 
 function arrayOrStringToParaShortcode(para, title, cls) {
   if (para && title && cls) {
@@ -94,7 +96,7 @@ module.exports = function(eleventyConfig) {
       })      
     })
 
-    eleventyConfig.setLibrary('md', markdown({
+    eleventyConfig.setLibrary('md', markdownIt({
       html: true,
       breaks: true,
       linkify: true,
@@ -103,7 +105,7 @@ module.exports = function(eleventyConfig) {
       highlight: function (code, language) {
         return require('highlight.js').highlightAuto(code, [language]).value;
       }
-    }).use(ignore, { pattern: '<!-- ignore -->' }))
+    }).use(markdownItIgnore))
 
     eleventyConfig.addFilter('markdown', content=>markdown.render(content));
     eleventyConfig.addNunjucksShortcode("arrayOrStringPara", arrayOrStringToParaShortcode);

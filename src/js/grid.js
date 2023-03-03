@@ -1,17 +1,17 @@
-import { a as s, r, s as s$1, $ } from './lit-element-90518c22.js';
+import { o, i, s, y } from './lit-element-6528530d.js';
 
 /**
  * @license
  * Copyright (c) 2017 - 2022 Vaadin Ltd.
  * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
  */
-class Lumo extends HTMLElement {
+class Lumo$3 extends HTMLElement {
   static get version() {
-    return '22.0.4';
+    return '22.0.22';
   }
 }
 
-customElements.define('vaadin-lumo-styles', Lumo);
+customElements.define('vaadin-lumo-styles', Lumo$3);
 
 /**
  * @license
@@ -21,7 +21,7 @@ customElements.define('vaadin-lumo-styles', Lumo);
 /**
  * @polymerMixin
  */
-const ThemePropertyMixin = (superClass) =>
+const ThemePropertyMixin$3 = (superClass) =>
   class VaadinThemePropertyMixin extends superClass {
     static get properties() {
       return {
@@ -44,8 +44,8 @@ const ThemePropertyMixin = (superClass) =>
          */
         theme: {
           type: String,
-          readOnly: true
-        }
+          readOnly: true,
+        },
       };
     }
 
@@ -78,7 +78,7 @@ const ThemePropertyMixin = (superClass) =>
 /**
  * @type {Theme[]}
  */
-const themeRegistry = [];
+const themeRegistry$3 = [];
 
 /**
  * Registers CSS styles for a component type. Make sure to register the styles before
@@ -90,7 +90,7 @@ const themeRegistry = [];
  * @param {{moduleId?: string, include?: string | string[]}} options Additional options
  * @return {void}
  */
-function registerStyles(themeFor, styles, options = {}) {
+function registerStyles$3(themeFor, styles, options = {}) {
   if (themeFor) {
     const elementClass = customElements.get(themeFor);
     if (elementClass && Object.prototype.hasOwnProperty.call(elementClass, '__finalized')) {
@@ -101,16 +101,16 @@ function registerStyles(themeFor, styles, options = {}) {
     }
   }
 
-  styles = recursiveFlattenStyles(styles);
+  styles = recursiveFlattenStyles$3(styles);
 
   if (window.Vaadin && window.Vaadin.styleModules) {
     window.Vaadin.styleModules.registerStyles(themeFor, styles, options);
   } else {
-    themeRegistry.push({
+    themeRegistry$3.push({
       themeFor,
       styles,
       include: options.include,
-      moduleId: options.moduleId
+      moduleId: options.moduleId,
     });
   }
 }
@@ -120,11 +120,11 @@ function registerStyles(themeFor, styles, options = {}) {
  * In case the style-modules adapter is imported, the themes are obtained from there instead
  * @returns {Theme[]}
  */
-function getAllThemes() {
+function getAllThemes$3() {
   if (window.Vaadin && window.Vaadin.styleModules) {
     return window.Vaadin.styleModules.getAllThemes();
   } else {
-    return themeRegistry;
+    return themeRegistry$3;
   }
 }
 
@@ -134,7 +134,7 @@ function getAllThemes() {
  * @param {string} tagName
  * @returns {boolean}
  */
-function matchesThemeFor(themeFor, tagName) {
+function matchesThemeFor$3(themeFor, tagName) {
   return (themeFor || '').split(' ').some((themeForToken) => {
     return new RegExp('^' + themeForToken.split('*').join('.*') + '$').test(tagName);
   });
@@ -146,7 +146,7 @@ function matchesThemeFor(themeFor, tagName) {
  * @param {string} moduleName
  * @returns {number}
  */
-function getIncludePriority(moduleName = '') {
+function getIncludePriority$3(moduleName = '') {
   let includePriority = 0;
   if (moduleName.indexOf('lumo-') === 0 || moduleName.indexOf('material-') === 0) {
     includePriority = 1;
@@ -162,11 +162,11 @@ function getIncludePriority(moduleName = '') {
  * @param {CSSResult[]} result
  * @returns {CSSResult[]}
  */
-function recursiveFlattenStyles(styles = [], result = []) {
-  if (styles instanceof s) {
+function recursiveFlattenStyles$3(styles = [], result = []) {
+  if (styles instanceof o) {
     result.push(styles);
   } else if (Array.isArray(styles)) {
-    styles.forEach((style) => recursiveFlattenStyles(style, result));
+    styles.forEach((style) => recursiveFlattenStyles$3(style, result));
   } else {
     console.warn('An item in styles is not of type CSSResult. Use `unsafeCSS` or `css`.');
   }
@@ -178,13 +178,13 @@ function recursiveFlattenStyles(styles = [], result = []) {
  * @param {Theme} theme
  * @returns {CSSResult[]}
  */
-function getIncludedStyles(theme) {
+function getIncludedStyles$3(theme) {
   const includedStyles = [];
   if (theme.include) {
     [].concat(theme.include).forEach((includeModuleId) => {
-      const includedTheme = getAllThemes().find((s) => s.moduleId === includeModuleId);
+      const includedTheme = getAllThemes$3().find((s) => s.moduleId === includeModuleId);
       if (includedTheme) {
-        includedStyles.push(...getIncludedStyles(includedTheme), ...includedTheme.styles);
+        includedStyles.push(...getIncludedStyles$3(includedTheme), ...includedTheme.styles);
       } else {
         console.warn(`Included moduleId ${includeModuleId} not found in style registry`);
       }
@@ -198,7 +198,7 @@ function getIncludedStyles(theme) {
  * @param {CSSResult[]} styles
  * @param {HTMLTemplateElement} template
  */
-function addStylesToTemplate(styles, template) {
+function addStylesToTemplate$3(styles, template) {
   const styleEl = document.createElement('style');
   styleEl.innerHTML = styles
     // Remove duplicates so that the last occurrence remains
@@ -214,18 +214,18 @@ function addStylesToTemplate(styles, template) {
  * @param {string} tagName
  * @returns {Theme[]}
  */
-function getThemes(tagName) {
+function getThemes$3(tagName) {
   const defaultModuleName = tagName + '-default-theme';
 
-  const themes = getAllThemes()
+  const themes = getAllThemes$3()
     // Filter by matching themeFor properties
-    .filter((theme) => theme.moduleId !== defaultModuleName && matchesThemeFor(theme.themeFor, tagName))
+    .filter((theme) => theme.moduleId !== defaultModuleName && matchesThemeFor$3(theme.themeFor, tagName))
     .map((theme) => ({
       ...theme,
       // Prepend styles from included themes
-      styles: [...getIncludedStyles(theme), ...theme.styles],
+      styles: [...getIncludedStyles$3(theme), ...theme.styles],
       // Map moduleId to includePriority
-      includePriority: getIncludePriority(theme.moduleId)
+      includePriority: getIncludePriority$3(theme.moduleId),
     }))
     // Sort by includePriority
     .sort((themeA, themeB) => themeB.includePriority - themeA.includePriority);
@@ -234,7 +234,7 @@ function getThemes(tagName) {
     return themes;
   } else {
     // No theme modules found, return the default module if it exists
-    return getAllThemes().filter((theme) => theme.moduleId === defaultModuleName);
+    return getAllThemes$3().filter((theme) => theme.moduleId === defaultModuleName);
   }
 }
 
@@ -242,8 +242,8 @@ function getThemes(tagName) {
  * @polymerMixin
  * @mixes ThemePropertyMixin
  */
-const ThemableMixin = (superClass) =>
-  class VaadinThemableMixin extends ThemePropertyMixin(superClass) {
+const ThemableMixin$3 = (superClass) =>
+  class VaadinThemableMixin extends ThemePropertyMixin$3(superClass) {
     /**
      * Covers PolymerElement based component styling
      * @protected
@@ -259,11 +259,11 @@ const ThemableMixin = (superClass) =>
       const inheritedTemplate = Object.getPrototypeOf(this.prototype)._template;
       const inheritedThemes = (inheritedTemplate ? inheritedTemplate.__themes : []) || [];
 
-      template.__themes = [...inheritedThemes, ...getThemes(this.is)];
+      template.__themes = [...inheritedThemes, ...getThemes$3(this.is)];
 
       // Get flattened styles array
       const styles = template.__themes.reduce((styles, theme) => [...styles, ...theme.styles], []);
-      addStylesToTemplate(styles, template);
+      addStylesToTemplate$3(styles, template);
     }
 
     /**
@@ -276,7 +276,7 @@ const ThemableMixin = (superClass) =>
      */
     static finalizeStyles(styles) {
       return (
-        getThemes(this.is)
+        getThemes$3(this.is)
           // Get flattened styles array
           .reduce((styles, theme) => [...styles, ...theme.styles], [])
           .concat(styles)
@@ -290,7 +290,7 @@ const ThemableMixin = (superClass) =>
  * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
  */
 
-const colorBase = r`
+const colorBase$3 = i`
   :host {
     /* Base (background) */
     --lumo-base-color: #fff;
@@ -364,11 +364,11 @@ const colorBase = r`
   }
 `;
 
-const $tpl$5 = document.createElement('template');
-$tpl$5.innerHTML = `<style>${colorBase.toString().replace(':host', 'html')}</style>`;
-document.head.appendChild($tpl$5.content);
+const $tpl$i = document.createElement('template');
+$tpl$i.innerHTML = `<style>${colorBase$3.toString().replace(':host', 'html')}</style>`;
+document.head.appendChild($tpl$i.content);
 
-const color = r`
+const color$3 = i`
   [theme~='dark'] {
     /* Base (background) */
     --lumo-base-color: hsl(214, 35%, 21%);
@@ -473,16 +473,16 @@ const color = r`
   }
 `;
 
-registerStyles('', color, { moduleId: 'lumo-color' });
+registerStyles$3('', color$3, { moduleId: 'lumo-color' });
 
-const colorLegacy = r`
+const colorLegacy$3 = i`
   :host {
     color: var(--lumo-body-text-color) !important;
     background-color: var(--lumo-base-color) !important;
   }
 `;
 
-registerStyles('', [color, colorLegacy], { moduleId: 'lumo-color-legacy' });
+registerStyles$3('', [color$3, colorLegacy$3], { moduleId: 'lumo-color-legacy' });
 
 /**
  * @license
@@ -490,9 +490,9 @@ registerStyles('', [color, colorLegacy], { moduleId: 'lumo-color-legacy' });
  * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
  */
 
-const $_documentContainer$2 = document.createElement('template');
+const $_documentContainer$3 = document.createElement('template');
 
-$_documentContainer$2.innerHTML = `
+$_documentContainer$3.innerHTML = `
   <style>
     @font-face {
       font-family: 'lumo-icons';
@@ -548,7 +548,7 @@ $_documentContainer$2.innerHTML = `
   </style>
 `;
 
-document.head.appendChild($_documentContainer$2.content);
+document.head.appendChild($_documentContainer$3.content);
 
 /**
  * @license
@@ -556,7 +556,7 @@ document.head.appendChild($_documentContainer$2.content);
  * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
  */
 
-const sizing = r`
+const sizing$3 = i`
   :host {
     --lumo-size-xs: 1.625rem;
     --lumo-size-s: 1.875rem;
@@ -573,9 +573,9 @@ const sizing = r`
   }
 `;
 
-const $tpl$4 = document.createElement('template');
-$tpl$4.innerHTML = `<style>${sizing.toString().replace(':host', 'html')}</style>`;
-document.head.appendChild($tpl$4.content);
+const $tpl$h = document.createElement('template');
+$tpl$h.innerHTML = `<style>${sizing$3.toString().replace(':host', 'html')}</style>`;
+document.head.appendChild($tpl$h.content);
 
 /**
  * @license
@@ -583,7 +583,7 @@ document.head.appendChild($tpl$4.content);
  * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
  */
 
-const spacing = r`
+const spacing$2 = i`
   :host {
     /* Square */
     --lumo-space-xs: 0.25rem;
@@ -608,9 +608,9 @@ const spacing = r`
   }
 `;
 
-const $tpl$3 = document.createElement('template');
-$tpl$3.innerHTML = `<style>${spacing.toString().replace(':host', 'html')}</style>`;
-document.head.appendChild($tpl$3.content);
+const $tpl$g = document.createElement('template');
+$tpl$g.innerHTML = `<style>${spacing$2.toString().replace(':host', 'html')}</style>`;
+document.head.appendChild($tpl$g.content);
 
 /**
  * @license
@@ -618,7 +618,7 @@ document.head.appendChild($tpl$3.content);
  * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
  */
 
-const style = r`
+const style$3 = i`
   :host {
     /* Border radius */
     --lumo-border-radius-s: 0.25em; /* Checkbox, badge, date-picker year indicator, etc */
@@ -638,9 +638,9 @@ const style = r`
   }
 `;
 
-const $tpl$2 = document.createElement('template');
-$tpl$2.innerHTML = `<style>${style.toString().replace(':host', 'html')}</style>`;
-document.head.appendChild($tpl$2.content);
+const $tpl$f = document.createElement('template');
+$tpl$f.innerHTML = `<style>${style$3.toString().replace(':host', 'html')}</style>`;
+document.head.appendChild($tpl$f.content);
 
 /**
  * @license
@@ -648,7 +648,7 @@ document.head.appendChild($tpl$2.content);
  * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
  */
 
-const font = r`
+const font$3 = i`
   :host {
     /* prettier-ignore */
     --lumo-font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
@@ -670,7 +670,7 @@ const font = r`
   }
 `;
 
-const typography = r`
+const typography$3 = i`
   html,
   :host {
     font-family: var(--lumo-font-family);
@@ -775,15 +775,730 @@ const typography = r`
   }
 `;
 
-registerStyles('', typography, { moduleId: 'lumo-typography' });
+registerStyles$3('', typography$3, { moduleId: 'lumo-typography' });
 
-const $tpl$1 = document.createElement('template');
-$tpl$1.innerHTML = `<style>${font.toString().replace(':host', 'html')}</style>`;
-document.head.appendChild($tpl$1.content);
+const $tpl$e = document.createElement('template');
+$tpl$e.innerHTML = `<style>${font$3.toString().replace(':host', 'html')}</style>`;
+document.head.appendChild($tpl$e.content);
 
-registerStyles(
+/**
+ * @license
+ * Copyright (c) 2017 - 2022 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */
+class Lumo$2 extends HTMLElement {
+  static get version() {
+    return '22.0.22';
+  }
+}
+
+customElements.define('vaadin-lumo-styles', Lumo$2);
+
+/**
+ * @license
+ * Copyright (c) 2017 - 2022 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */
+/**
+ * @polymerMixin
+ */
+const ThemePropertyMixin$2 = (superClass) =>
+  class VaadinThemePropertyMixin extends superClass {
+    static get properties() {
+      return {
+        /**
+         * Helper property with theme attribute value facilitating propagation
+         * in shadow DOM.
+         *
+         * Enables the component implementation to propagate the `theme`
+         * attribute value to the sub-components in Shadow DOM by binding
+         * the sub-component’s "theme" attribute to the `theme` property of
+         * the host.
+         *
+         * **NOTE:** Extending the mixin only provides the property for binding,
+         * and does not make the propagation alone.
+         *
+         * See [Styling Components: Sub-components](https://vaadin.com/docs/latest/ds/customization/styling-components/#sub-components).
+         * page for more information.
+         *
+         * @protected
+         */
+        theme: {
+          type: String,
+          readOnly: true,
+        },
+      };
+    }
+
+    /** @protected */
+    attributeChangedCallback(name, oldValue, newValue) {
+      super.attributeChangedCallback(name, oldValue, newValue);
+
+      if (name === 'theme') {
+        this._setTheme(newValue);
+      }
+    }
+  };
+
+/**
+ * @license
+ * Copyright (c) 2017 - 2022 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */
+
+/**
+ * @typedef {Object} Theme
+ * @property {string} themeFor
+ * @property {CSSResult[]} styles
+ * @property {string | string[]} [include]
+ * @property {string} [moduleId]
+ *
+ * @typedef {CSSResult[] | CSSResult} CSSResultGroup
+ */
+
+/**
+ * @type {Theme[]}
+ */
+const themeRegistry$2 = [];
+
+/**
+ * Registers CSS styles for a component type. Make sure to register the styles before
+ * the first instance of a component of the type is attached to DOM.
+ *
+ * @param {string} themeFor The local/tag name of the component type to register the styles for
+ * @param {CSSResultGroup} styles The CSS style rules to be registered for the component type
+ * matching themeFor and included in the local scope of each component instance
+ * @param {{moduleId?: string, include?: string | string[]}} options Additional options
+ * @return {void}
+ */
+function registerStyles$2(themeFor, styles, options = {}) {
+  if (themeFor) {
+    const elementClass = customElements.get(themeFor);
+    if (elementClass && Object.prototype.hasOwnProperty.call(elementClass, '__finalized')) {
+      console.warn(`The custom element definition for "${themeFor}"
+      was finalized before a style module was registered.
+      Make sure to add component specific style modules before
+      importing the corresponding custom element.`);
+    }
+  }
+
+  styles = recursiveFlattenStyles$2(styles);
+
+  if (window.Vaadin && window.Vaadin.styleModules) {
+    window.Vaadin.styleModules.registerStyles(themeFor, styles, options);
+  } else {
+    themeRegistry$2.push({
+      themeFor,
+      styles,
+      include: options.include,
+      moduleId: options.moduleId,
+    });
+  }
+}
+
+/**
+ * Returns all registered themes. By default the themeRegistry is returend as is.
+ * In case the style-modules adapter is imported, the themes are obtained from there instead
+ * @returns {Theme[]}
+ */
+function getAllThemes$2() {
+  if (window.Vaadin && window.Vaadin.styleModules) {
+    return window.Vaadin.styleModules.getAllThemes();
+  } else {
+    return themeRegistry$2;
+  }
+}
+
+/**
+ * Returns true if the themeFor string matches the tag name
+ * @param {string} themeFor
+ * @param {string} tagName
+ * @returns {boolean}
+ */
+function matchesThemeFor$2(themeFor, tagName) {
+  return (themeFor || '').split(' ').some((themeForToken) => {
+    return new RegExp('^' + themeForToken.split('*').join('.*') + '$').test(tagName);
+  });
+}
+
+/**
+ * Maps the moduleName to an include priority number which is used for
+ * determining the order in which styles are applied.
+ * @param {string} moduleName
+ * @returns {number}
+ */
+function getIncludePriority$2(moduleName = '') {
+  let includePriority = 0;
+  if (moduleName.indexOf('lumo-') === 0 || moduleName.indexOf('material-') === 0) {
+    includePriority = 1;
+  } else if (moduleName.indexOf('vaadin-') === 0) {
+    includePriority = 2;
+  }
+  return includePriority;
+}
+
+/**
+ * Flattens the styles into a single array of styles.
+ * @param {CSSResultGroup} styles
+ * @param {CSSResult[]} result
+ * @returns {CSSResult[]}
+ */
+function recursiveFlattenStyles$2(styles = [], result = []) {
+  if (styles instanceof o) {
+    result.push(styles);
+  } else if (Array.isArray(styles)) {
+    styles.forEach((style) => recursiveFlattenStyles$2(style, result));
+  } else {
+    console.warn('An item in styles is not of type CSSResult. Use `unsafeCSS` or `css`.');
+  }
+  return result;
+}
+
+/**
+ * Gets an array of CSSResults matching the include property of the theme.
+ * @param {Theme} theme
+ * @returns {CSSResult[]}
+ */
+function getIncludedStyles$2(theme) {
+  const includedStyles = [];
+  if (theme.include) {
+    [].concat(theme.include).forEach((includeModuleId) => {
+      const includedTheme = getAllThemes$2().find((s) => s.moduleId === includeModuleId);
+      if (includedTheme) {
+        includedStyles.push(...getIncludedStyles$2(includedTheme), ...includedTheme.styles);
+      } else {
+        console.warn(`Included moduleId ${includeModuleId} not found in style registry`);
+      }
+    }, theme.styles);
+  }
+  return includedStyles;
+}
+
+/**
+ * Includes the styles to the template.
+ * @param {CSSResult[]} styles
+ * @param {HTMLTemplateElement} template
+ */
+function addStylesToTemplate$2(styles, template) {
+  const styleEl = document.createElement('style');
+  styleEl.innerHTML = styles
+    // Remove duplicates so that the last occurrence remains
+    .filter((style, index) => index === styles.lastIndexOf(style))
+    .map((style) => style.cssText)
+    .join('\n');
+  template.content.appendChild(styleEl);
+}
+
+/**
+ * Returns an array of themes that should be used for styling a component matching
+ * the tag name. The array is sorted by the include order.
+ * @param {string} tagName
+ * @returns {Theme[]}
+ */
+function getThemes$2(tagName) {
+  const defaultModuleName = tagName + '-default-theme';
+
+  const themes = getAllThemes$2()
+    // Filter by matching themeFor properties
+    .filter((theme) => theme.moduleId !== defaultModuleName && matchesThemeFor$2(theme.themeFor, tagName))
+    .map((theme) => ({
+      ...theme,
+      // Prepend styles from included themes
+      styles: [...getIncludedStyles$2(theme), ...theme.styles],
+      // Map moduleId to includePriority
+      includePriority: getIncludePriority$2(theme.moduleId),
+    }))
+    // Sort by includePriority
+    .sort((themeA, themeB) => themeB.includePriority - themeA.includePriority);
+
+  if (themes.length > 0) {
+    return themes;
+  } else {
+    // No theme modules found, return the default module if it exists
+    return getAllThemes$2().filter((theme) => theme.moduleId === defaultModuleName);
+  }
+}
+
+/**
+ * @polymerMixin
+ * @mixes ThemePropertyMixin
+ */
+const ThemableMixin$2 = (superClass) =>
+  class VaadinThemableMixin extends ThemePropertyMixin$2(superClass) {
+    /**
+     * Covers PolymerElement based component styling
+     * @protected
+     */
+    static finalize() {
+      super.finalize();
+
+      const template = this.prototype._template;
+      if (!template || template.__themes) {
+        return;
+      }
+
+      const inheritedTemplate = Object.getPrototypeOf(this.prototype)._template;
+      const inheritedThemes = (inheritedTemplate ? inheritedTemplate.__themes : []) || [];
+
+      template.__themes = [...inheritedThemes, ...getThemes$2(this.is)];
+
+      // Get flattened styles array
+      const styles = template.__themes.reduce((styles, theme) => [...styles, ...theme.styles], []);
+      addStylesToTemplate$2(styles, template);
+    }
+
+    /**
+     * Covers LitElement based component styling
+     *
+     * NOTE: This is not yet an offically supported API!
+     *
+     * TODO: Add tests (run a variation of themable-mixin.test.js where the components get created as LitElements)
+     * @protected
+     */
+    static finalizeStyles(styles) {
+      return (
+        getThemes$2(this.is)
+          // Get flattened styles array
+          .reduce((styles, theme) => [...styles, ...theme.styles], [])
+          .concat(styles)
+      );
+    }
+  };
+
+/**
+ * @license
+ * Copyright (c) 2017 - 2022 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */
+
+const colorBase$2 = i`
+  :host {
+    /* Base (background) */
+    --lumo-base-color: #fff;
+
+    /* Tint */
+    --lumo-tint-5pct: hsla(0, 0%, 100%, 0.3);
+    --lumo-tint-10pct: hsla(0, 0%, 100%, 0.37);
+    --lumo-tint-20pct: hsla(0, 0%, 100%, 0.44);
+    --lumo-tint-30pct: hsla(0, 0%, 100%, 0.5);
+    --lumo-tint-40pct: hsla(0, 0%, 100%, 0.57);
+    --lumo-tint-50pct: hsla(0, 0%, 100%, 0.64);
+    --lumo-tint-60pct: hsla(0, 0%, 100%, 0.7);
+    --lumo-tint-70pct: hsla(0, 0%, 100%, 0.77);
+    --lumo-tint-80pct: hsla(0, 0%, 100%, 0.84);
+    --lumo-tint-90pct: hsla(0, 0%, 100%, 0.9);
+    --lumo-tint: #fff;
+
+    /* Shade */
+    --lumo-shade-5pct: hsla(214, 61%, 25%, 0.05);
+    --lumo-shade-10pct: hsla(214, 57%, 24%, 0.1);
+    --lumo-shade-20pct: hsla(214, 53%, 23%, 0.16);
+    --lumo-shade-30pct: hsla(214, 50%, 22%, 0.26);
+    --lumo-shade-40pct: hsla(214, 47%, 21%, 0.38);
+    --lumo-shade-50pct: hsla(214, 45%, 20%, 0.52);
+    --lumo-shade-60pct: hsla(214, 43%, 19%, 0.6);
+    --lumo-shade-70pct: hsla(214, 42%, 18%, 0.69);
+    --lumo-shade-80pct: hsla(214, 41%, 17%, 0.83);
+    --lumo-shade-90pct: hsla(214, 40%, 16%, 0.94);
+    --lumo-shade: hsl(214, 35%, 15%);
+
+    /* Contrast */
+    --lumo-contrast-5pct: var(--lumo-shade-5pct);
+    --lumo-contrast-10pct: var(--lumo-shade-10pct);
+    --lumo-contrast-20pct: var(--lumo-shade-20pct);
+    --lumo-contrast-30pct: var(--lumo-shade-30pct);
+    --lumo-contrast-40pct: var(--lumo-shade-40pct);
+    --lumo-contrast-50pct: var(--lumo-shade-50pct);
+    --lumo-contrast-60pct: var(--lumo-shade-60pct);
+    --lumo-contrast-70pct: var(--lumo-shade-70pct);
+    --lumo-contrast-80pct: var(--lumo-shade-80pct);
+    --lumo-contrast-90pct: var(--lumo-shade-90pct);
+    --lumo-contrast: var(--lumo-shade);
+
+    /* Text */
+    --lumo-header-text-color: var(--lumo-contrast);
+    --lumo-body-text-color: var(--lumo-contrast-90pct);
+    --lumo-secondary-text-color: var(--lumo-contrast-70pct);
+    --lumo-tertiary-text-color: var(--lumo-contrast-50pct);
+    --lumo-disabled-text-color: var(--lumo-contrast-30pct);
+
+    /* Primary */
+    --lumo-primary-color: hsl(214, 100%, 48%);
+    --lumo-primary-color-50pct: hsla(214, 100%, 49%, 0.76);
+    --lumo-primary-color-10pct: hsla(214, 100%, 60%, 0.13);
+    --lumo-primary-text-color: hsl(214, 100%, 43%);
+    --lumo-primary-contrast-color: #fff;
+
+    /* Error */
+    --lumo-error-color: hsl(3, 85%, 48%);
+    --lumo-error-color-50pct: hsla(3, 85%, 49%, 0.5);
+    --lumo-error-color-10pct: hsla(3, 85%, 49%, 0.1);
+    --lumo-error-text-color: hsl(3, 89%, 42%);
+    --lumo-error-contrast-color: #fff;
+
+    /* Success */
+    --lumo-success-color: hsl(145, 72%, 30%);
+    --lumo-success-color-50pct: hsla(145, 72%, 31%, 0.5);
+    --lumo-success-color-10pct: hsla(145, 72%, 31%, 0.1);
+    --lumo-success-text-color: hsl(145, 85%, 25%);
+    --lumo-success-contrast-color: #fff;
+  }
+`;
+
+const $tpl$d = document.createElement('template');
+$tpl$d.innerHTML = `<style>${colorBase$2.toString().replace(':host', 'html')}</style>`;
+document.head.appendChild($tpl$d.content);
+
+const color$2 = i`
+  [theme~='dark'] {
+    /* Base (background) */
+    --lumo-base-color: hsl(214, 35%, 21%);
+
+    /* Tint */
+    --lumo-tint-5pct: hsla(214, 65%, 85%, 0.06);
+    --lumo-tint-10pct: hsla(214, 60%, 80%, 0.14);
+    --lumo-tint-20pct: hsla(214, 64%, 82%, 0.23);
+    --lumo-tint-30pct: hsla(214, 69%, 84%, 0.32);
+    --lumo-tint-40pct: hsla(214, 73%, 86%, 0.41);
+    --lumo-tint-50pct: hsla(214, 78%, 88%, 0.5);
+    --lumo-tint-60pct: hsla(214, 82%, 90%, 0.58);
+    --lumo-tint-70pct: hsla(214, 87%, 92%, 0.69);
+    --lumo-tint-80pct: hsla(214, 91%, 94%, 0.8);
+    --lumo-tint-90pct: hsla(214, 96%, 96%, 0.9);
+    --lumo-tint: hsl(214, 100%, 98%);
+
+    /* Shade */
+    --lumo-shade-5pct: hsla(214, 0%, 0%, 0.07);
+    --lumo-shade-10pct: hsla(214, 4%, 2%, 0.15);
+    --lumo-shade-20pct: hsla(214, 8%, 4%, 0.23);
+    --lumo-shade-30pct: hsla(214, 12%, 6%, 0.32);
+    --lumo-shade-40pct: hsla(214, 16%, 8%, 0.41);
+    --lumo-shade-50pct: hsla(214, 20%, 10%, 0.5);
+    --lumo-shade-60pct: hsla(214, 24%, 12%, 0.6);
+    --lumo-shade-70pct: hsla(214, 28%, 13%, 0.7);
+    --lumo-shade-80pct: hsla(214, 32%, 13%, 0.8);
+    --lumo-shade-90pct: hsla(214, 33%, 13%, 0.9);
+    --lumo-shade: hsl(214, 33%, 13%);
+
+    /* Contrast */
+    --lumo-contrast-5pct: var(--lumo-tint-5pct);
+    --lumo-contrast-10pct: var(--lumo-tint-10pct);
+    --lumo-contrast-20pct: var(--lumo-tint-20pct);
+    --lumo-contrast-30pct: var(--lumo-tint-30pct);
+    --lumo-contrast-40pct: var(--lumo-tint-40pct);
+    --lumo-contrast-50pct: var(--lumo-tint-50pct);
+    --lumo-contrast-60pct: var(--lumo-tint-60pct);
+    --lumo-contrast-70pct: var(--lumo-tint-70pct);
+    --lumo-contrast-80pct: var(--lumo-tint-80pct);
+    --lumo-contrast-90pct: var(--lumo-tint-90pct);
+    --lumo-contrast: var(--lumo-tint);
+
+    /* Text */
+    --lumo-header-text-color: var(--lumo-contrast);
+    --lumo-body-text-color: var(--lumo-contrast-90pct);
+    --lumo-secondary-text-color: var(--lumo-contrast-70pct);
+    --lumo-tertiary-text-color: var(--lumo-contrast-50pct);
+    --lumo-disabled-text-color: var(--lumo-contrast-30pct);
+
+    /* Primary */
+    --lumo-primary-color: hsl(214, 90%, 48%);
+    --lumo-primary-color-50pct: hsla(214, 90%, 70%, 0.69);
+    --lumo-primary-color-10pct: hsla(214, 90%, 55%, 0.13);
+    --lumo-primary-text-color: hsl(214, 90%, 77%);
+    --lumo-primary-contrast-color: #fff;
+
+    /* Error */
+    --lumo-error-color: hsl(3, 79%, 49%);
+    --lumo-error-color-50pct: hsla(3, 75%, 62%, 0.5);
+    --lumo-error-color-10pct: hsla(3, 75%, 62%, 0.14);
+    --lumo-error-text-color: hsl(3, 100%, 80%);
+
+    /* Success */
+    --lumo-success-color: hsl(145, 72%, 30%);
+    --lumo-success-color-50pct: hsla(145, 92%, 51%, 0.5);
+    --lumo-success-color-10pct: hsla(145, 92%, 51%, 0.1);
+    --lumo-success-text-color: hsl(145, 85%, 46%);
+  }
+
+  html {
+    color: var(--lumo-body-text-color);
+    background-color: var(--lumo-base-color);
+  }
+
+  [theme~='dark'] {
+    color: var(--lumo-body-text-color);
+    background-color: var(--lumo-base-color);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--lumo-header-text-color);
+  }
+
+  a {
+    color: var(--lumo-primary-text-color);
+  }
+
+  blockquote {
+    color: var(--lumo-secondary-text-color);
+  }
+
+  code,
+  pre {
+    background-color: var(--lumo-contrast-10pct);
+    border-radius: var(--lumo-border-radius-m);
+  }
+`;
+
+registerStyles$2('', color$2, { moduleId: 'lumo-color' });
+
+const colorLegacy$2 = i`
+  :host {
+    color: var(--lumo-body-text-color) !important;
+    background-color: var(--lumo-base-color) !important;
+  }
+`;
+
+registerStyles$2('', [color$2, colorLegacy$2], { moduleId: 'lumo-color-legacy' });
+
+/**
+ * @license
+ * Copyright (c) 2017 - 2022 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */
+
+const sizing$2 = i`
+  :host {
+    --lumo-size-xs: 1.625rem;
+    --lumo-size-s: 1.875rem;
+    --lumo-size-m: 2.25rem;
+    --lumo-size-l: 2.75rem;
+    --lumo-size-xl: 3.5rem;
+
+    /* Icons */
+    --lumo-icon-size-s: 1.25em;
+    --lumo-icon-size-m: 1.5em;
+    --lumo-icon-size-l: 2.25em;
+    /* For backwards compatibility */
+    --lumo-icon-size: var(--lumo-icon-size-m);
+  }
+`;
+
+const $tpl$c = document.createElement('template');
+$tpl$c.innerHTML = `<style>${sizing$2.toString().replace(':host', 'html')}</style>`;
+document.head.appendChild($tpl$c.content);
+
+/**
+ * @license
+ * Copyright (c) 2017 - 2022 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */
+
+const spacing$1 = i`
+  :host {
+    /* Square */
+    --lumo-space-xs: 0.25rem;
+    --lumo-space-s: 0.5rem;
+    --lumo-space-m: 1rem;
+    --lumo-space-l: 1.5rem;
+    --lumo-space-xl: 2.5rem;
+
+    /* Wide */
+    --lumo-space-wide-xs: calc(var(--lumo-space-xs) / 2) var(--lumo-space-xs);
+    --lumo-space-wide-s: calc(var(--lumo-space-s) / 2) var(--lumo-space-s);
+    --lumo-space-wide-m: calc(var(--lumo-space-m) / 2) var(--lumo-space-m);
+    --lumo-space-wide-l: calc(var(--lumo-space-l) / 2) var(--lumo-space-l);
+    --lumo-space-wide-xl: calc(var(--lumo-space-xl) / 2) var(--lumo-space-xl);
+
+    /* Tall */
+    --lumo-space-tall-xs: var(--lumo-space-xs) calc(var(--lumo-space-xs) / 2);
+    --lumo-space-tall-s: var(--lumo-space-s) calc(var(--lumo-space-s) / 2);
+    --lumo-space-tall-m: var(--lumo-space-m) calc(var(--lumo-space-m) / 2);
+    --lumo-space-tall-l: var(--lumo-space-l) calc(var(--lumo-space-l) / 2);
+    --lumo-space-tall-xl: var(--lumo-space-xl) calc(var(--lumo-space-xl) / 2);
+  }
+`;
+
+const $tpl$b = document.createElement('template');
+$tpl$b.innerHTML = `<style>${spacing$1.toString().replace(':host', 'html')}</style>`;
+document.head.appendChild($tpl$b.content);
+
+/**
+ * @license
+ * Copyright (c) 2017 - 2022 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */
+
+const style$2 = i`
+  :host {
+    /* Border radius */
+    --lumo-border-radius-s: 0.25em; /* Checkbox, badge, date-picker year indicator, etc */
+    --lumo-border-radius-m: var(--lumo-border-radius, 0.25em); /* Button, text field, menu overlay, etc */
+    --lumo-border-radius-l: 0.5em; /* Dialog, notification, etc */
+    --lumo-border-radius: 0.25em; /* Deprecated */
+
+    /* Shadow */
+    --lumo-box-shadow-xs: 0 1px 4px -1px var(--lumo-shade-50pct);
+    --lumo-box-shadow-s: 0 2px 4px -1px var(--lumo-shade-20pct), 0 3px 12px -1px var(--lumo-shade-30pct);
+    --lumo-box-shadow-m: 0 2px 6px -1px var(--lumo-shade-20pct), 0 8px 24px -4px var(--lumo-shade-40pct);
+    --lumo-box-shadow-l: 0 3px 18px -2px var(--lumo-shade-20pct), 0 12px 48px -6px var(--lumo-shade-40pct);
+    --lumo-box-shadow-xl: 0 4px 24px -3px var(--lumo-shade-20pct), 0 18px 64px -8px var(--lumo-shade-40pct);
+
+    /* Clickable element cursor */
+    --lumo-clickable-cursor: default;
+  }
+`;
+
+const $tpl$a = document.createElement('template');
+$tpl$a.innerHTML = `<style>${style$2.toString().replace(':host', 'html')}</style>`;
+document.head.appendChild($tpl$a.content);
+
+/**
+ * @license
+ * Copyright (c) 2017 - 2022 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */
+
+const font$2 = i`
+  :host {
+    /* prettier-ignore */
+    --lumo-font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+
+    /* Font sizes */
+    --lumo-font-size-xxs: 0.75rem;
+    --lumo-font-size-xs: 0.8125rem;
+    --lumo-font-size-s: 0.875rem;
+    --lumo-font-size-m: 1rem;
+    --lumo-font-size-l: 1.125rem;
+    --lumo-font-size-xl: 1.375rem;
+    --lumo-font-size-xxl: 1.75rem;
+    --lumo-font-size-xxxl: 2.5rem;
+
+    /* Line heights */
+    --lumo-line-height-xs: 1.25;
+    --lumo-line-height-s: 1.375;
+    --lumo-line-height-m: 1.625;
+  }
+`;
+
+const typography$2 = i`
+  html,
+  :host {
+    font-family: var(--lumo-font-family);
+    font-size: var(--lumo-font-size, var(--lumo-font-size-m));
+    line-height: var(--lumo-line-height-m);
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  small,
+  [theme~='font-size-s'] {
+    font-size: var(--lumo-font-size-s);
+    line-height: var(--lumo-line-height-s);
+  }
+
+  [theme~='font-size-xs'] {
+    font-size: var(--lumo-font-size-xs);
+    line-height: var(--lumo-line-height-xs);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 600;
+    line-height: var(--lumo-line-height-xs);
+    margin-top: 1.25em;
+  }
+
+  h1 {
+    font-size: var(--lumo-font-size-xxxl);
+    margin-bottom: 0.75em;
+  }
+
+  h2 {
+    font-size: var(--lumo-font-size-xxl);
+    margin-bottom: 0.5em;
+  }
+
+  h3 {
+    font-size: var(--lumo-font-size-xl);
+    margin-bottom: 0.5em;
+  }
+
+  h4 {
+    font-size: var(--lumo-font-size-l);
+    margin-bottom: 0.5em;
+  }
+
+  h5 {
+    font-size: var(--lumo-font-size-m);
+    margin-bottom: 0.25em;
+  }
+
+  h6 {
+    font-size: var(--lumo-font-size-xs);
+    margin-bottom: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  p,
+  blockquote {
+    margin-top: 0.5em;
+    margin-bottom: 0.75em;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  hr {
+    display: block;
+    align-self: stretch;
+    height: 1px;
+    border: 0;
+    padding: 0;
+    margin: var(--lumo-space-s) calc(var(--lumo-border-radius-m) / 2);
+    background-color: var(--lumo-contrast-10pct);
+  }
+
+  blockquote {
+    border-left: 2px solid var(--lumo-contrast-30pct);
+  }
+
+  b,
+  strong {
+    font-weight: 600;
+  }
+
+  /* RTL specific styles */
+  blockquote[dir='rtl'] {
+    border-left: none;
+    border-right: 2px solid var(--lumo-contrast-30pct);
+  }
+`;
+
+registerStyles$2('', typography$2, { moduleId: 'lumo-typography' });
+
+const $tpl$9 = document.createElement('template');
+$tpl$9.innerHTML = `<style>${font$2.toString().replace(':host', 'html')}</style>`;
+document.head.appendChild($tpl$9.content);
+
+registerStyles$2(
   'vaadin-checkbox',
-  r`
+  i`
     :host {
       color: var(--lumo-body-text-color);
       font-size: var(--lumo-font-size-m);
@@ -943,7 +1658,7 @@ registerStyles(
       opacity: 0.4;
     }
   `,
-  { moduleId: 'lumo-checkbox' }
+  { moduleId: 'lumo-checkbox' },
 );
 
 /**
@@ -1408,7 +2123,7 @@ class DomModule extends HTMLElement {
     // Don't override existing assetpath.
     if (!this.__assetpath) {
       // note: assetpath set via an attribute must be relative to this
-      // element's location; accomodate polyfilled HTMLImports
+      // element's location; accommodate polyfilled HTMLImports
       const owner = window.HTMLImports && HTMLImports.importForElement ?
         HTMLImports.importForElement(this) || document : this.ownerDocument;
       const url = resolveUrl(
@@ -1911,17 +2626,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 // Microtask implemented using Mutation Observer
 let microtaskCurrHandle$1 = 0;
 let microtaskLastHandle$1 = 0;
-let microtaskCallbacks$1 = [];
+let microtaskCallbacks$4 = [];
 let microtaskNodeContent$1 = 0;
 let microtaskScheduled$1 = false;
-let microtaskNode$1 = document.createTextNode('');
-new window.MutationObserver(microtaskFlush$1).observe(microtaskNode$1, {characterData: true});
+let microtaskNode$4 = document.createTextNode('');
+new window.MutationObserver(microtaskFlush$4).observe(microtaskNode$4, {characterData: true});
 
-function microtaskFlush$1() {
+function microtaskFlush$4() {
   microtaskScheduled$1 = false;
-  const len = microtaskCallbacks$1.length;
+  const len = microtaskCallbacks$4.length;
   for (let i = 0; i < len; i++) {
-    let cb = microtaskCallbacks$1[i];
+    let cb = microtaskCallbacks$4[i];
     if (cb) {
       try {
         cb();
@@ -1930,7 +2645,7 @@ function microtaskFlush$1() {
       }
     }
   }
-  microtaskCallbacks$1.splice(0, len);
+  microtaskCallbacks$4.splice(0, len);
   microtaskLastHandle$1 += len;
 }
 
@@ -1940,7 +2655,7 @@ function microtaskFlush$1() {
  * @namespace
  * @summary Async interface wrapper around `setTimeout`.
  */
-const timeOut$1 = {
+const timeOut$2 = {
   /**
    * Returns a sub-module with the async interface providing the provided
    * delay.
@@ -2005,9 +2720,9 @@ const microTask$1 = {
   run(callback) {
     if (!microtaskScheduled$1) {
       microtaskScheduled$1 = true;
-      microtaskNode$1.textContent = microtaskNodeContent$1++;
+      microtaskNode$4.textContent = microtaskNodeContent$1++;
     }
-    microtaskCallbacks$1.push(callback);
+    microtaskCallbacks$4.push(callback);
     return microtaskCurrHandle$1++;
   },
 
@@ -2021,10 +2736,10 @@ const microTask$1 = {
   cancel(handle) {
     const idx = handle - microtaskLastHandle$1;
     if (idx >= 0) {
-      if (!microtaskCallbacks$1[idx]) {
+      if (!microtaskCallbacks$4[idx]) {
         throw new Error('invalid async handle: ' + handle);
       }
-      microtaskCallbacks$1[idx] = null;
+      microtaskCallbacks$4[idx] = null;
     }
   }
 
@@ -2558,7 +3273,13 @@ const PropertiesChanged = dedupingMixin(
       if (str === undefined) {
         node.removeAttribute(attribute);
       } else {
-        node.setAttribute(attribute, str);
+        node.setAttribute(
+            attribute,
+            // Closure's type for `setAttribute`'s second parameter incorrectly
+            // excludes `TrustedScript`.
+            (str === '' && window.trustedTypes) ?
+                /** @type {?} */ (window.trustedTypes.emptyScript) :
+                str);
       }
     }
 
@@ -2634,6 +3355,14 @@ while (proto) {
   }
   proto = Object.getPrototypeOf(proto);
 }
+
+const isTrustedType = (() => {
+  if (!window.trustedTypes) {
+    return () => false;
+  }
+  return (val) => trustedTypes.isHTML(val) ||
+        trustedTypes.isScript(val) || trustedTypes.isScriptURL(val);
+})();
 
 /**
  * Used to save the value of a property that will be overridden with
@@ -2824,6 +3553,14 @@ const PropertyAccessors = dedupingMixin(superClass => {
           if (value instanceof Date) {
             return value.toString();
           } else if (value) {
+            if (isTrustedType(value)) {
+              /**
+               * Here `value` isn't actually a string, but it should be
+               * passed into APIs that normally expect a string, like
+               * elem.setAttribute.
+               */
+              return /** @type {?} */ (value);
+            }
             try {
               return JSON.stringify(value);
             } catch(x) {
@@ -3004,6 +3741,52 @@ function fixPlaceholder(node) {
   }
 }
 
+/**
+ * Copies an attribute from one element to another, converting the value to a
+ * `TrustedScript` if it is named like a Polymer template event listener.
+ *
+ * @param {!Element} dest The element to set the attribute on
+ * @param {!Element} src The element to read the attribute from
+ * @param {string} name The name of the attribute
+ */
+const copyAttributeWithTemplateEventPolicy = (() => {
+  /**
+   * This `TrustedTypePolicy` is used to work around a Chrome bug in the Trusted
+   * Types API where any attribute that starts with `on` may only be set to a
+   * `TrustedScript` value, even if that attribute would not cause an event
+   * listener to be created. (See https://crbug.com/993268 for details.)
+   *
+   * Polymer's template system allows `<dom-if>` and `<dom-repeat>` to be
+   * written using the `<template is="...">` syntax, even if there is no UA
+   * support for custom element extensions of built-in elements. In doing so, it
+   * copies attributes from the original `<template>` to a newly created
+   * `<dom-if>` or `<dom-repeat>`, which can trigger the bug mentioned above if
+   * any of those attributes uses Polymer's `on-` syntax for event listeners.
+   * (Note, the value of these `on-` listeners is not evaluated as script: it is
+   * the name of a member function of a component that will be used as the event
+   * listener.)
+   *
+   * @type {!TrustedTypePolicy|undefined}
+   */
+  const polymerTemplateEventAttributePolicy = window.trustedTypes &&
+      window.trustedTypes.createPolicy(
+          'polymer-template-event-attribute-policy', {
+            createScript: x => x,
+          });
+
+  return (dest, src, name) => {
+    const value = src.getAttribute(name);
+
+    if (polymerTemplateEventAttributePolicy && name.startsWith('on-')) {
+      dest.setAttribute(
+          name, polymerTemplateEventAttributePolicy.createScript(value, name));
+      return;
+    }
+
+    dest.setAttribute(name, value);
+  };
+})();
+
 function wrapTemplateExtension(node) {
   let is = node.getAttribute('is');
   if (is && templateExtensions[is]) {
@@ -3013,8 +3796,9 @@ function wrapTemplateExtension(node) {
     t.parentNode.replaceChild(node, t);
     node.appendChild(t);
     while(t.attributes.length) {
-      node.setAttribute(t.attributes[0].name, t.attributes[0].value);
-      t.removeAttribute(t.attributes[0].name);
+      const {name} = t.attributes[0];
+      copyAttributeWithTemplateEventPolicy(node, t, name);
+      t.removeAttribute(name);
     }
   }
   return node;
@@ -3189,7 +3973,7 @@ const TemplateStamp = dedupingMixin(
         templateInfo.nestedTemplate = Boolean(outerTemplateInfo);
         templateInfo.stripWhiteSpace =
           (outerTemplateInfo && outerTemplateInfo.stripWhiteSpace) ||
-          template.hasAttribute('strip-whitespace');
+          (template.hasAttribute && template.hasAttribute('strip-whitespace'));
          // TODO(rictic): fix typing
          this._parseTemplateContent(
              template, templateInfo, /** @type {?} */ ({parent: null}));
@@ -4630,7 +5414,7 @@ function parseArg(rawArg) {
     // repair extra escape sequences; note only commas strictly need
     // escaping, but we allow any other char to be escaped since its
     // likely users will do this
-    .replace(/\\(.)/g, '\$1')
+    .replace(/\\(.)/g, '$1')
     ;
   // basic argument descriptor
   let a = {
@@ -6956,7 +7740,7 @@ const PropertiesMixin = dedupingMixin(superClass => {
  * Current Polymer version in Semver notation.
  * @type {string} Semver notation of the current version of Polymer.
  */
-const version = '3.4.1';
+const version = '3.5.1';
 
 const builtCSS = window.ShadyCSS && window.ShadyCSS['cssBuild'];
 
@@ -7031,7 +7815,7 @@ const builtCSS = window.ShadyCSS && window.ShadyCSS['cssBuild'];
  * @param {function(new:T)} superClass Class to apply mixin to.
  * @return {function(new:T)} superClass with mixin applied.
  */
-const ElementMixin$1 = dedupingMixin(base => {
+const ElementMixin$3 = dedupingMixin(base => {
   /**
    * @constructor
    * @implements {Polymer_PropertyEffects}
@@ -7420,9 +8204,14 @@ const ElementMixin$1 = dedupingMixin(base => {
       //     or set in registered(); once the static getter runs, a clone of it
       //     will overwrite it on the prototype as the working template.
       if (!this.hasOwnProperty(JSCompiler_renameProperty('_template', this))) {
-        const protoTemplate = this.prototype.hasOwnProperty(
+        let protoTemplate = this.prototype.hasOwnProperty(
           JSCompiler_renameProperty('_template', this.prototype)) ?
           this.prototype._template : undefined;
+        // Accept a function for the legacy Polymer({_template:...}) field for
+        // lazy parsing
+        if (typeof protoTemplate === 'function') {
+          protoTemplate = protoTemplate();
+        }
         this._template =
           // If user has put template on prototype (e.g. in legacy via registered
           // callback or info object), prefer that first. Note that `null` is
@@ -7814,12 +8603,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 /**
+ * Our TrustedTypePolicy for HTML which is declared using the Polymer html
+ * template tag function.
+ *
+ * That HTML is a developer-authored constant, and is parsed with innerHTML
+ * before any untrusted expressions have been mixed in. Therefor it is
+ * considered safe by construction.
+ *
+ * @type {!TrustedTypePolicy|undefined}
+ */
+const policy = window.trustedTypes &&
+    trustedTypes.createPolicy('polymer-html-literal', {createHTML: (s) => s});
+
+/**
  * Class representing a static string value which can be used to filter
  * strings by asseting that they have been created via this class. The
  * `value` property returns the string passed to the constructor.
  */
 class LiteralString {
-  constructor(string) {
+  /**
+   * @param {!ITemplateArray} strings Constant parts of tagged template literal
+   * @param {!Array<*>} values Variable parts of tagged template literal
+   */
+  constructor(strings, values) {
+    assertValidTemplateStringParameters(strings, values);
+    const string = values.reduce(
+        (acc, v, idx) => acc + literalValue(v) + strings[idx + 1], strings[0]);
     /** @type {string} */
     this.value = string.toString();
   }
@@ -7852,6 +8661,12 @@ function literalValue(value) {
  */
 function htmlValue(value) {
   if (value instanceof HTMLTemplateElement) {
+    // This might be an mXSS risk – mainly in the case where this template
+    // contains untrusted content that was believed to be sanitized.
+    // However we can't just use the XMLSerializer here because it misencodes
+    // `>` characters inside style tags.
+    // For an example of an actual case that hit this encoding issue,
+    // see b/198592167
     return /** @type {!HTMLTemplateElement } */(value).innerHTML;
   } else if (value instanceof LiteralString) {
     return literalValue(value);
@@ -7896,10 +8711,33 @@ function htmlValue(value) {
  * @return {!HTMLTemplateElement} Constructed HTMLTemplateElement
  */
 const html = function html(strings, ...values) {
-  const template = /** @type {!HTMLTemplateElement} */(document.createElement('template'));
-  template.innerHTML = values.reduce((acc, v, idx) =>
-      acc + htmlValue(v) + strings[idx + 1], strings[0]);
+  assertValidTemplateStringParameters(strings, values);
+  const template =
+      /** @type {!HTMLTemplateElement} */ (document.createElement('template'));
+  let value = values.reduce(
+      (acc, v, idx) => acc + htmlValue(v) + strings[idx + 1], strings[0]);
+  if (policy) {
+    value = policy.createHTML(value);
+  }
+  template.innerHTML = value;
   return template;
+};
+
+/**
+ * @param {!ITemplateArray} strings Constant parts of tagged template literal
+ * @param {!Array<*>} values Array of values from quasis
+ */
+const assertValidTemplateStringParameters = (strings, values) => {
+  // Note: if/when https://github.com/tc39/proposal-array-is-template-object
+  // is standardized, use that instead when available, as it can perform an
+  // unforgable check (though of course, the function itself can be forged).
+  if (!Array.isArray(strings) || !Array.isArray(strings.raw) ||
+      (values.length !== strings.length - 1)) {
+    // This is either caused by a browser bug, a compiler bug, or someone
+    // calling the html template tag function as a regular function.
+    //
+    throw new TypeError('Invalid call to the html template tag');
+  }
 };
 
 /**
@@ -7927,7 +8765,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
  *   key meta-programming features including template stamping, data-binding,
  *   attribute deserialization, and property change observation
  */
-const PolymerElement = ElementMixin$1(HTMLElement);
+const PolymerElement = ElementMixin$3(HTMLElement);
 
 /**
 @license
@@ -7942,7 +8780,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 /**
  * @summary Collapse multiple callbacks into one invocation after a timer.
  */
-class Debouncer$1 {
+class Debouncer$4 {
   constructor() {
     this._asyncModule = null;
     this._callback = null;
@@ -7962,7 +8800,7 @@ class Debouncer$1 {
     this._callback = callback;
     this._timer = this._asyncModule.run(() => {
       this._timer = null;
-      debouncerQueue$1.delete(this);
+      debouncerQueue$4.delete(this);
       this._callback();
     });
   }
@@ -7978,7 +8816,7 @@ class Debouncer$1 {
       // so if a debouncer is manually canceled and re-debounced, it
       // will reset its flush order (this is a very minor difference from 1.x)
       // Re-debouncing via the `debounce` API retains the 1.x FIFO flush order
-      debouncerQueue$1.delete(this);
+      debouncerQueue$4.delete(this);
     }
   }
   /**
@@ -8046,19 +8884,19 @@ class Debouncer$1 {
    * @return {!Debouncer} Returns a debouncer object.
    */
   static debounce(debouncer, asyncModule, callback) {
-    if (debouncer instanceof Debouncer$1) {
+    if (debouncer instanceof Debouncer$4) {
       // Cancel the async callback, but leave in debouncerQueue if it was
       // enqueued, to maintain 1.x flush order
       debouncer._cancelAsync();
     } else {
-      debouncer = new Debouncer$1();
+      debouncer = new Debouncer$4();
     }
     debouncer.setConfig(asyncModule, callback);
     return debouncer;
   }
 }
 
-let debouncerQueue$1 = new Set();
+let debouncerQueue$4 = new Set();
 
 /**
 @license
@@ -8185,13 +9023,20 @@ function matchingLabels(el) {
   // as the mouseCancellor code will handle ancstor labels
   if (!labels.length) {
     labels = [];
-    let root = el.getRootNode();
-    // if there is an id on `el`, check for all labels with a matching `for` attribute
-    if (el.id) {
-      let matching = root.querySelectorAll(`label[for = ${el.id}]`);
-      for (let i = 0; i < matching.length; i++) {
-        labels.push(/** @type {!HTMLLabelElement} */(matching[i]));
+    try {
+      let root = el.getRootNode();
+      // if there is an id on `el`, check for all labels with a matching `for` attribute
+      if (el.id) {
+        let matching = root.querySelectorAll(`label[for = '${el.id}']`);
+        for (let i = 0; i < matching.length; i++) {
+          labels.push(/** @type {!HTMLLabelElement} */(matching[i]));
+        }
       }
+    } catch (e) {
+      // Either:
+      // 1. el.getRootNode() failed.
+      // 2. el.id cannot be used in `querySelectorAll`
+      // In both cases, do nothing.
     }
   }
   return labels;
@@ -8272,9 +9117,9 @@ function ignoreMouse(e) {
     POINTERSTATE.mouse.mouseIgnoreJob = null;
   };
   POINTERSTATE.mouse.target = getComposedPath(e)[0];
-  POINTERSTATE.mouse.mouseIgnoreJob = Debouncer$1.debounce(
+  POINTERSTATE.mouse.mouseIgnoreJob = Debouncer$4.debounce(
         POINTERSTATE.mouse.mouseIgnoreJob
-      , timeOut$1.after(MOUSE_TIMEOUT)
+      , timeOut$2.after(MOUSE_TIMEOUT)
       , unset);
 }
 
@@ -9173,7 +10018,7 @@ const GestureEventListeners = dedupingMixin((superClass) => {
  *
  * @polymerMixin
  */
-const DisabledMixin = dedupingMixin(
+const DisabledMixin$1 = dedupingMixin(
   (superclass) =>
     class DisabledMixinClass extends superclass {
       static get properties() {
@@ -9185,8 +10030,8 @@ const DisabledMixin = dedupingMixin(
             type: Boolean,
             value: false,
             observer: '_disabledChanged',
-            reflectToAttribute: true
-          }
+            reflectToAttribute: true,
+          },
         };
       }
 
@@ -9221,7 +10066,7 @@ const DisabledMixin = dedupingMixin(
           super.click();
         }
       }
-    }
+    },
 );
 
 /**
@@ -9237,7 +10082,7 @@ const DisabledMixin = dedupingMixin(
  *
  * @polymerMixin
  */
-const KeyboardMixin = dedupingMixin(
+const KeyboardMixin$1 = dedupingMixin(
   (superclass) =>
     class KeyboardMixinClass extends superclass {
       /** @protected */
@@ -9274,7 +10119,7 @@ const KeyboardMixin = dedupingMixin(
       _onKeyUp(_event) {
         // To be implemented.
       }
-    }
+    },
 );
 
 /**
@@ -9295,7 +10140,7 @@ const KeyboardMixin = dedupingMixin(
  * @polymerMixin
  */
 const ActiveMixin = (superclass) =>
-  class ActiveMixinClass extends DisabledMixin(GestureEventListeners(KeyboardMixin(superclass))) {
+  class ActiveMixinClass extends DisabledMixin$1(GestureEventListeners(KeyboardMixin$1(superclass))) {
     /**
      * An array of activation keys.
      *
@@ -9395,7 +10240,7 @@ const ActiveMixin = (superclass) =>
  *
  * @polymerMixin
  */
-const ControllerMixin = dedupingMixin(
+const ControllerMixin$1 = dedupingMixin(
   (superClass) =>
     class ControllerMixinClass extends superClass {
       constructor() {
@@ -9448,7 +10293,7 @@ const ControllerMixin = dedupingMixin(
       removeController(controller) {
         this.__controllers.delete(controller);
       }
-    }
+    },
 );
 
 const DEV_MODE_CODE_REGEXP =
@@ -10051,33 +10896,14 @@ const usageStatistics = function() {
  * Code distributed by Google as part of the polymer project is also
  * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
  */
+let microtaskCallbacks$3 = [];
+let microtaskNode$3 = document.createTextNode('');
+new window.MutationObserver(microtaskFlush$3).observe(microtaskNode$3, { characterData: true });
 
-/**
- * @fileoverview
- *
- * This module provides a number of strategies for enqueuing asynchronous
- * tasks. Each sub-module provides a standard `run(fn)` interface that returns a
- * handle, and a `cancel(handle)` interface for canceling async tasks before
- * they run.
- *
- * @summary Module that provides a number of strategies for enqueuing
- * asynchronous tasks.
- */
-
-// Microtask implemented using Mutation Observer
-let microtaskCurrHandle = 0;
-let microtaskLastHandle = 0;
-let microtaskCallbacks = [];
-let microtaskNodeContent = 0;
-let microtaskScheduled = false;
-let microtaskNode = document.createTextNode('');
-new window.MutationObserver(microtaskFlush).observe(microtaskNode, { characterData: true });
-
-function microtaskFlush() {
-  microtaskScheduled = false;
-  const len = microtaskCallbacks.length;
+function microtaskFlush$3() {
+  const len = microtaskCallbacks$3.length;
   for (let i = 0; i < len; i++) {
-    let cb = microtaskCallbacks[i];
+    let cb = microtaskCallbacks$3[i];
     if (cb) {
       try {
         cb();
@@ -10088,86 +10914,8 @@ function microtaskFlush() {
       }
     }
   }
-  microtaskCallbacks.splice(0, len);
-  microtaskLastHandle += len;
+  microtaskCallbacks$3.splice(0, len);
 }
-
-/**
- * Async interface wrapper around `setTimeout`.
- *
- * @namespace
- * @summary Async interface wrapper around `setTimeout`.
- */
-const timeOut = {
-  /**
-   * Returns a sub-module with the async interface providing the provided
-   * delay.
-   *
-   * @memberof timeOut
-   * @param {number=} delay Time to wait before calling callbacks in ms
-   * @return {!AsyncInterface} An async timeout interface
-   */
-  after(delay) {
-    return {
-      run(fn) {
-        return window.setTimeout(fn, delay);
-      },
-      cancel(handle) {
-        window.clearTimeout(handle);
-      }
-    };
-  },
-  /**
-   * Enqueues a function called in the next task.
-   *
-   * @memberof timeOut
-   * @param {!Function} fn Callback to run
-   * @param {number=} delay Delay in milliseconds
-   * @return {number} Handle used for canceling task
-   */
-  run(fn, delay) {
-    return window.setTimeout(fn, delay);
-  },
-  /**
-   * Cancels a previously enqueued `timeOut` callback.
-   *
-   * @memberof timeOut
-   * @param {number} handle Handle returned from `run` of callback to cancel
-   * @return {void}
-   */
-  cancel(handle) {
-    window.clearTimeout(handle);
-  }
-};
-
-/**
- * Async interface wrapper around `requestAnimationFrame`.
- *
- * @namespace
- * @summary Async interface wrapper around `requestAnimationFrame`.
- */
-const animationFrame = {
-  /**
-   * Enqueues a function called at `requestAnimationFrame` timing.
-   *
-   * @memberof animationFrame
-   * @param {function(number):void} fn Callback to run
-   * @return {number} Handle used for canceling task
-   */
-  run(fn) {
-    return window.requestAnimationFrame(fn);
-  },
-  /**
-   * Cancels a previously enqueued `animationFrame` callback.
-   *
-   * @memberof animationFrame
-   * @param {number} handle Handle returned from `run` of callback to cancel
-   * @return {void}
-   */
-  cancel(handle) {
-    window.cancelAnimationFrame(handle);
-  }
-};
 
 /**
  * Async interface wrapper around `requestIdleCallback`.  Falls back to
@@ -10176,7 +10924,7 @@ const animationFrame = {
  * @namespace
  * @summary Async interface wrapper around `requestIdleCallback`.
  */
-const idlePeriod = {
+const idlePeriod$2 = {
   /**
    * Enqueues a function called at `requestIdleCallback` timing.
    *
@@ -10196,55 +10944,7 @@ const idlePeriod = {
    */
   cancel(handle) {
     window.cancelIdleCallback ? window.cancelIdleCallback(handle) : window.clearTimeout(handle);
-  }
-};
-
-/**
- * Async interface for enqueuing callbacks that run at microtask timing.
- *
- * Note that microtask timing is achieved via a single `MutationObserver`,
- * and thus callbacks enqueued with this API will all run in a single
- * batch, and not interleaved with other microtasks such as promises.
- * Promises are avoided as an implementation choice for the time being
- * due to Safari bugs that cause Promises to lack microtask guarantees.
- *
- * @namespace
- * @summary Async interface for enqueuing callbacks that run at microtask
- *   timing.
- */
-const microTask = {
-  /**
-   * Enqueues a function called at microtask timing.
-   *
-   * @memberof microTask
-   * @param {!Function=} callback Callback to run
-   * @return {number} Handle used for canceling task
-   */
-  run(callback) {
-    if (!microtaskScheduled) {
-      microtaskScheduled = true;
-      microtaskNode.textContent = microtaskNodeContent++;
-    }
-    microtaskCallbacks.push(callback);
-    return microtaskCurrHandle++;
   },
-
-  /**
-   * Cancels a previously enqueued `microTask` callback.
-   *
-   * @memberof microTask
-   * @param {number} handle Handle returned from `run` of callback to cancel
-   * @return {void}
-   */
-  cancel(handle) {
-    const idx = handle - microtaskLastHandle;
-    if (idx >= 0) {
-      if (!microtaskCallbacks[idx]) {
-        throw new Error('invalid async handle: ' + handle);
-      }
-      microtaskCallbacks[idx] = null;
-    }
-  }
 };
 
 /**
@@ -10260,7 +10960,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 /**
  * @summary Collapse multiple callbacks into one invocation after a timer.
  */
-class Debouncer {
+class Debouncer$3 {
   constructor() {
     this._asyncModule = null;
     this._callback = null;
@@ -10280,7 +10980,7 @@ class Debouncer {
     this._callback = callback;
     this._timer = this._asyncModule.run(() => {
       this._timer = null;
-      debouncerQueue.delete(this);
+      debouncerQueue$3.delete(this);
       this._callback();
     });
   }
@@ -10296,7 +10996,7 @@ class Debouncer {
       // so if a debouncer is manually canceled and re-debounced, it
       // will reset its flush order (this is a very minor difference from 1.x)
       // Re-debouncing via the `debounce` API retains the 1.x FIFO flush order
-      debouncerQueue.delete(this);
+      debouncerQueue$3.delete(this);
     }
   }
   /**
@@ -10364,19 +11064,19 @@ class Debouncer {
    * @return {!Debouncer} Returns a debouncer object.
    */
   static debounce(debouncer, asyncModule, callback) {
-    if (debouncer instanceof Debouncer) {
+    if (debouncer instanceof Debouncer$3) {
       // Cancel the async callback, but leave in debouncerQueue if it was
       // enqueued, to maintain 1.x flush order
       debouncer._cancelAsync();
     } else {
-      debouncer = new Debouncer();
+      debouncer = new Debouncer$3();
     }
     debouncer.setConfig(asyncModule, callback);
     return debouncer;
   }
 }
 
-let debouncerQueue = new Set();
+let debouncerQueue$3 = new Set();
 
 /**
  * Adds a `Debouncer` to a list of globally flushable tasks.
@@ -10384,36 +11084,8 @@ let debouncerQueue = new Set();
  * @param {!Debouncer} debouncer Debouncer to enqueue
  * @return {void}
  */
-const enqueueDebouncer = function (debouncer) {
-  debouncerQueue.add(debouncer);
-};
-
-/**
- * Flushes any enqueued debouncers
- *
- * @return {boolean} Returns whether any debouncers were flushed
- */
-const flushDebouncers = function () {
-  const didFlush = Boolean(debouncerQueue.size);
-  // If new debouncers are added while flushing, Set.forEach will ensure
-  // newly added ones are also flushed
-  debouncerQueue.forEach((debouncer) => {
-    try {
-      debouncer.flush();
-    } catch (e) {
-      setTimeout(() => {
-        throw e;
-      });
-    }
-  });
-  return didFlush;
-};
-
-const flush = () => {
-  let debouncers;
-  do {
-    debouncers = flushDebouncers();
-  } while (debouncers);
+const enqueueDebouncer$2 = function (debouncer) {
+  debouncerQueue$3.add(debouncer);
 };
 
 /**
@@ -10425,7 +11097,7 @@ const flush = () => {
 /**
  * Helper that provides a set of functions for RTL.
  */
-class DirHelper {
+class DirHelper$3 {
   /**
    * Get the scroll type in the current browser view.
    *
@@ -10516,20 +11188,20 @@ class DirHelper {
 /**
  * Array of Vaadin custom element classes that have been subscribed to the dir changes.
  */
-const directionSubscribers = [];
-const directionUpdater = function () {
-  const documentDir = getDocumentDir();
-  directionSubscribers.forEach((element) => {
-    alignDirs(element, documentDir);
+const directionSubscribers$3 = [];
+const directionUpdater$3 = function () {
+  const documentDir = getDocumentDir$3();
+  directionSubscribers$3.forEach((element) => {
+    alignDirs$3(element, documentDir);
   });
 };
 
-let scrollType;
+let scrollType$3;
 
-const directionObserver = new MutationObserver(directionUpdater);
-directionObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['dir'] });
+const directionObserver$3 = new MutationObserver(directionUpdater$3);
+directionObserver$3.observe(document.documentElement, { attributes: true, attributeFilter: ['dir'] });
 
-const alignDirs = function (element, documentDir, elementDir = element.getAttribute('dir')) {
+const alignDirs$3 = function (element, documentDir, elementDir = element.getAttribute('dir')) {
   if (documentDir) {
     element.setAttribute('dir', documentDir);
   } else if (elementDir != null) {
@@ -10537,7 +11209,7 @@ const alignDirs = function (element, documentDir, elementDir = element.getAttrib
   }
 };
 
-const getDocumentDir = function () {
+const getDocumentDir$3 = function () {
   return document.documentElement.getAttribute('dir');
 };
 
@@ -10546,7 +11218,7 @@ const getDocumentDir = function () {
  *
  * @polymerMixin
  */
-const DirMixin = (superClass) =>
+const DirMixin$3 = (superClass) =>
   class VaadinDirMixin extends superClass {
     static get properties() {
       return {
@@ -10556,8 +11228,8 @@ const DirMixin = (superClass) =>
         dir: {
           type: String,
           value: '',
-          reflectToAttribute: true
-        }
+          reflectToAttribute: true,
+        },
       };
     }
 
@@ -10565,8 +11237,8 @@ const DirMixin = (superClass) =>
     static finalize() {
       super.finalize();
 
-      if (!scrollType) {
-        scrollType = DirHelper.detectScrollType();
+      if (!scrollType$3) {
+        scrollType$3 = DirHelper$3.detectScrollType();
       }
     }
 
@@ -10576,7 +11248,7 @@ const DirMixin = (superClass) =>
 
       if (!this.hasAttribute('dir')) {
         this.__subscribe();
-        alignDirs(this, getDocumentDir(), null);
+        alignDirs$3(this, getDocumentDir$3(), null);
       }
     }
 
@@ -10587,18 +11259,18 @@ const DirMixin = (superClass) =>
         return;
       }
 
-      const documentDir = getDocumentDir();
+      const documentDir = getDocumentDir$3();
 
       // New value equals to the document direction and the element is not subscribed to the changes
-      const newValueEqlDocDir = newValue === documentDir && directionSubscribers.indexOf(this) === -1;
+      const newValueEqlDocDir = newValue === documentDir && directionSubscribers$3.indexOf(this) === -1;
       // Value was emptied and the element is not subscribed to the changes
-      const newValueEmptied = !newValue && oldValue && directionSubscribers.indexOf(this) === -1;
+      const newValueEmptied = !newValue && oldValue && directionSubscribers$3.indexOf(this) === -1;
       // New value is different and the old equals to document direction and the element is not subscribed to the changes
       const newDiffValue = newValue !== documentDir && oldValue === documentDir;
 
       if (newValueEqlDocDir || newValueEmptied) {
         this.__subscribe();
-        alignDirs(this, documentDir, newValue);
+        alignDirs$3(this, documentDir, newValue);
       } else if (newDiffValue) {
         this.__subscribe(false);
       }
@@ -10635,9 +11307,9 @@ const DirMixin = (superClass) =>
     /** @private */
     __subscribe(push = true) {
       if (push) {
-        directionSubscribers.indexOf(this) === -1 && directionSubscribers.push(this);
+        directionSubscribers$3.indexOf(this) === -1 && directionSubscribers$3.push(this);
       } else {
-        directionSubscribers.indexOf(this) > -1 && directionSubscribers.splice(directionSubscribers.indexOf(this), 1);
+        directionSubscribers$3.indexOf(this) > -1 && directionSubscribers$3.splice(directionSubscribers$3.indexOf(this), 1);
       }
     }
 
@@ -10647,7 +11319,7 @@ const DirMixin = (superClass) =>
      * @protected
      */
     __getNormalizedScrollLeft(element) {
-      return DirHelper.getNormalizedScrollLeft(scrollType, this.getAttribute('dir') || 'ltr', element);
+      return DirHelper$3.getNormalizedScrollLeft(scrollType$3, this.getAttribute('dir') || 'ltr', element);
     }
 
     /**
@@ -10656,7 +11328,7 @@ const DirMixin = (superClass) =>
      * @protected
      */
     __setNormalizedScrollLeft(element, scrollLeft) {
-      return DirHelper.setNormalizedScrollLeft(scrollType, this.getAttribute('dir') || 'ltr', element, scrollLeft);
+      return DirHelper$3.setNormalizedScrollLeft(scrollType$3, this.getAttribute('dir') || 'ltr', element, scrollLeft);
     }
   };
 
@@ -10679,18 +11351,18 @@ window.Vaadin.developmentModeCallback['vaadin-usage-statistics'] = function () {
   usageStatistics();
 };
 
-let statsJob;
+let statsJob$2;
 
-const registered = new Set();
+const registered$2 = new Set();
 
 /**
  * @polymerMixin
  * @mixes DirMixin
  */
-const ElementMixin = (superClass) =>
-  class VaadinElementMixin extends DirMixin(superClass) {
+const ElementMixin$2 = (superClass) =>
+  class VaadinElementMixin extends DirMixin$3(superClass) {
     static get version() {
-      return '22.0.4';
+      return '22.0.22';
     }
 
     /** @protected */
@@ -10700,15 +11372,15 @@ const ElementMixin = (superClass) =>
       const { is } = this;
 
       // Registers a class prototype for telemetry purposes.
-      if (is && !registered.has(is)) {
+      if (is && !registered$2.has(is)) {
         window.Vaadin.registrations.push(this);
-        registered.add(is);
+        registered$2.add(is);
 
         if (window.Vaadin.developmentModeCallback) {
-          statsJob = Debouncer.debounce(statsJob, idlePeriod, () => {
+          statsJob$2 = Debouncer$3.debounce(statsJob$2, idlePeriod$2, () => {
             window.Vaadin.developmentModeCallback['vaadin-usage-statistics']();
           });
-          enqueueDebouncer(statsJob);
+          enqueueDebouncer$2(statsJob$2);
         }
       }
     }
@@ -10718,11 +11390,73 @@ const ElementMixin = (superClass) =>
 
       if (document.doctype === null) {
         console.warn(
-          'Vaadin components require the "standards mode" declaration. Please add <!DOCTYPE html> to the HTML document.'
+          'Vaadin components require the "standards mode" declaration. Please add <!DOCTYPE html> to the HTML document.',
         );
       }
     }
   };
+
+/**
+ * @license
+ * Copyright (c) 2021 - 2022 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */
+
+/**
+ * A mixin to provide disabled property for field components.
+ *
+ * @polymerMixin
+ */
+const DisabledMixin = dedupingMixin(
+  (superclass) =>
+    class DisabledMixinClass extends superclass {
+      static get properties() {
+        return {
+          /**
+           * If true, the user cannot interact with this element.
+           */
+          disabled: {
+            type: Boolean,
+            value: false,
+            observer: '_disabledChanged',
+            reflectToAttribute: true,
+          },
+        };
+      }
+
+      /**
+       * @param {boolean} disabled
+       * @protected
+       */
+      _disabledChanged(disabled) {
+        this._setAriaDisabled(disabled);
+      }
+
+      /**
+       * @param {boolean} disabled
+       * @protected
+       */
+      _setAriaDisabled(disabled) {
+        if (disabled) {
+          this.setAttribute('aria-disabled', 'true');
+        } else {
+          this.removeAttribute('aria-disabled');
+        }
+      }
+
+      /**
+       * Overrides the default element `click` method in order to prevent
+       * firing the `click` event when the element is disabled.
+       * @protected
+       * @override
+       */
+      click() {
+        if (!this.disabled) {
+          super.click();
+        }
+      }
+    },
+);
 
 /**
  * @license
@@ -10746,8 +11480,8 @@ const DelegateStateMixin = dedupingMixin(
            */
           stateTarget: {
             type: Object,
-            observer: '_stateTargetChanged'
-          }
+            observer: '_stateTargetChanged',
+          },
         };
       }
 
@@ -10846,7 +11580,7 @@ const DelegateStateMixin = dedupingMixin(
 
         this.stateTarget[name] = value;
       }
-    }
+    },
 );
 
 /**
@@ -10881,7 +11615,7 @@ const InputMixin = dedupingMixin(
           inputElement: {
             type: Object,
             readOnly: true,
-            observer: '_inputElementChanged'
+            observer: '_inputElementChanged',
           },
 
           /**
@@ -10890,7 +11624,7 @@ const InputMixin = dedupingMixin(
            */
           type: {
             type: String,
-            readOnly: true
+            readOnly: true,
           },
 
           /**
@@ -10900,8 +11634,8 @@ const InputMixin = dedupingMixin(
             type: String,
             value: '',
             observer: '_valueChanged',
-            notify: true
-          }
+            notify: true,
+          },
         };
       }
 
@@ -11026,7 +11760,7 @@ const InputMixin = dedupingMixin(
         // Setting a value programmatically, sync it to input element.
         this._forwardInputValue(newVal);
       }
-    }
+    },
 );
 
 /**
@@ -11056,8 +11790,8 @@ const CheckedMixin = dedupingMixin(
             type: Boolean,
             value: false,
             notify: true,
-            reflectToAttribute: true
-          }
+            reflectToAttribute: true,
+          },
         };
       }
 
@@ -11077,7 +11811,7 @@ const CheckedMixin = dedupingMixin(
       _toggleChecked(checked) {
         this.checked = checked;
       }
-    }
+    },
 );
 
 /**
@@ -11097,7 +11831,7 @@ window.addEventListener(
   () => {
     keyboardActive = true;
   },
-  { capture: true }
+  { capture: true },
 );
 
 window.addEventListener(
@@ -11105,7 +11839,7 @@ window.addEventListener(
   () => {
     keyboardActive = false;
   },
-  { capture: true }
+  { capture: true },
 );
 
 /**
@@ -11191,8 +11925,86 @@ const FocusMixin = dedupingMixin(
       _shouldRemoveFocus(_event) {
         return true;
       }
-    }
+    },
 );
+
+/**
+ * @license
+ * Copyright (c) 2021 - 2022 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */
+
+/**
+ * A mixin to toggle the `tabindex` attribute.
+ *
+ * The attribute is set to -1 whenever the user disables the element
+ * and restored with the last known value once the element is enabled.
+ *
+ * @polymerMixin
+ * @mixes DisabledMixin
+ */
+const TabindexMixin = (superclass) =>
+  class TabindexMixinClass extends DisabledMixin(superclass) {
+    static get properties() {
+      return {
+        /**
+         * Indicates whether the element can be focused and where it participates in sequential keyboard navigation.
+         *
+         * @protected
+         */
+        tabindex: {
+          type: Number,
+          reflectToAttribute: true,
+          observer: '_tabindexChanged',
+        },
+
+        /**
+         * Stores the last known tabindex since the element has been disabled.
+         *
+         * @protected
+         */
+        _lastTabIndex: {
+          type: Number,
+        },
+      };
+    }
+
+    /**
+     * When the element gets disabled, the observer saves the last known tabindex
+     * and makes the element not focusable by setting tabindex to -1.
+     * As soon as the element gets enabled, the observer restores the last known tabindex
+     * so that the element can be focusable again.
+     *
+     * @protected
+     * @override
+     */
+    _disabledChanged(disabled, oldDisabled) {
+      super._disabledChanged(disabled, oldDisabled);
+
+      if (disabled) {
+        if (this.tabindex !== undefined) {
+          this._lastTabIndex = this.tabindex;
+        }
+        this.tabindex = -1;
+      } else if (oldDisabled) {
+        this.tabindex = this._lastTabIndex;
+      }
+    }
+
+    /**
+     * When the user has changed tabindex while the element is disabled,
+     * the observer reverts tabindex to -1 and rather saves the new tabindex value to apply it later.
+     * The new value will be applied as soon as the element becomes enabled.
+     *
+     * @protected
+     */
+    _tabindexChanged(tabindex) {
+      if (this.disabled && tabindex !== -1) {
+        this._lastTabIndex = tabindex;
+        this.tabindex = -1;
+      }
+    }
+  };
 
 /**
  * @license
@@ -11204,19 +12016,19 @@ const FocusMixin = dedupingMixin(
  * A mixin to forward focus to an element in the light DOM.
  *
  * @polymerMixin
- * @mixes DisabledMixin
  * @mixes FocusMixin
+ * @mixes TabindexMixin
  */
 const DelegateFocusMixin = dedupingMixin(
   (superclass) =>
-    class DelegateFocusMixinClass extends FocusMixin(DisabledMixin(superclass)) {
+    class DelegateFocusMixinClass extends FocusMixin(TabindexMixin(superclass)) {
       static get properties() {
         return {
           /**
            * Specify that this control should have input focus when the page loads.
            */
           autofocus: {
-            type: Boolean
+            type: Boolean,
           },
 
           /**
@@ -11226,14 +12038,28 @@ const DelegateFocusMixin = dedupingMixin(
            * Any component implementing this mixin is expected to provide it
            * by using `this._setFocusElement(input)` Polymer API.
            *
+           * Toggling `tabindex` attribute on the host element propagates its value to `focusElement`.
+           *
            * @protected
            * @type {!HTMLElement}
            */
           focusElement: {
             type: Object,
             readOnly: true,
-            observer: '_focusElementChanged'
-          }
+            observer: '_focusElementChanged',
+          },
+
+          /**
+           * Override the property from `TabIndexMixin`
+           * to ensure the `tabindex` attribute of the focus element
+           * will be restored to `0` after re-enabling the element.
+           *
+           * @protected
+           * @override
+           */
+          _lastTabIndex: {
+            value: 0,
+          },
         };
       }
 
@@ -11296,6 +12122,7 @@ const DelegateFocusMixin = dedupingMixin(
         if (element) {
           element.disabled = this.disabled;
           this._addFocusListeners(element);
+          this.__forwardTabIndex(this.tabindex);
         } else if (oldElement) {
           this._removeFocusListeners(oldElement);
         }
@@ -11355,10 +12182,12 @@ const DelegateFocusMixin = dedupingMixin(
 
       /**
        * @param {boolean} disabled
+       * @param {boolean} oldDisabled
        * @protected
+       * @override
        */
-      _disabledChanged(disabled) {
-        super._disabledChanged(disabled);
+      _disabledChanged(disabled, oldDisabled) {
+        super._disabledChanged(disabled, oldDisabled);
 
         if (this.focusElement) {
           this.focusElement.disabled = disabled;
@@ -11368,7 +12197,39 @@ const DelegateFocusMixin = dedupingMixin(
           this.blur();
         }
       }
-    }
+
+      /**
+       * Override an observer from `TabindexMixin`.
+       * Do not call super to remove tabindex attribute
+       * from the host after it has been forwarded.
+       * @param {string} tabindex
+       * @protected
+       * @override
+       */
+      _tabindexChanged(tabindex) {
+        this.__forwardTabIndex(tabindex);
+      }
+
+      /** @private */
+      __forwardTabIndex(tabindex) {
+        if (tabindex !== undefined && this.focusElement) {
+          this.focusElement.tabIndex = tabindex;
+
+          // Preserve tabindex="-1" on the host element
+          if (tabindex !== -1) {
+            this.tabindex = undefined;
+          }
+        }
+
+        if (this.disabled && tabindex) {
+          // If tabindex attribute was changed while component was disabled
+          if (tabindex !== -1) {
+            this._lastTabIndex = tabindex;
+          }
+          this.tabindex = undefined;
+        }
+      }
+    },
 );
 
 /**
@@ -12011,10 +12872,13 @@ class SlotController extends EventTarget {
   static generateId(slotName, host) {
     const prefix = slotName || 'default';
 
-    // Maintain the unique ID counter for a given prefix.
-    this[`${prefix}Id`] = 1 + this[`${prefix}Id`] || 0;
+    // Support dash-case slot names e.g. "error-message"
+    const field = `${dashToCamelCase(prefix)}Id`;
 
-    return `${prefix}-${host.localName}-${this[`${prefix}Id`]}`;
+    // Maintain the unique ID counter for a given prefix.
+    this[field] = 1 + this[field] || 0;
+
+    return `${prefix}-${host.localName}-${this[field]}`;
   }
 
   hostConnected() {
@@ -12180,10 +13044,77 @@ class InputController extends SlotController {
         if (typeof callback == 'function') {
           callback(node);
         }
-      }
+      },
     );
   }
 }
+
+/**
+ * @license
+ * Copyright (c) 2021 - 2022 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */
+
+/**
+ * A mixin for connecting controllers to the element.
+ *
+ * @polymerMixin
+ */
+const ControllerMixin = dedupingMixin(
+  (superClass) =>
+    class ControllerMixinClass extends superClass {
+      constructor() {
+        super();
+
+        /**
+         * @type {Set<import('lit').ReactiveController>}
+         */
+        this.__controllers = new Set();
+      }
+
+      /** @protected */
+      connectedCallback() {
+        super.connectedCallback();
+
+        this.__controllers.forEach((c) => {
+          c.hostConnected && c.hostConnected();
+        });
+      }
+
+      /** @protected */
+      disconnectedCallback() {
+        super.disconnectedCallback();
+
+        this.__controllers.forEach((c) => {
+          c.hostDisconnected && c.hostDisconnected();
+        });
+      }
+
+      /**
+       * Registers a controller to participate in the element update cycle.
+       *
+       * @param {import('lit').ReactiveController} controller
+       * @protected
+       */
+      addController(controller) {
+        this.__controllers.add(controller);
+        // Call hostConnected if a controller is added after the element is attached.
+        if (this.$ !== undefined && this.isConnected && controller.hostConnected) {
+          controller.hostConnected();
+        }
+      }
+
+      /**
+       * Removes a controller from the element.
+       *
+       * @param {import('lit').ReactiveController} controller
+       * @protected
+       */
+      removeController(controller) {
+        this.__controllers.delete(controller);
+      }
+    },
+);
 
 /**
  * @license
@@ -12208,7 +13139,7 @@ class LabelController extends SlotController {
         this.__updateDefaultLabel(this.label);
 
         this.__observeLabel(node);
-      }
+      },
     );
   }
 
@@ -12227,6 +13158,8 @@ class LabelController extends SlotController {
    * @override
    */
   initCustomNode(labelNode) {
+    this.__updateLabelId(labelNode);
+
     const hasLabel = this.__hasLabel(labelNode);
     this.__toggleHasLabel(hasLabel);
   }
@@ -12322,7 +13255,7 @@ class LabelController extends SlotController {
       attributeFilter: ['id'],
       childList: true,
       subtree: true,
-      characterData: true
+      characterData: true,
     });
   }
 
@@ -12338,9 +13271,9 @@ class LabelController extends SlotController {
       new CustomEvent('label-changed', {
         detail: {
           hasLabel,
-          node: this.node
-        }
-      })
+          node: this.node,
+        },
+      }),
     );
   }
 
@@ -12394,8 +13327,8 @@ const LabelMixin = dedupingMixin(
            */
           label: {
             type: String,
-            observer: '_labelChanged'
-          }
+            observer: '_labelChanged',
+          },
         };
       }
 
@@ -12420,7 +13353,7 @@ const LabelMixin = dedupingMixin(
       _labelChanged(label) {
         this._labelController.setLabel(label);
       }
-    }
+    },
 );
 
 /**
@@ -12585,7 +13518,7 @@ class SlotTargetController {
         attributes: true,
         childList: true,
         subtree: true,
-        characterData: true
+        characterData: true,
       });
     });
 
@@ -12644,7 +13577,7 @@ class SlotTargetController {
  * @mixes LabelMixin
  */
 class Checkbox extends LabelMixin(
-  CheckedMixin(DelegateFocusMixin(ActiveMixin(ElementMixin(ThemableMixin(ControllerMixin(PolymerElement))))))
+  CheckedMixin(DelegateFocusMixin(ActiveMixin(ElementMixin$2(ThemableMixin$2(ControllerMixin$1(PolymerElement)))))),
 ) {
   static get is() {
     return 'vaadin-checkbox';
@@ -12719,7 +13652,7 @@ class Checkbox extends LabelMixin(
         type: Boolean,
         notify: true,
         value: false,
-        reflectToAttribute: true
+        reflectToAttribute: true,
       },
 
       /**
@@ -12729,8 +13662,8 @@ class Checkbox extends LabelMixin(
        */
       name: {
         type: String,
-        value: ''
-      }
+        value: '',
+      },
     };
   }
 
@@ -12771,8 +13704,8 @@ class Checkbox extends LabelMixin(
         new SlotTargetController(
           this.$.noop,
           () => this._labelController.node,
-          () => this.__warnDeprecated()
-        )
+          () => this.__warnDeprecated(),
+        ),
       );
     }
   }
@@ -12781,7 +13714,7 @@ class Checkbox extends LabelMixin(
   __warnDeprecated() {
     console.warn(
       `WARNING: Since Vaadin 22, placing the label as a direct child of a <vaadin-checkbox> is deprecated.
-Please use <label slot="label"> wrapper or the label property instead.`
+Please use <label slot="label"> wrapper or the label property instead.`,
     );
   }
 
@@ -12821,9 +13754,9 @@ Please use <label slot="label"> wrapper or the label property instead.`
 
 customElements.define(Checkbox.is, Checkbox);
 
-registerStyles(
+registerStyles$3(
   'vaadin-grid',
-  r`
+  i`
     :host {
       font-family: var(--lumo-font-family);
       font-size: var(--lumo-font-size-m);
@@ -13186,18 +14119,626 @@ registerStyles(
       border-left-color: var(--_lumo-grid-border-color);
     }
   `,
-  { moduleId: 'lumo-grid' }
+  { moduleId: 'lumo-grid' },
 );
 
-registerStyles(
-  'vaadin-checkbox',
-  r`
-    :host(.vaadin-grid-select-all-checkbox) {
-      font-size: var(--lumo-font-size-m);
+/**
+ * @license
+ * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+ */
+
+/**
+ * @fileoverview
+ *
+ * This module provides a number of strategies for enqueuing asynchronous
+ * tasks. Each sub-module provides a standard `run(fn)` interface that returns a
+ * handle, and a `cancel(handle)` interface for canceling async tasks before
+ * they run.
+ *
+ * @summary Module that provides a number of strategies for enqueuing
+ * asynchronous tasks.
+ */
+
+// Microtask implemented using Mutation Observer
+let microtaskCurrHandle = 0;
+let microtaskLastHandle = 0;
+let microtaskCallbacks$2 = [];
+let microtaskNodeContent = 0;
+let microtaskScheduled = false;
+let microtaskNode$2 = document.createTextNode('');
+new window.MutationObserver(microtaskFlush$2).observe(microtaskNode$2, { characterData: true });
+
+function microtaskFlush$2() {
+  microtaskScheduled = false;
+  const len = microtaskCallbacks$2.length;
+  for (let i = 0; i < len; i++) {
+    let cb = microtaskCallbacks$2[i];
+    if (cb) {
+      try {
+        cb();
+      } catch (e) {
+        setTimeout(() => {
+          throw e;
+        });
+      }
     }
-  `,
-  { moduleId: 'vaadin-grid-select-all-checkbox-lumo' }
-);
+  }
+  microtaskCallbacks$2.splice(0, len);
+  microtaskLastHandle += len;
+}
+
+/**
+ * Async interface wrapper around `setTimeout`.
+ *
+ * @namespace
+ * @summary Async interface wrapper around `setTimeout`.
+ */
+const timeOut$1 = {
+  /**
+   * Returns a sub-module with the async interface providing the provided
+   * delay.
+   *
+   * @memberof timeOut
+   * @param {number=} delay Time to wait before calling callbacks in ms
+   * @return {!AsyncInterface} An async timeout interface
+   */
+  after(delay) {
+    return {
+      run(fn) {
+        return window.setTimeout(fn, delay);
+      },
+      cancel(handle) {
+        window.clearTimeout(handle);
+      },
+    };
+  },
+  /**
+   * Enqueues a function called in the next task.
+   *
+   * @memberof timeOut
+   * @param {!Function} fn Callback to run
+   * @param {number=} delay Delay in milliseconds
+   * @return {number} Handle used for canceling task
+   */
+  run(fn, delay) {
+    return window.setTimeout(fn, delay);
+  },
+  /**
+   * Cancels a previously enqueued `timeOut` callback.
+   *
+   * @memberof timeOut
+   * @param {number} handle Handle returned from `run` of callback to cancel
+   * @return {void}
+   */
+  cancel(handle) {
+    window.clearTimeout(handle);
+  },
+};
+
+/**
+ * Async interface wrapper around `requestAnimationFrame`.
+ *
+ * @namespace
+ * @summary Async interface wrapper around `requestAnimationFrame`.
+ */
+const animationFrame$1 = {
+  /**
+   * Enqueues a function called at `requestAnimationFrame` timing.
+   *
+   * @memberof animationFrame
+   * @param {function(number):void} fn Callback to run
+   * @return {number} Handle used for canceling task
+   */
+  run(fn) {
+    return window.requestAnimationFrame(fn);
+  },
+  /**
+   * Cancels a previously enqueued `animationFrame` callback.
+   *
+   * @memberof animationFrame
+   * @param {number} handle Handle returned from `run` of callback to cancel
+   * @return {void}
+   */
+  cancel(handle) {
+    window.cancelAnimationFrame(handle);
+  },
+};
+
+/**
+ * Async interface wrapper around `requestIdleCallback`.  Falls back to
+ * `setTimeout` on browsers that do not support `requestIdleCallback`.
+ *
+ * @namespace
+ * @summary Async interface wrapper around `requestIdleCallback`.
+ */
+const idlePeriod$1 = {
+  /**
+   * Enqueues a function called at `requestIdleCallback` timing.
+   *
+   * @memberof idlePeriod
+   * @param {function(!IdleDeadline):void} fn Callback to run
+   * @return {number} Handle used for canceling task
+   */
+  run(fn) {
+    return window.requestIdleCallback ? window.requestIdleCallback(fn) : window.setTimeout(fn, 16);
+  },
+  /**
+   * Cancels a previously enqueued `idlePeriod` callback.
+   *
+   * @memberof idlePeriod
+   * @param {number} handle Handle returned from `run` of callback to cancel
+   * @return {void}
+   */
+  cancel(handle) {
+    window.cancelIdleCallback ? window.cancelIdleCallback(handle) : window.clearTimeout(handle);
+  },
+};
+
+/**
+ * Async interface for enqueuing callbacks that run at microtask timing.
+ *
+ * Note that microtask timing is achieved via a single `MutationObserver`,
+ * and thus callbacks enqueued with this API will all run in a single
+ * batch, and not interleaved with other microtasks such as promises.
+ * Promises are avoided as an implementation choice for the time being
+ * due to Safari bugs that cause Promises to lack microtask guarantees.
+ *
+ * @namespace
+ * @summary Async interface for enqueuing callbacks that run at microtask
+ *   timing.
+ */
+const microTask = {
+  /**
+   * Enqueues a function called at microtask timing.
+   *
+   * @memberof microTask
+   * @param {!Function=} callback Callback to run
+   * @return {number} Handle used for canceling task
+   */
+  run(callback) {
+    if (!microtaskScheduled) {
+      microtaskScheduled = true;
+      microtaskNode$2.textContent = microtaskNodeContent++;
+    }
+    microtaskCallbacks$2.push(callback);
+    return microtaskCurrHandle++;
+  },
+
+  /**
+   * Cancels a previously enqueued `microTask` callback.
+   *
+   * @memberof microTask
+   * @param {number} handle Handle returned from `run` of callback to cancel
+   * @return {void}
+   */
+  cancel(handle) {
+    const idx = handle - microtaskLastHandle;
+    if (idx >= 0) {
+      if (!microtaskCallbacks$2[idx]) {
+        throw new Error('invalid async handle: ' + handle);
+      }
+      microtaskCallbacks$2[idx] = null;
+    }
+  },
+};
+
+/**
+@license
+Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+*/
+
+/**
+ * @summary Collapse multiple callbacks into one invocation after a timer.
+ */
+class Debouncer$2 {
+  constructor() {
+    this._asyncModule = null;
+    this._callback = null;
+    this._timer = null;
+  }
+  /**
+   * Sets the scheduler; that is, a module with the Async interface,
+   * a callback and optional arguments to be passed to the run function
+   * from the async module.
+   *
+   * @param {!AsyncInterface} asyncModule Object with Async interface.
+   * @param {function()} callback Callback to run.
+   * @return {void}
+   */
+  setConfig(asyncModule, callback) {
+    this._asyncModule = asyncModule;
+    this._callback = callback;
+    this._timer = this._asyncModule.run(() => {
+      this._timer = null;
+      debouncerQueue$2.delete(this);
+      this._callback();
+    });
+  }
+  /**
+   * Cancels an active debouncer and returns a reference to itself.
+   *
+   * @return {void}
+   */
+  cancel() {
+    if (this.isActive()) {
+      this._cancelAsync();
+      // Canceling a debouncer removes its spot from the flush queue,
+      // so if a debouncer is manually canceled and re-debounced, it
+      // will reset its flush order (this is a very minor difference from 1.x)
+      // Re-debouncing via the `debounce` API retains the 1.x FIFO flush order
+      debouncerQueue$2.delete(this);
+    }
+  }
+  /**
+   * Cancels a debouncer's async callback.
+   *
+   * @return {void}
+   */
+  _cancelAsync() {
+    if (this.isActive()) {
+      this._asyncModule.cancel(/** @type {number} */ (this._timer));
+      this._timer = null;
+    }
+  }
+  /**
+   * Flushes an active debouncer and returns a reference to itself.
+   *
+   * @return {void}
+   */
+  flush() {
+    if (this.isActive()) {
+      this.cancel();
+      this._callback();
+    }
+  }
+  /**
+   * Returns true if the debouncer is active.
+   *
+   * @return {boolean} True if active.
+   */
+  isActive() {
+    return this._timer != null;
+  }
+  /**
+   * Creates a debouncer if no debouncer is passed as a parameter
+   * or it cancels an active debouncer otherwise. The following
+   * example shows how a debouncer can be called multiple times within a
+   * microtask and "debounced" such that the provided callback function is
+   * called once. Add this method to a custom element:
+   *
+   * ```js
+   * import {microTask} from '@vaadin/component-base/src/async.js';
+   * import {Debouncer} from '@vaadin/component-base/src/debounce.js';
+   * // ...
+   *
+   * _debounceWork() {
+   *   this._debounceJob = Debouncer.debounce(this._debounceJob,
+   *       microTask, () => this._doWork());
+   * }
+   * ```
+   *
+   * If the `_debounceWork` method is called multiple times within the same
+   * microtask, the `_doWork` function will be called only once at the next
+   * microtask checkpoint.
+   *
+   * Note: In testing it is often convenient to avoid asynchrony. To accomplish
+   * this with a debouncer, you can use `enqueueDebouncer` and
+   * `flush`. For example, extend the above example by adding
+   * `enqueueDebouncer(this._debounceJob)` at the end of the
+   * `_debounceWork` method. Then in a test, call `flush` to ensure
+   * the debouncer has completed.
+   *
+   * @param {Debouncer?} debouncer Debouncer object.
+   * @param {!AsyncInterface} asyncModule Object with Async interface
+   * @param {function()} callback Callback to run.
+   * @return {!Debouncer} Returns a debouncer object.
+   */
+  static debounce(debouncer, asyncModule, callback) {
+    if (debouncer instanceof Debouncer$2) {
+      // Cancel the async callback, but leave in debouncerQueue if it was
+      // enqueued, to maintain 1.x flush order
+      debouncer._cancelAsync();
+    } else {
+      debouncer = new Debouncer$2();
+    }
+    debouncer.setConfig(asyncModule, callback);
+    return debouncer;
+  }
+}
+
+let debouncerQueue$2 = new Set();
+
+/**
+ * Adds a `Debouncer` to a list of globally flushable tasks.
+ *
+ * @param {!Debouncer} debouncer Debouncer to enqueue
+ * @return {void}
+ */
+const enqueueDebouncer$1 = function (debouncer) {
+  debouncerQueue$2.add(debouncer);
+};
+
+/**
+ * Flushes any enqueued debouncers
+ *
+ * @return {boolean} Returns whether any debouncers were flushed
+ */
+const flushDebouncers = function () {
+  const didFlush = Boolean(debouncerQueue$2.size);
+  // If new debouncers are added while flushing, Set.forEach will ensure
+  // newly added ones are also flushed
+  debouncerQueue$2.forEach((debouncer) => {
+    try {
+      debouncer.flush();
+    } catch (e) {
+      setTimeout(() => {
+        throw e;
+      });
+    }
+  });
+  return didFlush;
+};
+
+const flush = () => {
+  let debouncers;
+  do {
+    debouncers = flushDebouncers();
+  } while (debouncers);
+};
+
+/**
+ * @license
+ * Copyright (c) 2021 - 2022 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */
+
+/**
+ * Helper that provides a set of functions for RTL.
+ */
+class DirHelper$2 {
+  /**
+   * Get the scroll type in the current browser view.
+   *
+   * @return {string} the scroll type. Possible values are `default|reverse|negative`
+   */
+  static detectScrollType() {
+    const dummy = document.createElement('div');
+    dummy.textContent = 'ABCD';
+    dummy.dir = 'rtl';
+    dummy.style.fontSize = '14px';
+    dummy.style.width = '4px';
+    dummy.style.height = '1px';
+    dummy.style.position = 'absolute';
+    dummy.style.top = '-1000px';
+    dummy.style.overflow = 'scroll';
+    document.body.appendChild(dummy);
+
+    let cachedType = 'reverse';
+    if (dummy.scrollLeft > 0) {
+      cachedType = 'default';
+    } else {
+      dummy.scrollLeft = 2;
+      if (dummy.scrollLeft < 2) {
+        cachedType = 'negative';
+      }
+    }
+    document.body.removeChild(dummy);
+    return cachedType;
+  }
+
+  /**
+   * Get the scrollLeft value of the element relative to the direction
+   *
+   * @param {string} scrollType type of the scroll detected with `detectScrollType`
+   * @param {string} direction current direction of the element
+   * @param {Element} element
+   * @return {number} the scrollLeft value.
+   */
+  static getNormalizedScrollLeft(scrollType, direction, element) {
+    const { scrollLeft } = element;
+    if (direction !== 'rtl' || !scrollType) {
+      return scrollLeft;
+    }
+
+    switch (scrollType) {
+      case 'negative':
+        return element.scrollWidth - element.clientWidth + scrollLeft;
+      case 'reverse':
+        return element.scrollWidth - element.clientWidth - scrollLeft;
+    }
+    return scrollLeft;
+  }
+
+  /**
+   * Set the scrollLeft value of the element relative to the direction
+   *
+   * @param {string} scrollType type of the scroll detected with `detectScrollType`
+   * @param {string} direction current direction of the element
+   * @param {Element} element
+   * @param {number} scrollLeft the scrollLeft value to be set
+   */
+  static setNormalizedScrollLeft(scrollType, direction, element, scrollLeft) {
+    if (direction !== 'rtl' || !scrollType) {
+      element.scrollLeft = scrollLeft;
+      return;
+    }
+
+    switch (scrollType) {
+      case 'negative':
+        element.scrollLeft = element.clientWidth - element.scrollWidth + scrollLeft;
+        break;
+      case 'reverse':
+        element.scrollLeft = element.scrollWidth - element.clientWidth - scrollLeft;
+        break;
+      default:
+        element.scrollLeft = scrollLeft;
+        break;
+    }
+  }
+}
+
+/**
+ * @license
+ * Copyright (c) 2021 - 2022 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */
+
+/**
+ * Array of Vaadin custom element classes that have been subscribed to the dir changes.
+ */
+const directionSubscribers$2 = [];
+const directionUpdater$2 = function () {
+  const documentDir = getDocumentDir$2();
+  directionSubscribers$2.forEach((element) => {
+    alignDirs$2(element, documentDir);
+  });
+};
+
+let scrollType$2;
+
+const directionObserver$2 = new MutationObserver(directionUpdater$2);
+directionObserver$2.observe(document.documentElement, { attributes: true, attributeFilter: ['dir'] });
+
+const alignDirs$2 = function (element, documentDir, elementDir = element.getAttribute('dir')) {
+  if (documentDir) {
+    element.setAttribute('dir', documentDir);
+  } else if (elementDir != null) {
+    element.removeAttribute('dir');
+  }
+};
+
+const getDocumentDir$2 = function () {
+  return document.documentElement.getAttribute('dir');
+};
+
+/**
+ * A mixin to handle `dir` attribute based on the one set on the `<html>` element.
+ *
+ * @polymerMixin
+ */
+const DirMixin$2 = (superClass) =>
+  class VaadinDirMixin extends superClass {
+    static get properties() {
+      return {
+        /**
+         * @protected
+         */
+        dir: {
+          type: String,
+          value: '',
+          reflectToAttribute: true,
+        },
+      };
+    }
+
+    /** @protected */
+    static finalize() {
+      super.finalize();
+
+      if (!scrollType$2) {
+        scrollType$2 = DirHelper$2.detectScrollType();
+      }
+    }
+
+    /** @protected */
+    connectedCallback() {
+      super.connectedCallback();
+
+      if (!this.hasAttribute('dir')) {
+        this.__subscribe();
+        alignDirs$2(this, getDocumentDir$2(), null);
+      }
+    }
+
+    /** @protected */
+    attributeChangedCallback(name, oldValue, newValue) {
+      super.attributeChangedCallback(name, oldValue, newValue);
+      if (name !== 'dir') {
+        return;
+      }
+
+      const documentDir = getDocumentDir$2();
+
+      // New value equals to the document direction and the element is not subscribed to the changes
+      const newValueEqlDocDir = newValue === documentDir && directionSubscribers$2.indexOf(this) === -1;
+      // Value was emptied and the element is not subscribed to the changes
+      const newValueEmptied = !newValue && oldValue && directionSubscribers$2.indexOf(this) === -1;
+      // New value is different and the old equals to document direction and the element is not subscribed to the changes
+      const newDiffValue = newValue !== documentDir && oldValue === documentDir;
+
+      if (newValueEqlDocDir || newValueEmptied) {
+        this.__subscribe();
+        alignDirs$2(this, documentDir, newValue);
+      } else if (newDiffValue) {
+        this.__subscribe(false);
+      }
+    }
+
+    /** @protected */
+    disconnectedCallback() {
+      super.disconnectedCallback();
+      this.__subscribe(false);
+      this.removeAttribute('dir');
+    }
+
+    /** @protected */
+    _valueToNodeAttribute(node, value, attribute) {
+      // Override default Polymer attribute reflection to match native behavior of HTMLElement.dir property
+      // If the property contains an empty string then it should not create an empty attribute
+      if (attribute === 'dir' && value === '' && !node.hasAttribute('dir')) {
+        return;
+      }
+      super._valueToNodeAttribute(node, value, attribute);
+    }
+
+    /** @protected */
+    _attributeToProperty(attribute, value, type) {
+      // Override default Polymer attribute reflection to match native behavior of HTMLElement.dir property
+      // If the attribute is removed, then the dir property should contain an empty string instead of null
+      if (attribute === 'dir' && !value) {
+        this.dir = '';
+      } else {
+        super._attributeToProperty(attribute, value, type);
+      }
+    }
+
+    /** @private */
+    __subscribe(push = true) {
+      if (push) {
+        directionSubscribers$2.indexOf(this) === -1 && directionSubscribers$2.push(this);
+      } else {
+        directionSubscribers$2.indexOf(this) > -1 && directionSubscribers$2.splice(directionSubscribers$2.indexOf(this), 1);
+      }
+    }
+
+    /**
+     * @param {Element} element
+     * @return {number}
+     * @protected
+     */
+    __getNormalizedScrollLeft(element) {
+      return DirHelper$2.getNormalizedScrollLeft(scrollType$2, this.getAttribute('dir') || 'ltr', element);
+    }
+
+    /**
+     * @param {Element} element
+     * @param {number} scrollLeft
+     * @protected
+     */
+    __setNormalizedScrollLeft(element, scrollLeft) {
+      return DirHelper$2.setNormalizedScrollLeft(scrollType$2, this.getAttribute('dir') || 'ltr', element, scrollLeft);
+    }
+  };
 
 /**
  * @license
@@ -13219,7 +14760,7 @@ function processTemplates(component) {
 
   if (component.querySelector('template')) {
     console.warn(
-      `WARNING: <template> inside <${component.localName}> is no longer supported. Import @vaadin/polymer-legacy-adapter/template-renderer.js to enable compatibility.`
+      `WARNING: <template> inside <${component.localName}> is no longer supported. Import @vaadin/polymer-legacy-adapter/template-renderer.js to enable compatibility.`,
     );
   }
 }
@@ -13254,7 +14795,7 @@ const ColumnBaseMixin = (superClass) =>
             } else {
               return false;
             }
-          }
+          },
         },
 
         /**
@@ -13264,7 +14805,7 @@ const ColumnBaseMixin = (superClass) =>
          */
         frozen: {
           type: Boolean,
-          value: false
+          value: false,
         },
 
         /**
@@ -13272,14 +14813,14 @@ const ColumnBaseMixin = (superClass) =>
          */
         hidden: {
           type: Boolean,
-          value: false
+          value: false,
         },
 
         /**
          * Text content to display in the header cell of the column.
          */
         header: {
-          type: String
+          type: String,
         },
 
         /**
@@ -13289,7 +14830,7 @@ const ColumnBaseMixin = (superClass) =>
          * @type {GridColumnTextAlign | null | undefined}
          */
         textAlign: {
-          type: String
+          type: String,
         },
 
         /**
@@ -13298,7 +14839,7 @@ const ColumnBaseMixin = (superClass) =>
          */
         _lastFrozen: {
           type: Boolean,
-          value: false
+          value: false,
         },
 
         /** @protected */
@@ -13332,7 +14873,7 @@ const ColumnBaseMixin = (superClass) =>
          */
         __initialized: {
           type: Boolean,
-          value: true
+          value: true,
         },
 
         /**
@@ -13355,7 +14896,7 @@ const ColumnBaseMixin = (superClass) =>
          */
         _headerRenderer: {
           type: Function,
-          computed: '_computeHeaderRenderer(headerRenderer, header, __initialized)'
+          computed: '_computeHeaderRenderer(headerRenderer, header, __initialized)',
         },
 
         /**
@@ -13378,7 +14919,7 @@ const ColumnBaseMixin = (superClass) =>
          */
         _footerRenderer: {
           type: Function,
-          computed: '_computeFooterRenderer(footerRenderer, __initialized)'
+          computed: '_computeFooterRenderer(footerRenderer, __initialized)',
         },
 
         /**
@@ -13389,8 +14930,8 @@ const ColumnBaseMixin = (superClass) =>
          */
         __gridColumnElement: {
           type: Boolean,
-          value: true
-        }
+          value: true,
+        },
       };
     }
 
@@ -13407,7 +14948,7 @@ const ColumnBaseMixin = (superClass) =>
         '_onFooterRendererOrBindingChanged(_footerRenderer, _footerCell)',
         '_resizableChanged(resizable, _headerCell)',
         '_reorderStatusChanged(_reorderStatus, _headerCell, _footerCell, _cells.*)',
-        '_hiddenChanged(hidden, _headerCell, _footerCell, _cells.*)'
+        '_hiddenChanged(hidden, _headerCell, _footerCell, _cells.*)',
       ];
     }
 
@@ -13631,14 +15172,14 @@ const ColumnBaseMixin = (superClass) =>
             }
           });
         }
-        this._grid._debouncerHiddenChanged = Debouncer.debounce(
+        this._grid._debouncerHiddenChanged = Debouncer$2.debounce(
           this._grid._debouncerHiddenChanged,
-          animationFrame,
+          animationFrame$1,
           () => {
             if (this._grid && this._grid._renderColumnTree) {
               this._grid._renderColumnTree(this._grid._columnTree);
             }
-          }
+          },
         );
 
         this._grid._updateLastFrozen && this._grid._updateLastFrozen();
@@ -13874,7 +15415,7 @@ const ColumnBaseMixin = (superClass) =>
  * @extends HTMLElement
  * @mixes ColumnBaseMixin
  */
-class GridColumn extends ColumnBaseMixin(DirMixin(PolymerElement)) {
+class GridColumn extends ColumnBaseMixin(DirMixin$2(PolymerElement)) {
   static get is() {
     return 'vaadin-grid-column';
   }
@@ -13886,7 +15427,7 @@ class GridColumn extends ColumnBaseMixin(DirMixin(PolymerElement)) {
        */
       width: {
         type: String,
-        value: '100px'
+        value: '100px',
       },
 
       /**
@@ -13896,7 +15437,7 @@ class GridColumn extends ColumnBaseMixin(DirMixin(PolymerElement)) {
        */
       flexGrow: {
         type: Number,
-        value: 1
+        value: 1,
       },
 
       /**
@@ -13927,7 +15468,7 @@ class GridColumn extends ColumnBaseMixin(DirMixin(PolymerElement)) {
        */
       _renderer: {
         type: Function,
-        computed: '_computeRenderer(renderer, __initialized)'
+        computed: '_computeRenderer(renderer, __initialized)',
       },
 
       /**
@@ -13935,7 +15476,7 @@ class GridColumn extends ColumnBaseMixin(DirMixin(PolymerElement)) {
        * The property name is also shown in the column header if an explicit header or renderer isn't defined.
        */
       path: {
-        type: String
+        type: String,
       },
 
       /**
@@ -13957,14 +15498,14 @@ class GridColumn extends ColumnBaseMixin(DirMixin(PolymerElement)) {
        */
       autoWidth: {
         type: Boolean,
-        value: false
+        value: false,
       },
 
       /**
        * @type {Array<!HTMLElement>}
        * @protected
        */
-      _cells: Array
+      _cells: Array,
     };
   }
 }
@@ -13977,9 +15518,9 @@ customElements.define(GridColumn.is, GridColumn);
  * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
  */
 
-registerStyles(
+registerStyles$3(
   'vaadin-grid',
-  r`
+  i`
     @keyframes vaadin-grid-appear {
       to {
         opacity: 1;
@@ -14265,7 +15806,7 @@ registerStyles(
       right: auto;
     }
   `,
-  { moduleId: 'vaadin-grid-styles' }
+  { moduleId: 'vaadin-grid-styles' },
 );
 
 /**
@@ -14357,7 +15898,7 @@ const testVendor = (regexp) => regexp.test(navigator.vendor);
 
 const isAndroid = testUserAgent(/Android/);
 
-testUserAgent(/Chrome/) && testVendor(/Google Inc/);
+const isChrome = testUserAgent(/Chrome/) && testVendor(/Google Inc/);
 
 const isFirefox = testUserAgent(/Firefox/);
 
@@ -14378,6 +15919,70 @@ const isTouch = (() => {
     return false;
   }
 })();
+
+/**
+ * @license
+ * Copyright (c) 2021 - 2022 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */
+
+window.Vaadin = window.Vaadin || {};
+
+/**
+ * Array of Vaadin custom element classes that have been finalized.
+ */
+window.Vaadin.registrations = window.Vaadin.registrations || [];
+
+window.Vaadin.developmentModeCallback = window.Vaadin.developmentModeCallback || {};
+
+window.Vaadin.developmentModeCallback['vaadin-usage-statistics'] = function () {
+  usageStatistics();
+};
+
+let statsJob$1;
+
+const registered$1 = new Set();
+
+/**
+ * @polymerMixin
+ * @mixes DirMixin
+ */
+const ElementMixin$1 = (superClass) =>
+  class VaadinElementMixin extends DirMixin$2(superClass) {
+    static get version() {
+      return '22.0.22';
+    }
+
+    /** @protected */
+    static finalize() {
+      super.finalize();
+
+      const { is } = this;
+
+      // Registers a class prototype for telemetry purposes.
+      if (is && !registered$1.has(is)) {
+        window.Vaadin.registrations.push(this);
+        registered$1.add(is);
+
+        if (window.Vaadin.developmentModeCallback) {
+          statsJob$1 = Debouncer$2.debounce(statsJob$1, idlePeriod$1, () => {
+            window.Vaadin.developmentModeCallback['vaadin-usage-statistics']();
+          });
+          enqueueDebouncer$1(statsJob$1);
+        }
+      }
+    }
+
+    constructor() {
+      super();
+
+      if (document.doctype === null) {
+        console.warn(
+          'Vaadin components require the "standards mode" declaration. Please add <!DOCTYPE html> to the HTML document.',
+        );
+      }
+    }
+  };
 
 /**
  * @license
@@ -14725,7 +16330,7 @@ const ironList = {
       // _increasePoolIfNeeded to run away creating items to try to fill it.
       this._physicalTop = Math.min(
         Math.floor(this._virtualStart / this._itemsPerRow) * this._physicalAverage,
-        this._scrollPosition
+        this._scrollPosition,
       );
       this._update();
     } else if (this._physicalCount > 0) {
@@ -14764,9 +16369,12 @@ const ironList = {
 
     if (fromTop) {
       ith = this._physicalStart;
+      this._physicalEnd;
       offsetContent = scrollTop - top;
     } else {
       ith = this._physicalEnd;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      this._physicalStart;
       offsetContent = bottom - scrollBottom;
     }
     // eslint-disable-next-line no-constant-condition
@@ -14843,7 +16451,7 @@ const ironList = {
     var nextPhysicalCount = this._clamp(
       this._physicalCount + count,
       DEFAULT_PHYSICAL_COUNT,
-      this._virtualCount - this._virtualStart
+      this._virtualCount - this._virtualStart,
     );
     nextPhysicalCount = this._convertIndexToCompleteRow(nextPhysicalCount);
     if (this.grid) {
@@ -14894,7 +16502,7 @@ const ironList = {
       this._debounce(
         '_increasePoolIfNeeded',
         this._increasePoolIfNeeded.bind(this, this._clamp(Math.round(50 / this._templateCost), 1, nextIncrease)),
-        idlePeriod
+        idlePeriod$1,
       );
     }
   },
@@ -14948,7 +16556,7 @@ const ironList = {
         this._resetScrollPosition(0);
       }
       this._removeFocusedItem();
-      this._debounce('_render', this._render, animationFrame);
+      this._debounce('_render', this._render, animationFrame$1);
     } else if (change.path === 'items.splices') {
       this._adjustVirtualIndex(change.value.indexSplices);
       this._virtualCount = this.items ? this.items.length : 0;
@@ -14969,7 +16577,7 @@ const ironList = {
         return splice.index + splice.addedCount >= this._virtualStart && splice.index <= this._virtualEnd;
       }, this);
       if (!this._isClientFull() || affectedIndexRendered) {
-        this._debounce('_render', this._render, animationFrame);
+        this._debounce('_render', this._render, animationFrame$1);
       }
     } else if (change.path !== 'items.length') {
       this._forwardItemPath(change.path, change.value);
@@ -15061,7 +16669,7 @@ const ironList = {
     // Update the average if it measured something.
     if (this._physicalAverageCount !== prevAvgCount) {
       this._physicalAverage = Math.round(
-        (prevPhysicalAvg * prevAvgCount + newPhysicalSize) / this._physicalAverageCount
+        (prevPhysicalAvg * prevAvgCount + newPhysicalSize) / this._physicalAverageCount,
       );
     }
   },
@@ -15262,7 +16870,7 @@ const ironList = {
           this.toggleScrollListener(false);
         }
       },
-      animationFrame
+      animationFrame$1,
     );
   },
 
@@ -15319,9 +16927,9 @@ const ironList = {
 
   _debounce: function (name, cb, asyncModule) {
     this._debouncers = this._debouncers || {};
-    this._debouncers[name] = Debouncer.debounce(this._debouncers[name], asyncModule, cb.bind(this));
-    enqueueDebouncer(this._debouncers[name]);
-  }
+    this._debouncers[name] = Debouncer$2.debounce(this._debouncers[name], asyncModule, cb.bind(this));
+    enqueueDebouncer$1(this._debouncers[name]);
+  },
 };
 
 /**
@@ -15350,7 +16958,7 @@ class IronListAdapter {
 
     this.timeouts = {
       SCROLL_REORDER: 500,
-      IGNORE_WHEEL: 500
+      IGNORE_WHEEL: 500,
     };
 
     this.__resizeObserver = new ResizeObserver(() => this._resizeHandler());
@@ -15501,7 +17109,7 @@ class IronListAdapter {
     flush();
 
     this._itemsChanged({
-      path: 'items'
+      path: 'items',
     });
     flush();
 
@@ -15543,7 +17151,7 @@ class IronListAdapter {
   /** @private */
   get items() {
     return {
-      length: Math.min(this.size, MAX_VIRTUAL_COUNT)
+      length: Math.min(this.size, MAX_VIRTUAL_COUNT),
     };
   }
 
@@ -15555,7 +17163,7 @@ class IronListAdapter {
   /** @private */
   get $() {
     return {
-      items: this.scrollContainer
+      items: this.scrollContainer,
     };
   }
 
@@ -15621,10 +17229,10 @@ class IronListAdapter {
     super._scrollHandler();
 
     if (this.reorderElements) {
-      this.__scrollReorderDebouncer = Debouncer.debounce(
+      this.__scrollReorderDebouncer = Debouncer$2.debounce(
         this.__scrollReorderDebouncer,
-        timeOut.after(this.timeouts.SCROLL_REORDER),
-        () => this.__reorderElements()
+        timeOut$1.after(this.timeouts.SCROLL_REORDER),
+        () => this.__reorderElements(),
       );
     }
 
@@ -15659,10 +17267,10 @@ class IronListAdapter {
     this._deltaYAcc = 0;
 
     this._wheelAnimationFrame = true;
-    this.__debouncerWheelAnimationFrame = Debouncer.debounce(
+    this.__debouncerWheelAnimationFrame = Debouncer$2.debounce(
       this.__debouncerWheelAnimationFrame,
-      animationFrame,
-      () => (this._wheelAnimationFrame = false)
+      animationFrame$1,
+      () => (this._wheelAnimationFrame = false),
     );
 
     const momentum = Math.abs(e.deltaX) + Math.abs(deltaY);
@@ -15675,10 +17283,10 @@ class IronListAdapter {
       this._hasResidualMomentum = true;
 
       this._ignoreNewWheel = true;
-      this._debouncerIgnoreNewWheel = Debouncer.debounce(
+      this._debouncerIgnoreNewWheel = Debouncer$2.debounce(
         this._debouncerIgnoreNewWheel,
-        timeOut.after(this.timeouts.IGNORE_WHEEL),
-        () => (this._ignoreNewWheel = false)
+        timeOut$1.after(this.timeouts.IGNORE_WHEEL),
+        () => (this._ignoreNewWheel = false),
       );
     } else if ((this._hasResidualMomentum && momentum <= this._previousMomentum) || this._ignoreNewWheel) {
       e.preventDefault();
@@ -15749,7 +17357,7 @@ class IronListAdapter {
     const elementWithFocus = visibleElements.find(
       (element) =>
         element.contains(this.elementsContainer.getRootNode().activeElement) ||
-        element.contains(this.scrollTarget.getRootNode().activeElement)
+        element.contains(this.scrollTarget.getRootNode().activeElement),
     );
     const targetElement = elementWithFocus || visibleElements[0];
     if (!targetElement) {
@@ -15944,7 +17552,7 @@ const A11yMixin = (superClass) =>
       const bodyColumns = _columnTree[_columnTree.length - 1];
       this.$.table.setAttribute(
         'aria-rowcount',
-        size + this._a11yGetHeaderRowCount(_columnTree) + this._a11yGetFooterRowCount(_columnTree)
+        size + this._a11yGetHeaderRowCount(_columnTree) + this._a11yGetFooterRowCount(_columnTree),
       );
       this.$.table.setAttribute('aria-colcount', (bodyColumns && bodyColumns.length) || 0);
 
@@ -15955,14 +17563,14 @@ const A11yMixin = (superClass) =>
     /** @protected */
     _a11yUpdateHeaderRows() {
       Array.from(this.$.header.children).forEach((headerRow, index) =>
-        headerRow.setAttribute('aria-rowindex', index + 1)
+        headerRow.setAttribute('aria-rowindex', index + 1),
       );
     }
 
     /** @protected */
     _a11yUpdateFooterRows() {
       Array.from(this.$.footer.children).forEach((footerRow, index) =>
-        footerRow.setAttribute('aria-rowindex', this._a11yGetHeaderRowCount(this._columnTree) + this.size + index + 1)
+        footerRow.setAttribute('aria-rowindex', this._a11yGetHeaderRowCount(this._columnTree) + this.size + index + 1),
       );
     }
 
@@ -16006,24 +17614,12 @@ const A11yMixin = (superClass) =>
      * @protected
      */
     _a11yUpdateRowLevel(row, level) {
-      row.setAttribute('aria-level', level + 1);
-    }
-
-    /**
-     * @param {!HTMLElement} row
-     * @param {boolean} detailsOpened
-     * @protected
-     */
-    _a11yUpdateRowDetailsOpened(row, detailsOpened) {
-      const detailsCell = row.querySelector('[part~=details-cell]');
-
-      Array.from(row.children).forEach((cell) => {
-        if (detailsCell) {
-          cell.setAttribute('aria-expanded', detailsOpened);
-        } else {
-          cell.removeAttribute('aria-expanded');
-        }
-      });
+      // Set level for the expandable rows itself, and all the nested rows.
+      if (level > 0 || this.__isRowCollapsible(row) || this.__isRowExpandable(row)) {
+        row.setAttribute('aria-level', level + 1);
+      } else {
+        row.removeAttribute('aria-level');
+      }
     }
 
     /**
@@ -16061,8 +17657,8 @@ const A11yMixin = (superClass) =>
             'aria-sort',
             {
               asc: 'ascending',
-              desc: 'descending'
-            }[String(sorter.direction)] || 'none'
+              desc: 'descending',
+            }[String(sorter.direction)] || 'none',
           );
         }
       });
@@ -16090,8 +17686,8 @@ const ActiveItemMixin = (superClass) =>
         activeItem: {
           type: Object,
           notify: true,
-          value: null
-        }
+          value: null,
+        },
       };
     }
 
@@ -16139,9 +17735,9 @@ const ActiveItemMixin = (superClass) =>
         this.dispatchEvent(
           new CustomEvent('cell-activate', {
             detail: {
-              model: this.__getRowModel(cell.parentElement)
-            }
-          })
+              model: this.__getRowModel(cell.parentElement),
+            },
+          }),
         );
       }
     }
@@ -16179,8 +17775,8 @@ const isFocusable = (target) => {
   }
   const focusables = Array.from(
     target.parentNode.querySelectorAll(
-      '[tabindex], button, input, select, textarea, object, iframe, label, a[href], area[href]'
-    )
+      '[tabindex], button, input, select, textarea, object, iframe, label, a[href], area[href]',
+    ),
   ).filter((element) => element.getAttribute('part') !== 'cell body-cell');
 
   const isFocusableElement = focusables.indexOf(target) !== -1;
@@ -16351,7 +17947,7 @@ const ArrayDataProviderMixin = (superClass) =>
          *
          * @type {Array<!GridItem> | undefined}
          */
-        items: Array
+        items: Array,
       };
     }
 
@@ -16366,7 +17962,7 @@ const ArrayDataProviderMixin = (superClass) =>
       this.setProperties({
         _arrayDataProvider: arrayDataProvider,
         size: items.length,
-        dataProvider: arrayDataProvider
+        dataProvider: arrayDataProvider,
       });
     }
 
@@ -16383,14 +17979,14 @@ const ArrayDataProviderMixin = (superClass) =>
           // A custom data provider was set externally
           this.setProperties({
             _arrayDataProvider: undefined,
-            items: undefined
+            items: undefined,
           });
         } else if (!items) {
           // The items array was unset
           this.setProperties({
             _arrayDataProvider: undefined,
             dataProvider: undefined,
-            size: 0
+            size: 0,
           });
           this.clearCache();
         } else if (this._arrayDataProvider.__items === items) {
@@ -16452,14 +18048,14 @@ const ColumnReorderingMixin = (superClass) =>
          */
         columnReorderingAllowed: {
           type: Boolean,
-          value: false
+          value: false,
         },
 
         /** @private */
         _orderBaseScope: {
           type: Number,
-          value: 10000000
-        }
+          value: 10000000,
+        },
       };
     }
 
@@ -16492,8 +18088,8 @@ const ColumnReorderingMixin = (superClass) =>
         this._onTrackStart({
           detail: {
             x: e.touches[0].clientX,
-            y: e.touches[0].clientY
-          }
+            y: e.touches[0].clientY,
+          },
         });
       }, 100);
     }
@@ -16616,9 +18212,9 @@ const ColumnReorderingMixin = (superClass) =>
       this.dispatchEvent(
         new CustomEvent('column-reorder', {
           detail: {
-            columns: this._getColumnsInOrder()
-          }
-        })
+            columns: this._getColumnsInOrder(),
+          },
+        }),
       );
     }
 
@@ -16693,7 +18289,7 @@ const ColumnReorderingMixin = (superClass) =>
         'padding',
         'border',
         'flex-direction',
-        'overflow'
+        'overflow',
       ].forEach((propertyName) => (ghost.style[propertyName] = style[propertyName]));
       return ghost;
     }
@@ -16762,7 +18358,7 @@ const ColumnReorderingMixin = (superClass) =>
      */
     _isSwappableByPosition(targetColumn, clientX) {
       const targetCell = Array.from(this.$.header.querySelectorAll('tr:not([hidden]) [part~="cell"]')).filter((cell) =>
-        targetColumn.contains(cell._column)
+        targetColumn.contains(cell._column),
       )[0];
       const sourceCellRect = this.$.header
         .querySelector('tr:not([hidden]) [reorder-status=dragging]')
@@ -16839,13 +18435,13 @@ const ColumnResizingMixin = (superClass) =>
       // Disable contextmenu on any resize separator.
       scroller.addEventListener(
         'contextmenu',
-        (e) => e.target.getAttribute('part') == 'resize-handle' && e.preventDefault()
+        (e) => e.target.getAttribute('part') == 'resize-handle' && e.preventDefault(),
       );
 
       // Disable native cell focus when resizing
       scroller.addEventListener(
         'mousedown',
-        (e) => e.target.getAttribute('part') === 'resize-handle' && e.preventDefault()
+        (e) => e.target.getAttribute('part') === 'resize-handle' && e.preventDefault(),
       );
     }
 
@@ -16908,8 +18504,8 @@ const ColumnResizingMixin = (superClass) =>
           this.$.scroller.toggleAttribute('column-resizing', false);
           this.dispatchEvent(
             new CustomEvent('column-resize', {
-              detail: { resizedColumn: column }
-            })
+              detail: { resizedColumn: column },
+            }),
           );
         }
 
@@ -16969,7 +18565,7 @@ const ItemCache = class ItemCache {
       Object.keys(this.pendingRequests).length ||
         Object.keys(this.itemCaches).filter((index) => {
           return this.itemCaches[index].isLoading();
-        })[0]
+        })[0],
     );
   }
 
@@ -17040,7 +18636,7 @@ const DataProviderMixin = (superClass) =>
          */
         size: {
           type: Number,
-          notify: true
+          notify: true,
         },
 
         /**
@@ -17051,7 +18647,7 @@ const DataProviderMixin = (superClass) =>
         pageSize: {
           type: Number,
           value: 50,
-          observer: '_pageSizeChanged'
+          observer: '_pageSizeChanged',
         },
 
         /**
@@ -17080,7 +18676,7 @@ const DataProviderMixin = (superClass) =>
         dataProvider: {
           type: Object,
           notify: true,
-          observer: '_dataProviderChanged'
+          observer: '_dataProviderChanged',
         },
 
         /**
@@ -17090,7 +18686,7 @@ const DataProviderMixin = (superClass) =>
           type: Boolean,
           notify: true,
           readOnly: true,
-          reflectToAttribute: true
+          reflectToAttribute: true,
         },
 
         /**
@@ -17102,7 +18698,7 @@ const DataProviderMixin = (superClass) =>
           value: function () {
             const cache = new ItemCache(this);
             return cache;
-          }
+          },
         },
 
         /**
@@ -17110,7 +18706,7 @@ const DataProviderMixin = (superClass) =>
          */
         _hasData: {
           type: Boolean,
-          value: false
+          value: false,
         },
 
         /**
@@ -17119,7 +18715,7 @@ const DataProviderMixin = (superClass) =>
          */
         itemIdPath: {
           type: String,
-          value: null
+          value: null,
         },
 
         /**
@@ -17129,7 +18725,7 @@ const DataProviderMixin = (superClass) =>
         expandedItems: {
           type: Object,
           notify: true,
-          value: () => []
+          value: () => [],
         },
 
         /**
@@ -17137,8 +18733,8 @@ const DataProviderMixin = (superClass) =>
          */
         __expandedKeys: {
           type: Object,
-          value: () => new Set()
-        }
+          value: () => new Set(),
+        },
       };
     }
 
@@ -17271,7 +18867,7 @@ const DataProviderMixin = (superClass) =>
           pageSize: this.pageSize,
           sortOrders: this._mapSorters(),
           filters: this._mapFilters(),
-          parentItem: cache.parentItem
+          parentItem: cache.parentItem,
         };
 
         this.dataProvider(params, (items, size) => {
@@ -17299,7 +18895,7 @@ const DataProviderMixin = (superClass) =>
 
           delete cache.pendingRequests[page];
 
-          this._debouncerApplyCachedData = Debouncer.debounce(this._debouncerApplyCachedData, timeOut.after(0), () => {
+          this._debouncerApplyCachedData = Debouncer$2.debounce(this._debouncerApplyCachedData, timeOut$1.after(0), () => {
             this._setLoading(false);
             this._cache.updateSize();
             this._effectiveSize = this._cache.effectiveSize;
@@ -17363,7 +18959,7 @@ const DataProviderMixin = (superClass) =>
           'The <vaadin-grid> needs the total number of items' +
             ' in order to display rows. Set the total number of items' +
             ' to the `size` property, or provide the total number of items' +
-            ' in the second argument of the `dataProvider`’s `callback` call.'
+            ' in the second argument of the `dataProvider`’s `callback` call.',
         );
       }
     }
@@ -17376,10 +18972,10 @@ const DataProviderMixin = (superClass) =>
 
       this._ensureFirstPageLoaded();
 
-      this._debouncerCheckSize = Debouncer.debounce(
+      this._debouncerCheckSize = Debouncer$2.debounce(
         this._debouncerCheckSize,
-        timeOut.after(2000),
-        this._checkSize.bind(this)
+        timeOut$1.after(2000),
+        this._checkSize.bind(this),
       );
     }
 
@@ -17455,14 +19051,14 @@ const DropMode = {
   BETWEEN: 'between',
   ON_TOP: 'on-top',
   ON_TOP_OR_BETWEEN: 'on-top-or-between',
-  ON_GRID: 'on-grid'
+  ON_GRID: 'on-grid',
 };
 
 const DropLocation = {
   ON_TOP: 'on-top',
   ABOVE: 'above',
   BELOW: 'below',
-  EMPTY: 'empty'
+  EMPTY: 'empty',
 };
 
 /**
@@ -17527,8 +19123,8 @@ const DragAndDropMixin = (superClass) =>
 
         /** @private */
         __dndAutoScrollThreshold: {
-          value: 50
-        }
+          value: 50,
+        },
       };
     }
 
@@ -17610,8 +19206,8 @@ const DragAndDropMixin = (superClass) =>
           detail: {
             draggedItems: rows.map((row) => row._item),
             setDragData: (type, data) => e.dataTransfer.setData(type, data),
-            setDraggedItemsCount: (count) => row.setAttribute('dragstart', count)
-          }
+            setDraggedItemsCount: (count) => row.setAttribute('dragstart', count),
+          },
         });
         event.originalEvent = e;
         this.dispatchEvent(event);
@@ -17761,7 +19357,7 @@ const DragAndDropMixin = (superClass) =>
           Array.from(e.dataTransfer.types).map((type) => {
             return {
               type,
-              data: e.dataTransfer.getData(type)
+              data: e.dataTransfer.getData(type),
             };
           });
 
@@ -17773,8 +19369,8 @@ const DragAndDropMixin = (superClass) =>
           detail: {
             dropTargetItem: this._dragOverItem,
             dropLocation: this._dropLocation,
-            dragData
-          }
+            dragData,
+          },
         });
         event.originalEvent = e;
         this.dispatchEvent(event);
@@ -17897,7 +19493,7 @@ const DynamicColumnsMixin = (superClass) =>
         /**
          * @protected
          */
-        _columnTree: Object
+        _columnTree: Object,
       };
     }
 
@@ -17980,10 +19576,10 @@ const DynamicColumnsMixin = (superClass) =>
           this._updateColumnTree();
         }
 
-        this._debouncerCheckImports = Debouncer.debounce(
+        this._debouncerCheckImports = Debouncer$2.debounce(
           this._debouncerCheckImports,
-          timeOut.after(2000),
-          this._checkImports.bind(this)
+          timeOut$1.after(2000),
+          this._checkImports.bind(this),
         );
 
         this._ensureFirstPageLoaded();
@@ -18019,7 +19615,7 @@ const DynamicColumnsMixin = (superClass) =>
         'vaadin-grid-tree-toggle',
         'vaadin-grid-selection-column',
         'vaadin-grid-sort-column',
-        'vaadin-grid-sorter'
+        'vaadin-grid-sorter',
       ].forEach((elementName) => {
         const element = this.querySelector(elementName);
         if (element && !(element instanceof PolymerElement)) {
@@ -18101,7 +19697,7 @@ const EventContextMixin = (superClass) =>
       }
 
       context.section = ['body', 'header', 'footer', 'details'].filter(
-        (section) => cell.getAttribute('part').indexOf(section) > -1
+        (section) => cell.getAttribute('part').indexOf(section) > -1,
       )[0];
 
       if (cell._column) {
@@ -18134,8 +19730,8 @@ const FilterMixin = (superClass) =>
           type: Array,
           value: function () {
             return [];
-          }
-        }
+          },
+        },
       };
     }
 
@@ -18187,7 +19783,7 @@ const FilterMixin = (superClass) =>
       return this._filters.map((filter) => {
         return {
           path: filter.path,
-          value: filter.value
+          value: filter.value,
         };
       });
     }
@@ -18209,7 +19805,7 @@ const KeyboardNavigationMixin = (superClass) =>
         /** @private */
         _headerFocusable: {
           type: Object,
-          observer: '_focusableChanged'
+          observer: '_focusableChanged',
         },
 
         /**
@@ -18218,13 +19814,13 @@ const KeyboardNavigationMixin = (superClass) =>
          */
         _itemsFocusable: {
           type: Object,
-          observer: '_focusableChanged'
+          observer: '_focusableChanged',
         },
 
         /** @private */
         _footerFocusable: {
           type: Object,
-          observer: '_focusableChanged'
+          observer: '_focusableChanged',
         },
 
         /** @private */
@@ -18236,7 +19832,7 @@ const KeyboardNavigationMixin = (superClass) =>
          */
         _focusedItemIndex: {
           type: Number,
-          value: 0
+          value: 0,
         },
 
         /** @private */
@@ -18259,8 +19855,8 @@ const KeyboardNavigationMixin = (superClass) =>
           value: false,
           reflectToAttribute: true,
           readOnly: true,
-          observer: '_interactingChanged'
-        }
+          observer: '_interactingChanged',
+        },
       };
     }
 
@@ -18286,6 +19882,9 @@ const KeyboardNavigationMixin = (superClass) =>
       this.addEventListener('mousedown', () => {
         this.toggleAttribute('navigating', false);
         this._isMousedown = true;
+
+        // Reset stored order when moving focus with mouse.
+        this._focusedColumnOrder = undefined;
       });
       this.addEventListener('mouseup', () => (this._isMousedown = false));
     }
@@ -18414,7 +20013,7 @@ const KeyboardNavigationMixin = (superClass) =>
     __isRowExpandable(row) {
       const treeToggle = [...row.children].reduce(
         (value, cell) => value || cell._content.querySelector('vaadin-grid-tree-toggle'),
-        null
+        null,
       );
       return treeToggle && !treeToggle.expanded && !treeToggle.leaf;
     }
@@ -18660,7 +20259,7 @@ const KeyboardNavigationMixin = (superClass) =>
 
         return {
           dstRow: [...activeRowGroup.children].find((el) => !el.hidden && el.index === dstRowIndex),
-          dstIsRowDetails
+          dstIsRowDetails,
         };
       }
     }
@@ -18711,7 +20310,7 @@ const KeyboardNavigationMixin = (superClass) =>
         const orderedColumnIndex = dstSortedColumnOrders.indexOf(
           dstSortedColumnOrders
             .slice(0)
-            .sort((b, a) => Math.abs(b - this._focusedColumnOrder) - Math.abs(a - this._focusedColumnOrder))[0]
+            .sort((b, a) => Math.abs(b - this._focusedColumnOrder) - Math.abs(a - this._focusedColumnOrder))[0],
         );
 
         // Index of the destination column order
@@ -18786,7 +20385,7 @@ const KeyboardNavigationMixin = (superClass) =>
         this._headerFocusable,
         this._itemsFocusable,
         this._footerFocusable,
-        this.$.focusexit
+        this.$.focusexit,
       ];
 
       let index = tabOrder.indexOf(srcElement);
@@ -18812,6 +20411,14 @@ const KeyboardNavigationMixin = (superClass) =>
     _onTabKeyDown(e) {
       const focusTarget = this._predictFocusStepTarget(e.composedPath()[0], e.shiftKey ? -1 : 1);
 
+      // Can be undefined if grid has tabindex
+      if (!focusTarget) {
+        return;
+      }
+
+      // Prevent focus-trap logic from intercepting the event.
+      e.stopPropagation();
+
       if (focusTarget === this.$.table) {
         // The focus is about to exit the grid to the top.
         this.$.table.focus();
@@ -18828,7 +20435,7 @@ const KeyboardNavigationMixin = (superClass) =>
           // scrolling. Focus the row for the stored focused item index instead.
           const columnIndex = Array.from(targetRow.children).indexOf(this._itemsFocusable);
           const focusedItemRow = Array.from(this.$.items.children).find(
-            (row) => !row.hidden && row.index === this._focusedItemIndex
+            (row) => !row.hidden && row.index === this._focusedItemIndex,
           );
           if (focusedItemRow) {
             itemsFocusTarget = focusedItemRow.children[columnIndex];
@@ -18854,9 +20461,9 @@ const KeyboardNavigationMixin = (superClass) =>
         this.dispatchEvent(
           new CustomEvent(isRow ? 'row-activate' : 'cell-activate', {
             detail: {
-              model: this.__getRowModel(isRow ? element : element.parentElement)
-            }
-          })
+              model: this.__getRowModel(isRow ? element : element.parentElement),
+            },
+          }),
         );
       }
     }
@@ -18927,7 +20534,7 @@ const KeyboardNavigationMixin = (superClass) =>
           // Fire a public event for cell.
           const context = this.getEventContext(e);
           cell.dispatchEvent(
-            new CustomEvent('cell-focus', { bubbles: true, composed: true, detail: { context: context } })
+            new CustomEvent('cell-focus', { bubbles: true, composed: true, detail: { context: context } }),
           );
         }
       }
@@ -19109,7 +20716,7 @@ const KeyboardNavigationMixin = (superClass) =>
       return {
         section,
         row,
-        cell
+        cell,
       };
     }
 
@@ -19156,7 +20763,7 @@ const RowDetailsMixin = (superClass) =>
           type: Array,
           value: function () {
             return [];
-          }
+          },
         },
 
         /**
@@ -19182,15 +20789,15 @@ const RowDetailsMixin = (superClass) =>
          * @protected
          */
         _detailsCells: {
-          type: Array
-        }
+          type: Array,
+        },
       };
     }
 
     static get observers() {
       return [
         '_detailsOpenedItemsChanged(detailsOpenedItems.*, rowDetailsRenderer)',
-        '_rowDetailsRendererChanged(rowDetailsRenderer)'
+        '_rowDetailsRendererChanged(rowDetailsRenderer)',
       ];
     }
 
@@ -19221,7 +20828,6 @@ const RowDetailsMixin = (superClass) =>
           if (!row.querySelector('[part~=details-cell]')) {
             this._updateRow(row, this._columnTree[this._columnTree.length - 1]);
             const isDetailsOpened = this._isDetailsOpened(row._item);
-            this._a11yUpdateRowDetailsOpened(row, isDetailsOpened);
             this._toggleDetailsCell(row, isDetailsOpened);
           }
         });
@@ -19345,7 +20951,7 @@ const RowDetailsMixin = (superClass) =>
  */
 
 const timeouts = {
-  SCROLLING: 500
+  SCROLLING: 500,
 };
 
 /**
@@ -19361,11 +20967,11 @@ const ScrollMixin = (superClass) =>
          */
         _frozenCells: {
           type: Array,
-          value: () => []
+          value: () => [],
         },
 
         /** @private */
-        _rowWithFocusedElement: Element
+        _rowWithFocusedElement: Element,
       };
     }
 
@@ -19443,7 +21049,7 @@ const ScrollMixin = (superClass) =>
         // Defer setting state attributes to avoid Edge hiccups
         this._scrollingFrame = requestAnimationFrame(() => this.$.scroller.toggleAttribute('scrolling', true));
       }
-      this._debounceScrolling = Debouncer.debounce(this._debounceScrolling, timeOut.after(timeouts.SCROLLING), () => {
+      this._debounceScrolling = Debouncer$2.debounce(this._debounceScrolling, timeOut$1.after(timeouts.SCROLLING), () => {
         cancelAnimationFrame(this._scrollingFrame);
         delete this._scrollingFrame;
         this.$.scroller.toggleAttribute('scrolling', false);
@@ -19482,7 +21088,7 @@ const ScrollMixin = (superClass) =>
         overflow += ' left';
       }
 
-      this._debounceOverflow = Debouncer.debounce(this._debounceOverflow, animationFrame, () => {
+      this._debounceOverflow = Debouncer$2.debounce(this._debounceOverflow, animationFrame$1, () => {
         const value = overflow.trim();
         if (value.length > 0 && this.getAttribute('overflow') !== value) {
           this.setAttribute('overflow', value);
@@ -19494,7 +21100,7 @@ const ScrollMixin = (superClass) =>
 
     /** @protected */
     _frozenCellsChanged() {
-      this._debouncerCacheElements = Debouncer.debounce(this._debouncerCacheElements, microTask, () => {
+      this._debouncerCacheElements = Debouncer$2.debounce(this._debouncerCacheElements, microTask, () => {
         Array.from(this.shadowRoot.querySelectorAll('[part~="cell"]')).forEach(function (cell) {
           cell.style.transform = '';
         });
@@ -19559,13 +21165,22 @@ const SelectionMixin = (superClass) =>
         selectedItems: {
           type: Object,
           notify: true,
-          value: () => []
-        }
+          value: () => [],
+        },
+
+        /**
+         * Set of selected item ids
+         * @private
+         */
+        __selectedKeys: {
+          type: Object,
+          value: () => new Set(),
+        },
       };
     }
 
     static get observers() {
-      return ['_selectedItemsChanged(selectedItems.*)'];
+      return ['_updateSelectedKeys(itemIdPath, selectedItems.*)'];
     }
 
     /**
@@ -19574,7 +21189,7 @@ const SelectionMixin = (superClass) =>
      * @protected
      */
     _isSelected(item) {
-      return this.selectedItems && this._getItemIndexInArray(item, this.selectedItems) > -1;
+      return this.__selectedKeys.has(this.getItemId(item));
     }
 
     /**
@@ -19609,8 +21224,7 @@ const SelectionMixin = (superClass) =>
      * @protected
      */
     _toggleItem(item) {
-      const index = this._getItemIndexInArray(item, this.selectedItems);
-      if (index === -1) {
+      if (!this._isSelected(item)) {
         this.selectItem(item);
       } else {
         this.deselectItem(item);
@@ -19618,7 +21232,13 @@ const SelectionMixin = (superClass) =>
     }
 
     /** @private */
-    _selectedItemsChanged() {
+    _updateSelectedKeys() {
+      const selectedItems = this.selectedItems || [];
+      this.__selectedKeys = new Set();
+      selectedItems.forEach((item) => {
+        this.__selectedKeys.add(this.getItemId(item));
+      });
+
       this.requestContentUpdate();
     }
 
@@ -19649,7 +21269,7 @@ const SortMixin = (superClass) =>
          */
         multiSort: {
           type: Boolean,
-          value: false
+          value: false,
         },
 
         /**
@@ -19660,7 +21280,7 @@ const SortMixin = (superClass) =>
           type: Array,
           value: function () {
             return [];
-          }
+          },
         },
 
         /** @private */
@@ -19668,8 +21288,8 @@ const SortMixin = (superClass) =>
           type: Array,
           value: function () {
             return [];
-          }
-        }
+          },
+        },
       };
     }
 
@@ -19755,7 +21375,7 @@ const SortMixin = (superClass) =>
       return this._sorters.map((sorter) => {
         return {
           path: sorter.path,
-          direction: sorter.direction
+          direction: sorter.direction,
         };
       });
     }
@@ -19800,7 +21420,7 @@ const StylingMixin = (superClass) =>
          *
          * @type {GridCellClassNameGenerator | null | undefined}
          */
-        cellClassNameGenerator: Function
+        cellClassNameGenerator: Function,
       };
     }
 
@@ -20060,8 +21680,8 @@ const StylingMixin = (superClass) =>
  * @mixes StylingMixin
  * @mixes DragAndDropMixin
  */
-class Grid extends ElementMixin(
-  ThemableMixin(
+class Grid extends ElementMixin$1(
+  ThemableMixin$3(
     DataProviderMixin(
       ArrayDataProviderMixin(
         DynamicColumnsMixin(
@@ -20074,20 +21694,20 @@ class Grid extends ElementMixin(
                       A11yMixin(
                         FilterMixin(
                           ColumnReorderingMixin(
-                            ColumnResizingMixin(EventContextMixin(DragAndDropMixin(StylingMixin(PolymerElement))))
-                          )
-                        )
-                      )
-                    )
-                  )
-                )
-              )
-            )
-          )
-        )
-      )
-    )
-  )
+                            ColumnResizingMixin(EventContextMixin(DragAndDropMixin(StylingMixin(PolymerElement)))),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    ),
+  ),
 ) {
   static get template() {
     return html`
@@ -20119,7 +21739,7 @@ class Grid extends ElementMixin(
   static get observers() {
     return [
       '_columnTreeChanged(_columnTree, _columnTree.*)',
-      '_effectiveSizeChanged(_effectiveSize, __virtualizer, _hasData, _columnTree)'
+      '_effectiveSizeChanged(_effectiveSize, __virtualizer, _hasData, _columnTree)',
     ];
   }
 
@@ -20128,31 +21748,31 @@ class Grid extends ElementMixin(
       /** @private */
       _safari: {
         type: Boolean,
-        value: isSafari
+        value: isSafari,
       },
 
       /** @private */
       _ios: {
         type: Boolean,
-        value: isIOS
+        value: isIOS,
       },
 
       /** @private */
       _firefox: {
         type: Boolean,
-        value: isFirefox
+        value: isFirefox,
       },
 
       /** @private */
       _android: {
         type: Boolean,
-        value: isAndroid
+        value: isAndroid,
       },
 
       /** @private */
       _touchDevice: {
         type: Boolean,
-        value: isTouch
+        value: isTouch,
       },
 
       /**
@@ -20166,18 +21786,18 @@ class Grid extends ElementMixin(
       allRowsVisible: {
         type: Boolean,
         value: false,
-        reflectToAttribute: true
+        reflectToAttribute: true,
       },
 
       /** @private */
       _recalculateColumnWidthOnceLoadingFinished: {
         type: Boolean,
-        value: true
+        value: true,
       },
 
       /** @private */
       isAttached: {
-        value: false
+        value: false,
       },
 
       /**
@@ -20188,8 +21808,8 @@ class Grid extends ElementMixin(
        */
       __gridElement: {
         type: Boolean,
-        value: true
-      }
+        value: true,
+      },
     };
   }
 
@@ -20262,7 +21882,7 @@ class Grid extends ElementMixin(
       updateElement: this._updateScrollerItem.bind(this),
       scrollContainer: this.$.items,
       scrollTarget: this.$.table,
-      reorderElements: true
+      reorderElements: true,
     });
 
     new ResizeObserver(() => setTimeout(() => this.__updateFooterPositioning())).observe(this.$.footer);
@@ -20288,7 +21908,7 @@ class Grid extends ElementMixin(
     if (this.$.items.contains(cell) && cell.localName === 'td') {
       return {
         item: cell.parentElement._item,
-        column: cell._column
+        column: cell._column,
       };
     }
   }
@@ -20439,7 +22059,7 @@ class Grid extends ElementMixin(
 
     if (this._columnTree) {
       this._columnTree[this._columnTree.length - 1].forEach(
-        (c) => c.isConnected && c.notifyPath && c.notifyPath('_cells.*', c._cells)
+        (c) => c.isConnected && c.notifyPath && c.notifyPath('_cells.*', c._cells),
       );
     }
 
@@ -20476,13 +22096,16 @@ class Grid extends ElementMixin(
     // focusable slot wrapper, that is why cells are not focused with
     // mousedown. Workaround: listen for mousedown and focus manually.
     cellContent.addEventListener('mousedown', () => {
-      if (window.chrome) {
+      if (isChrome) {
         // Chrome bug: focusing before mouseup prevents text selection, see http://crbug.com/771903
-        const mouseUpListener = () => {
-          if (!cellContent.contains(this.getRootNode().activeElement)) {
+        const mouseUpListener = (event) => {
+          // If focus is on element within the cell content — respect it, do not change
+          const contentContainsFocusedElement = cellContent.contains(this.getRootNode().activeElement);
+          // Only focus if mouse is released on cell content itself
+          const mouseUpWithinCell = event.composedPath().includes(cellContent);
+          if (!contentContainsFocusedElement && mouseUpWithinCell) {
             cell.focus();
           }
-          // If focus is in the cell content — respect it, do not change.
           document.removeEventListener('mouseup', mouseUpListener, true);
         };
         document.addEventListener('mouseup', mouseUpListener, true);
@@ -20660,7 +22283,7 @@ class Grid extends ElementMixin(
    */
   _renderColumnTree(columnTree) {
     Array.from(this.$.items.children).forEach((row) =>
-      this._updateRow(row, columnTree[columnTree.length - 1], null, false, true)
+      this._updateRow(row, columnTree[columnTree.length - 1], null, false, true),
     );
 
     while (this.$.header.children.length < columnTree.length) {
@@ -20682,11 +22305,11 @@ class Grid extends ElementMixin(
     }
 
     Array.from(this.$.header.children).forEach((headerRow, index) =>
-      this._updateRow(headerRow, columnTree[index], 'header', index === columnTree.length - 1)
+      this._updateRow(headerRow, columnTree[index], 'header', index === columnTree.length - 1),
     );
 
     Array.from(this.$.footer.children).forEach((footerRow, index) =>
-      this._updateRow(footerRow, columnTree[columnTree.length - 1 - index], 'footer', index === 0)
+      this._updateRow(footerRow, columnTree[columnTree.length - 1 - index], 'footer', index === 0),
     );
 
     // Sizer rows
@@ -20703,7 +22326,8 @@ class Grid extends ElementMixin(
   }
 
   __updateFooterPositioning() {
-    if (this._firefox) {
+    // TODO: fixed in Firefox 99, remove when we can drop Firefox ESR 91 support
+    if (this._firefox && parseFloat(navigator.userAgent.match(/Firefox\/(\d{2,3}.\d)/)[1]) < 99) {
       // Sticky (or translated) footer in a flexbox host doesn't get included in
       // the scroll height calculation on FF. This is a workaround for the issue.
       this.$.items.style.paddingBottom = 0;
@@ -20726,7 +22350,6 @@ class Grid extends ElementMixin(
 
     this._a11yUpdateRowLevel(row, model.level);
     this._a11yUpdateRowSelected(row, model.selected);
-    this._a11yUpdateRowDetailsOpened(row, model.detailsOpened);
 
     row.toggleAttribute('expanded', model.expanded);
     row.toggleAttribute('selected', model.selected);
@@ -20780,7 +22403,7 @@ class Grid extends ElementMixin(
       level: this._getIndexLevel(row.index),
       expanded: this._isExpanded(row._item),
       selected: this._isSelected(row._item),
-      detailsOpened: !!this.rowDetailsRenderer && this._isDetailsOpened(row._item)
+      detailsOpened: !!this.rowDetailsRenderer && this._isDetailsOpened(row._item),
     };
   }
 
@@ -20825,7 +22448,7 @@ class Grid extends ElementMixin(
    */
   notifyResize() {
     console.warn(
-      `WARNING: Since Vaadin 22, notifyResize() is deprecated. The component uses a ResizeObserver internally and doesn't need to be explicitly notified of resizes.`
+      `WARNING: Since Vaadin 22, notifyResize() is deprecated. The component uses a ResizeObserver internally and doesn't need to be explicitly notified of resizes.`,
     );
   }
 }
@@ -20881,7 +22504,7 @@ class GridColumnGroup extends ColumnBaseMixin(PolymerElement) {
       _childColumns: {
         value: function () {
           return this._getChildColumns(this);
-        }
+        },
       },
 
       /**
@@ -20890,7 +22513,7 @@ class GridColumnGroup extends ColumnBaseMixin(PolymerElement) {
        */
       flexGrow: {
         type: Number,
-        readOnly: true
+        readOnly: true,
       },
 
       /**
@@ -20898,7 +22521,7 @@ class GridColumnGroup extends ColumnBaseMixin(PolymerElement) {
        */
       width: {
         type: String,
-        readOnly: true
+        readOnly: true,
       },
 
       /** @private */
@@ -20908,21 +22531,18 @@ class GridColumnGroup extends ColumnBaseMixin(PolymerElement) {
       _colSpan: Number,
 
       /** @private */
-      _rootColumns: Array
+      _rootColumns: Array,
     };
   }
 
   static get observers() {
     return [
-      '_updateVisibleChildColumns(_childColumns)',
-      '_childColumnsChanged(_childColumns)',
       '_groupFrozenChanged(frozen, _rootColumns)',
-      '_groupHiddenChanged(hidden, _rootColumns)',
-      '_visibleChildColumnsChanged(_visibleChildColumns)',
+      '_groupHiddenChanged(hidden)',
       '_colSpanChanged(_colSpan, _headerCell, _footerCell)',
       '_groupOrderChanged(_order, _rootColumns)',
       '_groupReorderStatusChanged(_reorderStatus, _rootColumns)',
-      '_groupResizableChanged(resizable, _rootColumns)'
+      '_groupResizableChanged(resizable, _rootColumns)',
     ];
   }
 
@@ -20946,9 +22566,12 @@ class GridColumnGroup extends ColumnBaseMixin(PolymerElement) {
    */
   _columnPropChanged(path, value) {
     if (path === 'hidden') {
-      this._preventHiddenCascade = true;
+      // Prevent synchronization of the hidden state to child columns.
+      // If the group is currently auto-hidden, and one column is made visible,
+      // we don't want the other columns to become visible as well.
+      this._preventHiddenSynchronization = true;
       this._updateVisibleChildColumns(this._childColumns);
-      this._preventHiddenCascade = false;
+      this._preventHiddenSynchronization = false;
     }
 
     if (/flexGrow|width|hidden|_childColumns/.test(path)) {
@@ -21021,14 +22644,8 @@ class GridColumnGroup extends ColumnBaseMixin(PolymerElement) {
   /** @private */
   _updateVisibleChildColumns(childColumns) {
     this._visibleChildColumns = Array.prototype.filter.call(childColumns, (col) => !col.hidden);
-  }
-
-  /** @private */
-  _childColumnsChanged(childColumns) {
-    if (!this._autoHidden && this.hidden) {
-      Array.prototype.forEach.call(childColumns, (column) => (column.hidden = true));
-      this._updateVisibleChildColumns(childColumns);
-    }
+    this._colSpan = this._visibleChildColumns.length;
+    this._updateAutoHidden();
   }
 
   /** @protected */
@@ -21044,10 +22661,10 @@ class GridColumnGroup extends ColumnBaseMixin(PolymerElement) {
             .call(
               this._visibleChildColumns,
               (prev, curr) => (prev += ' + ' + (curr.width || '0px').replace('calc', '')),
-              ''
+              '',
             )
             .substring(3) +
-          ')'
+          ')',
       );
     } else {
       this._setWidth('0px');
@@ -21069,26 +22686,31 @@ class GridColumnGroup extends ColumnBaseMixin(PolymerElement) {
   }
 
   /** @private */
-  _groupHiddenChanged(hidden, rootColumns) {
-    if (rootColumns && !this._preventHiddenCascade) {
-      this._ignoreVisibleChildColumns = true;
-      rootColumns.forEach((column) => (column.hidden = hidden));
-      this._ignoreVisibleChildColumns = false;
+  _groupHiddenChanged(hidden) {
+    // When initializing the hidden property, only sync hidden state to columns
+    // if group is actually hidden. Otherwise, we could override a hidden column
+    // to be visible.
+    // We always want to run this though if the property is actually changed.
+    if (hidden || this.__groupHiddenInitialized) {
+      this._synchronizeHidden();
     }
-
-    this._columnPropChanged('hidden');
+    this.__groupHiddenInitialized = true;
   }
 
   /** @private */
-  _visibleChildColumnsChanged(visibleChildColumns) {
-    this._colSpan = visibleChildColumns.length;
+  _updateAutoHidden() {
+    const wasAutoHidden = this._autoHidden;
+    this._autoHidden = (this._visibleChildColumns || []).length === 0;
+    // Only modify hidden state if group was auto-hidden, or becomes auto-hidden
+    if (wasAutoHidden || this._autoHidden) {
+      this.hidden = this._autoHidden;
+    }
+  }
 
-    if (!this._ignoreVisibleChildColumns) {
-      if (visibleChildColumns.length === 0) {
-        this._autoHidden = this.hidden = true;
-      } else if (this.hidden && this._autoHidden) {
-        this._autoHidden = this.hidden = false;
-      }
+  /** @private */
+  _synchronizeHidden() {
+    if (this._childColumns && !this._preventHiddenSynchronization) {
+      this._childColumns.forEach((column) => (column.hidden = this.hidden));
     }
   }
 
@@ -21120,10 +22742,14 @@ class GridColumnGroup extends ColumnBaseMixin(PolymerElement) {
         info.addedNodes.filter(this._isColumnElement).length > 0 ||
         info.removedNodes.filter(this._isColumnElement).length > 0
       ) {
-        this._preventHiddenCascade = true;
+        // Prevent synchronization of the hidden state to child columns.
+        // If the group is currently auto-hidden, and a visible column is added,
+        // we don't want the other columns to become visible as well.
+        this._preventHiddenSynchronization = true;
         this._rootColumns = this._getChildColumns(this);
         this._childColumns = this._rootColumns;
-        this._preventHiddenCascade = false;
+        this._updateVisibleChildColumns(this._childColumns);
+        this._preventHiddenSynchronization = false;
 
         // Update the column tree with microtask timing to avoid shady style scope issues
         microTask.run(() => {
@@ -21146,9 +22772,689 @@ class GridColumnGroup extends ColumnBaseMixin(PolymerElement) {
 
 customElements.define(GridColumnGroup.is, GridColumnGroup);
 
-registerStyles(
+/**
+ * @license
+ * Copyright (c) 2017 - 2022 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */
+class Lumo$1 extends HTMLElement {
+  static get version() {
+    return '22.0.22';
+  }
+}
+
+customElements.define('vaadin-lumo-styles', Lumo$1);
+
+/**
+ * @license
+ * Copyright (c) 2017 - 2022 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */
+/**
+ * @polymerMixin
+ */
+const ThemePropertyMixin$1 = (superClass) =>
+  class VaadinThemePropertyMixin extends superClass {
+    static get properties() {
+      return {
+        /**
+         * Helper property with theme attribute value facilitating propagation
+         * in shadow DOM.
+         *
+         * Enables the component implementation to propagate the `theme`
+         * attribute value to the sub-components in Shadow DOM by binding
+         * the sub-component’s "theme" attribute to the `theme` property of
+         * the host.
+         *
+         * **NOTE:** Extending the mixin only provides the property for binding,
+         * and does not make the propagation alone.
+         *
+         * See [Styling Components: Sub-components](https://vaadin.com/docs/latest/ds/customization/styling-components/#sub-components).
+         * page for more information.
+         *
+         * @protected
+         */
+        theme: {
+          type: String,
+          readOnly: true,
+        },
+      };
+    }
+
+    /** @protected */
+    attributeChangedCallback(name, oldValue, newValue) {
+      super.attributeChangedCallback(name, oldValue, newValue);
+
+      if (name === 'theme') {
+        this._setTheme(newValue);
+      }
+    }
+  };
+
+/**
+ * @license
+ * Copyright (c) 2017 - 2022 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */
+
+/**
+ * @typedef {Object} Theme
+ * @property {string} themeFor
+ * @property {CSSResult[]} styles
+ * @property {string | string[]} [include]
+ * @property {string} [moduleId]
+ *
+ * @typedef {CSSResult[] | CSSResult} CSSResultGroup
+ */
+
+/**
+ * @type {Theme[]}
+ */
+const themeRegistry$1 = [];
+
+/**
+ * Registers CSS styles for a component type. Make sure to register the styles before
+ * the first instance of a component of the type is attached to DOM.
+ *
+ * @param {string} themeFor The local/tag name of the component type to register the styles for
+ * @param {CSSResultGroup} styles The CSS style rules to be registered for the component type
+ * matching themeFor and included in the local scope of each component instance
+ * @param {{moduleId?: string, include?: string | string[]}} options Additional options
+ * @return {void}
+ */
+function registerStyles$1(themeFor, styles, options = {}) {
+  if (themeFor) {
+    const elementClass = customElements.get(themeFor);
+    if (elementClass && Object.prototype.hasOwnProperty.call(elementClass, '__finalized')) {
+      console.warn(`The custom element definition for "${themeFor}"
+      was finalized before a style module was registered.
+      Make sure to add component specific style modules before
+      importing the corresponding custom element.`);
+    }
+  }
+
+  styles = recursiveFlattenStyles$1(styles);
+
+  if (window.Vaadin && window.Vaadin.styleModules) {
+    window.Vaadin.styleModules.registerStyles(themeFor, styles, options);
+  } else {
+    themeRegistry$1.push({
+      themeFor,
+      styles,
+      include: options.include,
+      moduleId: options.moduleId,
+    });
+  }
+}
+
+/**
+ * Returns all registered themes. By default the themeRegistry is returend as is.
+ * In case the style-modules adapter is imported, the themes are obtained from there instead
+ * @returns {Theme[]}
+ */
+function getAllThemes$1() {
+  if (window.Vaadin && window.Vaadin.styleModules) {
+    return window.Vaadin.styleModules.getAllThemes();
+  } else {
+    return themeRegistry$1;
+  }
+}
+
+/**
+ * Returns true if the themeFor string matches the tag name
+ * @param {string} themeFor
+ * @param {string} tagName
+ * @returns {boolean}
+ */
+function matchesThemeFor$1(themeFor, tagName) {
+  return (themeFor || '').split(' ').some((themeForToken) => {
+    return new RegExp('^' + themeForToken.split('*').join('.*') + '$').test(tagName);
+  });
+}
+
+/**
+ * Maps the moduleName to an include priority number which is used for
+ * determining the order in which styles are applied.
+ * @param {string} moduleName
+ * @returns {number}
+ */
+function getIncludePriority$1(moduleName = '') {
+  let includePriority = 0;
+  if (moduleName.indexOf('lumo-') === 0 || moduleName.indexOf('material-') === 0) {
+    includePriority = 1;
+  } else if (moduleName.indexOf('vaadin-') === 0) {
+    includePriority = 2;
+  }
+  return includePriority;
+}
+
+/**
+ * Flattens the styles into a single array of styles.
+ * @param {CSSResultGroup} styles
+ * @param {CSSResult[]} result
+ * @returns {CSSResult[]}
+ */
+function recursiveFlattenStyles$1(styles = [], result = []) {
+  if (styles instanceof o) {
+    result.push(styles);
+  } else if (Array.isArray(styles)) {
+    styles.forEach((style) => recursiveFlattenStyles$1(style, result));
+  } else {
+    console.warn('An item in styles is not of type CSSResult. Use `unsafeCSS` or `css`.');
+  }
+  return result;
+}
+
+/**
+ * Gets an array of CSSResults matching the include property of the theme.
+ * @param {Theme} theme
+ * @returns {CSSResult[]}
+ */
+function getIncludedStyles$1(theme) {
+  const includedStyles = [];
+  if (theme.include) {
+    [].concat(theme.include).forEach((includeModuleId) => {
+      const includedTheme = getAllThemes$1().find((s) => s.moduleId === includeModuleId);
+      if (includedTheme) {
+        includedStyles.push(...getIncludedStyles$1(includedTheme), ...includedTheme.styles);
+      } else {
+        console.warn(`Included moduleId ${includeModuleId} not found in style registry`);
+      }
+    }, theme.styles);
+  }
+  return includedStyles;
+}
+
+/**
+ * Includes the styles to the template.
+ * @param {CSSResult[]} styles
+ * @param {HTMLTemplateElement} template
+ */
+function addStylesToTemplate$1(styles, template) {
+  const styleEl = document.createElement('style');
+  styleEl.innerHTML = styles
+    // Remove duplicates so that the last occurrence remains
+    .filter((style, index) => index === styles.lastIndexOf(style))
+    .map((style) => style.cssText)
+    .join('\n');
+  template.content.appendChild(styleEl);
+}
+
+/**
+ * Returns an array of themes that should be used for styling a component matching
+ * the tag name. The array is sorted by the include order.
+ * @param {string} tagName
+ * @returns {Theme[]}
+ */
+function getThemes$1(tagName) {
+  const defaultModuleName = tagName + '-default-theme';
+
+  const themes = getAllThemes$1()
+    // Filter by matching themeFor properties
+    .filter((theme) => theme.moduleId !== defaultModuleName && matchesThemeFor$1(theme.themeFor, tagName))
+    .map((theme) => ({
+      ...theme,
+      // Prepend styles from included themes
+      styles: [...getIncludedStyles$1(theme), ...theme.styles],
+      // Map moduleId to includePriority
+      includePriority: getIncludePriority$1(theme.moduleId),
+    }))
+    // Sort by includePriority
+    .sort((themeA, themeB) => themeB.includePriority - themeA.includePriority);
+
+  if (themes.length > 0) {
+    return themes;
+  } else {
+    // No theme modules found, return the default module if it exists
+    return getAllThemes$1().filter((theme) => theme.moduleId === defaultModuleName);
+  }
+}
+
+/**
+ * @polymerMixin
+ * @mixes ThemePropertyMixin
+ */
+const ThemableMixin$1 = (superClass) =>
+  class VaadinThemableMixin extends ThemePropertyMixin$1(superClass) {
+    /**
+     * Covers PolymerElement based component styling
+     * @protected
+     */
+    static finalize() {
+      super.finalize();
+
+      const template = this.prototype._template;
+      if (!template || template.__themes) {
+        return;
+      }
+
+      const inheritedTemplate = Object.getPrototypeOf(this.prototype)._template;
+      const inheritedThemes = (inheritedTemplate ? inheritedTemplate.__themes : []) || [];
+
+      template.__themes = [...inheritedThemes, ...getThemes$1(this.is)];
+
+      // Get flattened styles array
+      const styles = template.__themes.reduce((styles, theme) => [...styles, ...theme.styles], []);
+      addStylesToTemplate$1(styles, template);
+    }
+
+    /**
+     * Covers LitElement based component styling
+     *
+     * NOTE: This is not yet an offically supported API!
+     *
+     * TODO: Add tests (run a variation of themable-mixin.test.js where the components get created as LitElements)
+     * @protected
+     */
+    static finalizeStyles(styles) {
+      return (
+        getThemes$1(this.is)
+          // Get flattened styles array
+          .reduce((styles, theme) => [...styles, ...theme.styles], [])
+          .concat(styles)
+      );
+    }
+  };
+
+/**
+ * @license
+ * Copyright (c) 2017 - 2022 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */
+
+const colorBase$1 = i`
+  :host {
+    /* Base (background) */
+    --lumo-base-color: #fff;
+
+    /* Tint */
+    --lumo-tint-5pct: hsla(0, 0%, 100%, 0.3);
+    --lumo-tint-10pct: hsla(0, 0%, 100%, 0.37);
+    --lumo-tint-20pct: hsla(0, 0%, 100%, 0.44);
+    --lumo-tint-30pct: hsla(0, 0%, 100%, 0.5);
+    --lumo-tint-40pct: hsla(0, 0%, 100%, 0.57);
+    --lumo-tint-50pct: hsla(0, 0%, 100%, 0.64);
+    --lumo-tint-60pct: hsla(0, 0%, 100%, 0.7);
+    --lumo-tint-70pct: hsla(0, 0%, 100%, 0.77);
+    --lumo-tint-80pct: hsla(0, 0%, 100%, 0.84);
+    --lumo-tint-90pct: hsla(0, 0%, 100%, 0.9);
+    --lumo-tint: #fff;
+
+    /* Shade */
+    --lumo-shade-5pct: hsla(214, 61%, 25%, 0.05);
+    --lumo-shade-10pct: hsla(214, 57%, 24%, 0.1);
+    --lumo-shade-20pct: hsla(214, 53%, 23%, 0.16);
+    --lumo-shade-30pct: hsla(214, 50%, 22%, 0.26);
+    --lumo-shade-40pct: hsla(214, 47%, 21%, 0.38);
+    --lumo-shade-50pct: hsla(214, 45%, 20%, 0.52);
+    --lumo-shade-60pct: hsla(214, 43%, 19%, 0.6);
+    --lumo-shade-70pct: hsla(214, 42%, 18%, 0.69);
+    --lumo-shade-80pct: hsla(214, 41%, 17%, 0.83);
+    --lumo-shade-90pct: hsla(214, 40%, 16%, 0.94);
+    --lumo-shade: hsl(214, 35%, 15%);
+
+    /* Contrast */
+    --lumo-contrast-5pct: var(--lumo-shade-5pct);
+    --lumo-contrast-10pct: var(--lumo-shade-10pct);
+    --lumo-contrast-20pct: var(--lumo-shade-20pct);
+    --lumo-contrast-30pct: var(--lumo-shade-30pct);
+    --lumo-contrast-40pct: var(--lumo-shade-40pct);
+    --lumo-contrast-50pct: var(--lumo-shade-50pct);
+    --lumo-contrast-60pct: var(--lumo-shade-60pct);
+    --lumo-contrast-70pct: var(--lumo-shade-70pct);
+    --lumo-contrast-80pct: var(--lumo-shade-80pct);
+    --lumo-contrast-90pct: var(--lumo-shade-90pct);
+    --lumo-contrast: var(--lumo-shade);
+
+    /* Text */
+    --lumo-header-text-color: var(--lumo-contrast);
+    --lumo-body-text-color: var(--lumo-contrast-90pct);
+    --lumo-secondary-text-color: var(--lumo-contrast-70pct);
+    --lumo-tertiary-text-color: var(--lumo-contrast-50pct);
+    --lumo-disabled-text-color: var(--lumo-contrast-30pct);
+
+    /* Primary */
+    --lumo-primary-color: hsl(214, 100%, 48%);
+    --lumo-primary-color-50pct: hsla(214, 100%, 49%, 0.76);
+    --lumo-primary-color-10pct: hsla(214, 100%, 60%, 0.13);
+    --lumo-primary-text-color: hsl(214, 100%, 43%);
+    --lumo-primary-contrast-color: #fff;
+
+    /* Error */
+    --lumo-error-color: hsl(3, 85%, 48%);
+    --lumo-error-color-50pct: hsla(3, 85%, 49%, 0.5);
+    --lumo-error-color-10pct: hsla(3, 85%, 49%, 0.1);
+    --lumo-error-text-color: hsl(3, 89%, 42%);
+    --lumo-error-contrast-color: #fff;
+
+    /* Success */
+    --lumo-success-color: hsl(145, 72%, 30%);
+    --lumo-success-color-50pct: hsla(145, 72%, 31%, 0.5);
+    --lumo-success-color-10pct: hsla(145, 72%, 31%, 0.1);
+    --lumo-success-text-color: hsl(145, 85%, 25%);
+    --lumo-success-contrast-color: #fff;
+  }
+`;
+
+const $tpl$8 = document.createElement('template');
+$tpl$8.innerHTML = `<style>${colorBase$1.toString().replace(':host', 'html')}</style>`;
+document.head.appendChild($tpl$8.content);
+
+const color$1 = i`
+  [theme~='dark'] {
+    /* Base (background) */
+    --lumo-base-color: hsl(214, 35%, 21%);
+
+    /* Tint */
+    --lumo-tint-5pct: hsla(214, 65%, 85%, 0.06);
+    --lumo-tint-10pct: hsla(214, 60%, 80%, 0.14);
+    --lumo-tint-20pct: hsla(214, 64%, 82%, 0.23);
+    --lumo-tint-30pct: hsla(214, 69%, 84%, 0.32);
+    --lumo-tint-40pct: hsla(214, 73%, 86%, 0.41);
+    --lumo-tint-50pct: hsla(214, 78%, 88%, 0.5);
+    --lumo-tint-60pct: hsla(214, 82%, 90%, 0.58);
+    --lumo-tint-70pct: hsla(214, 87%, 92%, 0.69);
+    --lumo-tint-80pct: hsla(214, 91%, 94%, 0.8);
+    --lumo-tint-90pct: hsla(214, 96%, 96%, 0.9);
+    --lumo-tint: hsl(214, 100%, 98%);
+
+    /* Shade */
+    --lumo-shade-5pct: hsla(214, 0%, 0%, 0.07);
+    --lumo-shade-10pct: hsla(214, 4%, 2%, 0.15);
+    --lumo-shade-20pct: hsla(214, 8%, 4%, 0.23);
+    --lumo-shade-30pct: hsla(214, 12%, 6%, 0.32);
+    --lumo-shade-40pct: hsla(214, 16%, 8%, 0.41);
+    --lumo-shade-50pct: hsla(214, 20%, 10%, 0.5);
+    --lumo-shade-60pct: hsla(214, 24%, 12%, 0.6);
+    --lumo-shade-70pct: hsla(214, 28%, 13%, 0.7);
+    --lumo-shade-80pct: hsla(214, 32%, 13%, 0.8);
+    --lumo-shade-90pct: hsla(214, 33%, 13%, 0.9);
+    --lumo-shade: hsl(214, 33%, 13%);
+
+    /* Contrast */
+    --lumo-contrast-5pct: var(--lumo-tint-5pct);
+    --lumo-contrast-10pct: var(--lumo-tint-10pct);
+    --lumo-contrast-20pct: var(--lumo-tint-20pct);
+    --lumo-contrast-30pct: var(--lumo-tint-30pct);
+    --lumo-contrast-40pct: var(--lumo-tint-40pct);
+    --lumo-contrast-50pct: var(--lumo-tint-50pct);
+    --lumo-contrast-60pct: var(--lumo-tint-60pct);
+    --lumo-contrast-70pct: var(--lumo-tint-70pct);
+    --lumo-contrast-80pct: var(--lumo-tint-80pct);
+    --lumo-contrast-90pct: var(--lumo-tint-90pct);
+    --lumo-contrast: var(--lumo-tint);
+
+    /* Text */
+    --lumo-header-text-color: var(--lumo-contrast);
+    --lumo-body-text-color: var(--lumo-contrast-90pct);
+    --lumo-secondary-text-color: var(--lumo-contrast-70pct);
+    --lumo-tertiary-text-color: var(--lumo-contrast-50pct);
+    --lumo-disabled-text-color: var(--lumo-contrast-30pct);
+
+    /* Primary */
+    --lumo-primary-color: hsl(214, 90%, 48%);
+    --lumo-primary-color-50pct: hsla(214, 90%, 70%, 0.69);
+    --lumo-primary-color-10pct: hsla(214, 90%, 55%, 0.13);
+    --lumo-primary-text-color: hsl(214, 90%, 77%);
+    --lumo-primary-contrast-color: #fff;
+
+    /* Error */
+    --lumo-error-color: hsl(3, 79%, 49%);
+    --lumo-error-color-50pct: hsla(3, 75%, 62%, 0.5);
+    --lumo-error-color-10pct: hsla(3, 75%, 62%, 0.14);
+    --lumo-error-text-color: hsl(3, 100%, 80%);
+
+    /* Success */
+    --lumo-success-color: hsl(145, 72%, 30%);
+    --lumo-success-color-50pct: hsla(145, 92%, 51%, 0.5);
+    --lumo-success-color-10pct: hsla(145, 92%, 51%, 0.1);
+    --lumo-success-text-color: hsl(145, 85%, 46%);
+  }
+
+  html {
+    color: var(--lumo-body-text-color);
+    background-color: var(--lumo-base-color);
+  }
+
+  [theme~='dark'] {
+    color: var(--lumo-body-text-color);
+    background-color: var(--lumo-base-color);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--lumo-header-text-color);
+  }
+
+  a {
+    color: var(--lumo-primary-text-color);
+  }
+
+  blockquote {
+    color: var(--lumo-secondary-text-color);
+  }
+
+  code,
+  pre {
+    background-color: var(--lumo-contrast-10pct);
+    border-radius: var(--lumo-border-radius-m);
+  }
+`;
+
+registerStyles$1('', color$1, { moduleId: 'lumo-color' });
+
+const colorLegacy$1 = i`
+  :host {
+    color: var(--lumo-body-text-color) !important;
+    background-color: var(--lumo-base-color) !important;
+  }
+`;
+
+registerStyles$1('', [color$1, colorLegacy$1], { moduleId: 'lumo-color-legacy' });
+
+/**
+ * @license
+ * Copyright (c) 2017 - 2022 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */
+
+const sizing$1 = i`
+  :host {
+    --lumo-size-xs: 1.625rem;
+    --lumo-size-s: 1.875rem;
+    --lumo-size-m: 2.25rem;
+    --lumo-size-l: 2.75rem;
+    --lumo-size-xl: 3.5rem;
+
+    /* Icons */
+    --lumo-icon-size-s: 1.25em;
+    --lumo-icon-size-m: 1.5em;
+    --lumo-icon-size-l: 2.25em;
+    /* For backwards compatibility */
+    --lumo-icon-size: var(--lumo-icon-size-m);
+  }
+`;
+
+const $tpl$7 = document.createElement('template');
+$tpl$7.innerHTML = `<style>${sizing$1.toString().replace(':host', 'html')}</style>`;
+document.head.appendChild($tpl$7.content);
+
+/**
+ * @license
+ * Copyright (c) 2017 - 2022 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */
+
+const style$1 = i`
+  :host {
+    /* Border radius */
+    --lumo-border-radius-s: 0.25em; /* Checkbox, badge, date-picker year indicator, etc */
+    --lumo-border-radius-m: var(--lumo-border-radius, 0.25em); /* Button, text field, menu overlay, etc */
+    --lumo-border-radius-l: 0.5em; /* Dialog, notification, etc */
+    --lumo-border-radius: 0.25em; /* Deprecated */
+
+    /* Shadow */
+    --lumo-box-shadow-xs: 0 1px 4px -1px var(--lumo-shade-50pct);
+    --lumo-box-shadow-s: 0 2px 4px -1px var(--lumo-shade-20pct), 0 3px 12px -1px var(--lumo-shade-30pct);
+    --lumo-box-shadow-m: 0 2px 6px -1px var(--lumo-shade-20pct), 0 8px 24px -4px var(--lumo-shade-40pct);
+    --lumo-box-shadow-l: 0 3px 18px -2px var(--lumo-shade-20pct), 0 12px 48px -6px var(--lumo-shade-40pct);
+    --lumo-box-shadow-xl: 0 4px 24px -3px var(--lumo-shade-20pct), 0 18px 64px -8px var(--lumo-shade-40pct);
+
+    /* Clickable element cursor */
+    --lumo-clickable-cursor: default;
+  }
+`;
+
+const $tpl$6 = document.createElement('template');
+$tpl$6.innerHTML = `<style>${style$1.toString().replace(':host', 'html')}</style>`;
+document.head.appendChild($tpl$6.content);
+
+/**
+ * @license
+ * Copyright (c) 2017 - 2022 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */
+
+const font$1 = i`
+  :host {
+    /* prettier-ignore */
+    --lumo-font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+
+    /* Font sizes */
+    --lumo-font-size-xxs: 0.75rem;
+    --lumo-font-size-xs: 0.8125rem;
+    --lumo-font-size-s: 0.875rem;
+    --lumo-font-size-m: 1rem;
+    --lumo-font-size-l: 1.125rem;
+    --lumo-font-size-xl: 1.375rem;
+    --lumo-font-size-xxl: 1.75rem;
+    --lumo-font-size-xxxl: 2.5rem;
+
+    /* Line heights */
+    --lumo-line-height-xs: 1.25;
+    --lumo-line-height-s: 1.375;
+    --lumo-line-height-m: 1.625;
+  }
+`;
+
+const typography$1 = i`
+  html,
+  :host {
+    font-family: var(--lumo-font-family);
+    font-size: var(--lumo-font-size, var(--lumo-font-size-m));
+    line-height: var(--lumo-line-height-m);
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  small,
+  [theme~='font-size-s'] {
+    font-size: var(--lumo-font-size-s);
+    line-height: var(--lumo-line-height-s);
+  }
+
+  [theme~='font-size-xs'] {
+    font-size: var(--lumo-font-size-xs);
+    line-height: var(--lumo-line-height-xs);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 600;
+    line-height: var(--lumo-line-height-xs);
+    margin-top: 1.25em;
+  }
+
+  h1 {
+    font-size: var(--lumo-font-size-xxxl);
+    margin-bottom: 0.75em;
+  }
+
+  h2 {
+    font-size: var(--lumo-font-size-xxl);
+    margin-bottom: 0.5em;
+  }
+
+  h3 {
+    font-size: var(--lumo-font-size-xl);
+    margin-bottom: 0.5em;
+  }
+
+  h4 {
+    font-size: var(--lumo-font-size-l);
+    margin-bottom: 0.5em;
+  }
+
+  h5 {
+    font-size: var(--lumo-font-size-m);
+    margin-bottom: 0.25em;
+  }
+
+  h6 {
+    font-size: var(--lumo-font-size-xs);
+    margin-bottom: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  p,
+  blockquote {
+    margin-top: 0.5em;
+    margin-bottom: 0.75em;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  hr {
+    display: block;
+    align-self: stretch;
+    height: 1px;
+    border: 0;
+    padding: 0;
+    margin: var(--lumo-space-s) calc(var(--lumo-border-radius-m) / 2);
+    background-color: var(--lumo-contrast-10pct);
+  }
+
+  blockquote {
+    border-left: 2px solid var(--lumo-contrast-30pct);
+  }
+
+  b,
+  strong {
+    font-weight: 600;
+  }
+
+  /* RTL specific styles */
+  blockquote[dir='rtl'] {
+    border-left: none;
+    border-right: 2px solid var(--lumo-contrast-30pct);
+  }
+`;
+
+registerStyles$1('', typography$1, { moduleId: 'lumo-typography' });
+
+const $tpl$5 = document.createElement('template');
+$tpl$5.innerHTML = `<style>${font$1.toString().replace(':host', 'html')}</style>`;
+document.head.appendChild($tpl$5.content);
+
+registerStyles$1(
   'vaadin-input-container',
-  r`
+  i`
     :host {
       border-radius: var(--lumo-border-radius-m);
       background-color: var(--lumo-contrast-10pct);
@@ -21273,6 +23579,10 @@ registerStyles(
     }
 
     /* RTL specific styles */
+    :host([dir='rtl'])::after {
+      transform-origin: 0% 0;
+    }
+
     :host([theme~='align-left'][dir='rtl']) ::slotted(:not([slot$='fix'])) {
       --_lumo-text-field-overflow-mask-image: none;
     }
@@ -21299,7 +23609,7 @@ registerStyles(
       }
     }
   `,
-  { moduleId: 'lumo-input-container' }
+  { moduleId: 'lumo-input-container' },
 );
 
 /**
@@ -21308,7 +23618,251 @@ registerStyles(
  * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
  */
 
-class InputContainer extends ThemableMixin(DirMixin(PolymerElement)) {
+/**
+ * Helper that provides a set of functions for RTL.
+ */
+class DirHelper$1 {
+  /**
+   * Get the scroll type in the current browser view.
+   *
+   * @return {string} the scroll type. Possible values are `default|reverse|negative`
+   */
+  static detectScrollType() {
+    const dummy = document.createElement('div');
+    dummy.textContent = 'ABCD';
+    dummy.dir = 'rtl';
+    dummy.style.fontSize = '14px';
+    dummy.style.width = '4px';
+    dummy.style.height = '1px';
+    dummy.style.position = 'absolute';
+    dummy.style.top = '-1000px';
+    dummy.style.overflow = 'scroll';
+    document.body.appendChild(dummy);
+
+    let cachedType = 'reverse';
+    if (dummy.scrollLeft > 0) {
+      cachedType = 'default';
+    } else {
+      dummy.scrollLeft = 2;
+      if (dummy.scrollLeft < 2) {
+        cachedType = 'negative';
+      }
+    }
+    document.body.removeChild(dummy);
+    return cachedType;
+  }
+
+  /**
+   * Get the scrollLeft value of the element relative to the direction
+   *
+   * @param {string} scrollType type of the scroll detected with `detectScrollType`
+   * @param {string} direction current direction of the element
+   * @param {Element} element
+   * @return {number} the scrollLeft value.
+   */
+  static getNormalizedScrollLeft(scrollType, direction, element) {
+    const { scrollLeft } = element;
+    if (direction !== 'rtl' || !scrollType) {
+      return scrollLeft;
+    }
+
+    switch (scrollType) {
+      case 'negative':
+        return element.scrollWidth - element.clientWidth + scrollLeft;
+      case 'reverse':
+        return element.scrollWidth - element.clientWidth - scrollLeft;
+    }
+    return scrollLeft;
+  }
+
+  /**
+   * Set the scrollLeft value of the element relative to the direction
+   *
+   * @param {string} scrollType type of the scroll detected with `detectScrollType`
+   * @param {string} direction current direction of the element
+   * @param {Element} element
+   * @param {number} scrollLeft the scrollLeft value to be set
+   */
+  static setNormalizedScrollLeft(scrollType, direction, element, scrollLeft) {
+    if (direction !== 'rtl' || !scrollType) {
+      element.scrollLeft = scrollLeft;
+      return;
+    }
+
+    switch (scrollType) {
+      case 'negative':
+        element.scrollLeft = element.clientWidth - element.scrollWidth + scrollLeft;
+        break;
+      case 'reverse':
+        element.scrollLeft = element.scrollWidth - element.clientWidth - scrollLeft;
+        break;
+      default:
+        element.scrollLeft = scrollLeft;
+        break;
+    }
+  }
+}
+
+/**
+ * @license
+ * Copyright (c) 2021 - 2022 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */
+
+/**
+ * Array of Vaadin custom element classes that have been subscribed to the dir changes.
+ */
+const directionSubscribers$1 = [];
+const directionUpdater$1 = function () {
+  const documentDir = getDocumentDir$1();
+  directionSubscribers$1.forEach((element) => {
+    alignDirs$1(element, documentDir);
+  });
+};
+
+let scrollType$1;
+
+const directionObserver$1 = new MutationObserver(directionUpdater$1);
+directionObserver$1.observe(document.documentElement, { attributes: true, attributeFilter: ['dir'] });
+
+const alignDirs$1 = function (element, documentDir, elementDir = element.getAttribute('dir')) {
+  if (documentDir) {
+    element.setAttribute('dir', documentDir);
+  } else if (elementDir != null) {
+    element.removeAttribute('dir');
+  }
+};
+
+const getDocumentDir$1 = function () {
+  return document.documentElement.getAttribute('dir');
+};
+
+/**
+ * A mixin to handle `dir` attribute based on the one set on the `<html>` element.
+ *
+ * @polymerMixin
+ */
+const DirMixin$1 = (superClass) =>
+  class VaadinDirMixin extends superClass {
+    static get properties() {
+      return {
+        /**
+         * @protected
+         */
+        dir: {
+          type: String,
+          value: '',
+          reflectToAttribute: true,
+        },
+      };
+    }
+
+    /** @protected */
+    static finalize() {
+      super.finalize();
+
+      if (!scrollType$1) {
+        scrollType$1 = DirHelper$1.detectScrollType();
+      }
+    }
+
+    /** @protected */
+    connectedCallback() {
+      super.connectedCallback();
+
+      if (!this.hasAttribute('dir')) {
+        this.__subscribe();
+        alignDirs$1(this, getDocumentDir$1(), null);
+      }
+    }
+
+    /** @protected */
+    attributeChangedCallback(name, oldValue, newValue) {
+      super.attributeChangedCallback(name, oldValue, newValue);
+      if (name !== 'dir') {
+        return;
+      }
+
+      const documentDir = getDocumentDir$1();
+
+      // New value equals to the document direction and the element is not subscribed to the changes
+      const newValueEqlDocDir = newValue === documentDir && directionSubscribers$1.indexOf(this) === -1;
+      // Value was emptied and the element is not subscribed to the changes
+      const newValueEmptied = !newValue && oldValue && directionSubscribers$1.indexOf(this) === -1;
+      // New value is different and the old equals to document direction and the element is not subscribed to the changes
+      const newDiffValue = newValue !== documentDir && oldValue === documentDir;
+
+      if (newValueEqlDocDir || newValueEmptied) {
+        this.__subscribe();
+        alignDirs$1(this, documentDir, newValue);
+      } else if (newDiffValue) {
+        this.__subscribe(false);
+      }
+    }
+
+    /** @protected */
+    disconnectedCallback() {
+      super.disconnectedCallback();
+      this.__subscribe(false);
+      this.removeAttribute('dir');
+    }
+
+    /** @protected */
+    _valueToNodeAttribute(node, value, attribute) {
+      // Override default Polymer attribute reflection to match native behavior of HTMLElement.dir property
+      // If the property contains an empty string then it should not create an empty attribute
+      if (attribute === 'dir' && value === '' && !node.hasAttribute('dir')) {
+        return;
+      }
+      super._valueToNodeAttribute(node, value, attribute);
+    }
+
+    /** @protected */
+    _attributeToProperty(attribute, value, type) {
+      // Override default Polymer attribute reflection to match native behavior of HTMLElement.dir property
+      // If the attribute is removed, then the dir property should contain an empty string instead of null
+      if (attribute === 'dir' && !value) {
+        this.dir = '';
+      } else {
+        super._attributeToProperty(attribute, value, type);
+      }
+    }
+
+    /** @private */
+    __subscribe(push = true) {
+      if (push) {
+        directionSubscribers$1.indexOf(this) === -1 && directionSubscribers$1.push(this);
+      } else {
+        directionSubscribers$1.indexOf(this) > -1 && directionSubscribers$1.splice(directionSubscribers$1.indexOf(this), 1);
+      }
+    }
+
+    /**
+     * @param {Element} element
+     * @return {number}
+     * @protected
+     */
+    __getNormalizedScrollLeft(element) {
+      return DirHelper$1.getNormalizedScrollLeft(scrollType$1, this.getAttribute('dir') || 'ltr', element);
+    }
+
+    /**
+     * @param {Element} element
+     * @param {number} scrollLeft
+     * @protected
+     */
+    __setNormalizedScrollLeft(element, scrollLeft) {
+      return DirHelper$1.setNormalizedScrollLeft(scrollType$1, this.getAttribute('dir') || 'ltr', element, scrollLeft);
+    }
+  };
+
+/**
+ * @license
+ * Copyright (c) 2021 - 2022 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */
+
+class InputContainer extends ThemableMixin$1(DirMixin$1(PolymerElement)) {
   static get is() {
     return 'vaadin-input-container';
   }
@@ -21356,7 +23910,6 @@ class InputContainer extends ThemableMixin(DirMixin(PolymerElement)) {
         ::slotted(:is(input, textarea))::placeholder {
           /* Use ::slotted(input:placeholder-shown) in themes to style the placeholder. */
           /* because ::slotted(...)::placeholder does not work in Safari. */
-          /* See the workaround at the end of this file. */
           font: inherit;
           color: inherit;
           /* Override default opacity in Firefox */
@@ -21376,7 +23929,7 @@ class InputContainer extends ThemableMixin(DirMixin(PolymerElement)) {
        */
       disabled: {
         type: Boolean,
-        reflectToAttribute: true
+        reflectToAttribute: true,
       },
 
       /**
@@ -21384,7 +23937,7 @@ class InputContainer extends ThemableMixin(DirMixin(PolymerElement)) {
        */
       readonly: {
         type: Boolean,
-        reflectToAttribute: true
+        reflectToAttribute: true,
       },
 
       /**
@@ -21392,8 +23945,8 @@ class InputContainer extends ThemableMixin(DirMixin(PolymerElement)) {
        */
       invalid: {
         type: Boolean,
-        reflectToAttribute: true
-      }
+        reflectToAttribute: true,
+      },
     };
   }
 
@@ -21423,16 +23976,785 @@ class InputContainer extends ThemableMixin(DirMixin(PolymerElement)) {
 
 customElements.define(InputContainer.is, InputContainer);
 
-const placeholderStyleWorkaround = r`
-  /* Needed for Safari, where ::slotted(...)::placeholder does not work */
-  :is(input[slot='input'], textarea[slot='textarea'])::placeholder {
-    font: inherit;
-    color: inherit;
+/**
+ * @license
+ * Copyright (c) 2017 - 2022 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */
+class Lumo extends HTMLElement {
+  static get version() {
+    return '22.0.22';
+  }
+}
+
+customElements.define('vaadin-lumo-styles', Lumo);
+
+/**
+ * @license
+ * Copyright (c) 2017 - 2022 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */
+/**
+ * @polymerMixin
+ */
+const ThemePropertyMixin = (superClass) =>
+  class VaadinThemePropertyMixin extends superClass {
+    static get properties() {
+      return {
+        /**
+         * Helper property with theme attribute value facilitating propagation
+         * in shadow DOM.
+         *
+         * Enables the component implementation to propagate the `theme`
+         * attribute value to the sub-components in Shadow DOM by binding
+         * the sub-component’s "theme" attribute to the `theme` property of
+         * the host.
+         *
+         * **NOTE:** Extending the mixin only provides the property for binding,
+         * and does not make the propagation alone.
+         *
+         * See [Styling Components: Sub-components](https://vaadin.com/docs/latest/ds/customization/styling-components/#sub-components).
+         * page for more information.
+         *
+         * @protected
+         */
+        theme: {
+          type: String,
+          readOnly: true,
+        },
+      };
+    }
+
+    /** @protected */
+    attributeChangedCallback(name, oldValue, newValue) {
+      super.attributeChangedCallback(name, oldValue, newValue);
+
+      if (name === 'theme') {
+        this._setTheme(newValue);
+      }
+    }
+  };
+
+/**
+ * @license
+ * Copyright (c) 2017 - 2022 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */
+
+/**
+ * @typedef {Object} Theme
+ * @property {string} themeFor
+ * @property {CSSResult[]} styles
+ * @property {string | string[]} [include]
+ * @property {string} [moduleId]
+ *
+ * @typedef {CSSResult[] | CSSResult} CSSResultGroup
+ */
+
+/**
+ * @type {Theme[]}
+ */
+const themeRegistry = [];
+
+/**
+ * Registers CSS styles for a component type. Make sure to register the styles before
+ * the first instance of a component of the type is attached to DOM.
+ *
+ * @param {string} themeFor The local/tag name of the component type to register the styles for
+ * @param {CSSResultGroup} styles The CSS style rules to be registered for the component type
+ * matching themeFor and included in the local scope of each component instance
+ * @param {{moduleId?: string, include?: string | string[]}} options Additional options
+ * @return {void}
+ */
+function registerStyles(themeFor, styles, options = {}) {
+  if (themeFor) {
+    const elementClass = customElements.get(themeFor);
+    if (elementClass && Object.prototype.hasOwnProperty.call(elementClass, '__finalized')) {
+      console.warn(`The custom element definition for "${themeFor}"
+      was finalized before a style module was registered.
+      Make sure to add component specific style modules before
+      importing the corresponding custom element.`);
+    }
+  }
+
+  styles = recursiveFlattenStyles(styles);
+
+  if (window.Vaadin && window.Vaadin.styleModules) {
+    window.Vaadin.styleModules.registerStyles(themeFor, styles, options);
+  } else {
+    themeRegistry.push({
+      themeFor,
+      styles,
+      include: options.include,
+      moduleId: options.moduleId,
+    });
+  }
+}
+
+/**
+ * Returns all registered themes. By default the themeRegistry is returend as is.
+ * In case the style-modules adapter is imported, the themes are obtained from there instead
+ * @returns {Theme[]}
+ */
+function getAllThemes() {
+  if (window.Vaadin && window.Vaadin.styleModules) {
+    return window.Vaadin.styleModules.getAllThemes();
+  } else {
+    return themeRegistry;
+  }
+}
+
+/**
+ * Returns true if the themeFor string matches the tag name
+ * @param {string} themeFor
+ * @param {string} tagName
+ * @returns {boolean}
+ */
+function matchesThemeFor(themeFor, tagName) {
+  return (themeFor || '').split(' ').some((themeForToken) => {
+    return new RegExp('^' + themeForToken.split('*').join('.*') + '$').test(tagName);
+  });
+}
+
+/**
+ * Maps the moduleName to an include priority number which is used for
+ * determining the order in which styles are applied.
+ * @param {string} moduleName
+ * @returns {number}
+ */
+function getIncludePriority(moduleName = '') {
+  let includePriority = 0;
+  if (moduleName.indexOf('lumo-') === 0 || moduleName.indexOf('material-') === 0) {
+    includePriority = 1;
+  } else if (moduleName.indexOf('vaadin-') === 0) {
+    includePriority = 2;
+  }
+  return includePriority;
+}
+
+/**
+ * Flattens the styles into a single array of styles.
+ * @param {CSSResultGroup} styles
+ * @param {CSSResult[]} result
+ * @returns {CSSResult[]}
+ */
+function recursiveFlattenStyles(styles = [], result = []) {
+  if (styles instanceof o) {
+    result.push(styles);
+  } else if (Array.isArray(styles)) {
+    styles.forEach((style) => recursiveFlattenStyles(style, result));
+  } else {
+    console.warn('An item in styles is not of type CSSResult. Use `unsafeCSS` or `css`.');
+  }
+  return result;
+}
+
+/**
+ * Gets an array of CSSResults matching the include property of the theme.
+ * @param {Theme} theme
+ * @returns {CSSResult[]}
+ */
+function getIncludedStyles(theme) {
+  const includedStyles = [];
+  if (theme.include) {
+    [].concat(theme.include).forEach((includeModuleId) => {
+      const includedTheme = getAllThemes().find((s) => s.moduleId === includeModuleId);
+      if (includedTheme) {
+        includedStyles.push(...getIncludedStyles(includedTheme), ...includedTheme.styles);
+      } else {
+        console.warn(`Included moduleId ${includeModuleId} not found in style registry`);
+      }
+    }, theme.styles);
+  }
+  return includedStyles;
+}
+
+/**
+ * Includes the styles to the template.
+ * @param {CSSResult[]} styles
+ * @param {HTMLTemplateElement} template
+ */
+function addStylesToTemplate(styles, template) {
+  const styleEl = document.createElement('style');
+  styleEl.innerHTML = styles
+    // Remove duplicates so that the last occurrence remains
+    .filter((style, index) => index === styles.lastIndexOf(style))
+    .map((style) => style.cssText)
+    .join('\n');
+  template.content.appendChild(styleEl);
+}
+
+/**
+ * Returns an array of themes that should be used for styling a component matching
+ * the tag name. The array is sorted by the include order.
+ * @param {string} tagName
+ * @returns {Theme[]}
+ */
+function getThemes(tagName) {
+  const defaultModuleName = tagName + '-default-theme';
+
+  const themes = getAllThemes()
+    // Filter by matching themeFor properties
+    .filter((theme) => theme.moduleId !== defaultModuleName && matchesThemeFor(theme.themeFor, tagName))
+    .map((theme) => ({
+      ...theme,
+      // Prepend styles from included themes
+      styles: [...getIncludedStyles(theme), ...theme.styles],
+      // Map moduleId to includePriority
+      includePriority: getIncludePriority(theme.moduleId),
+    }))
+    // Sort by includePriority
+    .sort((themeA, themeB) => themeB.includePriority - themeA.includePriority);
+
+  if (themes.length > 0) {
+    return themes;
+  } else {
+    // No theme modules found, return the default module if it exists
+    return getAllThemes().filter((theme) => theme.moduleId === defaultModuleName);
+  }
+}
+
+/**
+ * @polymerMixin
+ * @mixes ThemePropertyMixin
+ */
+const ThemableMixin = (superClass) =>
+  class VaadinThemableMixin extends ThemePropertyMixin(superClass) {
+    /**
+     * Covers PolymerElement based component styling
+     * @protected
+     */
+    static finalize() {
+      super.finalize();
+
+      const template = this.prototype._template;
+      if (!template || template.__themes) {
+        return;
+      }
+
+      const inheritedTemplate = Object.getPrototypeOf(this.prototype)._template;
+      const inheritedThemes = (inheritedTemplate ? inheritedTemplate.__themes : []) || [];
+
+      template.__themes = [...inheritedThemes, ...getThemes(this.is)];
+
+      // Get flattened styles array
+      const styles = template.__themes.reduce((styles, theme) => [...styles, ...theme.styles], []);
+      addStylesToTemplate(styles, template);
+    }
+
+    /**
+     * Covers LitElement based component styling
+     *
+     * NOTE: This is not yet an offically supported API!
+     *
+     * TODO: Add tests (run a variation of themable-mixin.test.js where the components get created as LitElements)
+     * @protected
+     */
+    static finalizeStyles(styles) {
+      return (
+        getThemes(this.is)
+          // Get flattened styles array
+          .reduce((styles, theme) => [...styles, ...theme.styles], [])
+          .concat(styles)
+      );
+    }
+  };
+
+/**
+ * @license
+ * Copyright (c) 2017 - 2022 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */
+
+const colorBase = i`
+  :host {
+    /* Base (background) */
+    --lumo-base-color: #fff;
+
+    /* Tint */
+    --lumo-tint-5pct: hsla(0, 0%, 100%, 0.3);
+    --lumo-tint-10pct: hsla(0, 0%, 100%, 0.37);
+    --lumo-tint-20pct: hsla(0, 0%, 100%, 0.44);
+    --lumo-tint-30pct: hsla(0, 0%, 100%, 0.5);
+    --lumo-tint-40pct: hsla(0, 0%, 100%, 0.57);
+    --lumo-tint-50pct: hsla(0, 0%, 100%, 0.64);
+    --lumo-tint-60pct: hsla(0, 0%, 100%, 0.7);
+    --lumo-tint-70pct: hsla(0, 0%, 100%, 0.77);
+    --lumo-tint-80pct: hsla(0, 0%, 100%, 0.84);
+    --lumo-tint-90pct: hsla(0, 0%, 100%, 0.9);
+    --lumo-tint: #fff;
+
+    /* Shade */
+    --lumo-shade-5pct: hsla(214, 61%, 25%, 0.05);
+    --lumo-shade-10pct: hsla(214, 57%, 24%, 0.1);
+    --lumo-shade-20pct: hsla(214, 53%, 23%, 0.16);
+    --lumo-shade-30pct: hsla(214, 50%, 22%, 0.26);
+    --lumo-shade-40pct: hsla(214, 47%, 21%, 0.38);
+    --lumo-shade-50pct: hsla(214, 45%, 20%, 0.52);
+    --lumo-shade-60pct: hsla(214, 43%, 19%, 0.6);
+    --lumo-shade-70pct: hsla(214, 42%, 18%, 0.69);
+    --lumo-shade-80pct: hsla(214, 41%, 17%, 0.83);
+    --lumo-shade-90pct: hsla(214, 40%, 16%, 0.94);
+    --lumo-shade: hsl(214, 35%, 15%);
+
+    /* Contrast */
+    --lumo-contrast-5pct: var(--lumo-shade-5pct);
+    --lumo-contrast-10pct: var(--lumo-shade-10pct);
+    --lumo-contrast-20pct: var(--lumo-shade-20pct);
+    --lumo-contrast-30pct: var(--lumo-shade-30pct);
+    --lumo-contrast-40pct: var(--lumo-shade-40pct);
+    --lumo-contrast-50pct: var(--lumo-shade-50pct);
+    --lumo-contrast-60pct: var(--lumo-shade-60pct);
+    --lumo-contrast-70pct: var(--lumo-shade-70pct);
+    --lumo-contrast-80pct: var(--lumo-shade-80pct);
+    --lumo-contrast-90pct: var(--lumo-shade-90pct);
+    --lumo-contrast: var(--lumo-shade);
+
+    /* Text */
+    --lumo-header-text-color: var(--lumo-contrast);
+    --lumo-body-text-color: var(--lumo-contrast-90pct);
+    --lumo-secondary-text-color: var(--lumo-contrast-70pct);
+    --lumo-tertiary-text-color: var(--lumo-contrast-50pct);
+    --lumo-disabled-text-color: var(--lumo-contrast-30pct);
+
+    /* Primary */
+    --lumo-primary-color: hsl(214, 100%, 48%);
+    --lumo-primary-color-50pct: hsla(214, 100%, 49%, 0.76);
+    --lumo-primary-color-10pct: hsla(214, 100%, 60%, 0.13);
+    --lumo-primary-text-color: hsl(214, 100%, 43%);
+    --lumo-primary-contrast-color: #fff;
+
+    /* Error */
+    --lumo-error-color: hsl(3, 85%, 48%);
+    --lumo-error-color-50pct: hsla(3, 85%, 49%, 0.5);
+    --lumo-error-color-10pct: hsla(3, 85%, 49%, 0.1);
+    --lumo-error-text-color: hsl(3, 89%, 42%);
+    --lumo-error-contrast-color: #fff;
+
+    /* Success */
+    --lumo-success-color: hsl(145, 72%, 30%);
+    --lumo-success-color-50pct: hsla(145, 72%, 31%, 0.5);
+    --lumo-success-color-10pct: hsla(145, 72%, 31%, 0.1);
+    --lumo-success-text-color: hsl(145, 85%, 25%);
+    --lumo-success-contrast-color: #fff;
   }
 `;
 
+const $tpl$4 = document.createElement('template');
+$tpl$4.innerHTML = `<style>${colorBase.toString().replace(':host', 'html')}</style>`;
+document.head.appendChild($tpl$4.content);
+
+const color = i`
+  [theme~='dark'] {
+    /* Base (background) */
+    --lumo-base-color: hsl(214, 35%, 21%);
+
+    /* Tint */
+    --lumo-tint-5pct: hsla(214, 65%, 85%, 0.06);
+    --lumo-tint-10pct: hsla(214, 60%, 80%, 0.14);
+    --lumo-tint-20pct: hsla(214, 64%, 82%, 0.23);
+    --lumo-tint-30pct: hsla(214, 69%, 84%, 0.32);
+    --lumo-tint-40pct: hsla(214, 73%, 86%, 0.41);
+    --lumo-tint-50pct: hsla(214, 78%, 88%, 0.5);
+    --lumo-tint-60pct: hsla(214, 82%, 90%, 0.58);
+    --lumo-tint-70pct: hsla(214, 87%, 92%, 0.69);
+    --lumo-tint-80pct: hsla(214, 91%, 94%, 0.8);
+    --lumo-tint-90pct: hsla(214, 96%, 96%, 0.9);
+    --lumo-tint: hsl(214, 100%, 98%);
+
+    /* Shade */
+    --lumo-shade-5pct: hsla(214, 0%, 0%, 0.07);
+    --lumo-shade-10pct: hsla(214, 4%, 2%, 0.15);
+    --lumo-shade-20pct: hsla(214, 8%, 4%, 0.23);
+    --lumo-shade-30pct: hsla(214, 12%, 6%, 0.32);
+    --lumo-shade-40pct: hsla(214, 16%, 8%, 0.41);
+    --lumo-shade-50pct: hsla(214, 20%, 10%, 0.5);
+    --lumo-shade-60pct: hsla(214, 24%, 12%, 0.6);
+    --lumo-shade-70pct: hsla(214, 28%, 13%, 0.7);
+    --lumo-shade-80pct: hsla(214, 32%, 13%, 0.8);
+    --lumo-shade-90pct: hsla(214, 33%, 13%, 0.9);
+    --lumo-shade: hsl(214, 33%, 13%);
+
+    /* Contrast */
+    --lumo-contrast-5pct: var(--lumo-tint-5pct);
+    --lumo-contrast-10pct: var(--lumo-tint-10pct);
+    --lumo-contrast-20pct: var(--lumo-tint-20pct);
+    --lumo-contrast-30pct: var(--lumo-tint-30pct);
+    --lumo-contrast-40pct: var(--lumo-tint-40pct);
+    --lumo-contrast-50pct: var(--lumo-tint-50pct);
+    --lumo-contrast-60pct: var(--lumo-tint-60pct);
+    --lumo-contrast-70pct: var(--lumo-tint-70pct);
+    --lumo-contrast-80pct: var(--lumo-tint-80pct);
+    --lumo-contrast-90pct: var(--lumo-tint-90pct);
+    --lumo-contrast: var(--lumo-tint);
+
+    /* Text */
+    --lumo-header-text-color: var(--lumo-contrast);
+    --lumo-body-text-color: var(--lumo-contrast-90pct);
+    --lumo-secondary-text-color: var(--lumo-contrast-70pct);
+    --lumo-tertiary-text-color: var(--lumo-contrast-50pct);
+    --lumo-disabled-text-color: var(--lumo-contrast-30pct);
+
+    /* Primary */
+    --lumo-primary-color: hsl(214, 90%, 48%);
+    --lumo-primary-color-50pct: hsla(214, 90%, 70%, 0.69);
+    --lumo-primary-color-10pct: hsla(214, 90%, 55%, 0.13);
+    --lumo-primary-text-color: hsl(214, 90%, 77%);
+    --lumo-primary-contrast-color: #fff;
+
+    /* Error */
+    --lumo-error-color: hsl(3, 79%, 49%);
+    --lumo-error-color-50pct: hsla(3, 75%, 62%, 0.5);
+    --lumo-error-color-10pct: hsla(3, 75%, 62%, 0.14);
+    --lumo-error-text-color: hsl(3, 100%, 80%);
+
+    /* Success */
+    --lumo-success-color: hsl(145, 72%, 30%);
+    --lumo-success-color-50pct: hsla(145, 92%, 51%, 0.5);
+    --lumo-success-color-10pct: hsla(145, 92%, 51%, 0.1);
+    --lumo-success-text-color: hsl(145, 85%, 46%);
+  }
+
+  html {
+    color: var(--lumo-body-text-color);
+    background-color: var(--lumo-base-color);
+  }
+
+  [theme~='dark'] {
+    color: var(--lumo-body-text-color);
+    background-color: var(--lumo-base-color);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--lumo-header-text-color);
+  }
+
+  a {
+    color: var(--lumo-primary-text-color);
+  }
+
+  blockquote {
+    color: var(--lumo-secondary-text-color);
+  }
+
+  code,
+  pre {
+    background-color: var(--lumo-contrast-10pct);
+    border-radius: var(--lumo-border-radius-m);
+  }
+`;
+
+registerStyles('', color, { moduleId: 'lumo-color' });
+
+const colorLegacy = i`
+  :host {
+    color: var(--lumo-body-text-color) !important;
+    background-color: var(--lumo-base-color) !important;
+  }
+`;
+
+registerStyles('', [color, colorLegacy], { moduleId: 'lumo-color-legacy' });
+
+/**
+ * @license
+ * Copyright (c) 2017 - 2022 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */
+
+const $_documentContainer$2 = document.createElement('template');
+
+$_documentContainer$2.innerHTML = `
+  <style>
+    @font-face {
+      font-family: 'lumo-icons';
+      src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAABEgAAsAAAAAIjQAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABHU1VCAAABCAAAADsAAABUIIslek9TLzIAAAFEAAAAQwAAAFZAIUuKY21hcAAAAYgAAAD4AAADrsCU8d5nbHlmAAACgAAAC2cAABeAWri7U2hlYWQAAA3oAAAAMAAAADZa/6SsaGhlYQAADhgAAAAdAAAAJAbpA35obXR4AAAOOAAAABAAAACspBAAAGxvY2EAAA5IAAAAWAAAAFh57oA4bWF4cAAADqAAAAAfAAAAIAFKAXBuYW1lAAAOwAAAATEAAAIuUUJZCHBvc3QAAA/0AAABKwAAAelm8SzVeJxjYGRgYOBiMGCwY2BycfMJYeDLSSzJY5BiYGGAAJA8MpsxJzM9kYEDxgPKsYBpDiBmg4gCACY7BUgAeJxjYGS+yDiBgZWBgamKaQ8DA0MPhGZ8wGDIyAQUZWBlZsAKAtJcUxgcXjG+0mIO+p/FEMUcxDANKMwIkgMABn8MLQB4nO3SWW6DMABF0UtwCEnIPM/zhLK8LqhfXRybSP14XUYtHV9hGYQwQBNIo3cUIPkhQeM7rib1ekqnXg981XuC1qvy84lzojleh3puxL0hPjGjRU473teloEefAUNGjJkwZcacBUtWrNmwZceeA0dOnLlw5cadB09elPGhGf+j0NTI/65KfXerT6JhqKnpRKtgOpuqaTrtKjPUlqHmhto21I7pL6i6hlqY3q7qGWrfUAeGOjTUkaGODXViqFNDnRnq3FAXhro01JWhrg11Y6hbQ90Z6t5QD4Z6NNSToZ4N9WKoV0O9GerdUB+G+jTUl6GWRvkL24BkEXictVh9bFvVFb/nxvbz+7Rf/N6zHcd2bCfP+Wic1Z9N0jpNHCD9SNqqoVBgbQoMjY+pjA4hNnWa2pV1rHSIif0DGkyT2k10Kmu1Cag6huj4ZpqYBHSqJsTEJgZCG3TaVBFv595nO3ZIv4RIrPPuvefe884599zzO/cRF8G/tgn6CFFImNgkR0ggX8wlspbhSSWSdrC5ozd30s2dw5afzvgtyz9/zG9t1hV4RtF1pXolowvtzc2z6L2aYUQM45jKH9WDTvd1LRDoDASYWhfTzTyvboXz6uZX4ARX5wrF39y+HM2+CJ8d0pkyqBIqoze3D12ez4DrFoYzxI8dWwMrDlZ2DMqQAR9AROsJU+2smlTPaTTco52BVxXa2a2+I8vvqd2dVHm1LoPeTn/AZPRYGthDYOeZjBjKoFsVGulR3lGU95SeCK44oHU7MhWUGUKZDT3oSUcG2GWuh+EDDfUYA/jhIhl0TOsJNYSEu7mQmi3UzfXwZKA4BsVsHLXQYGgJW95qEtpJ1VcW9HiTriZBlFEqxsDjA09yCNUoQxxwd7KWSTt2y3GTKifkqHRCoWZc3m11Wa/dKdFgXD4kSYfkeJBKd8KMz7J8dZn/cGRCcLGDnA2Ge3bKzcvlnTDNthFWLH7Xt80ua5FMjA4WKelWv5Xo16vHuYzpRbJhhdVlftuRK0VlR27D9lu5TF0DPBi60OrHNO0AfP/uRWvhn/U3LXICE+nh+3IHPUJ8JE6GyBjZQLbjGchlrSgYngF8zyrIF4NJD3atUcgWsWunGN/UHX5B5/yg7uF87Nqp4Gf52F3gH73DjEZNRoqCKAr9giQJp5rGJABpiVE2htNhW9R8nw0jqYjCYcY4LIjwYNScf4WN06IZnZCEqsI4cFaQbo4Z1TsZBx40YhXkHOecaYE5oY37IIQ+iJJ+UsDYSun5MuRSBRZRUUhlY2DqOGajOR6zrSU/5My6l2DnusH1GQgnw5BZP7iuYM/ahcfQ7Z8y51ddfutvuwNqWQ0cBYr8fj0U0vsHpwerVaB2sWhXT2NExi2r1KUE2tUuVMnkepVQrxTmpQrZTG4iu8he8iPyM3KcPE/+RP5KPoE2CEAKclCBzXATxkYOtUY/o961PWRqsj0chRrHFBbtrjP9/P0ven5pcbRdpL94vfsy33e5+izuwz3nFLFPVNayPZx/jdG1fOChflFRvYzsW6L18efgLrSWIgvcqnGJYi4skO4xREURjbDuxKke5v0T3Mrzkt2fi31uyZlLLrqIpEuXXsMlgw442Jb0GAxjS1DM20kBoCzHLXm/jEm0IltdcvU0fEW24jgiwwRjVd9u4NJHcIyoHJcwvyVqgqj5hqBJ1ZWSJryh9p56UWhX1XbhRbW2ZopuZWsQd5y8mEQ8M+C6xjRYxZbDKWf5AgY+Qq/l6wSPk16zDFjowYuu+wjx13mfkxbyDDxadYT/LijZyI0THB+6yfLaWsRcO82zo9mWTNtpO18qlorZoIVMwSN40tky5DOQ1MCIAe24mvlsuwIIxPb10+uXDQ4uWz/9m3rj+ql7p6bufZARuPVq5tXtsn6KwfP8Jy0TeWOyNhUJN6mhX5rkUTtUppQWEMNTqEdaCGKFYKJaQrCE4JtDLYOlNEKmO5kBTPGY2A0N2sY3+dVlo1N9ycBsIGtOjQ2p/tlZvzo0ur4v6cOh8NTospB7U/X40KahoU3bGIH97dnwmtHlYffVG3R1YOwKM2vNhrPhCT5zk64sG53oS4b31aYjqe/B7+kQiXBN+b6h21hNUPMq29B8CU4elINdygMPKF1B+WBTG7Z9ZshpN/xwEuuDQZR+nuoo4CDaAiiwXmLpmukMQyPf/JMclqgL1ixZQ/nnP2VbdUODFGt2fgBvL123rlLYu/6A9ckb7F3K0/CyBMEu6aQoPscroCcacVehvyQyCZAsizsWWBkoLC+WAiWnOksLKaeuQDzGuqSk42aiYTiJ4zf9afl17SrqaTO1f+XlZAfIuYcq7/IqYMaMrksOJ6vHkOCPDq943xcCnHqVD9pHFRpMqSPXrIua1WNs+tOz1U+ciTCDpPk+c4QYJIHnYhxP/kVPAq+ahFpVhPcHp8qyarhiF+HsBU9Hrl+UZa876fbKipL0KqB6OdUveErgtOI97fZ63ae9SvWU6k2w1JfwqnUbHsYcFCJFrC/W12zIMMirWYEHxMPs6LGYSdkSZ5TsNP9PCpwnWC3HKZ1lydNjWHC2Mn3l6vL0dHn1ldP3LTSrX+vKrBqv7KmMr8p0SR6P1NqF63or6XRlIyO90f7+kf7+myOhvt4tq7f09oUiTc2/dycGgqFQcCDRLYmi1NL7fk0CknVMxEg/cdfs/TnpJMNkgqwj17B8beVazSrVbU4lG67IZYOCnWrYy3yBR9cyWcChywos3LJBEdhhFoAdYjiw0rLGm0xU5OzoGm5/ZfmHjVZpNNg6SznzGKDdwv2cCtVn6Eaxo12cfxLprpVtTcZ6hVx6dow7Yq7e8LXO8PY9Jgjoze9yCtU5FNbegcKkQMdCbt9au/te4Ebe0jkc0ukUL32eYnTpNs20h0KpUOhZPYwVcfhZnfdqeCvDfXiuCbAoYWcXERPc/mDQD3/hdF+wK4i/xv3kYfprIpAuMkk2kW3kdtS0kBIKpZwp8KxmsCyfM1MFzAss9LBkDxRyThiaqTLwKYKJVTwmWTudMyz+yks09346MDh4m72yOxCKrt1XMlQ1qPVlTEVVQ1ofdK/sCWjtZu9qGwZ8YZ9PPWlo1IV3eW3+U0aXblP39zrt+JPf6UhEQ1rUjNBULN+utyuaDNW34kpAVuSOeMTyWbSNWnooFu+QFNWQ4d/Ox4IPWx41fP/fB/Rjeoz08ezPA9TysMtmnOXfGN7Ui3xIYLDALrlDLOP09qtJuY2OeL0+QZXdRnR1nxRVBF/SOyKKPpcrn9mWzH4rH9IidE+PTNU2182+hOgSItrE1slByS24vaLvJpxOqe4Pduf3HJkZ+jLqUz9rRzB7p8gKcgWZwV1L8JtUS5Z2JxZSOCuBoMTQihMzLbCPA0KqGMAljRQjONklW/wjnXKy8vxT/Elvm3/KiMUMOoV0/vnDYlhec0SMKtt3/kKMyOt33tj2bqxQLsTjSGLl+EAsNhCnTyRGktW55EgCn/A4PlnWn+Mg8bgZrWqHxTbPwMuyy1u5YeZF2SUM7JRhddwRgiRuxpmgJmxn9ZW7XpcF3ViX/ar6ptRpGJ0S9Adg4qhb9sI3vbL7qNJV/y4i07t5TZBiho1imFoMz3gED+CtjYUxvP4SOxov4bFoNPg5aR1e+G4UgDPoedJTpogyCJ7oYvRqoVS0MQAy+CoNEdTDUjok5ZHZL/WtjV7rFj3PKQE3iKp7ou+rIxN3b9LB1dGjeT4cvKo3FrnWpYpuaFd/h3dtV8UeKN1Y9hpR3dt4p0H/zKuPQq0kZQUIIpuDfoiETsnIk+gCWMJZUXHtE8V9LkUc2TE8vOMbO4ax/MACabzyaGXc7u3FBr11ThBdB8SIeMAlCntG2KThHSPsaj2Dc9KNyY2a0KZ7ODaTHoRiFkeYz+shZBpCS4X6471KKKnuHd84edfk5F37d1XO5bbkcltu2ZLNbvnPXiUVAnVvprJrP+NObryjxrllS65md6Tm6wzFHRR4dY3QUUjb7MgxaIixU8hspi98fl/Xc+IB4iU66eCVL9YfAfahiSUt4TONS8x0D8W7u8vd3fGWx6OXlM/U1IoU/s61PGhpyXRFa3eReq2qG56lvmYtXavCC1iN7lbiBpWxXHU+cSlztVLVz0tVN600fVsLxaVDknhYioeoXP3t4lqV1r79MAw0GCI1FTL1YIGzPL1MMlJ9ZsN9P7lvA2yr9ZFUzwzPrVgxN/x/SS+chwB4nGNgZGBgAOLPrYdY4vltvjJwM78AijDUqG5oRND/XzNPZboF5HIwMIFEAU/lC+J4nGNgZGBgDvqfBSRfMAAB81QGRgZUoA0AVvYDbwAAAHicY2BgYGB+MTQwAM8EJo8AAAAAAE4AmgDoAQoBLAFOAXABmgHEAe4CGgKcAugEmgS8BNYE8gUOBSoFegXQBf4GRAZmBrYHGAeQCBgIUghqCP4JRgm+CdoKBAo+CoQKugr0C1QLmgvAeJxjYGRgYNBmTGEQZQABJiDmAkIGhv9gPgMAGJQBvAB4nG2RPU7DMBiG3/QP0UoIBGJh8QILavozdmRo9w7d09RpUzlx5LgVvQMn4BAcgoEzcAgOwVvzSZVQbcnf48fvFysJgGt8IcJxROiG9TgauODuj5ukG+EW+UG4jR4ehTv0Q+EunjER7uEWmk+IWpc0d3gVbuAKb8JN+nfhFvlDuI17fAp36L+Fu1jgR7iHp+jF7Arbz1Nb1nO93pnEncSJFtrVuS3VKB6e5EyX2iVer9TyoOr9eux9pjJnCzW1pdfGWFU5u9WpjzfeV5PBIBMfp7aAwQ4FLPrIkbKWqDHn+67pDRK4s4lzbsEux5qHvcIIMb/nueSMyTKkE3jWFdNLHLjW2PPmMa1Hxn3GjGW/wjT0HtOG09JU4WxLk9LH2ISuiv9twJn9y8fh9uIXI+BknAAAAHicbY7ZboMwEEW5CVBCSLrv+76kfJRjTwHFsdGAG+Xvy5JUfehIHp0rnxmNN/D6ir3/a4YBhvARIMQOIowQY4wEE0yxiz3s4wCHOMIxTnCKM5zjApe4wjVucIs73OMBj3jCM17wije84wMzfHqJ0EVmUkmmJo77oOmrHvfIRZbXsTCZplTZldlgb3TYGVHProwFs11t1A57tcON2rErR3PBqcwF1/6ctI6k0GSU4JHMSS6WghdJQ99sTbfuN7QLJ9vQ37dNrgyktnIxlDYLJNuqitpRbYWKFNuyDT6pog6oOYKHtKakeakqKjHXpPwlGRcsC+OqxLIiJpXqoqqDMreG2l5bv9Ri3TRX+c23DZna9WFFgmXuO6Ps1Jm/w6ErW8N3FbHn/QC444j0AA==) format('woff');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    html {
+      --lumo-icons-align-center: "\\ea01";
+      --lumo-icons-align-left: "\\ea02";
+      --lumo-icons-align-right: "\\ea03";
+      --lumo-icons-angle-down: "\\ea04";
+      --lumo-icons-angle-left: "\\ea05";
+      --lumo-icons-angle-right: "\\ea06";
+      --lumo-icons-angle-up: "\\ea07";
+      --lumo-icons-arrow-down: "\\ea08";
+      --lumo-icons-arrow-left: "\\ea09";
+      --lumo-icons-arrow-right: "\\ea0a";
+      --lumo-icons-arrow-up: "\\ea0b";
+      --lumo-icons-bar-chart: "\\ea0c";
+      --lumo-icons-bell: "\\ea0d";
+      --lumo-icons-calendar: "\\ea0e";
+      --lumo-icons-checkmark: "\\ea0f";
+      --lumo-icons-chevron-down: "\\ea10";
+      --lumo-icons-chevron-left: "\\ea11";
+      --lumo-icons-chevron-right: "\\ea12";
+      --lumo-icons-chevron-up: "\\ea13";
+      --lumo-icons-clock: "\\ea14";
+      --lumo-icons-cog: "\\ea15";
+      --lumo-icons-cross: "\\ea16";
+      --lumo-icons-download: "\\ea17";
+      --lumo-icons-dropdown: "\\ea18";
+      --lumo-icons-edit: "\\ea19";
+      --lumo-icons-error: "\\ea1a";
+      --lumo-icons-eye: "\\ea1b";
+      --lumo-icons-eye-disabled: "\\ea1c";
+      --lumo-icons-menu: "\\ea1d";
+      --lumo-icons-minus: "\\ea1e";
+      --lumo-icons-ordered-list: "\\ea1f";
+      --lumo-icons-phone: "\\ea20";
+      --lumo-icons-photo: "\\ea21";
+      --lumo-icons-play: "\\ea22";
+      --lumo-icons-plus: "\\ea23";
+      --lumo-icons-redo: "\\ea24";
+      --lumo-icons-reload: "\\ea25";
+      --lumo-icons-search: "\\ea26";
+      --lumo-icons-undo: "\\ea27";
+      --lumo-icons-unordered-list: "\\ea28";
+      --lumo-icons-upload: "\\ea29";
+      --lumo-icons-user: "\\ea2a";
+    }
+  </style>
+`;
+
+document.head.appendChild($_documentContainer$2.content);
+
+/**
+ * @license
+ * Copyright (c) 2017 - 2022 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */
+
+const sizing = i`
+  :host {
+    --lumo-size-xs: 1.625rem;
+    --lumo-size-s: 1.875rem;
+    --lumo-size-m: 2.25rem;
+    --lumo-size-l: 2.75rem;
+    --lumo-size-xl: 3.5rem;
+
+    /* Icons */
+    --lumo-icon-size-s: 1.25em;
+    --lumo-icon-size-m: 1.5em;
+    --lumo-icon-size-l: 2.25em;
+    /* For backwards compatibility */
+    --lumo-icon-size: var(--lumo-icon-size-m);
+  }
+`;
+
+const $tpl$3 = document.createElement('template');
+$tpl$3.innerHTML = `<style>${sizing.toString().replace(':host', 'html')}</style>`;
+document.head.appendChild($tpl$3.content);
+
+/**
+ * @license
+ * Copyright (c) 2017 - 2022 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */
+
+const spacing = i`
+  :host {
+    /* Square */
+    --lumo-space-xs: 0.25rem;
+    --lumo-space-s: 0.5rem;
+    --lumo-space-m: 1rem;
+    --lumo-space-l: 1.5rem;
+    --lumo-space-xl: 2.5rem;
+
+    /* Wide */
+    --lumo-space-wide-xs: calc(var(--lumo-space-xs) / 2) var(--lumo-space-xs);
+    --lumo-space-wide-s: calc(var(--lumo-space-s) / 2) var(--lumo-space-s);
+    --lumo-space-wide-m: calc(var(--lumo-space-m) / 2) var(--lumo-space-m);
+    --lumo-space-wide-l: calc(var(--lumo-space-l) / 2) var(--lumo-space-l);
+    --lumo-space-wide-xl: calc(var(--lumo-space-xl) / 2) var(--lumo-space-xl);
+
+    /* Tall */
+    --lumo-space-tall-xs: var(--lumo-space-xs) calc(var(--lumo-space-xs) / 2);
+    --lumo-space-tall-s: var(--lumo-space-s) calc(var(--lumo-space-s) / 2);
+    --lumo-space-tall-m: var(--lumo-space-m) calc(var(--lumo-space-m) / 2);
+    --lumo-space-tall-l: var(--lumo-space-l) calc(var(--lumo-space-l) / 2);
+    --lumo-space-tall-xl: var(--lumo-space-xl) calc(var(--lumo-space-xl) / 2);
+  }
+`;
+
+const $tpl$2 = document.createElement('template');
+$tpl$2.innerHTML = `<style>${spacing.toString().replace(':host', 'html')}</style>`;
+document.head.appendChild($tpl$2.content);
+
+/**
+ * @license
+ * Copyright (c) 2017 - 2022 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */
+
+const style = i`
+  :host {
+    /* Border radius */
+    --lumo-border-radius-s: 0.25em; /* Checkbox, badge, date-picker year indicator, etc */
+    --lumo-border-radius-m: var(--lumo-border-radius, 0.25em); /* Button, text field, menu overlay, etc */
+    --lumo-border-radius-l: 0.5em; /* Dialog, notification, etc */
+    --lumo-border-radius: 0.25em; /* Deprecated */
+
+    /* Shadow */
+    --lumo-box-shadow-xs: 0 1px 4px -1px var(--lumo-shade-50pct);
+    --lumo-box-shadow-s: 0 2px 4px -1px var(--lumo-shade-20pct), 0 3px 12px -1px var(--lumo-shade-30pct);
+    --lumo-box-shadow-m: 0 2px 6px -1px var(--lumo-shade-20pct), 0 8px 24px -4px var(--lumo-shade-40pct);
+    --lumo-box-shadow-l: 0 3px 18px -2px var(--lumo-shade-20pct), 0 12px 48px -6px var(--lumo-shade-40pct);
+    --lumo-box-shadow-xl: 0 4px 24px -3px var(--lumo-shade-20pct), 0 18px 64px -8px var(--lumo-shade-40pct);
+
+    /* Clickable element cursor */
+    --lumo-clickable-cursor: default;
+  }
+`;
+
+const $tpl$1 = document.createElement('template');
+$tpl$1.innerHTML = `<style>${style.toString().replace(':host', 'html')}</style>`;
+document.head.appendChild($tpl$1.content);
+
+/**
+ * @license
+ * Copyright (c) 2017 - 2022 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */
+
+const font = i`
+  :host {
+    /* prettier-ignore */
+    --lumo-font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+
+    /* Font sizes */
+    --lumo-font-size-xxs: 0.75rem;
+    --lumo-font-size-xs: 0.8125rem;
+    --lumo-font-size-s: 0.875rem;
+    --lumo-font-size-m: 1rem;
+    --lumo-font-size-l: 1.125rem;
+    --lumo-font-size-xl: 1.375rem;
+    --lumo-font-size-xxl: 1.75rem;
+    --lumo-font-size-xxxl: 2.5rem;
+
+    /* Line heights */
+    --lumo-line-height-xs: 1.25;
+    --lumo-line-height-s: 1.375;
+    --lumo-line-height-m: 1.625;
+  }
+`;
+
+const typography = i`
+  html,
+  :host {
+    font-family: var(--lumo-font-family);
+    font-size: var(--lumo-font-size, var(--lumo-font-size-m));
+    line-height: var(--lumo-line-height-m);
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  small,
+  [theme~='font-size-s'] {
+    font-size: var(--lumo-font-size-s);
+    line-height: var(--lumo-line-height-s);
+  }
+
+  [theme~='font-size-xs'] {
+    font-size: var(--lumo-font-size-xs);
+    line-height: var(--lumo-line-height-xs);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 600;
+    line-height: var(--lumo-line-height-xs);
+    margin-top: 1.25em;
+  }
+
+  h1 {
+    font-size: var(--lumo-font-size-xxxl);
+    margin-bottom: 0.75em;
+  }
+
+  h2 {
+    font-size: var(--lumo-font-size-xxl);
+    margin-bottom: 0.5em;
+  }
+
+  h3 {
+    font-size: var(--lumo-font-size-xl);
+    margin-bottom: 0.5em;
+  }
+
+  h4 {
+    font-size: var(--lumo-font-size-l);
+    margin-bottom: 0.5em;
+  }
+
+  h5 {
+    font-size: var(--lumo-font-size-m);
+    margin-bottom: 0.25em;
+  }
+
+  h6 {
+    font-size: var(--lumo-font-size-xs);
+    margin-bottom: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  p,
+  blockquote {
+    margin-top: 0.5em;
+    margin-bottom: 0.75em;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  hr {
+    display: block;
+    align-self: stretch;
+    height: 1px;
+    border: 0;
+    padding: 0;
+    margin: var(--lumo-space-s) calc(var(--lumo-border-radius-m) / 2);
+    background-color: var(--lumo-contrast-10pct);
+  }
+
+  blockquote {
+    border-left: 2px solid var(--lumo-contrast-30pct);
+  }
+
+  b,
+  strong {
+    font-weight: 600;
+  }
+
+  /* RTL specific styles */
+  blockquote[dir='rtl'] {
+    border-left: none;
+    border-right: 2px solid var(--lumo-contrast-30pct);
+  }
+`;
+
+registerStyles('', typography, { moduleId: 'lumo-typography' });
+
 const $tpl = document.createElement('template');
-$tpl.innerHTML = `<style>${placeholderStyleWorkaround.toString()}</style>`;
+$tpl.innerHTML = `<style>${font.toString().replace(':host', 'html')}</style>`;
 document.head.appendChild($tpl.content);
 
 /**
@@ -21441,7 +24763,7 @@ document.head.appendChild($tpl.content);
  * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
  */
 
-const fieldButton = r`
+const fieldButton = i`
   [part$='button'] {
     flex: none;
     width: 1em;
@@ -21477,7 +24799,7 @@ registerStyles('', fieldButton, { moduleId: 'lumo-field-button' });
  * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
  */
 
-const helper = r`
+const helper = i`
   :host([has-helper]) [part='helper-text']::before {
     content: '';
     display: block;
@@ -21536,7 +24858,7 @@ const helper = r`
  * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
  */
 
-const requiredField = r`
+const requiredField = i`
   [part='label'] {
     align-self: flex-start;
     color: var(--lumo-secondary-text-color);
@@ -21639,7 +24961,7 @@ registerStyles('', requiredField, { moduleId: 'lumo-required-field' });
  * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
  */
 
-const inputField = r`
+const inputField = i`
   :host {
     --lumo-text-field-size: var(--lumo-size-m);
     color: var(--lumo-body-text-color);
@@ -21768,7 +25090,7 @@ const inputField = r`
 const inputFieldShared$1 = [requiredField, fieldButton, helper, inputField];
 
 registerStyles('', inputFieldShared$1, {
-  moduleId: 'lumo-input-field-shared-styles'
+  moduleId: 'lumo-input-field-shared-styles',
 });
 
 /**
@@ -21778,8 +25100,209 @@ registerStyles('', inputFieldShared$1, {
  */
 
 registerStyles('vaadin-text-field', inputFieldShared$1, {
-  moduleId: 'lumo-text-field-styles'
+  moduleId: 'lumo-text-field-styles',
 });
+
+/**
+ * @license
+ * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+ */
+let microtaskCallbacks$1 = [];
+let microtaskNode$1 = document.createTextNode('');
+new window.MutationObserver(microtaskFlush$1).observe(microtaskNode$1, { characterData: true });
+
+function microtaskFlush$1() {
+  const len = microtaskCallbacks$1.length;
+  for (let i = 0; i < len; i++) {
+    let cb = microtaskCallbacks$1[i];
+    if (cb) {
+      try {
+        cb();
+      } catch (e) {
+        setTimeout(() => {
+          throw e;
+        });
+      }
+    }
+  }
+  microtaskCallbacks$1.splice(0, len);
+}
+
+/**
+ * Async interface wrapper around `requestIdleCallback`.  Falls back to
+ * `setTimeout` on browsers that do not support `requestIdleCallback`.
+ *
+ * @namespace
+ * @summary Async interface wrapper around `requestIdleCallback`.
+ */
+const idlePeriod = {
+  /**
+   * Enqueues a function called at `requestIdleCallback` timing.
+   *
+   * @memberof idlePeriod
+   * @param {function(!IdleDeadline):void} fn Callback to run
+   * @return {number} Handle used for canceling task
+   */
+  run(fn) {
+    return window.requestIdleCallback ? window.requestIdleCallback(fn) : window.setTimeout(fn, 16);
+  },
+  /**
+   * Cancels a previously enqueued `idlePeriod` callback.
+   *
+   * @memberof idlePeriod
+   * @param {number} handle Handle returned from `run` of callback to cancel
+   * @return {void}
+   */
+  cancel(handle) {
+    window.cancelIdleCallback ? window.cancelIdleCallback(handle) : window.clearTimeout(handle);
+  },
+};
+
+/**
+@license
+Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+*/
+
+/**
+ * @summary Collapse multiple callbacks into one invocation after a timer.
+ */
+class Debouncer$1 {
+  constructor() {
+    this._asyncModule = null;
+    this._callback = null;
+    this._timer = null;
+  }
+  /**
+   * Sets the scheduler; that is, a module with the Async interface,
+   * a callback and optional arguments to be passed to the run function
+   * from the async module.
+   *
+   * @param {!AsyncInterface} asyncModule Object with Async interface.
+   * @param {function()} callback Callback to run.
+   * @return {void}
+   */
+  setConfig(asyncModule, callback) {
+    this._asyncModule = asyncModule;
+    this._callback = callback;
+    this._timer = this._asyncModule.run(() => {
+      this._timer = null;
+      debouncerQueue$1.delete(this);
+      this._callback();
+    });
+  }
+  /**
+   * Cancels an active debouncer and returns a reference to itself.
+   *
+   * @return {void}
+   */
+  cancel() {
+    if (this.isActive()) {
+      this._cancelAsync();
+      // Canceling a debouncer removes its spot from the flush queue,
+      // so if a debouncer is manually canceled and re-debounced, it
+      // will reset its flush order (this is a very minor difference from 1.x)
+      // Re-debouncing via the `debounce` API retains the 1.x FIFO flush order
+      debouncerQueue$1.delete(this);
+    }
+  }
+  /**
+   * Cancels a debouncer's async callback.
+   *
+   * @return {void}
+   */
+  _cancelAsync() {
+    if (this.isActive()) {
+      this._asyncModule.cancel(/** @type {number} */ (this._timer));
+      this._timer = null;
+    }
+  }
+  /**
+   * Flushes an active debouncer and returns a reference to itself.
+   *
+   * @return {void}
+   */
+  flush() {
+    if (this.isActive()) {
+      this.cancel();
+      this._callback();
+    }
+  }
+  /**
+   * Returns true if the debouncer is active.
+   *
+   * @return {boolean} True if active.
+   */
+  isActive() {
+    return this._timer != null;
+  }
+  /**
+   * Creates a debouncer if no debouncer is passed as a parameter
+   * or it cancels an active debouncer otherwise. The following
+   * example shows how a debouncer can be called multiple times within a
+   * microtask and "debounced" such that the provided callback function is
+   * called once. Add this method to a custom element:
+   *
+   * ```js
+   * import {microTask} from '@vaadin/component-base/src/async.js';
+   * import {Debouncer} from '@vaadin/component-base/src/debounce.js';
+   * // ...
+   *
+   * _debounceWork() {
+   *   this._debounceJob = Debouncer.debounce(this._debounceJob,
+   *       microTask, () => this._doWork());
+   * }
+   * ```
+   *
+   * If the `_debounceWork` method is called multiple times within the same
+   * microtask, the `_doWork` function will be called only once at the next
+   * microtask checkpoint.
+   *
+   * Note: In testing it is often convenient to avoid asynchrony. To accomplish
+   * this with a debouncer, you can use `enqueueDebouncer` and
+   * `flush`. For example, extend the above example by adding
+   * `enqueueDebouncer(this._debounceJob)` at the end of the
+   * `_debounceWork` method. Then in a test, call `flush` to ensure
+   * the debouncer has completed.
+   *
+   * @param {Debouncer?} debouncer Debouncer object.
+   * @param {!AsyncInterface} asyncModule Object with Async interface
+   * @param {function()} callback Callback to run.
+   * @return {!Debouncer} Returns a debouncer object.
+   */
+  static debounce(debouncer, asyncModule, callback) {
+    if (debouncer instanceof Debouncer$1) {
+      // Cancel the async callback, but leave in debouncerQueue if it was
+      // enqueued, to maintain 1.x flush order
+      debouncer._cancelAsync();
+    } else {
+      debouncer = new Debouncer$1();
+    }
+    debouncer.setConfig(asyncModule, callback);
+    return debouncer;
+  }
+}
+
+let debouncerQueue$1 = new Set();
+
+/**
+ * Adds a `Debouncer` to a list of globally flushable tasks.
+ *
+ * @param {!Debouncer} debouncer Debouncer to enqueue
+ * @return {void}
+ */
+const enqueueDebouncer = function (debouncer) {
+  debouncerQueue$1.add(debouncer);
+};
 
 /**
  * @license
@@ -21788,50 +25311,731 @@ registerStyles('vaadin-text-field', inputFieldShared$1, {
  */
 
 /**
- * A mixin to provide content for named slots defined by component.
+ * Helper that provides a set of functions for RTL.
+ */
+class DirHelper {
+  /**
+   * Get the scroll type in the current browser view.
+   *
+   * @return {string} the scroll type. Possible values are `default|reverse|negative`
+   */
+  static detectScrollType() {
+    const dummy = document.createElement('div');
+    dummy.textContent = 'ABCD';
+    dummy.dir = 'rtl';
+    dummy.style.fontSize = '14px';
+    dummy.style.width = '4px';
+    dummy.style.height = '1px';
+    dummy.style.position = 'absolute';
+    dummy.style.top = '-1000px';
+    dummy.style.overflow = 'scroll';
+    document.body.appendChild(dummy);
+
+    let cachedType = 'reverse';
+    if (dummy.scrollLeft > 0) {
+      cachedType = 'default';
+    } else {
+      dummy.scrollLeft = 2;
+      if (dummy.scrollLeft < 2) {
+        cachedType = 'negative';
+      }
+    }
+    document.body.removeChild(dummy);
+    return cachedType;
+  }
+
+  /**
+   * Get the scrollLeft value of the element relative to the direction
+   *
+   * @param {string} scrollType type of the scroll detected with `detectScrollType`
+   * @param {string} direction current direction of the element
+   * @param {Element} element
+   * @return {number} the scrollLeft value.
+   */
+  static getNormalizedScrollLeft(scrollType, direction, element) {
+    const { scrollLeft } = element;
+    if (direction !== 'rtl' || !scrollType) {
+      return scrollLeft;
+    }
+
+    switch (scrollType) {
+      case 'negative':
+        return element.scrollWidth - element.clientWidth + scrollLeft;
+      case 'reverse':
+        return element.scrollWidth - element.clientWidth - scrollLeft;
+    }
+    return scrollLeft;
+  }
+
+  /**
+   * Set the scrollLeft value of the element relative to the direction
+   *
+   * @param {string} scrollType type of the scroll detected with `detectScrollType`
+   * @param {string} direction current direction of the element
+   * @param {Element} element
+   * @param {number} scrollLeft the scrollLeft value to be set
+   */
+  static setNormalizedScrollLeft(scrollType, direction, element, scrollLeft) {
+    if (direction !== 'rtl' || !scrollType) {
+      element.scrollLeft = scrollLeft;
+      return;
+    }
+
+    switch (scrollType) {
+      case 'negative':
+        element.scrollLeft = element.clientWidth - element.scrollWidth + scrollLeft;
+        break;
+      case 'reverse':
+        element.scrollLeft = element.scrollWidth - element.clientWidth - scrollLeft;
+        break;
+      default:
+        element.scrollLeft = scrollLeft;
+        break;
+    }
+  }
+}
+
+/**
+ * @license
+ * Copyright (c) 2021 - 2022 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */
+
+/**
+ * Array of Vaadin custom element classes that have been subscribed to the dir changes.
+ */
+const directionSubscribers = [];
+const directionUpdater = function () {
+  const documentDir = getDocumentDir();
+  directionSubscribers.forEach((element) => {
+    alignDirs(element, documentDir);
+  });
+};
+
+let scrollType;
+
+const directionObserver = new MutationObserver(directionUpdater);
+directionObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['dir'] });
+
+const alignDirs = function (element, documentDir, elementDir = element.getAttribute('dir')) {
+  if (documentDir) {
+    element.setAttribute('dir', documentDir);
+  } else if (elementDir != null) {
+    element.removeAttribute('dir');
+  }
+};
+
+const getDocumentDir = function () {
+  return document.documentElement.getAttribute('dir');
+};
+
+/**
+ * A mixin to handle `dir` attribute based on the one set on the `<html>` element.
  *
  * @polymerMixin
  */
-const SlotMixin = dedupingMixin(
-  (superclass) =>
-    class SlotMixinClass extends superclass {
-      /**
-       * List of named slots to initialize.
-       * @protected
-       */
-      get slots() {
-        return {};
+const DirMixin = (superClass) =>
+  class VaadinDirMixin extends superClass {
+    static get properties() {
+      return {
+        /**
+         * @protected
+         */
+        dir: {
+          type: String,
+          value: '',
+          reflectToAttribute: true,
+        },
+      };
+    }
+
+    /** @protected */
+    static finalize() {
+      super.finalize();
+
+      if (!scrollType) {
+        scrollType = DirHelper.detectScrollType();
+      }
+    }
+
+    /** @protected */
+    connectedCallback() {
+      super.connectedCallback();
+
+      if (!this.hasAttribute('dir')) {
+        this.__subscribe();
+        alignDirs(this, getDocumentDir(), null);
+      }
+    }
+
+    /** @protected */
+    attributeChangedCallback(name, oldValue, newValue) {
+      super.attributeChangedCallback(name, oldValue, newValue);
+      if (name !== 'dir') {
+        return;
       }
 
+      const documentDir = getDocumentDir();
+
+      // New value equals to the document direction and the element is not subscribed to the changes
+      const newValueEqlDocDir = newValue === documentDir && directionSubscribers.indexOf(this) === -1;
+      // Value was emptied and the element is not subscribed to the changes
+      const newValueEmptied = !newValue && oldValue && directionSubscribers.indexOf(this) === -1;
+      // New value is different and the old equals to document direction and the element is not subscribed to the changes
+      const newDiffValue = newValue !== documentDir && oldValue === documentDir;
+
+      if (newValueEqlDocDir || newValueEmptied) {
+        this.__subscribe();
+        alignDirs(this, documentDir, newValue);
+      } else if (newDiffValue) {
+        this.__subscribe(false);
+      }
+    }
+
+    /** @protected */
+    disconnectedCallback() {
+      super.disconnectedCallback();
+      this.__subscribe(false);
+      this.removeAttribute('dir');
+    }
+
+    /** @protected */
+    _valueToNodeAttribute(node, value, attribute) {
+      // Override default Polymer attribute reflection to match native behavior of HTMLElement.dir property
+      // If the property contains an empty string then it should not create an empty attribute
+      if (attribute === 'dir' && value === '' && !node.hasAttribute('dir')) {
+        return;
+      }
+      super._valueToNodeAttribute(node, value, attribute);
+    }
+
+    /** @protected */
+    _attributeToProperty(attribute, value, type) {
+      // Override default Polymer attribute reflection to match native behavior of HTMLElement.dir property
+      // If the attribute is removed, then the dir property should contain an empty string instead of null
+      if (attribute === 'dir' && !value) {
+        this.dir = '';
+      } else {
+        super._attributeToProperty(attribute, value, type);
+      }
+    }
+
+    /** @private */
+    __subscribe(push = true) {
+      if (push) {
+        directionSubscribers.indexOf(this) === -1 && directionSubscribers.push(this);
+      } else {
+        directionSubscribers.indexOf(this) > -1 && directionSubscribers.splice(directionSubscribers.indexOf(this), 1);
+      }
+    }
+
+    /**
+     * @param {Element} element
+     * @return {number}
+     * @protected
+     */
+    __getNormalizedScrollLeft(element) {
+      return DirHelper.getNormalizedScrollLeft(scrollType, this.getAttribute('dir') || 'ltr', element);
+    }
+
+    /**
+     * @param {Element} element
+     * @param {number} scrollLeft
+     * @protected
+     */
+    __setNormalizedScrollLeft(element, scrollLeft) {
+      return DirHelper.setNormalizedScrollLeft(scrollType, this.getAttribute('dir') || 'ltr', element, scrollLeft);
+    }
+  };
+
+/**
+ * @license
+ * Copyright (c) 2021 - 2022 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */
+
+window.Vaadin = window.Vaadin || {};
+
+/**
+ * Array of Vaadin custom element classes that have been finalized.
+ */
+window.Vaadin.registrations = window.Vaadin.registrations || [];
+
+window.Vaadin.developmentModeCallback = window.Vaadin.developmentModeCallback || {};
+
+window.Vaadin.developmentModeCallback['vaadin-usage-statistics'] = function () {
+  usageStatistics();
+};
+
+let statsJob;
+
+const registered = new Set();
+
+/**
+ * @polymerMixin
+ * @mixes DirMixin
+ */
+const ElementMixin = (superClass) =>
+  class VaadinElementMixin extends DirMixin(superClass) {
+    static get version() {
+      return '22.0.22';
+    }
+
+    /** @protected */
+    static finalize() {
+      super.finalize();
+
+      const { is } = this;
+
+      // Registers a class prototype for telemetry purposes.
+      if (is && !registered.has(is)) {
+        window.Vaadin.registrations.push(this);
+        registered.add(is);
+
+        if (window.Vaadin.developmentModeCallback) {
+          statsJob = Debouncer$1.debounce(statsJob, idlePeriod, () => {
+            window.Vaadin.developmentModeCallback['vaadin-usage-statistics']();
+          });
+          enqueueDebouncer(statsJob);
+        }
+      }
+    }
+
+    constructor() {
+      super();
+
+      if (document.doctype === null) {
+        console.warn(
+          'Vaadin components require the "standards mode" declaration. Please add <!DOCTYPE html> to the HTML document.',
+        );
+      }
+    }
+  };
+
+/**
+ * @license
+ * Copyright (c) 2021 - 2022 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */
+
+/**
+ * A mixin that manages keyboard handling.
+ * The mixin subscribes to the keyboard events while an actual implementation
+ * for the event handlers is left to the client (a component or another mixin).
+ *
+ * @polymerMixin
+ */
+const KeyboardMixin = dedupingMixin(
+  (superclass) =>
+    class KeyboardMixinClass extends superclass {
       /** @protected */
       ready() {
         super.ready();
-        this._connectSlotMixin();
-      }
 
-      /** @private */
-      _connectSlotMixin() {
-        Object.keys(this.slots).forEach((slotName) => {
-          // Ignore labels of nested components, if any
-          const hasContent = this._getDirectSlotChild(slotName) !== undefined;
+        this.addEventListener('keydown', (event) => {
+          this._onKeyDown(event);
+        });
 
-          if (!hasContent) {
-            const slotFactory = this.slots[slotName];
-            const slotContent = slotFactory();
-            if (slotContent instanceof Element) {
-              slotContent.setAttribute('slot', slotName);
-              this.appendChild(slotContent);
-            }
-          }
+        this.addEventListener('keyup', (event) => {
+          this._onKeyUp(event);
         });
       }
 
-      /** @protected */
-      _getDirectSlotChild(slotName) {
-        return Array.from(this.children).find((el) => el.slot === slotName);
+      /**
+       * A handler for the `keydown` event. By default, it does nothing.
+       * Override the method to implement your own behavior.
+       *
+       * @param {KeyboardEvent} _event
+       * @protected
+       */
+      _onKeyDown(_event) {
+        // To be implemented.
+      }
+
+      /**
+       * A handler for the `keyup` event. By default, it does nothing.
+       * Override the method to implement your own behavior.
+       *
+       * @param {KeyboardEvent} _event
+       * @protected
+       */
+      _onKeyUp(_event) {
+        // To be implemented.
+      }
+    },
+);
+
+/**
+ * @license
+ * Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+ */
+let microtaskCallbacks = [];
+let microtaskNode = document.createTextNode('');
+new window.MutationObserver(microtaskFlush).observe(microtaskNode, { characterData: true });
+
+function microtaskFlush() {
+  const len = microtaskCallbacks.length;
+  for (let i = 0; i < len; i++) {
+    let cb = microtaskCallbacks[i];
+    if (cb) {
+      try {
+        cb();
+      } catch (e) {
+        setTimeout(() => {
+          throw e;
+        });
       }
     }
-);
+  }
+  microtaskCallbacks.splice(0, len);
+}
+
+/**
+ * Async interface wrapper around `setTimeout`.
+ *
+ * @namespace
+ * @summary Async interface wrapper around `setTimeout`.
+ */
+const timeOut = {
+  /**
+   * Returns a sub-module with the async interface providing the provided
+   * delay.
+   *
+   * @memberof timeOut
+   * @param {number=} delay Time to wait before calling callbacks in ms
+   * @return {!AsyncInterface} An async timeout interface
+   */
+  after(delay) {
+    return {
+      run(fn) {
+        return window.setTimeout(fn, delay);
+      },
+      cancel(handle) {
+        window.clearTimeout(handle);
+      },
+    };
+  },
+  /**
+   * Enqueues a function called in the next task.
+   *
+   * @memberof timeOut
+   * @param {!Function} fn Callback to run
+   * @param {number=} delay Delay in milliseconds
+   * @return {number} Handle used for canceling task
+   */
+  run(fn, delay) {
+    return window.setTimeout(fn, delay);
+  },
+  /**
+   * Cancels a previously enqueued `timeOut` callback.
+   *
+   * @memberof timeOut
+   * @param {number} handle Handle returned from `run` of callback to cancel
+   * @return {void}
+   */
+  cancel(handle) {
+    window.clearTimeout(handle);
+  },
+};
+
+/**
+ * Async interface wrapper around `requestAnimationFrame`.
+ *
+ * @namespace
+ * @summary Async interface wrapper around `requestAnimationFrame`.
+ */
+const animationFrame = {
+  /**
+   * Enqueues a function called at `requestAnimationFrame` timing.
+   *
+   * @memberof animationFrame
+   * @param {function(number):void} fn Callback to run
+   * @return {number} Handle used for canceling task
+   */
+  run(fn) {
+    return window.requestAnimationFrame(fn);
+  },
+  /**
+   * Cancels a previously enqueued `animationFrame` callback.
+   *
+   * @memberof animationFrame
+   * @param {number} handle Handle returned from `run` of callback to cancel
+   * @return {void}
+   */
+  cancel(handle) {
+    window.cancelAnimationFrame(handle);
+  },
+};
+
+/**
+@license
+Copyright (c) 2017 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+*/
+
+/**
+ * @summary Collapse multiple callbacks into one invocation after a timer.
+ */
+class Debouncer {
+  constructor() {
+    this._asyncModule = null;
+    this._callback = null;
+    this._timer = null;
+  }
+  /**
+   * Sets the scheduler; that is, a module with the Async interface,
+   * a callback and optional arguments to be passed to the run function
+   * from the async module.
+   *
+   * @param {!AsyncInterface} asyncModule Object with Async interface.
+   * @param {function()} callback Callback to run.
+   * @return {void}
+   */
+  setConfig(asyncModule, callback) {
+    this._asyncModule = asyncModule;
+    this._callback = callback;
+    this._timer = this._asyncModule.run(() => {
+      this._timer = null;
+      debouncerQueue.delete(this);
+      this._callback();
+    });
+  }
+  /**
+   * Cancels an active debouncer and returns a reference to itself.
+   *
+   * @return {void}
+   */
+  cancel() {
+    if (this.isActive()) {
+      this._cancelAsync();
+      // Canceling a debouncer removes its spot from the flush queue,
+      // so if a debouncer is manually canceled and re-debounced, it
+      // will reset its flush order (this is a very minor difference from 1.x)
+      // Re-debouncing via the `debounce` API retains the 1.x FIFO flush order
+      debouncerQueue.delete(this);
+    }
+  }
+  /**
+   * Cancels a debouncer's async callback.
+   *
+   * @return {void}
+   */
+  _cancelAsync() {
+    if (this.isActive()) {
+      this._asyncModule.cancel(/** @type {number} */ (this._timer));
+      this._timer = null;
+    }
+  }
+  /**
+   * Flushes an active debouncer and returns a reference to itself.
+   *
+   * @return {void}
+   */
+  flush() {
+    if (this.isActive()) {
+      this.cancel();
+      this._callback();
+    }
+  }
+  /**
+   * Returns true if the debouncer is active.
+   *
+   * @return {boolean} True if active.
+   */
+  isActive() {
+    return this._timer != null;
+  }
+  /**
+   * Creates a debouncer if no debouncer is passed as a parameter
+   * or it cancels an active debouncer otherwise. The following
+   * example shows how a debouncer can be called multiple times within a
+   * microtask and "debounced" such that the provided callback function is
+   * called once. Add this method to a custom element:
+   *
+   * ```js
+   * import {microTask} from '@vaadin/component-base/src/async.js';
+   * import {Debouncer} from '@vaadin/component-base/src/debounce.js';
+   * // ...
+   *
+   * _debounceWork() {
+   *   this._debounceJob = Debouncer.debounce(this._debounceJob,
+   *       microTask, () => this._doWork());
+   * }
+   * ```
+   *
+   * If the `_debounceWork` method is called multiple times within the same
+   * microtask, the `_doWork` function will be called only once at the next
+   * microtask checkpoint.
+   *
+   * Note: In testing it is often convenient to avoid asynchrony. To accomplish
+   * this with a debouncer, you can use `enqueueDebouncer` and
+   * `flush`. For example, extend the above example by adding
+   * `enqueueDebouncer(this._debounceJob)` at the end of the
+   * `_debounceWork` method. Then in a test, call `flush` to ensure
+   * the debouncer has completed.
+   *
+   * @param {Debouncer?} debouncer Debouncer object.
+   * @param {!AsyncInterface} asyncModule Object with Async interface
+   * @param {function()} callback Callback to run.
+   * @return {!Debouncer} Returns a debouncer object.
+   */
+  static debounce(debouncer, asyncModule, callback) {
+    if (debouncer instanceof Debouncer) {
+      // Cancel the async callback, but leave in debouncerQueue if it was
+      // enqueued, to maintain 1.x flush order
+      debouncer._cancelAsync();
+    } else {
+      debouncer = new Debouncer();
+    }
+    debouncer.setConfig(asyncModule, callback);
+    return debouncer;
+  }
+}
+
+let debouncerQueue = new Set();
+
+/**
+ * @license
+ * Copyright (c) 2021 - 2022 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */
+
+/**
+ * A controller that manages the error message node content.
+ */
+class ErrorController extends SlotController {
+  constructor(host) {
+    super(
+      host,
+      'error-message',
+      () => document.createElement('div'),
+      (_host, node) => {
+        this.__updateErrorId(node);
+
+        this.__updateHasError();
+      },
+    );
+  }
+
+  /**
+   * ID attribute value set on the error message element.
+   *
+   * @return {string}
+   */
+  get errorId() {
+    return this.node && this.node.id;
+  }
+
+  /**
+   * Set the error message element text content.
+   *
+   * @param {string} errorMessage
+   */
+  setErrorMessage(errorMessage) {
+    this.errorMessage = errorMessage;
+
+    this.__updateHasError();
+  }
+
+  /**
+   * Set invalid state for detecting whether to show error message.
+   *
+   * @param {boolean} invalid
+   */
+  setInvalid(invalid) {
+    this.invalid = invalid;
+
+    this.__updateHasError();
+  }
+
+  /**
+   * Override to initialize the newly added custom label.
+   *
+   * @param {Node} errorNode
+   * @protected
+   * @override
+   */
+  initCustomNode(errorNode) {
+    this.__updateErrorId(errorNode);
+
+    // Save the custom error message content on the host.
+    if (errorNode.textContent && !this.errorMessage) {
+      this.errorMessage = errorNode.textContent.trim();
+    }
+
+    this.__updateHasError();
+  }
+
+  /**
+   * Override to cleanup label node when it's removed.
+   *
+   * @param {Node} node
+   * @protected
+   * @override
+   */
+  teardownNode(node) {
+    let errorNode = this.getSlotChild();
+
+    // If custom error was removed, restore the default one.
+    if (!errorNode && node !== this.defaultNode) {
+      errorNode = this.attachDefaultNode();
+
+      // Run initializer to update default label and ID.
+      this.initNode(errorNode);
+    }
+
+    this.__updateHasError();
+  }
+
+  /**
+   * @param {string} error
+   * @private
+   */
+  __isNotEmpty(error) {
+    return Boolean(error && error.trim() !== '');
+  }
+
+  /** @private */
+  __updateHasError() {
+    const errorNode = this.node;
+    const hasError = Boolean(this.invalid && this.__isNotEmpty(this.errorMessage));
+
+    // Update both default and custom error message node.
+    if (errorNode) {
+      errorNode.textContent = hasError ? this.errorMessage : '';
+      errorNode.hidden = !hasError;
+
+      // Role alert will make the error message announce immediately
+      // as the field becomes invalid
+      if (hasError) {
+        errorNode.setAttribute('role', 'alert');
+      } else {
+        errorNode.removeAttribute('role');
+      }
+    }
+
+    this.host.toggleAttribute('has-error-message', hasError);
+  }
+
+  /**
+   * @param {HTMLElement} errorNode
+   * @private
+   */
+  __updateErrorId(errorNode) {
+    if (!errorNode.id) {
+      errorNode.id = this.defaultId;
+    }
+  }
+}
 
 /**
  * @license
@@ -22092,7 +26296,11 @@ class HelperController extends SlotController {
       return false;
     }
 
-    return helperNode.children.length > 0 || this.__isNotEmpty(helperNode.textContent);
+    return (
+      helperNode.children.length > 0 ||
+      (helperNode.nodeType === Node.ELEMENT_NODE && customElements.get(helperNode.localName)) ||
+      this.__isNotEmpty(helperNode.textContent)
+    );
   }
 
   /**
@@ -22161,7 +26369,7 @@ class HelperController extends SlotController {
       attributeFilter: ['id'],
       childList: true,
       subtree: true,
-      characterData: true
+      characterData: true,
     });
   }
 
@@ -22177,9 +26385,9 @@ class HelperController extends SlotController {
       new CustomEvent('helper-changed', {
         detail: {
           hasHelper,
-          node: this.node
-        }
-      })
+          node: this.node,
+        },
+      }),
     );
   }
 
@@ -22217,7 +26425,7 @@ const ValidateMixin = dedupingMixin(
             type: Boolean,
             reflectToAttribute: true,
             notify: true,
-            value: false
+            value: false,
           },
 
           /**
@@ -22225,8 +26433,8 @@ const ValidateMixin = dedupingMixin(
            */
           required: {
             type: Boolean,
-            reflectToAttribute: true
-          }
+            reflectToAttribute: true,
+          },
         };
       }
 
@@ -22247,7 +26455,7 @@ const ValidateMixin = dedupingMixin(
       checkValidity() {
         return !this.required || !!this.value;
       }
-    }
+    },
 );
 
 /**
@@ -22262,11 +26470,10 @@ const ValidateMixin = dedupingMixin(
  * @polymerMixin
  * @mixes ControllerMixin
  * @mixes LabelMixin
- * @mixes SlotMixin
  * @mixes ValidateMixin
  */
 const FieldMixin = (superclass) =>
-  class FieldMixinClass extends ValidateMixin(LabelMixin(ControllerMixin(SlotMixin(superclass)))) {
+  class FieldMixinClass extends ValidateMixin(LabelMixin(ControllerMixin(superclass))) {
     static get properties() {
       return {
         /**
@@ -22275,7 +26482,7 @@ const FieldMixin = (superclass) =>
          */
         ariaTarget: {
           type: Object,
-          observer: '_ariaTargetChanged'
+          observer: '_ariaTargetChanged',
         },
 
         /**
@@ -22284,7 +26491,8 @@ const FieldMixin = (superclass) =>
          * @attr {string} error-message
          */
         errorMessage: {
-          type: String
+          type: String,
+          observer: '_errorMessageChanged',
         },
 
         /**
@@ -22293,33 +26501,25 @@ const FieldMixin = (superclass) =>
          */
         helperText: {
           type: String,
-          observer: '_helperTextChanged'
+          observer: '_helperTextChanged',
         },
 
         /** @protected */
-        _helperId: String
-      };
-    }
-
-    /** @protected */
-    get slots() {
-      return {
-        ...super.slots,
-        'error-message': () => {
-          const error = document.createElement('div');
-          error.textContent = this.errorMessage;
-          return error;
-        }
+        _helperId: String,
       };
     }
 
     static get observers() {
       return [
         '__observeOffsetHeight(errorMessage, invalid, label, helperText)',
-        '_updateErrorMessage(invalid, errorMessage)',
         '_invalidChanged(invalid)',
-        '_requiredChanged(required)'
+        '_requiredChanged(required)',
       ];
+    }
+
+    /** @protected */
+    get _errorId() {
+      return this._errorController.errorId;
     }
 
     /**
@@ -22327,7 +26527,7 @@ const FieldMixin = (superclass) =>
      * @return {HTMLElement}
      */
     get _errorNode() {
-      return this._getDirectSlotChild('error-message');
+      return this._errorController.node;
     }
 
     /** @protected */
@@ -22346,15 +26546,13 @@ const FieldMixin = (superclass) =>
     constructor() {
       super();
 
-      // Ensure every instance has unique ID
-      const uniqueId = (FieldMixinClass._uniqueFieldId = 1 + FieldMixinClass._uniqueFieldId || 0);
-      this._errorId = `error-${this.localName}-${uniqueId}`;
-
       this._fieldAriaController = new FieldAriaController(this);
       this._helperController = new HelperController(this);
+      this._errorController = new ErrorController(this);
 
       this.addController(this._fieldAriaController);
       this.addController(this._helperController);
+      this.addController(this._errorController);
 
       this._labelController.addEventListener('label-changed', (event) => {
         const { hasLabel, node } = event.detail;
@@ -22365,29 +26563,6 @@ const FieldMixin = (superclass) =>
         const { hasHelper, node } = event.detail;
         this.__helperChanged(hasHelper, node);
       });
-    }
-
-    /** @protected */
-    ready() {
-      super.ready();
-
-      const error = this._errorNode;
-      if (error) {
-        error.id = this._errorId;
-
-        this.__applyCustomError();
-
-        this._updateErrorMessage(this.invalid, this.errorMessage);
-      }
-    }
-
-    /** @private */
-    __applyCustomError() {
-      const error = this.__errorMessage;
-      if (error && error !== this.errorMessage) {
-        this.errorMessage = error;
-        delete this.__errorMessage;
-      }
     }
 
     /** @private */
@@ -22420,7 +26595,7 @@ const FieldMixin = (superclass) =>
         animationFrame,
         () => {
           this._dispatchIronResizeEventIfNeeded('Height', this.offsetHeight);
-        }
+        },
       );
     }
 
@@ -22436,32 +26611,11 @@ const FieldMixin = (superclass) =>
     }
 
     /**
-     * @param {boolean} invalid
      * @param {string | null | undefined} errorMessage
      * @protected
      */
-    _updateErrorMessage(invalid, errorMessage) {
-      const error = this._errorNode;
-      if (!error) {
-        return;
-      }
-
-      // save the custom error message content
-      if (error.textContent && !errorMessage) {
-        this.__errorMessage = error.textContent.trim();
-      }
-      const hasError = Boolean(invalid && errorMessage);
-      error.textContent = hasError ? errorMessage : '';
-      error.hidden = !hasError;
-      this.toggleAttribute('has-error-message', hasError);
-
-      // Role alert will make the error message announce immediately
-      // as the field becomes invalid
-      if (hasError) {
-        error.setAttribute('role', 'alert');
-      } else {
-        error.removeAttribute('role');
-      }
+    _errorMessageChanged(errorMessage) {
+      this._errorController.setErrorMessage(errorMessage);
     }
 
     /**
@@ -22495,6 +26649,8 @@ const FieldMixin = (superclass) =>
      * @protected
      */
     _invalidChanged(invalid) {
+      this._errorController.setInvalid(invalid);
+
       // This timeout is needed to prevent NVDA from announcing the error message twice:
       // 1. Once adding the `[role=alert]` attribute by the `_updateErrorMessage` method (OK).
       // 2. Once linking the error ID with the ARIA target here (unwanted).
@@ -22503,7 +26659,7 @@ const FieldMixin = (superclass) =>
         // Error message ID needs to be dynamically added / removed based on the validity
         // Otherwise assistive technologies would announce the error, even if we hide it.
         if (invalid) {
-          this._fieldAriaController.setErrorId(this._errorId);
+          this._fieldAriaController.setErrorId(this._errorController.errorId);
         } else {
           this._fieldAriaController.setErrorId(null);
         }
@@ -22618,11 +26774,11 @@ const InputConstraintsMixin = dedupingMixin(
         this.dispatchEvent(
           new CustomEvent('change', {
             detail: {
-              sourceEvent: event
+              sourceEvent: event,
             },
             bubbles: event.bubbles,
-            cancelable: event.cancelable
-          })
+            cancelable: event.cancelable,
+          }),
         );
       }
 
@@ -22631,7 +26787,83 @@ const InputConstraintsMixin = dedupingMixin(
         // 0 is valid for `minlength` and `maxlength`
         return Boolean(constraint) || constraint === 0;
       }
-    }
+    },
+);
+
+/**
+ * @license
+ * Copyright (c) 2021 - 2022 Vaadin Ltd.
+ * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+ */
+
+const stylesMap = new WeakMap();
+
+/**
+ * Get all the styles inserted into root.
+ * @param {DocumentOrShadowRoot} root
+ * @return {Set<string>}
+ */
+function getRootStyles(root) {
+  if (!stylesMap.has(root)) {
+    stylesMap.set(root, new Set());
+  }
+
+  return stylesMap.get(root);
+}
+
+/**
+ * Insert styles into the root.
+ * @param {string} styles
+ * @param {DocumentOrShadowRoot} root
+ */
+function insertStyles(styles, root) {
+  const style = document.createElement('style');
+  style.textContent = styles;
+
+  if (root === document) {
+    document.head.appendChild(style);
+  } else {
+    root.insertBefore(style, root.firstChild);
+  }
+}
+
+/**
+ * Mixin to insert styles into the outer scope to handle slotted components.
+ * This is useful e.g. to hide native `<input type="number">` controls.
+ *
+ * @polymerMixin
+ */
+const SlotStylesMixin = dedupingMixin(
+  (superclass) =>
+    class SlotStylesMixinClass extends superclass {
+      /**
+       * List of styles to insert into root.
+       * @protected
+       */
+      get slotStyles() {
+        return {};
+      }
+
+      /** @protected */
+      connectedCallback() {
+        super.connectedCallback();
+
+        this.__applySlotStyles();
+      }
+
+      /** @private */
+      __applySlotStyles() {
+        const root = this.getRootNode();
+        const rootStyles = getRootStyles(root);
+
+        this.slotStyles.forEach((styles) => {
+          if (!rootStyles.has(styles)) {
+            insertStyles(styles, root);
+            rootStyles.add(styles);
+          }
+        });
+      }
+    },
 );
 
 /**
@@ -22648,10 +26880,11 @@ const InputConstraintsMixin = dedupingMixin(
  * @mixes FieldMixin
  * @mixes InputConstraintsMixin
  * @mixes KeyboardMixin
+ * @mixes SlotStylesMixin
  */
 const InputControlMixin = (superclass) =>
-  class InputControlMixinClass extends DelegateFocusMixin(
-    InputConstraintsMixin(FieldMixin(KeyboardMixin(superclass)))
+  class InputControlMixinClass extends SlotStylesMixin(
+    DelegateFocusMixin(InputConstraintsMixin(FieldMixin(KeyboardMixin(superclass)))),
   ) {
     static get properties() {
       return {
@@ -22660,7 +26893,7 @@ const InputControlMixin = (superclass) =>
          */
         autoselect: {
           type: Boolean,
-          value: false
+          value: false,
         },
 
         /**
@@ -22670,7 +26903,7 @@ const InputControlMixin = (superclass) =>
         clearButtonVisible: {
           type: Boolean,
           reflectToAttribute: true,
-          value: false
+          value: false,
         },
 
         /**
@@ -22678,7 +26911,7 @@ const InputControlMixin = (superclass) =>
          */
         name: {
           type: String,
-          reflectToAttribute: true
+          reflectToAttribute: true,
         },
 
         /**
@@ -22686,7 +26919,7 @@ const InputControlMixin = (superclass) =>
          */
         placeholder: {
           type: String,
-          reflectToAttribute: true
+          reflectToAttribute: true,
         },
 
         /**
@@ -22695,7 +26928,7 @@ const InputControlMixin = (superclass) =>
         readonly: {
           type: Boolean,
           value: false,
-          reflectToAttribute: true
+          reflectToAttribute: true,
         },
 
         /**
@@ -22703,8 +26936,8 @@ const InputControlMixin = (superclass) =>
          */
         title: {
           type: String,
-          reflectToAttribute: true
-        }
+          reflectToAttribute: true,
+        },
       };
     }
 
@@ -22724,6 +26957,19 @@ const InputControlMixin = (superclass) =>
     }
 
     /** @protected */
+    get slotStyles() {
+      // Needed for Safari, where ::slotted(...)::placeholder does not work
+      return [
+        `
+          :is(input[slot='input'], textarea[slot='textarea'])::placeholder {
+            font: inherit;
+            color: inherit;
+          }
+        `,
+      ];
+    }
+
+    /** @protected */
     ready() {
       super.ready();
 
@@ -22739,9 +26985,7 @@ const InputControlMixin = (superclass) =>
     _onClearButtonClick(event) {
       event.preventDefault();
       this.inputElement.focus();
-      this.clear();
-      this.inputElement.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
-      this.inputElement.dispatchEvent(new Event('change', { bubbles: true }));
+      this.__clear();
     }
 
     /**
@@ -22769,10 +27013,9 @@ const InputControlMixin = (superclass) =>
     _onKeyDown(event) {
       super._onKeyDown(event);
 
-      if (event.key === 'Escape' && this.clearButtonVisible) {
-        const dispatchChange = !!this.value;
-        this.clear();
-        dispatchChange && this.inputElement.dispatchEvent(new Event('change', { bubbles: true }));
+      if (event.key === 'Escape' && this.clearButtonVisible && !!this.value) {
+        event.stopPropagation();
+        this.__clear();
       }
     }
 
@@ -22792,13 +27035,33 @@ const InputControlMixin = (superclass) =>
       this.dispatchEvent(
         new CustomEvent('change', {
           detail: {
-            sourceEvent: event
+            sourceEvent: event,
           },
           bubbles: event.bubbles,
-          cancelable: event.cancelable
-        })
+          cancelable: event.cancelable,
+        }),
       );
     }
+
+    /** @private */
+    __clear() {
+      this.clear();
+      this.inputElement.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
+      this.inputElement.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+
+    /**
+     * Fired when the user commits a value change.
+     *
+     * @event change
+     */
+
+    /**
+     * Fired when the value is changed by the user: on every typing keystroke,
+     * and the value is cleared using the clear button.
+     *
+     * @event input
+     */
   };
 
 /**
@@ -22823,7 +27086,7 @@ const InputFieldMixin = (superclass) =>
          * https://developer.mozilla.org/en/docs/Web/HTML/Element/input#attr-autocomplete
          */
         autocomplete: {
-          type: String
+          type: String,
         },
 
         /**
@@ -22834,7 +27097,7 @@ const InputFieldMixin = (superclass) =>
          * off: Disable autocorrection.
          */
         autocorrect: {
-          type: String
+          type: String,
         },
 
         /**
@@ -22847,7 +27110,8 @@ const InputFieldMixin = (superclass) =>
          * none: No capitalization.
          */
         autocapitalize: {
-          type: String
+          type: String,
+          reflectToAttribute: true,
         },
 
         /**
@@ -22863,8 +27127,8 @@ const InputFieldMixin = (superclass) =>
          */
         _enabledCharPattern: {
           type: String,
-          observer: '_enabledCharPatternChanged'
-        }
+          observer: '_enabledCharPatternChanged',
+        },
       };
     }
 
@@ -23067,7 +27331,7 @@ const PatternMixin = (superclass) =>
          * The pattern must match the entire value, not just some subset.
          */
         pattern: {
-          type: String
+          type: String,
         },
 
         /**
@@ -23076,8 +27340,8 @@ const PatternMixin = (superclass) =>
          * @attr {boolean} prevent-invalid-input
          */
         preventInvalidInput: {
-          type: Boolean
-        }
+          type: Boolean,
+        },
       };
     }
 
@@ -23122,7 +27386,7 @@ const PatternMixin = (superclass) =>
  * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
  */
 
-const clearButton = r`
+const clearButton = i`
   [part='clear-button'] {
     display: none;
     cursor: default;
@@ -23143,7 +27407,7 @@ const clearButton = r`
  * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
  */
 
-const fieldShared = r`
+const fieldShared = i`
   :host {
     display: inline-flex;
     outline: none;
@@ -23172,7 +27436,7 @@ const fieldShared = r`
  * This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
  */
 
-const inputFieldContainer = r`
+const inputFieldContainer = i`
   [class$='container'] {
     display: flex;
     flex-direction: column;
@@ -23315,15 +27579,15 @@ class TextField extends PatternMixin(InputFieldMixin(ThemableMixin(ElementMixin(
        * Maximum number of characters (in Unicode code points) that the user can enter.
        */
       maxlength: {
-        type: Number
+        type: Number,
       },
 
       /**
        * Minimum number of characters (in Unicode code points) that the user can enter.
        */
       minlength: {
-        type: Number
-      }
+        type: Number,
+      },
     };
   }
 
@@ -23355,7 +27619,7 @@ class TextField extends PatternMixin(InputFieldMixin(ThemableMixin(ElementMixin(
         this._setFocusElement(input);
         this.stateTarget = input;
         this.ariaTarget = input;
-      })
+      }),
     );
     this.addController(new LabelledInputController(this.inputElement, this._labelController));
   }
@@ -23432,11 +27696,11 @@ class GridFilter extends class extends PolymerElement {} {
        */
       value: {
         type: String,
-        notify: true
+        notify: true,
       },
 
       /** @private */
-      _connected: Boolean
+      _connected: Boolean,
     };
   }
 
@@ -23471,7 +27735,7 @@ class GridFilter extends class extends PolymerElement {} {
     }
     this._previousValue = value;
 
-    this._debouncerFilterChanged = Debouncer.debounce(this._debouncerFilterChanged, timeOut.after(200), () => {
+    this._debouncerFilterChanged = Debouncer$2.debounce(this._debouncerFilterChanged, timeOut$1.after(200), () => {
       this.dispatchEvent(new CustomEvent('filter-changed', { bubbles: true }));
     });
   }
@@ -23517,7 +27781,7 @@ class GridFilterColumn extends GridColumn {
       /**
        * Text to display as the label of the column filter text-field.
        */
-      header: String
+      header: String,
     };
   }
 
@@ -23642,7 +27906,7 @@ class GridSelectionColumn extends GridColumn {
        */
       width: {
         type: String,
-        value: '58px'
+        value: '58px',
       },
 
       /**
@@ -23652,7 +27916,7 @@ class GridSelectionColumn extends GridColumn {
        */
       flexGrow: {
         type: Number,
-        value: 0
+        value: 0,
       },
 
       /**
@@ -23663,7 +27927,7 @@ class GridSelectionColumn extends GridColumn {
       selectAll: {
         type: Boolean,
         value: false,
-        notify: true
+        notify: true,
       },
 
       /**
@@ -23673,7 +27937,7 @@ class GridSelectionColumn extends GridColumn {
        */
       autoSelect: {
         type: Boolean,
-        value: false
+        value: false,
       },
 
       /** @private */
@@ -23687,14 +27951,14 @@ class GridSelectionColumn extends GridColumn {
       __previousActiveItem: Object,
 
       /** @private */
-      __selectAllHidden: Boolean
+      __selectAllHidden: Boolean,
     };
   }
 
   static get observers() {
     return [
       '__onSelectAllChanged(selectAll)',
-      '_onHeaderRendererOrBindingChanged(_headerRenderer, _headerCell, path, header, selectAll, __indeterminate, __selectAllHidden)'
+      '_onHeaderRendererOrBindingChanged(_headerRenderer, _headerCell, path, header, selectAll, __indeterminate, __selectAllHidden)',
     ];
   }
 
@@ -23890,7 +28154,7 @@ class GridSelectionColumn extends GridColumn {
       page: 0,
       pageSize: Infinity,
       sortOrders: [],
-      filters: this._grid._mapFilters()
+      filters: this._grid._mapFilters(),
     };
     this._grid.dataProvider(params, (items) => callback(items));
   }
@@ -23898,9 +28162,9 @@ class GridSelectionColumn extends GridColumn {
 
 customElements.define(GridSelectionColumn.is, GridSelectionColumn);
 
-registerStyles(
+registerStyles$3(
   'vaadin-grid-sorter',
-  r`
+  i`
     :host {
       justify-content: flex-start;
       align-items: baseline;
@@ -23944,7 +28208,7 @@ registerStyles(
       margin-left: 0;
     }
   `,
-  { moduleId: 'lumo-grid-sorter' }
+  { moduleId: 'lumo-grid-sorter' },
 );
 
 /**
@@ -24009,7 +28273,7 @@ document.head.appendChild($_documentContainer$1.content);
  *
  * @extends HTMLElement
  */
-class GridSorter extends ThemableMixin(DirMixin(PolymerElement)) {
+class GridSorter extends ThemableMixin$3(DirMixin$2(PolymerElement)) {
   static get template() {
     return html`
       <style>
@@ -24082,7 +28346,7 @@ class GridSorter extends ThemableMixin(DirMixin(PolymerElement)) {
         type: String,
         reflectToAttribute: true,
         notify: true,
-        value: null
+        value: null,
       },
 
       /**
@@ -24091,14 +28355,14 @@ class GridSorter extends ThemableMixin(DirMixin(PolymerElement)) {
        */
       _order: {
         type: Number,
-        value: null
+        value: null,
       },
 
       /** @private */
       _isConnected: {
         type: Boolean,
-        observer: '__isConnectedChanged'
-      }
+        observer: '__isConnectedChanged',
+      },
     };
   }
 
@@ -24214,8 +28478,8 @@ class GridSortColumn extends GridColumn {
        */
       direction: {
         type: String,
-        notify: true
-      }
+        notify: true,
+      },
     };
   }
 
@@ -24288,9 +28552,9 @@ class GridSortColumn extends GridColumn {
 
 customElements.define(GridSortColumn.is, GridSortColumn);
 
-registerStyles(
+registerStyles$3(
   'vaadin-grid-tree-toggle',
-  r`
+  i`
     :host {
       --vaadin-grid-tree-toggle-level-offset: 2em;
       align-items: center;
@@ -24393,7 +28657,7 @@ registerStyles(
       content: var(--lumo-icons-angle-left);
     }
   `,
-  { moduleId: 'lumo-grid-tree-toggle' }
+  { moduleId: 'lumo-grid-tree-toggle' },
 );
 
 /**
@@ -24468,7 +28732,7 @@ document.head.appendChild($_documentContainer.content);
  * @extends HTMLElement
  * @mixes ThemableMixin
  */
-class GridTreeToggle extends ThemableMixin(DirMixin(PolymerElement)) {
+class GridTreeToggle extends ThemableMixin$3(DirMixin$2(PolymerElement)) {
   static get template() {
     return html`
       <style>
@@ -24541,7 +28805,7 @@ class GridTreeToggle extends ThemableMixin(DirMixin(PolymerElement)) {
       level: {
         type: Number,
         value: 0,
-        observer: '_levelChanged'
+        observer: '_levelChanged',
       },
 
       /**
@@ -24551,7 +28815,7 @@ class GridTreeToggle extends ThemableMixin(DirMixin(PolymerElement)) {
       leaf: {
         type: Boolean,
         value: false,
-        reflectToAttribute: true
+        reflectToAttribute: true,
       },
 
       /**
@@ -24562,8 +28826,8 @@ class GridTreeToggle extends ThemableMixin(DirMixin(PolymerElement)) {
         type: Boolean,
         value: false,
         reflectToAttribute: true,
-        notify: true
-      }
+        notify: true,
+      },
     };
   }
 
@@ -24633,8 +28897,8 @@ class GridTreeColumn extends GridColumn {
        */
       itemHasChildrenPath: {
         type: String,
-        value: 'children'
-      }
+        value: 'children',
+      },
     };
   }
 
@@ -24712,12 +28976,12 @@ class GridTreeColumn extends GridColumn {
 
 customElements.define(GridTreeColumn.is, GridTreeColumn);
 
-class MLBGrid extends s$1 {
+class MLBGrid extends s {
   static properties = {
     items: {type:Object},
   };
   // Define scoped styles right with your component, in plain CSS
-  static styles = r`
+  static styles = i`
   `;
 
   constructor() {
@@ -24728,7 +28992,7 @@ class MLBGrid extends s$1 {
 
   // Render the UI as a function of component state
   render() {
-    return $`
+    return y`
     <vaadin-grid .items="${this.items}" theme="row-stripes" column-reordering-allowed multi-sort>
         <vaadin-grid-selection-column auto-select></vaadin-grid-selection-column>
         <vaadin-grid-sort-column width="5em" path="yearId" header="Year"></vaadin-grid-sort-column>

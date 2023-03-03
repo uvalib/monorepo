@@ -42,7 +42,7 @@ function lexer(str) {
                 break;
             }
             if (!name)
-                throw new TypeError("Missing parameter name at " + i);
+                throw new TypeError("Missing parameter name at ".concat(i));
             tokens.push({ type: "NAME", index: i, value: name });
             i = j;
             continue;
@@ -52,7 +52,7 @@ function lexer(str) {
             var pattern = "";
             var j = i + 1;
             if (str[j] === "?") {
-                throw new TypeError("Pattern cannot start with \"?\" at " + j);
+                throw new TypeError("Pattern cannot start with \"?\" at ".concat(j));
             }
             while (j < str.length) {
                 if (str[j] === "\\") {
@@ -69,15 +69,15 @@ function lexer(str) {
                 else if (str[j] === "(") {
                     count++;
                     if (str[j + 1] !== "?") {
-                        throw new TypeError("Capturing groups are not allowed at " + j);
+                        throw new TypeError("Capturing groups are not allowed at ".concat(j));
                     }
                 }
                 pattern += str[j++];
             }
             if (count)
-                throw new TypeError("Unbalanced pattern at " + i);
+                throw new TypeError("Unbalanced pattern at ".concat(i));
             if (!pattern)
-                throw new TypeError("Missing pattern at " + i);
+                throw new TypeError("Missing pattern at ".concat(i));
             tokens.push({ type: "PATTERN", index: i, value: pattern });
             i = j;
             continue;
@@ -94,7 +94,7 @@ export function parse(str, options) {
     if (options === void 0) { options = {}; }
     var tokens = lexer(str);
     var _a = options.prefixes, prefixes = _a === void 0 ? "./" : _a;
-    var defaultPattern = "[^" + escapeString(options.delimiter || "/#?") + "]+?";
+    var defaultPattern = "[^".concat(escapeString(options.delimiter || "/#?"), "]+?");
     var result = [];
     var key = 0;
     var i = 0;
@@ -108,12 +108,11 @@ export function parse(str, options) {
         if (value !== undefined)
             return value;
         var _a = tokens[i], nextType = _a.type, index = _a.index;
-        throw new TypeError("Unexpected " + nextType + " at " + index + ", expected " + type);
+        throw new TypeError("Unexpected ".concat(nextType, " at ").concat(index, ", expected ").concat(type));
     };
     var consumeText = function () {
         var result = "";
         var value;
-        // tslint:disable-next-line
         while ((value = tryConsume("CHAR") || tryConsume("ESCAPED_CHAR"))) {
             result += value;
         }
@@ -138,7 +137,7 @@ export function parse(str, options) {
                 prefix: prefix,
                 suffix: "",
                 pattern: pattern || defaultPattern,
-                modifier: tryConsume("MODIFIER") || ""
+                modifier: tryConsume("MODIFIER") || "",
             });
             continue;
         }
@@ -163,7 +162,7 @@ export function parse(str, options) {
                 pattern: name_1 && !pattern_1 ? defaultPattern : pattern_1,
                 prefix: prefix,
                 suffix: suffix,
-                modifier: tryConsume("MODIFIER") || ""
+                modifier: tryConsume("MODIFIER") || "",
             });
             continue;
         }
@@ -187,7 +186,7 @@ export function tokensToFunction(tokens, options) {
     // Compile all the tokens into regexps.
     var matches = tokens.map(function (token) {
         if (typeof token === "object") {
-            return new RegExp("^(?:" + token.pattern + ")$", reFlags);
+            return new RegExp("^(?:".concat(token.pattern, ")$"), reFlags);
         }
     });
     return function (data) {
@@ -203,17 +202,17 @@ export function tokensToFunction(tokens, options) {
             var repeat = token.modifier === "*" || token.modifier === "+";
             if (Array.isArray(value)) {
                 if (!repeat) {
-                    throw new TypeError("Expected \"" + token.name + "\" to not repeat, but got an array");
+                    throw new TypeError("Expected \"".concat(token.name, "\" to not repeat, but got an array"));
                 }
                 if (value.length === 0) {
                     if (optional)
                         continue;
-                    throw new TypeError("Expected \"" + token.name + "\" to not be empty");
+                    throw new TypeError("Expected \"".concat(token.name, "\" to not be empty"));
                 }
                 for (var j = 0; j < value.length; j++) {
                     var segment = encode(value[j], token);
                     if (validate && !matches[i].test(segment)) {
-                        throw new TypeError("Expected all \"" + token.name + "\" to match \"" + token.pattern + "\", but got \"" + segment + "\"");
+                        throw new TypeError("Expected all \"".concat(token.name, "\" to match \"").concat(token.pattern, "\", but got \"").concat(segment, "\""));
                     }
                     path += token.prefix + segment + token.suffix;
                 }
@@ -222,7 +221,7 @@ export function tokensToFunction(tokens, options) {
             if (typeof value === "string" || typeof value === "number") {
                 var segment = encode(String(value), token);
                 if (validate && !matches[i].test(segment)) {
-                    throw new TypeError("Expected \"" + token.name + "\" to match \"" + token.pattern + "\", but got \"" + segment + "\"");
+                    throw new TypeError("Expected \"".concat(token.name, "\" to match \"").concat(token.pattern, "\", but got \"").concat(segment, "\""));
                 }
                 path += token.prefix + segment + token.suffix;
                 continue;
@@ -230,7 +229,7 @@ export function tokensToFunction(tokens, options) {
             if (optional)
                 continue;
             var typeOfMessage = repeat ? "an array" : "a string";
-            throw new TypeError("Expected \"" + token.name + "\" to be " + typeOfMessage);
+            throw new TypeError("Expected \"".concat(token.name, "\" to be ").concat(typeOfMessage));
         }
         return path;
     };
@@ -256,7 +255,6 @@ export function regexpToFunction(re, keys, options) {
         var path = m[0], index = m.index;
         var params = Object.create(null);
         var _loop_1 = function (i) {
-            // tslint:disable-next-line
             if (m[i] === undefined)
                 return "continue";
             var key = keys[i - 1];
@@ -303,7 +301,7 @@ function regexpToRegexp(path, keys) {
             prefix: "",
             suffix: "",
             modifier: "",
-            pattern: ""
+            pattern: "",
         });
         execResult = groupsRegex.exec(path.source);
     }
@@ -314,7 +312,7 @@ function regexpToRegexp(path, keys) {
  */
 function arrayToRegexp(paths, keys, options) {
     var parts = paths.map(function (path) { return pathToRegexp(path, keys, options).source; });
-    return new RegExp("(?:" + parts.join("|") + ")", flags(options));
+    return new RegExp("(?:".concat(parts.join("|"), ")"), flags(options));
 }
 /**
  * Create a path regexp from string input.
@@ -327,9 +325,9 @@ function stringToRegexp(path, keys, options) {
  */
 export function tokensToRegexp(tokens, keys, options) {
     if (options === void 0) { options = {}; }
-    var _a = options.strict, strict = _a === void 0 ? false : _a, _b = options.start, start = _b === void 0 ? true : _b, _c = options.end, end = _c === void 0 ? true : _c, _d = options.encode, encode = _d === void 0 ? function (x) { return x; } : _d;
-    var endsWith = "[" + escapeString(options.endsWith || "") + "]|$";
-    var delimiter = "[" + escapeString(options.delimiter || "/#?") + "]";
+    var _a = options.strict, strict = _a === void 0 ? false : _a, _b = options.start, start = _b === void 0 ? true : _b, _c = options.end, end = _c === void 0 ? true : _c, _d = options.encode, encode = _d === void 0 ? function (x) { return x; } : _d, _e = options.delimiter, delimiter = _e === void 0 ? "/#?" : _e, _f = options.endsWith, endsWith = _f === void 0 ? "" : _f;
+    var endsWithRe = "[".concat(escapeString(endsWith), "]|$");
+    var delimiterRe = "[".concat(escapeString(delimiter), "]");
     var route = start ? "^" : "";
     // Iterate over the tokens and create our regexp string.
     for (var _i = 0, tokens_1 = tokens; _i < tokens_1.length; _i++) {
@@ -346,37 +344,41 @@ export function tokensToRegexp(tokens, keys, options) {
                 if (prefix || suffix) {
                     if (token.modifier === "+" || token.modifier === "*") {
                         var mod = token.modifier === "*" ? "?" : "";
-                        route += "(?:" + prefix + "((?:" + token.pattern + ")(?:" + suffix + prefix + "(?:" + token.pattern + "))*)" + suffix + ")" + mod;
+                        route += "(?:".concat(prefix, "((?:").concat(token.pattern, ")(?:").concat(suffix).concat(prefix, "(?:").concat(token.pattern, "))*)").concat(suffix, ")").concat(mod);
                     }
                     else {
-                        route += "(?:" + prefix + "(" + token.pattern + ")" + suffix + ")" + token.modifier;
+                        route += "(?:".concat(prefix, "(").concat(token.pattern, ")").concat(suffix, ")").concat(token.modifier);
                     }
                 }
                 else {
-                    route += "(" + token.pattern + ")" + token.modifier;
+                    if (token.modifier === "+" || token.modifier === "*") {
+                        route += "((?:".concat(token.pattern, ")").concat(token.modifier, ")");
+                    }
+                    else {
+                        route += "(".concat(token.pattern, ")").concat(token.modifier);
+                    }
                 }
             }
             else {
-                route += "(?:" + prefix + suffix + ")" + token.modifier;
+                route += "(?:".concat(prefix).concat(suffix, ")").concat(token.modifier);
             }
         }
     }
     if (end) {
         if (!strict)
-            route += delimiter + "?";
-        route += !options.endsWith ? "$" : "(?=" + endsWith + ")";
+            route += "".concat(delimiterRe, "?");
+        route += !options.endsWith ? "$" : "(?=".concat(endsWithRe, ")");
     }
     else {
         var endToken = tokens[tokens.length - 1];
         var isEndDelimited = typeof endToken === "string"
-            ? delimiter.indexOf(endToken[endToken.length - 1]) > -1
-            : // tslint:disable-next-line
-                endToken === undefined;
+            ? delimiterRe.indexOf(endToken[endToken.length - 1]) > -1
+            : endToken === undefined;
         if (!strict) {
-            route += "(?:" + delimiter + "(?=" + endsWith + "))?";
+            route += "(?:".concat(delimiterRe, "(?=").concat(endsWithRe, "))?");
         }
         if (!isEndDelimited) {
-            route += "(?=" + delimiter + "|" + endsWith + ")";
+            route += "(?=".concat(delimiterRe, "|").concat(endsWithRe, ")");
         }
     }
     return new RegExp(route, flags(options));

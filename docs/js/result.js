@@ -1,4 +1,4 @@
-import { s, $ } from './lit-element-90518c22.js';
+import { s, y } from './lit-element-6528530d.js';
 
 class UVALibResult extends s {
     static properties = {
@@ -15,7 +15,7 @@ class UVALibResult extends s {
     }
 
     render() {
-        return $`
+        return y`
         <div class="result" >
             <strong>${this.item.type}</strong> <a href="/${this.item.type}/${this.item.id}.html">${this.item.title}</a>
         </div>
