@@ -94,7 +94,7 @@ module.exports = function(eleventyConfig) {
       })      
     })
 
-    eleventyConfig.setLibrary('md', markdownIt({
+    eleventyConfig.setLibrary('md', markdown({
       html: true,
       breaks: true,
       linkify: true,
