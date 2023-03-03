@@ -3,7 +3,15 @@ layout: page-layout.njk
 permalink: "acknowledgements.html"
 ---
 
-## ACKNOWLEDGEMENTS Private Collections of Modern Library Publications 
+<!-- ignore -->
+<style>
+@import url("https://mlbib.library.virginia.edu/css/style.css")
+</style>
+<!-- /ignore -->
+
+## ACKNOWLEDGEMENTS 
+
+### Private Collections of Modern Library Publications 
 
 Richard H. Allen, Lincoln, Nebraska  
 
@@ -55,9 +63,9 @@ Wayne State University Library
 
 Pierre Coustillas, La Madeleine, France  
 
-Mark Samuels Lasner  
-
 David Mason, Fine & Rare Books, Toronto  
+
+Mark Samuels Lasner 
 
 Richard Schrader  
 

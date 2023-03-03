@@ -94,6 +94,17 @@ module.exports = function(eleventyConfig) {
       })      
     })
 
+    eleventyConfig.setLibrary('md', markdownIt({
+      html: true,
+      breaks: true,
+      linkify: true,
+      typographer: true,
+      quotes: '“”‘’',
+      highlight: function (code, language) {
+        return require('highlight.js').highlightAuto(code, [language]).value;
+      }
+    }).use(ignore, { pattern: '<!-- ignore -->' }))
+
     eleventyConfig.addFilter('markdown', content=>markdown.render(content));
     eleventyConfig.addNunjucksShortcode("arrayOrStringPara", arrayOrStringToParaShortcode);
     eleventyConfig.addNunjucksShortcode("markdown",content => markdown.render(content));
