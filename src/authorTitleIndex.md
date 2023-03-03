@@ -3,6 +3,12 @@ layout: page-layout.njk
 permalink: "authorTitleIndex.html"
 ---
 
+{% comment %}
+<style>
+@import url("https://mlbib.library.virginia.edu/css/style.css")
+</style>
+{% endcomment %}
+
 ## AUTHOR/TITLE INDEX  
 
 This index is an alphabetical listing of authors and editors of regular ML volumes, ML Giants, and Illustrated ML titles. There are also entries for titles of anthologies and anonymous works and for illustrators of the twenty volumes published in the Illustrated ML. The number at the end of the index entry is the bibliography number under which the description is found. Nine ghost titles that were announced but never published or listed in otherwise reliable bibliographies are also included.  
@@ -1179,9 +1185,7 @@ Merejkowski, Dmitri, *Peter and Alexis* (1931) 227
 
 Merejkowski, Dmitri, *Romance of Leonardo da Vinci* (1928) 154  
 
-Mérimée, Prosper, *Carmen* (1945);  
-
-Alphonse Daudet, *Sapho;* Antoine François Prévost, *Manon Lescaut* 78  
+Mérimée, Prosper, *Carmen* (1945);  Alphonse Daudet, *Sapho;* Antoine François Prévost, *Manon Lescaut* 78  
 
 *Metropolitan Opera Guide*, by Mary Ellis Peltz and Robert Lawrence (1939) G46  
 
@@ -1651,11 +1655,10 @@ Strachey, John, *Coming Struggle for Power* (1935) G20
 
 Strachey, Lytton, *Eminent Victorians* (1933) 263  
 
-Strindberg, August, *Married* (1917) 2  
+Strindberg, August, *Married* (1917) 2
+2e (1929) *Miss Julie* added 
 
-2e (1929) *Miss Julie* adde  
-
-dStrindberg, August, *Miss Julie and Other Plays* (1918) 50  
+Strindberg, August, *Miss Julie and Other Plays* (1918) 52  
 
 Strindberg, August, *Plays*, vol. 1 (1966) 586  
 

@@ -2,7 +2,14 @@
 layout: page-layout.njk
 permalink: "chronology.html"
 ---
-**CHRONOLOGY**
+
+{% comment %}
+<style>
+@import url("https://mlbib.library.virginia.edu/css/style.css")
+</style>
+{% endcomment %}
+
+##**CHRONOLOGY**
 
 **1916/17**
 
@@ -87,7 +94,7 @@ Nonesuch Press.
 
 **1927**
 
-Random House incorporated as a subsidiary of The Modern Library, Inc.,
+Random House is incorporated as a subsidiary of The Modern Library, Inc.,
 with Elmer Adler as a director along with Cerf and Klopfer (January).
 
 ML achieves sales of $270,000.
@@ -99,7 +106,7 @@ ML achieves sales of nearly 500,000 books, an increase of more than
 
 ML achieves sales of $307,000.
 
-First RH book published (as opposed to distributed)—Voltaire’s
+First RH book is published (as opposed to distributed)—Voltaire’s
 *Candide*, illustrated by Rockwell Kent and designed and printed by
 Elmer Adler at his Pynson Printers.
 
@@ -128,18 +135,18 @@ Rockwell Kent originally used in the three-volume limited edition
 published by Lakeside Press, and Merejkowski’s *Romance of Leonardo da
 Vinci*, translated by Bernard Guilbert Guerney.
 
-Liveright forced to leave firm, departed for Hollywood (July).
+Liveright is forced to leave firm, departs for Hollywood (July).
 
 **1931**
 
-Modern Library Giants launched (September).
+Modern Library Giants is launched (September).
 
 Carlton House imprint of mass-market reprints, using ML plates, appears
 in late 1931 in time for the Christmas season.
 
 **1932**
 
-Elmer Adler leaves, RH reorganized with Cerf and Klopfer as sole
+Elmer Adler leaves, RH reorganizes with Cerf and Klopfer as sole
 directors (May/June).
 
 **1933**
@@ -191,12 +198,11 @@ Harry Maule joins RH editorial staff from Doubleday.
 Important RH list includes authors Isak Dinesen, William Faulkner,
 Robert Graves, Elliot Paul, Edgar Snow, John Strachey and others.
 
-ML Giant, Basic Writings of *Sigmund Freud* (April), best-selling Giant
-(p. 207).
+ML Giant, Basic Writings of *Sigmund Freud* (April), best-selling Giant during the time the ML Giants were published.
 
 **1939**
 
-First ten Pocket Books published, launching the paperback revolution in
+First ten Pocket Books are published, launching the paperback revolution in
 the U.S. (June).
 
 **1941**
@@ -216,15 +222,15 @@ Cerf compiles first humor book, *The Pocket Book of War Humor*.
 
 **1943**
 
-Klopfer posted to England as intelligence officer for a heavy bomber
+Klopfer is posted to England as intelligence officer for a heavy bomber
 squadron in the Eighth Air Force (October).
 
-Robert Haas’s son, a lieutenant junior grade in the Navy, killed in
+Robert Haas’s son, a lieutenant junior grade in the Navy, is killed in
 action.
 
 RH sales pass the two-million dollar mark.
 
-Illustrated Modern Library launched with A. S. Barnes & Co. as
+Illustrated Modern Library is launched with A. S. Barnes & Co. as
 publisher, RH as exclusive distributor (October).
 
 Protests over dropping Stendhal, *The Charterhouse of Parma* from ML
@@ -232,19 +238,19 @@ Protests over dropping Stendhal, *The Charterhouse of Parma* from ML
 
 **1944**
 
-Klopfer promoted to Major (Jan/Feb).
+Klopfer is promoted to Major (Jan/Feb).
 
 War Production Board prohibits distribution contracts such as RH’s with
 A. S. Barnes & Co. for publication of Illustrated Modern Library. Barnes
 becomes publisher of Illustrated ML in fact as well as name (March).
 
-Cerf’s *Try and Stop Me* published by Simon and Schuster.
+Cerf’s *Try and Stop Me* is published by Simon and Schuster.
 
 Robert Linscott joins RH editorial staff from Houghton Mifflin Co.
 
 **1945**
 
-Jess Stein hired RH to work on *American College Dictionary* with
+Jess Stein is hired by RH to work on *American College Dictionary* with
 Clarence Barnhart.
 
 RH publishes *Basic Writings of Saint Thomas Aquinas* in Lifetime
@@ -258,7 +264,7 @@ Klopfer returns to RH from military service.
 
 Public outcry over exclusion of Ezra Pound from *An Anthology of Famous
 English and American Poetry*, edited by Stephen Vincent Benet and Conrad
-Aiken, ending in Cerf’s decision to restore the poems in the second
+Aiken, ends in Cerf’s decision to restore the poems in the second
 printing (January–March).
 
 RH moves from offices at 20 East 57th Street to Madison Avenue (May).
@@ -281,7 +287,7 @@ Modern Classics: Dorothy Canfield, *The Deepening Stream*; E. M.
 Forster, *A Passage to India*; Sinclair Lewis, *Arrowsmith*, *Babbitt*,
 and *Dodsworth*; Katherine Anne Porter, *Flowering Judas*; Lytton
 Strachey, *Eminent Victorians*, and Virginia Woolf, *Mrs. Dalloway* and
-*To the Lighthouse* (May). However, *Eminent Victorians* remained in the
+*To the Lighthouse* (May). However, *Eminent Victorians* remains in the
 ML until 1970.
 
 Rinehart & Co. launches Rinehart Editions, a paperback series for the
@@ -294,12 +300,12 @@ first time since the war (September).
 
 RH establishes College and Reference Department headed by Jess Stein.
 
-Modern Library College Editions launched under editorship of Jess Stein
+Modern Library College Editions is launched under editorship of Jess Stein
 (April).
 
 RH launches Landmark Books.
 
-Illustrated Modern Library listed in RH catalogs for last time.
+Illustrated Modern Library is listed in RH catalogs for last time.
 
 **1952**
 
@@ -327,7 +333,7 @@ RH launches quality paperback series, Modern Library Paperbacks
 
 Haas retires from RH.
 
-Negotiations with Allen Lane over purchase of Penguin Books resumes
+Negotiations with Allen Lane over purchase of Penguin Books resume
 (July–November).
 
 **1957**
@@ -358,7 +364,7 @@ RH acquires Beginner Books, L. W. Singer Co. (1960/61).
 
 **1961**
 
-Modern Library Paperbacks imprint discontinued (Jan 1), folded into
+Modern Library Paperbacks imprint is discontinued (Jan 1), folded into
 Vintage Books.
 
 RH acquires Pantheon Books (May).
@@ -370,7 +376,7 @@ completed by 1967.
 
 **1966**
 
-RH sold to RCA for forty million dollars.
+RH is sold to RCA for forty million dollars.
 
 Cerf steps down as President and is replaced by Robert Bernstein;
 remains Chairman of the Board.
@@ -379,7 +385,7 @@ Public relations firm Ruder & Finn proposes new design for ML.
 
 **1967**
 
-S. Neil Fujita’s new ML designs introduced.
+S. Neil Fujita’s new ML designs are introduced.
 
 Lewis Miller retires.
 
@@ -393,7 +399,7 @@ Decision to stop adding new titles to Modern Library and to allow most
 Modern Library titles to go out of print.
 
 Cerf steps down as Chairman of the Board to work on his autobiography;
-succeeded by Klopfer (31 December).
+Klopfer succeeds him (31 December).
 
 **1971**
 
@@ -405,7 +411,7 @@ Bernstein succeeds Klopfer as Chairman of the Board.
 
 **1977**
 
-Thirty-two Modern Library titles reissued in newly designed jackets and
+Thirty-two Modern Library titles are reissued in newly designed jackets and
 bindings (May).
 
 **1978**

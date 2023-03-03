@@ -2,6 +2,13 @@
 layout: page-layout.njk
 permalink: "datingKey.html"
 ---
+
+{% comment %}
+<style>
+@import url("https://mlbib.library.virginia.edu/css/style.css")
+</style>
+{% endcomment %}
+
 ## DATING KEY TO MODERN LIBRARY LISTS AND JACKETS   
 
 This dating key can be used to date Modern Library books and jackets on the basis of Modern Library lists that appear at the end of many of the volumes and inside the jackets. The dating key indicates one title added in each season and one title (preceded by an *x*) that would not be added until the following season. This makes it possible to date any ML jacket and any ML book that contains a list as having been printed by spring or fall of a given year.   

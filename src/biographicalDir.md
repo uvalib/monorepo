@@ -3,10 +3,13 @@ layout: page-layout.njk
 permalink: "biographicalDir.html"
 ---
 
-## BONI & LIVERIGHT AND MODERN LIBRARY, INC./RANDOM HOUSE PERSONNEL
-REFERRED TO IN PUBLISHING HISTORY NOTES 
+{% comment %}
+<style>
+@import url("https://mlbib.library.virginia.edu/css/style.css")
+</style>
+{% endcomment %}
 
-### OTHER PUBLISHING PERSONNEL  
+## PUBLISHING PERSONNEL REFERRED TO IN PUBLISHING HISTORY NOTES 
 
 Abrams, Harry N. (d. 1979). Founded Abrams Books in 1949.  
 

@@ -2,6 +2,13 @@
 layout: page-layout.njk
 permalink: "defAbbrev.html"
 ---
+
+{% comment %}
+<style>
+@import url("https://mlbib.library.virginia.edu/css/style.css")
+</style>
+{% endcomment %}
+
 ## DEFINITIONS AND ABBREVIATIONS 
 
 **anthology**: A volume consisting of the works of multiple authors  
@@ -42,9 +49,9 @@ Cancels made following publication are usually found in the portion of the print
 
 **cont**.: Continue  
 
-d**©**: International copyright symbol; transcribed in bibliographical descriptions when it appears as part of the copyright statement on the verso of the title page.  
+**d©**: International copyright symbol; transcribed in bibliographical descriptions when it appears as part of the copyright statement on the verso of the title page.  
 
-**dates**: The date of an event that extends over the course of two or more years is indicated with an en dash, for example 2006–07; the date of annevent that cannot be assigned to a specific year is dated as precisely as possible using a slash, for example 2006/07. Approximate dates are indicated by the abbreviation “c.” (circa).  
+**dates**: The date of an event that extends over the course of two or more years is indicated with an en dash, for example 2006–07; the date of an event that cannot be assigned to a specific year is dated as precisely as possible using a slash, for example 2006/07. Approximate dates are indicated by the abbreviation “c.” (circa).  
 
 **dating key**: Beginning in fall 1925, current ML lists for spring or fall of a given year were printed on ML jackets and at the end of many ML books. Lists at the end of ML books were printed as part of the last gathering containing text; lists were not included when the last gathering did not have enough pages to accommodate them. The dating key indicates one title added in each season and one title (preceded by an *x*) that would not be added until the following season and thus makes it possible to date any ML jacket and any ML book that contains a list as having been printed by spring or fall of a given year. Important points to note in using the dating key include the following: (1) ML titles published in January usually have lists from the previous fall; (2) lists were not updated after spring 1967, so books with spring 1967 lists may have been printed later—and did not contain jackets with lists; (3) although jackets can be dated conclusively on the basis of their lists of ML titles, jackets were sometimes switched from one copy of a book to another, so the jacket cannot by itself conclusively date the book inside it, especially when the book has no list of its own. (4) books printed by offset lithography were often made from photographs of earlier editions and cannot be conclusively dated.  
 
@@ -84,9 +91,9 @@ d**©**: International copyright symbol; transcribed in bibliographical descript
 
 **in**.: Inch or inches  
 
-**inserted fold**: Two conjunct leaves (4 pages) added to a gathering, usually at the en  
+**inserted fold**: Two conjunct leaves (4 pages) added to a gathering, usually at the end  
 
-d**inserted leaf**: A single leaf (2 pages) added to a gathering, frequently but not always at the end of a gathering  
+**inserted leaf**: A single leaf (2 pages) added to a gathering, frequently but not always at the end of a gathering  
 
 **ISBN**: International Standard Book Number. The ISBN, introduced in 1972, is an international standard that uniquely identifies specific editions of books. The ISBN originally consisted of ten digits in four fields separated by hyphens. The first field indicates the language area or country of publication; the second indicates the publisher; the third identifies a specific format in which a given work is available from a given publisher (for example, hardbound, paperback, different series, with different introductions, etc., or revised versions of a given work, translations); the fourth is a check digit that allows a computer to flag ISBN’s that have been entered incorrectly. Check digits range from 0 to 10; since the fourth field is limited to a single digit, “10” is represented by the Roman numeral “X”. Revised editions of a work have their own ISBN’s.  
 
@@ -154,7 +161,7 @@ Malraux, *Man’s Fate* (294), published in the ML in 1936, offers an example of
 
 **recto**: *See* “page”  
 
-**reissue**: RH referred to ML titles restored to the series between 1977 and 1986 in distinctive kraft paper jackets as ML reissues. New titles added to the series during this period were also published in the “reissue” format. The jackets, designed by R. D. Scudellari, the RH art director, came in two styles. No pictorial jackets with hand-lettered authors and titles, were used beginning in 1977. The second featured woodcuts by Stephen Alcorn on the front panel of the jacket with the title in reverse against a reddish rectangular panel. I have used the phrase “reissue format” to refer to printings in the two styles.  
+**reissue**: RH referred to ML titles restored to the series between 1977 and 1986 in distinctive kraft paper jackets as ML reissues. New titles added to the series during this period were also published in the “reissue” format. The jackets, designed by R. D. Scudellari, the RH art director, came in two styles: 1) non-pictorial jackets with hand-lettered authors and titles, used beginning in 1977; 2) pictorial jackets featuring woodcuts by Stephen Alcorn on the front panel of the jacket with the title in reverse against a reddish rectangular panel. I have used the phrase “reissue format” to refer to printings in the two styles.  
 
 “Reissue” is an inexact and slippery term and is unrelated to the technical bibliographical term “issue” (q.v.), which has a precise and clearly defined meaning but is also commonly used as a synonym for “publish.”  
 
@@ -164,7 +171,7 @@ Malraux, *Man’s Fate* (294), published in the ML in 1936, offers an example of
 
 **RHP**: Random House Papers, Columbia University, Rare Book & Manuscript Library. All citations to unpublished correspondence and other unpublished documents are to the Random House Papers unless indicated otherwise.  
 
-**running head**: A headline, usually but not always printed in capital letters, that is repeated from page to page or leaf to leaf; the running head can be the title of the book, a part title, or a chapter title. The headline is included when referring to the number of printed lines on a page. *See* *also* term for page numerals below the last line of text.  
+**running head**: A headline, usually but not always printed in capital letters, that is repeated from page to page or leaf to leaf; the running head can be the title of the book, a part title, or a chapter title. The headline is included when referring to the number of printed lines on a page.  
 
 **SBN**: Standard Book Number. Depending on the country, an 8 or 9-digit code in three fields developed in 1966 for uniquely identifying books. The first field identifies the publisher; the second identifies a specific edition of a book; and the third is a check digit that flags the SBN as invalid if any of the preceding digits have been entered incorrectly. Hardbound and paperbound formats of a given book have different SBN’s.  
 
@@ -196,4 +203,4 @@ The ML printed SBN’s on the back panel of many jackets in the late 1960s and 1
 
 **WorldCat**: *See* OCLC  
 
-***WR***:  “Weekly Record” (*Publishers’ Weekly*). A section of *Publishers’ Weekly*, the trade journal of the American publishing industry, which lists newly published books based on copies submitted by the publisher. A listing in the “Weekly Record” confirms that a book was in existence by a given date.n
+***WR***:  “Weekly Record” (*Publishers’ Weekly*). A section of *Publishers’ Weekly*, the trade journal of the American publishing industry, which lists newly published books based on copies submitted by the publisher. A listing in the “Weekly Record” confirms that a book was in existence by a given date.
