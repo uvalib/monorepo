@@ -1,0 +1,5 @@
+@font-face {
+    font-family: 'UnifrakturMaguntia';
+    src: url('./unifrakturmaguntia-regular-webfont.woff2') format('woff2'),
+         url('./unifrakturmaguntia-regular-webfont.woff') format('woff');
+  }
