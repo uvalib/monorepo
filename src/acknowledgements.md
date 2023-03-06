@@ -3,11 +3,11 @@ layout: page-layout.njk
 permalink: "acknowledgements.html"
 ---
 
-{% comment %}
+<!-- {% comment %} -->
 <style>
 @import url("https://mlbib.library.virginia.edu/css/style.css")
 </style>
-{% endcomment %}
+<!-- {% endcomment %} -->
 
 ## ACKNOWLEDGEMENTS 
 

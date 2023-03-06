@@ -2,6 +2,13 @@
 layout: page-layout.njk
 permalink: "preface.html"
 ---
+
+<!-- {% comment %} -->
+<style>
+@import url("https://mlbib.library.virginia.edu/css/style.css")
+</style>
+<!-- {% endcomment %} -->
+
 ## PREFACE  
 
 The Modern Library was the most important American reprint series of significant works of literature and thought published in the twentieth century. The series was founded in spring 1917 and published initially by Boni & Liveright. It was purchased in 1925 by Bennett Cerf, a young Boni & Liveright vice-president, who established a new firm, The Modern Library, Inc., in partnership with Donald S. Klopfer. Initially Cerf and Klopfer focused their attention on developing the Modern Library. In 1927 they began to publish and distribute fine limited editions under the imprint Random House. Occasional trade books, including the first authorized American edition of James Joyce’s *Ulysses*, followed. In 1936 they reorganized the firm as Random House, Inc., and the Modern Library became a subsidiary of its offspring.  

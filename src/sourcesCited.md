@@ -2,11 +2,18 @@
 layout: page-layout.njk
 permalink: "sourcesCited.html"
 ---
+
+<!-- {% comment %} -->
+<style>
+@import url("https://mlbib.library.virginia.edu/css/style.css")
+</style>
+<!-- {% endcomment %} -->
+
 ## SOURCES AND WORKS CITED
 
 The number of bibliographies and other works that were consulted over the decades in which this work was in progress is very large. Only published works that are cited in the bibliography are included.  
 
-## Archival collections and documents
+### Archival collections and documents
 
 Bennett Cerf Papers, 1898–1977. Rare Book & Manuscript Library, Columbia University Library.
 
@@ -26,7 +33,7 @@ Sherwood Anderson Papers, 1872–1992. Newberry Library, Chicago.
 
 Stephen Crane Papers, 1847–1945. Accession \#5505. Special Collections, University of Virginia Library.
 
-## Oral histories
+### Oral histories
 
 Boni, Albert. Oral History. Interviewed by Dr. Alex Baskin, October 20, 1972. Tamiment Library, New York University. Consulted with the permission of Alex Baskin.
 
@@ -36,7 +43,7 @@ Cerf, Bennett. Reminiscences of Bennett Alfred Cerf: Oral History Archives at Co
 
 Klopfer, Donald S. Reminiscences of Donald Simon Klopfer Oral History. Oral History Archives at Columbia, Rare Book & Manuscript Library, Columbia University, recorded 1962 and 1975. Originally consulted with the permission of Donald S. Klopfer.
 
-## Works cited
+### Published works
 
 Alpert, Hollis. *The Life and Times of Porgy and Bess: The Story of an American Classic*. New York: Alfred A. Knopf, 1990.
 

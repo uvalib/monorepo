@@ -1,7 +1,15 @@
 ---
 layout: page-layout.njk
 permalink: "introductions.html"
+
 ---
+
+<!-- {% comment %} -->
+<style>
+@import url("https://mlbib.library.virginia.edu/css/style.css")
+</style>
+<!-- {% endcomment %} -->
+
 ## INDEX TO AUTHORS OF INTRODUCTIONS 
 
 This is an index to authors of introductions to ML books. The author of the introduction is the first element of the index entry. This is followed by the author, title, publication date, and bibliography number of the ML book being introduced. Authors who wrote introductions to their own books are followed directly by the title; see, for example, Sherwood Anderson’s introduction to the ML edition of his novel, *Poor White*. Introductions commissioned by and originally published in the ML are identified by an asterisk before the author or title of the book being introduced. The lack of an asterisk indicates that the introduction was reprinted from an earlier edition or first appeared in a periodical. Introductions by editors of ML anthologies are not included if the anthology appears under the editor’s name in the Index of Authors, Editors, Anthology Titles.  
@@ -122,7 +130,7 @@ B<span class="smallcaps">ates, Blanchard</span>. \*Montaigne, *Selected Essays* 
 
 <span class="smallcaps">Commager, Henry Steele</span>. Franklin*, Autobiography* (1944) 236.2; \*Parkman, *Oregon Trail* (1949) 423  
 
-<span class="smallcaps">Commins, Saxe</span>. \*Browning, *Poems and Plays* (1934) G16; \*Pascal, *Pensées; the Provincial Letters* (1941) 345; \*Irving, *Selected Writings* (1945) 382; \*Maupassant, *BestnStories* (1945) 383; Stevenson, *Selected Writings* (1950) G79  
+<span class="smallcaps">Commins, Saxe</span>. \*Browning, *Poems and Plays* (1934) G16; \*Pascal, *Pensées; the Provincial Letters* (1941) 345; \*Irving, *Selected Writings* (1945) 382; \*Maupassant, *Best Stories* (1945) 383; Stevenson, *Selected Writings* (1950) G79  
 
 <span class="smallcaps">Cumming, Robert Denoon</span>. Sartre, *Philosophy of Jean-Paul Sartre* (1966) 587  
 
@@ -206,7 +214,7 @@ B<span class="smallcaps">ates, Blanchard</span>. \*Montaigne, *Selected Essays* 
 
 <span class="smallcaps">Frank, Waldo</span>. \*Moliere, *Plays* (1924) 110  
 
-<span class="smallcaps">Frederick, John T</span>. \*Watkins, ed.,n*Anthology of American Negro Literature* (1944) 372  
+<span class="smallcaps">Frederick, John T</span>. \*Watkins, ed., *Anthology of American Negro Literature* (1944) 372  
 
 <span class="smallcaps">Friedrich, Carl J</span>. \*Kant, *Philosophy* (1949) 422; \*Hegel, *Philosophy* (1953) 460  
 
@@ -244,7 +252,7 @@ B<span class="smallcaps">ates, Blanchard</span>. \*Montaigne, *Selected Essays* 
 
 <span class="smallcaps">Greene, Joseph I</span>. \*Clausewitz, *On War* (1943) G63  
 
-<span class="smallcaps">Guerney, Bernard Guilbert</span>. \*Merejkowski, *Romance of Leonardo da Vinci* (1928) 154; \*Merejkowski, *Death of the Gods* (1929) 173; \*Merejkowski, *Peter and Alexis* (1931) 227; Kuprin,n*Yama* (1932) 245 \*Turgenev, *Fathers and Sons* (1961) 20.2a; \*Gogol, *Dead Souls* (1965) 290.2a  
+<span class="smallcaps">Guerney, Bernard Guilbert</span>. \*Merejkowski, *Romance of Leonardo da Vinci* (1928) 154; \*Merejkowski, *Death of the Gods* (1929) 173; \*Merejkowski, *Peter and Alexis* (1931) 227; Kuprin, *Yama* (1932) 245 \*Turgenev, *Fathers and Sons* (1961) 20.2a; \*Gogol, *Dead Souls* (1965) 290.2a  
 
 <span class="smallcaps">Gunther, John</span>. \**Death Be Not Proud* (1953) 457  
 
@@ -396,7 +404,7 @@ B<span class="smallcaps">ates, Blanchard</span>. \*Montaigne, *Selected Essays* 
 
 <span class="smallcaps">Lindsay, Howard & Russell Crouse</span>. \*Day, *Life with Father* (1944) 367  
 
-<span class="smallcaps">Linscott, Robert</span> N. \*Chekhov, *Stories of Anton Tchekov* (1932) 232; \*Harte, *Best Short Stories* (1947) 398; \*Leonardo da Vinci, *Notebooks* (1957) 498; \*Vasari, *Lives of thenMost Eminent Painters, Sculptors, and Architects* (1959) 515; \*Emerson,n*Journals* (1960) 520; Michelangelo, *Complete Poems and SelectednLetters* (1965) 576  
+<span class="smallcaps">Linscott, Robert</span> N. \*Chekhov, *Stories of Anton Tchekov* (1932) 232; \*Harte, *Best Short Stories* (1947) 398; \*Leonardo da Vinci, *Notebooks* (1957) 498; \*Vasari, *Lives of the Most Eminent Painters, Sculptors, and Architects* (1959) 515; \*Emerson, *Journals* (1960) 520; Michelangelo, *Complete Poems and Selected Letters* (1965) 576  
 
 <span class="smallcaps">Littell, Philip</span>. \*Voltaire, *Candide* (1918) 46  
 
@@ -460,7 +468,7 @@ B<span class="smallcaps">ates, Blanchard</span>. \*Montaigne, *Selected Essays* 
 
 <span class="smallcaps">Muller, Herbert J</span>. \*Turgenev, *Fathers and Sons* (1950) 20.1e  
 
-<span class="smallcaps">Mumford, Lewis</span>. \*Butler, *Erewho * (1927) 146a; \*Butler, *Erewhon & Erewhon Revisited* (1933) 146b  
+<span class="smallcaps">Mumford, Lewis</span>. \*Butler, *Erewhon* (1927) 146a; \*Butler, *Erewhon & Erewhon Revisited* (1933) 146b  
 
 <span class="smallcaps">Nathan, George Jean</span>. \*O’Neill, *Moon of the Caribbees and Six Other Plays of the Sea* (1923) 101; \**Five Great Modern Irish Plays* (1941) 339  
 
@@ -602,9 +610,9 @@ B<span class="smallcaps">ates, Blanchard</span>. \*Montaigne, *Selected Essays* 
 
 <span class="smallcaps">Stallman, Robert Wooster</span>. \*Crane, *Red Badge of Courage* (1951) 347.1b  
 
-<span class="smallcaps">Starrett, Vincent</span>. \*Crane, *Men,* *Women and Boats* (1921) 88; Crane, *Maggie, A Girl of the Streets and Other Stories* (1933) 88  
+<span class="smallcaps">Starrett, Vincent</span>. \*Crane, *Men,* *Women and Boats* (1921) 88; Crane, *Maggie, A Girl of the Streets and Other Stories* (1933) 88d 
 
-d<span class="smallcaps">Stauffer, Donald A</span>. \*Coleridge, *Selected Poetry and Prose* (1951) 444  
+<span class="smallcaps">Stauffer, Donald A</span>. \*Coleridge, *Selected Poetry and Prose* (1951) 444  
 
 <span class="smallcaps">Steegmuller, Francis</span>. Flaubert, *Madame Bovary* (1957/58) 25.3a  
 

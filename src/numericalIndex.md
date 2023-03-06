@@ -2,6 +2,13 @@
 layout: page-layout.njk
 permalink: "numericalIndex.html"
 ---
+
+<!-- {% comment %} -->
+<style>
+@import url("https://mlbib.library.virginia.edu/css/style.css")
+</style>
+<!-- {% endcomment %} -->
+
 ## NUMERICAL INDEX  
 
 This index lists each ML title under the publisher’s catalogue number. The ML usually reassigned the catalogue numbers of discontinued titles to new titles that were added the following publishing season. The publisher’s catalogue number is unrelated to the bibliography number under which the entry is found.  

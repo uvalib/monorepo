@@ -3,11 +3,11 @@ layout: page-layout.njk
 permalink: "biographicalDir.html"
 ---
 
-{% comment %}
+<!-- {% comment %} -->
 <style>
 @import url("https://mlbib.library.virginia.edu/css/style.css")
 </style>
-{% endcomment %}
+<!-- {% endcomment %} -->
 
 ## PUBLISHING PERSONNEL REFERRED TO IN PUBLISHING HISTORY NOTES 
 
