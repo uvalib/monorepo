@@ -55,13 +55,13 @@ export class EventsSection extends BentoSection {
 
   render() {
     return html`
-${this.title? html`<h2>${this.title}</h2>`:''}
+${this.title? html`<h2>${ this.limitTitle(this.title) }</h2>`:''}
 <div class="event-container">
   ${this.loading? html`<site-spinner></site-spinner>`:''}
   ${ this.items.map((event) =>html`
     <div class="event">
       <a href="${event.link}" class="event-url">
-        <h4 class="event-title">${event.title}</h4>
+        <h4 class="event-title">${ this.limitTitle(event.title) }</h4>
         <p class="event-date">${EventsSection.dateRange(event.start, event.end)}</p>
         <p class="event-time">${EventsSection.timeRange(event.start, event.end)}</p>
       </a>

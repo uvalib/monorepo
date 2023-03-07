@@ -32,6 +32,8 @@ export class BentoSection extends SiteStyle {
 
   @property({ type: String }) title = "";
 
+  @property({ type: Number, attribute: "max-title-length" }) maxTitleLength?: number = undefined;
+
   @property({ type: String }) label: string|null = null;
 
   @property({ type: Array }) items: GeneralSearchResult[] = [];
@@ -53,9 +55,15 @@ export class BentoSection extends SiteStyle {
     return renderBriefItem(item);
   }
 
+  protected limitTitle(title?: String) {
+    if (this.maxTitleLength && title)
+      return title.substring(0, this.maxTitleLength);
+    return title; 
+  }
+
   render() {
     return html`
-      <h1>${this.title}</h1>
+      <h1>${ this.limitTitle(this.title) }</h1>
       ${this.label==null || this.label!==""? html`
         <h2 ?hidden="${this.loading}">${this.label? this.label:html`Search for ${this.query}`}</h2>
       `:''}
