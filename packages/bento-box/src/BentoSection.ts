@@ -57,7 +57,7 @@ export class BentoSection extends SiteStyle {
 
   protected limitTitle(title?: String) {
     if (this.maxTitleLength && title && title.length>=this.maxTitleLength)
-      return `${title.substring(0, this.maxTitleLength)}...`;
+      return `${title.substring(0, this.maxTitleLength)}…`;
     return title; 
   }
 
