@@ -3,7 +3,7 @@
   "description": "Webcomponent site-components following open-wc recommendations",
   "license": "MIT",
   "author": "site-components",
-  "version": "0.0.8",
+  "version": "0.0.7",
   "main": "dist/src/index.js",
   "module": "dist/src/index.js",
   "exports": {
@@ -31,6 +31,7 @@
   "dependencies": {
     "@microsoft/fast-components": "^2.30.6",
     "@microsoft/fast-element": "^1.11.0",
+    "@vaadin/menu-bar": "^24.0.0",
     "lit": "^2.0.0-rc.2"
   },
   "devDependencies": {

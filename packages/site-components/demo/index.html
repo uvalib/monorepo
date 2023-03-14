@@ -13,6 +13,7 @@
 
   <script type="module">
     import { html, render } from 'lit';
+    import '../dist/src/site-menu-bar.js';
     import '../dist/src/site-tabs.js';
     import '../dist/src/site-data-grid.js';
     import '../dist/src/site-select.js';
@@ -25,6 +26,11 @@
     render(
       html`
 <site-style>
+
+      <h2>Menu Bar</h2>
+      <div>
+        <site-menu-bar></site-menu-bar>
+      </div>
 
       <h2>Avatar</h2>
       <div>
