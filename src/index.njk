@@ -1,5 +1,5 @@
 ---
-layout: page-layout.njk
+layout: home-layout.njk
 prefetch:
   - /booksIndex.json
   - /revisionsIndex.json
@@ -11,6 +11,7 @@ prefetch:
 <uvalib-faceted-search-browse></uvalib-faceted-search-browse>
 -->
 
+<div id="content">
 <h2>By Year</h2>
 <div class="years-group">
   {% for year in years %}
@@ -41,6 +42,7 @@ prefetch:
     </ul>
   </sl-details>
   {% endfor %}
+</div>
 </div>
 
 <script>window.lunr = {};</script>

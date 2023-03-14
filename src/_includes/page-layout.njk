@@ -40,63 +40,10 @@ title: Modern Library Bibliography &middot; Bibliographical Society
 
     <div id="content">
 
-<sl-drawer id="menudrawer" label="Menu" contained class="drawer-contained" style="--size: 50%;">
-    <sl-menu>
-        <sl-menu-label>Introduction</sl-menu-label>
-            <sl-menu-item href="{{ '/preface.html' | url }}">Preface</sl-menu-item>
-            <sl-menu-item href="{{ '/index.html' | url }}">Chronology</sl-menu-item>
-            <sl-menu-item href="{{ '/procedures.html' | url }}">Procedures</sl-menu-item>
-            <sl-menu-item href="{{ '/defAbbrev.html' | url }}">Definitions and Abbreviations</sl-menu-item>
-            <sl-menu-item href="{{ '/acknowledgements.html' | url }}">Acknowledgments</sl-menu-item>
-            <sl-menu-item href="{{ '/sourcesCited.html' | url }}">Sources Cited</sl-menu-item>
-            <sl-menu-item>Archival collections and documents</sl-menu-item>
-            <sl-menu-item>Oral histories</sl-menu-item>
-            <sl-menu-item>Published works</sl-menu-item>
-
-        <sl-menu-label>Indexes</sl-menu-label>
-            <sl-menu-item href="{{ '/authorTitleIndex.html' | url }}">Authors and Titles</sl-menu-item>
-            <sl-menu-item href="{{ '/introductions.html' | url }}">Index to Authors of Introductions</sl-menu-item>
-            <sl-menu-item href="{{ '/biographicalDir.html' | url }}">Publishing Personnel</sl-menu-item>
-            <sl-menu-item href="{{ '/numericalIndex.html' | url }}">ML Catalogue Numbers</sl-menu-item>
-            <sl-menu-item href="{{ '/datingKey.html' | url }}">Dating Guide</sl-menu-item>
-
-<!--        <sl-menu-item href="{{ '/' | url }}">Home</sl-menu-item> -->
-        <!--<sl-menu-item href="/searchTest.html">Search</sl-menu-item>-->
-<!--        
-        <sl-menu-item href="/browseTest.html">Browse</sl-menu-item>
--->        
-<!--        <sl-divider></sl-divider>
-        <sl-menu-item href="{{ '/acknowledgements.html' | url }}">Acknowledgments</sl-menu-item>
-        <sl-menu-item href="{{ '/authorTitleIndex.html' | url }}">Author/Title Index</sl-menu-item>
-        <sl-menu-item href="{{ '/biographicalDir.html' | url }}">Other Publishing Personel</sl-menu-item>
-        <sl-menu-item href="{{ '/datingKey.html' | url }}">Dating Key</sl-menu-item>
-        <sl-menu-item href="{{ '/defAbbrev.html' | url }}">Definitions &amp; Abbreviations</sl-menu-item>
-        <sl-menu-item href="{{ '/introductions.html' | url }}">Index to Introductions</sl-menu-item>
-        <sl-menu-item href="{{ '/numericalIndex.html' | url }}">Numerical Index</sl-menu-item>
-        <sl-menu-item href="{{ '/preface.html' | url }}">Preface</sl-menu-item>
-        <sl-menu-item href="{{ '/procedures.html' | url }}">Procedures &amp; Format</sl-menu-item>
-        <sl-menu-item href="{{ '/sourcesCited.html' | url }}">Sources &amp; Works Cited</sl-menu-item>
--->        
-    </sl-menu>
-    <sl-button slot="footer" variant="primary">Close</sl-button>
-</sl-drawer>
-
     <div style="display: flex; flex-direction: row;">
         <h1 style="flex-grow: 1;">The Modern Library Bibliography</h1>
-        <sl-icon-button id="menubutton" name="list" label="Settings" style="font-size: 2rem;"></sl-icon-button>
+        
     </div>
-
-<script>
-  const drawer = document.querySelector('#menudrawer');
-  const openButton = document.querySelector('#menubutton');
-  const closeButton = drawer.querySelector('sl-button[variant="primary"]');
-  const menu = drawer.querySelector('sl-menu');
-
-  menu.addEventListener('click', (e)=>{ if(e.target.hasAttribute('href')) window.location.href = e.target.getAttribute('href') } );
-  openButton.addEventListener('click', () => drawer.show());
-  closeButton.addEventListener('click', () => drawer.hide());
-
-</script>
 
     {{ content | safe }}
     </div>
