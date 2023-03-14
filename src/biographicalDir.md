@@ -9,7 +9,7 @@ permalink: "biographicalDir.html"
 </style>
 <!-- {% endcomment %} -->
 
-## PUBLISHING PERSONNEL REFERRED TO IN PUBLISHING HISTORY NOTES 
+## <a href="publishing-personnel"></a>PUBLISHING PERSONNEL REFERRED TO IN PUBLISHING HISTORY NOTES 
 
 Abrams, Harry N. (d. 1979). Founded Abrams Books in 1949.  
 

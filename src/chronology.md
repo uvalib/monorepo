@@ -9,7 +9,7 @@ permalink: "chronology.html"
 </style>
 <!-- {% endcomment %} -->
 
-##**CHRONOLOGY**
+## CHRONOLOGY
 
 **1916/17**
 
