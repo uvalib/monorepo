@@ -3,3 +3,4 @@ node_modules
 MSWord
 build
 docs
+.DS_Store
