@@ -6,7 +6,22 @@ prefetch:
   - /yearsIndex.json
 ---
 
-<img src="/images/ml-title.webp" style="width:100%"/>
+<style>
+  img.desktop {width:100%}
+  img.tablet, img.mobile {display:none}
+  @media only screen and (max-width: 768px) {
+    img.tablet {display:block; width:100%}
+    img.desktop, img.mobile {display:none}
+  }
+  @media only screen and (max-width: 480px) {
+    img.mobile {display:block; width:100%}
+    img.tablet, img.desktop {display:none}
+  }
+</style>
+<img src="/images/ml-title.webp"/ class="desktop">
+<img src="/images/ml-title-med.webp" class="tablet"/>
+<img src="/images/ml-title-sm.webp" class="mobile"/>
+
 <!--
 <uvalib-faceted-search-browse></uvalib-faceted-search-browse>
 -->
