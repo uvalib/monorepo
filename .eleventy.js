@@ -8,7 +8,8 @@ const _ = require('lodash');
 const pathPrefix = process.env.PATH_PREFIX || "";
 
 let markdown = require("markdown-it")({
-  html: true
+  html: true,
+  breaks: true
 });
 
 function arrayOrStringToParaShortcode(para, title, cls) {
