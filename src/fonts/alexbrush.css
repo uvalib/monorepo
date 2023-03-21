@@ -1,0 +1,5 @@
+@font-face {
+    font-family: 'Alexbrush';
+    src: url('/fonts/alexbrush-regular-webfont.woff2') format('woff2'),
+         url('/fonts/alexbrush-regular-webfont.woff') format('woff');
+  }

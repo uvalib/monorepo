@@ -1,0 +1,5 @@
+@font-face {
+    font-family: 'Chomsky';
+    src: url('/fonts/chomsky-webfont.woff2') format('woff2'),
+         url('/fonts/chomsky-webfont.woff') format('woff');
+  }
