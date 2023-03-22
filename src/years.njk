@@ -15,6 +15,4 @@ permalink: "year/{{ year.year }}.html"
   <sl-breadcrumb-item href="{{ '/year/' | url }}{{ year.year }}.html">{{ year.year }}</sl-breadcrumb-item>
 </sl-breadcrumb>
 
-{{ year.full | addLinks('torchbearer','notes','book','jacketType') | markdown | safe }}
-
-<sl-details summary="year"><pre>{{ year | dump | safe }}</pre></sl-details>
+{{ year.full | addLinks('torchbearer','notes','book','jacketType') | markdown | addAnchors | safe }}

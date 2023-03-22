@@ -5,6 +5,9 @@ const MiniSearch = require('minisearch');
 const FlexSearch = require('flexsearch');
 const _ = require('lodash');
 
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
+
 const pathPrefix = process.env.PATH_PREFIX || "";
 
 let markdown = require("markdown-it")({
@@ -26,6 +29,17 @@ function arrayOrStringToParaShortcode(para, title, cls) {
 }
 
 module.exports = function(eleventyConfig) {
+    eleventyConfig.addFilter("addAnchors", function(...args){
+      let html = args.shift();
+      const dom = new JSDOM(html);
+      [...dom.window.document.querySelectorAll('h3')].forEach(el=>{
+        const anchorName = _.camelCase(el.textContent);
+        const anchor = dom.window.document.createElement('a')
+        anchor.setAttribute("name",anchorName);
+        el.appendChild(anchor);
+      })
+      return dom.serialize();
+    })
     eleventyConfig.addFilter("addLinks", function(...args) {
       let md = args.shift();
 
@@ -38,8 +52,7 @@ module.exports = function(eleventyConfig) {
       if (args.includes('jacketType'))
         md = md.replace(/(Uniform typographic jacket (A|B1|B2|B|C|D|E|F))/gi,`<uvalib-modal-image-button alt='publishers note' src='${pathPrefix}/mlb/images/typejackets/Type_Jacket_$2.webp'>$1</uvalib-modal-image-button>`);
       if (args.includes('revision'))
-        md = md.replace(/^####\s+([1-9a-z]+)\.\s+(.+)\s*\n/mg,`#### <a href='${pathPrefix}/revision/$1.html'>$1. $2</a>\n`);
-
+        md = md.replace(/^####\s+([1-9a-z]+)\.\s+(.+)\s*\n/mg,`#### <a href='${pathPrefix}/revision/$1.html'>$1. $2</a>\n`);  
 
       return md;
     });
@@ -58,6 +71,14 @@ module.exports = function(eleventyConfig) {
     eleventyConfig.addFilter('pickList', function(...args){
       let documents = args.shift();
       return documents.map( d=>_.pick(d, args) );
+    } );
+
+    eleventyConfig.addFilter('yearSearchPick', function(...args){
+      let document = args.shift();
+//      return documents;
+      return _.pickBy(document, (value,key)=>{ 
+        return !key.match(/^\d+$/) && key!=="full" && key!=="plainText";
+      });
     } );
 
     eleventyConfig.addFilter('fuseIndex', function(...args){
@@ -84,7 +105,7 @@ module.exports = function(eleventyConfig) {
       let document = new FlexSearch.Document({
         id: "id",
         index: fields, //['title','year','full']
-        store: "title"
+        store: true
       });
       documents.forEach( doc=>document.add(doc) );
       let result = {}

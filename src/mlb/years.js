@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const { markdownToTxt } = require('markdown-to-txt');
 
 const fs = require('fs');
 const config = require('./parseConfig.json');
@@ -17,6 +18,7 @@ module.exports = async function() {
             let year = {}
             // store the full year content
             year.full = contents.match(/^([^]+)$/m)[1].trim();
+            year.plainText = markdownToTxt(year.full).replace(/\s+/g, " "); // markdownToTxt(contents.replace(/\-\-\-[^]*\-\-\-/m,'')).replace(/\s+/g, " ")
             // store the year title/heading
             let match = contents.match(/^# (Modern Library Series\s+\d\d\d\d)\s*(\n[^]*)/im);
             year.title = match[1].trim();
