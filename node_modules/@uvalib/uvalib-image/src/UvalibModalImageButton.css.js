@@ -1,4 +1,0 @@
-import { css } from 'lit-element';
-export default css`
-@import url("https://use.typekit.net/tgy5tlj.css");:host{display:inline-block;position:relative}:host .wrapper{fill:#232d4b;background-color:#fff}.wrapper button:focus,:host(:focus) .wrapper button,:host(:hover) .wrapper button{fill:#fff;background-color:#232d4b}.wrapper{position:relative}#image[enlargable]{cursor:pointer}img{display:block;max-width:100%;vertical-align:middle}button{fill:inherit;background-color:inherit;border:none;border-radius:50%;cursor:pointer;display:inline-block;font-size:18px;margin:4px 2px;padding:.4em .45em;text-align:center;text-decoration:none}.sr-only{clip:rect(1px,1px,1px,1px);-webkit-clip-path:inset(50%);clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px}
-`;
