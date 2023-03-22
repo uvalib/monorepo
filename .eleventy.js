@@ -83,16 +83,19 @@ module.exports = function(eleventyConfig) {
     eleventyConfig.addNunjucksAsyncFilter('flexIndex', (documents,fields, callback)=>{
       let document = new FlexSearch.Document({
         id: "id",
-        index: fields //['title','year','full']
+        index: fields, //['title','year','full']
+        store: "title"
       });
       documents.forEach( doc=>document.add(doc) );
+      let result = {}
       document.export((key,data)=>{
-          let result = {};
+//          let result = {};
           result[key] = data;
-          result.key = key;
-          result.fields = fields;  // need to know the fields in order to import the index
-          callback(null, result);
-      })      
+//          result.key = key;
+//          result.fields = fields;  // need to know the fields in order to import the index
+//          callback(null, result);
+      })
+      callback(null, result);      
     })
 
     eleventyConfig.addFilter('markdown', content=>markdown.render(content));
