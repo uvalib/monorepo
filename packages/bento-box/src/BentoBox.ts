@@ -27,6 +27,8 @@ export class BentoBox extends SiteStyle {
 
   @property({ type: String, attribute: "no-result-describe" }) noResultDescribe = "No results found.";
 
+  @property({ type: String }) placeholder = 'Search anything...'; 
+
   @property({ type: Array }) boxes = ['catalog','articles','libguides','website'];
 
   constructor() {
@@ -51,7 +53,7 @@ export class BentoBox extends SiteStyle {
     [hidden] { display: none !important; }
   </style>
 
-  <bento-search .describe="${this.searchDescribe}" class="bento-search-bar" ?no-shadow-dom="${this.noShadowDom}" ?no-style="${this.noStyle}" id="searchBox" .query="${this.query}" @search="${this.search}"></bento-search>
+  <bento-search .describe="${this.searchDescribe}" class="bento-search-bar" ?no-shadow-dom="${this.noShadowDom}" ?no-style="${this.noStyle}" id="searchBox" .query="${this.query}" @search="${this.search}" .placeholder="${this.placeholder}"></bento-search>
 
   <div class="bs-header" ?hidden="${!this.query}">
     <h2>You searched for <span class="bs-search-term">${this.query}</span></h2>
@@ -62,6 +64,9 @@ export class BentoBox extends SiteStyle {
 
     ${this.boxes.map(box=>{
         switch (box) {
+          case 'mlb':
+            import('./mlb-section.js');
+            return html`<mlb-section no-result-describe="${this.noResultDescribe}" class="bs-results--block" ?no-shadow-dom="${this.noShadowDom}" ?no-style="${this.noStyle}" limit="${this.limit}" query="${this.query}"></mlb-section>`;
           case 'catalog':
             import('./catalog-section.js');
             return html`<catalog-section no-result-describe="${this.noResultDescribe}" class="bs-results--block" ?no-shadow-dom="${this.noShadowDom}" ?no-style="${this.noStyle}" limit="${this.limit}" query="${this.query}"></catalog-section>`;
