@@ -24,9 +24,8 @@ permalink: search.html
     display: flex;
     max-width: 70%;
     margin: 0 auto;
-    text-align: left;
 }
-.uvalib-bento-search .bento-search-bar form input {
+.uvalib-bento-search .bento-search-bar form input, #search {
     flex: 1;
     border-left: 1px solid #DADADA;
     border-bottom: 1px solid #DADADA;
@@ -34,6 +33,8 @@ permalink: search.html
     border-right: 0px;
     text-indent: 1rem;
     border-radius: 0.3rem 0 0 0.3rem;
+    text-align: left;
+    font-size: 100%;
 }
 .uvalib-bento-search .bento-search-bar form button {
     background-color: #007BAC;
@@ -51,17 +52,18 @@ permalink: search.html
     text-align: center;
     margin-top: 1rem;
 }
-.uvalib-bento-search .bs-results-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-}
+
 .uvalib-bento-search .bs-results-container .bs-results--block .bs-results--body ol.bs-results--list {
     margin-bottom: 1rem;
     padding-left: 1rem;
 }
 .uvalib-bento-search .bs-results-container .bs-results--block .bs-results--body {
     padding: 1rem;
+}
+.uvalib-bento-search .bs-results-container .bs-results--block .bs-results--body ol.bs-results--list .bs-results--list--entry {
+    border-bottom: 1px solid #DADADA;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
 }
 </style>
 <div class="uvalib-bento-search">
