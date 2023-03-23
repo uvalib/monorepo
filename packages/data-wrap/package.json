@@ -24,12 +24,14 @@
   },
   "dependencies": {
     "date-fns": "^2.29.3",
+    "flexsearch": "^0.7.31",
     "fuse.js": "^6.6.2",
     "lit": "^2.4.1"
   },
   "devDependencies": {
     "@open-wc/eslint-config": "^4.3.0",
     "@open-wc/testing": "next",
+    "@types/flexsearch": "^0.7.3",
     "@typescript-eslint/eslint-plugin": "^4.29.2",
     "@typescript-eslint/parser": "^4.29.2",
     "@web/dev-server": "^0.1.21",

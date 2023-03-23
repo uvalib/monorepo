@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      background: #fafafa;
+    }
+  </style>
+</head>
+<body>
+  <h2>Example of MLBData</h2>
+  <div>
+    <ul id="mlb"></ul>
+  </div>
+
+  <script type="module">
+
+    import { MLBData } from '../dist/src/index.js';
+
+    let mlbData = new MLBData({query:"mark"});
+    
+//    let waitfor = ()=>{
+//      if (mlbData.searchReady) {
+        mlbData.fetchData().then(results=>{
+          console.log(results);
+        })
+//      } else {
+//        console.log('not ready')
+//        setTimeout(waitfor, 500)
+//      }
+//    };
+//    waitfor();
+
+  </script>
+</body>
+</html>

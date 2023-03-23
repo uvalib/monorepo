@@ -1,3 +1,5 @@
+export { MLBData } from './MLBData.js';
+export { mlbExtrasURL, mlbYearsURL, MLBib } from './MLBib.js';
 export { DataWrap } from './DataWrap.js';
 export { CatalogData } from './CatalogData.js';
 export { ArticlesData } from './ArticlesData.js';
