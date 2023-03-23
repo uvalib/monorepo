@@ -11,7 +11,7 @@ export function parseMLB(mlbData: any){
   return new MLBib({
     id: mlbData.id,
     title: mlbData.doc.title,
-    description: "placeholder",
+    description: mlbData.doc.plainText,
     link: (mlbData.id.match(/^\d+$/))?
       `https://mlbib.library.virginia.edu/year/${mlbData.id}.html`:
       `https://mlbib.library.virginia.edu/${mlbData.id}.html`
@@ -23,7 +23,7 @@ export class MLBData extends GeneralData {
     document: {
       id: "id",
       index: ["plainText"],
-      store: ["title"]
+      store: ["title","plainText"]
     }
   });
 

@@ -35,6 +35,31 @@ export class MLBSection extends BentoSection {
       }
   }
 
+  highlight(text: string) {
+      const {query} = this;
+      const words = query.split(" ");
+      const result = { snippet: "", match: "" };
+    
+      for (let i = 0; i < words.length; i++) {
+        const regex = new RegExp(`\\b${words[i]}\\b`, "i");
+        const index = text.search(regex);
+        if (index !== -1) {
+          const startIndex = Math.max(index - 30, 0);
+          const endIndex = Math.min(index + 30, text.length - 1);
+          result.snippet = text.substring(startIndex, endIndex);
+          result.match = words[i];
+          break;
+        }
+      }
+    
+      if (result.snippet === "") {
+        result.snippet = text.substring(0, 60);
+      }
+    
+      console.log(result)
+      return result.snippet;
+  }
+
   render() {
     return html`
         <div class="bs-results--header">
@@ -42,17 +67,12 @@ export class MLBSection extends BentoSection {
 
         <div class="bs-results--body">
             <p id="no-results" ?hidden="${!this.isEmptySearch}">${this.noResultDescribe}</p>
-            <p ?hidden="${this.isEmptySearch}">Books, journals, manuscripts &amp; archival material, maps, music and sound recordings, theses and dissertations, and videos.</p>
             <ol ?hidden="${this.isEmptySearch}" class="bs-results--list">
 
             ${this.items.map(result=>html`
-              <li class="bs-results--list--entry"><a href="${result.link? result.link:''}" class="bs-results--title">${result.title}</a>
-                <ul class="ul-0">
-                  ${result.title? html`<li class="bs-results--author li-1">${result.title}</li>`:''}
-                    <ul class="ul-1">
-                      
-                    </ul>
-                </ul>
+              <li class="bs-results--list--entry">
+                <a href="${result.link? result.link:''}" class="bento-section-title">${result.title}</a>
+                ${result.description? html`<div class="bento-section-desc">${ this.highlight(result.description) }</div>`:''}
               </li>
             `)}
 
