@@ -22,7 +22,7 @@ export default {
       compact: true
     }),
     /** Minify JS */
-    terser(),
+//    terser(),
     /** Compile JS to a lower language target */
 //    babel({
 //      babelHelpers: 'bundled',

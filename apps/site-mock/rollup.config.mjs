@@ -27,7 +27,7 @@ export default {
     /** Resolve bare module imports */
     nodeResolve(),
     /** Minify JS */
-    terser(),
+//    terser(),
     /** Bundle assets references via import.meta.url */
     importMetaAssets(),
     /** Compile JS to a lower language target */
