@@ -38,7 +38,7 @@ export class DrupalSearchData extends GeneralData {
     }
 
     async fetchData(params?:{limit?:number}){
-      if (params && params.limit) this.limit = params.limit;
+      if (params && params.limit) this.limit = params.limit;    
       return fetch(this.makeURL())
         .then(r=>r.json())
         .then(data=>{

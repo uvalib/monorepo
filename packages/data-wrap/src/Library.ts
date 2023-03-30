@@ -53,6 +53,8 @@ export class Library {
 
     public parent?: string;
 
+    public children?: Library[];
+
     public closureOverride?: number; 
 
     public hours?: Hours;
@@ -61,19 +63,25 @@ export class Library {
         this.hours = h;
     }
 
-//    public async fetchHours() {
-//        if (this.hoursId) {
-//
-//        }
-//        else throw new Error(`hoursId is undefined`);
-//    }
+    public async fetchHours() {
+        if (this.hoursId) {
+
+        }
+        else throw new Error(`hoursId is undefined`);
+    }
 
     constructor(init?:Partial<Library>) {
         Object.assign(this, init);
     }
+
+    public async getChildren() {}
+
+    public async getParent() {}
 }
 
-export function parse(lib: { id: any; attributes: { title: any; body: { processed: any; }; field_short_title: any; field_type_basic: any; field_contact_form: any; field_donor_description: any; field_donor_title: any; field_email_address: any; field_hours_information: any; field_libcal_id: any; field_library_feed: any; field_library_site_link: { uri: any; }; field_location_key: any; field_fm_location: { lat: any; lng: any; }; field_mygroup_id: any; field_phone_number: any; field_social_media: { uri: any; title: any; }[]; field_slug: any; field_zip_code: any; field_google_my_business: any; field_parent: { data: { id: string | undefined; }; }; field_closure_override: any; }; }){
+export function parse(lib: {
+  relationships: any; id: any; attributes: { title: any; body: { processed: any; }; field_short_title: any; field_type_basic: any; field_contact_form: any; field_donor_description: any; field_donor_title: any; field_email_address: any; field_hours_information: any; field_libcal_id: any; field_library_feed: any; field_library_site_link: { uri: any; }; field_location_key: any; field_fm_location: { lat: any; lng: any; }; field_mygroup_id: any; field_phone_number: any; field_social_media: { uri: any; title: any; }[]; field_slug: any; field_zip_code: any; field_google_my_business: any; field_parent: { data: { id: string | undefined; }; }; field_closure_override: any; }; 
+}){
     return new Library({
       id: lib.id,
       uuid: lib.id,
@@ -110,8 +118,8 @@ export function parse(lib: { id: any; attributes: { title: any; body: { processe
       slug: lib.attributes.field_slug,
       zipCode: lib.attributes.field_zip_code,
       googleMyBusiness: lib.attributes.field_google_my_business,
-      parent: lib.attributes.field_parent && lib.attributes.field_parent.data && lib.attributes.field_parent.data.id? 
-        lib.attributes.field_parent.data.id:
+      parent: lib.relationships.field_parent && lib.relationships.field_parent.data && lib.relationships.field_parent.data.id? 
+        lib.relationships.field_parent.data.id:
         undefined,
       closureOverride: lib.attributes.field_closure_override
     })

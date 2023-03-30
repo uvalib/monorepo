@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      background: #fafafa;
+    }
+  </style>
+</head>
+<body>
+  <h2>Example of LibraryData to get Clemons</h2>
+  <div>
+    <ul id="library"></ul>
+  </div>
+
+  <script type="module">
+
+    import { LibrariesData } from '../dist/src/index.js';
+
+    let librariesData = new LibrariesData();
+
+    librariesData.getLibrary("clemons",true)
+      .then(lib=>{
+
+// Create a new date object for today
+const today = new Date();
+
+// Get the current day of the week (0 = Sunday, 1 = Monday, etc.)
+const currentDayOfWeek = today.getDay();
+
+// Calculate the number of days to subtract to get to last Sunday
+const daysToSubtract = currentDayOfWeek === 0 ? 0 : currentDayOfWeek;
+
+// Create a new date object for last Sunday or today if today is Sunday
+const lastSunday = new Date(today);
+lastSunday.setDate(today.getDate() - daysToSubtract);
+
+console.log(lastSunday);
+
+
+        librariesData.fetchHours(lastSunday,7).then(()=>{
+          console.log(JSON.stringify(lib,4));
+          const nextSunday = new Date(today);
+          nextSunday.setDate(lastSunday.getDate() + 7);
+          librariesData.fetchHours(nextSunday,7).then(()=>{
+            console.log(JSON.stringify(lib,4));
+          });
+        });
+      })
+
+  </script>
+</body>
+</html>
