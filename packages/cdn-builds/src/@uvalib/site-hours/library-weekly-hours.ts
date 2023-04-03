@@ -1,0 +1,1 @@
+import '@uvalib/site-hours/library-weekly-hours.js';

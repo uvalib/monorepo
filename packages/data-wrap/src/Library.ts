@@ -63,6 +63,13 @@ export class Library {
         this.hours = h;
     }
 
+    public getHoursCalIds() {
+      let ids:number[] = new Array();
+      if (this.hoursId) ids.push( parseInt(this.hoursId) );
+      if (this.children) this.children.forEach(c=>{ if(c.hoursId) ids.push( parseInt(c.hoursId) ) });
+      return ids;
+    }
+
     public async fetchHours() {
         if (this.hoursId) {
 

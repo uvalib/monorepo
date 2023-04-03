@@ -9,7 +9,8 @@
   "exports": {
     ".": "./dist/src/index.js",
     "./site-hours.js": "./dist/src/site-hours.js",
-    "./site-hours-section.js": "./dist/src/site-hours-section.js"
+    "./site-hours-section.js": "./dist/src/site-hours-section.js",
+    "./library-weekly-hours.js":"./dist/src/library-weekly-hours.js"
   },
   "scripts": {
     "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
@@ -24,6 +25,7 @@
   },
   "dependencies": {
     "@uvalib/data-wrap": "workspace:*",
+    "@uvalib/site-components": "workspace:*",
     "@uvalib/site-style": "workspace:*",
     "lit": "^2.0.0-rc.2"
   },
@@ -72,5 +74,4 @@
     "singleQuote": true,
     "arrowParens": "avoid"
   }
-
 }

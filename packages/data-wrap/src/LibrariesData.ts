@@ -46,8 +46,9 @@ export class LibrariesData extends DrupalSearchData {
 
   // While individual Library entities should be able to fetch their own hours, we 
   // need to be able to make a single api fetch when necessary (to save on network data)
-  async fetchHours(start:Date=new Date(), count?:number){
-    const hoursIds = this.items.map(lib=>lib.hoursId).filter(id=>id!==null).map(id=>parseInt(<string>id, 10));
+  async fetchHours(start:Date=new Date(), count?:number, hoursIds?:number[]){
+    if (!hoursIds) 
+      hoursIds = this.items.map(lib=>lib.hoursId).filter(id=>id!==null).map(id=>parseInt(<string>id, 10));
     return new HoursData({ids:hoursIds}).fetchHours(start, count)
       .then((hours: any)=>{
         this.items.forEach(library=>{
