@@ -31,6 +31,7 @@ export default {
     /** Bundle assets references via import.meta.url */
     importMetaAssets(),
     /** Compile JS to a lower language target */
+/*    
     babel({
       babelHelpers: 'bundled',
       presets: [
@@ -66,6 +67,7 @@ export default {
         ],
       ],
     }),
+*/    
     /** Create and inject a service worker */
     generateSW({
       globIgnores: ['polyfills/*.js', 'nomodule-*.js'],
