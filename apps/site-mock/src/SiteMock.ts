@@ -325,9 +325,32 @@ export class SiteMock extends LitElement {
             <h2><a href="https://github.com/uvalib/monorepo/tree/main/packages/site-hours">&lt;library-weekly-hours&gt;</a></h2>
             <div>
               ${unsafeHTML( this.mkPlayground(`
-                // load the module
-                import "https://unpkg.internal.lib.virginia.edu/web-components/latest/@uvalib/site-hours/library-weekly-hours.js";
+import "https://unpkg.internal.lib.virginia.edu/web-components/latest/@uvalib/site-style/site-style.js";
+import { LibrariesData } from "https://unpkg.internal.lib.virginia.edu/web-components/latest/@uvalib/data-wrap/data-wrap.js";
+import "https://unpkg.internal.lib.virginia.edu/web-components/latest/@uvalib/site-components/site-select.js";
+
+// load the module
+import "https://unpkg.internal.lib.virginia.edu/web-components/latest/@uvalib/site-hours/library-weekly-hours.js";
+
+let librariesData = new LibrariesData();
+librariesData.fetchData().then(results=>{
+    const hours = document.querySelector("library-weekly-hours")
+    const select = document.querySelector('site-select')   
+    results.items.filter(l=>{return !(!l.hoursId) && !l.parent;}).forEach(l=>{
+      const option = document.createElement('site-option');
+      option.appendChild(document.createTextNode(l.title))
+      option.setAttribute("value", l.slug);
+      if (l.slug === 'clemons') option.setAttribute("selected","")
+      select.appendChild(option)
+    })
+    select.removeAttribute("hidden")
+
+    select.addEventListener("change",(e)=>{
+      hours.setAttribute('library-slug',e.currentTarget.value)
+    })
+})
               `,`
+              <site-select hidden></site-select>
               <library-weekly-hours library-slug="clemons" no-shadow-dom no-style></library-weekly-hours>
               `) )}
             </div>            
