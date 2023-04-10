@@ -1,4 +1,4 @@
-import { html, LitElement, PropertyValueMap } from 'lit';
+import { html, PropertyValueMap } from 'lit';
 import { property } from 'lit/decorators.js';
 import { SiteStyle } from '@uvalib/site-style';
 import '@uvalib/site-components/site-button.js';
@@ -48,7 +48,6 @@ export class LibraryWeeklyHours extends SiteStyle {
 
   protected getLibraryData() {
     if (this.librarySlug) {
-      console.log("get data!")
       this.librariesData.getLibrary(this.librarySlug,true).then(lib=>{
         if (lib) {
           this.library = lib;
