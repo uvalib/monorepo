@@ -1,0 +1,7 @@
+module-loader.settings:
+  path: '/admin/config/system/module-loader'
+  defaults:
+    _form: 'Drupal\module-loader\Form\ModuleLoaderSettingsForm'
+    _title: 'Module Loader settings'
+  requirements:
+    _permission: 'administer site configuration'
