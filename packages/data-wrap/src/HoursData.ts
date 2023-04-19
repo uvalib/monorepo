@@ -42,7 +42,7 @@ export class HoursData extends GeneralData {
 
   // eslint-disable-next-line class-methods-use-this
   async fetchData(qsa:string|undefined=undefined){
-    return fetch( `${ hoursEndpointURL.replace("[[calIds]]",this.ids.join(',')) }${ qsa? `&${qsa}`:'' }` )
+    return this.fetchWithRetry( `${ hoursEndpointURL.replace("[[calIds]]",this.ids.join(',')) }${ qsa? `&${qsa}`:'' }` )
           .then(res=>res.json())
           .then(hoursData=>hoursData.map((hours: Partial<Hours> | undefined)=>parseHours(hours)));
   }

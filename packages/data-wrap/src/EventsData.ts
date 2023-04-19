@@ -25,7 +25,7 @@ export class EventsData extends GeneralData {
     }
 
     async fetchData(){
-      return fetch(this.endpointURL())
+      return this.fetchWithRetry(this.endpointURL())
         .then(r=>r.json())
         .then(data=>{
           this._parseResults(data);

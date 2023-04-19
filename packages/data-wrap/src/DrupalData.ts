@@ -2,7 +2,10 @@ import { GeneralData } from './GeneralData.js';
 
 export class DrupalData extends GeneralData {
 
-    protected drupalEndpointURL = "https://api.library.virginia.edu/drupal/jsonapi/";
+    //protected drupalEndpointURL = "https://api.library.virginia.edu/drupal/jsonapi/";
+    //protected drupalEndpointURL = "https://library.virginia.edu/jsonapi/";
+    protected drupalEndpointURL = (window && window.location && window.location.hostname && (window.location.hostname === "library.virginia.edu" || window.location.hostname === "www.library.virginia.edu" || window.location.hostname === "library-drupal-dev-1.internal.lib.virginia.edu"))?
+      `/jsonapi/`: "https://api.library.virginia.edu/drupal/jsonapi/";
 
     protected type: string = "";
 
@@ -37,7 +40,7 @@ export class DrupalData extends GeneralData {
 
     async fetchData(params?:{limit?:number}){
       if (params && params.limit) this.limit = params.limit;    
-      return fetch(this.makeURL())
+      return this.fetchWithRetry(this.makeURL())
         .then(r=>r.json())
         .then(data=>{
           this._parseResults(data);         
