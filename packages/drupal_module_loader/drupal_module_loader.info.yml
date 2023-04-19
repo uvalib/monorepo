@@ -1,0 +1,9 @@
+name: ES6 Module Loader
+type: module
+description: 'A custom module for Drupal that loads es6 modules based on page content.'
+version: '1.0.0'
+core_version_requirement: ^8 || ^9
+configure: module-loader.settings
+dependencies:
+  - drupal:views
+  - drupal:views_ui
