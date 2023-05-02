@@ -1,25 +1,75 @@
 <?php
 
+use Symfony\Component\Yaml\Yaml;
+
+/**
+ * Implements hook_element_info_alter().
+ */
+function drupal_module_loader_element_info_alter(&$types) {
+  // Load the YAML map file.
+  $map_file = drupal_get_path('module', 'drupal_module_loader') . '/map.yml';
+  $map = Yaml::parseFile($map_file);
+
+  // Add each custom element type to the list of known types.
+  foreach ($map as $type => $url_template) {
+    $types[$type]['#type'] = 'custom_element';
+  }
+}
+
 /**
  * Implements hook_page_attachments_alter().
  */
-function module-loader_page_attachments_alter(array &$attachments) {
-  // Check if the current page contains a web component/custom element.
-  $request = Drupal::request();
-  $route_match = Drupal::routeMatch();
-  $route_name = $route_match->getRouteName();
-  $route_parameters = $route_match->getParameters();
-  $response = $route_parameters->get('node')->body->value;
+function drupal_module_loader_page_attachments_alter(array &$attachments) {
+  // Check if the page body contains any custom element tags.
+  $body = \Drupal::service('current_route_match')->getParameter('node')->body->value ?? '';
+  preg_match_all('/<([a-z0-9\-]+)>/i', $body, $matches);
 
-  // Get the version number from the module configuration.
-  $config = \Drupal::config('module-loader.settings');
-  $version = $config->get('version');
+  // Load the YAML map file.
+  $map_file = drupal_get_path('module', 'drupal_module_loader') . '/map.yml';
+  $map = Yaml::parseFile($map_file);
 
-  if (strpos($response, 'my-custom-element') !== FALSE) {
-    // Add a script module import to the head of the page response.
-    $attachments['#attached']['html_head_link'][] = [
-      'rel' => 'modulepreload',
-      'href' => "path/to/module-$version.js",
-    ];
+  // Add a script tag to the head for each custom element tag found.
+  foreach ($matches[1] as $tag) {
+    if (isset($map[$tag])) {
+      $url = str_replace('{version}', \Drupal::state()->get('drupal_module_loader_version', '1.0.0'), $map[$tag]);
+      $attachments['#attached']['html_head'][] = [
+        [
+          '#tag' => 'script',
+          '#attributes' => [
+            'type' => 'module',
+            'src' => $url,
+          ],
+        ],
+        'drupal_module_loader:' . $tag,
+      ];
+    }
   }
+}
+
+
+function drupal_module_loader_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'system_performance_settings') {
+    // Add a version field to the performance settings form.
+    $form['drupal_module_loader_version'] = [
+      '#type' => 'textfield',
+      '#title' => t('Drupal Module Loader version'),
+      '#default_value' => \Drupal::state()->get('drupal_module_loader_version', '1.0.0'),
+      '#description' => t('The version of the Drupal Module Loader module to use in the CDN URL templates.'),
+    ];
+
+    // Add a submit handler to save the version setting.
+    $form['actions']['submit']['#submit'][] = 'drupal_module_loader_system_config_form_submit';
+  }
+}
+
+
+
+
+/**
+ * Form submission handler for the system config form.
+ */
+function drupal_module_loader_system_config_form_submit(&$form, &$form_state) {
+  // Save the version setting.
+  \Drupal::state()->set('drupal_module_loader_version', $form_state->getValue('drupal_module_loader_version')
+ );
 }
