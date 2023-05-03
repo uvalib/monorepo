@@ -1,14 +1,18 @@
 <?php
 
 use Symfony\Component\Yaml\Yaml;
+use Drupal\Component\Utility\Xss;
+
+function drupal_module_loader_get_map() {
+  $map_file = drupal_get_path('module', 'drupal_module_loader') . '/map.yml';
+  return Yaml::parseFile($map_file);
+}
 
 /**
  * Implements hook_element_info_alter().
  */
 function drupal_module_loader_element_info_alter(&$types) {
-  // Load the YAML map file.
-  $map_file = drupal_get_path('module', 'drupal_module_loader') . '/map.yml';
-  $map = Yaml::parseFile($map_file);
+  $map = drupal_module_loader_get_map();
 
   // Add each custom element type to the list of known types.
   foreach ($map as $type => $url_template) {
@@ -24,9 +28,7 @@ function drupal_module_loader_page_attachments_alter(array &$attachments) {
   $body = \Drupal::service('current_route_match')->getParameter('node')->body->value ?? '';
   preg_match_all('/<([a-z0-9\-]+)>/i', $body, $matches);
 
-  // Load the YAML map file.
-  $map_file = drupal_get_path('module', 'drupal_module_loader') . '/map.yml';
-  $map = Yaml::parseFile($map_file);
+  $map = drupal_module_loader_get_map();
 
   // Add a script tag to the head for each custom element tag found.
   foreach ($matches[1] as $tag) {
@@ -70,6 +72,6 @@ function drupal_module_loader_form_alter(&$form, &$form_state, $form_id) {
  */
 function drupal_module_loader_system_config_form_submit(&$form, &$form_state) {
   // Save the version setting.
-  \Drupal::state()->set('drupal_module_loader_version', $form_state->getValue('drupal_module_loader_version')
+  \Drupal::state()->set('drupal_module_loader_version', Xss::filter($form_state->getValue('drupal_module_loader_version')));
  );
 }
