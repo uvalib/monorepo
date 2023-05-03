@@ -15,6 +15,9 @@ composer require uvalib/dml:dev-main
 drush en drupal_module_loader
 ```
 2. Set the version of the component CDN build that you want to use for modules that are loaded in the `Configuration -> Performance` menu.
+```
+2.1.6
+```
 3. Add custom element tags to your Drupal content. These tags should be in the format `<bento-box></bento-box>`.
 4. Clear the cache to ensure that the custom elements are loaded from the CDN.
 
