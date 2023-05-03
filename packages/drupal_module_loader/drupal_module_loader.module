@@ -73,5 +73,4 @@ function drupal_module_loader_form_alter(&$form, &$form_state, $form_id) {
 function drupal_module_loader_system_config_form_submit(&$form, &$form_state) {
   // Save the version setting.
   \Drupal::state()->set('drupal_module_loader_version', Xss::filter($form_state->getValue('drupal_module_loader_version')));
- );
 }
