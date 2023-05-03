@@ -5,7 +5,7 @@
     "module": "esnext",
     "moduleResolution": "node",
     "noEmitOnError": true,
-    "lib": ["es2017", "dom"],
+    "lib": ["DOM", "ESNext"],
     "strict": true,
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,

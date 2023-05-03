@@ -9,7 +9,7 @@ export class GeneralData {
 
     public meta: GeneralSearchMeta = {totalResults:0};
 
-    public limit?: number;
+    public limit: number = 100;
 
     public fetchRetries: number = 3;
 
@@ -24,28 +24,26 @@ export class GeneralData {
       return Promise.resolve({items: this.items, meta: this.meta});
     }
 
-    async fetchWithRetry(url: string, options: any = {}): Promise<Response> {
-      const retry = async (attempt: number): Promise<Response> => {
-        try {
-          const response = await fetch(url, options);
-          if (response.ok) {
-            return response;
-          }
-          if (attempt < this.fetchRetries) {
-            await new Promise(resolve => setTimeout(resolve, this.fetchDelay));
-            return retry(attempt + 1);
-          } 
+    async fetchWithRetry(url: string, options: Partial<RequestInit> = {}): Promise<Response> {
+      return this.retry(async () => {
+        const response = await fetch(url, options);
+        if (!response.ok) {
           throw new Error(response.statusText);
-        } catch (error) {
-          if (attempt < this.fetchRetries) {
-            await new Promise(resolve => setTimeout(resolve, this.fetchDelay));
-            return retry(attempt + 1);
-          } 
-          throw error;
         }
-      };
-    
-      return retry(1);
+        return response;
+      });
+    }
+
+    private async retry<T>(fn: () => Promise<T>, attempt: number = 1): Promise<T> {
+      try {
+        return await fn();
+      } catch (error) {
+        if (attempt < this.fetchRetries) {
+          await new Promise(resolve => setTimeout(resolve, this.fetchDelay));
+          return this.retry(fn, attempt + 1);
+        }
+        throw error;
+      }
     }
 
 }

@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "lib": ["DOM", "ESNext"]
   },
   "include": ["**/*.ts"]
 }

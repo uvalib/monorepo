@@ -28,7 +28,7 @@ export class BentoSection extends SiteStyle {
 
   @property({ type: String }) query = '';
 
-  @property({ type: Number }) limit?: number = undefined;
+  @property({ type: Number }) limit: number = 0;
 
   @property({ type: String }) title = "";
 

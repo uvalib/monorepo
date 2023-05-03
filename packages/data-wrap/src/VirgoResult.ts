@@ -1,21 +1,16 @@
-export class VirgoResult {
-    public id?: string;
+import { GeneralSearchResult } from "./GeneralSearchResult";
 
-    public title?: string;
+export class VirgoResult extends GeneralSearchResult {
 
-    public description?: string;
+    public readonly author?: string[]; // List of authors for the result
 
-    public link?: string;
+    public readonly datePublished?: Date; // Date the result was published
 
-    public author?: string[];
+    public readonly publicationType?: string[]; // Types of publications for the result
 
-    public datePublished?: Date;
+    public readonly format?: string[]; // Formats available for the result
 
-    public publicationType?: string[];
-
-    public format?: string[];
-
-    constructor(init?:Partial<VirgoResult>) {
-        Object.assign(this, init);
+    constructor(init?: Partial<VirgoResult>) {
+        super(init);
     }
 }

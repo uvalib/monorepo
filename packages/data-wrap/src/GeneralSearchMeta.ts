@@ -1,4 +1,5 @@
 export interface GeneralSearchMeta { 
-    totalResults?: Number | undefined;
-    url?: string;    
+    totalResults?: number;
+    url?: string;
 }
+  
