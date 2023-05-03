@@ -3,6 +3,3 @@ type: module
 description: 'A module that loads web components from a CDN based on custom elements defined in the response body.'
 package: Custom
 core_version_requirement: ^8 || ^9
-dependencies:
-  - config
-  - symfony/yaml
