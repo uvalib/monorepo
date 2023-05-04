@@ -11,43 +11,40 @@
 <body>
   <h2>Example of LibraryData to get Clemons</h2>
   <div>
-    <ul id="library"></ul>
+    <ul id="library-hours"></ul>
   </div>
 
   <script type="module">
 
     import { LibrariesData } from '../dist/src/index.js';
 
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      return new Intl.DateTimeFormat('en-US', options).format(date);
+    }
+
+    function displayLibraryHours(hours) {
+      const libraryHoursList = document.getElementById('library-hours');
+      const hoursArray = Object.values(hours);
+      libraryHoursList.innerHTML = hoursArray.map(hour => `<li>${formatDate(hour.date)}: ${hour.opens} - ${hour.closes}</li>`).join('');
+    }
+
     let librariesData = new LibrariesData();
 
-    librariesData.getLibrary("clemons",true)
-      .then(lib=>{
+    librariesData.getLibrary("clemons", true)
+      .then(lib => {
+        const today = new Date();
+        const currentDayOfWeek = today.getDay();
+        const daysToSubtract = currentDayOfWeek === 0 ? 0 : currentDayOfWeek;
+        const lastSunday = new Date(today);
+        lastSunday.setDate(today.getDate() - daysToSubtract);
 
-// Create a new date object for today
-const today = new Date();
-
-// Get the current day of the week (0 = Sunday, 1 = Monday, etc.)
-const currentDayOfWeek = today.getDay();
-
-// Calculate the number of days to subtract to get to last Sunday
-const daysToSubtract = currentDayOfWeek === 0 ? 0 : currentDayOfWeek;
-
-// Create a new date object for last Sunday or today if today is Sunday
-const lastSunday = new Date(today);
-lastSunday.setDate(today.getDate() - daysToSubtract);
-
-console.log(lastSunday);
-
-
-        librariesData.fetchHours(lastSunday,7).then(()=>{
-          console.log(JSON.stringify(lib,4));
-          const nextSunday = new Date(today);
-          nextSunday.setDate(lastSunday.getDate() + 7);
-          librariesData.fetchHours(nextSunday,7).then(()=>{
-            console.log(JSON.stringify(lib,4));
-          });
+        return librariesData.fetchHours(lastSunday, 7).then(() => {
+          const clemonsChild = lib.children.find(child => child.title === 'Clemons Library');
+          displayLibraryHours(clemonsChild.hours.rawDates);
         });
-      })
+      });
 
   </script>
 </body>

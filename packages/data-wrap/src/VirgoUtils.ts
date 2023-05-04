@@ -62,7 +62,7 @@ export class VirgoUtils {
     
   }
 
-  static parseResults(linkBaseURL: string, { group_list = [] }: any) {
+  static parseResults(linkBaseURL: string, { group_list = [], pagination = {} }: any) {   
     const items = group_list.map((g: any) => {
       if (g.count === 1) {
         const hit = g.record_list[0];
@@ -85,12 +85,12 @@ export class VirgoUtils {
         };
         return item;
       }
-      console.log("handle grouped item");
+
       return null;
     }).filter((item: VirgoResult | null) => item !== null);
 
     const meta: GeneralSearchMeta = {
-      totalResults: group_list.length > 0 && group_list[0].pagination ? group_list[0].pagination.total : 0,
+      totalResults: pagination? pagination.total : 0,
     };
 
     return { items, meta };

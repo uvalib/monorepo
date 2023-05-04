@@ -11,6 +11,10 @@
 <body>
   <h2>Example of CatalogData</h2>
   <div>
+    <input type="text" id="searchQuery" placeholder="Search catalog..." value="football">
+    <button id="searchButton">Search</button>
+  </div>
+  <div>
     <ul id="catalog"></ul>
   </div>
 
@@ -19,10 +23,26 @@
     import { CatalogData } from '../dist/src/index.js';
 
     let catalogData = new CatalogData({query:"football",limit:9});
-    catalogData.fetchData().then(results=>{
+    catalogData.fetchData().then(results => {
       console.log(results);
-      document.getElementById('catalog').innerHTML = results.items.map(r=>`<li>${r.title}</li>`).join();
-    })
+      displayCatalogItems(results.items);
+    });
+
+    document.getElementById('searchButton').addEventListener('click', () => {
+      const searchQuery = document.getElementById('searchQuery').value;
+      if (searchQuery) {
+        catalogData.query = searchQuery;
+        catalogData.fetchData().then(results => {
+          console.log(results);
+          displayCatalogItems(results.items);
+        });
+      }
+    });
+
+    function displayCatalogItems(items) {
+      const catalogList = document.getElementById('catalog');
+      catalogList.innerHTML = items.map(r => `<li>${r.title}</li>`).join('');
+    }
 
   </script>
 </body>

@@ -32,9 +32,9 @@ export class BentoSection extends SiteStyle {
 
   @property({ type: String }) title = "";
 
-  @property({ type: Number, attribute: "max-title-length" }) maxTitleLength?: number = undefined;
+  @property({ type: Number, attribute: "max-title-length" }) maxTitleLength?: number;
 
-  @property({ type: String }) label: string|null = null;
+  @property({ type: String }) label: string = '';
 
   @property({ type: Array }) items: GeneralSearchResult[] = [];
 
@@ -42,7 +42,7 @@ export class BentoSection extends SiteStyle {
 
   @property({ type: String, attribute: "no-result-describe" }) noResultDescribe = "";
 
-  @property({ type: Boolean, attribute: "is-empty-search" }) isEmptySearch=true;
+  @property({ type: Boolean, attribute: "is-empty-search" }) isEmptySearch = true;
 
   protected updated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
       if (_changedProperties.has('items') || _changedProperties.has('loading')) {
@@ -56,26 +56,23 @@ export class BentoSection extends SiteStyle {
   }
 
   protected limitTitle(title?: String) {
-    if (this.maxTitleLength && title && title.length>=this.maxTitleLength)
+    if (this.maxTitleLength && title && title.length >= this.maxTitleLength)
       return `${title.substring(0, this.maxTitleLength)}…`;
-    return title; 
+    return title;
   }
 
   render() {
     return html`
       <h1>${ this.limitTitle(this.title) }</h1>
-      ${this.label==null || this.label!==""? html`
-        <h2 ?hidden="${this.loading}">${this.label? this.label:html`Search for ${this.query}`}</h2>
-      `:''}
+      <h2 ?hidden="${this.loading}">${this.label ? this.label : `Search for ${this.query}`}</h2>
       ${this.loading? html`<site-spinner></site-spinner>`:''}
-      <p id="no-results" ?hidden="${this.isEmptySearch}">${this.noResultDescribe}</p>
+      <p id="no-results" ?hidden="${!this.isEmptySearch}">${this.noResultDescribe ? this.noResultDescribe : `No results found for "${this.query}"`}</p>
       <ul ?hidden="${this.loading}">
-        ${this.items.map(item=>html`
+        ${this.items.map(item => html`
           <li>
             ${ this.renderBriefItem(item) }
           </li>
         `)}
-
       </ul>
     `;
   }
