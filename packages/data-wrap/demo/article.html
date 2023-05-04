@@ -19,9 +19,42 @@
     import { ArticlesData } from '../dist/src/index.js';
 
     let articlesData = new ArticlesData({query:"foot"});
-    articlesData.fetchData().then(results=>{
+    articlesData.fetchData().then(results => {
       console.log(results);
-    })
+      displayArticles(results.items);
+    });
+
+    function displayArticles(articles) {
+      const articleList = document.getElementById('article');
+      articles.forEach(article => {
+        const listItem = document.createElement('li');
+        const title = document.createElement('h3');
+        title.textContent = article.title;
+        listItem.appendChild(title);
+
+        if (article.author && article.author.length > 0) {
+          const author = document.createElement('p');
+          author.textContent = `Author(s): ${article.author.join(', ')}`;
+          listItem.appendChild(author);
+        }
+
+        if (article.datePublished) {
+          const datePublished = document.createElement('p');
+          datePublished.textContent = `Date Published: ${article.datePublished.toISOString().substring(0, 10)}`;
+          listItem.appendChild(datePublished);
+        }
+
+        if (article.link) {
+          const link = document.createElement('a');
+          link.href = article.link;
+          link.textContent = 'View on Virgo';
+          link.target = '_blank';
+          listItem.appendChild(link);
+        }
+
+        articleList.appendChild(listItem);
+      });
+    }
 
   </script>
 </body>

@@ -9,19 +9,17 @@ describe('DataWrap', () => {
 
   beforeEach(async () => {
     librariesData = new LibrariesData();
-    libraries = await librariesData.fetchData();
     articlesData = new ArticlesData({query:"foot",limit:10});
     catalogData = new CatalogData({query:"football",limit:8});
   });
 
   // ensure that we are able to get library results
-  it('fetches libraries', () => {
+  it('fetches libraries', async () => {
+    console.log('fetching libraries');
+    libraries = await librariesData.fetchData();
     expect(libraries.items).to.have.lengthOf.above(0);
     console.log(`Found ${libraries.items.length} libraries!`);
-  });
-
-  // ensure that we are able to get hours for the library results
-  it('fetches hours for libraries', async () => {
+    // ensure that we are able to get hours for the library results
     console.log('Running fetches hours for libraries test');
     await librariesData.fetchHours();
     const libList = <Library[]>libraries.items;
