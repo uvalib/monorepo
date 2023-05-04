@@ -23,6 +23,7 @@
     "@rollup/plugin-node-resolve": "^13.0.4",
     "@rollup/plugin-terser": "^0.4.0",
     "@types/chai": "^4.3.4",
+    "@types/flexsearch": "^0.7.3",
     "@types/mocha": "^10.0.0",
     "@types/node": "^18.11.9",
     "@web/rollup-plugin-html": "^1.11.0",

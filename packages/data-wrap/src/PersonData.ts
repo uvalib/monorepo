@@ -8,7 +8,7 @@ export class PersonData extends DrupalSearchData {
 
   public items: Person[] = [];
 
-  _parseResults(n: any) {
+  protected parseResults(n: any) {
     // parse out the excerpts that are located in a meta section of the response
     n.data.forEach((res: { attributes: { drupal_internal__nid: any; }; meta: any; }) => {
       const id = res.attributes.drupal_internal__nid;

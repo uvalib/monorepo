@@ -2,23 +2,31 @@
 import { Page, parse } from './Page.js';
 import { DrupalSearchData, WebSearchPageURL } from './DrupalSearchData.js';
 
-export class PageData extends DrupalSearchData {
+type PageDataNode = {
+  data: any[];
+  meta: {
+    extra_data: { [id: string]: any };
+    count: number;
+  };
+};
 
-  protected type: string = "page"
+export class PageData extends DrupalSearchData {
+  protected type: string = "page";
 
   public items: Page[] = [];
 
-  _parseResults(n: any) {
-    // parse out the excerpts that are located in a meta section of the response
-    n.data.forEach((res: { attributes: { drupal_internal__nid: any; }; meta: any; }) => {
-      const id = res.attributes.drupal_internal__nid;
-      const meta = n.meta.extra_data[id];
-      res.meta = meta;
+  protected parseResults(n: PageDataNode) {
+    n.data.forEach((res: { attributes: { drupal_internal__nid: any }; meta: any }) => {
+      const { attributes: { drupal_internal__nid }, meta } = res;
+      const id = drupal_internal__nid;
+      const newMeta = n.meta.extra_data[id];
+      res.meta = newMeta;
     });
+  
     // Setup Library results
-    this.items = n.data.map(parse)
+    this.items = n.data.map(parse);
     this.meta.totalResults = n.meta.count;
-    this.meta.url = `${WebSearchPageURL}?keys=${ this.query }`
+    this.meta.url = `${WebSearchPageURL}?keys=${this.query}`;
   }
-
+  
 }

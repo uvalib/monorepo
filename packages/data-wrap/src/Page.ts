@@ -1,24 +1,35 @@
-export class Page {
-    public id?: string;
+import { GeneralSearchResult } from "./GeneralSearchResult";
 
-    public uuid?: string;
+export class Page extends GeneralSearchResult {
 
-    public title?: string;
+    public readonly uuid?: string;
 
-    public body?: string;
+    public readonly body?: string;
 
-    public description?: string;
-
-    public path?: string;
-
-    public link?: string;
+    public readonly path?: string;
 
     constructor(init?:Partial<Page>) {
-        Object.assign(this, init);
+        super(init);
     }
 }
 
-export function parse(page: { id: any; attributes: { title: any; body: { processed: any; }; path: { alias: any; }; }; meta: { excerpt: string; }; }){
+type PageData = {
+  id: any;
+  attributes: {
+    title: any;
+    body: {
+      processed: any;
+    };
+    path: {
+      alias: any;
+    };
+  };
+  meta: {
+    excerpt: string;
+  };
+};
+
+export function parse(page: PageData) {
     return new Page({
       id: page.id,
       uuid: page.id,

@@ -16,7 +16,8 @@
     "declaration": true,
     "incremental": true,
     "rootDir": "./",
-    "outDir": "dist"
+    "outDir": "dist",
+    "typeRoots": ["./typings", "./node_modules/@types", "../../node_modules/@types"]
   },
   "include": ["**/*.ts"]
 }

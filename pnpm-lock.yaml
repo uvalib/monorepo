@@ -42,6 +42,9 @@ importers:
       '@types/chai':
         specifier: ^4.3.4
         version: 4.3.4
+      '@types/flexsearch':
+        specifier: ^0.7.3
+        version: 0.7.3
       '@types/mocha':
         specifier: ^10.0.0
         version: 10.0.1
@@ -241,8 +244,6 @@ importers:
         specifier: workspace:*
         version: link:../tsconfig
 
-  packages/component-loader: {}
-
   packages/data-wrap:
     dependencies:
       date-fns:
@@ -359,6 +360,8 @@ importers:
         specifier: ^4.3.5
         version: 4.9.3
 
+  packages/drupal_module_loader: {}
+
   packages/site-alert:
     dependencies:
       lit:
@@ -413,9 +416,6 @@ importers:
 
   packages/site-components:
     dependencies:
-      '@material/web':
-        specifier: 1.0.0-pre.4
-        version: 1.0.0-pre.4
       '@microsoft/fast-components':
         specifier: ^2.30.6
         version: 2.30.6
@@ -590,7 +590,7 @@ importers:
         specifier: workspace:*
         version: link:../data-wrap
       '@uvalib/site-components':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../site-components
       '@uvalib/site-style':
         specifier: workspace:*
@@ -646,58 +646,6 @@ importers:
         version: 4.9.3
 
   packages/site-nav:
-    dependencies:
-      lit:
-        specifier: ^2.0.0-rc.2
-        version: 2.4.1
-    devDependencies:
-      '@open-wc/eslint-config':
-        specifier: ^4.3.0
-        version: 4.3.0(@babel/eslint-plugin@7.19.1)(eslint-plugin-html@6.2.0)(eslint-plugin-import@2.26.0)(eslint-plugin-lit-a11y@1.1.0)(eslint-plugin-lit@1.6.1)(eslint-plugin-no-only-tests@2.6.0)(eslint-plugin-wc@1.4.0)
-      '@open-wc/testing':
-        specifier: next
-        version: 3.0.0-next.5
-      '@typescript-eslint/eslint-plugin':
-        specifier: ^4.29.2
-        version: 4.33.0(@typescript-eslint/parser@4.33.0)(eslint@7.32.0)(typescript@4.9.3)
-      '@typescript-eslint/parser':
-        specifier: ^4.29.2
-        version: 4.33.0(eslint@7.32.0)(typescript@4.9.3)
-      '@web/dev-server':
-        specifier: ^0.1.21
-        version: 0.1.35
-      '@web/dev-server-storybook':
-        specifier: next
-        version: 0.3.7-next.0
-      '@web/test-runner':
-        specifier: next
-        version: 0.13.16-next.0
-      concurrently:
-        specifier: ^5.3.0
-        version: 5.3.0
-      eslint:
-        specifier: ^7.32.0
-        version: 7.32.0
-      eslint-config-prettier:
-        specifier: ^8.3.0
-        version: 8.5.0(eslint@7.32.0)
-      husky:
-        specifier: ^4.3.8
-        version: 4.3.8
-      lint-staged:
-        specifier: ^10.5.4
-        version: 10.5.4
-      prettier:
-        specifier: ^2.3.2
-        version: 2.8.0
-      tslib:
-        specifier: ^2.3.1
-        version: 2.4.1
-      typescript:
-        specifier: ^4.3.5
-        version: 4.9.3
-
-  packages/site-search:
     dependencies:
       lit:
         specifier: ^2.0.0-rc.2
@@ -2970,13 +2918,6 @@ packages:
     dependencies:
       '@material/feature-targeting': 14.0.0-canary.53b3cad2f.0
       '@material/theme': 14.0.0-canary.53b3cad2f.0
-      tslib: 2.4.1
-    dev: false
-
-  /@material/web@1.0.0-pre.4:
-    resolution: {integrity: sha512-zafEDXi376L8jdeQX57NF8IbEeVQTOdYrWR3bfDl8JhhOT+mOU1XWhwslqbN0QANvDYrjH5k0/RwiSjBjIBpeA==}
-    dependencies:
-      lit: 2.4.1
       tslib: 2.4.1
     dev: false
 
@@ -5859,6 +5800,7 @@ packages:
 
   /eslint-config-prettier@8.5.0(eslint@7.32.0):
     resolution: {integrity: sha512-obmWKLUNCnhtQRKc+tmnYuQl0pFU1ibYJQ5BGhTVB08bHe9wC8qUeG7c08dj9XX+AuPj1YSGSQIHl1pnDHZR0Q==}
+    hasBin: true
     peerDependencies:
       eslint: '>=7.0.0'
     dependencies:

@@ -10,7 +10,7 @@ export class WebsiteData extends DrupalSearchData {
 
   public types: string[] = ["page","person","library"];
 
-  _parseResults(d: any) {
+  parseResults(d: any) {
     // parse out the excerpts that are located in a meta section of the response
     d.data.forEach((res: { attributes: { drupal_internal__nid: any; }; meta: any; }) => {
       const id = res.attributes.drupal_internal__nid;
