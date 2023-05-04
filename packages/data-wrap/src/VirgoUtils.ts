@@ -45,18 +45,21 @@ export class VirgoUtils {
       }),
     };
 
+
     try {
       const response = await fetch(searchURL, options);
       if (!response.ok) {
         throw new Error(`Error fetching data: ${response.statusText}`);
       }
       const data = await response.json();
+      // console.log("API Response Data:", data); // Add this line to log the response data
       const results = VirgoUtils.parseResults(linkBaseURL, data);
       return results;
     } catch (error) {
       console.error(`Error in fetchData: ${(error as Error).message}`);
       return { items: [], meta: { totalResults: 0 } };
     }
+    
   }
 
   static parseResults(linkBaseURL: string, { group_list = [] }: any) {

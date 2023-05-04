@@ -18,7 +18,7 @@
 
     import { CatalogData } from '../dist/src/index.js';
 
-    let catalogData = new CatalogData({query:"foot"});
+    let catalogData = new CatalogData({query:"football",limit:9});
     catalogData.fetchData().then(results=>{
       console.log(results);
       document.getElementById('catalog').innerHTML = results.items.map(r=>`<li>${r.title}</li>`).join();
