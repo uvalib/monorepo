@@ -11,6 +11,10 @@
 <body>
   <h2>Example of ArticleData</h2>
   <div>
+    <input type="text" id="searchQuery" placeholder="Search articles..." value="foot">
+    <button id="searchButton">Search</button>
+  </div>
+  <div>
     <ul id="article"></ul>
   </div>
 
@@ -24,8 +28,20 @@
       displayArticles(results.items);
     });
 
+    document.getElementById('searchButton').addEventListener('click', () => {
+      const searchQuery = document.getElementById('searchQuery').value;
+      if (searchQuery) {
+        articlesData.query = searchQuery;
+        articlesData.fetchData().then(results => {
+          console.log(results);
+          displayArticles(results.items);
+        });
+      }
+    });
+
     function displayArticles(articles) {
       const articleList = document.getElementById('article');
+      articleList.innerHTML = ''; // Clear the previous list items
       articles.forEach(article => {
         const listItem = document.createElement('li');
         const title = document.createElement('h3');
