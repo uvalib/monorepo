@@ -43,7 +43,7 @@ describe('DataWrap', () => {
     this.timeout(15000);
     await catalogData.fetchData();
     expect(catalogData.items).to.have.lengthOf.above(0);
-    expect(catalogData.items).to.have.lengthOf(7);
+    expect(catalogData.items).to.have.lengthOf(8);
   });
 
   // Other tests...

@@ -11,7 +11,8 @@ export class CatalogData extends GeneralData {
 
   async fetchData(params?: { limit?: number }): Promise<{ meta: GeneralSearchMeta; items: VirgoResult[] }> {
     const limit = params?.limit ?? this.limit;
-    const results = await VirgoUtils.fetchData(CatalogData.virgoCatalogPoolURL, CatalogData.catalogLinkBase, this.query, limit);
+    // ToDo: Just a note that using `limit+1` is a hack to accomodate a bug in the upstream Virgo API
+    const results = await VirgoUtils.fetchData(CatalogData.virgoCatalogPoolURL, CatalogData.catalogLinkBase, this.query, limit+1);
 
     results.meta.url = `https://search.lib.virginia.edu/?q=${this.query}&pool=uva_library`;
 
