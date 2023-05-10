@@ -2,7 +2,6 @@
 import { html, PropertyValueMap } from 'lit';
 import { property } from 'lit/decorators.js';
 import { EventsData, Event } from '@uvalib/data-wrap';
-import { isSameDay } from 'date-fns';
 import { BentoSection } from './BentoSection.js';
 
 export class EventsSection extends BentoSection {
@@ -41,10 +40,18 @@ export class EventsSection extends BentoSection {
     `
   }
 
+  static isSameDay(date1: Date, date2: Date): boolean {
+    return (
+      date1.getFullYear() === date2.getFullYear() &&
+      date1.getMonth() === date2.getMonth() &&
+      date1.getDate() === date2.getDate()
+    );
+  }
+
   static dateRange(_start: number|undefined, _end: number|undefined){
     const start = _start? new Date(_start): new Date();
     const end = _end? new Date(_end): new Date();
-    if (isSameDay(start, end))    
+    if (EventsSection.isSameDay(start, end))    
       return EventsSection.formatDate(start);
     return html`${ EventsSection.formatDate(start) } - ${ EventsSection.formatDate(end) }`;
   }

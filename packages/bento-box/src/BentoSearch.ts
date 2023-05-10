@@ -36,10 +36,10 @@ export class BentoSearch extends SiteStyle {
     `;
   }
 
-  search(e: { preventDefault: () => void; }){
+  search(e: { preventDefault: () => void; }) {
     e.preventDefault();
     this.query = this.inputEl.value;
-    this.dispatchEvent(new Event('search',{bubbles: true, composed:true}))
-    return false;
+    this.dispatchEvent(new Event('search', { bubbles: true, composed: true }));
   }
+  
 }

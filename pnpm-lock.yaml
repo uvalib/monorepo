@@ -51,6 +51,9 @@ importers:
       '@types/node':
         specifier: ^18.11.9
         version: 18.11.9
+      '@uvalib/site-style':
+        specifier: workspace:^
+        version: link:packages/site-style
       '@web/rollup-plugin-html':
         specifier: ^1.11.0
         version: 1.11.0
