@@ -30,6 +30,7 @@
     "@uvalib/site-style": "workspace:^",
     "@web/rollup-plugin-html": "^1.11.0",
     "get-port-cli": "^3.0.0",
+    "node-dev": "^8.0.0",
     "path": "^0.12.7",
     "rimraf": "^3.0.2",
     "rollup": "^3.9.1",

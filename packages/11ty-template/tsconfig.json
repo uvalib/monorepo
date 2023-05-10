@@ -18,7 +18,8 @@
       "noUnusedParameters": true,
       "noImplicitReturns": true,
       "noFallthroughCasesInSwitch": true,
-      "forceConsistentCasingInFileNames": true
+      "forceConsistentCasingInFileNames": true,
+      "baseUrl": "./"
     },
     "include": ["src/**/*.ts", ".eleventy.ts"]
   }
