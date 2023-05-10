@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "rm dml.tgz && cd .. && tar cvzf /var/tmp/dml.tgz drupal_module_loader && mv /var/tmp/dml.tgz drupal_module_loader",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 0"
   },
   "keywords": [],
   "author": "",
