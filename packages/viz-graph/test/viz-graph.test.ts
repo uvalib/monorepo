@@ -1,7 +1,7 @@
 import { html } from 'lit';
 import { fixture, expect } from '@open-wc/testing';
 import { VizGraph } from '../src/VizGraph.js';
-import '../src/viz-graph.js';
+import '../build/src/viz-graph.js';
 
 describe('VizGraph', () => {
 /*
