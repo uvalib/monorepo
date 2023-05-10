@@ -12,11 +12,28 @@ pnpm add @uvalib/site-spinner
 
 ```html
 <script type="module">
-  import 'site-spinner/site-spinner.js';
+  import '@uvalib/site-spinner/site-spinner.js';
 </script>
 
 <site-spinner></site-spinner>
 ```
+
+### Properties
+
+- `message` (String): Custom message to display above the spinner. Default is an empty string.
+- `overlay` (Boolean): Determines if the spinner should be displayed with an overlay. Default is `false`.
+- `book` (Boolean): Determines if the spinner should display a book animation instead of the bouncing animation. Default is `false`.
+- `role` (String): The ARIA role for the spinner, set to "status" by default.
+- `label` (String): The ARIA label for the spinner, set to the value of the `message` property or "loading" by default.
+
+### Customization
+
+You can customize the spinner appearance using CSS variables:
+
+- `--site-spinner-color`: Sets the color of the spinner elements.
+- `--site-spinner-size`: Sets the size of the spinner elements.
+- `--site-spinner-overlay-background`: Sets the background color of the overlay when `overlay` property is set to `true`.
+
 
 ## Linting and formatting
 
