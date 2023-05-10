@@ -1,0 +1,15 @@
+bento-box: https://unpkg.internal.lib.virginia.edu/web-components/cdn-v{version}/@uvalib/bento-box/bento-box.js
+events-section: https://unpkg.internal.lib.virginia.edu/web-components/cdn-v{version}/@uvalib/bento-box/events-section.js
+site-avatar: https://unpkg.internal.lib.virginia.edu/web-components/cdn-v{version}/@uvalib/site-components/site-avatar.js
+site-button: https://unpkg.internal.lib.virginia.edu/web-components/cdn-v{version}/@uvalib/site-components/site-button.js
+site-card: https://unpkg.internal.lib.virginia.edu/web-components/cdn-v{version}/@uvalib/site-components/site-card.js
+site-data-grid: https://unpkg.internal.lib.virginia.edu/web-components/cdn-v{version}/@uvalib/site-components/site-data-grid.js
+site-menu-bar: https://unpkg.internal.lib.virginia.edu/web-components/cdn-v{version}/@uvalib/site-components/site-menu-bar.js
+site-select: https://unpkg.internal.lib.virginia.edu/web-components/cdn-v{version}/@uvalib/site-components/site-select.js
+site-switch: https://unpkg.internal.lib.virginia.edu/web-components/cdn-v{version}/@uvalib/site-components/site-switch.js
+site-tabs: https://unpkg.internal.lib.virginia.edu/web-components/cdn-v{version}/@uvalib/site-components/site-tabs.js
+site-header: https://unpkg.internal.lib.virginia.edu/web-components/cdn-v{version}/@uvalib/site-header/site-header.js
+library-weekly-hours: https://unpkg.internal.lib.virginia.edu/web-components/cdn-v{version}/@uvalib/site-hours/library-weekly-hours.js
+site-hours-section: https://unpkg.internal.lib.virginia.edu/web-components/cdn-v{version}/@uvalib/site-hours/site-hours-section.js
+site-style: https://unpkg.internal.lib.virginia.edu/web-components/cdn-v{version}/@uvalib/site-style/site-style.js
+viz-graph: https://unpkg.internal.lib.virginia.edu/web-components/cdn-v{version}/@uvalib/viz-graph/viz-graph.js
