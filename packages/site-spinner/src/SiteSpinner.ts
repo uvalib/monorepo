@@ -22,7 +22,7 @@ export class SiteSpinner extends LitElement {
       width: 100%;
       height: 100%;
       z-index: 1000;
-      background: rgba(0, 0, 0, 0.1);
+      background: var(--site-spinner-overlay-background, rgba(0, 0, 0, 0.1));
     }
 
     div.v4-spinner {
@@ -192,40 +192,41 @@ export class SiteSpinner extends LitElement {
 
   @property({ type: Boolean }) overlay = false;
 
-  @property({ type: Boolean }) dots = true;
+  @property({ type: Boolean }) book = false;
+
+  @property({ type: String, reflect: true}) role = "status";
+
+  @property({ type: String, reflect: true, attribute:'aria-label' }) label;
+
+  constructor() {
+    super();
+    if (this.message) this.label = this.message;
+    else this.label = "loading";
+  }
+
+  renderSpinnerSection() {}
 
   render() {
     return html`
-      ${this.overlay? html`
-        <div class="v4-spinner-overlay">
-          <div class="v4-spinner ${this.dots? 'border':''}">
-            ${this.dots? html`
+        <div class="${this.overlay? "v4-spinner-overlay":"v4-spinner embed"}" aria-hidden="true">
+          <div class="${this.overlay? `v4-spinner ${this.book? 'border':''}`:''}">
+            ${this.book? html`
+              <div class="book">
+                <div class="book-page"></div>
+                <div class="book-page"></div>
+                <div class="book-page"></div>
+                <p>${this.message? this.message:"Searching"}...</p>
+              </div>             
+            `:html`
               ${this.message? html`<h3>${this.message}</h3>`:''}              
               <div class="spinner-animation">
                 <div class="bounce1"></div>
                 <div class="bounce2"></div>
                 <div class="bounce3"></div>
-              </div>            
-            `:html`
-              <div class="book">
-                <div class="book-page"></div>
-                <div class="book-page"></div>
-                <div class="book-page"></div>
-                <p>Searching...</p>
-              </div>            
+              </div>                         
             `}
           </div>
         </div>  
-      `:html`
-        <div class="v4-spinner embed">
-          ${this.message? html`<h3>${this.message}</h3>`:''}
-          <div class="spinner-animation">
-            <div class="bounce1"></div>
-            <div class="bounce2"></div>
-            <div class="bounce3"></div>
-          </div>
-        </div> 
-      `}     
-    `;
+      `;
   }
 }
