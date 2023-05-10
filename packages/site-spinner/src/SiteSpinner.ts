@@ -204,8 +204,6 @@ export class SiteSpinner extends LitElement {
     else this.label = "loading";
   }
 
-  renderSpinnerSection() {}
-
   render() {
     return html`
         <div class="${this.overlay? "v4-spinner-overlay":"v4-spinner embed"}" aria-hidden="true">
