@@ -20,7 +20,7 @@ To use @uvalib/11ty-template in your project, follow these steps:
 2. Initialize a new Node.js project with the following command:
 
 ```
-pnpm init -y
+pnpm init
 ```
 
 3. Add @uvalib/11ty-template as a dependency:

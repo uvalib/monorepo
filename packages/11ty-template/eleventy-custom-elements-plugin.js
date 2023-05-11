@@ -1,5 +1,6 @@
-const fs = require('fs').promises;
-const YAML = require('yaml');
+const path = require('path');
+const fs = require("fs");
+const YAML = require("yaml");
 
 class CustomElementsPlugin {
   constructor(config) {
@@ -8,20 +9,13 @@ class CustomElementsPlugin {
 
   initArguments = {};
   configFunction = (eleventyConfig) => {
-    let customElements;
-
-    // Read and parse the YAML file once
-    fs.readFile('custom-elements.yaml', 'utf8')
-      .then((yaml) => {
-        customElements = YAML.parse(yaml);
-      })
-      .catch((err) => {
-        console.error(`Failed to read or parse custom-elements.yaml: ${err}`);
-      });
 
     eleventyConfig.addTransform('addCustomElements', (content, outputPath) => {
       console.log(`Transforming ${outputPath}`);
       if (outputPath.endsWith('.html')) {
+        const yamlPath = path.join(__dirname, 'custom-elements.yaml');
+        const yaml = fs.readFileSync(yamlPath, "utf8");
+        const customElements = YAML.parse(yaml);
         let scripts = '';
     
         for (const [name, cdnUrl] of Object.entries(customElements)) {
@@ -38,6 +32,8 @@ class CustomElementsPlugin {
       }
       return content;
     });
+    
+
   };
 }
 

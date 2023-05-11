@@ -1,16 +1,17 @@
 {
-  "name": "@uvalib/11ty-template",
-  "version": "0.0.0",
+  "name": "modern-library-biblio",
+  "version": "1.0.0",
   "description": "",
-  "main": ".eleventy.js",  
+  "main": "index.js",
   "scripts": {
     "start": "eleventy --serve --watch",
     "build": "eleventy"
-  },  
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@11ty/eleventy": "^2.0.1"
+    "@11ty/eleventy": "^2.0.1",
+    "@uvalib/11ty-template": "workspace:^"
   }
 }
