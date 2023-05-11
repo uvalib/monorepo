@@ -1,16 +1,14 @@
-import { EleventyConfig } from '@11ty/eleventy';
-import { CustomElementsPlugin } from "eleventy-custom-elements-plugin";
+const CustomElementsPlugin = require("./eleventy-custom-elements-plugin");
 
-export default function (eleventyConfig: EleventyConfig) {
+module.exports = function(eleventyConfig) {
   // Add filters, etc.
 
   // Passthrough copy for static assets
   eleventyConfig.addPassthroughCopy('src/static');
 
   eleventyConfig.addPlugin(new CustomElementsPlugin({
-    version: "1.0.0",
+    version: "2.1.6",
   }));
-  
 
   return {
     dir: {

@@ -2,9 +2,9 @@
   "name": "@uvalib/11ty-template",
   "version": "0.0.0",
   "description": "",
-  "main": "index.js",  
+  "main": ".eleventy.ts",  
   "scripts": {
-    "start": "node-dev node_modules/.bin/eleventy --serve --watch",
+    "start": "eleventy --serve --watch",
     "build": "eleventy"
   },  
   "keywords": [],

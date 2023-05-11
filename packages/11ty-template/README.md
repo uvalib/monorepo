@@ -1,91 +1,73 @@
-# UVA Library 11ty Template
+# @uvalib/11ty-template
 
-This 11ty template serves as a starting point for creating new static sites within the University of Virginia Library. The template includes the proper header/footer, styles, filters, and best practices for the institution. Projects using this template as a dependency can overwrite any of the templates from the template project to make their site unique.
-
-## Requirements
-
-- Node.js 14.x or later
-- pnpm
+This is a template for creating a site using the 11ty static site generator with custom web components.
 
 ## Getting Started
 
-1. Create a new directory for your project:
+### Prerequisites
 
-    ```bash
-    mkdir my-new-site
-    cd my-new-site
-    ```
+Before you begin, ensure you have met the following requirements:
 
-    Replace `my-new-site` with the desired name for your new project.
+* You have installed the latest version of [Node.js](https://nodejs.org/en/download/).
+* You have installed [pnpm](https://pnpm.io/installation) (optional but recommended for better performance and disk space utilization).
 
-2. Initialize a new `package.json` file:
+### Using @uvalib/11ty-template
 
-    ```bash
-    pnpm init
-    ```
+To use @uvalib/11ty-template in your project, follow these steps:
 
-3. Add the 11ty template as a dependency:
+1. Create a new project directory and navigate into it.
 
-    Replace `@uvalib/11ty-template` with the correct package name and version for your template.
+2. Initialize a new Node.js project with the following command:
 
-    ```bash
-    pnpm add @uvalib/11ty-template
-    ```
+```
+pnpm init -y
+```
 
-4. Create a `.eleventy.js` (or `.eleventy.ts` if you prefer TypeScript) file in your project's root directory with the following content:
+3. Add @uvalib/11ty-template as a dependency:
 
-    ```javascript
-    const templateConfig = require('@uvalib/11ty-template');
+```
+pnpm add @uvalib/11ty-template
+```
 
-    module.exports = function (eleventyConfig) {
-      templateConfig(eleventyConfig);
+4. Update your `package.json` to include the start and build scripts:
 
-      // Add your custom configuration, filters, or plugins here
+```
+{
+  "scripts": {
+    "start": "eleventy --serve --watch",
+    "build": "eleventy"
+  }
+}
+```
 
-      return {
-        dir: {
-          input: 'src',
-          output: '_site',
-        },
-      };
-    };
-    ```
+5. Create a `.eleventy.js` configuration file in your project root. Here's an example:
 
-5. Create the `src` directory with the following structure:
+```
+const templateConfig = require("@uvalib/11ty-template");
 
-    ```
-    src/
-      |_ layouts/
-      |_ pages/
-      |_ static/
-    ```
+module.exports = function(eleventyConfig) {
+  // Use the configuration from the template
+  templateConfig(eleventyConfig);
 
-6. Add your content, templates, and static assets to the `src` directory. Make sure to extend or include the layouts from the template where necessary.
+  // Add your own additional configuration here
 
-7. Run the development server:
+  // For example, add a passthrough copy for additional static assets
+  eleventyConfig.addPassthroughCopy('src/my-assets');
+}
+```
 
-    ```bash
-    pnpm start
-    ```
+6. Customize your site by adding your own `.html`, `.md`, `.liquid`, etc. files in a `src` directory (or any directory of your choice as specified in your `.eleventy.js` configuration).
 
-    Your site should now be running at `http://localhost:8080`. Changes you make to the source files will automatically trigger a rebuild, and the browser will refresh the page.
+7. To start the development server, use the following command:
 
-## Building for Production
+```
+pnpm start
+```
 
-To build the site for production, run:
+8. To build your site for production, use the following command:
 
-    ```bash
-    pnpm build
-    ```
+```
+pnpm run build
+```
 
-    The built files will be placed in the `_site` directory.
-
-## Updating the Template
-
-To update the template to a newer version, simply update the `@uvalib/11ty-template` dependency in your `package.json` file and run the installation command again:
-
-    ```bash
-    pnpm update @uvalib/11ty-template
-    ```
-
-This will ensure that your project is using the latest version of the template, which includes any updates or fixes made to it.
+The output will be in a `_site` directory (or any directory of your choice as specified in your `.eleventy.js` configuration).
