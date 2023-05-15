@@ -1,9 +1,10 @@
 import { html } from 'lit';
 import { fixture, expect, oneEvent } from '@open-wc/testing';
-import { SiteHours, SiteHoursSection } from '../src/index.js';
+import { LibraryWeeklyHours, SiteHoursSection } from '../src/index.js';
 import '../src/site-hours-section.js';
 
 describe('SiteHours', () => {
+  
   it('has libraries and hours', async()=>{
     // test the snippet we gave to the home page team
     const el = await fixture<SiteHoursSection>(html`<site-hours-section limited></site-hours-section>`);
