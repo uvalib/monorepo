@@ -47,34 +47,6 @@ export class SiteHoursSection extends SiteStyle {
     }));
   }
 
-  
-/*
-  constructor() {
-    super();
-    // get todays hours
-    const libraries = new LibrariesData();
-    libraries.fetchData().then(()=>{
-      libraries.fetchHours().then(()=>{
-        // get todays hours and bind them up to the dom
-        this.libraries = libraries.items
-                .filter(lib=>this.placeType? lib.placeType===this.placeType:true)
-                .filter(lib=>this.unlimited? true:lib.hours || lib.hoursInformation)
-                .filter(lib=>this.limited? lib.placeType==='Library' && lib.hours:true)
-                .sort((a,b) => ( (a.title?a.title:'') > (b.title?b.title:'') )? 1:-1);
-        this.dispatchEvent(new CustomEvent('got-library-hours', {
-          detail: { message: 'fetched hours for libraries'},
-          bubbles: true,
-          composed: true
-        }));        
-      })
-      this.dispatchEvent(new CustomEvent('got-libraries', {
-        detail: { message: 'fetched libraries'},
-        bubbles: true,
-        composed: true
-      }));
-    })
-  }
-*/
   // eslint-disable-next-line class-methods-use-this
   private _printRawDates(lib:Library){
     if (lib && lib.hours && lib.hours.rawDates) {
