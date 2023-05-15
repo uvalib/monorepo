@@ -1,3 +1,4 @@
+
 /* eslint-disable no-nested-ternary */
 import { html, css, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
@@ -5,66 +6,66 @@ import { SiteStyle } from '@uvalib/site-style';
 import { LibrariesData, Library } from '@uvalib/data-wrap';
 import { Hours } from '@uvalib/data-wrap/dist/src/Hours';
 import {unsafeHTML} from 'lit/directives/unsafe-html.js';
+import { printTimesForLibrary, sortLibraries } from './utils';
 
+// Main class for SiteHoursSection
 export class SiteHoursSection extends SiteStyle {
 
-  @property({type:String}) formattedDate = new Intl.DateTimeFormat('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'America/New_York' }).format( new Date() ); //`Friday, December ${ new Date().getDate() }`;
+  // Formatted date property
+  @property({type:String}) formattedDate = new Intl.DateTimeFormat('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'America/New_York' }).format( new Date() );
 
+  // Place type property
   @property({type:String, attribute:"place-type"}) placeType = null;
 
+  // Unlimited and limited property flags
   @property({type:Boolean}) unlimited = false;
-
   @property({type:Boolean}) limited = false;
-  
+
+  // Libraries array property
   @property({type:Array}) libraries: Library[] = [];
 
-  
+  // Class constructor, initializes libraries data
   constructor() {
     super();
-    // get todays hours
     const libraries = new LibrariesData();
-    this.initializeLibrariesData(libraries);
+    this.initializeLibrariesData(libraries).catch(error => {
+      console.error("Error initializing libraries data:", error);
+    });
   }
-
+  
+  // Initialize libraries data and fetch hours
   async initializeLibrariesData(libraries: LibrariesData) {
-    await libraries.fetchData();
-    await libraries.fetchHours();
-    // get todays hours and bind them up to the dom
-    this.libraries = libraries.items
-            .filter(lib=>this.placeType? lib.placeType===this.placeType:true)
-            .filter(lib=>this.unlimited? true:lib.hours || lib.hoursInformation)
-            .filter(lib=>this.limited? lib.placeType==='Library' && lib.hours:true)
-            .sort((a,b) => ( (a.title?a.title:'') > (b.title?b.title:'') )? 1:-1);
-    this.dispatchEvent(new CustomEvent('got-library-hours', {
-      detail: { message: 'fetched hours for libraries'},
-      bubbles: true,
-      composed: true
-    }));        
-    this.dispatchEvent(new CustomEvent('got-libraries', {
-      detail: { message: 'fetched libraries'},
-      bubbles: true,
-      composed: true
-    }));
-  }
+    try {
+      await libraries.fetchData();
+      await libraries.fetchHours();
+      // Filter and sort libraries
+      this.libraries = sortLibraries(libraries.items
+        .filter(lib => this.placeType ? lib.placeType === this.placeType : true)
+        .filter(lib => this.unlimited ? true : lib.hours || lib.hoursInformation)
+        .filter(lib => this.limited ? lib.placeType === 'Library' && lib.hours : true));
 
-  // eslint-disable-next-line class-methods-use-this
-  private _printRawDates(lib:Library){
-    if (lib && lib.hours && lib.hours.rawDates) {
-      const hours = <Hours> lib.hours;
-      const today = <{hours:Array<{from: string, to: string}>|null, status:string|null}> Object.values(hours.rawDates)[0]
-      if (today.hours) {
-        return today.hours.map((h: { from: string; to: string; })=>html`
-        ${h.from} - ${h.to}
-      `);
-      } 
-      if (today.status) {
-        return today.status.replace('24hours', '24 Hours');
-      }
-      return "";
+      // Dispatch custom events
+      this.dispatchEvent(new CustomEvent('got-library-hours', {
+        detail: { message: 'fetched hours for libraries' },
+        bubbles: true,
+        composed: true
+      }));
+      this.dispatchEvent(new CustomEvent('got-libraries', {
+        detail: { message: 'fetched libraries' },
+        bubbles: true,
+        composed: true
+      }));
+    } catch (error) {
+      console.error("Error fetching data or hours:", error);
     }
-    return "";
   }
 
+  // Print raw dates
+  private _printRawDates(lib:Library){
+    return printTimesForLibrary(lib);
+  }
+
+  // Render method for the component
   render() {
     return html`
       <div class="home-hours-block">

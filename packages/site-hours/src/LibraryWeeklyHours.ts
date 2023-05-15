@@ -3,28 +3,36 @@ import { property } from 'lit/decorators.js';
 import { SiteStyle } from '@uvalib/site-style';
 import '@uvalib/site-components/site-button.js';
 import { LibrariesData, Library } from '@uvalib/data-wrap';
+import { printTimes, stringDateFormat } from './utils';
 
+// Main class for LibraryWeeklyHours
 export class LibraryWeeklyHours extends SiteStyle {
-  
+
   // A `week-count` of 0 is default and means 'this week', 1 is next week and -1 is last week.
+  // Reflect property changes to attribute
   @property({type:Number, attribute:"week-count", reflect: true}) weekCount = 0;
 
+  // Library slug property
   @property({type:String, attribute:"library-slug"}) librarySlug?:string;
 
+  // Week start and end date properties
   @property({type:Object}) weekStart?:Date;
-
   @property({type:Object}) weekEnd?:Date;
 
+  // Library object property
   @property({type:Object}) library?:Library;
 
+  // LibrariesData instance
   librariesData:LibrariesData;
 
+  // Class constructor, initializes librariesData and sets selected week
   constructor(){
     super();
     this.librariesData = new LibrariesData();
     this.setSelectedWeek();
   }
 
+  // Triggered every time a property changes
   protected updated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
     if ( _changedProperties.has('weekCount') ) {
       this.setSelectedWeek();
@@ -37,26 +45,35 @@ export class LibraryWeeklyHours extends SiteStyle {
     }
   }
 
-  protected getHours() {
-    if ( this.library && this.librariesData ) {
-      const ids = this.library.getHoursCalIds()
-      this.librariesData.fetchHours(this.weekStart,6,ids).then(()=>{
+  // Fetch library hours based on week start
+  protected async getHours() {
+    if (this.library && this.librariesData) {
+      const ids = this.library.getHoursCalIds();
+      try {
+        await this.librariesData.fetchHours(this.weekStart,6,ids);
         this.requestUpdate();
-      })
+      } catch (error) {
+        console.error("Error fetching hours:", error);
+      }
     }
   }
 
-  protected getLibraryData() {
+  // Fetch library data based on library slug
+  protected async getLibraryData() {
     if (this.librarySlug) {
-      this.librariesData.getLibrary(this.librarySlug,true).then(lib=>{
+      try {
+        const lib = await this.librariesData.getLibrary(this.librarySlug, true);
         if (lib) {
           this.library = lib;
           this.getHours();
         }
-      })
+      } catch (error) {
+        console.error("Error fetching library data:", error);
+      }
     }
   }
 
+  // Render method for the component
   render() {
     return html`
       <style>
@@ -124,33 +141,23 @@ export class LibraryWeeklyHours extends SiteStyle {
     `;
   }
 
+  // Helper function to print times
   protected printTimes(day: any){
-    if (day.hours) {
-      return day.hours.map((h: { from: string; to: string; })=>html`
-        ${h.from} - ${h.to}
-      `);
-    } 
-    if (day.status) {
-      return day.status.replace('24hours', '24 Hours');
-    }
-    return "";
+    return printTimes(day);
   }
-
+  
+  // Helper function for string date format
   protected stringDateFormat(dateString:string, format:number){
-    const dateObj = new Date(dateString);
-    const formats: Intl.DateTimeFormatOptions[] = [
-      { weekday: 'long', month: 'long', day: 'numeric', timeZone: 'UTC' },
-      { month: 'short', day: 'numeric', timeZone: 'UTC' },
-      { weekday: 'long', timeZone: 'UTC' }
-    ]
-    return dateObj.toLocaleDateString('en-US', formats[format]);
+    return stringDateFormat(dateString, format);
   }
 
+  // Helper function for date format
   protected dateFormat(date:Date = new Date(), long:boolean = false){
     const formattedDate = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit' }).format(date);
     return formattedDate.replace(',', '.');
   }
 
+  // Set selected week based on weekCount
   setSelectedWeek() {
     const start = this.getCurrentWeekStart();
     start.setDate( start.getDate() + this.weekCount*7 );
@@ -160,6 +167,7 @@ export class LibraryWeeklyHours extends SiteStyle {
     this.weekEnd = end;
   }
 
+  // Get the start of the current week, defaults to today's date
   getCurrentWeekStart(today:Date = new Date()) {
 
     // Get the current day of the week (0 = Sunday, 1 = Monday, etc.)
