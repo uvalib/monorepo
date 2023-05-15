@@ -39,3 +39,7 @@ build/**
 
 .idea
 tmp
+
+# 11ty
+_site/**
+**/_site/**
