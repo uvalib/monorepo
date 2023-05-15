@@ -21,15 +21,13 @@ describe('SiteHoursSection', () => {
     expect(el.placeType).to.equal('Library');
   });
 
-  it('should have unlimited and limited flags as false by default', async () => {
+  it('should have limited flag as false by default', async () => {
     const el = await fixture<SiteHoursSection>(html`<site-hours-section></site-hours-section>`);
-    expect(el.unlimited).to.equal(false);
     expect(el.limited).to.equal(false);
   });
 
-  it('can set the unlimited and limited flags via attributes', async () => {
-    const el = await fixture<SiteHoursSection>(html`<site-hours-section unlimited limited></site-hours-section>`);
-    expect(el.unlimited).to.equal(true);
+  it('can set the limited flag via attributes', async () => {
+    const el = await fixture<SiteHoursSection>(html`<site-hours-section limited></site-hours-section>`);
     expect(el.limited).to.equal(true);
   });
 

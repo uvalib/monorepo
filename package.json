@@ -27,6 +27,7 @@
     "@types/flexsearch": "^0.7.3",
     "@types/mocha": "^10.0.0",
     "@types/node": "^18.11.9",
+    "@types/trusted-types": "^2.0.3",
     "@uvalib/site-style": "workspace:^",
     "@web/rollup-plugin-html": "^1.11.0",
     "get-port-cli": "^3.0.0",

@@ -17,8 +17,7 @@ export class SiteHoursSection extends SiteStyle {
   // Place type property
   @property({type:String, attribute:"place-type"}) placeType = null;
 
-  // Unlimited and limited property flags
-  @property({type:Boolean}) unlimited = false;
+  // limited property flags
   @property({type:Boolean}) limited = false;
 
   // Libraries array property
@@ -41,7 +40,6 @@ export class SiteHoursSection extends SiteStyle {
       // Filter and sort libraries
       this.libraries = sortLibraries(libraries.items
         .filter(lib => this.placeType ? lib.placeType === this.placeType : true)
-        .filter(lib => this.unlimited ? true : lib.hours || lib.hoursInformation)
         .filter(lib => this.limited ? lib.placeType === 'Library' && lib.hours : true));
 
       // Dispatch custom events

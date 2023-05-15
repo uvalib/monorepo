@@ -105,6 +105,16 @@ export class LibraryWeeklyHours extends SiteStyle {
       </div>
       <table ?hidden="${!this.librarySlug}" class="weekly-hours-body-section">
         <thead>
+          <colgroup>
+            <col class="location-column">
+            <col>
+            <col>
+            <col>
+            <col>
+            <col>
+            <col>
+            <col>
+          </colgroup>
           <tr>
             <th colspan="2" scope="col"><span class="visually-hidden">Day</span></th>
             ${(this.library && this.library.hours && this.library.hours.rawDates)? Object.entries(this.library.hours.rawDates).map(([k,v])=>html`
