@@ -26,7 +26,7 @@ pnpm init
 3. Add @uvalib/11ty-template as a dependency:
 
 ```
-pnpm add @uvalib/11ty-template
+pnpm add @uvalib/11ty-template @11ty/eleventy
 ```
 
 4. Update your `package.json` to include the start and build scripts:
