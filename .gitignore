@@ -43,3 +43,6 @@ tmp
 # 11ty
 _site/**
 **/_site/**
+
+# Allow for cdn-builds package to commit its build
+!packages/cdn-builds/build
