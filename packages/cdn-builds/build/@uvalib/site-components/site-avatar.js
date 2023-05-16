@@ -1,138 +1,21 @@
-import { h as html, F as FoundationElement, _ as __decorate, a as attr, c as css, b as baseHeightMultiplier, d as density, e as designUnit, t as typeRampBaseFontSize, n as neutralForegroundRest, f as controlCornerRadius, p as provideFASTDesignSystem, s as styleMap } from '../../SiteStyleMapping-b3f47ce3.js';
-import { D as DirectionalStyleSheetBehavior } from '../../direction-06026784.js';
-import { d as display } from '../../display-26e2ea35.js';
-import { w as when } from '../../when-189f5ef4.js';
-
-/**
- * The template for {@link @microsoft/fast-foundation#Avatar} component.
- * @public
- */
-const avatarTemplate = (context, definition) => html `
-    <div
-        class="backplate ${x => x.shape}"
-        part="backplate"
-        style="${x => x.fill ? `background-color: var(--avatar-fill-${x.fill});` : void 0}"
-    >
-        <a
-            class="link"
-            part="link"
-            href="${x => (x.link ? x.link : void 0)}"
-            style="${x => (x.color ? `color: var(--avatar-color-${x.color});` : void 0)}"
-        >
-            <slot name="media" part="media">${definition.media || ""}</slot>
-            <slot class="content" part="content"><slot>
-        </a>
-    </div>
-    <slot name="badge" part="badge"></slot>
-`;
-
-/**
- * An Avatar Custom HTML Element
- *
- * @slot media - Used for media such as an image
- * @slot - The default slot for avatar text, commonly a name or initials
- * @slot badge - Used to provide a badge, such as a status badge
- * @csspart backplate - The wrapping container for the avatar
- * @csspart link - The avatar link
- * @csspart media - The media slot
- * @csspart content - The default slot
- *
- * @public
- */
-let Avatar$1 = class Avatar extends FoundationElement {
-    /**
-     * Internal
-     */
-    connectedCallback() {
-        super.connectedCallback();
-        if (!this.shape) {
-            this.shape = "circle";
-        }
-    }
-};
-__decorate([
-    attr
-], Avatar$1.prototype, "fill", void 0);
-__decorate([
-    attr
-], Avatar$1.prototype, "color", void 0);
-__decorate([
-    attr
-], Avatar$1.prototype, "link", void 0);
-__decorate([
-    attr
-], Avatar$1.prototype, "shape", void 0);
-
-/**
- * A Badge Custom HTML Element.
- * @slot - The default slot for the badge
- * @csspart control - The element representing the badge, which wraps the default slot
- *
- * @public
- */
-class Badge extends FoundationElement {
-    constructor() {
-        super(...arguments);
-        this.generateBadgeStyle = () => {
-            if (!this.fill && !this.color) {
-                return;
-            }
-            const fill = `background-color: var(--badge-fill-${this.fill});`;
-            const color = `color: var(--badge-color-${this.color});`;
-            if (this.fill && !this.color) {
-                return fill;
-            }
-            else if (this.color && !this.fill) {
-                return color;
-            }
-            else {
-                return `${color} ${fill}`;
-            }
-        };
-    }
-}
-__decorate([
-    attr({ attribute: "fill" })
-], Badge.prototype, "fill", void 0);
-__decorate([
-    attr({ attribute: "color" })
-], Badge.prototype, "color", void 0);
-__decorate([
-    attr({ mode: "boolean" })
-], Badge.prototype, "circular", void 0);
-
-const rtl = (context, definition) => css `
-    ::slotted(${context.tagFor(Badge)}) {
-        left: 0;
-    }
-`;
-const ltr = (context, definition) => css `
-    ::slotted(${context.tagFor(Badge)}) {
-        right: 0;
-    }
-`;
-/**
- * Styles for Avatar
- * @public
- */
-const avatarStyles = (context, definition) => css `
-        ${display("flex")} :host {
+import{h as a,F as t,_ as e,a as o,c as i,b as r,d as s,e as l,t as c,n as d,f as n,p,s as v}from"../../SiteStyleMapping-51203cca.js";import{D as h}from"../../direction-f0247f8d.js";import{d as f}from"../../display-058af2ce.js";import{w as m}from"../../when-46682a8a.js";let $=class extends t{connectedCallback(){super.connectedCallback(),this.shape||(this.shape="circle")}};e([o],$.prototype,"fill",void 0),e([o],$.prototype,"color",void 0),e([o],$.prototype,"link",void 0),e([o],$.prototype,"shape",void 0);class b extends t{constructor(){super(...arguments),this.generateBadgeStyle=()=>{if(!this.fill&&!this.color)return;const a=`background-color: var(--badge-fill-${this.fill});`,t=`color: var(--badge-color-${this.color});`;return this.fill&&!this.color?a:this.color&&!this.fill?t:`${t} ${a}`}}}e([o({attribute:"fill"})],b.prototype,"fill",void 0),e([o({attribute:"color"})],b.prototype,"color",void 0),e([o({mode:"boolean"})],b.prototype,"circular",void 0);const u=(a,t)=>i`
+        ${f("flex")} :host {
             position: relative;
             height: var(--avatar-size, var(--avatar-size-default));
             max-width: var(--avatar-size, var(--avatar-size-default));
             --avatar-size-default: calc(
                 (
-                        (${baseHeightMultiplier} + ${density}) * ${designUnit} +
-                            ((${designUnit} * 8) - 40)
+                        (${r} + ${s}) * ${l} +
+                            ((${l} * 8) - 40)
                     ) * 1px
             );
-            --avatar-text-size: ${typeRampBaseFontSize};
-            --avatar-text-ratio: ${designUnit};
+            --avatar-text-size: ${c};
+            --avatar-text-ratio: ${l};
         }
 
         .link {
             text-decoration: none;
-            color: ${neutralForegroundRest};
+            color: ${d};
             display: flex;
             flex-direction: row;
             justify-content: center;
@@ -141,7 +24,7 @@ const avatarStyles = (context, definition) => css `
         }
 
         .square {
-            border-radius: calc(${controlCornerRadius} * 1px);
+            border-radius: calc(${n} * 1px);
             min-width: 100%;
             overflow: hidden;
         }
@@ -174,67 +57,46 @@ const avatarStyles = (context, definition) => css `
             min-height: var(--avatar-size, var(--avatar-size-default));
         }
 
-        ::slotted(${context.tagFor(Badge)}) {
+        ::slotted(${a.tagFor(b)}) {
             position: absolute;
             display: block;
         }
-    `.withBehaviors(new DirectionalStyleSheetBehavior(ltr(context), rtl(context)));
-
-/**
- * The FAST Avatar Class
- * @public
- *
- */
-class Avatar extends Avatar$1 {
-}
-__decorate([
-    attr({ attribute: "src" })
-], Avatar.prototype, "imgSrc", void 0);
-__decorate([
-    attr
-], Avatar.prototype, "alt", void 0);
-/**
- * The FAST Avatar Template for Images
- *  @public
- *
- */
-const imgTemplate = html `
-    ${when(x => x.imgSrc, html `
+    `.withBehaviors(new h(((a,t)=>i`
+    ::slotted(${a.tagFor(b)}) {
+        right: 0;
+    }
+`)(a),((a,t)=>i`
+    ::slotted(${a.tagFor(b)}) {
+        left: 0;
+    }
+`)(a)));class g extends ${}e([o({attribute:"src"})],g.prototype,"imgSrc",void 0),e([o],g.prototype,"alt",void 0);const y=a`
+    ${m((a=>a.imgSrc),a`
             <img
-                src="${x => x.imgSrc}"
-                alt="${x => x.alt}"
+                src="${a=>a.imgSrc}"
+                alt="${a=>a.alt}"
                 slot="media"
                 class="media"
                 part="media"
             />
         `)}
-`;
-/**
- * A function that returns a {@link @microsoft/fast-foundation#Avatar} registration for configuring the component with a DesignSystem.
- *  {@link @microsoft/fast-foundation#avatarTemplate}
- *
- *
- * @public
- * @remarks
- * Generates HTML Element: `<fast-avatar>`
- */
-const fastAvatar = Avatar.compose({
-    baseName: "avatar",
-    baseClass: Avatar$1,
-    template: avatarTemplate,
-    styles: avatarStyles,
-    media: imgTemplate,
-    shadowOptions: {
-        delegatesFocus: true,
-    },
-});
-
-provideFASTDesignSystem()
-    .withPrefix("site")
-    .register(fastAvatar({
-    // eslint-disable-next-line arrow-body-style
-    styles: (context, definition) => css `
-                ${styleMap}
-                ${avatarStyles(context)}
-            `
-}));
+`,x=g.compose({baseName:"avatar",baseClass:$,template:(t,e)=>a`
+    <div
+        class="backplate ${a=>a.shape}"
+        part="backplate"
+        style="${a=>a.fill?`background-color: var(--avatar-fill-${a.fill});`:void 0}"
+    >
+        <a
+            class="link"
+            part="link"
+            href="${a=>a.link?a.link:void 0}"
+            style="${a=>a.color?`color: var(--avatar-color-${a.color});`:void 0}"
+        >
+            <slot name="media" part="media">${e.media||""}</slot>
+            <slot class="content" part="content"><slot>
+        </a>
+    </div>
+    <slot name="badge" part="badge"></slot>
+`,styles:u,media:y,shadowOptions:{delegatesFocus:!0}});p().withPrefix("site").register(x({styles:(a,t)=>i`
+                ${v}
+                ${u(a)}
+            `}));

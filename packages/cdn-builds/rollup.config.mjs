@@ -17,11 +17,11 @@ export default {
     multiInput.default({relative: 'dist'}),
     /** Resolve bare module imports */
     nodeResolve(),
-//    json({
-//      compact: true
-//    }),
+    json({
+      compact: true
+    }),
     /** Minify JS */
-//    terser(),
+    terser(),
 
   ],
 };
