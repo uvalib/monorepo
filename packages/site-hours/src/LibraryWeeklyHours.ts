@@ -104,8 +104,7 @@ export class LibraryWeeklyHours extends SiteStyle {
         <site-button @click="${ ()=>this.weekCount++ }">Next week</site-button>
       </div>
       <table ?hidden="${!this.librarySlug}" class="weekly-hours-body-section">
-        <thead>
-          <colgroup>
+        <colgroup>
             <col class="location-column">
             <col>
             <col>
@@ -114,7 +113,8 @@ export class LibraryWeeklyHours extends SiteStyle {
             <col>
             <col>
             <col>
-          </colgroup>
+        </colgroup>
+        <thead>
           <tr>
             <th colspan="2" scope="col"><span class="visually-hidden">Day</span></th>
             ${(this.library && this.library.hours && this.library.hours.rawDates)? Object.entries(this.library.hours.rawDates).map(([k,v])=>html`
