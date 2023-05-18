@@ -74,3 +74,26 @@ function drupal_module_loader_system_config_form_submit(&$form, &$form_state) {
   // Save the version setting.
   \Drupal::state()->set('drupal_module_loader_version', Xss::filter($form_state->getValue('drupal_module_loader_version')));
 }
+
+/**
+ * Implements hook_editor_js_settings_alter().
+ *
+function drupal_module_loader_editor_js_settings_alter(array &$settings) {
+  // Add custom element tags to the list of allowed elements in CKEditor.
+  $settings['editor']['allowedContent'] .= ' bento-box events-section';
+
+  // You can add more custom element tags as needed, separated by a space.
+}
+*/
+
+/**
+ * Implements hook_allowed_tags_alter().
+ */
+function drupal_module_loader_allowed_tags_alter(array &$tags) {
+  // Add custom element tags to the list of allowed tags in text editors for custom fields.
+  // $tags['bento-box'] = TRUE;
+  // $tags['events-section'] = TRUE;
+  $tags['library-weekly-hours'] = TRUE;
+
+  // You can add more custom element tags as needed.
+}
