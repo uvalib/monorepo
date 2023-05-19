@@ -34,7 +34,6 @@
     "@typescript-eslint/parser": "^4.29.2",
     "@web/dev-server": "^0.1.21",
     "@web/dev-server-rollup": "^0.3.19",
-    "@web/dev-server-storybook": "next",
     "@web/test-runner": "next",
     "concurrently": "^5.3.0",
     "eslint": "^7.32.0",
