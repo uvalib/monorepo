@@ -13,7 +13,6 @@
     "./site-select.js": "./dist/src/site-select.js",
     "./site-data-grid.js": "./dist/src/site-data-grid.js",
     "./site-switch.js": "./dist/src/site-switch.js",
-    "./site-button.js": "./dist/src/site-button.js",
     "./site-card.js": "./dist/src/site-card.js",
     "./site-avatar.js": "./dist/src/site-avatar.js",
     "./site-menu-bar.js": "./dist/src/site-menu-bar.js"

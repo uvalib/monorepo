@@ -1,7 +1,7 @@
 bento-box: https://unpkg.internal.lib.virginia.edu/web-components/cdn-v{version}/@uvalib/bento-box/bento-box.js
 events-section: https://unpkg.internal.lib.virginia.edu/web-components/cdn-v{version}/@uvalib/bento-box/events-section.js
 site-avatar: https://unpkg.internal.lib.virginia.edu/web-components/cdn-v{version}/@uvalib/site-components/site-avatar.js
-site-button: https://unpkg.internal.lib.virginia.edu/web-components/cdn-v{version}/@uvalib/site-components/site-button.js
+site-button: https://unpkg.internal.lib.virginia.edu/web-components/cdn-v{version}/@uvalib/site-button/site-button.js
 site-card: https://unpkg.internal.lib.virginia.edu/web-components/cdn-v{version}/@uvalib/site-components/site-card.js
 site-data-grid: https://unpkg.internal.lib.virginia.edu/web-components/cdn-v{version}/@uvalib/site-components/site-data-grid.js
 site-menu-bar: https://unpkg.internal.lib.virginia.edu/web-components/cdn-v{version}/@uvalib/site-components/site-menu-bar.js

@@ -1,7 +1,6 @@
 import { html, PropertyValueMap } from 'lit';
 import { property } from 'lit/decorators.js';
 import { SiteStyle } from '@uvalib/site-style';
-import '@uvalib/site-components/site-button.js';
 import { LibrariesData, Library } from '@uvalib/data-wrap';
 import { printTimes, stringDateFormat } from './utils';
 
@@ -97,11 +96,11 @@ export class LibraryWeeklyHours extends SiteStyle {
       </style>
       
       <div ?hidden="${!this.librarySlug}" class="weekly-hours-header-section">
-        <site-button @click="${ ()=>this.weekCount-- }">Previous week</site-button>
+        <button class="uvalib-button--basic" @click="${ ()=>this.weekCount-- }">Previous week</button>
         <div class="heading-h${this.headingLevelStart}" role="heading" aria-level="${this.headingLevelStart}">
           ${this.dateFormat(this.weekStart)} - ${this.dateFormat(this.weekEnd)}
         </div>
-        <site-button @click="${ ()=>this.weekCount++ }">Next week</site-button>
+        <button class="uvalib-button--basic" @click="${ ()=>this.weekCount++ }">Next week</button>
       </div>
       <table ?hidden="${!this.librarySlug}" class="weekly-hours-body-section">
         <colgroup>

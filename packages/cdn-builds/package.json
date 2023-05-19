@@ -18,6 +18,7 @@
     "@uvalib/viz-graph": "workspace:*",
     "@uvalib/site-style": "workspace:*",
     "@uvalib/site-components": "workspace:*",
+    "@uvalib/site-button": "workspace:*",
     "@uvalib/data-wrap": "workspace:*",
     "@uvalib/site-header": "workspace:*"
   },
@@ -31,7 +32,7 @@
     "./data-wrap/data-wrap.js": "./build/@uvalib/data-wrap/data-wrap.js",
     "./site-components/site-data-grid.js": "./build/@uvalib/site-components/site-data-grid.js",
     "./site-components/site-avatar.js": "./build/@uvalib/site-components/site-avatar.js",
-    "./site-components/site-button.js": "./build/@uvalib/site-components/site-button.js",
+    "./site-button/site-button.js": "./build/@uvalib/site-button/site-button.js",
     "./site-components/site-card.js": "./build/@uvalib/site-components/site-card.js",
     "./site-components/site-select.js": "./build/@uvalib/site-components/site-select.js",
     "./site-components/site-tabs.js": "./build/@uvalib/site-components/site-tabs.js",

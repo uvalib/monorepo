@@ -183,7 +183,7 @@ export class SiteMock extends LitElement {
             <div>
               ${unsafeHTML( this.mkPlayground(`
                 // Get the module
-                import "https://unpkg.internal.lib.virginia.edu/web-components/latest/@uvalib/site-components/site-button.js";
+                import "https://unpkg.internal.lib.virginia.edu/web-components/latest/@uvalib/site-button/site-button.js";
               `,`
               <div>
                 <site-button>Click Me</site-button>

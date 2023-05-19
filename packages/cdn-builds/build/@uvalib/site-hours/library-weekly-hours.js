@@ -27,8 +27,7 @@ import{_ as t,y as e,e as r}from"../../query-assigned-elements-9f2025bb.js";impo
         <site-button @click="${()=>this.weekCount++}">Next week</site-button>
       </div>
       <table ?hidden="${!this.librarySlug}" class="weekly-hours-body-section">
-        <thead>
-          <colgroup>
+        <colgroup>
             <col class="location-column">
             <col>
             <col>
@@ -37,7 +36,8 @@ import{_ as t,y as e,e as r}from"../../query-assigned-elements-9f2025bb.js";impo
             <col>
             <col>
             <col>
-          </colgroup>
+        </colgroup>
+        <thead>
           <tr>
             <th colspan="2" scope="col"><span class="visually-hidden">Day</span></th>
             ${this.library&&this.library.hours&&this.library.hours.rawDates?Object.entries(this.library.hours.rawDates).map((([t,r])=>e`
