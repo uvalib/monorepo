@@ -97,3 +97,15 @@ function drupal_module_loader_allowed_tags_alter(array &$tags) {
 
   // You can add more custom element tags as needed.
 }
+
+/**
+ * Implements hook_filter_formats_alter().
+ */
+function drupal_module_loader_filter_formats_alter(array &$formats) {
+  // Allow the 'library-weekly-hours' tag in the Custom Text format.
+  $format_id = 'custom_text'; // Replace with the machine name of your custom text format.
+  
+  if (isset($formats[$format_id])) {
+    $formats[$format_id]->setFilterConfig('filter_html', ['library-weekly-hours' => TRUE]);
+  }
+}

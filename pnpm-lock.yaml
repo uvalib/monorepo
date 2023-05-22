@@ -251,6 +251,9 @@ importers:
       '@uvalib/data-wrap':
         specifier: workspace:*
         version: link:../data-wrap
+      '@uvalib/site-button':
+        specifier: workspace:*
+        version: link:../site-button
       '@uvalib/site-components':
         specifier: workspace:*
         version: link:../site-components
