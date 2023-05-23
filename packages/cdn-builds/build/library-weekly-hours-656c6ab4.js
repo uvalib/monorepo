@@ -1,4 +1,4 @@
-import{_ as t,x as e,e as r}from"./query-assigned-elements-23ba9e4f.js";import{S as a}from"./SiteStyle-86c89e81.js";import"./ArticlesData-c1e511c9.js";import{a as s}from"./LibrariesData-77dcc00d.js";import{p as i,s as o}from"./utils-1a1560f5.js";class l extends a{constructor(){super(),this.weekCount=0,this.librariesData=new s,this.setSelectedWeek()}updated(t){t.has("weekCount")&&this.setSelectedWeek(),t.has("librarySlug")&&this.getLibraryData(),t.has("weekStart")&&this.getHours()}async getHours(){if(this.library&&this.librariesData){const t=this.library.getHoursCalIds();try{await this.librariesData.fetchHours(this.weekStart,6,t),this.requestUpdate()}catch(t){console.error("Error fetching hours:",t)}}}async getLibraryData(){if(this.librarySlug)try{const t=await this.librariesData.getLibrary(this.librarySlug,!0);t&&(this.library=t,this.getHours())}catch(t){console.error("Error fetching library data:",t)}}render(){return e`
+import{_ as t,x as e,e as r}from"./query-assigned-elements-23ba9e4f.js";import{S as a}from"./SiteStyle-86c89e81.js";import"./ArticlesData-c1e511c9.js";import{a as s}from"./LibrariesData-77dcc00d.js";import{p as i,s as l}from"./utils-1a1560f5.js";class o extends a{constructor(){super(),this.weekCount=0,this.librariesData=new s,this.setSelectedWeek()}updated(t){t.has("weekCount")&&this.setSelectedWeek(),t.has("librarySlug")&&this.getLibraryData(),t.has("weekStart")&&this.getHours()}async getHours(){if(this.library&&this.librariesData){const t=this.library.getHoursCalIds();try{await this.librariesData.fetchHours(this.weekStart,6,t),this.requestUpdate()}catch(t){console.error("Error fetching hours:",t)}}}async getLibraryData(){if(this.librarySlug)try{const t=await this.librariesData.getLibrary(this.librarySlug,!0);t&&(this.library=t,this.getHours())}catch(t){console.error("Error fetching library data:",t)}}render(){return console.log(this.library),e`
       <style>
         :host, site-hours {
           display:block;
@@ -48,6 +48,14 @@ import{_ as t,x as e,e as r}from"./query-assigned-elements-23ba9e4f.js";import{S
                 </div>
               </th>            
             `)):""}
+            ${this.library&&Array.isArray(this.library.children)&&this.library.children.length>0&&this.library.children[0].hours&&this.library.children[0].hours.rawDates?Object.entries(this.library.children[0].hours.rawDates).map((([t,r])=>e`
+              <th scope="col" aria-current="false" aria-label="${this.stringDateFormat(t,0)}">
+                <div class="date-header">
+                  <span class="date-header-month">${this.stringDateFormat(t,1)}</span>
+                  <span class="date-header-day">${this.stringDateFormat(t,2)}</span>
+                </div>
+              </th>            
+            `)):""}
           </tr>
         </thead>
         <tbody>
@@ -66,9 +74,11 @@ import{_ as t,x as e,e as r}from"./query-assigned-elements-23ba9e4f.js";import{S
               ${t.hours&&t.hours.rawDates?Object.entries(t.hours.rawDates).map((([t,r])=>e`
                 <td aria-label="2pm to 8pm">${this.printTimes(r)}</td>
               `)):""}
+              ${t.hours&&t.hours.rawDates&&t.hours.rawDates.length<7?Array.apply(null,Array(7-t.hours.rawDates.length)).map((()=>e`<td></td>`)):""}
+
             </tr>          
           `)):""}
         </tbody>
       </table>
 
-    `}printTimes(t){return i(t)}stringDateFormat(t,e){return o(t,e)}dateFormat(t=new Date,e=!1){return new Intl.DateTimeFormat("en-US",{year:"numeric",month:"short",day:"2-digit"}).format(t).replace(",",".")}setSelectedWeek(){const t=this.getCurrentWeekStart();t.setDate(t.getDate()+7*this.weekCount),this.weekStart=t;const e=new Date(this.weekStart);e.setDate(e.getDate()+6),this.weekEnd=e}getCurrentWeekStart(t=new Date){const e=t.getDay(),r=0===e?0:e,a=new Date(t);return a.setDate(t.getDate()-r),a}}t([r({type:Number,attribute:"week-count",reflect:!0})],l.prototype,"weekCount",void 0),t([r({type:String,attribute:"library-slug"})],l.prototype,"librarySlug",void 0),t([r({type:Object})],l.prototype,"weekStart",void 0),t([r({type:Object})],l.prototype,"weekEnd",void 0),t([r({type:Object})],l.prototype,"library",void 0),window.customElements.define("library-weekly-hours",l);
+    `}printTimes(t){return i(t)}stringDateFormat(t,e){return l(t,e)}dateFormat(t=new Date,e=!1){return new Intl.DateTimeFormat("en-US",{year:"numeric",month:"short",day:"2-digit"}).format(t).replace(",",".")}setSelectedWeek(){const t=this.getCurrentWeekStart();t.setDate(t.getDate()+7*this.weekCount),this.weekStart=t;const e=new Date(this.weekStart);e.setDate(e.getDate()+6),this.weekEnd=e}getCurrentWeekStart(t=new Date){const e=t.getDay(),r=0===e?0:e,a=new Date(t);return a.setDate(t.getDate()-r),a}}t([r({type:Number,attribute:"week-count",reflect:!0})],o.prototype,"weekCount",void 0),t([r({type:String,attribute:"library-slug"})],o.prototype,"librarySlug",void 0),t([r({type:Object})],o.prototype,"weekStart",void 0),t([r({type:Object})],o.prototype,"weekEnd",void 0),t([r({type:Object})],o.prototype,"library",void 0),window.customElements.define("library-weekly-hours",o);
