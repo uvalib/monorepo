@@ -9,7 +9,8 @@
   "exports": {
     ".": "./dist/src/index.js",
     "./site-hours-section.js": "./dist/src/site-hours-section.js",
-    "./library-weekly-hours.js": "./dist/src/library-weekly-hours.js"
+    "./library-weekly-hours.js": "./dist/src/library-weekly-hours.js",
+    "./library-hours-setup.js": "./dist/src/library-hours-setup.js"
   },
   "scripts": {
     "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
