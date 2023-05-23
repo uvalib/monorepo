@@ -96,11 +96,11 @@ export class LibraryWeeklyHours extends SiteStyle {
       </style>
       
       <div ?hidden="${!this.librarySlug}" class="weekly-hours-header-section">
-        <button class="uvalib-button--basic" @click="${ ()=>this.weekCount-- }">Previous week</button>
+        <button class="uvalib-button uvalib-button--basic" @click="${ ()=>this.weekCount-- }">Previous week</button>
         <div class="heading-h${this.headingLevelStart}" role="heading" aria-level="${this.headingLevelStart}">
           ${this.dateFormat(this.weekStart)} - ${this.dateFormat(this.weekEnd)}
         </div>
-        <button class="uvalib-button--basic" @click="${ ()=>this.weekCount++ }">Next week</button>
+        <button class="uvalib-button uvalib-button--basic" @click="${ ()=>this.weekCount++ }">Next week</button>
       </div>
       <table ?hidden="${!this.librarySlug}" class="weekly-hours-body-section">
         <colgroup>
