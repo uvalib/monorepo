@@ -74,6 +74,7 @@ export class LibraryWeeklyHours extends SiteStyle {
 
   // Render method for the component
   render() {
+console.log(this.library)    
     return html`
       <style>
         :host, site-hours {
@@ -124,6 +125,14 @@ export class LibraryWeeklyHours extends SiteStyle {
                 </div>
               </th>            
             `):""}
+            ${(this.library && Array.isArray(this.library.children) && this.library.children.length>0 && this.library.children[0].hours && this.library.children[0].hours.rawDates)? Object.entries(this.library.children[0].hours.rawDates).map(([k,v])=>html`
+              <th scope="col" aria-current="false" aria-label="${ this.stringDateFormat(k,0) }">
+                <div class="date-header">
+                  <span class="date-header-month">${ this.stringDateFormat(k,1) }</span>
+                  <span class="date-header-day">${ this.stringDateFormat(k,2) }</span>
+                </div>
+              </th>            
+            `):""}
           </tr>
         </thead>
         <tbody>
@@ -142,6 +151,8 @@ export class LibraryWeeklyHours extends SiteStyle {
               ${(l.hours && l.hours.rawDates)? Object.entries(l.hours.rawDates).map(([k,v])=>html`
                 <td aria-label="2pm to 8pm">${ this.printTimes(v) }</td>
               `):""}
+              ${(l.hours && l.hours.rawDates && l.hours.rawDates.length < 7)? Array.apply(null, Array(7-l.hours.rawDates.length)).map(()=>html`<td></td>`):""}
+
             </tr>          
           `):""}
         </tbody>
