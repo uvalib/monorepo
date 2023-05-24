@@ -30,13 +30,12 @@ import { Hours } from '@uvalib/data-wrap/dist/src/Hours';
     return "";
   }
   
-  
   export function stringDateFormat(dateString: string, format: number) {
     const dateObj = new Date(dateString);
     const formats: Intl.DateTimeFormatOptions[] = [
       { weekday: 'long', month: 'long', day: 'numeric', timeZone: 'UTC' },
       { month: 'short', day: 'numeric', timeZone: 'UTC' },
-      { weekday: 'long', timeZone: 'UTC' }
+      { weekday: 'short', timeZone: 'UTC' }
     ]
     return dateObj.toLocaleDateString('en-US', formats[format]);
   }

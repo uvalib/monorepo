@@ -120,16 +120,16 @@ console.log(this.library)
             ${(this.library && this.library.hours && this.library.hours.rawDates)? Object.entries(this.library.hours.rawDates).map(([k,v])=>html`
               <th scope="col" aria-current="false" aria-label="${ this.stringDateFormat(k,0) }">
                 <div class="date-header">
+                  <span class="date-header-day">${ this.stringDateFormat(k,2) }</span>,
                   <span class="date-header-month">${ this.stringDateFormat(k,1) }</span>
-                  <span class="date-header-day">${ this.stringDateFormat(k,2) }</span>
                 </div>
               </th>            
             `):""}
             ${(this.library && Array.isArray(this.library.children) && this.library.children.length>0 && this.library.children[0].hours && this.library.children[0].hours.rawDates)? Object.entries(this.library.children[0].hours.rawDates).map(([k,v])=>html`
               <th scope="col" aria-current="false" aria-label="${ this.stringDateFormat(k,0) }">
                 <div class="date-header">
+                  <span class="date-header-day">${ this.stringDateFormat(k,2) }</span>,
                   <span class="date-header-month">${ this.stringDateFormat(k,1) }</span>
-                  <span class="date-header-day">${ this.stringDateFormat(k,2) }</span>
                 </div>
               </th>            
             `):""}
