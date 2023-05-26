@@ -140,7 +140,11 @@ console.log(this.library)
             <tr>
               <th scope="row" colspan="2" aria-label="Building hours">Building hours</th>
               ${(this.library && this.library.hours && this.library.hours.rawDates)? Object.entries(this.library.hours.rawDates).map(([k,v])=>html`
-                <td aria-label="2pm to 8pm">${ this.printTimes(v) }</td>
+                <td aria-label="${ this.printTimes(v) }">
+                  <span class="date-header-day">${ this.stringDateFormat(k,2) }</span>,
+                  <span class="date-header-month">${ this.stringDateFormat(k,1) }</span>
+                  ${ this.printTimes(v) }
+                </td>
               `):""}
             </tr>          
           `:''}
@@ -149,7 +153,11 @@ console.log(this.library)
             <tr>
               <th scope="row" colspan="2" aria-label="${l.title}"><a class="css-20nh0y" href="/locations-and-hours/hatcher-library/ask-librarian-desk">${l.title}</a></th>
               ${(l.hours && l.hours.rawDates)? Object.entries(l.hours.rawDates).map(([k,v])=>html`
-                <td aria-label="2pm to 8pm">${ this.printTimes(v) }</td>
+                <td aria-label="${ this.printTimes(v) }">
+                  <span class="date-header-day">${ this.stringDateFormat(k,2) }</span>,
+                  <span class="date-header-month">${ this.stringDateFormat(k,1) }</span>
+                  ${ this.printTimes(v) }
+                </td>
               `):""}
               ${(l.hours && l.hours.rawDates && l.hours.rawDates.length < 7)? Array.apply(null, Array(7-l.hours.rawDates.length)).map(()=>html`<td></td>`):""}
 
