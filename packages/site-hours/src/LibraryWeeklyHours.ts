@@ -142,8 +142,10 @@ export class LibraryWeeklyHours extends SiteStyle {
             ${(this.library && this.library.hours && this.library.hours.rawDates)? Object.entries(this.library.hours.rawDates).map(([k,v])=>html`
               <th scope="col" aria-current="false" aria-label="${ this.stringDateFormat(k,0) }">
                 <div class="date-header">
-                  <div class="date-header-day">${ this.stringDateFormat(k,2) }</div>
-                  <div class="date-header-month">${ this.stringDateFormat(k,1) }</div>
+                  <div class="date--mobile">
+                    <div class="date-header-day">${ this.stringDateFormat(k,2) }</div>
+                    <div class="date-header-month">${ this.stringDateFormat(k,1) }</div>
+                  </div>
                 </div>
               </th>            
             `):""}
