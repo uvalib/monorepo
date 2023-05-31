@@ -21,15 +21,28 @@ export class LibraryWeeklyHours extends SiteStyle {
   // Library object property
   @property({type:Object}) library?:Library;
 
+  @property({type:String}) todayString:string;
+
   // LibrariesData instance
   librariesData:LibrariesData;
 
   // Class constructor, initializes librariesData and sets selected week
   constructor(){
     super();
+
+    // Calculate today's date (and recalculate it every 10 minutes)
+    const today = new Date();
+    this.todayString = today.toISOString().split('T')[0];
+    setInterval(function(){
+      const today = new Date();
+      this.todayString = today.toISOString().split('T')[0];
+    }.bind(this), 1000*60*10)
+
     this.librariesData = new LibrariesData();
     this.setSelectedWeek();
   }
+
+
 
   // Triggered every time a property changes
   protected updated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
@@ -74,9 +87,6 @@ export class LibraryWeeklyHours extends SiteStyle {
 
   // Render method for the component
   render() {
-    // Calculate today's date
-    const today = new Date();
-    const todayString = today.toISOString().split('T')[0];
 
     return html`
       <style>
@@ -129,7 +139,7 @@ export class LibraryWeeklyHours extends SiteStyle {
               </th>            
             `):""}
             ${(this.library && Array.isArray(this.library.children) && this.library.children.length>0 && this.library.children[0].hours && this.library.children[0].hours.rawDates)? Object.entries(this.library.children[0].hours.rawDates).map(([k,v])=>html`
-              <th scope="col" aria-current="false" aria-label="${ this.stringDateFormat(k,0) }" class="${k === todayString ? 'today' : ''}">
+              <th scope="col" aria-current="false" aria-label="${ this.stringDateFormat(k,0) }" class="${k === this.todayString ? 'today' : ''}">
                 <div class="date-header">
                   <div class="date--mobile">
                     <div class="date-header-day">${ this.stringDateFormat(k,2) }</div>
@@ -145,7 +155,7 @@ export class LibraryWeeklyHours extends SiteStyle {
             <tr>
               <th scope="row" colspan="2" aria-label="Building hours">Building hours</th>
               ${(this.library && this.library.hours && this.library.hours.rawDates)? Object.entries(this.library.hours.rawDates).map(([k,v])=>html`
-                <td aria-label="${ this.printTimes(v) }" class="${k === todayString ? 'today' : ''}">
+                <td aria-label="${ this.printTimes(v) }" class="${k === this.todayString ? 'today' : ''}">
                   <div class="date--mobile">
                     <div class="date-header-day">${ this.stringDateFormat(k,2) }</div>
                     <div class="date-header-month">${ this.stringDateFormat(k,1) }</div>
@@ -160,7 +170,7 @@ export class LibraryWeeklyHours extends SiteStyle {
             <tr>
               <th scope="row" colspan="2" aria-label="${l.title}"><a class="css-20nh0y" href="/locations-and-hours/hatcher-library/ask-librarian-desk">${l.title}</a></th>
               ${(l.hours && l.hours.rawDates)? Object.entries(l.hours.rawDates).map(([k,v])=>html`
-                <td aria-label="${ this.printTimes(v) }" class="${k === todayString ? 'today' : ''}">
+                <td aria-label="${ this.printTimes(v) }" class="${k === this.todayString ? 'today' : ''}">
                   <div class="date--mobile">
                     <div class="date-header-day">${ this.stringDateFormat(k,2) }</div>
                     <div class="date-header-month">${ this.stringDateFormat(k,1) }</div>
