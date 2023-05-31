@@ -1,4 +1,4 @@
-import '../../library-weekly-hours-f65f0990.js';
+import '../../library-weekly-hours-d28c019e.js';
 import '../../query-assigned-elements-66a11629.js';
 import '../../SiteStyle-5d4bc111.js';
 import '../../ArticlesData-9f3aa85f.js';

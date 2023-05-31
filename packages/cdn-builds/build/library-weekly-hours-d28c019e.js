@@ -12,8 +12,22 @@ class LibraryWeeklyHours extends SiteStyle {
         // A `week-count` of 0 is default and means 'this week', 1 is next week and -1 is last week.
         // Reflect property changes to attribute
         this.weekCount = 0;
+        // Calculate today's date (and recalculate it every 10 minutes)
+        let today = new Date();
+        this.todayString = today.toISOString().split('T')[0];
+        this.intervalId = window.setInterval(() => {
+            today = new Date();
+            this.todayString = today.toISOString().split('T')[0];
+        }, 1000 * 60 * 10);
         this.librariesData = new LibrariesData();
         this.setSelectedWeek();
+    }
+    disconnectedCallback() {
+        super.disconnectedCallback();
+        if (this.intervalId !== undefined) {
+            window.clearInterval(this.intervalId);
+            this.intervalId = undefined;
+        }
     }
     // Triggered every time a property changes
     updated(_changedProperties) {
@@ -57,9 +71,6 @@ class LibraryWeeklyHours extends SiteStyle {
     }
     // Render method for the component
     render() {
-        // Calculate today's date
-        const today = new Date();
-        const todayString = today.toISOString().split('T')[0];
         return x `
       <style>
         :host, site-hours {
@@ -111,7 +122,7 @@ class LibraryWeeklyHours extends SiteStyle {
               </th>            
             `) : ""}
             ${(this.library && Array.isArray(this.library.children) && this.library.children.length > 0 && this.library.children[0].hours && this.library.children[0].hours.rawDates) ? Object.entries(this.library.children[0].hours.rawDates).map(([k, v]) => x `
-              <th scope="col" aria-current="false" aria-label="${this.stringDateFormat(k, 0)}" class="${k === todayString ? 'today' : ''}">
+              <th scope="col" aria-current="false" aria-label="${this.stringDateFormat(k, 0)}" class="${k === this.todayString ? 'today' : ''}">
                 <div class="date-header">
                   <div class="date--mobile">
                     <div class="date-header-day">${this.stringDateFormat(k, 2)}</div>
@@ -127,7 +138,7 @@ class LibraryWeeklyHours extends SiteStyle {
             <tr>
               <th scope="row" colspan="2" aria-label="Building hours">Building hours</th>
               ${(this.library && this.library.hours && this.library.hours.rawDates) ? Object.entries(this.library.hours.rawDates).map(([k, v]) => x `
-                <td aria-label="${this.printTimes(v)}" class="${k === todayString ? 'today' : ''}">
+                <td aria-label="${this.printTimes(v)}" class="${k === this.todayString ? 'today' : ''}">
                   <div class="date--mobile">
                     <div class="date-header-day">${this.stringDateFormat(k, 2)}</div>
                     <div class="date-header-month">${this.stringDateFormat(k, 1)}</div>
@@ -142,7 +153,7 @@ class LibraryWeeklyHours extends SiteStyle {
             <tr>
               <th scope="row" colspan="2" aria-label="${l.title}"><a class="css-20nh0y" href="/locations-and-hours/hatcher-library/ask-librarian-desk">${l.title}</a></th>
               ${(l.hours && l.hours.rawDates) ? Object.entries(l.hours.rawDates).map(([k, v]) => x `
-                <td aria-label="${this.printTimes(v)}" class="${k === todayString ? 'today' : ''}">
+                <td aria-label="${this.printTimes(v)}" class="${k === this.todayString ? 'today' : ''}">
                   <div class="date--mobile">
                     <div class="date-header-day">${this.stringDateFormat(k, 2)}</div>
                     <div class="date-header-month">${this.stringDateFormat(k, 1)}</div>
@@ -208,5 +219,8 @@ __decorate([
 __decorate([
     e({ type: Object })
 ], LibraryWeeklyHours.prototype, "library", void 0);
+__decorate([
+    e({ type: String })
+], LibraryWeeklyHours.prototype, "todayString", void 0);
 
 window.customElements.define('library-weekly-hours', LibraryWeeklyHours);
