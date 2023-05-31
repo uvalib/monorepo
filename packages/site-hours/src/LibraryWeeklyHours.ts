@@ -140,7 +140,7 @@ export class LibraryWeeklyHours extends SiteStyle {
           <tr>
             <th colspan="2" scope="col"><span class="visually-hidden">Day</span></th>
             ${(this.library && this.library.hours && this.library.hours.rawDates)? Object.entries(this.library.hours.rawDates).map(([k,v])=>html`
-              <th scope="col" aria-current="false" aria-label="${ this.stringDateFormat(k,0) }">
+              <th scope="col" aria-current="false" aria-label="${ this.stringDateFormat(k,0) }" class="${k === this.todayString ? 'today' : ''}">
                 <div class="date-header">
                   <div class="date--mobile">
                     <div class="date-header-day">${ this.stringDateFormat(k,2) }</div>
