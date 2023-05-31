@@ -22,6 +22,8 @@ export class LibraryWeeklyHours extends SiteStyle {
   @property({type:Object}) library?:Library;
 
   @property({type:String}) todayString:string;
+  
+  private intervalId: number | undefined;
 
   // LibrariesData instance
   librariesData:LibrariesData;
@@ -31,18 +33,25 @@ export class LibraryWeeklyHours extends SiteStyle {
     super();
 
     // Calculate today's date (and recalculate it every 10 minutes)
-    const today = new Date();
+    let today = new Date();
     this.todayString = today.toISOString().split('T')[0];
-    setInterval(function(){
-      const today = new Date();
+
+    this.intervalId = window.setInterval(()=>{
+      today = new Date();
       this.todayString = today.toISOString().split('T')[0];
-    }.bind(this), 1000*60*10)
+    }, 1000*60*10)
 
     this.librariesData = new LibrariesData();
     this.setSelectedWeek();
   }
 
-
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    if (this.intervalId !== undefined) {
+      window.clearInterval(this.intervalId);
+      this.intervalId = undefined;
+    }
+  }
 
   // Triggered every time a property changes
   protected updated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
