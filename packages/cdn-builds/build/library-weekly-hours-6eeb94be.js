@@ -41,10 +41,12 @@ import{_ as t,x as e,e as a}from"./query-assigned-elements-23ba9e4f.js";import{S
           <tr>
             <th colspan="2" scope="col"><span class="visually-hidden">Day</span></th>
             ${this.library&&this.library.hours&&this.library.hours.rawDates?Object.entries(this.library.hours.rawDates).map((([t,a])=>e`
-              <th scope="col" aria-current="false" aria-label="${this.stringDateFormat(t,0)}">
+              <th scope="col" aria-current="false" aria-label="${this.stringDateFormat(t,0)}" class="${t===this.todayString?"today":""}">
                 <div class="date-header">
-                  <div class="date-header-day">${this.stringDateFormat(t,2)}</div>
-                  <div class="date-header-month">${this.stringDateFormat(t,1)}</div>
+                  <div class="date--mobile">
+                    <div class="date-header-day">${this.stringDateFormat(t,2)}</div>
+                    <div class="date-header-month">${this.stringDateFormat(t,1)}</div>
+                  </div>
                 </div>
               </th>            
             `)):""}
