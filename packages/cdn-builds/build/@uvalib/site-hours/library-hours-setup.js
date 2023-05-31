@@ -1,1 +1,36 @@
-import"../../library-weekly-hours-40f94698.js";import"../../query-assigned-elements-23ba9e4f.js";import"../../SiteStyle-86c89e81.js";import"../../ArticlesData-c1e511c9.js";import"../../LibrariesData-77dcc00d.js";import"../../GeneralSearchResult-331b56d5.js";import"../../utils-b3d95f50.js";class e extends HTMLElement{constructor(){super();document.querySelectorAll('div[type="library-weekly-hours"]').forEach((e=>{var t;const r=document.createElement("library-weekly-hours");for(let t=0;t<e.attributes.length;t++){const s=e.attributes.item(t);s&&"type"!==s.name&&r.setAttribute(s.name,s.value)}for(;e.firstChild;)r.appendChild(e.firstChild);null===(t=e.parentNode)||void 0===t||t.replaceChild(r,e)}))}}window.customElements.define("library-hours-setup",e);
+import '../../library-weekly-hours-f65f0990.js';
+import '../../query-assigned-elements-66a11629.js';
+import '../../SiteStyle-5d4bc111.js';
+import '../../ArticlesData-9f3aa85f.js';
+import '../../LibrariesData-a59266c8.js';
+import '../../GeneralSearchResult-835c7dd8.js';
+import '../../utils-d8868732.js';
+
+class LibraryHoursSetup extends HTMLElement {
+    constructor() {
+        super();
+        // Search the DOM tree for div[type="library-weekly-hours"] elements 
+        // and upgrade them to <library-weekly-hours> elements
+        const divs = document.querySelectorAll('div[type="library-weekly-hours"]');
+        divs.forEach(div => {
+            var _a;
+            const newElement = document.createElement('library-weekly-hours');
+            // Copy all attributes from the div to the new element (except for 'type')
+            for (let i = 0; i < div.attributes.length; i++) {
+                const attr = div.attributes.item(i);
+                if (attr && attr.name !== 'type') {
+                    newElement.setAttribute(attr.name, attr.value);
+                }
+            }
+            // Move all child nodes from the div to the new element
+            while (div.firstChild) {
+                newElement.appendChild(div.firstChild);
+            }
+            // Replace the div with the new element
+            (_a = div.parentNode) === null || _a === void 0 ? void 0 : _a.replaceChild(newElement, div);
+        });
+    }
+}
+
+// Register the custom element
+window.customElements.define('library-hours-setup', LibraryHoursSetup);

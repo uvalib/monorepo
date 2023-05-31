@@ -1,15 +1,1949 @@
-import{_ as e,a as t,F as i,O as s,o,h as l,D as a,y as n,z as r,c as d,g as h,m as c,B as p,f as u,e as b,x as v,w as x,C as f,E as g,G as y,n as $,u as m,t as k,v as S,I as O,J as I,K as C,L as w,M as A,N as H,P as T,Q as E,R as V,T as z,U as F,V as D,W as P,X as B,Y as M,p as L,s as _}from"../../SiteStyleMapping-f1ccf68c.js";import{d as j,h as W}from"../../size-3ecfc7b7.js";import{a as N,S as G,u as R,s as K,e as U,i as X,r as q}from"../../strings-09538f4a.js";import{n as Y,o as J,i as Q,l as Z,p as ee,k as te,h as ie,g as se,a as oe,s as le,m as ae}from"../../focus-03f3e890.js";import{d as ne}from"../../display-058af2ce.js";import{f as re,S as de}from"../../match-media-stylesheet-behavior-575be983.js";import{e as he}from"../../elevation-63298dfb.js";import{F as ce}from"../../form-associated-e5fa19d4.js";import{w as pe}from"../../when-46682a8a.js";class ue{}function be(e){return Y(e)&&("option"===e.getAttribute("role")||e instanceof HTMLOptionElement)}e([t({attribute:"aria-atomic"})],ue.prototype,"ariaAtomic",void 0),e([t({attribute:"aria-busy"})],ue.prototype,"ariaBusy",void 0),e([t({attribute:"aria-controls"})],ue.prototype,"ariaControls",void 0),e([t({attribute:"aria-current"})],ue.prototype,"ariaCurrent",void 0),e([t({attribute:"aria-describedby"})],ue.prototype,"ariaDescribedby",void 0),e([t({attribute:"aria-details"})],ue.prototype,"ariaDetails",void 0),e([t({attribute:"aria-disabled"})],ue.prototype,"ariaDisabled",void 0),e([t({attribute:"aria-errormessage"})],ue.prototype,"ariaErrormessage",void 0),e([t({attribute:"aria-flowto"})],ue.prototype,"ariaFlowto",void 0),e([t({attribute:"aria-haspopup"})],ue.prototype,"ariaHaspopup",void 0),e([t({attribute:"aria-hidden"})],ue.prototype,"ariaHidden",void 0),e([t({attribute:"aria-invalid"})],ue.prototype,"ariaInvalid",void 0),e([t({attribute:"aria-keyshortcuts"})],ue.prototype,"ariaKeyshortcuts",void 0),e([t({attribute:"aria-label"})],ue.prototype,"ariaLabel",void 0),e([t({attribute:"aria-labelledby"})],ue.prototype,"ariaLabelledby",void 0),e([t({attribute:"aria-live"})],ue.prototype,"ariaLive",void 0),e([t({attribute:"aria-owns"})],ue.prototype,"ariaOwns",void 0),e([t({attribute:"aria-relevant"})],ue.prototype,"ariaRelevant",void 0),e([t({attribute:"aria-roledescription"})],ue.prototype,"ariaRoledescription",void 0);class ve extends i{constructor(e,t,i,s){super(),this.defaultSelected=!1,this.dirtySelected=!1,this.selected=this.defaultSelected,this.dirtyValue=!1,e&&(this.textContent=e),t&&(this.initialValue=t),i&&(this.defaultSelected=i),s&&(this.selected=s),this.proxy=new Option(`${this.textContent}`,this.initialValue,this.defaultSelected,this.selected),this.proxy.disabled=this.disabled}checkedChanged(e,t){this.ariaChecked="boolean"!=typeof t?null:t?"true":"false"}contentChanged(e,t){this.proxy instanceof HTMLOptionElement&&(this.proxy.textContent=this.textContent),this.$emit("contentchange",null,{bubbles:!0})}defaultSelectedChanged(){this.dirtySelected||(this.selected=this.defaultSelected,this.proxy instanceof HTMLOptionElement&&(this.proxy.selected=this.defaultSelected))}disabledChanged(e,t){this.ariaDisabled=this.disabled?"true":"false",this.proxy instanceof HTMLOptionElement&&(this.proxy.disabled=this.disabled)}selectedAttributeChanged(){this.defaultSelected=this.selectedAttribute,this.proxy instanceof HTMLOptionElement&&(this.proxy.defaultSelected=this.defaultSelected)}selectedChanged(){this.ariaSelected=this.selected?"true":"false",this.dirtySelected||(this.dirtySelected=!0),this.proxy instanceof HTMLOptionElement&&(this.proxy.selected=this.selected)}initialValueChanged(e,t){this.dirtyValue||(this.value=this.initialValue,this.dirtyValue=!1)}get label(){var e;return null!==(e=this.value)&&void 0!==e?e:this.text}get text(){var e,t;return null!==(t=null===(e=this.textContent)||void 0===e?void 0:e.replace(/\s+/g," ").trim())&&void 0!==t?t:""}set value(e){const t=`${null!=e?e:""}`;this._value=t,this.dirtyValue=!0,this.proxy instanceof HTMLOptionElement&&(this.proxy.value=t),s.notify(this,"value")}get value(){var e;return s.track(this,"value"),null!==(e=this._value)&&void 0!==e?e:this.text}get form(){return this.proxy?this.proxy.form:null}}e([o],ve.prototype,"checked",void 0),e([o],ve.prototype,"content",void 0),e([o],ve.prototype,"defaultSelected",void 0),e([t({mode:"boolean"})],ve.prototype,"disabled",void 0),e([t({attribute:"selected",mode:"boolean"})],ve.prototype,"selectedAttribute",void 0),e([o],ve.prototype,"selected",void 0),e([t({attribute:"value",mode:"fromView"})],ve.prototype,"initialValue",void 0);class xe{}e([o],xe.prototype,"ariaChecked",void 0),e([o],xe.prototype,"ariaPosInSet",void 0),e([o],xe.prototype,"ariaSelected",void 0),e([o],xe.prototype,"ariaSetSize",void 0),N(xe,ue),N(ve,G,xe);class fe extends i{constructor(){super(...arguments),this._options=[],this.selectedIndex=-1,this.selectedOptions=[],this.shouldSkipFocus=!1,this.typeaheadBuffer="",this.typeaheadExpired=!0,this.typeaheadTimeout=-1}get firstSelectedOption(){var e;return null!==(e=this.selectedOptions[0])&&void 0!==e?e:null}get hasSelectableOptions(){return this.options.length>0&&!this.options.every((e=>e.disabled))}get length(){var e,t;return null!==(t=null===(e=this.options)||void 0===e?void 0:e.length)&&void 0!==t?t:0}get options(){return s.track(this,"options"),this._options}set options(e){this._options=e,s.notify(this,"options")}get typeAheadExpired(){return this.typeaheadExpired}set typeAheadExpired(e){this.typeaheadExpired=e}clickHandler(e){const t=e.target.closest("option,[role=option]");if(t&&!t.disabled)return this.selectedIndex=this.options.indexOf(t),!0}focusAndScrollOptionIntoView(e=this.firstSelectedOption){this.contains(document.activeElement)&&null!==e&&(e.focus(),requestAnimationFrame((()=>{e.scrollIntoView({block:"nearest"})})))}focusinHandler(e){this.shouldSkipFocus||e.target!==e.currentTarget||(this.setSelectedOptions(),this.focusAndScrollOptionIntoView()),this.shouldSkipFocus=!1}getTypeaheadMatches(){const e=this.typeaheadBuffer.replace(/[.*+\-?^${}()|[\]\\]/g,"\\$&"),t=new RegExp(`^${e}`,"gi");return this.options.filter((e=>e.text.trim().match(t)))}getSelectableIndex(e=this.selectedIndex,t){const i=e>t?-1:e<t?1:0,s=e+i;let o=null;switch(i){case-1:o=this.options.reduceRight(((e,t,i)=>!e&&!t.disabled&&i<s?t:e),o);break;case 1:o=this.options.reduce(((e,t,i)=>!e&&!t.disabled&&i>s?t:e),o)}return this.options.indexOf(o)}handleChange(e,t){if("selected"===t)fe.slottedOptionFilter(e)&&(this.selectedIndex=this.options.indexOf(e)),this.setSelectedOptions()}handleTypeAhead(e){this.typeaheadTimeout&&window.clearTimeout(this.typeaheadTimeout),this.typeaheadTimeout=window.setTimeout((()=>this.typeaheadExpired=!0),fe.TYPE_AHEAD_TIMEOUT_MS),e.length>1||(this.typeaheadBuffer=`${this.typeaheadExpired?"":this.typeaheadBuffer}${e}`)}keydownHandler(e){if(this.disabled)return!0;this.shouldSkipFocus=!1;const t=e.key;switch(t){case oe:e.shiftKey||(e.preventDefault(),this.selectFirstOption());break;case se:e.shiftKey||(e.preventDefault(),this.selectNextOption());break;case ie:e.shiftKey||(e.preventDefault(),this.selectPreviousOption());break;case te:e.preventDefault(),this.selectLastOption();break;case ee:return this.focusAndScrollOptionIntoView(),!0;case Z:case Q:return!0;case J:if(this.typeaheadExpired)return!0;default:return 1===t.length&&this.handleTypeAhead(`${t}`),!0}}mousedownHandler(e){return this.shouldSkipFocus=!this.contains(document.activeElement),!0}multipleChanged(e,t){this.ariaMultiSelectable=t?"true":null}selectedIndexChanged(e,t){var i;if(this.hasSelectableOptions){if((null===(i=this.options[this.selectedIndex])||void 0===i?void 0:i.disabled)&&"number"==typeof e){const i=this.getSelectableIndex(e,t),s=i>-1?i:e;return this.selectedIndex=s,void(t===s&&this.selectedIndexChanged(t,s))}this.setSelectedOptions()}else this.selectedIndex=-1}selectedOptionsChanged(e,t){var i;const o=t.filter(fe.slottedOptionFilter);null===(i=this.options)||void 0===i||i.forEach((e=>{const t=s.getNotifier(e);t.unsubscribe(this,"selected"),e.selected=o.includes(e),t.subscribe(this,"selected")}))}selectFirstOption(){var e,t;this.disabled||(this.selectedIndex=null!==(t=null===(e=this.options)||void 0===e?void 0:e.findIndex((e=>!e.disabled)))&&void 0!==t?t:-1)}selectLastOption(){this.disabled||(this.selectedIndex=function(e,t){let i=e.length;for(;i--;)if(t(e[i],i,e))return i;return-1}(this.options,(e=>!e.disabled)))}selectNextOption(){!this.disabled&&this.selectedIndex<this.options.length-1&&(this.selectedIndex+=1)}selectPreviousOption(){!this.disabled&&this.selectedIndex>0&&(this.selectedIndex=this.selectedIndex-1)}setDefaultSelectedOption(){var e,t;this.selectedIndex=null!==(t=null===(e=this.options)||void 0===e?void 0:e.findIndex((e=>e.defaultSelected)))&&void 0!==t?t:-1}setSelectedOptions(){var e,t,i;(null===(e=this.options)||void 0===e?void 0:e.length)&&(this.selectedOptions=[this.options[this.selectedIndex]],this.ariaActiveDescendant=null!==(i=null===(t=this.firstSelectedOption)||void 0===t?void 0:t.id)&&void 0!==i?i:"",this.focusAndScrollOptionIntoView())}slottedOptionsChanged(e,t){this.options=t.reduce(((e,t)=>(be(t)&&e.push(t),e)),[]);const i=`${this.options.length}`;this.options.forEach(((e,t)=>{e.id||(e.id=R("option-")),e.ariaPosInSet=`${t+1}`,e.ariaSetSize=i})),this.$fastController.isConnected&&(this.setSelectedOptions(),this.setDefaultSelectedOption())}typeaheadBufferChanged(e,t){if(this.$fastController.isConnected){const e=this.getTypeaheadMatches();if(e.length){const t=this.options.indexOf(e[0]);t>-1&&(this.selectedIndex=t)}this.typeaheadExpired=!1}}}fe.slottedOptionFilter=e=>be(e)&&!e.hidden,fe.TYPE_AHEAD_TIMEOUT_MS=1e3,e([t({mode:"boolean"})],fe.prototype,"disabled",void 0),e([o],fe.prototype,"selectedIndex",void 0),e([o],fe.prototype,"selectedOptions",void 0),e([o],fe.prototype,"slottedOptions",void 0),e([o],fe.prototype,"typeaheadBuffer",void 0);class ge{}e([o],ge.prototype,"ariaActiveDescendant",void 0),e([o],ge.prototype,"ariaDisabled",void 0),e([o],ge.prototype,"ariaExpanded",void 0),e([o],ge.prototype,"ariaMultiSelectable",void 0),N(ge,ue),N(fe,ge);const ye="above",$e="below";class me extends fe{constructor(){super(...arguments),this.activeIndex=-1,this.rangeStartIndex=-1}get activeOption(){return this.options[this.activeIndex]}get checkedOptions(){var e;return null===(e=this.options)||void 0===e?void 0:e.filter((e=>e.checked))}get firstSelectedOptionIndex(){return this.options.indexOf(this.firstSelectedOption)}activeIndexChanged(e,t){var i,s;this.ariaActiveDescendant=null!==(s=null===(i=this.options[t])||void 0===i?void 0:i.id)&&void 0!==s?s:"",this.focusAndScrollOptionIntoView()}checkActiveIndex(){if(!this.multiple)return;const e=this.activeOption;e&&(e.checked=!0)}checkFirstOption(e=!1){e?(-1===this.rangeStartIndex&&(this.rangeStartIndex=this.activeIndex+1),this.options.forEach(((e,t)=>{e.checked=X(t,this.rangeStartIndex)}))):this.uncheckAllOptions(),this.activeIndex=0,this.checkActiveIndex()}checkLastOption(e=!1){e?(-1===this.rangeStartIndex&&(this.rangeStartIndex=this.activeIndex),this.options.forEach(((e,t)=>{e.checked=X(t,this.rangeStartIndex,this.options.length)}))):this.uncheckAllOptions(),this.activeIndex=this.options.length-1,this.checkActiveIndex()}connectedCallback(){super.connectedCallback(),this.addEventListener("focusout",this.focusoutHandler)}disconnectedCallback(){this.removeEventListener("focusout",this.focusoutHandler),super.disconnectedCallback()}checkNextOption(e=!1){e?(-1===this.rangeStartIndex&&(this.rangeStartIndex=this.activeIndex),this.options.forEach(((e,t)=>{e.checked=X(t,this.rangeStartIndex,this.activeIndex+1)}))):this.uncheckAllOptions(),this.activeIndex+=this.activeIndex<this.options.length-1?1:0,this.checkActiveIndex()}checkPreviousOption(e=!1){e?(-1===this.rangeStartIndex&&(this.rangeStartIndex=this.activeIndex),1===this.checkedOptions.length&&(this.rangeStartIndex+=1),this.options.forEach(((e,t)=>{e.checked=X(t,this.activeIndex,this.rangeStartIndex)}))):this.uncheckAllOptions(),this.activeIndex-=this.activeIndex>0?1:0,this.checkActiveIndex()}clickHandler(e){var t;if(!this.multiple)return super.clickHandler(e);const i=null===(t=e.target)||void 0===t?void 0:t.closest("[role=option]");return i&&!i.disabled?(this.uncheckAllOptions(),this.activeIndex=this.options.indexOf(i),this.checkActiveIndex(),this.toggleSelectedForAllCheckedOptions(),!0):void 0}focusAndScrollOptionIntoView(){super.focusAndScrollOptionIntoView(this.activeOption)}focusinHandler(e){if(!this.multiple)return super.focusinHandler(e);this.shouldSkipFocus||e.target!==e.currentTarget||(this.uncheckAllOptions(),-1===this.activeIndex&&(this.activeIndex=-1!==this.firstSelectedOptionIndex?this.firstSelectedOptionIndex:0),this.checkActiveIndex(),this.setSelectedOptions(),this.focusAndScrollOptionIntoView()),this.shouldSkipFocus=!1}focusoutHandler(e){this.multiple&&this.uncheckAllOptions()}keydownHandler(e){if(!this.multiple)return super.keydownHandler(e);if(this.disabled)return!0;const{key:t,shiftKey:i}=e;switch(this.shouldSkipFocus=!1,t){case oe:return void this.checkFirstOption(i);case se:return void this.checkNextOption(i);case ie:return void this.checkPreviousOption(i);case te:return void this.checkLastOption(i);case ee:return this.focusAndScrollOptionIntoView(),!0;case Q:return this.uncheckAllOptions(),this.checkActiveIndex(),!0;case J:if(e.preventDefault(),this.typeAheadExpired)return void this.toggleSelectedForAllCheckedOptions();default:return 1===t.length&&this.handleTypeAhead(`${t}`),!0}}mousedownHandler(e){if(e.offsetX>=0&&e.offsetX<=this.scrollWidth)return super.mousedownHandler(e)}multipleChanged(e,t){var i;this.ariaMultiSelectable=t?"true":null,null===(i=this.options)||void 0===i||i.forEach((e=>{e.checked=!t&&void 0})),this.setSelectedOptions()}setSelectedOptions(){this.multiple?this.$fastController.isConnected&&this.options&&(this.selectedOptions=this.options.filter((e=>e.selected)),this.focusAndScrollOptionIntoView()):super.setSelectedOptions()}sizeChanged(e,t){var i;const s=Math.max(0,parseInt(null!==(i=null==t?void 0:t.toFixed())&&void 0!==i?i:"",10));s!==t&&a.queueUpdate((()=>{this.size=s}))}toggleSelectedForAllCheckedOptions(){const e=this.checkedOptions.filter((e=>!e.disabled)),t=!e.every((e=>e.selected));e.forEach((e=>e.selected=t)),this.selectedIndex=this.options.indexOf(e[e.length-1]),this.setSelectedOptions()}typeaheadBufferChanged(e,t){if(this.multiple){if(this.$fastController.isConnected){const e=this.getTypeaheadMatches(),t=this.options.indexOf(e[0]);t>-1&&(this.activeIndex=t,this.uncheckAllOptions(),this.checkActiveIndex()),this.typeAheadExpired=!1}}else super.typeaheadBufferChanged(e,t)}uncheckAllOptions(e=!1){this.options.forEach((e=>e.checked=!this.multiple&&void 0)),e||(this.rangeStartIndex=-1)}}e([o],me.prototype,"activeIndex",void 0),e([t({mode:"boolean"})],me.prototype,"multiple",void 0),e([t({converter:n})],me.prototype,"size",void 0);class ke extends me{}class Se extends(ce(ke)){constructor(){super(...arguments),this.proxy=document.createElement("select")}}let Oe=class extends Se{constructor(){super(...arguments),this.open=!1,this.forcedPosition=!1,this.listboxId=R("listbox-"),this.maxHeight=0}openChanged(e,t){if(this.collapsible){if(this.open)return this.ariaControls=this.listboxId,this.ariaExpanded="true",this.setPositioning(),this.focusAndScrollOptionIntoView(),this.indexWhenOpened=this.selectedIndex,void a.queueUpdate((()=>this.focus()));this.ariaControls="",this.ariaExpanded="false"}}get collapsible(){return!(this.multiple||"number"==typeof this.size)}get value(){return s.track(this,"value"),this._value}set value(e){var t,i,o,l,a,n,r;const d=`${this._value}`;if(null===(t=this._options)||void 0===t?void 0:t.length){const t=this._options.findIndex((t=>t.value===e)),s=null!==(o=null===(i=this._options[this.selectedIndex])||void 0===i?void 0:i.value)&&void 0!==o?o:null,d=null!==(a=null===(l=this._options[t])||void 0===l?void 0:l.value)&&void 0!==a?a:null;-1!==t&&s===d||(e="",this.selectedIndex=t),e=null!==(r=null===(n=this.firstSelectedOption)||void 0===n?void 0:n.value)&&void 0!==r?r:e}d!==e&&(this._value=e,super.valueChanged(d,e),s.notify(this,"value"),this.updateDisplayValue())}updateValue(e){var t,i;this.$fastController.isConnected&&(this.value=null!==(i=null===(t=this.firstSelectedOption)||void 0===t?void 0:t.value)&&void 0!==i?i:""),e&&(this.$emit("input"),this.$emit("change",this,{bubbles:!0,composed:void 0}))}selectedIndexChanged(e,t){super.selectedIndexChanged(e,t),this.updateValue()}positionChanged(e,t){this.positionAttribute=t,this.setPositioning()}setPositioning(){const e=this.getBoundingClientRect(),t=window.innerHeight-e.bottom;this.position=this.forcedPosition?this.positionAttribute:e.top>t?ye:$e,this.positionAttribute=this.forcedPosition?this.positionAttribute:this.position,this.maxHeight=this.position===ye?~~e.top:~~t}get displayValue(){var e,t;return s.track(this,"displayValue"),null!==(t=null===(e=this.firstSelectedOption)||void 0===e?void 0:e.text)&&void 0!==t?t:""}disabledChanged(e,t){super.disabledChanged&&super.disabledChanged(e,t),this.ariaDisabled=this.disabled?"true":"false"}formResetCallback(){this.setProxyOptions(),super.setDefaultSelectedOption(),-1===this.selectedIndex&&(this.selectedIndex=0)}clickHandler(e){if(!this.disabled){if(this.open){const t=e.target.closest("option,[role=option]");if(t&&t.disabled)return}return super.clickHandler(e),this.open=this.collapsible&&!this.open,this.open||this.indexWhenOpened===this.selectedIndex||this.updateValue(!0),!0}}focusoutHandler(e){var t;if(super.focusoutHandler(e),!this.open)return!0;const i=e.relatedTarget;this.isSameNode(i)?this.focus():(null===(t=this.options)||void 0===t?void 0:t.includes(i))||(this.open=!1,this.indexWhenOpened!==this.selectedIndex&&this.updateValue(!0))}handleChange(e,t){super.handleChange(e,t),"value"===t&&this.updateValue()}slottedOptionsChanged(e,t){this.options.forEach((e=>{s.getNotifier(e).unsubscribe(this,"value")})),super.slottedOptionsChanged(e,t),this.options.forEach((e=>{s.getNotifier(e).subscribe(this,"value")})),this.setProxyOptions(),this.updateValue()}mousedownHandler(e){var t;return e.offsetX>=0&&e.offsetX<=(null===(t=this.listbox)||void 0===t?void 0:t.scrollWidth)?super.mousedownHandler(e):this.collapsible}multipleChanged(e,t){super.multipleChanged(e,t),this.proxy&&(this.proxy.multiple=t)}selectedOptionsChanged(e,t){var i;super.selectedOptionsChanged(e,t),null===(i=this.options)||void 0===i||i.forEach(((e,t)=>{var i;const s=null===(i=this.proxy)||void 0===i?void 0:i.options.item(t);s&&(s.selected=e.selected)}))}setDefaultSelectedOption(){var e;const t=null!==(e=this.options)&&void 0!==e?e:Array.from(this.children).filter(fe.slottedOptionFilter),i=null==t?void 0:t.findIndex((e=>e.hasAttribute("selected")||e.selected||e.value===this.value));this.selectedIndex=-1===i?0:i}setProxyOptions(){this.proxy instanceof HTMLSelectElement&&this.options&&(this.proxy.options.length=0,this.options.forEach((e=>{const t=e.proxy||(e instanceof HTMLOptionElement?e.cloneNode():null);t&&this.proxy.options.add(t)})))}keydownHandler(e){super.keydownHandler(e);const t=e.key||e.key.charCodeAt(0);switch(t){case J:e.preventDefault(),this.collapsible&&this.typeAheadExpired&&(this.open=!this.open);break;case oe:case te:e.preventDefault();break;case Z:e.preventDefault(),this.open=!this.open;break;case Q:this.collapsible&&this.open&&(e.preventDefault(),this.open=!1);break;case ee:return this.collapsible&&this.open&&(e.preventDefault(),this.open=!1),!0}return this.open||this.indexWhenOpened===this.selectedIndex||(this.updateValue(!0),this.indexWhenOpened=this.selectedIndex),!(t===se||t===ie)}connectedCallback(){super.connectedCallback(),this.forcedPosition=!!this.positionAttribute,this.addEventListener("contentchange",this.updateDisplayValue)}disconnectedCallback(){this.removeEventListener("contentchange",this.updateDisplayValue),super.disconnectedCallback()}sizeChanged(e,t){super.sizeChanged(e,t),this.proxy&&(this.proxy.size=t)}updateDisplayValue(){this.collapsible&&s.notify(this,"displayValue")}};e([t({attribute:"open",mode:"boolean"})],Oe.prototype,"open",void 0),e([r],Oe.prototype,"collapsible",null),e([o],Oe.prototype,"control",void 0),e([t({attribute:"position"})],Oe.prototype,"positionAttribute",void 0),e([o],Oe.prototype,"position",void 0),e([o],Oe.prototype,"maxHeight",void 0);class Ie{}e([o],Ie.prototype,"ariaControls",void 0),N(Ie,ge),N(Oe,G,Ie);const Ce=(e,t)=>{const i=e.name===e.tagFor(Oe);return d`
-        ${ne("inline-flex")}
+import { _ as __decorate, a as attr, F as FoundationElement, O as Observable, o as observable, h as html, D as DOM, y as nullableNumberConverter, z as volatile, c as css, g as fillColor, m as strokeWidth, B as neutralStrokeRest, f as controlCornerRadius, e as designUnit, x as focusStrokeOuter, w as focusStrokeWidth, C as disabledOpacity, E as neutralFillInputRest, G as accentFillRest, n as neutralForegroundRest, u as bodyFont, t as typeRampBaseFontSize, v as typeRampBaseLineHeight, I as neutralFillInputHover, J as accentFillHover, K as focusStrokeInner, L as accentFillFocus, M as foregroundOnAccentFocus, N as neutralFillStealthRest, P as neutralFillInputActive, Q as accentFillActive, R as neutralFillStealthHover, T as neutralFillStealthActive, U as foregroundOnAccentRest, V as foregroundOnAccentHover, W as foregroundOnAccentActive, X as neutralLayerFloating, Y as heightNumberAsToken, p as provideFASTDesignSystem, s as styleMap } from '../../SiteStyleMapping-5e16ab05.js';
+import { d as disabledCursor, h as heightNumber } from '../../size-eacfc77a.js';
+import { a as applyMixins, S as StartEnd, u as uniqueId, s as startSlotTemplate, e as endSlotTemplate, i as inRange, r as ref } from '../../strings-f7a0f37b.js';
+import { n as isHTMLElement, o as keySpace, i as keyEscape, l as keyEnter, p as keyTab, k as keyEnd, h as keyArrowUp, g as keyArrowDown, a as keyHome, s as slotted, m as focusVisible } from '../../focus-21960583.js';
+import { d as display } from '../../display-26e2ea35.js';
+import { f as forcedColorsStylesheetBehavior, S as SystemColors } from '../../match-media-stylesheet-behavior-5f2c3a3c.js';
+import { e as elevation } from '../../elevation-fb0d8a20.js';
+import { F as FormAssociated } from '../../form-associated-b47d00e0.js';
+import { w as when } from '../../when-189f5ef4.js';
+
+/**
+ * Returns the index of the last element in the array where predicate is true, and -1 otherwise.
+ *
+ * @param array - the array to test
+ * @param predicate - find calls predicate once for each element of the array, in descending order, until it finds one where predicate returns true. If such an element is found, findLastIndex immediately returns that element index. Otherwise, findIndex returns -1.
+ */
+function findLastIndex(array, predicate) {
+    let k = array.length;
+    while (k--) {
+        if (predicate(array[k], k, array)) {
+            return k;
+        }
+    }
+    return -1;
+}
+
+/**
+ * Some states and properties are applicable to all host language elements regardless of whether a role is applied.
+ * The following global states and properties are supported by all roles and by all base markup elements.
+ * {@link https://www.w3.org/TR/wai-aria-1.1/#global_states}
+ *
+ * This is intended to be used as a mixin. Be sure you extend FASTElement.
+ *
+ * @public
+ */
+class ARIAGlobalStatesAndProperties {
+}
+__decorate([
+    attr({ attribute: "aria-atomic" })
+], ARIAGlobalStatesAndProperties.prototype, "ariaAtomic", void 0);
+__decorate([
+    attr({ attribute: "aria-busy" })
+], ARIAGlobalStatesAndProperties.prototype, "ariaBusy", void 0);
+__decorate([
+    attr({ attribute: "aria-controls" })
+], ARIAGlobalStatesAndProperties.prototype, "ariaControls", void 0);
+__decorate([
+    attr({ attribute: "aria-current" })
+], ARIAGlobalStatesAndProperties.prototype, "ariaCurrent", void 0);
+__decorate([
+    attr({ attribute: "aria-describedby" })
+], ARIAGlobalStatesAndProperties.prototype, "ariaDescribedby", void 0);
+__decorate([
+    attr({ attribute: "aria-details" })
+], ARIAGlobalStatesAndProperties.prototype, "ariaDetails", void 0);
+__decorate([
+    attr({ attribute: "aria-disabled" })
+], ARIAGlobalStatesAndProperties.prototype, "ariaDisabled", void 0);
+__decorate([
+    attr({ attribute: "aria-errormessage" })
+], ARIAGlobalStatesAndProperties.prototype, "ariaErrormessage", void 0);
+__decorate([
+    attr({ attribute: "aria-flowto" })
+], ARIAGlobalStatesAndProperties.prototype, "ariaFlowto", void 0);
+__decorate([
+    attr({ attribute: "aria-haspopup" })
+], ARIAGlobalStatesAndProperties.prototype, "ariaHaspopup", void 0);
+__decorate([
+    attr({ attribute: "aria-hidden" })
+], ARIAGlobalStatesAndProperties.prototype, "ariaHidden", void 0);
+__decorate([
+    attr({ attribute: "aria-invalid" })
+], ARIAGlobalStatesAndProperties.prototype, "ariaInvalid", void 0);
+__decorate([
+    attr({ attribute: "aria-keyshortcuts" })
+], ARIAGlobalStatesAndProperties.prototype, "ariaKeyshortcuts", void 0);
+__decorate([
+    attr({ attribute: "aria-label" })
+], ARIAGlobalStatesAndProperties.prototype, "ariaLabel", void 0);
+__decorate([
+    attr({ attribute: "aria-labelledby" })
+], ARIAGlobalStatesAndProperties.prototype, "ariaLabelledby", void 0);
+__decorate([
+    attr({ attribute: "aria-live" })
+], ARIAGlobalStatesAndProperties.prototype, "ariaLive", void 0);
+__decorate([
+    attr({ attribute: "aria-owns" })
+], ARIAGlobalStatesAndProperties.prototype, "ariaOwns", void 0);
+__decorate([
+    attr({ attribute: "aria-relevant" })
+], ARIAGlobalStatesAndProperties.prototype, "ariaRelevant", void 0);
+__decorate([
+    attr({ attribute: "aria-roledescription" })
+], ARIAGlobalStatesAndProperties.prototype, "ariaRoledescription", void 0);
+
+/**
+ * Determines if the element is a {@link (ListboxOption:class)}
+ *
+ * @param element - the element to test.
+ * @public
+ */
+function isListboxOption(el) {
+    return (isHTMLElement(el) &&
+        (el.getAttribute("role") === "option" ||
+            el instanceof HTMLOptionElement));
+}
+/**
+ * An Option Custom HTML Element.
+ * Implements {@link https://www.w3.org/TR/wai-aria-1.1/#option | ARIA option }.
+ *
+ * @slot start - Content which can be provided before the listbox option content
+ * @slot end - Content which can be provided after the listbox option content
+ * @slot - The default slot for listbox option content
+ * @csspart content - Wraps the listbox option content
+ *
+ * @public
+ */
+class ListboxOption extends FoundationElement {
+    constructor(text, value, defaultSelected, selected) {
+        super();
+        /**
+         * The defaultSelected state of the option.
+         * @public
+         */
+        this.defaultSelected = false;
+        /**
+         * Tracks whether the "selected" property has been changed.
+         * @internal
+         */
+        this.dirtySelected = false;
+        /**
+         * The checked state of the control.
+         *
+         * @public
+         */
+        this.selected = this.defaultSelected;
+        /**
+         * Track whether the value has been changed from the initial value
+         */
+        this.dirtyValue = false;
+        if (text) {
+            this.textContent = text;
+        }
+        if (value) {
+            this.initialValue = value;
+        }
+        if (defaultSelected) {
+            this.defaultSelected = defaultSelected;
+        }
+        if (selected) {
+            this.selected = selected;
+        }
+        this.proxy = new Option(`${this.textContent}`, this.initialValue, this.defaultSelected, this.selected);
+        this.proxy.disabled = this.disabled;
+    }
+    /**
+     * Updates the ariaChecked property when the checked property changes.
+     *
+     * @param prev - the previous checked value
+     * @param next - the current checked value
+     *
+     * @public
+     */
+    checkedChanged(prev, next) {
+        if (typeof next === "boolean") {
+            this.ariaChecked = next ? "true" : "false";
+            return;
+        }
+        this.ariaChecked = null;
+    }
+    /**
+     * Updates the proxy's text content when the default slot changes.
+     * @param prev - the previous content value
+     * @param next - the current content value
+     *
+     * @internal
+     */
+    contentChanged(prev, next) {
+        if (this.proxy instanceof HTMLOptionElement) {
+            this.proxy.textContent = this.textContent;
+        }
+        this.$emit("contentchange", null, { bubbles: true });
+    }
+    defaultSelectedChanged() {
+        if (!this.dirtySelected) {
+            this.selected = this.defaultSelected;
+            if (this.proxy instanceof HTMLOptionElement) {
+                this.proxy.selected = this.defaultSelected;
+            }
+        }
+    }
+    disabledChanged(prev, next) {
+        this.ariaDisabled = this.disabled ? "true" : "false";
+        if (this.proxy instanceof HTMLOptionElement) {
+            this.proxy.disabled = this.disabled;
+        }
+    }
+    selectedAttributeChanged() {
+        this.defaultSelected = this.selectedAttribute;
+        if (this.proxy instanceof HTMLOptionElement) {
+            this.proxy.defaultSelected = this.defaultSelected;
+        }
+    }
+    selectedChanged() {
+        this.ariaSelected = this.selected ? "true" : "false";
+        if (!this.dirtySelected) {
+            this.dirtySelected = true;
+        }
+        if (this.proxy instanceof HTMLOptionElement) {
+            this.proxy.selected = this.selected;
+        }
+    }
+    initialValueChanged(previous, next) {
+        // If the value is clean and the component is connected to the DOM
+        // then set value equal to the attribute value.
+        if (!this.dirtyValue) {
+            this.value = this.initialValue;
+            this.dirtyValue = false;
+        }
+    }
+    get label() {
+        var _a;
+        return (_a = this.value) !== null && _a !== void 0 ? _a : this.text;
+    }
+    get text() {
+        var _a, _b;
+        return (_b = (_a = this.textContent) === null || _a === void 0 ? void 0 : _a.replace(/\s+/g, " ").trim()) !== null && _b !== void 0 ? _b : "";
+    }
+    set value(next) {
+        const newValue = `${next !== null && next !== void 0 ? next : ""}`;
+        this._value = newValue;
+        this.dirtyValue = true;
+        if (this.proxy instanceof HTMLOptionElement) {
+            this.proxy.value = newValue;
+        }
+        Observable.notify(this, "value");
+    }
+    get value() {
+        var _a;
+        Observable.track(this, "value");
+        return (_a = this._value) !== null && _a !== void 0 ? _a : this.text;
+    }
+    get form() {
+        return this.proxy ? this.proxy.form : null;
+    }
+}
+__decorate([
+    observable
+], ListboxOption.prototype, "checked", void 0);
+__decorate([
+    observable
+], ListboxOption.prototype, "content", void 0);
+__decorate([
+    observable
+], ListboxOption.prototype, "defaultSelected", void 0);
+__decorate([
+    attr({ mode: "boolean" })
+], ListboxOption.prototype, "disabled", void 0);
+__decorate([
+    attr({ attribute: "selected", mode: "boolean" })
+], ListboxOption.prototype, "selectedAttribute", void 0);
+__decorate([
+    observable
+], ListboxOption.prototype, "selected", void 0);
+__decorate([
+    attr({ attribute: "value", mode: "fromView" })
+], ListboxOption.prototype, "initialValue", void 0);
+/**
+ * States and properties relating to the ARIA `option` role.
+ *
+ * @public
+ */
+class DelegatesARIAListboxOption {
+}
+__decorate([
+    observable
+], DelegatesARIAListboxOption.prototype, "ariaChecked", void 0);
+__decorate([
+    observable
+], DelegatesARIAListboxOption.prototype, "ariaPosInSet", void 0);
+__decorate([
+    observable
+], DelegatesARIAListboxOption.prototype, "ariaSelected", void 0);
+__decorate([
+    observable
+], DelegatesARIAListboxOption.prototype, "ariaSetSize", void 0);
+applyMixins(DelegatesARIAListboxOption, ARIAGlobalStatesAndProperties);
+applyMixins(ListboxOption, StartEnd, DelegatesARIAListboxOption);
+
+/**
+ * A Listbox Custom HTML Element.
+ * Implements the {@link https://www.w3.org/TR/wai-aria-1.1/#listbox | ARIA listbox }.
+ *
+ * @slot - The default slot for the listbox options
+ *
+ * @public
+ */
+class Listbox extends FoundationElement {
+    constructor() {
+        super(...arguments);
+        /**
+         * The internal unfiltered list of selectable options.
+         *
+         * @internal
+         */
+        this._options = [];
+        /**
+         * The index of the selected option.
+         *
+         * @public
+         */
+        this.selectedIndex = -1;
+        /**
+         * A collection of the selected options.
+         *
+         * @public
+         */
+        this.selectedOptions = [];
+        /**
+         * A standard `click` event creates a `focus` event before firing, so a
+         * `mousedown` event is used to skip that initial focus.
+         *
+         * @internal
+         */
+        this.shouldSkipFocus = false;
+        /**
+         * The current typeahead buffer string.
+         *
+         * @internal
+         */
+        this.typeaheadBuffer = "";
+        /**
+         * Flag for the typeahead timeout expiration.
+         *
+         * @internal
+         */
+        this.typeaheadExpired = true;
+        /**
+         * The timeout ID for the typeahead handler.
+         *
+         * @internal
+         */
+        this.typeaheadTimeout = -1;
+    }
+    /**
+     * The first selected option.
+     *
+     * @internal
+     */
+    get firstSelectedOption() {
+        var _a;
+        return (_a = this.selectedOptions[0]) !== null && _a !== void 0 ? _a : null;
+    }
+    /**
+     * Returns true if there is one or more selectable option.
+     *
+     * @internal
+     */
+    get hasSelectableOptions() {
+        return this.options.length > 0 && !this.options.every(o => o.disabled);
+    }
+    /**
+     * The number of options.
+     *
+     * @public
+     */
+    get length() {
+        var _a, _b;
+        return (_b = (_a = this.options) === null || _a === void 0 ? void 0 : _a.length) !== null && _b !== void 0 ? _b : 0;
+    }
+    /**
+     * The list of options.
+     *
+     * @public
+     */
+    get options() {
+        Observable.track(this, "options");
+        return this._options;
+    }
+    set options(value) {
+        this._options = value;
+        Observable.notify(this, "options");
+    }
+    /**
+     * Flag for the typeahead timeout expiration.
+     *
+     * @deprecated use `Listbox.typeaheadExpired`
+     * @internal
+     */
+    get typeAheadExpired() {
+        return this.typeaheadExpired;
+    }
+    set typeAheadExpired(value) {
+        this.typeaheadExpired = value;
+    }
+    /**
+     * Handle click events for listbox options.
+     *
+     * @internal
+     */
+    clickHandler(e) {
+        const captured = e.target.closest(`option,[role=option]`);
+        if (captured && !captured.disabled) {
+            this.selectedIndex = this.options.indexOf(captured);
+            return true;
+        }
+    }
+    /**
+     * Ensures that the provided option is focused and scrolled into view.
+     *
+     * @param optionToFocus - The option to focus
+     * @internal
+     */
+    focusAndScrollOptionIntoView(optionToFocus = this.firstSelectedOption) {
+        // To ensure that the browser handles both `focus()` and `scrollIntoView()`, the
+        // timing here needs to guarantee that they happen on different frames. Since this
+        // function is typically called from the `openChanged` observer, `DOM.queueUpdate`
+        // causes the calls to be grouped into the same frame. To prevent this,
+        // `requestAnimationFrame` is used instead of `DOM.queueUpdate`.
+        if (this.contains(document.activeElement) && optionToFocus !== null) {
+            optionToFocus.focus();
+            requestAnimationFrame(() => {
+                optionToFocus.scrollIntoView({ block: "nearest" });
+            });
+        }
+    }
+    /**
+     * Handles `focusin` actions for the component. When the component receives focus,
+     * the list of selected options is refreshed and the first selected option is scrolled
+     * into view.
+     *
+     * @internal
+     */
+    focusinHandler(e) {
+        if (!this.shouldSkipFocus && e.target === e.currentTarget) {
+            this.setSelectedOptions();
+            this.focusAndScrollOptionIntoView();
+        }
+        this.shouldSkipFocus = false;
+    }
+    /**
+     * Returns the options which match the current typeahead buffer.
+     *
+     * @internal
+     */
+    getTypeaheadMatches() {
+        const pattern = this.typeaheadBuffer.replace(/[.*+\-?^${}()|[\]\\]/g, "\\$&");
+        const re = new RegExp(`^${pattern}`, "gi");
+        return this.options.filter((o) => o.text.trim().match(re));
+    }
+    /**
+     * Determines the index of the next option which is selectable, if any.
+     *
+     * @param prev - the previous selected index
+     * @param next - the next index to select
+     *
+     * @internal
+     */
+    getSelectableIndex(prev = this.selectedIndex, next) {
+        const direction = prev > next ? -1 : prev < next ? 1 : 0;
+        const potentialDirection = prev + direction;
+        let nextSelectableOption = null;
+        switch (direction) {
+            case -1: {
+                nextSelectableOption = this.options.reduceRight((nextSelectableOption, thisOption, index) => !nextSelectableOption &&
+                    !thisOption.disabled &&
+                    index < potentialDirection
+                    ? thisOption
+                    : nextSelectableOption, nextSelectableOption);
+                break;
+            }
+            case 1: {
+                nextSelectableOption = this.options.reduce((nextSelectableOption, thisOption, index) => !nextSelectableOption &&
+                    !thisOption.disabled &&
+                    index > potentialDirection
+                    ? thisOption
+                    : nextSelectableOption, nextSelectableOption);
+                break;
+            }
+        }
+        return this.options.indexOf(nextSelectableOption);
+    }
+    /**
+     * Handles external changes to child options.
+     *
+     * @param source - the source object
+     * @param propertyName - the property
+     *
+     * @internal
+     */
+    handleChange(source, propertyName) {
+        switch (propertyName) {
+            case "selected": {
+                if (Listbox.slottedOptionFilter(source)) {
+                    this.selectedIndex = this.options.indexOf(source);
+                }
+                this.setSelectedOptions();
+                break;
+            }
+        }
+    }
+    /**
+     * Moves focus to an option whose label matches characters typed by the user.
+     * Consecutive keystrokes are batched into a buffer of search text used
+     * to match against the set of options.  If `TYPE_AHEAD_TIMEOUT_MS` passes
+     * between consecutive keystrokes, the search restarts.
+     *
+     * @param key - the key to be evaluated
+     *
+     * @internal
+     */
+    handleTypeAhead(key) {
+        if (this.typeaheadTimeout) {
+            window.clearTimeout(this.typeaheadTimeout);
+        }
+        this.typeaheadTimeout = window.setTimeout(() => (this.typeaheadExpired = true), Listbox.TYPE_AHEAD_TIMEOUT_MS);
+        if (key.length > 1) {
+            return;
+        }
+        this.typeaheadBuffer = `${this.typeaheadExpired ? "" : this.typeaheadBuffer}${key}`;
+    }
+    /**
+     * Handles `keydown` actions for listbox navigation and typeahead.
+     *
+     * @internal
+     */
+    keydownHandler(e) {
+        if (this.disabled) {
+            return true;
+        }
+        this.shouldSkipFocus = false;
+        const key = e.key;
+        switch (key) {
+            // Select the first available option
+            case keyHome: {
+                if (!e.shiftKey) {
+                    e.preventDefault();
+                    this.selectFirstOption();
+                }
+                break;
+            }
+            // Select the next selectable option
+            case keyArrowDown: {
+                if (!e.shiftKey) {
+                    e.preventDefault();
+                    this.selectNextOption();
+                }
+                break;
+            }
+            // Select the previous selectable option
+            case keyArrowUp: {
+                if (!e.shiftKey) {
+                    e.preventDefault();
+                    this.selectPreviousOption();
+                }
+                break;
+            }
+            // Select the last available option
+            case keyEnd: {
+                e.preventDefault();
+                this.selectLastOption();
+                break;
+            }
+            case keyTab: {
+                this.focusAndScrollOptionIntoView();
+                return true;
+            }
+            case keyEnter:
+            case keyEscape: {
+                return true;
+            }
+            case keySpace: {
+                if (this.typeaheadExpired) {
+                    return true;
+                }
+            }
+            // Send key to Typeahead handler
+            default: {
+                if (key.length === 1) {
+                    this.handleTypeAhead(`${key}`);
+                }
+                return true;
+            }
+        }
+    }
+    /**
+     * Prevents `focusin` events from firing before `click` events when the
+     * element is unfocused.
+     *
+     * @internal
+     */
+    mousedownHandler(e) {
+        this.shouldSkipFocus = !this.contains(document.activeElement);
+        return true;
+    }
+    /**
+     * Switches between single-selection and multi-selection mode.
+     *
+     * @param prev - the previous value of the `multiple` attribute
+     * @param next - the next value of the `multiple` attribute
+     *
+     * @internal
+     */
+    multipleChanged(prev, next) {
+        this.ariaMultiSelectable = next ? "true" : null;
+    }
+    /**
+     * Updates the list of selected options when the `selectedIndex` changes.
+     *
+     * @param prev - the previous selected index value
+     * @param next - the current selected index value
+     *
+     * @internal
+     */
+    selectedIndexChanged(prev, next) {
+        var _a;
+        if (!this.hasSelectableOptions) {
+            this.selectedIndex = -1;
+            return;
+        }
+        if (((_a = this.options[this.selectedIndex]) === null || _a === void 0 ? void 0 : _a.disabled) && typeof prev === "number") {
+            const selectableIndex = this.getSelectableIndex(prev, next);
+            const newNext = selectableIndex > -1 ? selectableIndex : prev;
+            this.selectedIndex = newNext;
+            if (next === newNext) {
+                this.selectedIndexChanged(next, newNext);
+            }
+            return;
+        }
+        this.setSelectedOptions();
+    }
+    /**
+     * Updates the selectedness of each option when the list of selected options changes.
+     *
+     * @param prev - the previous list of selected options
+     * @param next - the current list of selected options
+     *
+     * @internal
+     */
+    selectedOptionsChanged(prev, next) {
+        var _a;
+        const filteredNext = next.filter(Listbox.slottedOptionFilter);
+        (_a = this.options) === null || _a === void 0 ? void 0 : _a.forEach(o => {
+            const notifier = Observable.getNotifier(o);
+            notifier.unsubscribe(this, "selected");
+            o.selected = filteredNext.includes(o);
+            notifier.subscribe(this, "selected");
+        });
+    }
+    /**
+     * Moves focus to the first selectable option.
+     *
+     * @public
+     */
+    selectFirstOption() {
+        var _a, _b;
+        if (!this.disabled) {
+            this.selectedIndex = (_b = (_a = this.options) === null || _a === void 0 ? void 0 : _a.findIndex(o => !o.disabled)) !== null && _b !== void 0 ? _b : -1;
+        }
+    }
+    /**
+     * Moves focus to the last selectable option.
+     *
+     * @internal
+     */
+    selectLastOption() {
+        if (!this.disabled) {
+            this.selectedIndex = findLastIndex(this.options, o => !o.disabled);
+        }
+    }
+    /**
+     * Moves focus to the next selectable option.
+     *
+     * @internal
+     */
+    selectNextOption() {
+        if (!this.disabled && this.selectedIndex < this.options.length - 1) {
+            this.selectedIndex += 1;
+        }
+    }
+    /**
+     * Moves focus to the previous selectable option.
+     *
+     * @internal
+     */
+    selectPreviousOption() {
+        if (!this.disabled && this.selectedIndex > 0) {
+            this.selectedIndex = this.selectedIndex - 1;
+        }
+    }
+    /**
+     * Updates the selected index to match the first selected option.
+     *
+     * @internal
+     */
+    setDefaultSelectedOption() {
+        var _a, _b;
+        this.selectedIndex = (_b = (_a = this.options) === null || _a === void 0 ? void 0 : _a.findIndex(el => el.defaultSelected)) !== null && _b !== void 0 ? _b : -1;
+    }
+    /**
+     * Sets an option as selected and gives it focus.
+     *
+     * @public
+     */
+    setSelectedOptions() {
+        var _a, _b, _c;
+        if ((_a = this.options) === null || _a === void 0 ? void 0 : _a.length) {
+            this.selectedOptions = [this.options[this.selectedIndex]];
+            this.ariaActiveDescendant = (_c = (_b = this.firstSelectedOption) === null || _b === void 0 ? void 0 : _b.id) !== null && _c !== void 0 ? _c : "";
+            this.focusAndScrollOptionIntoView();
+        }
+    }
+    /**
+     * Updates the list of options and resets the selected option when the slotted option content changes.
+     *
+     * @param prev - the previous list of slotted options
+     * @param next - the current list of slotted options
+     *
+     * @internal
+     */
+    slottedOptionsChanged(prev, next) {
+        this.options = next.reduce((options, item) => {
+            if (isListboxOption(item)) {
+                options.push(item);
+            }
+            return options;
+        }, []);
+        const setSize = `${this.options.length}`;
+        this.options.forEach((option, index) => {
+            if (!option.id) {
+                option.id = uniqueId("option-");
+            }
+            option.ariaPosInSet = `${index + 1}`;
+            option.ariaSetSize = setSize;
+        });
+        if (this.$fastController.isConnected) {
+            this.setSelectedOptions();
+            this.setDefaultSelectedOption();
+        }
+    }
+    /**
+     * Updates the filtered list of options when the typeahead buffer changes.
+     *
+     * @param prev - the previous typeahead buffer value
+     * @param next - the current typeahead buffer value
+     *
+     * @internal
+     */
+    typeaheadBufferChanged(prev, next) {
+        if (this.$fastController.isConnected) {
+            const typeaheadMatches = this.getTypeaheadMatches();
+            if (typeaheadMatches.length) {
+                const selectedIndex = this.options.indexOf(typeaheadMatches[0]);
+                if (selectedIndex > -1) {
+                    this.selectedIndex = selectedIndex;
+                }
+            }
+            this.typeaheadExpired = false;
+        }
+    }
+}
+/**
+ * A static filter to include only selectable options.
+ *
+ * @param n - element to filter
+ * @public
+ */
+Listbox.slottedOptionFilter = (n) => isListboxOption(n) && !n.hidden;
+/**
+ * Typeahead timeout in milliseconds.
+ *
+ * @internal
+ */
+Listbox.TYPE_AHEAD_TIMEOUT_MS = 1000;
+__decorate([
+    attr({ mode: "boolean" })
+], Listbox.prototype, "disabled", void 0);
+__decorate([
+    observable
+], Listbox.prototype, "selectedIndex", void 0);
+__decorate([
+    observable
+], Listbox.prototype, "selectedOptions", void 0);
+__decorate([
+    observable
+], Listbox.prototype, "slottedOptions", void 0);
+__decorate([
+    observable
+], Listbox.prototype, "typeaheadBuffer", void 0);
+/**
+ * Includes ARIA states and properties relating to the ARIA listbox role
+ *
+ * @public
+ */
+class DelegatesARIAListbox {
+}
+__decorate([
+    observable
+], DelegatesARIAListbox.prototype, "ariaActiveDescendant", void 0);
+__decorate([
+    observable
+], DelegatesARIAListbox.prototype, "ariaDisabled", void 0);
+__decorate([
+    observable
+], DelegatesARIAListbox.prototype, "ariaExpanded", void 0);
+__decorate([
+    observable
+], DelegatesARIAListbox.prototype, "ariaMultiSelectable", void 0);
+applyMixins(DelegatesARIAListbox, ARIAGlobalStatesAndProperties);
+applyMixins(Listbox, DelegatesARIAListbox);
+
+/**
+ * Positioning directions for the listbox when a select is open.
+ * @public
+ */
+const SelectPosition = {
+    above: "above",
+    below: "below",
+};
+
+/**
+ * The template for the {@link @microsoft/fast-foundation#(ListboxOption:class)} component.
+ * @public
+ */
+const listboxOptionTemplate = (context, definition) => html `
+    <template
+        aria-checked="${x => x.ariaChecked}"
+        aria-disabled="${x => x.ariaDisabled}"
+        aria-posinset="${x => x.ariaPosInSet}"
+        aria-selected="${x => x.ariaSelected}"
+        aria-setsize="${x => x.ariaSetSize}"
+        class="${x => [x.checked && "checked", x.selected && "selected", x.disabled && "disabled"]
+    .filter(Boolean)
+    .join(" ")}"
+        role="option"
+    >
+        ${startSlotTemplate(context, definition)}
+        <span class="content" part="content">
+            <slot ${slotted("content")}></slot>
+        </span>
+        ${endSlotTemplate(context, definition)}
+    </template>
+`;
+
+/**
+ * A Listbox Custom HTML Element.
+ * Implements the {@link https://w3c.github.io/aria/#listbox | ARIA listbox }.
+ *
+ * @public
+ */
+class ListboxElement extends Listbox {
+    constructor() {
+        super(...arguments);
+        /**
+         * The index of the most recently checked option.
+         *
+         * @internal
+         * @remarks
+         * Multiple-selection mode only.
+         */
+        this.activeIndex = -1;
+        /**
+         * The start index when checking a range of options.
+         *
+         * @internal
+         */
+        this.rangeStartIndex = -1;
+    }
+    /**
+     * Returns the last checked option.
+     *
+     * @internal
+     */
+    get activeOption() {
+        return this.options[this.activeIndex];
+    }
+    /**
+     * Returns the list of checked options.
+     *
+     * @internal
+     */
+    get checkedOptions() {
+        var _a;
+        return (_a = this.options) === null || _a === void 0 ? void 0 : _a.filter(o => o.checked);
+    }
+    /**
+     * Returns the index of the first selected option.
+     *
+     * @internal
+     */
+    get firstSelectedOptionIndex() {
+        return this.options.indexOf(this.firstSelectedOption);
+    }
+    /**
+     * Updates the `ariaActiveDescendant` property when the active index changes.
+     *
+     * @param prev - the previous active index
+     * @param next - the next active index
+     *
+     * @internal
+     */
+    activeIndexChanged(prev, next) {
+        var _a, _b;
+        this.ariaActiveDescendant = (_b = (_a = this.options[next]) === null || _a === void 0 ? void 0 : _a.id) !== null && _b !== void 0 ? _b : "";
+        this.focusAndScrollOptionIntoView();
+    }
+    /**
+     * Toggles the checked state for the currently active option.
+     *
+     * @remarks
+     * Multiple-selection mode only.
+     *
+     * @internal
+     */
+    checkActiveIndex() {
+        if (!this.multiple) {
+            return;
+        }
+        const activeItem = this.activeOption;
+        if (activeItem) {
+            activeItem.checked = true;
+        }
+    }
+    /**
+     * Sets the active index to the first option and marks it as checked.
+     *
+     * @remarks
+     * Multi-selection mode only.
+     *
+     * @param preserveChecked - mark all options unchecked before changing the active index
+     *
+     * @internal
+     */
+    checkFirstOption(preserveChecked = false) {
+        if (preserveChecked) {
+            if (this.rangeStartIndex === -1) {
+                this.rangeStartIndex = this.activeIndex + 1;
+            }
+            this.options.forEach((o, i) => {
+                o.checked = inRange(i, this.rangeStartIndex);
+            });
+        }
+        else {
+            this.uncheckAllOptions();
+        }
+        this.activeIndex = 0;
+        this.checkActiveIndex();
+    }
+    /**
+     * Decrements the active index and sets the matching option as checked.
+     *
+     * @remarks
+     * Multi-selection mode only.
+     *
+     * @param preserveChecked - mark all options unchecked before changing the active index
+     *
+     * @internal
+     */
+    checkLastOption(preserveChecked = false) {
+        if (preserveChecked) {
+            if (this.rangeStartIndex === -1) {
+                this.rangeStartIndex = this.activeIndex;
+            }
+            this.options.forEach((o, i) => {
+                o.checked = inRange(i, this.rangeStartIndex, this.options.length);
+            });
+        }
+        else {
+            this.uncheckAllOptions();
+        }
+        this.activeIndex = this.options.length - 1;
+        this.checkActiveIndex();
+    }
+    /**
+     * @override
+     * @internal
+     */
+    connectedCallback() {
+        super.connectedCallback();
+        this.addEventListener("focusout", this.focusoutHandler);
+    }
+    /**
+     * @override
+     * @internal
+     */
+    disconnectedCallback() {
+        this.removeEventListener("focusout", this.focusoutHandler);
+        super.disconnectedCallback();
+    }
+    /**
+     * Increments the active index and marks the matching option as checked.
+     *
+     * @remarks
+     * Multiple-selection mode only.
+     *
+     * @param preserveChecked - mark all options unchecked before changing the active index
+     *
+     * @internal
+     */
+    checkNextOption(preserveChecked = false) {
+        if (preserveChecked) {
+            if (this.rangeStartIndex === -1) {
+                this.rangeStartIndex = this.activeIndex;
+            }
+            this.options.forEach((o, i) => {
+                o.checked = inRange(i, this.rangeStartIndex, this.activeIndex + 1);
+            });
+        }
+        else {
+            this.uncheckAllOptions();
+        }
+        this.activeIndex += this.activeIndex < this.options.length - 1 ? 1 : 0;
+        this.checkActiveIndex();
+    }
+    /**
+     * Decrements the active index and marks the matching option as checked.
+     *
+     * @remarks
+     * Multiple-selection mode only.
+     *
+     * @param preserveChecked - mark all options unchecked before changing the active index
+     *
+     * @internal
+     */
+    checkPreviousOption(preserveChecked = false) {
+        if (preserveChecked) {
+            if (this.rangeStartIndex === -1) {
+                this.rangeStartIndex = this.activeIndex;
+            }
+            if (this.checkedOptions.length === 1) {
+                this.rangeStartIndex += 1;
+            }
+            this.options.forEach((o, i) => {
+                o.checked = inRange(i, this.activeIndex, this.rangeStartIndex);
+            });
+        }
+        else {
+            this.uncheckAllOptions();
+        }
+        this.activeIndex -= this.activeIndex > 0 ? 1 : 0;
+        this.checkActiveIndex();
+    }
+    /**
+     * Handles click events for listbox options.
+     *
+     * @param e - the event object
+     *
+     * @override
+     * @internal
+     */
+    clickHandler(e) {
+        var _a;
+        if (!this.multiple) {
+            return super.clickHandler(e);
+        }
+        const captured = (_a = e.target) === null || _a === void 0 ? void 0 : _a.closest(`[role=option]`);
+        if (!captured || captured.disabled) {
+            return;
+        }
+        this.uncheckAllOptions();
+        this.activeIndex = this.options.indexOf(captured);
+        this.checkActiveIndex();
+        this.toggleSelectedForAllCheckedOptions();
+        return true;
+    }
+    /**
+     * @override
+     * @internal
+     */
+    focusAndScrollOptionIntoView() {
+        super.focusAndScrollOptionIntoView(this.activeOption);
+    }
+    /**
+     * In multiple-selection mode:
+     * If any options are selected, the first selected option is checked when
+     * the listbox receives focus. If no options are selected, the first
+     * selectable option is checked.
+     *
+     * @override
+     * @internal
+     */
+    focusinHandler(e) {
+        if (!this.multiple) {
+            return super.focusinHandler(e);
+        }
+        if (!this.shouldSkipFocus && e.target === e.currentTarget) {
+            this.uncheckAllOptions();
+            if (this.activeIndex === -1) {
+                this.activeIndex =
+                    this.firstSelectedOptionIndex !== -1
+                        ? this.firstSelectedOptionIndex
+                        : 0;
+            }
+            this.checkActiveIndex();
+            this.setSelectedOptions();
+            this.focusAndScrollOptionIntoView();
+        }
+        this.shouldSkipFocus = false;
+    }
+    /**
+     * Unchecks all options when the listbox loses focus.
+     *
+     * @internal
+     */
+    focusoutHandler(e) {
+        if (this.multiple) {
+            this.uncheckAllOptions();
+        }
+    }
+    /**
+     * Handles keydown actions for listbox navigation and typeahead
+     *
+     * @override
+     * @internal
+     */
+    keydownHandler(e) {
+        if (!this.multiple) {
+            return super.keydownHandler(e);
+        }
+        if (this.disabled) {
+            return true;
+        }
+        const { key, shiftKey } = e;
+        this.shouldSkipFocus = false;
+        switch (key) {
+            // Select the first available option
+            case keyHome: {
+                this.checkFirstOption(shiftKey);
+                return;
+            }
+            // Select the next selectable option
+            case keyArrowDown: {
+                this.checkNextOption(shiftKey);
+                return;
+            }
+            // Select the previous selectable option
+            case keyArrowUp: {
+                this.checkPreviousOption(shiftKey);
+                return;
+            }
+            // Select the last available option
+            case keyEnd: {
+                this.checkLastOption(shiftKey);
+                return;
+            }
+            case keyTab: {
+                this.focusAndScrollOptionIntoView();
+                return true;
+            }
+            case keyEscape: {
+                this.uncheckAllOptions();
+                this.checkActiveIndex();
+                return true;
+            }
+            case keySpace: {
+                e.preventDefault();
+                if (this.typeAheadExpired) {
+                    this.toggleSelectedForAllCheckedOptions();
+                    return;
+                }
+            }
+            // Send key to Typeahead handler
+            default: {
+                if (key.length === 1) {
+                    this.handleTypeAhead(`${key}`);
+                }
+                return true;
+            }
+        }
+    }
+    /**
+     * Prevents `focusin` events from firing before `click` events when the
+     * element is unfocused.
+     *
+     * @override
+     * @internal
+     */
+    mousedownHandler(e) {
+        if (e.offsetX >= 0 && e.offsetX <= this.scrollWidth) {
+            return super.mousedownHandler(e);
+        }
+    }
+    /**
+     * Switches between single-selection and multi-selection mode.
+     *
+     * @internal
+     */
+    multipleChanged(prev, next) {
+        var _a;
+        this.ariaMultiSelectable = next ? "true" : null;
+        (_a = this.options) === null || _a === void 0 ? void 0 : _a.forEach(o => {
+            o.checked = next ? false : undefined;
+        });
+        this.setSelectedOptions();
+    }
+    /**
+     * Sets an option as selected and gives it focus.
+     *
+     * @override
+     * @public
+     */
+    setSelectedOptions() {
+        if (!this.multiple) {
+            super.setSelectedOptions();
+            return;
+        }
+        if (this.$fastController.isConnected && this.options) {
+            this.selectedOptions = this.options.filter(o => o.selected);
+            this.focusAndScrollOptionIntoView();
+        }
+    }
+    /**
+     * Ensures the size is a positive integer when the property is updated.
+     *
+     * @param prev - the previous size value
+     * @param next - the current size value
+     *
+     * @internal
+     */
+    sizeChanged(prev, next) {
+        var _a;
+        const size = Math.max(0, parseInt((_a = next === null || next === void 0 ? void 0 : next.toFixed()) !== null && _a !== void 0 ? _a : "", 10));
+        if (size !== next) {
+            DOM.queueUpdate(() => {
+                this.size = size;
+            });
+        }
+    }
+    /**
+     * Toggles the selected state of the provided options. If any provided items
+     * are in an unselected state, all items are set to selected. If every
+     * provided item is selected, they are all unselected.
+     *
+     * @internal
+     */
+    toggleSelectedForAllCheckedOptions() {
+        const enabledCheckedOptions = this.checkedOptions.filter(o => !o.disabled);
+        const force = !enabledCheckedOptions.every(o => o.selected);
+        enabledCheckedOptions.forEach(o => (o.selected = force));
+        this.selectedIndex = this.options.indexOf(enabledCheckedOptions[enabledCheckedOptions.length - 1]);
+        this.setSelectedOptions();
+    }
+    /**
+     * @override
+     * @internal
+     */
+    typeaheadBufferChanged(prev, next) {
+        if (!this.multiple) {
+            super.typeaheadBufferChanged(prev, next);
+            return;
+        }
+        if (this.$fastController.isConnected) {
+            const typeaheadMatches = this.getTypeaheadMatches();
+            const activeIndex = this.options.indexOf(typeaheadMatches[0]);
+            if (activeIndex > -1) {
+                this.activeIndex = activeIndex;
+                this.uncheckAllOptions();
+                this.checkActiveIndex();
+            }
+            this.typeAheadExpired = false;
+        }
+    }
+    /**
+     * Unchecks all options.
+     *
+     * @remarks
+     * Multiple-selection mode only.
+     *
+     * @param preserveChecked - reset the rangeStartIndex
+     *
+     * @internal
+     */
+    uncheckAllOptions(preserveChecked = false) {
+        this.options.forEach(o => (o.checked = this.multiple ? false : undefined));
+        if (!preserveChecked) {
+            this.rangeStartIndex = -1;
+        }
+    }
+}
+__decorate([
+    observable
+], ListboxElement.prototype, "activeIndex", void 0);
+__decorate([
+    attr({ mode: "boolean" })
+], ListboxElement.prototype, "multiple", void 0);
+__decorate([
+    attr({ converter: nullableNumberConverter })
+], ListboxElement.prototype, "size", void 0);
+
+class _Select extends ListboxElement {
+}
+/**
+ * A form-associated base class for the {@link @microsoft/fast-foundation#(Select:class)} component.
+ *
+ * @internal
+ */
+class FormAssociatedSelect extends FormAssociated(_Select) {
+    constructor() {
+        super(...arguments);
+        this.proxy = document.createElement("select");
+    }
+}
+
+/**
+ * A Select Custom HTML Element.
+ * Implements the {@link https://www.w3.org/TR/wai-aria-1.1/#select | ARIA select }.
+ *
+ * @slot start - Content which can be provided before the button content
+ * @slot end - Content which can be provided after the button content
+ * @slot button-container - The element representing the select button
+ * @slot selected-value - The selected value
+ * @slot indicator - The visual indicator for the expand/collapse state of the button
+ * @slot - The default slot for slotted options
+ * @csspart control - The element representing the select invoking element
+ * @csspart selected-value - The element wrapping the selected value
+ * @csspart indicator - The element wrapping the visual indicator
+ * @csspart listbox - The listbox element
+ * @fires input - Fires a custom 'input' event when the value updates
+ * @fires change - Fires a custom 'change' event when the value updates
+ *
+ * @public
+ */
+let Select$1 = class Select extends FormAssociatedSelect {
+    constructor() {
+        super(...arguments);
+        /**
+         * The open attribute.
+         *
+         * @public
+         * @remarks
+         * HTML Attribute: open
+         */
+        this.open = false;
+        /**
+         * Indicates the initial state of the position attribute.
+         *
+         * @internal
+         */
+        this.forcedPosition = false;
+        /**
+         * The unique id for the internal listbox element.
+         *
+         * @internal
+         */
+        this.listboxId = uniqueId("listbox-");
+        /**
+         * The max height for the listbox when opened.
+         *
+         * @internal
+         */
+        this.maxHeight = 0;
+    }
+    /**
+     * Sets focus and synchronizes ARIA attributes when the open property changes.
+     *
+     * @param prev - the previous open value
+     * @param next - the current open value
+     *
+     * @internal
+     */
+    openChanged(prev, next) {
+        if (!this.collapsible) {
+            return;
+        }
+        if (this.open) {
+            this.ariaControls = this.listboxId;
+            this.ariaExpanded = "true";
+            this.setPositioning();
+            this.focusAndScrollOptionIntoView();
+            this.indexWhenOpened = this.selectedIndex;
+            // focus is directed to the element when `open` is changed programmatically
+            DOM.queueUpdate(() => this.focus());
+            return;
+        }
+        this.ariaControls = "";
+        this.ariaExpanded = "false";
+    }
+    /**
+     * The component is collapsible when in single-selection mode with no size attribute.
+     *
+     * @internal
+     */
+    get collapsible() {
+        return !(this.multiple || typeof this.size === "number");
+    }
+    /**
+     * The value property.
+     *
+     * @public
+     */
+    get value() {
+        Observable.track(this, "value");
+        return this._value;
+    }
+    set value(next) {
+        var _a, _b, _c, _d, _e, _f, _g;
+        const prev = `${this._value}`;
+        if ((_a = this._options) === null || _a === void 0 ? void 0 : _a.length) {
+            const selectedIndex = this._options.findIndex(el => el.value === next);
+            const prevSelectedValue = (_c = (_b = this._options[this.selectedIndex]) === null || _b === void 0 ? void 0 : _b.value) !== null && _c !== void 0 ? _c : null;
+            const nextSelectedValue = (_e = (_d = this._options[selectedIndex]) === null || _d === void 0 ? void 0 : _d.value) !== null && _e !== void 0 ? _e : null;
+            if (selectedIndex === -1 || prevSelectedValue !== nextSelectedValue) {
+                next = "";
+                this.selectedIndex = selectedIndex;
+            }
+            next = (_g = (_f = this.firstSelectedOption) === null || _f === void 0 ? void 0 : _f.value) !== null && _g !== void 0 ? _g : next;
+        }
+        if (prev !== next) {
+            this._value = next;
+            super.valueChanged(prev, next);
+            Observable.notify(this, "value");
+            this.updateDisplayValue();
+        }
+    }
+    /**
+     * Sets the value and display value to match the first selected option.
+     *
+     * @param shouldEmit - if true, the input and change events will be emitted
+     *
+     * @internal
+     */
+    updateValue(shouldEmit) {
+        var _a, _b;
+        if (this.$fastController.isConnected) {
+            this.value = (_b = (_a = this.firstSelectedOption) === null || _a === void 0 ? void 0 : _a.value) !== null && _b !== void 0 ? _b : "";
+        }
+        if (shouldEmit) {
+            this.$emit("input");
+            this.$emit("change", this, {
+                bubbles: true,
+                composed: undefined,
+            });
+        }
+    }
+    /**
+     * Updates the proxy value when the selected index changes.
+     *
+     * @param prev - the previous selected index
+     * @param next - the next selected index
+     *
+     * @internal
+     */
+    selectedIndexChanged(prev, next) {
+        super.selectedIndexChanged(prev, next);
+        this.updateValue();
+    }
+    positionChanged(prev, next) {
+        this.positionAttribute = next;
+        this.setPositioning();
+    }
+    /**
+     * Calculate and apply listbox positioning based on available viewport space.
+     *
+     * @public
+     */
+    setPositioning() {
+        const currentBox = this.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+        const availableBottom = viewportHeight - currentBox.bottom;
+        this.position = this.forcedPosition
+            ? this.positionAttribute
+            : currentBox.top > availableBottom
+                ? SelectPosition.above
+                : SelectPosition.below;
+        this.positionAttribute = this.forcedPosition
+            ? this.positionAttribute
+            : this.position;
+        this.maxHeight =
+            this.position === SelectPosition.above ? ~~currentBox.top : ~~availableBottom;
+    }
+    /**
+     * The value displayed on the button.
+     *
+     * @public
+     */
+    get displayValue() {
+        var _a, _b;
+        Observable.track(this, "displayValue");
+        return (_b = (_a = this.firstSelectedOption) === null || _a === void 0 ? void 0 : _a.text) !== null && _b !== void 0 ? _b : "";
+    }
+    /**
+     * Synchronize the `aria-disabled` property when the `disabled` property changes.
+     *
+     * @param prev - The previous disabled value
+     * @param next - The next disabled value
+     *
+     * @internal
+     */
+    disabledChanged(prev, next) {
+        if (super.disabledChanged) {
+            super.disabledChanged(prev, next);
+        }
+        this.ariaDisabled = this.disabled ? "true" : "false";
+    }
+    /**
+     * Reset the element to its first selectable option when its parent form is reset.
+     *
+     * @internal
+     */
+    formResetCallback() {
+        this.setProxyOptions();
+        // Call the base class's implementation setDefaultSelectedOption instead of the select's
+        // override, in order to reset the selectedIndex without using the value property.
+        super.setDefaultSelectedOption();
+        if (this.selectedIndex === -1) {
+            this.selectedIndex = 0;
+        }
+    }
+    /**
+     * Handle opening and closing the listbox when the select is clicked.
+     *
+     * @param e - the mouse event
+     * @internal
+     */
+    clickHandler(e) {
+        // do nothing if the select is disabled
+        if (this.disabled) {
+            return;
+        }
+        if (this.open) {
+            const captured = e.target.closest(`option,[role=option]`);
+            if (captured && captured.disabled) {
+                return;
+            }
+        }
+        super.clickHandler(e);
+        this.open = this.collapsible && !this.open;
+        if (!this.open && this.indexWhenOpened !== this.selectedIndex) {
+            this.updateValue(true);
+        }
+        return true;
+    }
+    /**
+     * Handles focus state when the element or its children lose focus.
+     *
+     * @param e - The focus event
+     * @internal
+     */
+    focusoutHandler(e) {
+        var _a;
+        super.focusoutHandler(e);
+        if (!this.open) {
+            return true;
+        }
+        const focusTarget = e.relatedTarget;
+        if (this.isSameNode(focusTarget)) {
+            this.focus();
+            return;
+        }
+        if (!((_a = this.options) === null || _a === void 0 ? void 0 : _a.includes(focusTarget))) {
+            this.open = false;
+            if (this.indexWhenOpened !== this.selectedIndex) {
+                this.updateValue(true);
+            }
+        }
+    }
+    /**
+     * Updates the value when an option's value changes.
+     *
+     * @param source - the source object
+     * @param propertyName - the property to evaluate
+     *
+     * @internal
+     * @override
+     */
+    handleChange(source, propertyName) {
+        super.handleChange(source, propertyName);
+        if (propertyName === "value") {
+            this.updateValue();
+        }
+    }
+    /**
+     * Synchronize the form-associated proxy and updates the value property of the element.
+     *
+     * @param prev - the previous collection of slotted option elements
+     * @param next - the next collection of slotted option elements
+     *
+     * @internal
+     */
+    slottedOptionsChanged(prev, next) {
+        this.options.forEach(o => {
+            const notifier = Observable.getNotifier(o);
+            notifier.unsubscribe(this, "value");
+        });
+        super.slottedOptionsChanged(prev, next);
+        this.options.forEach(o => {
+            const notifier = Observable.getNotifier(o);
+            notifier.subscribe(this, "value");
+        });
+        this.setProxyOptions();
+        this.updateValue();
+    }
+    /**
+     * Prevents focus when size is set and a scrollbar is clicked.
+     *
+     * @param e - the mouse event object
+     *
+     * @override
+     * @internal
+     */
+    mousedownHandler(e) {
+        var _a;
+        if (e.offsetX >= 0 && e.offsetX <= ((_a = this.listbox) === null || _a === void 0 ? void 0 : _a.scrollWidth)) {
+            return super.mousedownHandler(e);
+        }
+        return this.collapsible;
+    }
+    /**
+     * Sets the multiple property on the proxy element.
+     *
+     * @param prev - the previous multiple value
+     * @param next - the current multiple value
+     */
+    multipleChanged(prev, next) {
+        super.multipleChanged(prev, next);
+        if (this.proxy) {
+            this.proxy.multiple = next;
+        }
+    }
+    /**
+     * Updates the selectedness of each option when the list of selected options changes.
+     *
+     * @param prev - the previous list of selected options
+     * @param next - the current list of selected options
+     *
+     * @override
+     * @internal
+     */
+    selectedOptionsChanged(prev, next) {
+        var _a;
+        super.selectedOptionsChanged(prev, next);
+        (_a = this.options) === null || _a === void 0 ? void 0 : _a.forEach((o, i) => {
+            var _a;
+            const proxyOption = (_a = this.proxy) === null || _a === void 0 ? void 0 : _a.options.item(i);
+            if (proxyOption) {
+                proxyOption.selected = o.selected;
+            }
+        });
+    }
+    /**
+     * Sets the selected index to match the first option with the selected attribute, or
+     * the first selectable option.
+     *
+     * @override
+     * @internal
+     */
+    setDefaultSelectedOption() {
+        var _a;
+        const options = (_a = this.options) !== null && _a !== void 0 ? _a : Array.from(this.children).filter(Listbox.slottedOptionFilter);
+        const selectedIndex = options === null || options === void 0 ? void 0 : options.findIndex(el => el.hasAttribute("selected") || el.selected || el.value === this.value);
+        if (selectedIndex !== -1) {
+            this.selectedIndex = selectedIndex;
+            return;
+        }
+        this.selectedIndex = 0;
+    }
+    /**
+     * Resets and fills the proxy to match the component's options.
+     *
+     * @internal
+     */
+    setProxyOptions() {
+        if (this.proxy instanceof HTMLSelectElement && this.options) {
+            this.proxy.options.length = 0;
+            this.options.forEach(option => {
+                const proxyOption = option.proxy ||
+                    (option instanceof HTMLOptionElement ? option.cloneNode() : null);
+                if (proxyOption) {
+                    this.proxy.options.add(proxyOption);
+                }
+            });
+        }
+    }
+    /**
+     * Handle keyboard interaction for the select.
+     *
+     * @param e - the keyboard event
+     * @internal
+     */
+    keydownHandler(e) {
+        super.keydownHandler(e);
+        const key = e.key || e.key.charCodeAt(0);
+        switch (key) {
+            case keySpace: {
+                e.preventDefault();
+                if (this.collapsible && this.typeAheadExpired) {
+                    this.open = !this.open;
+                }
+                break;
+            }
+            case keyHome:
+            case keyEnd: {
+                e.preventDefault();
+                break;
+            }
+            case keyEnter: {
+                e.preventDefault();
+                this.open = !this.open;
+                break;
+            }
+            case keyEscape: {
+                if (this.collapsible && this.open) {
+                    e.preventDefault();
+                    this.open = false;
+                }
+                break;
+            }
+            case keyTab: {
+                if (this.collapsible && this.open) {
+                    e.preventDefault();
+                    this.open = false;
+                }
+                return true;
+            }
+        }
+        if (!this.open && this.indexWhenOpened !== this.selectedIndex) {
+            this.updateValue(true);
+            this.indexWhenOpened = this.selectedIndex;
+        }
+        return !(key === keyArrowDown || key === keyArrowUp);
+    }
+    connectedCallback() {
+        super.connectedCallback();
+        this.forcedPosition = !!this.positionAttribute;
+        this.addEventListener("contentchange", this.updateDisplayValue);
+    }
+    disconnectedCallback() {
+        this.removeEventListener("contentchange", this.updateDisplayValue);
+        super.disconnectedCallback();
+    }
+    /**
+     * Updates the proxy's size property when the size attribute changes.
+     *
+     * @param prev - the previous size
+     * @param next - the current size
+     *
+     * @override
+     * @internal
+     */
+    sizeChanged(prev, next) {
+        super.sizeChanged(prev, next);
+        if (this.proxy) {
+            this.proxy.size = next;
+        }
+    }
+    /**
+     *
+     * @internal
+     */
+    updateDisplayValue() {
+        if (this.collapsible) {
+            Observable.notify(this, "displayValue");
+        }
+    }
+};
+__decorate([
+    attr({ attribute: "open", mode: "boolean" })
+], Select$1.prototype, "open", void 0);
+__decorate([
+    volatile
+], Select$1.prototype, "collapsible", null);
+__decorate([
+    observable
+], Select$1.prototype, "control", void 0);
+__decorate([
+    attr({ attribute: "position" })
+], Select$1.prototype, "positionAttribute", void 0);
+__decorate([
+    observable
+], Select$1.prototype, "position", void 0);
+__decorate([
+    observable
+], Select$1.prototype, "maxHeight", void 0);
+/**
+ * Includes ARIA states and properties relating to the ARIA select role.
+ *
+ * @public
+ */
+class DelegatesARIASelect {
+}
+__decorate([
+    observable
+], DelegatesARIASelect.prototype, "ariaControls", void 0);
+applyMixins(DelegatesARIASelect, DelegatesARIAListbox);
+applyMixins(Select$1, StartEnd, DelegatesARIASelect);
+
+/**
+ * The template for the {@link @microsoft/fast-foundation#(Select:class)} component.
+ * @public
+ */
+const selectTemplate = (context, definition) => html `
+    <template
+        class="${x => [
+    x.collapsible && "collapsible",
+    x.collapsible && x.open && "open",
+    x.disabled && "disabled",
+    x.collapsible && x.position,
+]
+    .filter(Boolean)
+    .join(" ")}"
+        aria-activedescendant="${x => x.ariaActiveDescendant}"
+        aria-controls="${x => x.ariaControls}"
+        aria-disabled="${x => x.ariaDisabled}"
+        aria-expanded="${x => x.ariaExpanded}"
+        aria-haspopup="${x => (x.collapsible ? "listbox" : null)}"
+        aria-multiselectable="${x => x.ariaMultiSelectable}"
+        ?open="${x => x.open}"
+        role="combobox"
+        tabindex="${x => (!x.disabled ? "0" : null)}"
+        @click="${(x, c) => x.clickHandler(c.event)}"
+        @focusin="${(x, c) => x.focusinHandler(c.event)}"
+        @focusout="${(x, c) => x.focusoutHandler(c.event)}"
+        @keydown="${(x, c) => x.keydownHandler(c.event)}"
+        @mousedown="${(x, c) => x.mousedownHandler(c.event)}"
+    >
+        ${when(x => x.collapsible, html `
+                <div
+                    class="control"
+                    part="control"
+                    ?disabled="${x => x.disabled}"
+                    ${ref("control")}
+                >
+                    ${startSlotTemplate(context, definition)}
+                    <slot name="button-container">
+                        <div class="selected-value" part="selected-value">
+                            <slot name="selected-value">${x => x.displayValue}</slot>
+                        </div>
+                        <div aria-hidden="true" class="indicator" part="indicator">
+                            <slot name="indicator">
+                                ${definition.indicator || ""}
+                            </slot>
+                        </div>
+                    </slot>
+                    ${endSlotTemplate(context, definition)}
+                </div>
+            `)}
+        <div
+            class="listbox"
+            id="${x => x.listboxId}"
+            part="listbox"
+            role="listbox"
+            ?disabled="${x => x.disabled}"
+            ?hidden="${x => (x.collapsible ? !x.open : false)}"
+            ${ref("listbox")}
+        >
+            <slot
+                ${slotted({
+    filter: Listbox.slottedOptionFilter,
+    flatten: true,
+    property: "slottedOptions",
+})}
+            ></slot>
+        </div>
+    </template>
+`;
+
+/**
+ * Styles for Listbox
+ * @public
+ */
+const listboxStyles = (context, definition) => {
+    const ListboxOptionTag = context.tagFor(ListboxOption);
+    const hostContext = context.name === context.tagFor(ListboxElement) ? "" : ".listbox";
+    // The expression interpolations present in this block cause Prettier to generate
+    // various formatting bugs.
+    // prettier-ignore
+    return css `
+        ${!hostContext ? display("inline-flex") : ""}
+
+        :host ${hostContext} {
+            background: ${fillColor};
+            border: calc(${strokeWidth} * 1px) solid ${neutralStrokeRest};
+            border-radius: calc(${controlCornerRadius} * 1px);
+            box-sizing: border-box;
+            flex-direction: column;
+            padding: calc(${designUnit} * 1px) 0;
+        }
+
+        ${!hostContext ? css `
+            :host(:focus-within:not([disabled])) {
+                border-color: ${focusStrokeOuter};
+                box-shadow: 0 0 0
+                    calc((${focusStrokeWidth} - ${strokeWidth}) * 1px)
+                    ${focusStrokeOuter} inset;
+            }
+
+            :host([disabled]) ::slotted(*) {
+                cursor: ${disabledCursor};
+                opacity: ${disabledOpacity};
+                pointer-events: none;
+            }
+        ` : ``}
+
+        ${hostContext || `:host([size])`} {
+            max-height: calc(
+                (var(--size) * ${heightNumber} + (${designUnit} * ${strokeWidth} * 2)) * 1px
+            );
+            overflow-y: auto;
+        }
+
+        :host([size="0"]) ${hostContext} {
+            max-height: none;
+        }
+    `.withBehaviors(forcedColorsStylesheetBehavior(css `
+                :host(:not([multiple]):${focusVisible}) ::slotted(${ListboxOptionTag}[aria-selected="true"]),
+                :host([multiple]:${focusVisible}) ::slotted(${ListboxOptionTag}[aria-checked="true"]) {
+                    border-color: ${SystemColors.ButtonText};
+                    box-shadow: 0 0 0 calc(${focusStrokeWidth} * 1px) inset ${SystemColors.HighlightText};
+                }
+
+                :host(:not([multiple]):${focusVisible}) ::slotted(${ListboxOptionTag}[aria-selected="true"]) {
+                    background: ${SystemColors.Highlight};
+                    color: ${SystemColors.HighlightText};
+                    fill: currentcolor;
+                }
+
+                ::slotted(${ListboxOptionTag}[aria-selected="true"]:not([aria-checked="true"])) {
+                    background: ${SystemColors.Highlight};
+                    border-color: ${SystemColors.HighlightText};
+                    color: ${SystemColors.HighlightText};
+                }
+            `));
+};
+
+/**
+ * Styles for Select.
+ *
+ * @public
+ */
+const selectStyles = (context, definition) => {
+    const selectContext = context.name === context.tagFor(Select$1);
+    // The expression interpolations present in this block cause Prettier to generate
+    // various formatting bugs.
+    // prettier-ignore
+    return css `
+        ${display("inline-flex")}
 
         :host {
             --elevation: 14;
-            background: ${g};
-            border-radius: calc(${u} * 1px);
-            border: calc(${c} * 1px) solid ${y};
+            background: ${neutralFillInputRest};
+            border-radius: calc(${controlCornerRadius} * 1px);
+            border: calc(${strokeWidth} * 1px) solid ${accentFillRest};
             box-sizing: border-box;
-            color: ${$};
-            font-family: ${m};
-            height: calc(${W} * 1px);
+            color: ${neutralForegroundRest};
+            font-family: ${bodyFont};
+            height: calc(${heightNumber} * 1px);
             position: relative;
             user-select: none;
             min-width: 250px;
@@ -17,74 +1951,19 @@ import{_ as e,a as t,F as i,O as s,o,h as l,D as a,y as n,z as r,c as d,g as h,m
             vertical-align: top;
         }
 
-        ${i?d`
+        ${selectContext ? css `
             :host(:not([aria-haspopup])) {
                 --elevation: 0;
                 border: 0;
                 height: auto;
                 min-width: 0;
             }
-        `:""}
+        ` : ""}
 
-        ${((e,t)=>{const i=e.tagFor(ve),s=e.name===e.tagFor(me)?"":".listbox";return d`
-        ${s?"":ne("inline-flex")}
-
-        :host ${s} {
-            background: ${h};
-            border: calc(${c} * 1px) solid ${p};
-            border-radius: calc(${u} * 1px);
-            box-sizing: border-box;
-            flex-direction: column;
-            padding: calc(${b} * 1px) 0;
-        }
-
-        ${s?"":d`
-            :host(:focus-within:not([disabled])) {
-                border-color: ${v};
-                box-shadow: 0 0 0
-                    calc((${x} - ${c}) * 1px)
-                    ${v} inset;
-            }
-
-            :host([disabled]) ::slotted(*) {
-                cursor: ${j};
-                opacity: ${f};
-                pointer-events: none;
-            }
-        `}
-
-        ${s||":host([size])"} {
-            max-height: calc(
-                (var(--size) * ${W} + (${b} * ${c} * 2)) * 1px
-            );
-            overflow-y: auto;
-        }
-
-        :host([size="0"]) ${s} {
-            max-height: none;
-        }
-    `.withBehaviors(re(d`
-                :host(:not([multiple]):${ae}) ::slotted(${i}[aria-selected="true"]),
-                :host([multiple]:${ae}) ::slotted(${i}[aria-checked="true"]) {
-                    border-color: ${de.ButtonText};
-                    box-shadow: 0 0 0 calc(${x} * 1px) inset ${de.HighlightText};
-                }
-
-                :host(:not([multiple]):${ae}) ::slotted(${i}[aria-selected="true"]) {
-                    background: ${de.Highlight};
-                    color: ${de.HighlightText};
-                    fill: currentcolor;
-                }
-
-                ::slotted(${i}[aria-selected="true"]:not([aria-checked="true"])) {
-                    background: ${de.Highlight};
-                    border-color: ${de.HighlightText};
-                    color: ${de.HighlightText};
-                }
-            `))})(e)}
+        ${listboxStyles(context)}
 
         :host .listbox {
-            ${he}
+            ${elevation}
             border: none;
             display: flex;
             left: 0;
@@ -94,19 +1973,19 @@ import{_ as e,a as t,F as i,O as s,o,h as l,D as a,y as n,z as r,c as d,g as h,m
         }
 
         .control + .listbox {
-            --stroke-size: calc(${b} * ${c} * 2);
+            --stroke-size: calc(${designUnit} * ${strokeWidth} * 2);
             max-height: calc(
-                (var(--listbox-max-height) * ${W} + var(--stroke-size)) * 1px
+                (var(--listbox-max-height) * ${heightNumber} + var(--stroke-size)) * 1px
             );
         }
 
-        ${i?d`
+        ${selectContext ? css `
             :host(:not([aria-haspopup])) .listbox {
                 left: auto;
                 position: static;
                 z-index: auto;
             }
-        `:""}
+        ` : ""}
 
         .listbox[hidden] {
             display: none;
@@ -117,76 +1996,76 @@ import{_ as e,a as t,F as i,O as s,o,h as l,D as a,y as n,z as r,c as d,g as h,m
             box-sizing: border-box;
             cursor: pointer;
             display: flex;
-            font-size: ${k};
+            font-size: ${typeRampBaseFontSize};
             font-family: inherit;
-            line-height: ${S};
+            line-height: ${typeRampBaseLineHeight};
             min-height: 100%;
-            padding: 0 calc(${b} * 2.25px);
+            padding: 0 calc(${designUnit} * 2.25px);
             width: 100%;
         }
 
         :host(:not([disabled]):hover) {
-            background: ${O};
-            border-color: ${I};
+            background: ${neutralFillInputHover};
+            border-color: ${accentFillHover};
         }
 
-        :host(:${ae}) {
-            border-color: ${v};
+        :host(:${focusVisible}) {
+            border-color: ${focusStrokeOuter};
         }
 
-        :host(:not([size]):not([multiple]):not([open]):${ae}),
-        :host([multiple]:${ae}),
-        :host([size]:${ae}) {
-            box-shadow: 0 0 0 calc(${x} * 1px) ${v};
+        :host(:not([size]):not([multiple]):not([open]):${focusVisible}),
+        :host([multiple]:${focusVisible}),
+        :host([size]:${focusVisible}) {
+            box-shadow: 0 0 0 calc(${focusStrokeWidth} * 1px) ${focusStrokeOuter};
         }
 
-        :host(:not([multiple]):not([size]):${ae}) ::slotted(${e.tagFor(ve)}[aria-selected="true"]:not([disabled])) {
-            box-shadow: 0 0 0 calc(${x} * 1px) inset ${C};
-            border-color: ${v};
-            background: ${w};
-            color: ${A};
+        :host(:not([multiple]):not([size]):${focusVisible}) ::slotted(${context.tagFor(ListboxOption)}[aria-selected="true"]:not([disabled])) {
+            box-shadow: 0 0 0 calc(${focusStrokeWidth} * 1px) inset ${focusStrokeInner};
+            border-color: ${focusStrokeOuter};
+            background: ${accentFillFocus};
+            color: ${foregroundOnAccentFocus};
         }
 
         :host([disabled]) {
-            cursor: ${j};
-            opacity: ${f};
+            cursor: ${disabledCursor};
+            opacity: ${disabledOpacity};
         }
 
         :host([disabled]) .control {
-            cursor: ${j};
+            cursor: ${disabledCursor};
             user-select: none;
         }
 
         :host([disabled]:hover) {
-            background: ${H};
-            color: ${$};
+            background: ${neutralFillStealthRest};
+            color: ${neutralForegroundRest};
             fill: currentcolor;
         }
 
         :host(:not([disabled])) .control:active {
-            background: ${T};
-            border-color: ${E};
-            border-radius: calc(${u} * 1px);
+            background: ${neutralFillInputActive};
+            border-color: ${accentFillActive};
+            border-radius: calc(${controlCornerRadius} * 1px);
         }
 
         :host([open][position="above"]) .listbox {
             border-bottom-left-radius: 0;
             border-bottom-right-radius: 0;
             border-bottom: 0;
-            bottom: calc(${W} * 1px);
+            bottom: calc(${heightNumber} * 1px);
         }
 
         :host([open][position="below"]) .listbox {
             border-top-left-radius: 0;
             border-top-right-radius: 0;
             border-top: 0;
-            top: calc(${W} * 1px);
+            top: calc(${heightNumber} * 1px);
         }
 
         .selected-value {
             flex: 1 1 auto;
             font-family: inherit;
-            min-width: calc(var(--listbox-scroll-width, 0) - (${b} * 4) * 1px);
+            min-width: calc(var(--listbox-scroll-width, 0) - (${designUnit} * 4) * 1px);
             overflow: hidden;
             text-align: start;
             text-overflow: ellipsis;
@@ -206,7 +2085,7 @@ import{_ as e,a as t,F as i,O as s,o,h as l,D as a,y as n,z as r,c as d,g as h,m
         :host([open]) slot[name="listbox"] {
             display: flex;
             position: absolute;
-            ${he}
+            ${elevation}
         }
 
         .end {
@@ -221,8 +2100,8 @@ import{_ as e,a as t,F as i,O as s,o,h as l,D as a,y as n,z as r,c as d,g as h,m
             /* TODO: adaptive typography https://github.com/microsoft/fast/issues/2432 */
             fill: currentcolor;
             height: 1em;
-            min-height: calc(${b} * 4px);
-            min-width: calc(${b} * 4px);
+            min-height: calc(${designUnit} * 4px);
+            min-width: calc(${designUnit} * 4px);
             width: 1em;
         }
 
@@ -230,53 +2109,53 @@ import{_ as e,a as t,F as i,O as s,o,h as l,D as a,y as n,z as r,c as d,g as h,m
         ::slotted(option) {
             flex: 0 0 auto;
         }
-    `.withBehaviors(re(d`
+    `.withBehaviors(forcedColorsStylesheetBehavior(css `
                 :host(:not([disabled]):hover),
                 :host(:not([disabled]):active) {
-                    border-color: ${de.Highlight};
+                    border-color: ${SystemColors.Highlight};
                 }
 
-                :host(:not([disabled]):${ae}) {
-                    background-color: ${de.ButtonFace};
-                    box-shadow: 0 0 0 calc(${x} * 1px) ${de.Highlight};
-                    color: ${de.ButtonText};
+                :host(:not([disabled]):${focusVisible}) {
+                    background-color: ${SystemColors.ButtonFace};
+                    box-shadow: 0 0 0 calc(${focusStrokeWidth} * 1px) ${SystemColors.Highlight};
+                    color: ${SystemColors.ButtonText};
                     fill: currentcolor;
                     forced-color-adjust: none;
                 }
 
-                :host(:not([disabled]):${ae}) .listbox {
-                    background: ${de.ButtonFace};
+                :host(:not([disabled]):${focusVisible}) .listbox {
+                    background: ${SystemColors.ButtonFace};
                 }
 
                 :host([disabled]) {
-                    border-color: ${de.GrayText};
-                    background-color: ${de.ButtonFace};
-                    color: ${de.GrayText};
+                    border-color: ${SystemColors.GrayText};
+                    background-color: ${SystemColors.ButtonFace};
+                    color: ${SystemColors.GrayText};
                     fill: currentcolor;
                     opacity: 1;
                     forced-color-adjust: none;
                 }
 
                 :host([disabled]:hover) {
-                    background: ${de.ButtonFace};
+                    background: ${SystemColors.ButtonFace};
                 }
 
                 :host([disabled]) .control {
-                    color: ${de.GrayText};
-                    border-color: ${de.GrayText};
+                    color: ${SystemColors.GrayText};
+                    border-color: ${SystemColors.GrayText};
                 }
 
                 :host([disabled]) .control .select-indicator {
-                    fill: ${de.GrayText};
+                    fill: ${SystemColors.GrayText};
                 }
 
-                :host(:${ae}) ::slotted([aria-selected="true"][role="option"]),
-                :host(:${ae}) ::slotted(option[aria-selected="true"]),
-                :host(:${ae}) ::slotted([aria-selected="true"][role="option"]:not([disabled])) {
-                    background: ${de.Highlight};
-                    border-color: ${de.ButtonText};
-                    box-shadow: 0 0 0 calc(${x} * 1px) inset ${de.HighlightText};
-                    color: ${de.HighlightText};
+                :host(:${focusVisible}) ::slotted([aria-selected="true"][role="option"]),
+                :host(:${focusVisible}) ::slotted(option[aria-selected="true"]),
+                :host(:${focusVisible}) ::slotted([aria-selected="true"][role="option"]:not([disabled])) {
+                    background: ${SystemColors.Highlight};
+                    border-color: ${SystemColors.ButtonText};
+                    box-shadow: 0 0 0 calc(${focusStrokeWidth} * 1px) inset ${SystemColors.HighlightText};
+                    color: ${SystemColors.HighlightText};
                     fill: currentcolor;
                 }
 
@@ -285,25 +2164,37 @@ import{_ as e,a as t,F as i,O as s,o,h as l,D as a,y as n,z as r,c as d,g as h,m
                 .indicator,
                 .select-indicator,
                 ::slotted(svg) {
-                    color: ${de.ButtonText};
+                    color: ${SystemColors.ButtonText};
                     fill: currentcolor;
                 }
-            `))},we=(e,t)=>d`
-        ${ne("inline-flex")} :host {
+            `));
+};
+
+/**
+ * Styles for the {@link @microsoft/fast-components#fastOption | Listbox Option} component.
+ *
+ * @param context - the element definition context
+ * @param definition - the foundation element definition
+ * @returns The element styles for the listbox option component
+ *
+ * @public
+ */
+const optionStyles = (context, definition) => css `
+        ${display("inline-flex")} :host {
             align-items: center;
-            font-family: ${m};
-            border-radius: calc(${u} * 1px);
-            border: calc(${x} * 1px) solid transparent;
+            font-family: ${bodyFont};
+            border-radius: calc(${controlCornerRadius} * 1px);
+            border: calc(${focusStrokeWidth} * 1px) solid transparent;
             box-sizing: border-box;
-            background: ${H};
-            color: ${$};
+            background: ${neutralFillStealthRest};
+            color: ${neutralForegroundRest};
             cursor: pointer;
             flex: 0 0 auto;
             fill: currentcolor;
-            font-size: ${k};
-            height: calc(${W} * 1px);
-            line-height: ${S};
-            margin: 0 calc((${b} - ${x}) * 1px);
+            font-size: ${typeRampBaseFontSize};
+            height: calc(${heightNumber} * 1px);
+            line-height: ${typeRampBaseLineHeight};
+            margin: 0 calc((${designUnit} - ${focusStrokeWidth}) * 1px);
             outline: none;
             overflow: hidden;
             padding: 0 1ch;
@@ -312,31 +2203,31 @@ import{_ as e,a as t,F as i,O as s,o,h as l,D as a,y as n,z as r,c as d,g as h,m
         }
 
         :host(:not([disabled]):not([aria-selected="true"]):hover) {
-            background: ${V};
+            background: ${neutralFillStealthHover};
         }
 
         :host(:not([disabled]):not([aria-selected="true"]):active) {
-            background: ${z};
+            background: ${neutralFillStealthActive};
         }
 
         :host([aria-selected="true"]) {
-            background: ${y};
-            color: ${F};
+            background: ${accentFillRest};
+            color: ${foregroundOnAccentRest};
         }
 
         :host(:not([disabled])[aria-selected="true"]:hover) {
-            background: ${I};
-            color: ${D};
+            background: ${accentFillHover};
+            color: ${foregroundOnAccentHover};
         }
 
         :host(:not([disabled])[aria-selected="true"]:active) {
-            background: ${E};
-            color: ${P};
+            background: ${accentFillActive};
+            color: ${foregroundOnAccentActive};
         }
 
         :host([disabled]) {
-            cursor: ${j};
-            opacity: ${f};
+            cursor: ${disabledCursor};
+            opacity: ${disabledOpacity};
         }
 
         .content {
@@ -354,8 +2245,8 @@ import{_ as e,a as t,F as i,O as s,o,h as l,D as a,y as n,z as r,c as d,g as h,m
 
         ::slotted(svg) {
             /* TODO: adaptive typography https://github.com/microsoft/fast/issues/2432 */
-            height: calc(${b} * 4px);
-            width: calc(${b} * 4px);
+            height: calc(${designUnit} * 4px);
+            width: calc(${designUnit} * 4px);
         }
 
         ::slotted([slot="end"]) {
@@ -367,130 +2258,243 @@ import{_ as e,a as t,F as i,O as s,o,h as l,D as a,y as n,z as r,c as d,g as h,m
         }
 
         :host([aria-checked="true"][aria-selected="false"]) {
-            border-color: ${v};
+            border-color: ${focusStrokeOuter};
         }
 
         :host([aria-checked="true"][aria-selected="true"]) {
-            border-color: ${v};
-            box-shadow: 0 0 0 calc(${x} * 2 * 1px) inset
-                ${C};
+            border-color: ${focusStrokeOuter};
+            box-shadow: 0 0 0 calc(${focusStrokeWidth} * 2 * 1px) inset
+                ${focusStrokeInner};
         }
-    `.withBehaviors(re(d`
+    `.withBehaviors(forcedColorsStylesheetBehavior(css `
                 :host {
                     border-color: transparent;
                     forced-color-adjust: none;
-                    color: ${de.ButtonText};
+                    color: ${SystemColors.ButtonText};
                     fill: currentcolor;
                 }
 
                 :host(:not([aria-selected="true"]):hover),
                 :host([aria-selected="true"]) {
-                    background: ${de.Highlight};
-                    color: ${de.HighlightText};
+                    background: ${SystemColors.Highlight};
+                    color: ${SystemColors.HighlightText};
                 }
 
                 :host([disabled]),
                 :host([disabled][aria-selected="false"]:hover) {
-                    background: ${de.Canvas};
-                    color: ${de.GrayText};
+                    background: ${SystemColors.Canvas};
+                    color: ${SystemColors.GrayText};
                     fill: currentcolor;
                     opacity: 1;
                 }
 
                 :host([aria-checked="true"][aria-selected="false"]) {
-                    background: ${de.ButtonFace};
-                    color: ${de.ButtonText};
-                    border-color: ${de.ButtonText};
+                    background: ${SystemColors.ButtonFace};
+                    color: ${SystemColors.ButtonText};
+                    border-color: ${SystemColors.ButtonText};
                 }
 
                 :host([aria-checked="true"][aria-selected="true"]),
                 :host([aria-checked="true"][aria-selected="true"]:hover) {
-                    background: ${de.Highlight};
-                    color: ${de.HighlightText};
-                    border-color: ${de.ButtonText};
+                    background: ${SystemColors.Highlight};
+                    color: ${SystemColors.HighlightText};
+                    border-color: ${SystemColors.ButtonText};
                 }
-            `)),Ae=ve.compose({baseName:"option",template:(e,t)=>l`
-    <template
-        aria-checked="${e=>e.ariaChecked}"
-        aria-disabled="${e=>e.ariaDisabled}"
-        aria-posinset="${e=>e.ariaPosInSet}"
-        aria-selected="${e=>e.ariaSelected}"
-        aria-setsize="${e=>e.ariaSetSize}"
-        class="${e=>[e.checked&&"checked",e.selected&&"selected",e.disabled&&"disabled"].filter(Boolean).join(" ")}"
-        role="option"
-    >
-        ${K(e,t)}
-        <span class="content" part="content">
-            <slot ${le("content")}></slot>
-        </span>
-        ${U(e,t)}
-    </template>
-`,styles:we});class He extends Oe{constructor(){super(...arguments),this.listboxScrollWidth=""}connectedCallback(){super.connectedCallback(),this.listbox&&h.setValueFor(this.listbox,B)}get listboxMaxHeight(){return Math.floor(this.maxHeight/M.getValueFor(this)).toString()}listboxScrollWidthChanged(){this.updateComputedStylesheet()}get selectSize(){var e;return`${null!==(e=this.size)&&void 0!==e?e:this.multiple?4:0}`}multipleChanged(e,t){super.multipleChanged(e,t),this.updateComputedStylesheet()}maxHeightChanged(e,t){this.collapsible&&this.updateComputedStylesheet()}setPositioning(){super.setPositioning(),this.updateComputedStylesheet()}sizeChanged(e,t){super.sizeChanged(e,t),this.updateComputedStylesheet(),this.collapsible?requestAnimationFrame((()=>{this.listbox.style.setProperty("display","flex"),this.listbox.style.setProperty("overflow","visible"),this.listbox.style.setProperty("visibility","hidden"),this.listbox.style.setProperty("width","auto"),this.listbox.hidden=!1,this.listboxScrollWidth=`${this.listbox.scrollWidth}`,this.listbox.hidden=!0,this.listbox.style.removeProperty("display"),this.listbox.style.removeProperty("overflow"),this.listbox.style.removeProperty("visibility"),this.listbox.style.removeProperty("width")})):this.listboxScrollWidth=""}updateComputedStylesheet(){this.computedStylesheet&&this.$fastController.removeStyles(this.computedStylesheet),this.computedStylesheet=d`
+            `));
+
+/**
+ * A function that returns a {@link @microsoft/fast-foundation#ListboxOption} registration for configuring the component with a DesignSystem.
+ * Implements {@link @microsoft/fast-foundation#listboxOptionTemplate}
+ *
+ *
+ * @public
+ * @remarks
+ * Generates HTML Element: `<fast-option>`
+ *
+ */
+const fastOption = ListboxOption.compose({
+    baseName: "option",
+    template: listboxOptionTemplate,
+    styles: optionStyles,
+});
+
+/**
+ * Base class for Select.
+ * @public
+ */
+class Select extends Select$1 {
+    constructor() {
+        super(...arguments);
+        /**
+         * The cached scroll width of the listbox when visible.
+         *
+         * @internal
+         */
+        this.listboxScrollWidth = "";
+    }
+    /**
+     * @internal
+     */
+    connectedCallback() {
+        super.connectedCallback();
+        if (this.listbox) {
+            fillColor.setValueFor(this.listbox, neutralLayerFloating);
+        }
+    }
+    /**
+     * Returns the calculated max height for the listbox.
+     *
+     * @internal
+     * @remarks
+     * Used to generate the `--listbox-max-height` CSS custom property.
+     *
+     */
+    get listboxMaxHeight() {
+        return Math.floor(this.maxHeight / heightNumberAsToken.getValueFor(this)).toString();
+    }
+    /**
+     * @internal
+     */
+    listboxScrollWidthChanged() {
+        this.updateComputedStylesheet();
+    }
+    /**
+     * Returns the size value, if any. Otherwise, returns 4 if in
+     * multi-selection mode, or 0 if in single-selection mode.
+     *
+     * @internal
+     * @remarks
+     * Used to generate the `--size` CSS custom property.
+     *
+     */
+    get selectSize() {
+        var _a;
+        return `${(_a = this.size) !== null && _a !== void 0 ? _a : (this.multiple ? 4 : 0)}`;
+    }
+    /**
+     * Updates the computed stylesheet when the multiple property changes.
+     *
+     * @param prev - the previous multiple value
+     * @param next - the current multiple value
+     *
+     * @override
+     * @internal
+     */
+    multipleChanged(prev, next) {
+        super.multipleChanged(prev, next);
+        this.updateComputedStylesheet();
+    }
+    /**
+     * Sets the selectMaxSize design token when the maxHeight property changes.
+     *
+     * @param prev - the previous maxHeight value
+     * @param next - the current maxHeight value
+     *
+     * @internal
+     */
+    maxHeightChanged(prev, next) {
+        if (this.collapsible) {
+            this.updateComputedStylesheet();
+        }
+    }
+    setPositioning() {
+        super.setPositioning();
+        this.updateComputedStylesheet();
+    }
+    /**
+     * Updates the component dimensions when the size property is changed.
+     *
+     * @param prev - the previous size value
+     * @param next - the current size value
+     *
+     * @override
+     * @internal
+     */
+    sizeChanged(prev, next) {
+        super.sizeChanged(prev, next);
+        this.updateComputedStylesheet();
+        if (this.collapsible) {
+            requestAnimationFrame(() => {
+                this.listbox.style.setProperty("display", "flex");
+                this.listbox.style.setProperty("overflow", "visible");
+                this.listbox.style.setProperty("visibility", "hidden");
+                this.listbox.style.setProperty("width", "auto");
+                this.listbox.hidden = false;
+                this.listboxScrollWidth = `${this.listbox.scrollWidth}`;
+                this.listbox.hidden = true;
+                this.listbox.style.removeProperty("display");
+                this.listbox.style.removeProperty("overflow");
+                this.listbox.style.removeProperty("visibility");
+                this.listbox.style.removeProperty("width");
+            });
+            return;
+        }
+        this.listboxScrollWidth = "";
+    }
+    /**
+     * Updates an internal stylesheet with calculated CSS custom properties.
+     *
+     * @internal
+     */
+    updateComputedStylesheet() {
+        if (this.computedStylesheet) {
+            this.$fastController.removeStyles(this.computedStylesheet);
+        }
+        this.computedStylesheet = css `
             :host {
                 --listbox-max-height: ${this.listboxMaxHeight};
                 --listbox-scroll-width: ${this.listboxScrollWidth};
                 --size: ${this.selectSize};
             }
-        `,this.$fastController.addStyles(this.computedStylesheet)}}e([o],He.prototype,"listboxScrollWidth",void 0);const Te=He.compose({baseName:"select",baseClass:Oe,template:(e,t)=>l`
-    <template
-        class="${e=>[e.collapsible&&"collapsible",e.collapsible&&e.open&&"open",e.disabled&&"disabled",e.collapsible&&e.position].filter(Boolean).join(" ")}"
-        aria-activedescendant="${e=>e.ariaActiveDescendant}"
-        aria-controls="${e=>e.ariaControls}"
-        aria-disabled="${e=>e.ariaDisabled}"
-        aria-expanded="${e=>e.ariaExpanded}"
-        aria-haspopup="${e=>e.collapsible?"listbox":null}"
-        aria-multiselectable="${e=>e.ariaMultiSelectable}"
-        ?open="${e=>e.open}"
-        role="combobox"
-        tabindex="${e=>e.disabled?null:"0"}"
-        @click="${(e,t)=>e.clickHandler(t.event)}"
-        @focusin="${(e,t)=>e.focusinHandler(t.event)}"
-        @focusout="${(e,t)=>e.focusoutHandler(t.event)}"
-        @keydown="${(e,t)=>e.keydownHandler(t.event)}"
-        @mousedown="${(e,t)=>e.mousedownHandler(t.event)}"
-    >
-        ${pe((e=>e.collapsible),l`
-                <div
-                    class="control"
-                    part="control"
-                    ?disabled="${e=>e.disabled}"
-                    ${q("control")}
-                >
-                    ${K(e,t)}
-                    <slot name="button-container">
-                        <div class="selected-value" part="selected-value">
-                            <slot name="selected-value">${e=>e.displayValue}</slot>
-                        </div>
-                        <div aria-hidden="true" class="indicator" part="indicator">
-                            <slot name="indicator">
-                                ${t.indicator||""}
-                            </slot>
-                        </div>
-                    </slot>
-                    ${U(e,t)}
-                </div>
-            `)}
-        <div
-            class="listbox"
-            id="${e=>e.listboxId}"
-            part="listbox"
-            role="listbox"
-            ?disabled="${e=>e.disabled}"
-            ?hidden="${e=>!!e.collapsible&&!e.open}"
-            ${q("listbox")}
+        `;
+        this.$fastController.addStyles(this.computedStylesheet);
+    }
+}
+__decorate([
+    observable
+], Select.prototype, "listboxScrollWidth", void 0);
+/**
+ * A function that returns a {@link @microsoft/fast-foundation#Select} registration for configuring the component with a DesignSystem.
+ * Implements {@link @microsoft/fast-foundation#selectTemplate}
+ *
+ *
+ * @public
+ * @remarks
+ * Generates HTML Element: `<fast-select>`
+ *
+ */
+const fastSelect = Select.compose({
+    baseName: "select",
+    baseClass: Select$1,
+    template: selectTemplate,
+    styles: selectStyles,
+    indicator: /* html */ `
+        <svg
+            class="select-indicator"
+            part="select-indicator"
+            viewBox="0 0 12 7"
+            xmlns="http://www.w3.org/2000/svg"
         >
-            <slot
-                ${le({filter:fe.slottedOptionFilter,flatten:!0,property:"slottedOptions"})}
-            ></slot>
-        </div>
-    </template>
-`,styles:Ce,indicator:'\n        <svg\n            class="select-indicator"\n            part="select-indicator"\n            viewBox="0 0 12 7"\n            xmlns="http://www.w3.org/2000/svg"\n        >\n            <path\n                d="M11.85.65c.2.2.2.5 0 .7L6.4 6.84a.55.55 0 01-.78 0L.14 1.35a.5.5 0 11.71-.7L6 5.8 11.15.65c.2-.2.5-.2.7 0z"\n            />\n        </svg>\n    '});L().withPrefix("site").register(Te({styles:(e,t)=>d`
-                ${_}
-                ${Ce(e)}
+            <path
+                d="M11.85.65c.2.2.2.5 0 .7L6.4 6.84a.55.55 0 01-.78 0L.14 1.35a.5.5 0 11.71-.7L6 5.8 11.15.65c.2-.2.5-.2.7 0z"
+            />
+        </svg>
+    `,
+});
+
+provideFASTDesignSystem()
+    .withPrefix("site")
+    .register(fastSelect({
+    styles: (context, definition) => css `
+                ${styleMap}
+                ${selectStyles(context)}
                 :host .listbox {
                     background: var(--uva-grey-lightest);
                 }
-            `}),Ae({styles:(e,t)=>d`
-                ${_}
-                ${we()}
-            `}));
+            `
+}), fastOption({
+    styles: (context, definition) => css `
+                ${styleMap}
+                ${optionStyles()}
+            `
+}));

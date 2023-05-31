@@ -1,4 +1,9 @@
-import{i as e,s as i,x as a}from"../../query-assigned-elements-23ba9e4f.js";import{S as t}from"../../SiteStyle-86c89e81.js";class l extends i{render(){return a`
+import { i, s, x } from '../../query-assigned-elements-66a11629.js';
+import { S as SiteStyle } from '../../SiteStyle-5d4bc111.js';
+
+class SiteAlert extends s {
+    render() {
+        return x `
 <!-- Start: Pre-Header -->
 <div id="pre_header" class="w3-col w3-clear w3-theme-l5 ">
 	<div id="pre_header-inner" class="w3-row pre_header-inner w3-width-1360">
@@ -11,13 +16,20 @@ import{i as e,s as i,x as a}from"../../query-assigned-elements-23ba9e4f.js";impo
   </div>
 </div>
 <!-- End: Pre-Header -->
-    `}}l.styles=e`
+    `;
+    }
+}
+SiteAlert.styles = i `
     :host {
       display: block;
       padding: 25px;
       color: var(--site-alert-text-color, #000);
     }
-  `,window.customElements.define("site-alert",l);var r=e`
+  `;
+
+window.customElements.define('site-alert', SiteAlert);
+
+var SiteHeaderStyle = i `
     :host {
       display: block;
     }
@@ -104,7 +116,17 @@ import{i as e,s as i,x as a}from"../../query-assigned-elements-23ba9e4f.js";impo
         justify-content: space-between;
       }
     }
-`;window.customElements.define("site-header",class extends t{static get styles(){return[...super.styles,r]}render(){return a`
+`;
+
+class SiteHeader extends SiteStyle {
+    static get styles() {
+        return [
+            ...super.styles,
+            SiteHeaderStyle
+        ];
+    }
+    render() {
+        return x `
 <site-alert></site-alert>
 <!-- Start: Header -->
 <header id="header" class="w3-col w3-clear w3-theme-l4 none " role="banner" aria-label="Site header">
@@ -164,4 +186,8 @@ import{i as e,s as i,x as a}from"../../query-assigned-elements-23ba9e4f.js";impo
 	</div>
 </header>
 <!-- End: Header -->
-    `}});
+    `;
+    }
+}
+
+window.customElements.define('site-header', SiteHeader);

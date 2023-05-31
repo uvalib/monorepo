@@ -21,7 +21,7 @@ export default {
       compact: true
     }),
     /** Minify JS */
-    terser(),
+//    terser(),
 
   ],
 };

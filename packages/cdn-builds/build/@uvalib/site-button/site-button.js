@@ -1,4 +1,8 @@
-import{i as t,_ as o,e,s as i,x as a}from"../../query-assigned-elements-23ba9e4f.js";const n=t`
+import { i, _ as __decorate, e, s, x } from '../../query-assigned-elements-66a11629.js';
+
+// colors from https://github.com/uvalib/uvalib-drupal-theme/blob/main/scss/base/_colors.scss
+// need to setup a dependency and process to autosync from that authority
+const SiteButtonStyle = i `
 :host {
   font-family: franklin-gothic-urw, Arial, Helvetica, sans-serif;
 }
@@ -200,23 +204,118 @@ a.uvalib-button-inverse {
     width: auto;
   }
 }
-`;class l extends i{constructor(){super(...arguments),this.label="Push me!",this.alt=!1,this.basic=!1,this.subtle=!1,this.outline=!1,this.inverse=!1,this.small=!1,this.large=!1,this.disabled=!1,this.href=null,this.visited=!1,this.hovered=!1,this.activated=!1}render(){return this.href?this.renderAnchor():this.renderButton()}renderButton(){return a`
+`;
+
+class SiteButton extends s {
+    constructor() {
+        super(...arguments);
+        this.label = "Push me!";
+        this.alt = false;
+        this.basic = false;
+        this.subtle = false;
+        this.outline = false;
+        this.inverse = false;
+        this.small = false;
+        this.large = false;
+        this.disabled = false;
+        this.href = null;
+        // for testing
+        this.visited = false;
+        this.hovered = false;
+        this.activated = false;
+    }
+    render() {
+        return this.href ? this.renderAnchor() : this.renderButton();
+    }
+    renderButton() {
+        return x `
       <button
         class=${this.computeClass()}
         ?disabled=${this.disabled}
-        aria-disabled=${this.disabled?"true":"false"}
+        aria-disabled=${this.disabled ? 'true' : 'false'}
         role="button"
       >
         <slot>${this.label}</slot>
       </button>
-    `}renderAnchor(){return a`
+    `;
+    }
+    renderAnchor() {
+        return x `
       <a
         href=${this.href}
         class=${this.computeClass()}
         ?disabled=${this.disabled}
-        aria-disabled=${this.disabled?"true":"false"}
+        aria-disabled=${this.disabled ? 'true' : 'false'}
         role="button"
       >
         <slot>${this.label}</slot>
       </a>
-    `}computeClass(){let t="uvalib-button";return this.basic&&(t+=" uvalib-button--basic"),this.alt&&(t+=" uvalib-button--alt"),this.subtle&&(t+=" uvalib-button--subtle"),this.outline&&(t+=" uvalib-button--outline"),this.inverse&&(t+=" uvalib-button--inverse"),this.small&&(t+=" uvalib-button--small"),this.large&&(t+=" uvalib-button--large"),this.visited&&(t+=" uvalib-button--visited"),this.hovered&&(t+=" uvalib-button--hovered"),this.activated&&(t+=" uvalib-button--activated"),t}}l.styles=n,o([e({type:String})],l.prototype,"label",void 0),o([e({type:Boolean})],l.prototype,"alt",void 0),o([e({type:Boolean})],l.prototype,"basic",void 0),o([e({type:Boolean})],l.prototype,"subtle",void 0),o([e({type:Boolean})],l.prototype,"outline",void 0),o([e({type:Boolean})],l.prototype,"inverse",void 0),o([e({type:Boolean})],l.prototype,"small",void 0),o([e({type:Boolean})],l.prototype,"large",void 0),o([e({type:Boolean})],l.prototype,"disabled",void 0),o([e({type:String})],l.prototype,"href",void 0),o([e({type:Boolean})],l.prototype,"visited",void 0),o([e({type:Boolean})],l.prototype,"hovered",void 0),o([e({type:Boolean})],l.prototype,"activated",void 0),window.customElements.define("site-button",l);
+    `;
+    }
+    computeClass() {
+        let classes = 'uvalib-button';
+        if (this.basic)
+            classes += ' uvalib-button--basic';
+        if (this.alt)
+            classes += ' uvalib-button--alt';
+        if (this.subtle)
+            classes += ' uvalib-button--subtle';
+        if (this.outline)
+            classes += ' uvalib-button--outline';
+        if (this.inverse)
+            classes += ' uvalib-button--inverse';
+        if (this.small)
+            classes += ' uvalib-button--small';
+        if (this.large)
+            classes += ' uvalib-button--large';
+        if (this.visited)
+            classes += ' uvalib-button--visited';
+        if (this.hovered)
+            classes += ' uvalib-button--hovered';
+        if (this.activated)
+            classes += ' uvalib-button--activated';
+        return classes;
+    }
+}
+SiteButton.styles = SiteButtonStyle;
+__decorate([
+    e({ type: String })
+], SiteButton.prototype, "label", void 0);
+__decorate([
+    e({ type: Boolean })
+], SiteButton.prototype, "alt", void 0);
+__decorate([
+    e({ type: Boolean })
+], SiteButton.prototype, "basic", void 0);
+__decorate([
+    e({ type: Boolean })
+], SiteButton.prototype, "subtle", void 0);
+__decorate([
+    e({ type: Boolean })
+], SiteButton.prototype, "outline", void 0);
+__decorate([
+    e({ type: Boolean })
+], SiteButton.prototype, "inverse", void 0);
+__decorate([
+    e({ type: Boolean })
+], SiteButton.prototype, "small", void 0);
+__decorate([
+    e({ type: Boolean })
+], SiteButton.prototype, "large", void 0);
+__decorate([
+    e({ type: Boolean })
+], SiteButton.prototype, "disabled", void 0);
+__decorate([
+    e({ type: String })
+], SiteButton.prototype, "href", void 0);
+__decorate([
+    e({ type: Boolean })
+], SiteButton.prototype, "visited", void 0);
+__decorate([
+    e({ type: Boolean })
+], SiteButton.prototype, "hovered", void 0);
+__decorate([
+    e({ type: Boolean })
+], SiteButton.prototype, "activated", void 0);
+
+window.customElements.define('site-button', SiteButton);
