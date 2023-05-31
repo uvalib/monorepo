@@ -1,451 +1,10 @@
-import { h as html, F as FoundationElement, _ as __decorate, a as attr, o as observable, c as css, u as bodyFont, t as typeRampBaseFontSize, v as typeRampBaseLineHeight, n as neutralForegroundRest, e as designUnit, G as accentFillRest, f as controlCornerRadius, a2 as neutralForegroundHint, m as strokeWidth, C as disabledOpacity, N as neutralFillStealthRest, r as neutralFillRest, a3 as accentForegroundRest, a4 as neutralFillHover, a5 as accentForegroundHover, a6 as neutralFillActive, a7 as accentForegroundActive, x as focusStrokeOuter, w as focusStrokeWidth, d as density, p as provideFASTDesignSystem, s as styleMap } from '../../SiteStyleMapping-5e16ab05.js';
-import { d as display } from '../../display-26e2ea35.js';
-import { h as heightNumber, d as disabledCursor } from '../../size-eacfc77a.js';
-import { f as forcedColorsStylesheetBehavior, S as SystemColors } from '../../match-media-stylesheet-behavior-5f2c3a3c.js';
-import { s as startSlotTemplate, r as ref, e as endSlotTemplate, u as uniqueId, w as wrapInBounds, a as applyMixins, S as StartEnd } from '../../strings-f7a0f37b.js';
-import { s as slotted, b as keyArrowRight, c as keyArrowLeft, g as keyArrowDown, h as keyArrowUp, k as keyEnd, a as keyHome, m as focusVisible } from '../../focus-21960583.js';
-import { w as when } from '../../when-189f5ef4.js';
-
-/**
- * The template for the {@link @microsoft/fast-foundation#TabPanel} component.
- * @public
- */
-const tabPanelTemplate = (context, definition) => html `
-    <template slot="tabpanel" role="tabpanel">
-        <slot></slot>
-    </template>
-`;
-
-/**
- * A TabPanel Component to be used with {@link @microsoft/fast-foundation#(Tabs:class)}
- *
- * @slot - The default slot for the tabpanel content
- *
- * @public
- */
-class TabPanel extends FoundationElement {
-}
-
-/**
- * The template for the {@link @microsoft/fast-foundation#Tab} component.
- * @public
- */
-const tabTemplate = (context, definition) => html `
-    <template slot="tab" role="tab" aria-disabled="${x => x.disabled}">
-        <slot></slot>
-    </template>
-`;
-
-/**
- * A Tab Component to be used with {@link @microsoft/fast-foundation#(Tabs:class)}
- *
- * @slot - The default slot for the tab content
- *
- * @public
- */
-class Tab extends FoundationElement {
-}
-__decorate([
-    attr({ mode: "boolean" })
-], Tab.prototype, "disabled", void 0);
-
-/**
- * The template for the {@link @microsoft/fast-foundation#(Tabs:class)} component.
- * @public
- */
-const tabsTemplate = (context, definition) => html `
-    <template class="${x => x.orientation}">
-        ${startSlotTemplate(context, definition)}
-        <div class="tablist" part="tablist" role="tablist">
-            <slot class="tab" name="tab" part="tab" ${slotted("tabs")}></slot>
-
-            ${when(x => x.showActiveIndicator, html `
-                    <div
-                        ${ref("activeIndicatorRef")}
-                        class="activeIndicator"
-                        part="activeIndicator"
-                    ></div>
-                `)}
-        </div>
-        ${endSlotTemplate(context, definition)}
-        <div class="tabpanel">
-            <slot name="tabpanel" part="tabpanel" ${slotted("tabpanels")}></slot>
-        </div>
-    </template>
-`;
-
-/**
- * The orientation of the {@link @microsoft/fast-foundation#(Tabs:class)} component
- * @public
- */
-const TabsOrientation = {
-    vertical: "vertical",
-    horizontal: "horizontal",
-};
-/**
- * A Tabs Custom HTML Element.
- * Implements the {@link https://www.w3.org/TR/wai-aria-1.1/#tablist | ARIA tablist }.
- *
- * @slot start - Content which can be provided before the tablist element
- * @slot end - Content which can be provided after the tablist element
- * @slot tab - The slot for tabs
- * @slot tabpanel - The slot for tabpanels
- * @csspart tablist - The element wrapping for the tabs
- * @csspart tab - The tab slot
- * @csspart activeIndicator - The visual indicator
- * @csspart tabpanel - The tabpanel slot
- * @fires change - Fires a custom 'change' event when a tab is clicked or during keyboard navigation
- *
- * @public
- */
-class Tabs extends FoundationElement {
-    constructor() {
-        super(...arguments);
-        /**
-         * The orientation
-         * @public
-         * @remarks
-         * HTML Attribute: orientation
-         */
-        this.orientation = TabsOrientation.horizontal;
-        /**
-         * Whether or not to show the active indicator
-         * @public
-         * @remarks
-         * HTML Attribute: activeindicator
-         */
-        this.activeindicator = true;
-        /**
-         * @internal
-         */
-        this.showActiveIndicator = true;
-        this.prevActiveTabIndex = 0;
-        this.activeTabIndex = 0;
-        this.ticking = false;
-        this.change = () => {
-            this.$emit("change", this.activetab);
-        };
-        this.isDisabledElement = (el) => {
-            return el.getAttribute("aria-disabled") === "true";
-        };
-        this.isFocusableElement = (el) => {
-            return !this.isDisabledElement(el);
-        };
-        this.setTabs = () => {
-            const gridHorizontalProperty = "gridColumn";
-            const gridVerticalProperty = "gridRow";
-            const gridProperty = this.isHorizontal()
-                ? gridHorizontalProperty
-                : gridVerticalProperty;
-            this.activeTabIndex = this.getActiveIndex();
-            this.showActiveIndicator = false;
-            this.tabs.forEach((tab, index) => {
-                if (tab.slot === "tab") {
-                    const isActiveTab = this.activeTabIndex === index && this.isFocusableElement(tab);
-                    if (this.activeindicator && this.isFocusableElement(tab)) {
-                        this.showActiveIndicator = true;
-                    }
-                    const tabId = this.tabIds[index];
-                    const tabpanelId = this.tabpanelIds[index];
-                    tab.setAttribute("id", tabId);
-                    tab.setAttribute("aria-selected", isActiveTab ? "true" : "false");
-                    tab.setAttribute("aria-controls", tabpanelId);
-                    tab.addEventListener("click", this.handleTabClick);
-                    tab.addEventListener("keydown", this.handleTabKeyDown);
-                    tab.setAttribute("tabindex", isActiveTab ? "0" : "-1");
-                    if (isActiveTab) {
-                        this.activetab = tab;
-                    }
-                }
-                // If the original property isn't emptied out,
-                // the next set will morph into a grid-area style setting that is not what we want
-                tab.style[gridHorizontalProperty] = "";
-                tab.style[gridVerticalProperty] = "";
-                tab.style[gridProperty] = `${index + 1}`;
-                !this.isHorizontal()
-                    ? tab.classList.add("vertical")
-                    : tab.classList.remove("vertical");
-            });
-        };
-        this.setTabPanels = () => {
-            this.tabpanels.forEach((tabpanel, index) => {
-                const tabId = this.tabIds[index];
-                const tabpanelId = this.tabpanelIds[index];
-                tabpanel.setAttribute("id", tabpanelId);
-                tabpanel.setAttribute("aria-labelledby", tabId);
-                this.activeTabIndex !== index
-                    ? tabpanel.setAttribute("hidden", "")
-                    : tabpanel.removeAttribute("hidden");
-            });
-        };
-        this.handleTabClick = (event) => {
-            const selectedTab = event.currentTarget;
-            if (selectedTab.nodeType === 1 && this.isFocusableElement(selectedTab)) {
-                this.prevActiveTabIndex = this.activeTabIndex;
-                this.activeTabIndex = this.tabs.indexOf(selectedTab);
-                this.setComponent();
-            }
-        };
-        this.handleTabKeyDown = (event) => {
-            if (this.isHorizontal()) {
-                switch (event.key) {
-                    case keyArrowLeft:
-                        event.preventDefault();
-                        this.adjustBackward(event);
-                        break;
-                    case keyArrowRight:
-                        event.preventDefault();
-                        this.adjustForward(event);
-                        break;
-                }
-            }
-            else {
-                switch (event.key) {
-                    case keyArrowUp:
-                        event.preventDefault();
-                        this.adjustBackward(event);
-                        break;
-                    case keyArrowDown:
-                        event.preventDefault();
-                        this.adjustForward(event);
-                        break;
-                }
-            }
-            switch (event.key) {
-                case keyHome:
-                    event.preventDefault();
-                    this.adjust(-this.activeTabIndex);
-                    break;
-                case keyEnd:
-                    event.preventDefault();
-                    this.adjust(this.tabs.length - this.activeTabIndex - 1);
-                    break;
-            }
-        };
-        this.adjustForward = (e) => {
-            const group = this.tabs;
-            let index = 0;
-            index = this.activetab ? group.indexOf(this.activetab) + 1 : 1;
-            if (index === group.length) {
-                index = 0;
-            }
-            while (index < group.length && group.length > 1) {
-                if (this.isFocusableElement(group[index])) {
-                    this.moveToTabByIndex(group, index);
-                    break;
-                }
-                else if (this.activetab && index === group.indexOf(this.activetab)) {
-                    break;
-                }
-                else if (index + 1 >= group.length) {
-                    index = 0;
-                }
-                else {
-                    index += 1;
-                }
-            }
-        };
-        this.adjustBackward = (e) => {
-            const group = this.tabs;
-            let index = 0;
-            index = this.activetab ? group.indexOf(this.activetab) - 1 : 0;
-            index = index < 0 ? group.length - 1 : index;
-            while (index >= 0 && group.length > 1) {
-                if (this.isFocusableElement(group[index])) {
-                    this.moveToTabByIndex(group, index);
-                    break;
-                }
-                else if (index - 1 < 0) {
-                    index = group.length - 1;
-                }
-                else {
-                    index -= 1;
-                }
-            }
-        };
-        this.moveToTabByIndex = (group, index) => {
-            const tab = group[index];
-            this.activetab = tab;
-            this.prevActiveTabIndex = this.activeTabIndex;
-            this.activeTabIndex = index;
-            tab.focus();
-            this.setComponent();
-        };
-    }
-    /**
-     * @internal
-     */
-    orientationChanged() {
-        if (this.$fastController.isConnected) {
-            this.setTabs();
-            this.setTabPanels();
-            this.handleActiveIndicatorPosition();
-        }
-    }
-    /**
-     * @internal
-     */
-    activeidChanged(oldValue, newValue) {
-        if (this.$fastController.isConnected &&
-            this.tabs.length <= this.tabpanels.length) {
-            this.prevActiveTabIndex = this.tabs.findIndex((item) => item.id === oldValue);
-            this.setTabs();
-            this.setTabPanels();
-            this.handleActiveIndicatorPosition();
-        }
-    }
-    /**
-     * @internal
-     */
-    tabsChanged() {
-        if (this.$fastController.isConnected &&
-            this.tabs.length <= this.tabpanels.length) {
-            this.tabIds = this.getTabIds();
-            this.tabpanelIds = this.getTabPanelIds();
-            this.setTabs();
-            this.setTabPanels();
-            this.handleActiveIndicatorPosition();
-        }
-    }
-    /**
-     * @internal
-     */
-    tabpanelsChanged() {
-        if (this.$fastController.isConnected &&
-            this.tabpanels.length <= this.tabs.length) {
-            this.tabIds = this.getTabIds();
-            this.tabpanelIds = this.getTabPanelIds();
-            this.setTabs();
-            this.setTabPanels();
-            this.handleActiveIndicatorPosition();
-        }
-    }
-    getActiveIndex() {
-        const id = this.activeid;
-        if (id !== undefined) {
-            return this.tabIds.indexOf(this.activeid) === -1
-                ? 0
-                : this.tabIds.indexOf(this.activeid);
-        }
-        else {
-            return 0;
-        }
-    }
-    getTabIds() {
-        return this.tabs.map((tab) => {
-            var _a;
-            return (_a = tab.getAttribute("id")) !== null && _a !== void 0 ? _a : `tab-${uniqueId()}`;
-        });
-    }
-    getTabPanelIds() {
-        return this.tabpanels.map((tabPanel) => {
-            var _a;
-            return (_a = tabPanel.getAttribute("id")) !== null && _a !== void 0 ? _a : `panel-${uniqueId()}`;
-        });
-    }
-    setComponent() {
-        if (this.activeTabIndex !== this.prevActiveTabIndex) {
-            this.activeid = this.tabIds[this.activeTabIndex];
-            this.focusTab();
-            this.change();
-        }
-    }
-    isHorizontal() {
-        return this.orientation === TabsOrientation.horizontal;
-    }
-    handleActiveIndicatorPosition() {
-        // Ignore if we click twice on the same tab
-        if (this.showActiveIndicator &&
-            this.activeindicator &&
-            this.activeTabIndex !== this.prevActiveTabIndex) {
-            if (this.ticking) {
-                this.ticking = false;
-            }
-            else {
-                this.ticking = true;
-                this.animateActiveIndicator();
-            }
-        }
-    }
-    animateActiveIndicator() {
-        this.ticking = true;
-        const gridProperty = this.isHorizontal() ? "gridColumn" : "gridRow";
-        const translateProperty = this.isHorizontal()
-            ? "translateX"
-            : "translateY";
-        const offsetProperty = this.isHorizontal() ? "offsetLeft" : "offsetTop";
-        const prev = this.activeIndicatorRef[offsetProperty];
-        this.activeIndicatorRef.style[gridProperty] = `${this.activeTabIndex + 1}`;
-        const next = this.activeIndicatorRef[offsetProperty];
-        this.activeIndicatorRef.style[gridProperty] = `${this.prevActiveTabIndex + 1}`;
-        const dif = next - prev;
-        this.activeIndicatorRef.style.transform = `${translateProperty}(${dif}px)`;
-        this.activeIndicatorRef.classList.add("activeIndicatorTransition");
-        this.activeIndicatorRef.addEventListener("transitionend", () => {
-            this.ticking = false;
-            this.activeIndicatorRef.style[gridProperty] = `${this.activeTabIndex + 1}`;
-            this.activeIndicatorRef.style.transform = `${translateProperty}(0px)`;
-            this.activeIndicatorRef.classList.remove("activeIndicatorTransition");
-        });
-    }
-    /**
-     * The adjust method for FASTTabs
-     * @public
-     * @remarks
-     * This method allows the active index to be adjusted by numerical increments
-     */
-    adjust(adjustment) {
-        this.prevActiveTabIndex = this.activeTabIndex;
-        this.activeTabIndex = wrapInBounds(0, this.tabs.length - 1, this.activeTabIndex + adjustment);
-        this.setComponent();
-    }
-    focusTab() {
-        this.tabs[this.activeTabIndex].focus();
-    }
-    /**
-     * @internal
-     */
-    connectedCallback() {
-        super.connectedCallback();
-        this.tabIds = this.getTabIds();
-        this.tabpanelIds = this.getTabPanelIds();
-        this.activeTabIndex = this.getActiveIndex();
-    }
-}
-__decorate([
-    attr
-], Tabs.prototype, "orientation", void 0);
-__decorate([
-    attr
-], Tabs.prototype, "activeid", void 0);
-__decorate([
-    observable
-], Tabs.prototype, "tabs", void 0);
-__decorate([
-    observable
-], Tabs.prototype, "tabpanels", void 0);
-__decorate([
-    attr({ mode: "boolean" })
-], Tabs.prototype, "activeindicator", void 0);
-__decorate([
-    observable
-], Tabs.prototype, "activeIndicatorRef", void 0);
-__decorate([
-    observable
-], Tabs.prototype, "showActiveIndicator", void 0);
-applyMixins(Tabs, StartEnd);
-
-/**
- * Styles for Tabs
- * @public
- */
-const tabsStyles = (context, definition) => css `
-        ${display("grid")} :host {
+import{h as t,F as e,_ as a,a as i,o as s,c as o,u as r,t as n,v as c,n as l,e as d,G as h,f as b,a2 as v,m as u,C as p,N as g,r as f,a3 as m,a4 as I,a5 as x,a6 as $,a7 as T,x as w,w as y,d as k,p as A,s as j}from"../../SiteStyleMapping-f1ccf68c.js";import{d as C}from"../../display-058af2ce.js";import{h as z,d as P}from"../../size-3ecfc7b7.js";import{f as R,S as E}from"../../match-media-stylesheet-behavior-575be983.js";import{s as H,r as B,e as F,u as D,w as L,a as O,S as N}from"../../strings-09538f4a.js";import{s as S,b as G,c as K,g as M,h as X,k as Y,a as _,m as q}from"../../focus-03f3e890.js";import{w as J}from"../../when-46682a8a.js";class Q extends e{}a([i({mode:"boolean"})],Q.prototype,"disabled",void 0);const U="horizontal";class V extends e{constructor(){super(...arguments),this.orientation=U,this.activeindicator=!0,this.showActiveIndicator=!0,this.prevActiveTabIndex=0,this.activeTabIndex=0,this.ticking=!1,this.change=()=>{this.$emit("change",this.activetab)},this.isDisabledElement=t=>"true"===t.getAttribute("aria-disabled"),this.isFocusableElement=t=>!this.isDisabledElement(t),this.setTabs=()=>{const t="gridColumn",e="gridRow",a=this.isHorizontal()?t:e;this.activeTabIndex=this.getActiveIndex(),this.showActiveIndicator=!1,this.tabs.forEach(((i,s)=>{if("tab"===i.slot){const t=this.activeTabIndex===s&&this.isFocusableElement(i);this.activeindicator&&this.isFocusableElement(i)&&(this.showActiveIndicator=!0);const e=this.tabIds[s],a=this.tabpanelIds[s];i.setAttribute("id",e),i.setAttribute("aria-selected",t?"true":"false"),i.setAttribute("aria-controls",a),i.addEventListener("click",this.handleTabClick),i.addEventListener("keydown",this.handleTabKeyDown),i.setAttribute("tabindex",t?"0":"-1"),t&&(this.activetab=i)}i.style[t]="",i.style[e]="",i.style[a]=`${s+1}`,this.isHorizontal()?i.classList.remove("vertical"):i.classList.add("vertical")}))},this.setTabPanels=()=>{this.tabpanels.forEach(((t,e)=>{const a=this.tabIds[e],i=this.tabpanelIds[e];t.setAttribute("id",i),t.setAttribute("aria-labelledby",a),this.activeTabIndex!==e?t.setAttribute("hidden",""):t.removeAttribute("hidden")}))},this.handleTabClick=t=>{const e=t.currentTarget;1===e.nodeType&&this.isFocusableElement(e)&&(this.prevActiveTabIndex=this.activeTabIndex,this.activeTabIndex=this.tabs.indexOf(e),this.setComponent())},this.handleTabKeyDown=t=>{if(this.isHorizontal())switch(t.key){case K:t.preventDefault(),this.adjustBackward(t);break;case G:t.preventDefault(),this.adjustForward(t)}else switch(t.key){case X:t.preventDefault(),this.adjustBackward(t);break;case M:t.preventDefault(),this.adjustForward(t)}switch(t.key){case _:t.preventDefault(),this.adjust(-this.activeTabIndex);break;case Y:t.preventDefault(),this.adjust(this.tabs.length-this.activeTabIndex-1)}},this.adjustForward=t=>{const e=this.tabs;let a=0;for(a=this.activetab?e.indexOf(this.activetab)+1:1,a===e.length&&(a=0);a<e.length&&e.length>1;){if(this.isFocusableElement(e[a])){this.moveToTabByIndex(e,a);break}if(this.activetab&&a===e.indexOf(this.activetab))break;a+1>=e.length?a=0:a+=1}},this.adjustBackward=t=>{const e=this.tabs;let a=0;for(a=this.activetab?e.indexOf(this.activetab)-1:0,a=a<0?e.length-1:a;a>=0&&e.length>1;){if(this.isFocusableElement(e[a])){this.moveToTabByIndex(e,a);break}a-1<0?a=e.length-1:a-=1}},this.moveToTabByIndex=(t,e)=>{const a=t[e];this.activetab=a,this.prevActiveTabIndex=this.activeTabIndex,this.activeTabIndex=e,a.focus(),this.setComponent()}}orientationChanged(){this.$fastController.isConnected&&(this.setTabs(),this.setTabPanels(),this.handleActiveIndicatorPosition())}activeidChanged(t,e){this.$fastController.isConnected&&this.tabs.length<=this.tabpanels.length&&(this.prevActiveTabIndex=this.tabs.findIndex((e=>e.id===t)),this.setTabs(),this.setTabPanels(),this.handleActiveIndicatorPosition())}tabsChanged(){this.$fastController.isConnected&&this.tabs.length<=this.tabpanels.length&&(this.tabIds=this.getTabIds(),this.tabpanelIds=this.getTabPanelIds(),this.setTabs(),this.setTabPanels(),this.handleActiveIndicatorPosition())}tabpanelsChanged(){this.$fastController.isConnected&&this.tabpanels.length<=this.tabs.length&&(this.tabIds=this.getTabIds(),this.tabpanelIds=this.getTabPanelIds(),this.setTabs(),this.setTabPanels(),this.handleActiveIndicatorPosition())}getActiveIndex(){return void 0!==this.activeid?-1===this.tabIds.indexOf(this.activeid)?0:this.tabIds.indexOf(this.activeid):0}getTabIds(){return this.tabs.map((t=>{var e;return null!==(e=t.getAttribute("id"))&&void 0!==e?e:`tab-${D()}`}))}getTabPanelIds(){return this.tabpanels.map((t=>{var e;return null!==(e=t.getAttribute("id"))&&void 0!==e?e:`panel-${D()}`}))}setComponent(){this.activeTabIndex!==this.prevActiveTabIndex&&(this.activeid=this.tabIds[this.activeTabIndex],this.focusTab(),this.change())}isHorizontal(){return this.orientation===U}handleActiveIndicatorPosition(){this.showActiveIndicator&&this.activeindicator&&this.activeTabIndex!==this.prevActiveTabIndex&&(this.ticking?this.ticking=!1:(this.ticking=!0,this.animateActiveIndicator()))}animateActiveIndicator(){this.ticking=!0;const t=this.isHorizontal()?"gridColumn":"gridRow",e=this.isHorizontal()?"translateX":"translateY",a=this.isHorizontal()?"offsetLeft":"offsetTop",i=this.activeIndicatorRef[a];this.activeIndicatorRef.style[t]=`${this.activeTabIndex+1}`;const s=this.activeIndicatorRef[a];this.activeIndicatorRef.style[t]=`${this.prevActiveTabIndex+1}`;const o=s-i;this.activeIndicatorRef.style.transform=`${e}(${o}px)`,this.activeIndicatorRef.classList.add("activeIndicatorTransition"),this.activeIndicatorRef.addEventListener("transitionend",(()=>{this.ticking=!1,this.activeIndicatorRef.style[t]=`${this.activeTabIndex+1}`,this.activeIndicatorRef.style.transform=`${e}(0px)`,this.activeIndicatorRef.classList.remove("activeIndicatorTransition")}))}adjust(t){this.prevActiveTabIndex=this.activeTabIndex,this.activeTabIndex=L(0,this.tabs.length-1,this.activeTabIndex+t),this.setComponent()}focusTab(){this.tabs[this.activeTabIndex].focus()}connectedCallback(){super.connectedCallback(),this.tabIds=this.getTabIds(),this.tabpanelIds=this.getTabPanelIds(),this.activeTabIndex=this.getActiveIndex()}}a([i],V.prototype,"orientation",void 0),a([i],V.prototype,"activeid",void 0),a([s],V.prototype,"tabs",void 0),a([s],V.prototype,"tabpanels",void 0),a([i({mode:"boolean"})],V.prototype,"activeindicator",void 0),a([s],V.prototype,"activeIndicatorRef",void 0),a([s],V.prototype,"showActiveIndicator",void 0),O(V,N);const W=(t,e)=>o`
+        ${C("grid")} :host {
             box-sizing: border-box;
-            font-family: ${bodyFont};
-            font-size: ${typeRampBaseFontSize};
-            line-height: ${typeRampBaseLineHeight};
-            color: ${neutralForegroundRest};
+            font-family: ${r};
+            font-size: ${n};
+            line-height: ${c};
+            color: ${l};
             grid-template-columns: auto 1fr auto;
             grid-template-rows: auto 1fr;
         }
@@ -457,7 +16,7 @@ const tabsStyles = (context, definition) => css `
             position: relative;
             width: max-content;
             align-self: end;
-            padding: calc(${designUnit} * 4px) calc(${designUnit} * 4px) 0;
+            padding: calc(${d} * 4px) calc(${d} * 4px) 0;
             box-sizing: border-box;
         }
 
@@ -472,10 +31,10 @@ const tabsStyles = (context, definition) => css `
             width: 100%;
             height: 5px;
             justify-self: center;
-            background: ${accentFillRest};
+            background: ${h};
             margin-top: 10px;
-            border-radius: calc(${controlCornerRadius} * 1px)
-                calc(${controlCornerRadius} * 1px) 0 0;
+            border-radius: calc(${b} * 1px)
+                calc(${b} * 1px) 0 0;
         }
 
         .activeIndicatorTransition {
@@ -505,8 +64,8 @@ const tabsStyles = (context, definition) => css `
             justify-self: end;
             align-self: flex-start;
             width: 100%;
-            padding: 0 calc(${designUnit} * 4px)
-                calc((${heightNumber} - ${designUnit}) * 1px) 0;
+            padding: 0 calc(${d} * 4px)
+                calc((${z} - ${d}) * 1px) 0;
         }
 
         :host([orientation="vertical"]) .tabpanel {
@@ -526,39 +85,33 @@ const tabsStyles = (context, definition) => css `
             height: 100%;
             margin-inline-end: 10px;
             align-self: center;
-            background: ${accentFillRest};
+            background: ${h};
             margin-top: 0;
-            border-radius: 0 calc(${controlCornerRadius} * 1px)
-                calc(${controlCornerRadius} * 1px) 0;
+            border-radius: 0 calc(${b} * 1px)
+                calc(${b} * 1px) 0;
         }
 
         :host([orientation="vertical"]) .activeIndicatorTransition {
             transition: transform 0.2s linear;
         }
-    `.withBehaviors(forcedColorsStylesheetBehavior(css `
+    `.withBehaviors(R(o`
                 .activeIndicator,
                 :host([orientation="vertical"]) .activeIndicator {
                     forced-color-adjust: none;
-                    background: ${SystemColors.Highlight};
+                    background: ${E.Highlight};
                 }
-            `));
-
-/**
- * Styles for Tab
- * @public
- */
-const tabStyles = (context, definition) => css `
-    ${display("inline-flex")} :host {
+            `)),Z=(t,e)=>o`
+    ${C("inline-flex")} :host {
         box-sizing: border-box;
-        font-family: ${bodyFont};
-        font-size: ${typeRampBaseFontSize};
-        line-height: ${typeRampBaseLineHeight};
-        height: calc(${heightNumber} * 1px);
-        padding: calc(${designUnit} * 5px) calc(${designUnit} * 4px);
-        color: ${neutralForegroundHint};
+        font-family: ${r};
+        font-size: ${n};
+        line-height: ${c};
+        height: calc(${z} * 1px);
+        padding: calc(${d} * 5px) calc(${d} * 4px);
+        color: ${v};
         fill: currentcolor;
-        border-radius: calc(${controlCornerRadius} * 1px);
-        border: calc(${strokeWidth} * 1px) solid transparent;
+        border-radius: calc(${b} * 1px);
+        border: calc(${u} * 1px) solid transparent;
         align-items: center;
         justify-content: center;
         grid-row: 1;
@@ -566,48 +119,48 @@ const tabStyles = (context, definition) => css `
     }
 
     :host(:hover) {
-        color: ${neutralForegroundRest};
+        color: ${l};
         fill: currentcolor;
     }
 
     :host(:active) {
-        color: ${neutralForegroundRest};
+        color: ${l};
         fill: currentcolor;
     }
 
     :host([disabled]) {
-        cursor: ${disabledCursor};
-        opacity: ${disabledOpacity};
+        cursor: ${P};
+        opacity: ${p};
     }
 
     :host([disabled]:hover) {
-        color: ${neutralForegroundHint};
-        background: ${neutralFillStealthRest};
+        color: ${v};
+        background: ${g};
     }
 
     :host([aria-selected="true"]) {
-        background: ${neutralFillRest};
-        color: ${accentForegroundRest};
+        background: ${f};
+        color: ${m};
         fill: currentcolor;
     }
 
     :host([aria-selected="true"]:hover) {
-        background: ${neutralFillHover};
-        color: ${accentForegroundHover};
+        background: ${I};
+        color: ${x};
         fill: currentcolor;
     }
 
     :host([aria-selected="true"]:active) {
-        background: ${neutralFillActive};
-        color: ${accentForegroundActive};
+        background: ${$};
+        color: ${T};
         fill: currentcolor;
     }
 
-    :host(:${focusVisible}) {
+    :host(:${q}) {
         outline: none;
-        border: calc(${strokeWidth} * 1px) solid ${focusStrokeOuter};
-        box-shadow: 0 0 0 calc((${focusStrokeWidth} - ${strokeWidth}) * 1px)
-            ${focusStrokeOuter};
+        border: calc(${u} * 1px) solid ${w};
+        box-shadow: 0 0 0 calc((${y} - ${u}) * 1px)
+            ${w};
     }
 
     :host(:focus) {
@@ -624,110 +177,81 @@ const tabStyles = (context, definition) => css `
     }
 
     :host(.vertical:hover) {
-        color: ${neutralForegroundRest};
+        color: ${l};
     }
 
     :host(.vertical:active) {
-        color: ${neutralForegroundRest};
+        color: ${l};
     }
 
     :host(.vertical:hover[aria-selected="true"]) {
     }
-`.withBehaviors(forcedColorsStylesheetBehavior(css `
+`.withBehaviors(R(o`
             :host {
                 forced-color-adjust: none;
                 border-color: transparent;
-                color: ${SystemColors.ButtonText};
+                color: ${E.ButtonText};
                 fill: currentcolor;
             }
             :host(:hover),
             :host(.vertical:hover),
             :host([aria-selected="true"]:hover) {
-                background: ${SystemColors.Highlight};
-                color: ${SystemColors.HighlightText};
+                background: ${E.Highlight};
+                color: ${E.HighlightText};
                 fill: currentcolor;
             }
             :host([aria-selected="true"]) {
-                background: ${SystemColors.HighlightText};
-                color: ${SystemColors.Highlight};
+                background: ${E.HighlightText};
+                color: ${E.Highlight};
                 fill: currentcolor;
             }
-            :host(:${focusVisible}) {
-                border-color: ${SystemColors.ButtonText};
+            :host(:${q}) {
+                border-color: ${E.ButtonText};
                 box-shadow: none;
             }
             :host([disabled]),
             :host([disabled]:hover) {
                 opacity: 1;
-                color: ${SystemColors.GrayText};
-                background: ${SystemColors.ButtonFace};
+                color: ${E.GrayText};
+                background: ${E.ButtonFace};
             }
-        `));
-
-/**
- * A function that returns a {@link @microsoft/fast-foundation#Tab} registration for configuring the component with a DesignSystem.
- * Implements {@link @microsoft/fast-foundation#tabTemplate}
- *
- *
- * @public
- * @remarks
- * Generates HTML Element: `<fast-tab>`
- */
-const fastTab = Tab.compose({
-    baseName: "tab",
-    template: tabTemplate,
-    styles: tabStyles,
-});
-
-/**
- * Styles for Tab Panel
- * @public
- */
-const tabPanelStyles = (context, definition) => css `
-    ${display("block")} :host {
+        `)),tt=Q.compose({baseName:"tab",template:(e,a)=>t`
+    <template slot="tab" role="tab" aria-disabled="${t=>t.disabled}">
+        <slot></slot>
+    </template>
+`,styles:Z}),et=(t,e)=>o`
+    ${C("block")} :host {
         box-sizing: border-box;
-        font-size: ${typeRampBaseFontSize};
-        line-height: ${typeRampBaseLineHeight};
-        padding: 0 calc((6 + (${designUnit} * 2 * ${density})) * 1px);
+        font-size: ${n};
+        line-height: ${c};
+        padding: 0 calc((6 + (${d} * 2 * ${k})) * 1px);
     }
-`;
+`,at=class extends e{}.compose({baseName:"tab-panel",template:(e,a)=>t`
+    <template slot="tabpanel" role="tabpanel">
+        <slot></slot>
+    </template>
+`,styles:et}),it=V.compose({baseName:"tabs",template:(e,a)=>t`
+    <template class="${t=>t.orientation}">
+        ${H(e,a)}
+        <div class="tablist" part="tablist" role="tablist">
+            <slot class="tab" name="tab" part="tab" ${S("tabs")}></slot>
 
-/**
- * A function that returns a {@link @microsoft/fast-foundation#TabPanel} registration for configuring the component with a DesignSystem.
- * Implements {@link @microsoft/fast-foundation#tabPanelTemplate}
- *
- *
- * @public
- * @remarks
- * Generates HTML Element: `<fast-tab-panel>`
- */
-const fastTabPanel = TabPanel.compose({
-    baseName: "tab-panel",
-    template: tabPanelTemplate,
-    styles: tabPanelStyles,
-});
-
-/**
- * A function that returns a {@link @microsoft/fast-foundation#Tabs} registration for configuring the component with a DesignSystem.
- * Implements {@link @microsoft/fast-foundation#tabsTemplate}
- *
- *
- * @public
- * @remarks
- * Generates HTML Element: `<fast-tabs>`
- */
-const fastTabs = Tabs.compose({
-    baseName: "tabs",
-    template: tabsTemplate,
-    styles: tabsStyles,
-});
-
-provideFASTDesignSystem()
-    .withPrefix("site")
-    .register(fastTab({
-    styles: (context, definition) => css `
-                ${tabStyles()}
-                ${styleMap}
+            ${J((t=>t.showActiveIndicator),t`
+                    <div
+                        ${B("activeIndicatorRef")}
+                        class="activeIndicator"
+                        part="activeIndicator"
+                    ></div>
+                `)}
+        </div>
+        ${F(e,a)}
+        <div class="tabpanel">
+            <slot name="tabpanel" part="tabpanel" ${S("tabpanels")}></slot>
+        </div>
+    </template>
+`,styles:W});A().withPrefix("site").register(tt({styles:(t,e)=>o`
+                ${Z()}
+                ${j}
                 :host {
                     /* relevent styles from .uvalib-button style in current drupal theme */
                     background-color: var(--uva-blue-alt-base, lightblue);
@@ -746,15 +270,10 @@ provideFASTDesignSystem()
                     background-color: var(--uva-blue-alt-dark, darkblue);
                     color: var(--uva-white, white);
                 }
-            `,
-}), fastTabPanel({
-    styles: (context, definition) => css `
-                ${tabPanelStyles()}
-                ${styleMap}
-            `
-}), fastTabs({
-    styles: (context, definition) => css `
-                ${tabsStyles()}
-                ${styleMap}      
-            `
-}));
+            `}),at({styles:(t,e)=>o`
+                ${et()}
+                ${j}
+            `}),it({styles:(t,e)=>o`
+                ${W()}
+                ${j}      
+            `}));
