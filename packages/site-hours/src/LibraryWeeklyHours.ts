@@ -86,7 +86,7 @@ export class LibraryWeeklyHours extends SiteStyle {
         const lib = await this.librariesData.getLibrary(this.librarySlug, true);
         if (lib) {
           this.library = lib;
-          this.getHours();
+          await this.getHours();
         }
       } catch (error) {
         console.error("Error fetching library data:", error);
