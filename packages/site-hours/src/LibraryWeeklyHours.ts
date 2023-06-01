@@ -96,7 +96,7 @@ export class LibraryWeeklyHours extends SiteStyle {
 
   // Render method for the component
   render() {
-
+console.log(this.library);
     return html`
       <style>
         :host, site-hours {
@@ -148,17 +148,18 @@ export class LibraryWeeklyHours extends SiteStyle {
                   </div>
                 </div>
               </th>            
-            `):""}
-            ${(this.library && Array.isArray(this.library.children) && this.library.children.length>0 && this.library.children[0].hours && this.library.children[0].hours.rawDates)? Object.entries(this.library.children[0].hours.rawDates).map(([k,v])=>html`
-              <th scope="col" aria-current="false" aria-label="${ this.stringDateFormat(k,0) }" class="${k === this.todayString ? 'today' : ''}">
-                <div class="date-header">
-                  <div class="date--mobile">
-                    <div class="date-header-day">${ this.stringDateFormat(k,2) }</div>
-                    <div class="date-header-month">${ this.stringDateFormat(k,1) }</div>
+            `):html`
+              ${(this.library && Array.isArray(this.library.children) && this.library.children.length>0 && this.library.children[0].hours && this.library.children[0].hours.rawDates)? Object.entries(this.library.children[0].hours.rawDates).map(([k,v])=>html`
+                <th scope="col" aria-current="false" aria-label="${ this.stringDateFormat(k,0) }" class="${k === this.todayString ? 'today' : ''}">
+                  <div class="date-header">
+                    <div class="date--mobile">
+                      <div class="date-header-day">${ this.stringDateFormat(k,2) }</div>
+                      <div class="date-header-month">${ this.stringDateFormat(k,1) }</div>
+                    </div>
                   </div>
-                </div>
-              </th>            
-            `):""}
+                </th>            
+              `):""}            
+            `}
           </tr>
         </thead>
         <tbody>
