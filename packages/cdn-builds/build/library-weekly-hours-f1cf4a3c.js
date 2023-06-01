@@ -1,4 +1,4 @@
-import{_ as t,x as e,e as a}from"./query-assigned-elements-23ba9e4f.js";import{S as r}from"./SiteStyle-86c89e81.js";import"./ArticlesData-c1e511c9.js";import{a as i}from"./LibrariesData-77dcc00d.js";import{p as s,s as l}from"./utils-b3d95f50.js";class o extends r{constructor(){super(),this.weekCount=0;let t=new Date;this.todayString=t.toISOString().split("T")[0],this.intervalId=window.setInterval((()=>{t=new Date,this.todayString=t.toISOString().split("T")[0]}),6e5),this.librariesData=new i,this.setSelectedWeek()}disconnectedCallback(){super.disconnectedCallback(),void 0!==this.intervalId&&(window.clearInterval(this.intervalId),this.intervalId=void 0)}updated(t){t.has("weekCount")&&this.setSelectedWeek(),t.has("librarySlug")&&this.getLibraryData(),t.has("weekStart")&&this.getHours()}async getHours(){if(this.library&&this.librariesData){const t=this.library.getHoursCalIds();try{await this.librariesData.fetchHours(this.weekStart,6,t),this.requestUpdate()}catch(t){console.error("Error fetching hours:",t)}}}async getLibraryData(){if(this.librarySlug)try{const t=await this.librariesData.getLibrary(this.librarySlug,!0);t&&(this.library=t,await this.getHours())}catch(t){console.error("Error fetching library data:",t)}}render(){return e`
+import{_ as t,x as e,e as a}from"./query-assigned-elements-23ba9e4f.js";import{S as r}from"./SiteStyle-86c89e81.js";import"./ArticlesData-c1e511c9.js";import{a as i}from"./LibrariesData-f0fbd4c5.js";import{p as s,s as l}from"./utils-b3d95f50.js";class o extends r{constructor(){super(),this.weekCount=0;let t=new Date;this.todayString=t.toISOString().split("T")[0],this.intervalId=window.setInterval((()=>{t=new Date,this.todayString=t.toISOString().split("T")[0]}),6e5),this.librariesData=new i,this.setSelectedWeek()}disconnectedCallback(){super.disconnectedCallback(),void 0!==this.intervalId&&(window.clearInterval(this.intervalId),this.intervalId=void 0)}updated(t){t.has("weekCount")&&this.setSelectedWeek(),t.has("librarySlug")&&this.getLibraryData(),t.has("weekStart")&&this.getHours()}async getHours(){if(this.library&&this.librariesData){const t=this.library.getHoursCalIds();try{await this.librariesData.fetchHours(this.weekStart,6,t),this.requestUpdate()}catch(t){console.error("Error fetching hours:",t)}}}async getLibraryData(){if(this.librarySlug)try{const t=await this.librariesData.getLibrary(this.librarySlug,!0);t&&(this.library=t,await this.getHours())}catch(t){console.error("Error fetching library data:",t)}}render(){return console.log(this.library),e`
       <style>
         :host, site-hours {
           display:block;
@@ -49,17 +49,18 @@ import{_ as t,x as e,e as a}from"./query-assigned-elements-23ba9e4f.js";import{S
                   </div>
                 </div>
               </th>            
-            `)):""}
-            ${this.library&&Array.isArray(this.library.children)&&this.library.children.length>0&&this.library.children[0].hours&&this.library.children[0].hours.rawDates?Object.entries(this.library.children[0].hours.rawDates).map((([t,a])=>e`
-              <th scope="col" aria-current="false" aria-label="${this.stringDateFormat(t,0)}" class="${t===this.todayString?"today":""}">
-                <div class="date-header">
-                  <div class="date--mobile">
-                    <div class="date-header-day">${this.stringDateFormat(t,2)}</div>
-                    <div class="date-header-month">${this.stringDateFormat(t,1)}</div>
+            `)):e`
+              ${this.library&&Array.isArray(this.library.children)&&this.library.children.length>0&&this.library.children[0].hours&&this.library.children[0].hours.rawDates?Object.entries(this.library.children[0].hours.rawDates).map((([t,a])=>e`
+                <th scope="col" aria-current="false" aria-label="${this.stringDateFormat(t,0)}" class="${t===this.todayString?"today":""}">
+                  <div class="date-header">
+                    <div class="date--mobile">
+                      <div class="date-header-day">${this.stringDateFormat(t,2)}</div>
+                      <div class="date-header-month">${this.stringDateFormat(t,1)}</div>
+                    </div>
                   </div>
-                </div>
-              </th>            
-            `)):""}
+                </th>            
+              `)):""}            
+            `}
           </tr>
         </thead>
         <tbody>
