@@ -35,5 +35,10 @@ describe('SiteHoursSection', () => {
     const el = await fixture<SiteHoursSection>(html`<site-hours-section></site-hours-section>`);
     await expect(el).shadowDom.to.be.accessible();
   });
+
+  it('passes the a11y audit', async () => {
+    const el = await fixture<SiteHoursSection>(html`<site-hours-section no-shadow-dom no-style></site-hours-section>`);
+    await expect(el).to.be.accessible();
+  });
   
 });
