@@ -12,6 +12,10 @@
   "license": "ISC",
   "dependencies": {
     "@11ty/eleventy": "^2.0.1",
-    "@uvalib/11ty-template": "workspace:^"
+    "@uvalib/11ty-template": "workspace:^",
+    "fuse.js": "^6.6.2"
+  },
+  "devDependencies": {
+    "markdown-to-txt": "^2.0.1"
   }
 }
