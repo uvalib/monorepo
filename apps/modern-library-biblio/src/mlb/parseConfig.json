@@ -1,0 +1,55 @@
+[
+    {
+        "desc": "full doc",
+        "path": "full",
+        "capture": 1,
+        "matches": [
+            "/^([^]+)$/m"
+        ]
+    },
+    {   
+        "desc": "This is the pattern for the file title.",
+        "path": "title",
+        "capture": 1,
+        "leftover": 2,
+        "matches": [
+            "/^# (Modern Library Series\\s+\\d\\d\\d\\d)\\s*(\\n[^]*)/im"
+        ]
+    },
+    {
+        "desc": "This is the pattern for the date heading (from the title).",
+        "srcPath": "title",
+        "path": "year",
+        "capture": 1,
+        "matches": [
+            "/(\\d\\d\\d\\d)/"
+        ]
+    },
+    {
+        "desc": "Matches a section that has a heading followed by any number of paragraphs",
+        "path": 1,
+        "capture": 2,
+        "repeat": true,
+        "matches": [
+            "/^###\\s+(.*)$([^]+?)(?=###\\s+\\w+)/gim"
+        ]
+    },
+    {
+        "desc": "This is the pattern for the first general para (from the general section).",
+        "srcPath": "general",
+        "path": "generalFirst",
+        "capture": 1,
+        "matches": [
+            "/([^]+?)(?=\\n\\n)/m"
+        ]
+    },
+    {
+        "desc": "Grab the bibs/books and stash them into their own path",
+        "path": ["books",1,"full"],
+        "capture": 2,
+        "repeat": true,
+        "matches": [
+            "/^###\\s+(\\d+)\\s*$([^]+?)(?=^###\\s+\\w+|$(?!\\n))/gm"
+        ]
+    }
+]
