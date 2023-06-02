@@ -1,4 +1,4 @@
-import{a as t,b as e,x as s}from"./query-assigned-elements-23ba9e4f.js";import"./ArticlesData-c1e511c9.js";import{a as i}from"./LibrariesData-f0fbd4c5.js";import{B as r}from"./BentoSection-3ae60287.js";var a;function n(t){return s`  
+import{a as t,b as e,x as s}from"./query-assigned-elements-23ba9e4f.js";import"./ArticlesData-c1e511c9.js";import{a as i}from"./LibrariesData-b18bb140.js";import{B as r}from"./BentoSection-3ae60287.js";var a;function n(t){return s`  
       ${t.link?s`
         <div class="bento-section-title"><a href="${t.link}">${t.title}</a></div>
       `:s`

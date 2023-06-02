@@ -1,1 +1,0 @@
-import{L as e}from"./LibrariesSection-8337feeb.js";import"./query-assigned-elements-23ba9e4f.js";import"./ArticlesData-c1e511c9.js";import"./LibrariesData-f0fbd4c5.js";import"./GeneralSearchResult-331b56d5.js";import"./BentoSection-3ae60287.js";import"./unsafe-html-b3407b2c.js";import"./SiteStyle-86c89e81.js";window.customElements.define("libraries-section",e);

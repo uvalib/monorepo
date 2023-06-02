@@ -1,4 +1,4 @@
-import{_ as t,x as e,e as a}from"./query-assigned-elements-23ba9e4f.js";import{S as r}from"./SiteStyle-86c89e81.js";import"./ArticlesData-c1e511c9.js";import{a as i}from"./LibrariesData-f0fbd4c5.js";import{p as s,s as l}from"./utils-b3d95f50.js";class o extends r{constructor(){super(),this.weekCount=0;let t=new Date;this.todayString=t.toISOString().split("T")[0],this.intervalId=window.setInterval((()=>{t=new Date,this.todayString=t.toISOString().split("T")[0]}),6e5),this.librariesData=new i,this.setSelectedWeek()}disconnectedCallback(){super.disconnectedCallback(),void 0!==this.intervalId&&(window.clearInterval(this.intervalId),this.intervalId=void 0)}updated(t){t.has("weekCount")&&this.setSelectedWeek(),t.has("librarySlug")&&this.getLibraryData(),t.has("weekStart")&&this.getHours()}async getHours(){if(this.library&&this.librariesData){const t=this.library.getHoursCalIds();try{await this.librariesData.fetchHours(this.weekStart,6,t),this.requestUpdate()}catch(t){console.error("Error fetching hours:",t)}}}async getLibraryData(){if(this.librarySlug)try{const t=await this.librariesData.getLibrary(this.librarySlug,!0);t&&(this.library=t,await this.getHours())}catch(t){console.error("Error fetching library data:",t)}}render(){return console.log(this.library),e`
+import{_ as t,x as e,e as a}from"./query-assigned-elements-23ba9e4f.js";import{S as r}from"./SiteStyle-86c89e81.js";import"./ArticlesData-c1e511c9.js";import{a as i}from"./LibrariesData-b18bb140.js";import{p as s,s as l}from"./utils-b3d95f50.js";class o extends r{constructor(){super(),this.weekCount=0;let t=new Date;this.todayString=t.toISOString().split("T")[0],this.intervalId=window.setInterval((()=>{t=new Date,this.todayString=t.toISOString().split("T")[0]}),6e5),this.librariesData=new i,this.setSelectedWeek()}disconnectedCallback(){super.disconnectedCallback(),void 0!==this.intervalId&&(window.clearInterval(this.intervalId),this.intervalId=void 0)}updated(t){t.has("weekCount")&&this.setSelectedWeek(),t.has("librarySlug")&&this.getLibraryData(),t.has("weekStart")&&this.getHours()}async getHours(){if(this.library&&this.librariesData){const t=this.library.getHoursCalIds();try{await this.librariesData.fetchHours(this.weekStart,6,t),this.requestUpdate()}catch(t){console.error("Error fetching hours:",t)}}}async getLibraryData(){if(this.librarySlug)try{const t=await this.librariesData.getLibrary(this.librarySlug,!0);t&&(this.library=t,await this.getHours())}catch(t){console.error("Error fetching library data:",t)}}render(){return e`
       <style>
         :host, site-hours {
           display:block;
@@ -81,7 +81,13 @@ import{_ as t,x as e,e as a}from"./query-assigned-elements-23ba9e4f.js";import{S
 
           ${this.library&&this.library.children?this.library.children.map((t=>e`
             <tr>
-              <th scope="row" colspan="2" aria-label="${t.title}"><a class="css-20nh0y" href="/locations-and-hours/hatcher-library/ask-librarian-desk">${t.title}</a></th>
+              <th scope="row" colspan="2" aria-label="${t.title}">
+                ${t.siteLink?e`
+                <a class="lib-space-link" href="${t.siteLink}">${t.title}</a>            
+                `:e`
+                <span class="lib-space">${t.title}</span>
+                `}
+              </th>  
               ${t.hours&&t.hours.rawDates?Object.entries(t.hours.rawDates).map((([t,a])=>e`
                 <td aria-label="${this.printTimes(a)}" class="${t===this.todayString?"today":""}">
                   <div class="date--mobile">
