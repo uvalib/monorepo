@@ -1,0 +1,25 @@
+---
+title: Modern Library Bibliography &middot; Bibliographical Society
+---
+
+
+<!DOCTYPE html>
+<html>
+{% include 'head.njk' %}
+<body class="home page-template page-template-homepage page-template-homepage-php page page-id-1157">
+
+    <header role="banner">
+        <h1><a href="https://bsuva.org"><img src="https://bsuva.org/wp-content/themes/bsuva/images/bsuva-logo.png" alt="Bibliographical Society" /></a></h1>
+        {% include 'menu.njk' %}
+    </header>
+
+    {{ content | safe }}
+
+    {% include 'footer.njk' %}
+
+    <script type='text/javascript' src='https://bsuva.org/wp-includes/js/wp-embed.min.js?ver=5.8.3' id='wp-embed-js'></script>
+    <script type="module" src="{{ '/js/images.js' | url }}"></script>
+    <script type="module" src="{{ '/js/layout.js' | url }}"></script>
+    
+</body>
+</html>
