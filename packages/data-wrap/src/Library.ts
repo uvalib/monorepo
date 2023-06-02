@@ -105,7 +105,7 @@ export function parse(lib: {
     hoursId: lib.attributes.field_libcal_id,
     libraryFeed: lib.attributes.field_library_feed,
     link: lib.attributes.field_library_site_link?.uri,
-    siteLink: lib.attributes.field_library_site_link?.uri,
+    siteLink: lib.attributes.field_library_site_link?.uri.replace("internal:","https://www.library.virginia.edu"),
     fmKey: lib.attributes.field_location_key,
     location: lib.attributes.field_fm_location ? {
       lat: lib.attributes.field_fm_location.lat,

@@ -96,7 +96,7 @@ export class LibraryWeeklyHours extends SiteStyle {
 
   // Render method for the component
   render() {
-console.log(this.library);
+//console.log(this.library);
     return html`
       <style>
         :host, site-hours {
@@ -180,7 +180,13 @@ console.log(this.library);
 
           ${(this.library && this.library.children )? this.library.children.map(l=>html`
             <tr>
-              <th scope="row" colspan="2" aria-label="${l.title}"><a class="css-20nh0y" href="/locations-and-hours/hatcher-library/ask-librarian-desk">${l.title}</a></th>
+              <th scope="row" colspan="2" aria-label="${l.title}">
+                ${l.siteLink? html`
+                <a class="lib-space-link" href="${l.siteLink}">${l.title}</a>            
+                `:html`
+                <span class="lib-space">${l.title}</span>
+                `}
+              </th>  
               ${(l.hours && l.hours.rawDates)? Object.entries(l.hours.rawDates).map(([k,v])=>html`
                 <td aria-label="${ this.printTimes(v) }" class="${k === this.todayString ? 'today' : ''}">
                   <div class="date--mobile">
