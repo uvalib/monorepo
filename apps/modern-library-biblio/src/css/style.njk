@@ -1,0 +1,50 @@
+---
+permalink: "css/style.css"
+---
+{% set css %}
+  {% include "src/css/bsuva.org.njk" %}
+  {# include "node_modules/@shoelace-style/shoelace/dist/themes/light.css" #}
+  {% include "src/fonts/chomsky.css" %}
+  {% include "src/fonts/greatvibes.css" %}
+  {% include "src/fonts/alexbrush.css" %}
+  {% include "src/fonts/allura.css" %}
+  {% include "src/fonts/rochester.css" %}
+
+  site-menu-bar {
+    padding: 0;
+  }
+
+  .french-script-mt {
+    font-family: "Rochester", sans-serif;
+  }
+
+  .monotype-corsiva {
+    font-family: "Allura", sans-serif;
+  }
+
+  .brush-script-mt {
+    font-family: "Alexbrush", sans-serif;
+  }
+
+  .old-english-text-mt {
+    font-family: 'Chomsky', sans-serif;
+  }
+
+  .script-mt-bold {
+    font-family: "greatvibes", sans-serif;
+  }
+
+  uvalib-modal-image-button::part(button) {
+    font-size: inherit;
+    margin: 0;
+    padding: 0;
+    text-decoration: underline;
+    
+  }
+  uvalib-modal-image-button::part(button):focus {outline:0;}
+
+  .smallcaps {font-variant-caps: small-caps;}
+
+  
+{% endset %}
+{{ css | cssmin | safe }}
