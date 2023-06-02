@@ -2,15 +2,19 @@
   "name": "@uvalib/11ty-template",
   "version": "0.0.0",
   "description": "",
-  "main": ".eleventy.js",  
+  "main": ".eleventy.js",
   "scripts": {
     "start": "eleventy --serve --watch",
     "build": "eleventy"
-  },  
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@11ty/eleventy": "^2.0.1"
+  },
+  "devDependencies": {
+    "clean-css": "^5.3.2",
+    "jsdom": "^22.1.0"
   }
 }

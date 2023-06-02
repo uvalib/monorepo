@@ -20,7 +20,7 @@ class CustomElementsPlugin {
     
         for (const [name, cdnUrl] of Object.entries(customElements)) {
           // Only add script if the custom element tag is found in the content
-          if (content.includes(`<${name}>`)) {
+          if (content.includes(`<${name}`)) {
             const script = `
               <script type="module" src="${cdnUrl.replace("{version}", this.config.version)}"></script>
             `;

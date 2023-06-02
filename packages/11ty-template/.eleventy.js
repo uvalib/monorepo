@@ -1,7 +1,29 @@
 const CustomElementsPlugin = require("./eleventy-custom-elements-plugin");
+const _ = require('lodash');
+const CleanCSS = require("clean-css");
 
 module.exports = function(eleventyConfig) {
   // Add filters, etc.
+  eleventyConfig.addFilter('pickList', function(...args){
+    let documents = args.shift();
+    return documents.map( d=>_.pick(d, args) );
+  } );
+
+  eleventyConfig.addFilter('concatList', function(docs1, docs2){
+    return [...docs1, ...docs2];
+  });
+
+  eleventyConfig.addFilter("cssmin", function(code) { 
+    return new CleanCSS({}).minify(code).styles; 
+  });
+
+  let markdown = require("markdown-it")({
+    html: true,
+    breaks: true
+  });
+
+  eleventyConfig.addFilter('markdown', content=>markdown.render(content));
+  eleventyConfig.addNunjucksShortcode("markdown",content => markdown.render(content));
 
   // Default page wrapper
 //  eleventyConfig.addLayoutAlias('default', 'base.njk');
