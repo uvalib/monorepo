@@ -1,0 +1,18 @@
+---
+layout: page-layout.njk
+pagination:
+    data: years
+    size: 1
+    alias: year
+permalink: "year/{{ year.year }}.html"
+---
+
+<sl-breadcrumb>
+  <sl-breadcrumb-item href="{{ '/' | url }}">
+    <sl-icon slot="prefix" name="house"></sl-icon>
+    Home
+  </sl-breadcrumb-item>
+  <sl-breadcrumb-item href="{{ '/year/' | url }}{{ year.year }}.html">{{ year.year }}</sl-breadcrumb-item>
+</sl-breadcrumb>
+
+{{ year.full | addLinks('torchbearer','notes','book','jacketType') | markdown | addAnchors | safe }}

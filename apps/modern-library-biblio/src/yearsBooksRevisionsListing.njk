@@ -1,0 +1,4 @@
+---
+permalink: "json/yearsBooksRevisions.json"
+---
+{{ years | concatList(books) | pickList('id', 'author', 'title', 'year', 'generalFirst','book','type') | dump | safe }}

@@ -1,0 +1,4 @@
+---
+permalink: "json/extras.json"
+---
+{{ extras | pickList('id', 'title', 'plainText') | dump | safe }}

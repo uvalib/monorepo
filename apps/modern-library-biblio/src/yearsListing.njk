@@ -1,0 +1,4 @@
+---
+permalink: "json/years.json"
+---
+{{ years | pickList('id', 'title', 'year', 'plainText') | dump | safe }}

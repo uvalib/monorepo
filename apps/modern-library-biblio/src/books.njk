@@ -1,0 +1,31 @@
+---
+layout: page-layout.njk
+pagination:
+    data: books
+    size: 1
+    alias: book
+permalink: "book/{{ book.id }}.html"
+---
+
+<sl-breadcrumb>
+  <sl-breadcrumb-item href="{{ '/' | url }}">
+    <sl-icon slot="prefix" name="house"></sl-icon>
+    Home
+  </sl-breadcrumb-item>
+  <sl-breadcrumb-item href="{{ '/year/' | url }}{{ book.year }}.html">{{ book.year }}</sl-breadcrumb-item>
+  <sl-breadcrumb-item href="{{ '/book/' | url }}{{ book.id }}.html">{{ book.id }}</sl-breadcrumb-item>
+</sl-breadcrumb>
+
+{{ book.full | addLinks('torchbearer','notes','jacketType') | markdown | safe }}
+
+<elix-carousel-with-thumbnails style="width: 100%">
+  {% for cover in covers %}
+    {% if cover.book == book.id %}
+    <img src="{{ cover.filename | url }}">
+    {% endif %}
+  {% endfor %}
+</elix-carousel-with-thumbnails>
+
+<sl-details summary="book"><pre>{{ book | dump | safe }}</pre></sl-details>
+
+<script type="module" src="{{ '/js/slideshow.js' | url }}"></script>
