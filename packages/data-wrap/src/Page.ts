@@ -13,7 +13,7 @@ export class Page extends GeneralSearchResult {
     }
 }
 
-type PageData = {
+export type PageData = {
   id: any;
   attributes: {
     title: any;

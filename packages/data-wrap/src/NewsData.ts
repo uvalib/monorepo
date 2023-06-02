@@ -1,21 +1,16 @@
 /* eslint-disable camelcase */
-import { Page, parse } from './Page.js';
-import { DrupalSearchData, WebSearchPageURL } from './DrupalSearchData.js';
+import { News, parse } from './News.js';
+import { WebSearchPageURL } from './DrupalSearchData.js';
+import { PageData, PageDataNode } from './PageData.js';
 
-export type PageDataNode = {
-  data: any[];
-  meta: {
-    extra_data: { [id: string]: any };
-    count: number;
-  };
-};
+type NewsDataNode = PageDataNode;
 
-export class PageData extends DrupalSearchData {
-  protected type: string = "page";
+export class NewsData extends PageData {
+  protected type: string = "article";
 
-  public items: Page[] = [];
+  public items: News[] = [];
 
-  protected parseResults(n: PageDataNode) {
+  protected parseResults(n: NewsDataNode) {
     n.data.forEach((res: { attributes: { drupal_internal__nid: any }; meta: any }) => {
       const { attributes: { drupal_internal__nid }, meta } = res;
       const id = drupal_internal__nid;

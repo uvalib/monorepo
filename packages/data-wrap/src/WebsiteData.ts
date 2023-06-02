@@ -2,13 +2,14 @@
 import { Page, parse as parsePage } from './Page.js';
 import { Person, parse as parsePerson } from './Person.js';
 import { Library, parse as parseLibrary } from './Library.js';
+import { News, parse as parseNews } from './News.js';
 import { DrupalSearchData, WebSearchPageURL } from './DrupalSearchData.js';
 
 export class WebsiteData extends DrupalSearchData {
 
-  public items: (Page|Person|Library)[] = [];
+  public items: (Page|Person|Library|News)[] = [];
 
-  public types: string[] = ["page","person","library"];
+  public types: string[] = ["page","person","library","article"];
 
   parseResults(d: any) {
     // parse out the excerpts that are located in a meta section of the response
@@ -25,6 +26,8 @@ export class WebsiteData extends DrupalSearchData {
         return parsePerson(n);
       if(n.type === 'node--library')
         return parseLibrary(n);
+      if(n.type === 'node--article')
+        return parseNews(n);
       return {
         title: n.attributes.title,
         description: n.attributes.body? n.attributes.body.value:null
