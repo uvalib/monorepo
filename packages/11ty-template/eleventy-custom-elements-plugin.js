@@ -13,7 +13,7 @@ class CustomElementsPlugin {
     eleventyConfig.addTransform('addCustomElements', (content, outputPath) => {
       console.log(`Transforming ${outputPath}`);
       if (outputPath.endsWith('.html')) {
-        const yamlPath = path.join(__dirname, 'custom-elements.yaml');
+        const yamlPath = path.resolve(__dirname, 'node_modules', '@uvalib', 'cdn-builds', 'src', 'map.yml');
         const yaml = fs.readFileSync(yamlPath, "utf8");
         const customElements = YAML.parse(yaml);
         let scripts = '';

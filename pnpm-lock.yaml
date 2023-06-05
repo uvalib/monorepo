@@ -192,6 +192,9 @@ importers:
         specifier: ^2.0.1
         version: 2.0.1
     devDependencies:
+      '@uvalib/cdn-builds':
+        specifier: workspace:^
+        version: link:../cdn-builds
       clean-css:
         specifier: ^5.3.2
         version: 5.3.2
@@ -395,7 +398,11 @@ importers:
         specifier: ^2.3.1
         version: 2.4.1
 
-  packages/drupal_module_loader: {}
+  packages/drupal_module_loader:
+    devDependencies:
+      '@uvalib/cdn-builds':
+        specifier: workspace:^
+        version: link:../cdn-builds
 
   packages/site-alert:
     dependencies:
@@ -9277,7 +9284,7 @@ packages:
       array-union: 3.0.1
       dir-glob: 3.0.1
       fast-glob: 3.2.12
-      ignore: 5.2.1
+      ignore: 5.2.4
       merge2: 1.4.1
       slash: 4.0.0
     dev: true

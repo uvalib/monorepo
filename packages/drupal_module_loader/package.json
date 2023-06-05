@@ -4,10 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "rimraf dml.tgz && cd .. && tar cvzf /var/tmp/dml.tgz drupal_module_loader && mv /var/tmp/dml.tgz drupal_module_loader",
+    "build": "rimraf dml.tgz && cp node_modules/@uvalib/cdn-builds/src/map.yml drupal_module_loader.yml && cd .. && tar cvzf /var/tmp/dml.tgz --exclude='node_modules' drupal_module_loader && mv /var/tmp/dml.tgz drupal_module_loader",
     "test": "echo \"Error: no test specified\" && exit 0"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@uvalib/cdn-builds": "workspace:*"
+  }
 }

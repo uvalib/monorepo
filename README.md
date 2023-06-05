@@ -42,8 +42,22 @@ pnpm run start
 If the project depends on other projects in the monorepo then you will want to use TurboRepo to run your commands as it will handle building the dependencies.
 ```
 cd ../..
-npx turbo run start --filter=site-mock
+pnpm turbo start --filter=site-mock
 ```
+
+## Apps
+
+### [Modern Library Bibliography](https://github.com/uvalib/monorepo/tree/main/apps/modern-library-biblio)
+
+Start with
+```pnpm turbo start --filter=modern-library-biblio```
+
+## Packages
+
+### [Bento Box Search](https://github.com/uvalib/monorepo/tree/main/packages/bento-box)
+
+Start with
+```pnpm turbo start --filter=@uvalib/bento-box```
 
 ## Help
 
