@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      background: #fafafa;
+    }
+  </style>
+</head>
+<body>
+  <div id="demo"></div>
+
+  <script type="module" src='../dist/src/site-dialog.js'></script>
+  <script type="module">
+    import '@uvalib/site-button/site-button.js';
+  </script>
+
+  <div>
+    <site-dialog x-close>
+      <site-button slot="opener">Open Dialog</site-button>
+      This is the dialog content.
+    </site-dialog>
+  </div>
+
+  <div>
+    <site-dialog modal>
+      <site-button slot="opener">Open Modal Dialog</site-button>
+      This is the dialog content.
+    </site-dialog>
+  </div>
+
+  <div>
+    <site-dialog modal x-close>
+      <site-button slot="opener">Open Modal Dialog with close button</site-button>
+      This is the dialog content.
+    </site-dialog>
+  </div>
+  
+</body>
+</html>
