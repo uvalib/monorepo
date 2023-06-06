@@ -455,6 +455,9 @@ importers:
 
   packages/site-button:
     dependencies:
+      '@uvalib/site-icon':
+        specifier: workspace:*
+        version: link:../site-icon
       lit:
         specifier: ^2.0.2
         version: 2.4.1
@@ -563,7 +566,7 @@ importers:
   packages/site-dialog:
     dependencies:
       '@uvalib/site-button':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../site-button
       lit:
         specifier: ^2.0.2
@@ -766,6 +769,61 @@ importers:
       tslib:
         specifier: ^2.3.1
         version: 2.4.1
+
+  packages/site-icon:
+    dependencies:
+      lit:
+        specifier: ^2.0.2
+        version: 2.4.1
+    devDependencies:
+      '@custom-elements-manifest/analyzer':
+        specifier: ^0.4.17
+        version: 0.4.17
+      '@open-wc/eslint-config':
+        specifier: ^9.2.1
+        version: 9.2.1(eslint-plugin-html@7.1.0)(eslint-plugin-import@2.27.5)(eslint-plugin-lit-a11y@2.4.1)(eslint-plugin-lit@1.8.3)(eslint-plugin-no-only-tests@3.1.0)(eslint-plugin-wc@1.5.0)(eslint@8.31.0)
+      '@open-wc/testing':
+        specifier: ^3.1.6
+        version: 3.1.6
+      '@typescript-eslint/eslint-plugin':
+        specifier: ^5.48.0
+        version: 5.48.0(@typescript-eslint/parser@5.48.0)(eslint@8.31.0)(typescript@4.5.2)
+      '@typescript-eslint/parser':
+        specifier: ^5.48.0
+        version: 5.48.0(eslint@8.31.0)(typescript@4.5.2)
+      '@web/dev-server':
+        specifier: ^0.1.34
+        version: 0.1.35
+      '@web/dev-server-storybook':
+        specifier: ^0.5.4
+        version: 0.5.4
+      '@web/test-runner':
+        specifier: ^0.14.0
+        version: 0.14.0
+      concurrently:
+        specifier: ^5.3.0
+        version: 5.3.0
+      eslint:
+        specifier: ^8.31.0
+        version: 8.31.0
+      eslint-config-prettier:
+        specifier: ^8.3.0
+        version: 8.5.0(eslint@8.31.0)
+      husky:
+        specifier: ^4.3.8
+        version: 4.3.8
+      lint-staged:
+        specifier: ^10.5.4
+        version: 10.5.4
+      prettier:
+        specifier: ^2.4.1
+        version: 2.8.0
+      tslib:
+        specifier: ^2.3.1
+        version: 2.4.1
+      typescript:
+        specifier: ^4.5.2
+        version: 4.5.2
 
   packages/site-images:
     dependencies:
@@ -11555,7 +11613,7 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       call-bind: 1.0.2
-      define-properties: 1.1.4
+      define-properties: 1.2.0
       has-symbols: 1.0.3
       object-keys: 1.1.1
     dev: true
@@ -11565,8 +11623,8 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       call-bind: 1.0.2
-      define-properties: 1.1.4
-      es-abstract: 1.20.4
+      define-properties: 1.2.0
+      es-abstract: 1.21.2
     dev: true
 
   /object.values@1.1.6:

@@ -47,9 +47,7 @@ export class SiteButton extends LitElement {
         part="button"
         class=${this.computeClass()}
         ?disabled=${this.disabled}
-        aria-disabled=${this.disabled ? 'true' : 'false'}
-        role="button"
-      >
+        aria-disabled=${this.disabled ? 'true' : 'false'}>
         <slot>${this.label}</slot>
       </button>
     `;
@@ -70,7 +68,7 @@ export class SiteButton extends LitElement {
     `;
   }
 
-  private computeClass(): string {
+  protected computeClass(): string {
     let classes = 'uvalib-button';
     if (this.basic) classes += ' uvalib-button--basic';
     if (this.alt) classes += ' uvalib-button--alt';
