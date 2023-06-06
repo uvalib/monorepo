@@ -9,7 +9,8 @@
   "module": "dist/src/index.js",
   "exports": {
     ".": "./dist/src/index.js",
-    "./site-button.js": "./dist/src/site-button.js"
+    "./site-button.js": "./dist/src/site-button.js",
+    "./site-fab.js": "./dist/src/site-fab.js"
   },
   "scripts": {
     "analyze": "cem analyze --litelement",
@@ -27,7 +28,6 @@
     "lit": "^2.0.2"
   },
   "devDependencies": {
-    "@custom-elements-manifest/analyzer": "^0.4.17",
     "@open-wc/eslint-config": "^9.2.1",
     "@open-wc/testing": "^3.1.6",
     "@typescript-eslint/eslint-plugin": "^5.48.0",

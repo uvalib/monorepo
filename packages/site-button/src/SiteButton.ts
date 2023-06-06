@@ -3,7 +3,12 @@ import { LitElement, html, css, CSSResult, TemplateResult } from 'lit';
 import { SiteButtonStyle } from './SiteButtonStyle.js';
 
 export class SiteButton extends LitElement {
-  static styles: CSSResult = SiteButtonStyle;
+  static get styles() {
+    return [
+        SiteButtonStyle
+    ];
+  }
+  //static styles: CSSResult = SiteButtonStyle;
 
   @property({ type: String }) label = "Push me!";
 
@@ -39,6 +44,7 @@ export class SiteButton extends LitElement {
   private renderButton(): TemplateResult {
     return html`
       <button
+        part="button"
         class=${this.computeClass()}
         ?disabled=${this.disabled}
         aria-disabled=${this.disabled ? 'true' : 'false'}
@@ -52,6 +58,7 @@ export class SiteButton extends LitElement {
   private renderAnchor(): TemplateResult {
     return html`
       <a
+        part="button"
         href=${this.href}
         class=${this.computeClass()}
         ?disabled=${this.disabled}
