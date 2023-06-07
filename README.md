@@ -54,12 +54,12 @@ Start with
 
 ## Packages
 
-### [<bento-box> Bento Box Search](https://github.com/uvalib/monorepo/tree/main/packages/bento-box)
+### [`<bento-box>` Bento Box Search](https://github.com/uvalib/monorepo/tree/main/packages/bento-box)
 
 Start with
 ```pnpm turbo start --filter=@uvalib/bento-box```
 
-### [<site-button> Button & FAB](https://github.com/uvalib/monorepo/tree/main/packages/site-button)
+### [`<site-button>` Button & FAB](https://github.com/uvalib/monorepo/tree/main/packages/site-button)
 
 Start with
 ```pnpm turbo start --filter=@uvalib/site-button```

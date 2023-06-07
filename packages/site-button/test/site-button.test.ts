@@ -51,6 +51,12 @@ describe('SiteButton', () => {
     await expect(el).shadowDom.to.be.accessible();
   });
 
+  it('passes the a11y audit for button', async () => {
+    const el = await fixture<SiteButton>(html`<site-button>Don't press this button!</site-button>`);
+
+    await expect(el).shadowDom.to.be.accessible();
+  });
+
   it('passes the a11y audit for link', async () => {
     const el = await fixture<SiteButton>(html`<site-button href="#"></site-button>`);
 
