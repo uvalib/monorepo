@@ -1,28 +1,30 @@
-# \<site-button>
+# \<site-button> & \<site-fab>
 
-`<site-button>` is a customizable button or link webcomponent following the [open-wc](https://github.com/open-wc/open-wc) recommendation.
+`<site-button>` and `<site-fab>` are customizable button or link web components following the [open-wc](https://github.com/open-wc/open-wc) recommendation.
 
-This component offers a variety of styling options, including alternative styles, sizes, and states. It can act as a button or a link depending on the provided attributes.
+These components offer a variety of styling options, including alternative styles, sizes, and states. They can act as a button or a link depending on the provided attributes.
 
 ## Installation
 
-```
-bash
+'''bash
 pnpm i @uvalib/site-button
-```
+'''
 
 ## Usage
 
-```
-html
+'''html
 <script type="module">
   import '@uvalib/site-button/site-button.js';
+  import '@uvalib/site-button/site-fab.js';
 </script>
 
 <site-button></site-button>
-```
+<site-fab icon="add"></site-fab>
+'''
 
 ### Properties/Attributes
+
+#### For \<site-button>
 
 - `label`: Sets the button's label. Default is "Push me!".
 - `alt`: If true, apply the alternative button style.
@@ -31,12 +33,15 @@ html
 - `disabled`: If true, disable the button.
 - `href`: If provided, the component will render as an anchor tag with the provided href.
 
+#### For \<site-fab>
+
+- `icon`: Sets the icon's name for the FAB button. The icon should be defined in the `<site-icon>` component.
+
 ### Examples
 
-Here are some examples of how to use the `<site-button>` component:
+Here are some examples of how to use the `<site-button>` and `<site-fab>` components:
 
-```
-html
+'''html
 <!-- A basic button -->
 <site-button></site-button>
 
@@ -51,55 +56,52 @@ html
 
 <!-- A button acting as a link -->
 <site-button href="https://www.example.com" label="Go to Example"></site-button>
-```
+
+<!-- A FAB button with an "add" icon -->
+<site-fab icon="add"></site-fab>
+'''
 
 ## Linting and formatting
 
 To scan the project for linting and formatting errors, run
 
-```
-bash
+'''bash
 pnpm run lint
-```
+'''
 
 To automatically fix linting and formatting errors, run
 
-```
-bash
+'''bash
 pnpm run format
-```
+'''
 
 ## Testing with Web Test Runner
 
 To execute a single test run:
 
-```
-bash
+'''bash
 pnpm run test
-```
+'''
 
 To run the tests in interactive watch mode run:
 
-```
-bash
+'''bash
 pnpm run test:watch
-```
+'''
 
 ## Demoing with Storybook
 
 To run a local instance of Storybook for your component, run
 
-```
-bash
+'''bash
 pnpm run storybook
-```
+'''
 
 To build a production version of Storybook, run
 
-```
-bash
+'''bash
 pnpm run storybook:build
-```
+'''
 
 ## Tooling configs
 
@@ -109,9 +111,8 @@ If you customize the configuration a lot, you can consider moving them to indivi
 
 ## Local Demo with `web-dev-server`
 
-```
-bash
+'''bash
 pnpm start
-```
+'''
 
 To run a local development server that serves the basic demo located in `demo/index.html`

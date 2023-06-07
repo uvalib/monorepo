@@ -61,7 +61,6 @@ export class SiteButton extends LitElement {
         class=${this.computeClass()}
         ?disabled=${this.disabled}
         aria-disabled=${this.disabled ? 'true' : 'false'}
-        role="button"
       >
         <slot>${this.label}</slot>
       </a>

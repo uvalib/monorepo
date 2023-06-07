@@ -2,21 +2,10 @@ import { html } from 'lit';
 import { fixture, expect } from '@open-wc/testing';
 import { SiteButton } from '../src/SiteButton.js';
 import '../src/site-button.js';
+import { SiteFab } from '../src/SiteFab.js';
+import '../src/site-fab.js';
 
 describe('SiteButton', () => {
-  it('has a role attribute set to "button" when using <button>', async () => {
-    const el = await fixture<SiteButton>(html`<site-button></site-button>`);
-    const button = el.shadowRoot!.querySelector('button')!;
-
-    expect(button.getAttribute('role')).to.equal('button');
-  });
-
-  it('has a role attribute set to "button" when using <a>', async () => {
-    const el = await fixture<SiteButton>(html`<site-button href="#"></site-button>`);
-    const link = el.shadowRoot!.querySelector('a')!;
-
-    expect(link.getAttribute('role')).to.equal('button');
-  });
 
   it('has a default class of "uvalib-button"', async () => {
     const el = await fixture<SiteButton>(html`<site-button></site-button>`);
@@ -65,6 +54,40 @@ describe('SiteButton', () => {
   it('passes the a11y audit for link', async () => {
     const el = await fixture<SiteButton>(html`<site-button href="#"></site-button>`);
 
+    await expect(el).shadowDom.to.be.accessible();
+  });
+});
+
+describe('SiteFab', () => {
+  it('has a default icon attribute', async () => {
+    const el = await fixture<SiteFab>(html`<site-fab></site-fab>`);
+    expect(el.icon).to.be.undefined;
+  });
+
+  it('changes the icon attribute when set', async () => {
+    const el = await fixture<SiteFab>(html`<site-fab icon="add"></site-fab>`);
+    expect(el.icon).to.equal('add');
+  });
+
+  it('renders the site-icon when the icon attribute is set', async () => {
+    const el = await fixture<SiteFab>(html`<site-fab icon="add"></site-fab>`);
+    const icon = el.shadowRoot!.querySelector('site-icon')!;
+    expect(icon.getAttribute('name')).to.equal('add');
+  });
+
+  it('does not render the site-icon when the icon attribute is not set', async () => {
+    const el = await fixture<SiteFab>(html`<site-fab></site-fab>`);
+    const icon = el.shadowRoot!.querySelector('site-icon');
+    expect(icon).to.be.null;
+  });
+
+  it('default fab passes the a11y audit', async () => {
+    const el = await fixture<SiteFab>(html`<site-fab></site-fab>`);
+    await expect(el).shadowDom.to.be.accessible();
+  });
+
+  it('passes the a11y audit', async () => {
+    const el = await fixture<SiteFab>(html`<site-fab icon="home"></site-fab>`);
     await expect(el).shadowDom.to.be.accessible();
   });
 });

@@ -3,8 +3,6 @@ import { html, TemplateResult } from 'lit';
 import { SiteButton } from './SiteButton.js';
 import { SiteButtonStyle } from './SiteButtonStyle.js';
 
-import '@uvalib/site-icon/site-icon.js'
-
 // Importing FAB button styles
 import { SiteFabStyle } from './SiteFabStyle.js';
 
@@ -21,23 +19,25 @@ export class SiteFab extends SiteButton {
     async connectedCallback() {
         super.connectedCallback();
         // Dynamically import the 'site-icon' module if an icon is set
-//        if (this.icon) {
-//            await import('@uvalib/site-icon/src/site-icon.js');
-//        }
+        if (this.icon) {
+            await import('@uvalib/site-icon/site-icon.js' as any);
+        }        
     }
 
     render(): TemplateResult {
-        return html`
-            <button
-                part="button"
-                class=${this.computeClass()}
-                ?disabled=${this.disabled}
-                aria-disabled=${this.disabled ? 'true' : 'false'}>
-                <span class="content">
-                    <slot></slot>
-                </span>
-                ${this.icon ? html`<site-icon name="${this.icon}"></site-icon>` : ''}
-            </button>
-        `;
-    }
+        return (this.icon)? html`
+          <button
+            part="button"
+            class=${this.computeClass()}
+            ?disabled=${this.disabled}
+            aria-disabled=${this.disabled ? 'true' : 'false'}
+            aria-label="${this.icon}">
+            <span class="content visually-hidden">
+              <slot>${this.icon}</slot>
+            </span>
+            ${this.icon ? html`<site-icon name="${this.icon}"></site-icon>` : ''}
+          </button>
+        `:html``;
+      }
+      
 }
