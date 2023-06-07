@@ -6,13 +6,13 @@ These components offer a variety of styling options, including alternative style
 
 ## Installation
 
-'''bash
+```bash
 pnpm i @uvalib/site-button
-'''
+```
 
 ## Usage
 
-'''html
+```html
 <script type="module">
   import '@uvalib/site-button/site-button.js';
   import '@uvalib/site-button/site-fab.js';
@@ -20,7 +20,7 @@ pnpm i @uvalib/site-button
 
 <site-button></site-button>
 <site-fab icon="add"></site-fab>
-'''
+```
 
 ### Properties/Attributes
 
@@ -41,7 +41,7 @@ pnpm i @uvalib/site-button
 
 Here are some examples of how to use the `<site-button>` and `<site-fab>` components:
 
-'''html
+```html
 <!-- A basic button -->
 <site-button></site-button>
 
@@ -59,49 +59,49 @@ Here are some examples of how to use the `<site-button>` and `<site-fab>` compon
 
 <!-- A FAB button with an "add" icon -->
 <site-fab icon="add"></site-fab>
-'''
+```
 
 ## Linting and formatting
 
 To scan the project for linting and formatting errors, run
 
-'''bash
+```bash
 pnpm run lint
-'''
+```
 
 To automatically fix linting and formatting errors, run
 
-'''bash
+```bash
 pnpm run format
-'''
+```
 
 ## Testing with Web Test Runner
 
 To execute a single test run:
 
-'''bash
+```bash
 pnpm run test
-'''
+```
 
 To run the tests in interactive watch mode run:
 
-'''bash
+```bash
 pnpm run test:watch
-'''
+```
 
 ## Demoing with Storybook
 
 To run a local instance of Storybook for your component, run
 
-'''bash
+```bash
 pnpm run storybook
-'''
+```
 
 To build a production version of Storybook, run
 
-'''bash
+```bash
 pnpm run storybook:build
-'''
+```
 
 ## Tooling configs
 
@@ -111,8 +111,8 @@ If you customize the configuration a lot, you can consider moving them to indivi
 
 ## Local Demo with `web-dev-server`
 
-'''bash
+```bash
 pnpm start
-'''
+```
 
 To run a local development server that serves the basic demo located in `demo/index.html`
