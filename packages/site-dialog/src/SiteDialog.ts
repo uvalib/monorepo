@@ -1,6 +1,5 @@
 import { html, css, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
-import '@uvalib/site-button/site-button.js';
 
 export class SiteDialog extends LitElement {
   @property({ type: Boolean }) modal = false;
@@ -40,9 +39,8 @@ export class SiteDialog extends LitElement {
       border: none;
     }
 
-    .close-button::part(button) {
-      margin: 0;
-      padding: 0;
+    .modal .close-button {
+      position: fixed;
     }
   `;
 
@@ -50,8 +48,8 @@ export class SiteDialog extends LitElement {
     return html`
       <slot name="opener"></slot>
 
-      <dialog id="dialog" part="dialog">
-        ${this.xClose ? html`<site-button class="close-button" @click="${this.close}">&times;</site-button>` : ''}
+      <dialog id="dialog" part="dialog" class="${this.modal ? 'modal' : ''}">
+        ${this.xClose ? html`<site-fab class="close-button" icon="close" @click="${this.close}"></site-fab>` : ''}
         <div class="content">
           <slot></slot>
         </div>
@@ -59,7 +57,12 @@ export class SiteDialog extends LitElement {
     `;
   }
 
-  firstUpdated() {
+  async firstUpdated() {
+    if (this.xClose) {
+      // Dynamically import the 'site-fab' module if xClose is true
+      await import('@uvalib/site-button/site-fab.js' as any);
+    }
+    
     if (this.modal) {
       const dialog = this.shadowRoot?.getElementById('dialog') as HTMLDialogElement;
       dialog.setAttribute('modal', '');

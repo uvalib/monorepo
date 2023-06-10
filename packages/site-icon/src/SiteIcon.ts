@@ -1,9 +1,13 @@
-import { html, LitElement, css } from 'lit';
-import { property } from 'lit/decorators.js';
+import { html, LitElement, css, TemplateResult } from 'lit';
+import { property, customElement } from 'lit/decorators.js';
 
+@customElement('site-icon')
 export class SiteIcon extends LitElement {
   @property()
   name = '';
+
+  @property({ type: Object })
+  private iconTemplate?: TemplateResult;
 
   static get styles() {
     return css`
@@ -23,12 +27,15 @@ export class SiteIcon extends LitElement {
     `;
   }
 
-  async connectedCallback() {
-    super.connectedCallback();
-    if (this.name  && this.shadowRoot) {
+  render() {
+    return this.iconTemplate;
+  }
+
+  async updated(changedProps: Map<string | number | symbol, unknown>) {
+    if (changedProps.has('name') && this.name) {
       const { icon } = await import(`./icons/${this.name}.js`);
-      this.shadowRoot.innerHTML = icon;
-      this.shadowRoot.querySelector('svg')?.setAttribute('part', 'icon');
+      this.iconTemplate = icon;
+      this.requestUpdate();
     }
   }
 }
