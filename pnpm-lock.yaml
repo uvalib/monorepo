@@ -55,7 +55,7 @@ importers:
         specifier: ^0.7.3
         version: 0.7.3
       '@types/mocha':
-        specifier: ^10.0.0
+        specifier: ^10.0.1
         version: 10.0.1
       '@types/node':
         specifier: ^18.11.9
@@ -121,7 +121,7 @@ importers:
         specifier: ^2.0.1
         version: 2.0.1
       '@uvalib/11ty-template':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../../packages/11ty-template
       fuse.js:
         specifier: ^6.6.2
@@ -229,9 +229,6 @@ importers:
       '@open-wc/testing':
         specifier: next
         version: 3.0.0-next.5
-      '@types/mocha':
-        specifier: ^10.0.0
-        version: 10.0.1
       '@typescript-eslint/eslint-plugin':
         specifier: ^4.29.2
         version: 4.33.0(@typescript-eslint/parser@4.33.0)(eslint@7.32.0)(typescript@5.0.4)

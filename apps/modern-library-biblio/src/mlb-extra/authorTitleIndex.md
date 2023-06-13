@@ -7,8 +7,11 @@ permalink: "authorTitleIndex.html"
 
 This index is an alphabetical listing of authors and editors of regular ML volumes, ML Giants, and Illustrated ML titles. There are also entries for titles of anthologies and anonymous works and for illustrators of the twenty volumes published in the Illustrated ML. The number at the end of the index entry is the bibliography number under which the description is found. Nine ghost titles that were announced but never published or listed in otherwise reliable bibliographies are also included.  
 
-{% for book in books %}
+{% set sortedBooks = books | sortByProperty("authorLastFirst") %}
+{% for book in sortedBooks %}
   label: {{ book.label }}
+
+  authorLastFirst: {{ book.authorLastFirst }}
 
   author: {{ book.author }}
 
@@ -17,9 +20,7 @@ This index is an alphabetical listing of authors and editors of regular ML volum
   date: {{ book.date }}
 
   other: {{ book.something }}
-{% endfor %}
-
-*101 Years’ Entertainment*, ed. Ellery Queen (1946) G70  
+{% endfor %}  
 
 *18th-Century Plays* (1952) 448  
 
@@ -391,7 +392,7 @@ Corvo, Frederick Baron, *History of the Borgias* (1931) 220
 
 Crane, Stephen, *Maggie, A Girl of the Streets and Other Stories* (1933) 88  
 
-dCrane, Stephen, *Men, Women and Boats* (1921) 88  
+Crane, Stephen, *Men, Women and Boats* (1921) 88  
 
 Crane, Stephen, *Red Badge of Courage* (1942) 347  
 

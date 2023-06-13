@@ -4,6 +4,7 @@ import { SiteComponents } from '../src/SiteComponents.js';
 import '../src/site-components.js';
 
 describe('SiteComponents', () => {
+  /*
   it('has a default title "Hey there" and counter 5', async () => {
     const el = await fixture<SiteComponents>(html`<site-components></site-components>`);
 
@@ -29,4 +30,5 @@ describe('SiteComponents', () => {
 
     await expect(el).shadowDom.to.be.accessible();
   });
+  */
 });

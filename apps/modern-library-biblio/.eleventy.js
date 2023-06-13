@@ -10,6 +10,7 @@ const pathPrefix = process.env.PATH_PREFIX || "";
 module.exports = function(eleventyConfig) {
   // Use the configuration from the template
   let config = templateConfig(eleventyConfig);
+//console.log(eleventyConfig);  
 
   eleventyConfig.addFilter('yearSearchPick', function(...args){
     let document = args.shift();

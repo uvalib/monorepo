@@ -10,17 +10,18 @@ provideFASTDesignSystem()
     .withPrefix("site")
     .register(
         fastSelect({
-            styles: (context, definition) => css`
-                ${ styleMap }
-                ${ selectStyles(context,definition) }
-                :host .listbox {
-                    background: var(--uva-grey-lightest);
-                }
-            `
+//            styles: (context, definition) => css`
+//                ${ styleMap }
+//                ${ selectStyles(context,definition) }
+//                :host .listbox {
+//                    background: var(--uva-grey-lightest);
+//                }
+//            `
         }), 
         fastOption({
-            styles: (context, definition) => css`
-                ${ styleMap }
-                ${ optionStyles(context,definition) }
-            `})
+//            styles: (context, definition) => css`
+//                ${ styleMap }
+//                ${ optionStyles(context,definition) }
+//            `
+        })
     );

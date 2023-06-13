@@ -17,6 +17,24 @@ module.exports = function(eleventyConfig) {
     return new CleanCSS({}).minify(code).styles; 
   });
 
+  // Add a filter that sorts an array of objects by a specified property
+  eleventyConfig.addFilter("sortByProperty", function(array, propertyName) {
+      return array.slice().sort(function(a, b) {
+          // Convert the properties to string for alphanumeric comparison
+          const propA = String(a[propertyName]);
+          const propB = String(b[propertyName]);
+
+          // Compare the two properties
+          if (propA < propB) {
+              return -1;
+          }
+          if (propA > propB) {
+              return 1;
+          }
+          return 0;
+      });
+  });
+
   let markdown = require("markdown-it")({
     html: true,
     breaks: true
