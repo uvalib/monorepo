@@ -1,2 +1,2 @@
 export { SiteButton } from './SiteButton.js';
-export { SiteFab } from './SiteFAB.js';
+export { SiteFab } from './SiteFab.js';
