@@ -27,7 +27,7 @@ import { Hours } from '@uvalib/data-wrap/dist/src/Hours';
       `);
     } 
     if (day.status) {
-      return day.status.replace('24hours', '24 Hours');
+      return day.status.replace('24hours', '24 Hours').replace('ByApp', 'By Appt');
     }
     return "";
   }
@@ -42,7 +42,7 @@ import { Hours } from '@uvalib/data-wrap/dist/src/Hours';
         `);
       } 
       if (today.status) {
-        return today.status.replace('24hours', '24 Hours');
+        return today.status.replace('24hours', '24 Hours').replace('ByApp', 'By Appt');
       }
     }
     return "";
