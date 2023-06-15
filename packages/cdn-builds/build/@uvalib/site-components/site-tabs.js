@@ -1,10 +1,10 @@
-import{h as t,F as e,_ as a,a as i,o as s,c as o,u as r,t as n,v as c,n as l,e as d,G as h,f as b,a2 as v,m as u,C as p,N as g,r as f,a3 as m,a4 as I,a5 as x,a6 as $,a7 as T,x as w,w as y,d as k,p as A,s as j}from"../../SiteStyleMapping-f1ccf68c.js";import{d as C}from"../../display-058af2ce.js";import{h as z,d as P}from"../../size-3ecfc7b7.js";import{f as R,S as E}from"../../match-media-stylesheet-behavior-575be983.js";import{s as H,r as B,e as F,u as D,w as L,a as O,S as N}from"../../strings-09538f4a.js";import{s as S,b as G,c as K,g as M,h as X,k as Y,a as _,m as q}from"../../focus-03f3e890.js";import{w as J}from"../../when-46682a8a.js";class Q extends e{}a([i({mode:"boolean"})],Q.prototype,"disabled",void 0);const U="horizontal";class V extends e{constructor(){super(...arguments),this.orientation=U,this.activeindicator=!0,this.showActiveIndicator=!0,this.prevActiveTabIndex=0,this.activeTabIndex=0,this.ticking=!1,this.change=()=>{this.$emit("change",this.activetab)},this.isDisabledElement=t=>"true"===t.getAttribute("aria-disabled"),this.isFocusableElement=t=>!this.isDisabledElement(t),this.setTabs=()=>{const t="gridColumn",e="gridRow",a=this.isHorizontal()?t:e;this.activeTabIndex=this.getActiveIndex(),this.showActiveIndicator=!1,this.tabs.forEach(((i,s)=>{if("tab"===i.slot){const t=this.activeTabIndex===s&&this.isFocusableElement(i);this.activeindicator&&this.isFocusableElement(i)&&(this.showActiveIndicator=!0);const e=this.tabIds[s],a=this.tabpanelIds[s];i.setAttribute("id",e),i.setAttribute("aria-selected",t?"true":"false"),i.setAttribute("aria-controls",a),i.addEventListener("click",this.handleTabClick),i.addEventListener("keydown",this.handleTabKeyDown),i.setAttribute("tabindex",t?"0":"-1"),t&&(this.activetab=i)}i.style[t]="",i.style[e]="",i.style[a]=`${s+1}`,this.isHorizontal()?i.classList.remove("vertical"):i.classList.add("vertical")}))},this.setTabPanels=()=>{this.tabpanels.forEach(((t,e)=>{const a=this.tabIds[e],i=this.tabpanelIds[e];t.setAttribute("id",i),t.setAttribute("aria-labelledby",a),this.activeTabIndex!==e?t.setAttribute("hidden",""):t.removeAttribute("hidden")}))},this.handleTabClick=t=>{const e=t.currentTarget;1===e.nodeType&&this.isFocusableElement(e)&&(this.prevActiveTabIndex=this.activeTabIndex,this.activeTabIndex=this.tabs.indexOf(e),this.setComponent())},this.handleTabKeyDown=t=>{if(this.isHorizontal())switch(t.key){case K:t.preventDefault(),this.adjustBackward(t);break;case G:t.preventDefault(),this.adjustForward(t)}else switch(t.key){case X:t.preventDefault(),this.adjustBackward(t);break;case M:t.preventDefault(),this.adjustForward(t)}switch(t.key){case _:t.preventDefault(),this.adjust(-this.activeTabIndex);break;case Y:t.preventDefault(),this.adjust(this.tabs.length-this.activeTabIndex-1)}},this.adjustForward=t=>{const e=this.tabs;let a=0;for(a=this.activetab?e.indexOf(this.activetab)+1:1,a===e.length&&(a=0);a<e.length&&e.length>1;){if(this.isFocusableElement(e[a])){this.moveToTabByIndex(e,a);break}if(this.activetab&&a===e.indexOf(this.activetab))break;a+1>=e.length?a=0:a+=1}},this.adjustBackward=t=>{const e=this.tabs;let a=0;for(a=this.activetab?e.indexOf(this.activetab)-1:0,a=a<0?e.length-1:a;a>=0&&e.length>1;){if(this.isFocusableElement(e[a])){this.moveToTabByIndex(e,a);break}a-1<0?a=e.length-1:a-=1}},this.moveToTabByIndex=(t,e)=>{const a=t[e];this.activetab=a,this.prevActiveTabIndex=this.activeTabIndex,this.activeTabIndex=e,a.focus(),this.setComponent()}}orientationChanged(){this.$fastController.isConnected&&(this.setTabs(),this.setTabPanels(),this.handleActiveIndicatorPosition())}activeidChanged(t,e){this.$fastController.isConnected&&this.tabs.length<=this.tabpanels.length&&(this.prevActiveTabIndex=this.tabs.findIndex((e=>e.id===t)),this.setTabs(),this.setTabPanels(),this.handleActiveIndicatorPosition())}tabsChanged(){this.$fastController.isConnected&&this.tabs.length<=this.tabpanels.length&&(this.tabIds=this.getTabIds(),this.tabpanelIds=this.getTabPanelIds(),this.setTabs(),this.setTabPanels(),this.handleActiveIndicatorPosition())}tabpanelsChanged(){this.$fastController.isConnected&&this.tabpanels.length<=this.tabs.length&&(this.tabIds=this.getTabIds(),this.tabpanelIds=this.getTabPanelIds(),this.setTabs(),this.setTabPanels(),this.handleActiveIndicatorPosition())}getActiveIndex(){return void 0!==this.activeid?-1===this.tabIds.indexOf(this.activeid)?0:this.tabIds.indexOf(this.activeid):0}getTabIds(){return this.tabs.map((t=>{var e;return null!==(e=t.getAttribute("id"))&&void 0!==e?e:`tab-${D()}`}))}getTabPanelIds(){return this.tabpanels.map((t=>{var e;return null!==(e=t.getAttribute("id"))&&void 0!==e?e:`panel-${D()}`}))}setComponent(){this.activeTabIndex!==this.prevActiveTabIndex&&(this.activeid=this.tabIds[this.activeTabIndex],this.focusTab(),this.change())}isHorizontal(){return this.orientation===U}handleActiveIndicatorPosition(){this.showActiveIndicator&&this.activeindicator&&this.activeTabIndex!==this.prevActiveTabIndex&&(this.ticking?this.ticking=!1:(this.ticking=!0,this.animateActiveIndicator()))}animateActiveIndicator(){this.ticking=!0;const t=this.isHorizontal()?"gridColumn":"gridRow",e=this.isHorizontal()?"translateX":"translateY",a=this.isHorizontal()?"offsetLeft":"offsetTop",i=this.activeIndicatorRef[a];this.activeIndicatorRef.style[t]=`${this.activeTabIndex+1}`;const s=this.activeIndicatorRef[a];this.activeIndicatorRef.style[t]=`${this.prevActiveTabIndex+1}`;const o=s-i;this.activeIndicatorRef.style.transform=`${e}(${o}px)`,this.activeIndicatorRef.classList.add("activeIndicatorTransition"),this.activeIndicatorRef.addEventListener("transitionend",(()=>{this.ticking=!1,this.activeIndicatorRef.style[t]=`${this.activeTabIndex+1}`,this.activeIndicatorRef.style.transform=`${e}(0px)`,this.activeIndicatorRef.classList.remove("activeIndicatorTransition")}))}adjust(t){this.prevActiveTabIndex=this.activeTabIndex,this.activeTabIndex=L(0,this.tabs.length-1,this.activeTabIndex+t),this.setComponent()}focusTab(){this.tabs[this.activeTabIndex].focus()}connectedCallback(){super.connectedCallback(),this.tabIds=this.getTabIds(),this.tabpanelIds=this.getTabPanelIds(),this.activeTabIndex=this.getActiveIndex()}}a([i],V.prototype,"orientation",void 0),a([i],V.prototype,"activeid",void 0),a([s],V.prototype,"tabs",void 0),a([s],V.prototype,"tabpanels",void 0),a([i({mode:"boolean"})],V.prototype,"activeindicator",void 0),a([s],V.prototype,"activeIndicatorRef",void 0),a([s],V.prototype,"showActiveIndicator",void 0),O(V,N);const W=(t,e)=>o`
+import{s as t}from"../../SiteStyleMapping-e54fbdcc.js";import{h as e,F as i,_ as a,a as s,o,c as r,r as n,t as c,u as l,n as d,e as h,E as b,f as v,a1 as u,s as p,B as g,M as f,q as m,a2 as I,a3 as x,a4 as $,a5 as T,a6 as w,w as y,v as k,d as A,p as j}from"../../fast-design-system-d046069d.js";import{d as C}from"../../display-058af2ce.js";import{h as z,d as P}from"../../size-b693d30e.js";import{f as E,S as R}from"../../match-media-stylesheet-behavior-575be983.js";import{s as B,r as H,e as F,u as D,w as L,a as O,S}from"../../strings-197a3030.js";import{s as N,b as K,c as M,g as q,h as G,k as X,a as Y,m as _}from"../../focus-3563f905.js";import{w as J}from"../../when-46682a8a.js";class Q extends i{}a([s({mode:"boolean"})],Q.prototype,"disabled",void 0);const U="horizontal";class V extends i{constructor(){super(...arguments),this.orientation=U,this.activeindicator=!0,this.showActiveIndicator=!0,this.prevActiveTabIndex=0,this.activeTabIndex=0,this.ticking=!1,this.change=()=>{this.$emit("change",this.activetab)},this.isDisabledElement=t=>"true"===t.getAttribute("aria-disabled"),this.isFocusableElement=t=>!this.isDisabledElement(t),this.setTabs=()=>{const t="gridColumn",e="gridRow",i=this.isHorizontal()?t:e;this.activeTabIndex=this.getActiveIndex(),this.showActiveIndicator=!1,this.tabs.forEach(((a,s)=>{if("tab"===a.slot){const t=this.activeTabIndex===s&&this.isFocusableElement(a);this.activeindicator&&this.isFocusableElement(a)&&(this.showActiveIndicator=!0);const e=this.tabIds[s],i=this.tabpanelIds[s];a.setAttribute("id",e),a.setAttribute("aria-selected",t?"true":"false"),a.setAttribute("aria-controls",i),a.addEventListener("click",this.handleTabClick),a.addEventListener("keydown",this.handleTabKeyDown),a.setAttribute("tabindex",t?"0":"-1"),t&&(this.activetab=a)}a.style[t]="",a.style[e]="",a.style[i]=`${s+1}`,this.isHorizontal()?a.classList.remove("vertical"):a.classList.add("vertical")}))},this.setTabPanels=()=>{this.tabpanels.forEach(((t,e)=>{const i=this.tabIds[e],a=this.tabpanelIds[e];t.setAttribute("id",a),t.setAttribute("aria-labelledby",i),this.activeTabIndex!==e?t.setAttribute("hidden",""):t.removeAttribute("hidden")}))},this.handleTabClick=t=>{const e=t.currentTarget;1===e.nodeType&&this.isFocusableElement(e)&&(this.prevActiveTabIndex=this.activeTabIndex,this.activeTabIndex=this.tabs.indexOf(e),this.setComponent())},this.handleTabKeyDown=t=>{if(this.isHorizontal())switch(t.key){case M:t.preventDefault(),this.adjustBackward(t);break;case K:t.preventDefault(),this.adjustForward(t)}else switch(t.key){case G:t.preventDefault(),this.adjustBackward(t);break;case q:t.preventDefault(),this.adjustForward(t)}switch(t.key){case Y:t.preventDefault(),this.adjust(-this.activeTabIndex);break;case X:t.preventDefault(),this.adjust(this.tabs.length-this.activeTabIndex-1)}},this.adjustForward=t=>{const e=this.tabs;let i=0;for(i=this.activetab?e.indexOf(this.activetab)+1:1,i===e.length&&(i=0);i<e.length&&e.length>1;){if(this.isFocusableElement(e[i])){this.moveToTabByIndex(e,i);break}if(this.activetab&&i===e.indexOf(this.activetab))break;i+1>=e.length?i=0:i+=1}},this.adjustBackward=t=>{const e=this.tabs;let i=0;for(i=this.activetab?e.indexOf(this.activetab)-1:0,i=i<0?e.length-1:i;i>=0&&e.length>1;){if(this.isFocusableElement(e[i])){this.moveToTabByIndex(e,i);break}i-1<0?i=e.length-1:i-=1}},this.moveToTabByIndex=(t,e)=>{const i=t[e];this.activetab=i,this.prevActiveTabIndex=this.activeTabIndex,this.activeTabIndex=e,i.focus(),this.setComponent()}}orientationChanged(){this.$fastController.isConnected&&(this.setTabs(),this.setTabPanels(),this.handleActiveIndicatorPosition())}activeidChanged(t,e){this.$fastController.isConnected&&this.tabs.length<=this.tabpanels.length&&(this.prevActiveTabIndex=this.tabs.findIndex((e=>e.id===t)),this.setTabs(),this.setTabPanels(),this.handleActiveIndicatorPosition())}tabsChanged(){this.$fastController.isConnected&&this.tabs.length<=this.tabpanels.length&&(this.tabIds=this.getTabIds(),this.tabpanelIds=this.getTabPanelIds(),this.setTabs(),this.setTabPanels(),this.handleActiveIndicatorPosition())}tabpanelsChanged(){this.$fastController.isConnected&&this.tabpanels.length<=this.tabs.length&&(this.tabIds=this.getTabIds(),this.tabpanelIds=this.getTabPanelIds(),this.setTabs(),this.setTabPanels(),this.handleActiveIndicatorPosition())}getActiveIndex(){return void 0!==this.activeid?-1===this.tabIds.indexOf(this.activeid)?0:this.tabIds.indexOf(this.activeid):0}getTabIds(){return this.tabs.map((t=>{var e;return null!==(e=t.getAttribute("id"))&&void 0!==e?e:`tab-${D()}`}))}getTabPanelIds(){return this.tabpanels.map((t=>{var e;return null!==(e=t.getAttribute("id"))&&void 0!==e?e:`panel-${D()}`}))}setComponent(){this.activeTabIndex!==this.prevActiveTabIndex&&(this.activeid=this.tabIds[this.activeTabIndex],this.focusTab(),this.change())}isHorizontal(){return this.orientation===U}handleActiveIndicatorPosition(){this.showActiveIndicator&&this.activeindicator&&this.activeTabIndex!==this.prevActiveTabIndex&&(this.ticking?this.ticking=!1:(this.ticking=!0,this.animateActiveIndicator()))}animateActiveIndicator(){this.ticking=!0;const t=this.isHorizontal()?"gridColumn":"gridRow",e=this.isHorizontal()?"translateX":"translateY",i=this.isHorizontal()?"offsetLeft":"offsetTop",a=this.activeIndicatorRef[i];this.activeIndicatorRef.style[t]=`${this.activeTabIndex+1}`;const s=this.activeIndicatorRef[i];this.activeIndicatorRef.style[t]=`${this.prevActiveTabIndex+1}`;const o=s-a;this.activeIndicatorRef.style.transform=`${e}(${o}px)`,this.activeIndicatorRef.classList.add("activeIndicatorTransition"),this.activeIndicatorRef.addEventListener("transitionend",(()=>{this.ticking=!1,this.activeIndicatorRef.style[t]=`${this.activeTabIndex+1}`,this.activeIndicatorRef.style.transform=`${e}(0px)`,this.activeIndicatorRef.classList.remove("activeIndicatorTransition")}))}adjust(t){this.prevActiveTabIndex=this.activeTabIndex,this.activeTabIndex=L(0,this.tabs.length-1,this.activeTabIndex+t),this.setComponent()}focusTab(){this.tabs[this.activeTabIndex].focus()}connectedCallback(){super.connectedCallback(),this.tabIds=this.getTabIds(),this.tabpanelIds=this.getTabPanelIds(),this.activeTabIndex=this.getActiveIndex()}}a([s],V.prototype,"orientation",void 0),a([s],V.prototype,"activeid",void 0),a([o],V.prototype,"tabs",void 0),a([o],V.prototype,"tabpanels",void 0),a([s({mode:"boolean"})],V.prototype,"activeindicator",void 0),a([o],V.prototype,"activeIndicatorRef",void 0),a([o],V.prototype,"showActiveIndicator",void 0),O(V,S);const W=(t,e)=>r`
         ${C("grid")} :host {
             box-sizing: border-box;
-            font-family: ${r};
-            font-size: ${n};
-            line-height: ${c};
-            color: ${l};
+            font-family: ${n};
+            font-size: ${c};
+            line-height: ${l};
+            color: ${d};
             grid-template-columns: auto 1fr auto;
             grid-template-rows: auto 1fr;
         }
@@ -16,7 +16,7 @@ import{h as t,F as e,_ as a,a as i,o as s,c as o,u as r,t as n,v as c,n as l,e a
             position: relative;
             width: max-content;
             align-self: end;
-            padding: calc(${d} * 4px) calc(${d} * 4px) 0;
+            padding: calc(${h} * 4px) calc(${h} * 4px) 0;
             box-sizing: border-box;
         }
 
@@ -31,10 +31,10 @@ import{h as t,F as e,_ as a,a as i,o as s,c as o,u as r,t as n,v as c,n as l,e a
             width: 100%;
             height: 5px;
             justify-self: center;
-            background: ${h};
+            background: ${b};
             margin-top: 10px;
-            border-radius: calc(${b} * 1px)
-                calc(${b} * 1px) 0 0;
+            border-radius: calc(${v} * 1px)
+                calc(${v} * 1px) 0 0;
         }
 
         .activeIndicatorTransition {
@@ -64,8 +64,8 @@ import{h as t,F as e,_ as a,a as i,o as s,c as o,u as r,t as n,v as c,n as l,e a
             justify-self: end;
             align-self: flex-start;
             width: 100%;
-            padding: 0 calc(${d} * 4px)
-                calc((${z} - ${d}) * 1px) 0;
+            padding: 0 calc(${h} * 4px)
+                calc((${z} - ${h}) * 1px) 0;
         }
 
         :host([orientation="vertical"]) .tabpanel {
@@ -85,33 +85,33 @@ import{h as t,F as e,_ as a,a as i,o as s,c as o,u as r,t as n,v as c,n as l,e a
             height: 100%;
             margin-inline-end: 10px;
             align-self: center;
-            background: ${h};
+            background: ${b};
             margin-top: 0;
-            border-radius: 0 calc(${b} * 1px)
-                calc(${b} * 1px) 0;
+            border-radius: 0 calc(${v} * 1px)
+                calc(${v} * 1px) 0;
         }
 
         :host([orientation="vertical"]) .activeIndicatorTransition {
             transition: transform 0.2s linear;
         }
-    `.withBehaviors(R(o`
+    `.withBehaviors(E(r`
                 .activeIndicator,
                 :host([orientation="vertical"]) .activeIndicator {
                     forced-color-adjust: none;
-                    background: ${E.Highlight};
+                    background: ${R.Highlight};
                 }
-            `)),Z=(t,e)=>o`
+            `)),Z=(t,e)=>r`
     ${C("inline-flex")} :host {
         box-sizing: border-box;
-        font-family: ${r};
-        font-size: ${n};
-        line-height: ${c};
+        font-family: ${n};
+        font-size: ${c};
+        line-height: ${l};
         height: calc(${z} * 1px);
-        padding: calc(${d} * 5px) calc(${d} * 4px);
-        color: ${v};
+        padding: calc(${h} * 5px) calc(${h} * 4px);
+        color: ${u};
         fill: currentcolor;
-        border-radius: calc(${b} * 1px);
-        border: calc(${u} * 1px) solid transparent;
+        border-radius: calc(${v} * 1px);
+        border: calc(${p} * 1px) solid transparent;
         align-items: center;
         justify-content: center;
         grid-row: 1;
@@ -119,48 +119,48 @@ import{h as t,F as e,_ as a,a as i,o as s,c as o,u as r,t as n,v as c,n as l,e a
     }
 
     :host(:hover) {
-        color: ${l};
+        color: ${d};
         fill: currentcolor;
     }
 
     :host(:active) {
-        color: ${l};
+        color: ${d};
         fill: currentcolor;
     }
 
     :host([disabled]) {
         cursor: ${P};
-        opacity: ${p};
+        opacity: ${g};
     }
 
     :host([disabled]:hover) {
-        color: ${v};
-        background: ${g};
+        color: ${u};
+        background: ${f};
     }
 
     :host([aria-selected="true"]) {
-        background: ${f};
-        color: ${m};
+        background: ${m};
+        color: ${I};
         fill: currentcolor;
     }
 
     :host([aria-selected="true"]:hover) {
-        background: ${I};
-        color: ${x};
+        background: ${x};
+        color: ${$};
         fill: currentcolor;
     }
 
     :host([aria-selected="true"]:active) {
-        background: ${$};
-        color: ${T};
+        background: ${T};
+        color: ${w};
         fill: currentcolor;
     }
 
-    :host(:${q}) {
+    :host(:${_}) {
         outline: none;
-        border: calc(${u} * 1px) solid ${w};
-        box-shadow: 0 0 0 calc((${y} - ${u}) * 1px)
-            ${w};
+        border: calc(${p} * 1px) solid ${y};
+        box-shadow: 0 0 0 calc((${k} - ${p}) * 1px)
+            ${y};
     }
 
     :host(:focus) {
@@ -177,81 +177,81 @@ import{h as t,F as e,_ as a,a as i,o as s,c as o,u as r,t as n,v as c,n as l,e a
     }
 
     :host(.vertical:hover) {
-        color: ${l};
+        color: ${d};
     }
 
     :host(.vertical:active) {
-        color: ${l};
+        color: ${d};
     }
 
     :host(.vertical:hover[aria-selected="true"]) {
     }
-`.withBehaviors(R(o`
+`.withBehaviors(E(r`
             :host {
                 forced-color-adjust: none;
                 border-color: transparent;
-                color: ${E.ButtonText};
+                color: ${R.ButtonText};
                 fill: currentcolor;
             }
             :host(:hover),
             :host(.vertical:hover),
             :host([aria-selected="true"]:hover) {
-                background: ${E.Highlight};
-                color: ${E.HighlightText};
+                background: ${R.Highlight};
+                color: ${R.HighlightText};
                 fill: currentcolor;
             }
             :host([aria-selected="true"]) {
-                background: ${E.HighlightText};
-                color: ${E.Highlight};
+                background: ${R.HighlightText};
+                color: ${R.Highlight};
                 fill: currentcolor;
             }
-            :host(:${q}) {
-                border-color: ${E.ButtonText};
+            :host(:${_}) {
+                border-color: ${R.ButtonText};
                 box-shadow: none;
             }
             :host([disabled]),
             :host([disabled]:hover) {
                 opacity: 1;
-                color: ${E.GrayText};
-                background: ${E.ButtonFace};
+                color: ${R.GrayText};
+                background: ${R.ButtonFace};
             }
-        `)),tt=Q.compose({baseName:"tab",template:(e,a)=>t`
+        `)),tt=Q.compose({baseName:"tab",template:(t,i)=>e`
     <template slot="tab" role="tab" aria-disabled="${t=>t.disabled}">
         <slot></slot>
     </template>
-`,styles:Z}),et=(t,e)=>o`
+`,styles:Z}),et=(t,e)=>r`
     ${C("block")} :host {
         box-sizing: border-box;
-        font-size: ${n};
-        line-height: ${c};
-        padding: 0 calc((6 + (${d} * 2 * ${k})) * 1px);
+        font-size: ${c};
+        line-height: ${l};
+        padding: 0 calc((6 + (${h} * 2 * ${A})) * 1px);
     }
-`,at=class extends e{}.compose({baseName:"tab-panel",template:(e,a)=>t`
+`,it=class extends i{}.compose({baseName:"tab-panel",template:(t,i)=>e`
     <template slot="tabpanel" role="tabpanel">
         <slot></slot>
     </template>
-`,styles:et}),it=V.compose({baseName:"tabs",template:(e,a)=>t`
+`,styles:et}),at=V.compose({baseName:"tabs",template:(t,i)=>e`
     <template class="${t=>t.orientation}">
-        ${H(e,a)}
+        ${B(t,i)}
         <div class="tablist" part="tablist" role="tablist">
-            <slot class="tab" name="tab" part="tab" ${S("tabs")}></slot>
+            <slot class="tab" name="tab" part="tab" ${N("tabs")}></slot>
 
-            ${J((t=>t.showActiveIndicator),t`
+            ${J((t=>t.showActiveIndicator),e`
                     <div
-                        ${B("activeIndicatorRef")}
+                        ${H("activeIndicatorRef")}
                         class="activeIndicator"
                         part="activeIndicator"
                     ></div>
                 `)}
         </div>
-        ${F(e,a)}
+        ${F(t,i)}
         <div class="tabpanel">
-            <slot name="tabpanel" part="tabpanel" ${S("tabpanels")}></slot>
+            <slot name="tabpanel" part="tabpanel" ${N("tabpanels")}></slot>
         </div>
     </template>
-`,styles:W});A().withPrefix("site").register(tt({styles:(t,e)=>o`
+`,styles:W});j().withPrefix("site").register(tt({styles:(e,i)=>r`
                 ${Z()}
-                ${j}
+                ${t}
                 :host {
                     /* relevent styles from .uvalib-button style in current drupal theme */
                     background-color: var(--uva-blue-alt-base, lightblue);
@@ -270,10 +270,10 @@ import{h as t,F as e,_ as a,a as i,o as s,c as o,u as r,t as n,v as c,n as l,e a
                     background-color: var(--uva-blue-alt-dark, darkblue);
                     color: var(--uva-white, white);
                 }
-            `}),at({styles:(t,e)=>o`
+            `}),it({styles:(e,i)=>r`
                 ${et()}
-                ${j}
-            `}),it({styles:(t,e)=>o`
+                ${t}
+            `}),at({styles:(e,i)=>r`
                 ${W()}
-                ${j}      
+                ${t}      
             `}));

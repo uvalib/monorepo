@@ -1,4 +1,4 @@
-import{i as t,_ as o,e,s as i,x as a}from"../../query-assigned-elements-23ba9e4f.js";const n=t`
+import{i as t,_ as o,s as e,x as i,e as a}from"../../query-assigned-elements-23ba9e4f.js";const n=t`
 :host {
   font-family: franklin-gothic-urw, Arial, Helvetica, sans-serif;
 }
@@ -200,23 +200,22 @@ a.uvalib-button-inverse {
     width: auto;
   }
 }
-`;class l extends i{constructor(){super(...arguments),this.label="Push me!",this.alt=!1,this.basic=!1,this.subtle=!1,this.outline=!1,this.inverse=!1,this.small=!1,this.large=!1,this.disabled=!1,this.href=null,this.visited=!1,this.hovered=!1,this.activated=!1}render(){return this.href?this.renderAnchor():this.renderButton()}renderButton(){return a`
+`;class l extends e{constructor(){super(...arguments),this.label="Push me!",this.alt=!1,this.basic=!1,this.subtle=!1,this.outline=!1,this.inverse=!1,this.small=!1,this.large=!1,this.disabled=!1,this.href=null,this.visited=!1,this.hovered=!1,this.activated=!1}static get styles(){return[n]}render(){return this.href?this.renderAnchor():this.renderButton()}renderButton(){return i`
       <button
+        part="button"
         class=${this.computeClass()}
         ?disabled=${this.disabled}
-        aria-disabled=${this.disabled?"true":"false"}
-        role="button"
-      >
+        aria-disabled=${this.disabled?"true":"false"}>
         <slot>${this.label}</slot>
       </button>
-    `}renderAnchor(){return a`
+    `}renderAnchor(){return i`
       <a
+        part="button"
         href=${this.href}
         class=${this.computeClass()}
         ?disabled=${this.disabled}
         aria-disabled=${this.disabled?"true":"false"}
-        role="button"
       >
         <slot>${this.label}</slot>
       </a>
-    `}computeClass(){let t="uvalib-button";return this.basic&&(t+=" uvalib-button--basic"),this.alt&&(t+=" uvalib-button--alt"),this.subtle&&(t+=" uvalib-button--subtle"),this.outline&&(t+=" uvalib-button--outline"),this.inverse&&(t+=" uvalib-button--inverse"),this.small&&(t+=" uvalib-button--small"),this.large&&(t+=" uvalib-button--large"),this.visited&&(t+=" uvalib-button--visited"),this.hovered&&(t+=" uvalib-button--hovered"),this.activated&&(t+=" uvalib-button--activated"),t}}l.styles=n,o([e({type:String})],l.prototype,"label",void 0),o([e({type:Boolean})],l.prototype,"alt",void 0),o([e({type:Boolean})],l.prototype,"basic",void 0),o([e({type:Boolean})],l.prototype,"subtle",void 0),o([e({type:Boolean})],l.prototype,"outline",void 0),o([e({type:Boolean})],l.prototype,"inverse",void 0),o([e({type:Boolean})],l.prototype,"small",void 0),o([e({type:Boolean})],l.prototype,"large",void 0),o([e({type:Boolean})],l.prototype,"disabled",void 0),o([e({type:String})],l.prototype,"href",void 0),o([e({type:Boolean})],l.prototype,"visited",void 0),o([e({type:Boolean})],l.prototype,"hovered",void 0),o([e({type:Boolean})],l.prototype,"activated",void 0),window.customElements.define("site-button",l);
+    `}computeClass(){let t="uvalib-button";return this.basic&&(t+=" uvalib-button--basic"),this.alt&&(t+=" uvalib-button--alt"),this.subtle&&(t+=" uvalib-button--subtle"),this.outline&&(t+=" uvalib-button--outline"),this.inverse&&(t+=" uvalib-button--inverse"),this.small&&(t+=" uvalib-button--small"),this.large&&(t+=" uvalib-button--large"),this.visited&&(t+=" uvalib-button--visited"),this.hovered&&(t+=" uvalib-button--hovered"),this.activated&&(t+=" uvalib-button--activated"),t}}o([a({type:String})],l.prototype,"label",void 0),o([a({type:Boolean})],l.prototype,"alt",void 0),o([a({type:Boolean})],l.prototype,"basic",void 0),o([a({type:Boolean})],l.prototype,"subtle",void 0),o([a({type:Boolean})],l.prototype,"outline",void 0),o([a({type:Boolean})],l.prototype,"inverse",void 0),o([a({type:Boolean})],l.prototype,"small",void 0),o([a({type:Boolean})],l.prototype,"large",void 0),o([a({type:Boolean})],l.prototype,"disabled",void 0),o([a({type:String})],l.prototype,"href",void 0),o([a({type:Boolean})],l.prototype,"visited",void 0),o([a({type:Boolean})],l.prototype,"hovered",void 0),o([a({type:Boolean})],l.prototype,"activated",void 0),window.customElements.define("site-button",l);

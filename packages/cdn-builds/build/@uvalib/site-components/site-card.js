@@ -1,4 +1,4 @@
-import{h as s,F as a,c as e,g as t,f as o,i as r,j as i,p as l,s as c}from"../../SiteStyleMapping-f1ccf68c.js";import{e as n}from"../../elevation-63298dfb.js";import{d}from"../../display-058af2ce.js";import{f as h,S as p}from"../../match-media-stylesheet-behavior-575be983.js";let g=class extends a{};const b=(s,a)=>e`
+import{s}from"../../SiteStyleMapping-e54fbdcc.js";import{h as a,F as e,c as t,g as o,f as r,i,j as l,p as c}from"../../fast-design-system-d046069d.js";import{e as n}from"../../elevation-63298dfb.js";import{d}from"../../display-058af2ce.js";import{f as h,S as p}from"../../match-media-stylesheet-behavior-575be983.js";let m=class extends e{};const g=(s,a)=>t`
         ${d("block")} :host {
             --elevation: 4;
             display: block;
@@ -6,21 +6,21 @@ import{h as s,F as a,c as e,g as t,f as o,i as r,j as i,p as l,s as c}from"../..
             height: var(--card-height, 100%);
             width: var(--card-width, 100%);
             box-sizing: border-box;
-            background: ${t};
-            border-radius: calc(${o} * 1px);
+            background: ${o};
+            border-radius: calc(${r} * 1px);
             ${n}
         }
-    `.withBehaviors(h(e`
+    `.withBehaviors(h(t`
                 :host {
                     forced-color-adjust: none;
                     background: ${p.Canvas};
                     box-shadow: 0 0 0 1px ${p.CanvasText};
                 }
-            `));const m=class extends g{connectedCallback(){super.connectedCallback();const s=r(this);s&&t.setValueFor(this,(a=>i.getValueFor(a).evaluate(a,t.getValueFor(s))))}}.compose({baseName:"card",baseClass:g,template:(a,e)=>s`
+            `));const b=class extends m{connectedCallback(){super.connectedCallback();const s=i(this);s&&o.setValueFor(this,(a=>l.getValueFor(a).evaluate(a,o.getValueFor(s))))}}.compose({baseName:"card",baseClass:m,template:(s,e)=>a`
     <slot></slot>
-`,styles:b});l().withPrefix("site").register(m({styles:(s,a)=>e`
-                ${c}
-                ${b()}
+`,styles:g});c().withPrefix("site").register(b({styles:(a,e)=>t`
+                ${s}
+                ${g()}
                 :host {
                     padding: 10px;
                     --fill-color: var(--uva-grey-lightest, lightgrey) !important;
