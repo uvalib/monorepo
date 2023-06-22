@@ -1,0 +1,91 @@
+@use '../../mixins/index'as *;
+@use '../../base/index'as *;
+
+.about-uva-library {
+  .top-section {
+    display: grid;
+    grid-template-columns: 0.5fr 1fr;
+    gap: 2rem;
+
+    .profileImage img {
+      border-radius: 50%;
+    }
+    .noBG {
+      background-color: white;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .top-body {}
+  }
+
+  .body-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 2rem;
+    margin: 3rem 0;
+
+    .learn {
+      grid-area: 1 / 1 / 2 / 2;
+    }
+
+    .idea {
+      grid-area: 1 / 2 / 2 / 3;
+    }
+
+    .help {
+      grid-area: 2 / 1 / 3 / 2;
+    }
+
+    .visit {
+      grid-area: 2 / 2 / 3 / 3;
+    }
+
+    .facts {
+      grid-area: 1 / 3 / 3 / 4;
+    }
+
+    .about-card {
+      display: flex;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      align-content: stretch;
+      border: 1px solid $uva-grey-200;
+
+      .about-card--details {
+        padding: 0 1rem;
+      }
+      img {
+        margin-bottom: 1rem;
+      }
+    }
+  }
+
+  @media (max-width:992px) { 
+    .top-section,
+    .body-grid {
+      grid-template-columns: 1fr;
+    }
+    .learn {
+      grid-area: 1 / 1 / 2 / 2 !important;
+    }
+
+    .idea {
+      grid-area: 2 / 1 / 3 / 2 !important;
+    }
+
+    .help {
+      grid-area: 3 / 1 / 4 / 2 !important;
+    }
+
+    .visit {
+      grid-area: 4 / 1 / 5 / 2 !important;
+    }
+
+    .facts {
+      grid-area: 5 / 1 / 6 / 2 !important;
+    }
+
+  }
+}

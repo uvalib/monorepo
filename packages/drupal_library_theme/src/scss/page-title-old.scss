@@ -1,0 +1,19 @@
+@use './base/typography'as *;
+
+h1.page-title {
+  padding: 0 !important;
+  font-size: map-get($alt-font-sizes, 'h1') !important;
+  margin-bottom: 1rem;
+}
+
+@media (max-width:600px) {
+  h1.page-title {
+    padding: 0 !important;
+  }
+}
+
+@media (max-width:992px) {
+  h1.page-title {
+    padding: 0 !important;
+  }
+}

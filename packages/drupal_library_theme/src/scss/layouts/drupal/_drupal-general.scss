@@ -1,0 +1,18 @@
+@use '../../base/index'as *;
+
+.drupal-status-messages {
+  outline: 1px solid $uva-green-A;
+}
+
+.drupal-help {
+  outline: 1px solid purple;
+}
+
+.drupal-tabs {
+  width: fit-content;
+  margin: 17px 0;
+}
+
+div[data-drupal-messages] .messages {
+  display: inline-block;
+}

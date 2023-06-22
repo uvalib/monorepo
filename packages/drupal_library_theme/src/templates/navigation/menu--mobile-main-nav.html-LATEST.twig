@@ -1,0 +1,53 @@
+<span id="uvalibrary-nav">
+	{% import _self as menus %}
+	{{ menus.menu_links(items, attributes, 0, menu_name) }}
+	{% macro menu_links(items, attributes, menu_level, menu_name) %}
+		{% import _self as menus %}
+		{%
+    set menu_classes = [
+      'mainlibrary-nav ul-' ~ menu_name|clean_class,
+  ]
+  %}
+		{%
+    set submenu_classes = [
+    'foo' ~ menu_name|clean_class,
+  ]
+  %}
+		{% if items %}
+			{% if menu_level == 0 %}
+				<ul {{ attributes.addClass(menu_classes) }} foo="MAIN-UL-CONTAINTER">
+				{% else %}
+					<ul
+						class="nav__list" hidden foo="SUB-MENU-CONTAINER">
+					{# <ul id="id_menu" class="nav__list" hidden foo="SUB-MENU-CONTAINER"> #}
+					{% endif %}
+					{% for item in items %}
+						{% if menu_level == 0 and item.is_expanded %}
+							<li foo="two" {{item.attributes.addClass(item_classes)}}>
+								<button type="button" aria-expanded="true" aria-controls="id-menu">{{ item.title }}
+								</button>
+							{% else %}
+								{%
+                    set link_classes = [
+                    'link-' ~ menu_name|clean_class,
+                  ]
+                  %}
+								<li>
+									{{
+                      link(
+                        item.title,
+                        item.url,
+                        item.attributes.removeClass(item_classes).addClass(link_classes),
+                    )
+                    }}
+								{% endif %}
+								{# THESE ARE WHERE THE SUB-MENUS GET PULLED IN #}
+								{% if item.below %}
+									{{ menus.menu_links(item.below, attributes, menu_level + 1, menu_name) }}
+								{% endif %}
+							</li>
+						{% endfor %}
+					</ul>
+				{% endif %}
+			{% endmacro %}
+		</span>

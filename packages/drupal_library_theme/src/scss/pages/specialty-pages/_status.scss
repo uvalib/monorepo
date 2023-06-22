@@ -1,0 +1,281 @@
+@use '../../mixins/index'as *;
+@use '../../base/index'as *;
+
+.status-dashboard {
+  // .s-row {
+  //   display: grid;
+  //   grid-template-columns: .25fr 1fr .25fr;
+  //   padding: 1rem;
+  //   gap: 2rem;
+  // }
+  .s-jump {
+    margin-bottom: 2rem;
+  }
+  .s-data {
+    display: grid;
+    grid-template-rows: 1fr;
+  }
+
+  // .s-title-heading {
+  //   /* font-weight: bold; */
+  //   font-size: 22px;
+  // }
+  h2 {
+    margin-bottom: 1rem;
+  }
+  .s-row {
+    display: grid;
+    grid-template-columns: 0.15fr 1fr 0.15fr;
+    border-top: 1px solid $uva-grey-200;
+    &:last-child {
+      border-bottom: 1px solid $uva-grey-200;
+      margin-bottom: 2rem;
+    }
+    &> p,
+    &> div {
+      padding: 1rem !important;
+      border-left: 1px solid $uva-grey-200;
+    }
+
+    p {
+      padding: .25em;
+      margin: 0;
+      &:last-child {
+        text-align: center;
+      }
+      &.service-title {
+        font-weight: bold;
+      }
+    }
+    div {
+      &.service-status {
+        &.s-available {
+          border-right: 5px solid $uva-teal;
+        
+          .svg--available {
+            text-align: center;
+            svg {
+              width: 1.5rem;
+              height: 1.5rem;
+              fill: $uva-teal;
+            }
+          }
+
+          .svg--modified,
+          .svg--not-available {
+            display: none;
+          }
+        }
+      }
+      &.service-status {
+        &.s-modified {
+          border-right: 5px solid $uva-yellow;
+
+          .svg--modified {
+            text-align: center;
+            svg {
+              width: 1.5rem;
+              height: 1.5rem;
+              fill: $uva-yellow;
+            }
+          }
+          .svg--available,
+          .svg--not-available {
+            display: none;
+          }
+        }
+      }
+      &.service-status {
+        &.s-not-available {
+          border-right: 5px solid $uva-red-B;
+          .svg--not-available {
+            text-align: center;
+            svg {
+              width: 1.5rem;
+              height: 1.5rem;
+              fill: $uva-red-B;
+            }
+          }
+          .svg--available,
+          .svg--modified {
+            display: none;
+          }
+        }
+      }
+      p {
+        font-weight: bold;
+      }
+    }
+  }
+  @media (max-width:992px) {
+    .s-row {
+      grid-template-columns: 1fr !important;
+
+      div {
+        &.service-status {
+          &.s-available {
+            border: 5px solid $uva-teal !important;
+          }
+
+          &.s-modified {
+            border: 5px solid $uva-yellow !important;
+          }
+
+          &.s-not-available {
+            border: 5px solid $uva-red-B !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+// div uva-accordion {
+//   border: none !important;
+//   box-shadow: none !important;
+
+//   --div uva-accordion-dl: {
+//     /* border: none !important; */
+//     box-shadow: none !important;
+//   }
+
+//   ;
+
+//   --div uva-accordion-item-trigger: {
+//     /* border: none !important; */
+//     box-shadow: none !important;
+//     /* control header/trigger border and color */
+//     /* border: 5px solid red; */
+//     background-color: var(--uvalib-grey-light);
+//   }
+
+//   --div uva-accordion-item-heading: {
+//     border: none !important;
+//     box-shadow: none !important;
+//   }
+
+//   ;
+//   --uvalib-box-shadow-custom: none !important;
+
+//   /* the header/trigger icon is just a border, set the color this way */
+//   --div uva-accordion-item-icon: {
+//     border-color: var(--uvalib-text-dark) !important;
+//   }
+
+//   /* here you can adjust the padding around that collapsable pane */
+//   --div uva-accordion-item-panel-padding: 0;
+// }
+
+// div uva-accordion-item {
+//   border: none !important;
+// }
+
+// .s-libraries {
+//   display: grid;
+//   grid-template-columns: repeat(2, 1fr);
+//   grid-gap: 5em;
+//   margin-top: 2em;
+//   margin-bottom: 2em;
+//   text-align: center;
+// }
+
+// .s-libraries .s-library-status h2 {
+//   margin: 0;
+// }
+
+// .s-libraries .s-library-status div {
+//   align-self: end;
+// }
+
+// :host([small-screen]) .s-libraries {
+//   display: grid;
+//   grid-template-columns: 1fr;
+//   grid-gap: 1em;
+//   margin-left: 1.25vw;
+//   margin-right: 1.25vw;
+// }
+
+// .s-data {
+//   display: grid;
+//   grid-template-rows: 1fr;
+// }
+
+// .s-title-heading {
+//   /* font-weight: bold; */
+//   font-size: 22px;
+// }
+
+// .s-row {
+//   display: grid;
+//   grid-template-columns: 100px 1fr 92px;
+// }
+
+// .service-title {
+//   font-weight: bold;
+// }
+
+// .services-accordion-block .s-row p:last-child {
+//   text-align: center;
+// }
+
+// .s-row p {
+//   padding: .25em;
+//   margin: 0;
+//   border: 1px solid var(--uvalib-grey-light);
+// }
+
+// .s-row p.service-status.s-available {
+//   border-right: 5px solid var(--uvalib-status-available);
+// }
+
+// .s-row p.service-status.s-available::before {
+//   content: "\\f00c";
+//   font-family: "Font Awesome 5 Pro";
+//   font-weight: 900;
+//   font-size: 1.5em;
+//   color: var(--uvalib-status-available);
+// }
+
+// .s-row p.service-status.s-modified {
+//   border-right: 5px solid var(--uvalib-status-modified);
+// }
+
+// .s-row p.service-status.s-modified::before {
+//   content: "\\f071";
+//   font-family: "Font Awesome 5 Pro";
+//   font-weight: 900;
+//   font-size: 1.5em;
+//   color: var(--uvalib-status-modified);
+// }
+
+// .s-row p.service-status.s-notavailable {
+//   border-right: 5px solid var(--uvalib-status-notavailable);
+// }
+
+// .s-row p.service-status.s-notavailable::before {
+//   content: "\\f00d";
+//   font-family: "Font Awesome 5 Pro";
+//   font-weight: 900;
+//   font-size: 1.5em;
+//   color: var(--uvalib-status-notavailable);
+// }
+
+// .service-status i {
+//   font-size: 1.5em;
+// }
+
+// /* desktop view */
+// @media only screen and (min-width: 600px) {
+//   .s-row {
+//     display: grid;
+//     grid-template-columns: 220px 1fr 100px;
+//   }
+
+//   .s-row p {
+//     padding: 1em;
+//   }
+
+//   div uva-accordion {
+//     --div uva-accordion-disabled: true;
+//   }
+// }

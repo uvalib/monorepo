@@ -1,0 +1,118 @@
+@use 'colors'as *;
+@use '../mixins/index'as *;
+
+a, span a {
+  color: $uva-blue-alt-A;
+  text-decoration: underline;
+  &:hover,
+  &:active,
+  &:focus,
+  &:focus-visible {
+    text-decoration: none;
+  }
+  &:focus-visible {
+    outline: -webkit-focus-ring-color auto 1px;
+  }
+  &:-webkit-any-link:focus-visible {
+    outline-offset: 2px;
+  }
+}
+
+
+h1 a,
+h2 a,
+h3 a,
+h4 a,
+h1 span a,
+h2 span a,
+h3 span a,
+h4 span a {
+  color: $uva-brand-blue;
+  text-decoration: none;
+
+  &:hover,
+  &:active,
+  &:focus {
+    text-decoration: underline;
+  }
+  &:focus-visible {
+    outline: -webkit-focus-ring-color auto 1px;
+  }
+
+  &:-webkit-any-link:focus-visible {
+    outline-offset: 2px;
+  }
+}
+mark {
+  background-color: $uva-brand-orange-200;
+}
+
+mark::before,
+mark::after {
+  clip-path: inset(100%);
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+mark::before {
+  content: " [highlight start] ";
+}
+
+mark::after {
+  content: " [highlight end] ";
+}
+
+
+ul {
+  li {
+    a {
+      text-decoration: underline !important;
+
+      &:hover {
+        text-decoration: none !important;
+      }
+
+      &:active {
+        text-decoration: none !important;
+      }
+
+      &:focus {
+        text-decoration: none !important;
+      }
+    }
+  }
+}
+
+
+/// Text meant only for screen readers. Mostly used in the Search Bar and Header components
+.screen-reader-text {
+  clip: rect(1px, 1px, 1px, 1px);
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+}
+
+.screen-reader-text:focus {
+  background-color: $uva-grey-lightest;
+  border-radius: 3px;
+  box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
+  clip: auto !important;
+  color: $uva-blue-alt-base;
+  display: block;
+  font-size: 14px;
+  font-size: 0.875rem;
+  font-weight: bold;
+  height: auto;
+  left: 5px;
+  line-height: normal;
+  padding: 15px 23px 14px;
+  text-decoration: none;
+  top: 5px;
+  width: auto;
+  z-index: 100000;
+}

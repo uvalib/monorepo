@@ -1,0 +1,87 @@
+@use '../mixins/index'as *;
+@use '../base/index'as *;
+
+
+.event-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  align-items: stretch;
+
+  .event-url {
+     display: grid;
+     grid-template-columns: .25fr 1fr;
+     grid-template-rows: 1fr .5fr;
+     gap: 1rem;
+     outline: 1px solid $uva-grey-100;
+     text-decoration: none;
+     min-height: 9rem;
+     &:hover h4 {
+        text-decoration: underline;
+     }
+     &:focus-visible {
+        outline: -webkit-focus-ring-color auto 1px;
+     }
+
+     &:-webkit-any-link:focus-visible {
+        outline-offset: 2px;
+     }
+
+     .event-date {
+      grid-area: 1 / 1 / 3 / 2;
+      display: flex;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      justify-content: start;
+      align-content: start;
+      align-items: center;
+      text-align: center;
+      background-color: $uva-brand-orange;
+      padding-left: 0.25rem;
+      padding-right: 0.25rem;
+        .event--day,
+        .event--month,
+        .event--wkday {
+          color: #fff !important;
+        }
+        .event--month {
+          padding-top: 1rem;
+        }
+        .event--month, .event--wkday {
+          @extend h5;
+        }
+        .event--day {
+          @extend h3;
+        }
+     }
+     .event-title {
+        grid-area: 1 / 2 / 2 / 3;
+        @extend .h6;
+        padding: 1rem 1rem 0 0;
+     }
+     .event-time {
+       grid-area: 2 / 2 / 3 / 3;
+       padding: 0 1rem 1rem 0;
+     }
+  }
+  p {
+    display: inline-block;
+    text-decoration: none !important;
+
+    &:hover {
+      text-decoration: none !important;
+    }
+  }
+}
+
+.events-see-all {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  float: right;
+}
+
+@media (max-width:992px) {
+  .event-container {
+    grid-template-columns: 1fr;
+  }
+}

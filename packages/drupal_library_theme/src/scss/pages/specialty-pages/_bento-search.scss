@@ -1,0 +1,133 @@
+@use '../../mixins/index'as *;
+@use '../../base/index'as *;
+
+
+.uvalib-bento-search {
+
+  h1 {
+    margin-bottom: 2rem;
+  }
+
+  .bento-search-bar {
+    margin: 4rem 0;
+    @include virgo-search;
+    position: inherit;
+    top: inherit;
+    left: inherit;
+    transform: inherit;
+    text-align: inherit;
+    margin-bottom: 3rem;
+    p {
+      text-align: center;
+      margin-top: 1rem;
+    }
+  }
+
+  ul, li {
+    margin-left: 0px;
+    padding-left: 0px;
+  }
+  
+  .bs-header {
+    h2 {
+      @extend .h3;
+      font-weight: 500 !important;
+      .bs-search-term {
+        font-style: italic;
+      }
+    }
+    p {
+      @extend .h3;
+      margin: 2rem 0 1rem 0;
+    }
+  }
+
+  .bs-results-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+
+    .bs-results--block {
+      border: 1px solid $uva-grey-100;
+      border-top: none;
+      overflow: auto;
+
+      .bs-results--header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: $uva-grey-100;
+        padding: 0.5rem 1rem;
+
+        h3 {
+          @extend .h5;
+          text-transform: uppercase;
+        }
+        button {
+          text-transform: inherit;
+        }
+      }
+
+      .bs-results--body {
+        padding: 1rem;
+
+        ol.bs-results--list {
+          margin-bottom: 1rem;
+          padding-left: 1rem;
+        
+          .bs-results--list--entry {
+            border-bottom: 1px solid $uva-grey-100;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+
+            &:last-child {
+              border-bottom: none;
+            }
+        
+            .bs-results--title {
+              font-weight: 700;
+             }
+        
+             ul.ul-0 {
+              li {
+                list-style-type: none;
+                margin-bottom: 0px !important;
+              }
+        
+              ul.ul-1 {
+                display: flex;
+                justify-content: space-between;
+        
+                li {
+                  list-style: none;
+                }
+              }
+        
+              .bs-results--teaser {
+                padding: 0.5rem 0;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width:992px) {
+    .bs-results-container {
+      grid-template-columns: 1fr !important;
+
+      .bs-results--header {
+        flex-direction: column;
+        justify-content: inherit !important;
+      }
+      
+      .bs-results--list--entry {
+        ul.ul-1 {
+          flex-direction: column;
+          justify-content: inherit !important;
+        }
+      }
+    }
+  }
+}

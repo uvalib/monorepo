@@ -1,0 +1,28 @@
+@use '../../mixins/index'as *;
+@use '../../base/index'as *;
+
+.honor-roll {
+
+  .legend {
+    width: max-content; 
+    margin-top: 1rem;
+    border: 1px solid $uva-grey-100;
+    padding: 2rem;
+    font-weight: map-get($font-weights, medium);
+
+    ul {
+      margin: 0;
+      padding: 0;
+      li {
+      &:last-child {
+        margin-bottom: 0 !important;
+        }
+      }
+    }
+  }
+
+  ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
+}

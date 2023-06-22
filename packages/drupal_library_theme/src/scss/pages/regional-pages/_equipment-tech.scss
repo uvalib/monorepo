@@ -1,0 +1,180 @@
+@use '../../mixins/index'as *;
+@use '../../base/index'as *;
+@use '../../layouts/layout-mixins/grid-layout'as *;
+
+.equipment-and-tech {
+  .et-top-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 256px);
+    gap: 2rem;
+    max-width: 80%;
+    margin: 3rem auto;
+
+    .et-block {
+      .et-url {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        align-content: flex-start;
+        align-items: center;
+        border: 1px solid $uva-grey-100;
+        text-decoration: none;
+        height: 256px;
+
+        &:hover h3 {
+          text-decoration: underline;
+        }
+
+        &:hover,
+        &:focus {
+          // box-shadow: 0px 0.75rem 0px 0px $uva-blue-alt-A inset;
+          background-size: 72%;
+          background-position: 5rem 1.75rem;
+          background-repeat: no-repeat;
+          background-clip: content-box;
+
+          &.et-electronics {
+            background-image: url('/themes/uvalib-drupal-theme/assets/svg-icons/color/gear--uva-grey-200.svg');
+          }
+
+          &.et-3D-print {
+            background-image: url('/themes/uvalib-drupal-theme/assets/svg-icons/color/cube--uva-grey-200.svg');
+          }
+
+          &.et-textile {
+            background-image: url('/themes/uvalib-drupal-theme/assets/svg-icons/color/reel--uva-grey-200.svg');
+          }
+
+          &.et-audio {
+            background-image: url('/themes/uvalib-drupal-theme/assets/svg-icons/color/headphones--uva-grey-200.svg');
+          }
+
+          &.et-video {
+            background-image: url('/themes/uvalib-drupal-theme/assets/svg-icons/color/video--uva-grey-200.svg');
+          }
+
+          &.et-3D-scan {
+            background-image: url('/themes/uvalib-drupal-theme/assets/svg-icons/color/viewfinder--uva-grey-200.svg');
+          }
+
+          &.et-vr {
+            background-image: url('/themes/uvalib-drupal-theme/assets/svg-icons/color/vr-cardboard--uva-grey-200.svg');
+          }
+
+          &.et-doc {
+            background-image: url('/themes/uvalib-drupal-theme/assets/svg-icons/color/scanner--uva-grey-200.svg');
+          }
+
+          // ICON HOVER STATES
+          .et-icon {
+            transform: rotate(90deg);
+            background-color: $uva-brand-orange;
+
+            svg {
+              fill: #FFF;
+              transform: rotate(-90deg);
+            }
+
+          }
+        }
+      }
+
+      .et-block-contents {
+        padding: 2.5rem 1.5rem 0.5rem 1.5rem;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        align-content: flex-start;
+        align-items: center;
+        justify-content: space-between;
+        text-align: center;
+        height: 100%;
+
+        div {
+          display: block;
+          height: 56px;
+          width: 56px;
+          background-color: $uva-brand-orange-300;
+          border-radius: 0.3rem;
+          transform: rotate(45deg);
+          transition: transform .7s ease-in-out;
+
+          &.et-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            svg {
+              width: 2rem;
+              height: 2rem;
+              fill: $uva-brand-orange;
+              transform: rotate(-45deg);
+              transition: transform .7s ease-in-out;
+            }
+          }
+        }
+      }
+
+      .et-title {
+        @include h5;
+        margin-top: 1rem;
+      }
+
+      // .et-copy {}
+
+      p {
+        color: $uva-text-color-base;
+        display: inline-block;
+        text-decoration: none !important;
+
+        &:hover {
+          text-decoration: none !important;
+        }
+      }
+    }
+  }
+
+  //mid sections
+  .et-mid-section,
+  .et-bottom-section {
+    @include two-col;
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+  }
+
+  #Equipmentandtechnology-Software {
+    margin-top: 3rem;
+  }
+
+  .et-has-header {
+    margin-top: 1rem;
+  }
+
+  .et-events {
+    margin-bottom: 3rem;
+    h3 {
+      margin-bottom: 2rem;
+    }
+  }
+
+  .et-bottom-section {
+
+    h4,
+    h5 {
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+  }
+}
+
+@media (max-width:992px) {
+  .et-top-container,
+  .et-mid-section,
+  .et-bottom-section {
+    grid-template-columns: 1fr !important;
+  }
+
+  .et-top-container {
+    max-width: 100% !important;
+  }
+}

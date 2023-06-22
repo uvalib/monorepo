@@ -1,0 +1,14 @@
+@use '../base/index'as *;
+
+blockquote {
+  padding: 0 0.5rem;
+  border-left: 1px solid $uva-brand-orange;
+  margin: 0.5rem 1.5rem 1.5rem 1.5rem;
+  font-style: italic;
+
+  p {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+}

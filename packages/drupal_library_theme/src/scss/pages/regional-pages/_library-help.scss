@@ -1,0 +1,61 @@
+@use '../../mixins/index'as *;
+@use '../../base/index'as *;
+
+.library-help {
+  .hover-block {
+    text-align: center;
+    background-color: #fff;
+    border: 1px solid $uva-grey-100;
+  }
+  .two-col, .three-col {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+  .three-col {
+    grid-template-rows: 7.5rem;
+  }
+  h3 {
+    @include h5;
+    margin-bottom: 1rem;
+  }
+  h3 + ul, h3 + p {
+    margin-bottom: 2rem;
+  }
+  .s-consult-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-content: flex-start;
+    align-items: flex-start;
+    gap: 1.5rem;
+
+    .s-consult-block {
+      order: 0;
+      flex: 0 1 auto;
+      align-self: auto;
+      width: 330px;
+      h3 {
+        margin-top: 1.5rem;
+      }
+      img {
+        height: 186px;
+        width: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+  @media (max-width:992px) {
+    .s-consult {
+      margin-bottom: 2rem !important;
+    }
+    .two-col {
+      ul {
+        margin: 0;
+      }
+      ul:last-child {
+        margin-top: -2rem;
+      }
+    }
+  }
+}

@@ -1,0 +1,36 @@
+@use '../../base/index'as *;
+
+ #drupal_custom_header {
+  .drupal_custom_header-inner {
+    width: auto;
+    margin: 0 auto;
+
+   .tabs {
+     margin-left: 0.5rem !important;
+
+     li {
+       border: 1px solid $uva-grey !important;
+       margin-left: 2px;
+     }
+     ul.primary {
+      border-bottom: none;
+     }
+   }
+    // these are the drupal login buttons
+    .drupal-utility-nav {
+
+      .ul-parent-account {
+        margin: 11px 1rem 0 0;
+
+        .li-item-account {
+          border: 1px solid $uva-teal-base;
+          background-color: $uva-teal-200;
+          color: black;
+          .li-link-account {
+            padding: 8px 16px;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+@use '../../mixins/index'as *;
+@use '../../base/index'as *;
+
+.assessment {
+  .dashboard-container {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    // .dashboard {}
+  }
+  .survey-container {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    // .survey {}
+  }
+
+}

@@ -1,0 +1,38 @@
+@use '../mixins/index'as *;
+@use '../base/index'as *;
+/// Where the module came from: 
+/// https://ostraining.com/blog/drupal/accordion-button-in-ckeditor/#:~:text=Click%20Content%20%3E%20Add%20Content%20%3E%20Basic,Click%20the%20Accordion%20button
+
+.ckeditor-accordion-container {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+
+  &>dl {
+    border: none;
+
+    dt>a {
+      padding: 10px 15px 10px 50px;
+      // background-color: $uva-blue-alt-400;
+      background-color: #fff;
+      color: $uva-text-color-dark;
+      // border-bottom: 1px solid $uva-blue-alt-400;
+      border-bottom: none;
+
+      &:hover {
+        background-color: $uva-blue-alt-300;
+        border-radius: 0.3rem;
+      }
+
+      &>.ckeditor-accordion-toggle:before,
+      &>.ckeditor-accordion-toggle:after {
+        background: $uva-text-color-dark;
+      }
+    }
+
+    dt.active>a {
+      background-color: $uva-blue-alt-300;
+      border-radius: 0.3rem;
+      color: $uva-text-color-dark;
+    }
+  }
+}

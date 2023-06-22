@@ -1,0 +1,36 @@
+@use '../../base/index'as *;
+@use '../../components/index'as *;
+
+.path-user-login,
+.drupal-login-page {
+  .user-login-form {
+    display: grid;
+    gap: 3rem;
+    margin-top: 2rem;
+    width: fit-content;
+
+    label {
+      font-weight: map-get($font-weights, medium);
+    }
+    .description {
+      text-align: right;
+    }
+    .form-actions {
+      text-align: right;
+      .w3-border {
+        border: none !important;
+      }
+      input {
+        @extend .uvalib-button;
+      }
+    }
+  }
+
+  @media (max-width:992px) {
+    .user-login-form {
+      .form-text {
+        max-width: 286px !important;
+      }
+    }
+  }
+}

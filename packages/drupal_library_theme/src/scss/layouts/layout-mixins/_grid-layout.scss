@@ -1,0 +1,37 @@
+@use '../../base/index'as *;
+
+@mixin two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+@mixin three-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2rem;
+}
+
+.two-col {
+  @include two-col;
+}
+
+.three-col {
+  @include three-col;
+}
+
+.section--grid {
+  .layout__region--content {
+    display: grid;
+    @extend .two-col;
+  }
+}
+
+
+@media screen and (max-width: #{$mobile}) {
+
+  .two-col,
+  .three-col {
+    grid-template-columns: 1fr !important;
+  }
+}

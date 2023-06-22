@@ -1,0 +1,89 @@
+/// To add an icon: copy the correct icon from 
+/// library/fontawesome/svgs into uvalibrary/assets/svg-icons, 
+/// then add the code here, in ALPHABETICAL ORDER
+/// 
+/// VERY IMPORTANT TO KEEP THE PATH AS INDICATED
+/// The scss path is different from the compiled css path
+
+
+
+/// UI SPECIFIC
+$icon-accordian-collapse: url(../assets/svg-icons/minus.svg);
+$icon-accordian-expand: url(../assets/svg-icons/plus.svg);
+$icon-close: url(../assets/svg-icons/square-x.svg);
+$icon-grid-view: url(../assets/svg-icons/grid-horizontal.svg);
+$icon-image-expand: url(../assets/svg-icons/magnifying-glass-plus.svg);
+$icon-list-view: url(../assets/svg-icons/list-ul.svg);
+$icon-menu-collapse: url(../assets/svg-icons/caret-up.svg);
+$icon-menu-expand: url(../assets/svg-icons/caret-down.svg);
+$icon-page-back: url(../assets/svg-icons/arrow-left.svg);
+$icon-page-forward: url(../assets/svg-icons/arrow-right.svg);
+$icon-refresh: url(../assets/svg-icons/arrow-rotate-right.svg);
+$icon-scroll-top: url(../assets/svg-icons/circle-chevron-up-solid.svg);
+$icon-slide-left: url(../assets/svg-icons/chevrons-left.svg);
+$icon-slide-right: url(../assets/svg-icons/chevrons-right.svg);
+$icon-arrow-right: url(../assets/svg-icons/circle-arrow-right.svg);
+$icon-arrow-right-link: url(../assets/svg-icons/color/circle-arrow-right-link.svg);
+$icon-arrow-right-hover: url(../assets/svg-icons/color/circle-arrow-right-solid-hover.svg);
+
+
+
+/// MESSAGING
+$icon-alert: url(../assets/svg-icons/bell.svg);
+$icon-critical: url(../assets/svg-icons/circle-exclamation-solid.svg);
+$icon-delete: url(../assets/svg-icons/trash-can.svg);
+$icon-error: url(../assets/svg-icons/ban.svg);
+$icon-info: url(../assets/svg-icons/circle-info-solid.svg);
+$icon-success: url(../assets/svg-icons/circle-check.svg);
+$icon-special: url(../assets/svg-icons/star.svg);
+$icon-warning: url(../assets/svg-icons/triangle-exclamation-solid.svg);
+
+
+/// ACCOUNT & DATA
+$icon-aal: url(../assets/svg-icons/comment-dots.svg);
+$icon-account: url(../assets/svg-icons/circle-user.svg);
+$icon-bookmark: url(../assets/svg-icons/bookmark.svg);
+$icon-calendar: url(../assets/svg-icons/calendar-days.svg);
+$icon-cite: url(../assets/svg-icons/quote-right.svg);
+$icon-copy: url(../assets/svg-icons/copy.svg);
+$icon-download: url(../assets/svg-icons/download.svg);
+$icon-edit: url(../assets/svg-icons/pen-to-square.svg);
+$icon-email: url(../assets/svg-icons/envelope.svg);
+$icon-new-tab: url(../assets/svg-icons/arrow-up-right-from-square.svg);
+$icon-new-tab-fff: url(../assets/svg-icons/color/arrow-up-right-from-square-fff.svg);
+$icon-hours: url(../assets/svg-icons/clock.svg);
+$icon-pdf: url(../assets/svg-icons/file-pdf.svg);
+$icon-print: url(../assets/svg-icons/print.svg);
+$icon-search: url(../assets/svg-icons/magnifying-glass.svg);
+$icon-search--white: url(../assets/svg-icons/color/magnifying-glass--white.svg);
+$icon-university: url(../assets/svg-icons/building-columns.svg);
+$icon-user: url(../assets/svg-icons/color/user-solid--uva-grey-100.svg);
+
+
+/// SOCIAL MEDIA
+$icon-facebook: url(../assets/svg-icons/square-facebook.svg);
+$icon-flickr: url(../assets/svg-icons/flickr.svg);
+$icon-instagram: url(../assets/svg-icons/instagram.svg);
+$icon-twitter: url(../assets/svg-icons/square-twitter.svg);
+$icon-vimeo: url(../assets/svg-icons/square-vimeo.svg);
+$icon-youtube: url(../assets/svg-icons/youtube.svg);
+
+/// EQUIPMENT AND TECHNOLOGY PAGE
+$icon-electronics--link: url(../assets/svg-icons/color/gear.svg);
+$icon-electronics--link--hover: url(../assets/svg-icons/color/gear-hover.svg);
+$icon-3D-print-alt--link: url(../assets/svg-icons/color/cube.svg);
+$icon-3D-print-alt--link--hover: url(../assets/svg-icons/color/cube-hover.svg);
+$icon-3D-print--link: url(../assets/svg-icons/color/scribble.svg);
+$icon-3D-print--link--hover: url(../assets/svg-icons/color/scribble-hover.svg);
+$icon-3D-scan--link: url(../assets/svg-icons/color/viewfinder.svg);
+$icon-3D-scan--link--hover: url(../assets/svg-icons/color/viewfinder-hover.svg);
+$icon-textiles--link: url(../assets/svg-icons/color/reel.svg);
+$icon-textiles--link--hover: url(../assets/svg-icons/color/reel-hover.svg);
+$icon-video--link: url(../assets/svg-icons/color/video.svg);
+$icon-video--link--hover: url(../assets/svg-icons/color/video-hover.svg);
+$icon-audio--link: url(../assets/svg-icons/color/headphones.svg);
+$icon-audio--link--hover: url(../assets/svg-icons/color/headphones-hover.svg);
+$icon-vr--link: url(../assets/svg-icons/color/vr-cardboard.svg);
+$icon-vr--link--hover: url(../assets/svg-icons/color/vr-cardboard-hover.svg);
+$icon-doc-scan--link: url(../assets/svg-icons/color/scanner.svg);
+$icon-doc-scan--link--hover: url(../assets/svg-icons/color/scanner-hover.svg);

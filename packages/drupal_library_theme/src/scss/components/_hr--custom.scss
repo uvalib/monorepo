@@ -1,0 +1,22 @@
+@use '../base/index'as *;
+
+/// To use this, place <hr class="hr--custom"> in the HTML
+
+.hr--custom {
+  border: none;
+  border-top: 1px dashed $uva-grey-base;
+  overflow: visible;
+  text-align: left;
+  height: 4px;
+
+  &::after {
+    content: '';
+    padding: 0 4px;
+    position: relative;
+    top: -2px;
+    display: block;
+    background: linear-gradient(to right, $uva-brand-orange 65px, #fff 10px) repeat-x, repeating-linear-gradient(to right, $uva-brand-orange 0, $uva-brand-orange 5px, transparent 2px, transparent 7px) repeat-x;
+    width: 75px;
+    height: 4px;
+  }
+}

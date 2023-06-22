@@ -1,0 +1,15 @@
+@use '../../base/index'as *;
+
+@mixin bg--full-width {
+  background-color: $uva-grey-200;
+  // position: relative;
+  // width: 100vw;
+  // left: 50%;
+  // right: 50%;
+  // margin-left: -50vw;
+  // margin-right: -50vw;
+}
+
+.bg--full-width {
+  @include bg--full-width;
+}

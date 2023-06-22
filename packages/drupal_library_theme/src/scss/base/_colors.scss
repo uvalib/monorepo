@@ -1,0 +1,102 @@
+// SCSS mixin color definitions for UVA Libary sites
+
+/// 11/20/2022 PHASE OUT 'LIGHT, LIGHTER, LIGHTEST, ETC. FOR 
+/// FAVOR OF 100, 200, 300, A, AA, B, BB, C, CC, ETC.
+
+$uva-brand-blue-lightest: #87B9D9;
+$uva-brand-blue-lighter: #3395D4;
+$uva-brand-blue-light: #0370B7;
+$uva-brand-blue-base: #232D4B;
+
+$uva-brand-blue-300: #87B9D9;
+$uva-brand-blue-200: #3395D4;
+$uva-brand-blue-100: #0370B7;
+$uva-brand-blue: #232D4B;
+
+$uva-brand-orange-lightest: #FFEAD6;
+$uva-brand-orange-lighter: #FFC999;
+$uva-brand-orange-light: #FFB370;
+$uva-brand-orange-base: #E57200;
+$uva-brand-orange-dark: #B35900;
+$uva-brand-orange-darker: #854200;
+
+$uva-brand-orange-300: #FFEAD6;
+$uva-brand-orange-200: #FFC999;
+$uva-brand-orange-100: #FFB370;
+$uva-brand-orange: #E57200;
+$uva-brand-orange-A: #B35900;
+$uva-brand-orange-B: #854200;
+
+$uva-blue-alt-lightest: #BFE7F7;
+$uva-blue-alt-lighter: #91D8F2;
+$uva-blue-alt-light: #55C4EC;
+$uva-blue-alt-base: #007BAC;
+$uva-blue-alt-dark: #005679;
+$uva-blue-alt-darkest: #141E3C;
+
+$uva-blue-alt-400: #e6f2f7; //new color
+$uva-blue-alt-300: #BFE7F7;
+$uva-blue-alt-200: #91D8F2;
+$uva-blue-alt-100: #55C4EC;
+$uva-blue-alt: #007BAC;
+$uva-blue-alt-A: #005679;
+$uva-blue-alt-B: #141E3C;
+
+
+$uva-teal-lightest: #C8F2F4;
+$uva-teal-light: #5BD7DE;
+$uva-teal-base: #25CAD3;
+$uva-teal-dark: #1DA1A8;
+$uva-teal-darker: #16777C;
+
+$uva-teal-200: #C8F2F4;
+$uva-teal-100: #5BD7DE;
+$uva-teal: #25CAD3;
+$uva-teal-A: #1DA1A8;
+$uva-teal-B: #16777C;
+
+$uva-green-lightest: #DDEFDC;
+$uva-green-lighter: #89CC74;
+$uva-green-base: #62BB46;
+$uva-green-dark: #4E9737;
+
+$uva-green-200: #DDEFDC;
+$uva-green-100: #89CC74;
+$uva-green: #62BB46;
+$uva-green-A: #4E9737;
+
+$uva-red-lightest: #FBCFDA;
+$uva-red-base: #EF3F6B;
+$uva-red-dark: #DF1E43;
+$uva-red-darker: #B30000;
+
+$uva-red-100: #FBCFDA;
+$uva-red: #EF3F6B;
+$uva-red-A: #DF1E43;
+$uva-red-B: #B30000;
+
+$uva-yellow-lightest: #FEF6C8;
+$uva-yellow-base: #ECC602;
+$uva-yellow-dark: #B99C02;
+
+$uva-yellow-100: #FEF6C8;
+$uva-yellow: #ECC602;
+$uva-yellow-A: #B99C02;
+
+$uva-grey-lightest: #F1F1F1;
+$uva-grey-light: #DADADA;
+$uva-grey-base: #808080;
+$uva-grey-dark: #4F4F4F;
+$uva-grey-darkest: #2B2B2B;
+
+$uva-grey-200: #F1F1F1;
+$uva-grey-100: #DADADA;
+$uva-grey: #808080;
+$uva-grey-A: #4F4F4F;
+$uva-grey-B: #2B2B2B;
+
+$uva-text-color-base: $uva-grey-dark;
+$uva-text-color-dark: $uva-grey-darkest;
+
+$uva-text-color-base: $uva-grey-A;
+$uva-text-color-dark: $uva-grey-B;

@@ -1,0 +1,46 @@
+dl {
+  &.dl--inline {
+    dt {
+      // font-weight: map-get($font-weights, demi);
+      font-weight: 700;
+    }
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .5rem;
+  }
+}
+
+
+// dt {
+//   font-weight: 700;
+// }
+
+// .dl--stacked {
+//   dd {
+//     margin-inline-start: inherit;
+//     margin-bottom: .25rem;
+//   }
+// }
+
+// dl {
+//   &.dl--inline {
+//     display: flex;
+//     flex-flow: row wrap;
+//   }
+// }
+
+// .dl--inline {
+//   dt {
+//     flex-basis: 20%;
+//     padding: 2px 4px;
+//     text-align: right;
+//   }
+
+//   dd {
+//     flex-basis: 70%;
+//     flex-grow: 1;
+//     margin: 0;
+//     padding: 2px 4px;
+//   }
+// }

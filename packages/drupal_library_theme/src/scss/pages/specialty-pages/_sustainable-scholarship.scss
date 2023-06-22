@@ -1,0 +1,72 @@
+@use '../../mixins/index'as *;
+@use '../../base/index'as *;
+
+.sustainable-scholarship {
+  .intro-block-half {
+    display: grid;
+    grid-template-columns: .40fr 1fr;
+    grid-gap: 1.5em;
+    margin-top: 2rem;
+  }
+
+  .intro-block-half img {
+    border-radius: 50%;
+    width: 28vw;
+  }
+
+  .sustainable-links {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 1.5rem;
+    margin-top: 5rem;
+    margin-bottom: 3rem;
+  }
+
+  .sustainable-links a {
+    text-align: center;
+    @extend .h4;
+    border: 1px solid $uva-grey-100;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.12);
+    padding: 3rem;
+  }
+
+  .sustainable-links a:hover {
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.06), 0 3px 5px rgba(0, 0, 0, 0.12);
+  }
+
+  .sustainable-mid {
+    margin: 1.75em -1000px 1.75em -1000px;
+    padding: 1rem 1000px 1rem 1000px;
+    background-color: $uva-brand-blue;
+    background-image: url(https://drupal.lib.virginia.edu/sites/default/files/2020-09/blue_library_image.png);
+    background-size: contain;
+    height: 4em;
+    color: white;
+    font-size: 1.75rem;
+    font-weight: bold;
+    line-height: 1;
+    display: grid;
+  }
+
+  .sustainable-mid p {
+    margin: auto;
+  }
+
+  @media only screen and (max-width: 600px) {
+    .intro-block-half img {
+      border-radius: 50%;
+      width: 90vw;
+    }
+
+    .intro-block-half {
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-gap: 1.5em;
+    }
+
+    .sustainable-links {
+      grid-template-columns: 1fr;
+      margin-top: 2.5rem;
+    }
+  }
+}

@@ -1,0 +1,176 @@
+@use '../mixins/index'as *;
+@use '../base/index'as *;
+
+.uva-alert--sitewide {
+
+  h2,
+  p {
+    padding-left: 3.25rem;
+    margin: 0;
+    color: $uva-text-color-dark !important;
+    padding-block-end: .25rem;
+  }
+
+  .alert1 {
+    background-color: $uva-red-100; 
+    border-left: 10px solid $uva-red-B;
+
+    h2 {
+      margin-top: -2.75rem !important;
+    }
+
+    h2, p {
+      padding-right: 0.5rem;
+    }
+
+    &::before {
+      display: inline-block;
+      width: 2rem;
+      height: 2rem;
+      content: $icon-critical;
+      margin: .55rem;
+    }
+  }
+
+  .alert2 {
+    background-color: $uva-yellow-100;
+    border-left: 10px solid $uva-yellow;
+
+    h2 {
+      margin-top: -2.75rem !important;
+    }
+
+    h2,
+    p {
+      padding-right: 0.5rem;
+    }
+
+    &::before {
+      display: inline-block;
+      width: 2rem;
+      height: 2rem;
+      content: $icon-warning;
+      margin: .55rem;
+    }
+  }
+
+  .alert3 {
+    background-color: $uva-blue-alt-300;
+    border-left: 10px solid $uva-blue-alt;
+
+    h2 {
+      margin-top: -2.75rem !important;
+    }
+
+    h2,
+    p {
+      padding-right: 0.5rem;
+    }
+
+    &::before {
+      display: inline-block;
+      width: 2rem;
+      height: 2rem;
+      content: $icon-info;
+      margin: .55rem;
+    }
+
+  }
+
+  .alert4 {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    width: 100vw;
+    background-color: $uva-teal;
+    text-align: center;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 0.15rem;
+
+    h2.alert-title {
+      @extend h6;
+      line-height: inherit;
+      margin: 0;
+      padding: 0;
+
+      &::after {
+        content: ":";
+        margin-right: 0.5rem;
+      }
+    }
+
+    .alert-body {
+      display: inline-block;
+      color: #000;
+      font-size: 1em;
+
+      p {
+        padding: 0 !important;
+      }
+
+      a {
+        color: $uva-blue-alt-B !important;
+      }
+    }
+  }
+}
+
+
+//////////////////////////////
+/// REGIONAL ALERTS //////////
+//////////////////////////////
+
+.uva-alert--r1 {
+  border: 0.2em solid $uva-yellow;
+  border-radius: 0.5em;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  background-color: $uva-yellow-100;
+}
+
+.uva-alert--r2 {
+  border: 0.2em solid $uva-teal;
+  border-radius: 0.5em;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  background-color: $uva-teal-200;
+}
+
+.uva-alert--error {
+  margin: 0;
+  padding: 0;
+  color: $uva-red-B;
+}
+
+.uva-alert--confirmation {
+  margin: 0;
+  padding: 0;
+  color: $uva-green-A;
+}
+
+.uva-alert__heading {
+  font-size: 1.33rem;
+  line-height: 1.1;
+  margin-top: 0;
+  margin-bottom: .5rem;
+  margin-right: 1em;
+}
+
+.uva-alert__body {
+  padding-left: 1.25rem;
+  display: table-cell;
+  vertical-align: top;
+}
+
+.uva-alert__text {
+  margin-bottom: 0;
+  margin-top: 0;
+
+  p {
+    margin-bottom: 0;
+    margin-top: 0;
+  }
+}

@@ -1,0 +1,31 @@
+@forward 'homepage';
+
+@forward './exhibits/mitford';
+
+@forward './regional-pages/using-the-library';
+@forward './regional-pages/equipment-tech';
+@forward './regional-pages/library-help';
+@forward './regional-pages/reserve-spaces';
+@forward './regional-pages/teaching-and-writing';
+
+@forward './specialty-pages/accessibility-services';
+@forward './specialty-pages/blog';
+@forward './specialty-pages/news-page';
+@forward './specialty-pages/bookplates';
+@forward './specialty-pages/exhibitions';
+@forward './specialty-pages/special-collections';
+@forward './specialty-pages/rmc-scholars-lab';
+@forward './specialty-pages/libra';
+@forward './specialty-pages/bento-search';
+@forward './specialty-pages/about-uva-library';
+@forward './specialty-pages/assessment';
+@forward './specialty-pages/status';
+@forward './specialty-pages/staff-bio';
+@forward './specialty-pages/staff-directory';
+@forward './specialty-pages/how-do-i';
+@forward './specialty-pages/hours';
+@forward './specialty-pages/sustainable-scholarship';
+@forward './specialty-pages/honor-roll';
+
+// THIS GOES LAST
+@forward 'maintenance-mode';

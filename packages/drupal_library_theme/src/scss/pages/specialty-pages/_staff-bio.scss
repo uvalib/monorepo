@@ -1,0 +1,160 @@
+@use '../../mixins/index'as *;
+@use '../../base/index'as *;
+.staff-bio {
+  .bio-head .layout__region--content {
+      display: grid;
+      grid-template-columns: .5fr 1.6fr;
+      grid-template-rows: 2.488rem 8px 1fr;
+      grid-column-gap: 4rem;
+      grid-row-gap: 1rem;
+      margin-bottom: 4rem;
+
+    .block-field-blocknodepersonfield-image {
+      grid-area: 1 / 1 / 4 / 2;
+
+      img {
+        border-radius: 10px;
+        margin: 0 auto;
+      }
+    }
+
+    h1 {
+      grid-area: 1 / 2 / 2 / 3;
+    }
+
+    .hr--custom {
+      grid-area: 2 / 2 / 3 / 3;
+      width: 100%;
+    }
+    
+    .bio-title-container {
+      grid-area: 3 / 2 / 4 / 3;
+    }
+  }
+
+  /// THIS CLASS IS APPLIED BY STAFF-BIO.JS TO PUT A CLASS ON THE CHILD DIVS
+  /// if other elements are added / removed from this block, be sure to edit
+  /// the staff-bio.js file
+  .bio-title-container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-content: stretch;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  // THIS CLASS IS APPLIED BY STAFF-BIO.JS IF NO IMAGE IS PRESENT
+  .bio-head-no-image {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-content: stretch;
+    align-items: flex-start;
+    margin-bottom: 4rem;
+  }
+
+  .section--grid {
+    margin-top: 2rem;
+  }
+  .field--spacing .layout__region--content div.block:nth-of-type(2) {
+    margin-top: 2rem;
+  }
+
+  .block>h2,
+  .field__label {
+    @extend .h4;
+
+    &::before {
+      content: " ";
+      width: 14px;
+      height: 14px;
+      display: inline-block;
+      background-color: $uva-brand-orange;
+      transform: rotate(45deg);
+      margin-right: 1rem;
+    }
+  }
+  .footer--main {
+    h2, 
+    .field__label {
+      &::before {
+        content: none;
+      }
+    }
+  }
+  
+  .field--name-field-uva-ldap-title {
+    @extend .h3;
+    margin: .75rem 0 !important;
+    padding-left: 0 !important;
+
+    .field__item:last-child {
+      @extend .h5;
+    }
+  }
+  .field--name-field-preferred-pronouns::before {
+    content: "Pronouns:";
+    font-weight: bold;
+  }
+  .field--name-field-uva-ldap-email::before {
+    content: "Email:";
+    font-weight: bold;
+  }
+  .field--name-field-uva-ldap-phone::before {
+    content: "Phone:";
+    font-weight: bold;
+  }
+  .field--name-field-primary-office-location::before {
+    content: "Office location:";
+    font-weight: bold;
+  }
+
+  .block-field-blocknodepersonfield-schedule h2 {
+    display: none;
+  }
+
+  .field--name-field-uva-ldap-email,
+  .field--name-field-uva-ldap-phone,
+  .field--name-field-preferred-pronouns,
+  .field--name-field-primary-office-location {
+    display: flex;
+    gap: 1rem;
+  
+    .field__label::before {
+      display: none;
+    }
+  }
+
+  // Media Query
+  @media screen and (max-width: #{$mobile}) {
+    .bio-head .layout__region--content {
+      grid-template-columns: 1fr !important;
+      grid-template-rows: auto !important;
+      grid-column-gap: inherit;
+      grid-row-gap: 1rem;
+      margin-bottom: 4rem;
+
+      .block-field-blocknodepersonfield-image {
+        grid-area: inherit;
+      }
+
+      h1 {
+        grid-area: inherit;
+      }
+
+      .hr--custom {
+        grid-area: inherit;
+      }
+
+      .bio-title-container {
+        grid-area: inherit;
+      }
+    }
+    .section--grid {
+      margin-top: 2rem;
+    }
+  }
+}

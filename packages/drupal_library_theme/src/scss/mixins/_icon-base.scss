@@ -1,0 +1,15 @@
+/// When including a new mixin, if you think that
+/// and example of how to use would be helpful, please
+/// include a "USAGE" section after the code.
+/// Please be sure to comment out ALL unnecessary code.
+
+
+/// ICONS
+// This controls the overall size and placement of the icon
+@mixin svg-base {
+  display: inline-block;
+  content: '';
+  width: 1rem;
+  height: 1rem;
+  margin-top: .75em;
+}

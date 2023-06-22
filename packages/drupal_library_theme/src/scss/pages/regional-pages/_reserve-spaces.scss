@@ -1,0 +1,41 @@
+@use '../../mixins/index'as *;
+@use '../../base/index'as *;
+
+.uvalibrary-spaces{
+  h3 {
+    margin-top: 3rem;
+    margin-bottom: 0.5rem;
+  }
+  h2:last-of-type {
+    margin-top: 3rem;
+  }
+  .rerserve-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-content: flex-start;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+
+    .reserve-location {
+      order: 0;
+      flex: 0 1 auto;
+      align-self: auto;
+      width: 330px;
+
+      h3 {
+        @extend .h5;
+        margin-top: 1.5rem;
+        margin-bottom: 0;
+      }
+
+      img {
+        height: 186px;
+        width: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+}

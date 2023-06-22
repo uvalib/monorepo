@@ -1,0 +1,227 @@
+@use '../../mixins/index'as *;
+@use '../../base/index'as *;
+
+// *****JAN KARON EXHIBIT*******
+.mitford {
+  // EXHIBIT PAGES
+  .shady {
+    margin: 1rem -1000px 1rem -1000px;
+    padding: 2rem 1000px 2rem 1000px;
+  }
+
+  .exhibit_lead-block {
+    display: grid;
+    grid-template-columns: 40% 60%;
+    gap: 1rem;
+  }
+
+  .exhibit_lead-block--content {
+    padding: 1.25em 0;
+  }
+
+  .exhibit_section-block {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .exhibit_section-block--content {
+    flex: 0 1 150px;
+    margin: 5px;
+    padding: 1em;
+    text-align: center;
+  }
+
+  .exhibit_block:nth-child(even) {
+    display: grid;
+    grid-template-columns: 45% 55%;
+  }
+
+  .exhibit_block:nth-child(odd) {
+    display: grid;
+    grid-template-columns: 55% 45%;
+  }
+
+  .container_column {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 1em;
+    grid-gap: 1em;
+  }
+
+  .container_column--three {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .column_item {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  .container_column--1-3 {
+    grid-template-columns: 1fr 3fr;
+  }
+
+  .auto-column {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-gap: .75em;
+  }
+
+  //JK EXHIBIT
+  .jk-main-image {
+    max-height: 40rem;
+  }
+  .exhibit_JK--header {
+    color: #18635B !important;
+  }
+
+  .exhibit_JK--text {
+    color: #212121 !important;
+  }
+
+  .exhibit_JK--caption {
+    color: #595959 !important;
+  }
+
+  .exhibit_JK--accent {
+    color: #A9675A !important;
+  }
+
+  .exhibit_JK {
+    font-family: 'Montserrat',
+    'Times New Roman',
+    serif !important;
+    color: #212121 !important;
+  }
+
+  .exhibit_JK h1,
+  .exhibit_JK h1 span,
+  .exhibit_JK h2,
+  .exhibit_JK h3,
+  .exhibit_JK h4,
+  .exhibit_JK .h5,
+  .jk-list li a {
+    font-family: 'Crimson Pro', sans-serif !important;
+    font-weight: 600 !important;
+    font-style: normal !important;
+    color: #18635B !important;
+    text-transform: uppercase !important;
+  }
+
+  .exhibit_JK p:first-child {
+    margin-top: 0;
+  }
+
+  .exhibit_JK .shady {
+    background-color: #EBEAE5;
+  }
+
+  .exhibit_JK .container_column {
+    margin: 0;
+  }
+
+  .exhibit_JK--caption {
+    color: #595959;
+  }
+
+  .exhibit_JK blockquote {
+    border-left: none;
+    font-size: 1.15em;
+    line-height: 1;
+    font-style: normal;
+  }
+
+  .quotation {
+    quotes: "\201C""\201D""\2018""\2019";
+    padding: 10px 20px;
+    line-height: 1.4;
+  }
+
+  .quotation:before {
+    content: open-quote;
+    display: inline;
+    height: 0;
+    line-height: 0;
+    left: -10px;
+    position: relative;
+    top: 12px;
+    color: #A9675A;
+    font-size: 3em;
+  }
+
+  .quotation::after {
+    content: close-quote;
+    display: inline;
+    height: 0;
+    line-height: 0;
+    left: 10px;
+    position: relative;
+    top: 40px;
+    color: #A9675A;
+    font-size: 3em;
+  }
+
+  blockquote footer {
+    margin: 2rem 0;
+    text-align: right;
+    font-size: 1em;
+    font-style: italic;
+  }
+
+  .exhibit_section-block--content:hover,
+  .exhibit_JK uvalib-image:hover,
+  .exhibit_section-block--content:focus,
+  .exhibit_JK uvalib-image:focus {
+    outline: 2px solid #A9675A;
+    outline-offset: 2px;
+  }
+
+  .exhibit_JK-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-content: stretch;
+    align-items: flex-start;
+    margin-top: 2.5em;
+  }
+
+  @media screen and (max-width: #{$tablet}),(max-width: #{$mobile}) {
+
+    .exhibit_lead-block {
+      grid-template-columns: 1fr;
+    }
+    .exhibit_JK .container_column,
+    .exhibit_JK .auto-column {
+      grid-template-columns: 1fr;
+    }
+    .column_swap-mobile {
+      display: flex;
+      flex-direction: column-reverse;
+      justify-content: flex-end;
+    }
+  }
+  @media screen and (max-width: #{$mobile}) {
+    .exhibit_section-block--content {
+      flex: 90%;
+    }
+
+    .exhibit_lead-block,
+    .exhibit_block {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+
+    .exhibit_block:nth-child(odd) {
+      display: flex;
+      flex-direction: column-reverse;
+      flex-wrap: nowrap;
+      justify-content: flex-end;
+      align-content: stretch;
+      align-items: stretch;
+    }
+  }
+}

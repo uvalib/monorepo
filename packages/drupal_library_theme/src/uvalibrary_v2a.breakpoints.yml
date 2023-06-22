@@ -1,0 +1,39 @@
+uvalibrary_v2a.screen-xsm-min:
+  label: screen-xsm-min
+  # mediaQuery:
+  mediaQuery: "all and (min-width: 993px)"
+  weight: 0
+  multipliers:
+    - 1x
+uvalibrary_v2a.screen-sm-min:
+  label: screen-sm-min
+  # mediaQuery: 'all and (min-width: 414px)'
+  mediaQuery: "all and (min-width: 993px)"
+  weight: 1
+  multipliers:
+    - 1x
+uvalibrary_v2a.screen-md-min:
+  label: screen-md-min
+  # mediaQuery: 'all and (min-width: 601px)'
+  mediaQuery: "all and (min-width: 993px)"
+  weight: 2
+  multipliers:
+    - 1x
+uvalibrary_v2a.screen-lg-min:
+  label: screen-lg-min
+  mediaQuery: 'all and (min-width: 993px)'
+  weight: 3
+  multipliers:
+    - 1x
+uvalibrary_v2a.screen-xlg-min:
+  label: screen-xlg-min
+  mediaQuery: 'all and (min-width: 1281px)'
+  weight: 4
+  multipliers:
+    - 1x
+uvalibrary_v2a.screen-xxlg-min:
+  label: screen-xxlg-min
+  mediaQuery: 'all and (min-width: 1440px)'
+  weight: 5
+  multipliers:
+    - 1x

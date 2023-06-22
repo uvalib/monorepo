@@ -1,0 +1,135 @@
+@use 'colors'as *;
+
+$font-sizes: (h1: 2.488rem,
+  h2: 2.074rem,
+  h3: 1.728rem,
+  h4: 1.44rem,
+  h5: 1.2rem,
+  h6: 1rem);
+
+$font-weights: ('book': 400,
+  'medium': 500,
+  'demi': 700,
+  'heavy': 900);
+
+html,
+body {
+  font-size: 17px !important;
+}
+
+p {
+  font-size: 1rem;
+  font-weight: map-get($font-weights, book);
+  padding-block-end: 1rem;
+  line-height: 1.5;
+}
+
+
+@each $size,
+$value in $font-sizes {
+
+  #{$size},
+  .#{$size} {
+    font-size: $value !important;
+    font-weight: map-get($font-weights, medium);
+    color: $uva-brand-blue-base !important;
+    line-height: 1.15;
+  }
+}
+
+h1, h2, .h1, .h2 {
+  font-weight: map-get($font-weights, demi);
+  ;
+}
+
+
+h2,
+h3,
+h4,
+h5 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.all-caps {
+  text-transform: uppercase;
+}
+// --------------------------- //
+
+// h1,
+// .h1 {
+//   font-size: 2.488rem !important;
+//   font-weight: 700 !important;
+//   color: #232D4B !important;
+//   line-height: 1.15;
+// }
+
+// h2,
+// .h2 {
+//   font-size: 2.074rem !important;
+//   font-weight: 700 !important;
+//   color: #232D4B !important;
+//   line-height: 1.15;
+// }
+
+// h3,
+// .h3 {
+//   font-size: 1.728rem !important;
+//   font-weight: 700 !important;
+//   color: #232D4B !important;
+//   line-height: 1.15;
+// }
+
+// h4,
+// .h4 {
+//   font-size: 1.44rem !important;
+//   font-weight: 700 !important;
+//   color: #232D4B !important;
+//   line-height: 1.15;
+// }
+
+// h5,
+// .h5 {
+//   font-size: 1.2rem !important;
+//   font-weight: 700 !important;
+//   color: #232D4B !important;
+//   line-height: 1.15;
+// }
+
+// h6,
+// .h6 {
+//   font-size: 1rem !important;
+//   font-weight: 700 !important;
+//   color: #232D4B !important;
+//   line-height: 1.15;
+// }
+
+// .all-caps {
+//   text-transform: uppercase;
+// }
+
+// h2,
+// h3,
+// h4,
+// h5 {
+//   margin-top: 0;
+//   margin-bottom: 0;
+// }
+
+// h1.page-title {
+//   padding: 0 !important;
+//   font-size: 2.488rem !important;
+//   margin-bottom: 1rem;
+// }
+
+// @media (max-width: 600px) {
+//   h1.page-title {
+//     padding: 0 !important;
+//   }
+// }
+
+// @media (max-width: 992px) {
+//   h1.page-title {
+//     padding: 0 !important;
+//   }
+// }

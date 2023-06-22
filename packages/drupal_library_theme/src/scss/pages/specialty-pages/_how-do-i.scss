@@ -1,0 +1,38 @@
+@use '../../mixins/index'as *;
+@use '../../base/index'as *;
+
+.how-do-i-main {
+  .view-content {
+    .item-list {
+      margin-top: 3rem;
+      h3 {
+        border-bottom: 1px solid $uva-grey-100;
+      }
+      ul {
+        list-style-type: none;
+        display: grid;
+        gap: 2rem;
+        grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+        li a {
+          @extend .h5;
+        }
+        li p a {
+          font-weight: inherit;
+          font-size: 1rem !important;
+        }
+      }
+    }
+  }
+}
+
+.how-do-i-detail {
+  .view-content {
+    margin-top: 3rem;
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+    h2 {
+      @extend .h5;
+    }
+  }
+}

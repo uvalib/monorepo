@@ -1,0 +1,209 @@
+@use '../mixins/index'as *;
+@use '../base/index'as *;
+@use '../components/buttons'as *;
+
+.main-navigation-wrapper {
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+  border-bottom: 5px solid $uva-brand-blue-base;
+}
+
+#utility-nav {
+  float: right;
+  ul:first-of-type {
+    display: flex;
+    list-style-type: none;
+    gap: 1.5rem;
+  }
+  a {
+    color: $uva-brand-blue !important;
+  }
+  ul li {
+    &:nth-child(5) {
+      display: flex;
+
+      a {
+        padding-left: .35em;
+      }
+
+      &::before {
+        @include svg-base;
+        content: $icon-alert;
+        margin-top: 0.25rem;
+      }
+    }
+
+    &:nth-child(6) {
+      display: flex;
+
+      a {
+        padding-left: .35em;
+      }
+
+      &::before {
+        @include svg-base;
+        content: $icon-search;
+        // margin-left: 1rem;
+        margin-top: 0.25rem;
+      }
+    }
+  }
+}
+
+// li.li-item.li-item-main.li-expanded.li-parent {
+//   color: $uva-brand-blue !important;
+//   margin-left: 2px;
+
+//   a {
+//     span {
+//       color: $uva-brand-blue !important;
+//     }
+
+//     &:hover {
+//       background-color: $uva-grey-light;
+//     }
+//   }
+// }
+
+.mobile-nav,
+.open-nav-inner {
+  display: none;
+}
+
+
+//////////////////////////////////////////////////
+///  mobile nav code moved to _nav-mobile.scss ///
+//////////////////////////////////////////////////
+ 
+
+// current desktop nav styling
+nav {
+  #uvalibrary-nav {
+    .mainlibrary-nav {
+      background-color: #fff;
+      display: flex;
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+
+      ul {
+        background-color: #fff;
+        border-top-width: 5px;
+        border-radius: 0 0 4px 4px;
+        display: block;
+        list-style-type: none;
+        margin: 0;
+        min-width: 200px;
+        padding: 0;
+        position: absolute;
+        top: 100%;
+        z-index: 1000;
+        box-shadow: 0 8px 16px 0 rgb(0 0 0 / 20%);
+
+        a {
+          border: 0;
+          color: $uva-brand-blue;
+          display: block;
+          margin: 0;
+          padding: 0.5em 1em;
+          text-decoration: underline;
+          font-weight: map-get($font-weights, book);
+
+          &:focus {
+            // @include focus;
+            outline-offset: -0.25rem;
+            // outline: 2px solid rgb(0 90 156 / 75%);
+            position: relative;
+          }
+        }
+      }
+
+      li:not(.li-1) {
+        margin: 0 1px;
+      }
+
+      &>li {
+        display: flex;
+        position: relative;
+      }
+
+      button {
+        border: none;
+        font-weight: map-get($font-weights, medium);
+        &::after {
+          content: "";
+          border-bottom: 1px solid $uva-brand-blue;
+          border-right: 1px solid $uva-brand-blue;
+          height: 0.5em;
+          margin-left: 0.75em;
+          width: 0.5em;
+          transform: rotate(45deg);
+        }
+      }
+    }
+
+    .mainlibrary-nav ul a:hover,
+    .mainlibrary-nav ul a:focus {
+      background-color: $uva-grey-100;
+      margin-bottom: 0;
+      text-decoration: none;
+    }
+
+    .mainlibrary-nav button {
+      align-items: center;
+      background-color: transparent;
+      display: flex;
+      padding: 11.5px 1rem;
+    }
+
+    .mainlibrary-nav button:focus {
+      // @include focus;
+      outline-offset: -0.25rem;
+      // border-color: $uva-brand-blue;
+      // outline: 2px solid rgb(0 90 156 / 75%);
+      position: relative;
+    }
+
+    .mainlibrary-nav button:hover,
+    .mainlibrary-nav button[aria-expanded="true"] {
+      background-color: $uva-grey-100;
+      color: $uva-brand-blue;
+    }
+
+    .mainlibrary-nav button:hover::after,
+    .mainlibrary-nav button[aria-expanded="true"]::after {
+      border-color: $uva-brand-blue;
+    }
+  }
+}
+
+// .main-nav {
+//   background-color: #ffffff !important;
+//   font-weight: map-get($font-weights, medium);
+
+//   ul {
+//     li {
+//       //dropdown nav background
+//       background-color: white;
+//     }
+
+//     li[class~="li-parent"] {
+//       a {
+//         text-decoration: none !important;
+//       }
+//     }
+
+
+//     &[class~="ul-child"] li {
+//       font-weight: map-get($font-weights, book);
+
+//       a {
+//         text-decoration: underline !important;
+
+//         &:hover {
+//           text-decoration: none !important;
+//         }
+//       }
+//     }
+//   }
+// }

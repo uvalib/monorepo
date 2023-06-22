@@ -1,0 +1,72 @@
+name: uvalibrary_v2a
+type: theme
+version: VERSION
+description: This a copy of the v2 theme, currently in the theme/custom folder - sub-theme of W3CSS Theme.
+base theme: drupal8_w3css_theme
+screenshot: assets/uvalibrary-theme.png
+core_version_requirement: ^9
+generator: "starterkit_theme:9.4.8"
+libraries:
+  - uvalibrary_v2a/base
+  # - uvalibrary_v2/messages
+  # - core/normalize
+# libraries-extend:
+#   user/drupal.user:
+#     - uvalibrary_v2/user
+#   core/drupal.dropbutton:
+#     - uvalibrary_v2/dropbutton
+#   core/drupal.dialog:
+#     - uvalibrary_v2/dialog
+#   file/drupal.file:
+#     - uvalibrary_v2/file
+#   core/drupal.progress:
+#     - uvalibrary_v2/progress
+stylesheets-remove:
+  - themes/contrib/d8w3css/css/base/base.css
+  - themes/contrib/d8w3css/css/theme/border-animation.css
+  - themes/contrib/d8w3css/css/theme/sitename-animation.css
+  - themes/contrib/d8w3css/css/w3-css/w3.css
+  - themes/contrib/d8w3css/css/w3-css-theme-custom/w3-theme-00000.css
+  - themes/contrib/d8w3css/css/components/default-node.css
+  - themes/contrib/d8w3css/css/components/page-title.css
+  - themes/contrib/d8w3css/css/theme/a-image.css
+  - themes/contrib/d8w3css/fonts/css/d8w3css-open-sans.css
+  - themes/d8w3css/css/base/base.css
+  - themes/d8w3css/css/theme/border-animation.css
+  - themes/d8w3css/css/theme/sitename-animation.css
+  - themes/d8w3css/css/w3-css/w3.css
+  - themes/d8w3css/css/w3-css-theme-custom/w3-theme-00000.css
+  - themes/d8w3css/css/components/default-node.css
+  - themes/d8w3css/css/components/page-title.css
+  - themes/d8w3css/css/theme/a-image.css
+  - themes/d8w3css/fonts/css/d8w3css-open-sans.css
+
+#Regions
+regions:
+  drupal_custom_header: "Drupal Specific Blocks"
+  pre_header: "Pre-Header"
+  header: "Header"
+  primary_menu_vertical: "Primary Menu Vertical"
+  primary_menu: "Primary Menu"
+  welcome_text: "Welcome Text"
+  # top_first: 'Top First Container'
+  # top_second: 'Top Second Container'
+  # top_third: 'Top Third Container'
+  highlighted: "Highlighted"
+  page_title: "Page Title"
+  breadcrumb: "Breadcrumb"
+  content: "Content"
+  sidebar_first: "Left Sidebar"
+  sidebar_second: "Right Sidebar"
+  # bottom_first: 'Bottom First Container'
+  # bottom_second: 'Bottom Second Container'
+  # bottom_third: 'Bottom Third Container'
+  # bottom_forth: 'Bottom Forth Container'
+  # footer_first: 'Footer First Container' <-this is just a name change
+  footer_first: "Pre-Footer"
+  # footer_second: 'Footer Second Container'
+  # footer_menu: 'Footer Menu Container' <-this is just a name change
+  footer_menu: "Footer"
+  # footer_third: 'Footer Third Container' <-this is just a name change
+  footer_post: "Post-Footer"
+  auto_hidden_block: "Auto Hidden Blocks"

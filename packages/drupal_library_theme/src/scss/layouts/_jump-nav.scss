@@ -1,0 +1,68 @@
+@use '../mixins/index'as *;
+@use '../base/index'as *;
+
+.jumpmenu {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  padding: 1rem;
+  margin-top: 2rem;
+  margin-bottom: 3rem;
+  text-align: center;
+
+  ul {
+    margin: 0;
+    padding: 0;
+
+    li {
+      display: inline-block;
+      list-style: none;
+      @extend .h5;
+      margin: 0px !important;
+
+      &::after {
+        padding: 0 1rem;
+        @extend .h6;
+        content: "|";
+      }
+
+      &:last-of-type::after {
+        content: inherit;
+        padding-right: 0;
+      }
+
+      a {
+        text-decoration: none !important;
+        padding-bottom: 0.25rem;
+
+        &:hover,
+        &:focus {
+          text-decoration: none !important;
+          box-shadow: 0 4px 0px 0px $uva-brand-orange;
+        }
+      }
+    }
+  }
+}
+
+// Jump nav (mobile) which is restyled accordion
+.jump-mobile {
+  background-color: $uva-grey-200;
+  .ckeditor-accordion-container>dl dt>a {
+    background-color: $uva-grey-200;
+  }
+  .ckeditor-accordion-container {
+    dd {
+      ul {
+        list-style: none;
+        padding: 0;
+        li {
+          text-align: center;
+        }
+      }
+    }
+  }
+
+}

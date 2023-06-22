@@ -1,0 +1,28 @@
+@use '../../base/index'as *;
+
+.node__author-info {
+  margin-bottom: 1rem;
+}
+.news-page,
+.view-news-full-feed-of-blog-articlces {
+  .views-row {
+    padding-bottom: 2rem;
+    border-bottom: 1px solid $uva-grey-100;
+    margin-bottom: 1.5rem;
+    h2 {
+      @extend .h4;
+      padding-top: 1.5rem;
+    }
+    h2:first-of-type {
+      @extend .h2;
+      padding-top: inherit;
+    }
+  }
+}
+
+.block-field-blocknodearticlebody {
+  h2 {
+    @extend .h4;
+    padding-top: 1.5rem;
+  }
+}

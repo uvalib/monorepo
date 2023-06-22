@@ -1,0 +1,32 @@
+@use '../base/index'as *;
+
+.field--name-field-subnav {
+  nav {
+    ul {
+      padding-left: 0;
+
+      li { 
+        @extend h5;
+        
+        ul {
+          padding: 1rem 0;
+          margin: 0;
+          li {
+            font-size: 1rem !important;
+            font-weight: normal;
+            padding: 0.5rem 0.7rem;
+            border-left: 4px solid $uva-brand-orange;
+            outline: inherit;
+            margin: 0 !important;
+            &:first-child {
+              padding-top: 0;
+            }
+            &:last-child {
+              padding-bottom: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+@use '../../base/index'as *;
+
+@mixin flex-basic-col {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-content: stretch;
+  align-items: flex-start;
+}
+
+.flex-basic-col {
+  @include flex-basic-col;
+}
+
+@mixin flex-basic-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-content: stretch;
+  align-items: flex-start;
+}
+
+.flex-basic-row {
+  @include flex-basic-row;
+}

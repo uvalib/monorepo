@@ -1,0 +1,59 @@
+@use '../base/colors'as *;
+@use '../base/svg_icons'as *;
+
+/// When including a new mixin, if you think that
+/// and example of how to use would be helpful, please
+/// include a "USAGE" section after the code.
+/// Please be sure to comment out ALL unnecessary code.
+
+
+//VIRGO Search bar (and others)
+@mixin virgo-search {
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  z-index: 100;
+  width: 100%;
+
+  form {
+    display: flex;
+    max-width: 70%;
+    margin: 0 auto;
+
+    input {
+      flex: 1;
+      border-left: 1px solid $uva-grey-100;
+      border-bottom: 1px solid $uva-grey-100;
+      border-top: 1px solid $uva-grey-100;
+      border-right: 0px;
+      text-indent: 1rem;
+      border-radius: 0.3rem 0 0 0.3rem;
+    }
+
+    button {
+      background-color: $uva-blue-alt;
+      padding: 10px 12px;
+      color: #fff;
+      letter-spacing: 1px;
+      cursor: pointer;
+      border-left: 0px;
+      border-right: 1px solid $uva-blue-alt;
+      border-bottom: 1px solid $uva-blue-alt;
+      border-top: 1px solid $uva-blue-alt;
+      border-radius: 0 0.3rem 0.3rem 0;
+
+      &::before {
+        content: $icon-search--white;
+        width: 1.5rem;
+        height: 1.5rem;
+        display: block;
+      }
+
+      &:hover {
+        background-color: $uva-blue-alt-A;
+      }
+    }
+  }
+}

@@ -1,0 +1,275 @@
+@use '../mixins/index'as *;
+@use '../base/index'as *;
+
+.w3-border {
+  border: 1px solid orange !important;
+}
+
+.uvalib-button {
+  font-size: 1em;
+  appearance: none;
+  border: 0;
+  cursor: pointer;
+  display: inline-block;
+  margin: .8em .4em;
+  padding: .6rem 1.25rem;
+  text-align: center;
+  text-decoration: none;
+  width: 100%;
+  background-color: $uva-blue-alt;
+  color: #fff;
+  border-radius: 5px;
+  text-transform: uppercase;
+  border-radius: 5px;
+
+  &:visited {
+    color: #fff;
+  }
+}
+
+a.uvalib_link--button {
+  display: inline-block;
+  margin: .5em;
+  padding: .88em;
+  background-color: $uva-blue-alt;
+  border-radius: 5px;
+  text-decoration: underline;
+  color: #fff;
+}
+
+.uvalib-button:hover,
+.uvalib-button.uvalib-button--hover,
+a.uvalib_link--button:hover,
+a.uvalib_link--button.uvalib_link--button--hover {
+  background-color: $uva-blue-alt-A;
+}
+
+a.uvalib_link--button:hover,
+a.uvalib_link--button.uvalib_link--button--hover {
+  text-decoration: none;
+}
+
+.uvalib-button:active,
+.uvalib-button.uvalib-button--active,
+a.uvalib_link--button:active,
+a.uvalib_link--button--active {
+  background-color: $uva-brand-blue;
+}
+
+// .uvalib-button:not([disabled]):focus,
+// .uvalib-button:not([disabled]).uvalib-focus,
+// a.uvalib_link--button:not([disabled]):focus,
+// a.uvalib_link--button:not([disabled]).uvalib-focus {
+//   @include focus-dk;
+// }
+
+// .uvalib-button--inverse:not([disabled]):focus,
+// .uvalib-button--inverse:not([disabled]).uvalib-focus,
+// a.uvalib_link--button--inverse:not([disabled]):focus,
+// a.uvalib_link--button--inverse:not([disabled]).uvalib-focus {
+//   @include focus-lt;
+// }
+
+a.uvalib_link--button i {
+  padding: 2px 4px;
+  text-decoration: none;
+}
+
+a.uvalib_link--button:hover i {
+  text-decoration: underline;
+}
+
+/* Disabled Buttons */
+.uvalib-button:disabled,
+.uvalib-button.uvalib-button--subtle:disabled,
+a.uvalib_link--button--disabled,
+a.uvalib_link--button.uvalib_link--button--subtle.uvalib_link--button--disabled,
+a.uvalib_link--button.uvalib_link--button--alt--disabled {
+  background-color: $uva-grey-100;
+  color: #fff;
+  pointer-events: none;
+  box-shadow: none;
+}
+
+/* Default Subtle Buttons & Link Buttons */
+.uvalib-button--subtle,
+a.uvalib_link--button.uvalib_link--button--subtle {
+  background-color: $uva-blue-alt-300;
+  color: $uva-grey-A;
+  box-shadow: inset 0 0 0 2px $uva-blue-alt;
+}
+
+.uvalib-button--subtle:hover,
+.uvalib-button--subtle.uvalib-button--hover,
+a.uvalib_link--button.uvalib_link--button--subtle:hover,
+a.uvalib_link--button.uvalib_link--button--subtle.uvalib_link--button--hover {
+  background-color: $uva-blue-alt-200;
+  box-shadow: inset 0 0 0 2px $uva-blue-alt;
+}
+
+.uvalib-button--subtle:active,
+.uvalib-button--subtle.uvalib-button--active,
+a.uvalib_link--button.uvalib_link--button--subtle:active,
+a.uvalib_link--button.uvalib_link--button--subtle.uvalib_link--button--active {
+  background-color: $uva-blue-alt-100;
+  box-shadow: inset 0 0 0 2px $uva-blue-alt;
+}
+
+/* Default Basic Buttons */
+.uvalib-button--basic,
+a.uvalib_link--button.uvalib_link--button--basic {
+  background-color: $uva-grey-100;
+  color: $uva-grey-A;
+  box-shadow: inset 0 0 0 2px $uva-grey;
+}
+
+.uvalib-button--basic:hover,
+.uvalib-button--basic.uvalib-button--hover,
+a.uvalib_link--button.uvalib_link--button--basic:hover,
+a.uvalib_link--button.uvalib_link--button--basic.uvalib_link--button--hover {
+  background-color: $uva-grey-200;
+  box-shadow: inset 0 0 0 2px $uva-grey;
+}
+
+.uvalib-button--basic:active,
+.uvalib-button--basic.uvalib-button--active,
+a.uvalib_link--button.uvalib_link--button--basic:active,
+a.uvalib_link--button.uvalib_link--button--basic.uvalib_link--button--active {
+  background-color: $uva-grey-A;
+  color: #fff;
+  box-shadow: inset 0 0 0 2px $uva-grey-B;
+}
+
+/* Outline Buttons */
+.uvalib-button--outline,
+.uvalib_link--button--outline,
+a.uvalib_link--button.uvalib_link--button--outline {
+  background-color: transparent;
+  box-shadow: inset 0 0 0 2px $uva-blue-alt;
+  color: $uva-blue-alt;
+}
+
+.uvalib-button--outline.uvalib-button--hover,
+.uvalib-button--outline:hover,
+a.uvalib_link--button--outline.uvalib_link--button--hover,
+a.uvalib_link--button--outline:hover {
+  background-color: transparent;
+  box-shadow: inset 0 0 0 2px $uva-blue-alt-A;
+  color: $uva-blue-alt-A;
+}
+
+.uvalib-button--outline.uvalib-button--active,
+.uvalib-button--outline:active,
+a.uvalib_link--button--outline.uvalib_link--button--active,
+a.uvalib_link--button--outline:active {
+  background-color: transparent;
+  box-shadow: inset 0 0 0 2px $uva-brand-blue;
+  color: $uva-brand-blue;
+}
+
+.uvalib-button--outline-disabled,
+.uvalib-button--outline:disabled,
+a.uvalib_link--button.uvalib_link--button--outline.uvalib_link--button--disabled,
+a.uvalib_link--button--outline:disabled {
+  background-color: transparent;
+  box-shadow: inset 0 0 0 2px $uva-grey-100;
+  color: $uva-grey-100;
+}
+
+/* Outline Inverse Buttons */
+.uvalib-button--outline.uvalib-button--inverse,
+a.uvalib_link--button--outline.uvalib_link--button--inverse {
+  box-shadow: inset 0 0 0 2px #fff;
+  color: #fff;
+}
+
+.uvalib_link--button--inverse {
+  color: #fff;
+}
+
+.uvalib-button--outline.uvalib-button--inverse.uvalib-button--hover,
+.uvalib-button--outline.uvalib-button--inverse:hover,
+a.uvalib_link--button--outline.uvalib_link--button--inverse.uvalib_link--button--hover,
+a.uvalib_link--button--outline.uvalib_link--button--inverse:hover {
+  box-shadow: inset 0 0 0 2px $uva-grey-100;
+  color: $uva-grey-100;
+}
+
+.uvalib-button--outline.uvalib-button--inverse.uvalib-button--active,
+.uvalib-button--outline.uvalib-button--inverse:active,
+a.uvalib_link--button--outline.uvalib_link--button--inverse.uvalib_link--button--active,
+a.uvalib_link--button--outline.uvalib_link--button--inverse:active {
+  background-color: transparent;
+  box-shadow: inset 0 0 0 2px #fff;
+  color: #fff;
+}
+
+.uvalib-button--outline-disabled.uvalib-button--inverse,
+.uvalib-button--outline:disabled.uvalib-button--inverse,
+a.uvalib_link--button.uvalib_link--button--outline.uvalib_link--button--inverse--disabled,
+a.uvalib_link--button--outline:disabled.uvalib_link--button--inverse {
+  background-color: transparent;
+  box-shadow: inset 0 0 0 2px $uva-grey;
+  color: $uva-grey;
+}
+
+/* Alternate Buttons */
+.uvalib-button--alt,
+.uvalib_link--button--alt,
+a.uvalib_link--button.uvalib_link--button--alt {
+  background-color: $uva-brand-orange;
+  color: $uva-grey-B;
+}
+
+.uvalib-button--alt:hover,
+.uvalib-button--alt.uvalib-button--hover,
+a.uvalib_link--button--alt:hover,
+a.uvalib_link--button--alt.uvalib_link--button--hover {
+  background-color: $uva-brand-orange-A;
+  color: #fff;
+}
+
+.uvalib-button--alt:active,
+.uvalib-button--alt.uvalib-button--active,
+a.uvalib_link--button--alt:active,
+a.uvalib_link--button--alt.uvalib_link--button--active {
+  background-color: $uva-brand-orange-B;
+  color: #fff;
+}
+
+/* button sizes */
+.uvalib-button--small,
+.uvalib_link--button--small {
+  border-radius: .25rem;
+  font-size: .85rem;
+  padding: .5rem 1rem;
+}
+
+.uvalib-button--large,
+.uvalib_link--button--large {
+  border-radius: .25rem;
+  font-size: 1.33rem;
+  padding: 1rem 1.5rem;
+}
+
+/* button icon positioning */
+.uvalib-icon__left i {
+  padding-right: .5rem;
+}
+
+.uvalib-icon__right i {
+  padding-left: .5rem;
+}
+
+.uvalib-icon__notext {
+  padding: .6rem 1rem;
+}
+
+/* buttons for mobile */
+@media (min-width: 30em) {
+
+  .uvalib-button,
+  .uvalib_link--button {
+    width: auto;
+  }
+}

@@ -1,0 +1,47 @@
+@use '../base/index' as *;
+
+.layout__region--second {
+  padding-left: 2rem;
+
+  @media (max-width:992px) {
+    padding-left: inherit;
+  }
+}
+
+// removing bullets from sub-nav lists
+.field--name-field-subnav {
+  ul li {
+    list-style: none;
+  }
+}
+
+@media screen and (min-width: #{$desktop}) {
+  /* Styles for desktop screens go here */
+  .not-mobile {
+    display: inherit;
+  }
+  .mobile-only {
+    display:none;
+  }
+}
+
+@media screen and (max-width: #{$tablet}) {
+  /* Styles for tablet screens go here */
+  .not-mobile {
+    display: inherit;
+  }
+  .mobile-only {
+    display: none;
+  }
+}
+
+@media screen and (max-width: #{$mobile}) {
+  /* Styles for mobile screens go here */
+    .not-mobile {
+      display: none;
+    }
+
+    .mobile-only {
+      display: inherit;
+    }
+}

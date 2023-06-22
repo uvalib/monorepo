@@ -1,0 +1,41 @@
+@use '../base/index'as *;
+@use '../mixins/index'as *;
+
+.icon-new-tab {
+  &::after {
+    padding-left: 0.25rem;
+    @include svg-base;
+    content: $icon-new-tab;
+  }
+}
+
+.uvalib_link--button.icon-new-tab {
+  &::after {
+    padding-left: 0.25rem;
+    @include svg-base;
+    margin-top: 0px;
+    content: $icon-new-tab-fff;
+  }
+}
+
+.uvalib_link--button.uvalib_link--button--alt.icon-new-tab,
+.uvalib_link--button.uvalib_link--button--subtle.icon-new-tab {
+  &::after {
+    padding-left: 0.25rem;
+    @include svg-base;
+    margin-top: 0px;
+    content: $icon-new-tab;
+  }
+}
+
+.uvalib_link--button.uvalib_link--button--alt.icon-new-tab:hover,
+.uvalib_link--button.uvalib_link--button--alt.icon-new-tab:focus,
+.uvalib_link--button.uvalib_link--button--subtle.icon-new-tab:hover,
+.uvalib_link--button.uvalib_link--button--subtle.icon-new-tab:focus {
+  &::after {
+    padding-left: 0.25rem;
+    @include svg-base;
+    margin-top: 0px;
+    content: $icon-new-tab-fff;
+  }
+}

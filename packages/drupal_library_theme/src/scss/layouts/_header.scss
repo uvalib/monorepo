@@ -1,0 +1,49 @@
+@use '../mixins/index'as *;
+@use '../base/index'as *;
+
+#header {
+  background-color: #ffffff !important;
+  padding: 0.5rem 0;
+
+  .site-name-slogan {
+    display: none;
+  }
+
+  #block-uvalibrary-branding {
+    margin-top: -40px
+  }
+
+  a.site-logo {
+    text-decoration: none !important;
+
+    img {
+      max-width: 225px;
+    }
+  }
+
+  #header-inner {
+    display: grid;
+    grid-template-columns: 225px 1fr;
+    .block-system-branding-block {
+      grid-area: 1 / 1 / 2 / 2;
+      width: max-content;
+    }
+    .utility-nav {
+      grid-area: 1 / 2 / 2/ 3;
+    }
+  }
+
+  @media (max-width:992px) {
+    a.site-logo img {
+      margin-left: 1rem;
+    }
+    #header-inner {
+      display: initial;
+      grid-template-columns: none;
+    }
+    .header-inner {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+}

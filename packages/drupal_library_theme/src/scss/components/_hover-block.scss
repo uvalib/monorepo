@@ -1,0 +1,61 @@
+@use '../mixins/index'as *;
+@use '../base/index'as *;
+
+.hover-block {
+  background-color: #fff;
+  border: 1px solid $uva-grey-100;
+  border-left: 0.25rem solid $uva-brand-orange;
+  padding: 2rem;
+  text-decoration: none;
+
+  &:hover,
+  &:focus {
+    transition: 0.25s ease-in-out;
+    box-shadow: 0 0 20px 0 $uva-grey-100;
+    z-index: 2;
+  }
+    // &:hover h3,
+    // &:hover h4 {
+    //   text-decoration: underline;
+    // }
+
+    p {
+      color: $uva-text-color-base;
+      text-decoration: none !important;
+
+      &:hover {
+        text-decoration: none !important;
+      }
+    }
+}
+
+
+// .hover-block {
+//   .hb-contents {
+//     display: block;
+
+//     .hb-url {
+//       display: block;
+//       background-color: $uva-grey-200;
+//       padding: 1.5rem;
+//       text-decoration: none;
+//       height: max-content;
+
+//       &:hover h3,
+//       &:hover h4 {
+//         text-decoration: underline;
+//       }
+//     }
+
+//     p {
+//       color: $uva-text-color-base;
+//       display: inline-block;
+//       text-decoration: none !important;
+
+//       &:hover {
+//         text-decoration: none !important;
+//       }
+//     }
+
+//   }
+// }

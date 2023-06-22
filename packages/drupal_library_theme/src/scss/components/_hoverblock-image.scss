@@ -1,0 +1,20 @@
+@use '../mixins/index'as *;
+@use '../base/index'as *;
+
+.hover-block-img {
+  text-decoration: none;
+
+  &:hover h3,
+  &:hover h4 {
+    text-decoration: underline;
+  }
+
+  p {
+    color: $uva-text-color-base;
+    text-decoration: none !important;
+
+    &:hover {
+      text-decoration: none !important;
+    }
+  }
+}

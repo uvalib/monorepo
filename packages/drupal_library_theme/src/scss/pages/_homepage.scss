@@ -1,0 +1,430 @@
+@use '../base/index'as *;
+@use '../mixins/index'as *; 
+
+
+.home-page {
+  h1 {
+    display: none;
+  }
+
+  .main-container-inner .w3css-content {
+    margin-top: 0 !important;
+
+    &>div {
+      padding-top: 0 !important;
+    }
+  }
+
+  .home-collections {
+    margin-bottom: 3rem;
+    position: relative;
+
+    .home-collections-image {
+      width: 100vw;
+      max-width: 1600px;
+      margin-inline-start: 50%;
+      transform: translateX(-50%);
+
+      img {
+        min-height: 230px;
+        object-fit: cover;
+      }
+    }
+
+    .home-collection-virgo {
+      @include virgo-search;
+
+      p {
+        padding: 0.25rem 0.5rem;
+        margin: 1rem auto;
+        max-width: fit-content;
+        background-color: #fff;
+        border-radius: 0.3rem;
+      }
+    }
+  }
+
+  .home-collections-url {
+    text-align: right;
+    a {  
+      &::after {
+        padding-left: 0.25rem;
+        @include svg-base;
+        content: $icon-new-tab;
+      }
+    }
+  }
+
+  // using the library section
+  .home-using-block {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 6rem 0.5fr 1fr 0.5fr 1.5rem;
+    gap: 2rem;
+    padding-right: 2rem;
+    border-right: 1px solid $uva-grey-light;
+
+    h3 {
+      padding-block-end: 1rem;
+    }
+
+    .teaching-and-publication,
+    .using-spaces,
+    .equipment-tech {
+      .hb-url {
+        height: 16rem;
+      }
+    }
+
+    .home-using-header {
+      grid-area: 1 / 1 / 2 / 4;
+      text-align: center;
+    }
+
+    .search-borrow-request {
+      grid-area: 2 / 1 / 3 / 4;
+      align-self: center;
+    }
+
+    .teaching-and-publication {
+      grid-area: 3 / 1 / 4 / 2;
+    }
+
+    .using-spaces {
+      grid-area: 3 / 2 / 4 / 3;
+    }
+
+    .equipment-tech {
+      grid-area: 3 / 3 / 4 / 4;
+    }
+
+    .using-help {
+      grid-area: 4 / 1 / 5 / 4;
+    }
+    .utl-link {
+      grid-area: 5 / 3 / 6 / 4;
+      justify-self: end;
+    }
+  }
+
+  // location hours block
+  .home-hours-block {
+    // padding-left: 2rem;
+
+    .home-hour-date {
+      background-color: $uva-brand-orange-base;
+      color: $uva-text-color-dark;
+      padding: 0.3rem 0.5rem;
+      font-weight: map-get($font-weights, demi);
+    }
+
+    .hour-head {
+      @extend .h6;
+      padding: 2rem 0.5rem 1.25rem 0.5rem;
+      // font-weight: map-get($font-weights, demi);
+    }
+
+    dl {
+      padding-left: 0.5rem;
+
+      &.dl--inline {
+        font-size: 0.95rem;
+        row-gap: normal;
+        grid-template-columns: 1fr;
+      }
+
+      dt {
+        border-bottom: 1px solid $uva-grey-100;
+        width: 100%;
+      }
+
+      dd {
+        padding-left: 1rem;
+        text-align: right;
+      }
+    }
+
+    p.hours-see-all {
+      margin-top: 1.5rem;
+      text-align: right;
+
+      a {
+        font-size: 0.95rem;
+      }
+    }
+  }
+
+  //news and blog
+  .news-title-mobile {
+    display: none;
+  }
+
+  .news-title-desktop {
+    display: block;
+  }
+
+  .layout.layout--twocol-section+div .layout__region--first {
+    padding-left: 0;
+  }
+
+  .home-news-featured .views-row {
+    display: flex;
+    flex-direction: column;
+
+    .field--name-field-media-image .field__item {
+      height: 27.3rem;
+      max-width: 42.5rem;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: top center;
+      }
+    }
+
+    .views-field-title {
+      margin-top: 1rem;
+    }
+
+    .views-field-title,
+    .views-field-body {
+      padding: 0 0.5rem;
+      max-width: 42.5rem;
+    }
+  }
+
+  .news-title a {
+    text-decoration: none !important;
+    color: $uva-text-color-dark;
+    font-weight: map-get($font-weights, demi);
+
+    &:hover {
+      text-decoration: underline !important;
+    }
+  }
+
+  .layout__region--second {
+    .news-title {
+      display: block;
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .news-body {
+      // border-bottom: 1px solid $uva-grey-light;
+      border-bottom: 1px solid $uva-brand-orange;
+
+      // THIS ISN'T WORKING
+      &:where(section.views-row):last-child {
+        border: none;
+      }
+    }
+  }
+
+  //events
+  .event-container {
+    margin-top: 1.5rem;
+  }
+
+  //exhibits
+  .home-exhibits {
+    padding-right: 2rem;
+
+    .home-exhibit-title {
+      display: block;
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+
+      a {
+        text-decoration: none !important;
+        color: $uva-text-color-dark;
+        font-weight: map-get($font-weights, demi);
+
+        &:hover {
+          text-decoration: underline !important;
+        }
+      }
+    }
+
+    .home-exhibit-title,
+    .home-exhibit-body {
+      padding-left: 0.5rem;
+    }
+  }
+
+  //next chapter
+  .campaign {
+    text-align: center;
+
+    h1 {
+      display: inherit;
+      font-weight: 200;
+      font-style: normal;
+      letter-spacing: 2px;
+      padding-top: 6px;
+    }
+
+    h2.h4 {
+      font-weight: 100 !important;
+      padding-bottom: 2rem;
+    }
+  }
+
+  .campaign-sub-block {
+    text-align: center;
+  }
+
+
+  ///////////////////
+  /// BREAKPOINTS ///
+  ///////////////////
+@media screen and (max-width: #{$tablet}) {
+  .home-news-featured .views-row {
+    margin-right: 3rem !important;
+  }
+  .home-feature-container {
+    margin-left: 3rem !important;
+  }
+ }
+
+@media screen and (max-width: #{$tablet}), (max-width: #{$mobile}) {
+    .home-collection-virgo {
+      width: 100%;
+      order: 1;
+
+      form {
+        max-width: 100% !important;
+      }
+    }
+    .layout.layout--twocol-section--75-25 {
+      display: flex;
+      flex-direction: column;
+      .layout__region--first {
+        order: 2;
+      }
+      .layout__region--second {
+        order: 1;
+        margin-top: -3rem;
+        margin-bottom: 3rem;
+      }
+    }
+    .home-collections-url {
+      line-height: 0.5;
+      margin-top: 0.75rem;
+    }
+    // mobile - using the library block
+    .home-using-block {
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: 4rem repeat(5, 1fr) 2rem;
+      gap: 1rem;
+      padding-right: 0;
+      border-right: none;
+      order: 3;
+
+      .home-using-header {
+        grid-area: 1 / 1 / 2 / 2;
+        text-align: center;
+      }
+
+      .search-borrow-request {
+        grid-area: 2 / 1 / 3 / 2;
+        align-self: center;
+      }
+
+      .teaching-and-publication {
+        grid-area: 3 / 1 / 4 / 2;
+      }
+
+      .using-spaces {
+        grid-area: 4 / 1 / 5 / 2;
+      }
+
+      .equipment-tech {
+        grid-area: 5 / 1 / 6 / 2;
+      }
+
+      .using-help {
+        grid-area: 6 / 1 / 7 / 2;
+      }
+      .utl-link {
+        grid-area: 7 / 1 / 8 / 2;
+        justify-self: end;
+      }
+    }
+
+    // mobile - hours block
+    .home-hours-block {
+      padding-left: 0 !important;
+      margin-top: 2rem !important;
+      order: 2;
+
+      dl {
+        display: flex !important;
+        flex-flow: row wrap !important;
+      }
+
+      dt {
+        width: 43% !important;
+        text-align: right !important;
+        border-bottom: none !important;
+      }
+
+      dd {
+        padding-left: 1rem !important;
+        width: 48% !important;
+        margin-bottom: 0 !important;
+        text-align: left !important;
+
+        &::before {
+          content: "-";
+          margin-left: -1rem;
+          padding-right: 1rem;
+        }
+      }
+    }
+
+    // mobile - News
+    .news-title-mobile {
+      display: block;
+    }
+
+    .news-title-desktop {
+      display: none;
+    }
+    .layout.layout--twocol-section+div .layout__region--first {
+      padding: 0;
+    }
+    .home-news-featured .views-row {
+      display: flex;
+      flex-direction: column;
+      margin-right: 0;
+
+      .field--name-field-media-image .field__item {
+        height: 14rem;
+        max-width: 42.5rem;
+      }
+      .views-field-title,
+      .views-field-body {
+        padding: 0 0.5rem;
+        max-width: 42.5rem;
+      }
+    }
+
+    // mobile - Exhibits
+    .home-exhibits {
+      padding: 0;
+      margin-bottom: 2rem;
+    }
+  }
+}
+@media screen and (max-width: #{$mobile}) {
+  .home-news-featured .views-row {
+    margin-right: 0 !important;
+  }
+
+  .home-feature-container {
+    margin-left: 0 !important;
+  }
+}

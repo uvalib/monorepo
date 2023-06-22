@@ -1,0 +1,46 @@
+#
+# deployspec.yml
+#
+
+version: 0.2
+
+env:
+  variables:
+    target_host0: library-drupal-dev-0.internal.lib.virginia.edu
+    target_host1: library-drupal-dev-1.internal.lib.virginia.edu
+    target_host_user: aws_deploy
+    target_host_key: aws_deploy
+    target_command0: "sudo docker exec drupal-0 /opt/drupal/util/docker-composer/scripts/pull-uvalib-drupal-theme" 
+    target_command1: "sudo docker exec drupal-1 /opt/drupal/util/docker-composer/scripts/pull-uvalib-drupal-theme" 
+
+phases:
+  install:
+    runtime-versions:
+      golang: 1.x
+      python: 3.x
+#    commands:
+
+  pre_build:
+    commands:
+      # update
+      - apt-get update -y
+      - apt-get install -y ccrypt
+      # get the terraform repo and decrypt the access key
+      - git clone https://${GITLAB_USER}:${GITLAB_TOKEN}@gitlab.com/uvalib/terraform-infrastructure.git
+      - ${CODEBUILD_SRC_DIR}/terraform-infrastructure/scripts/decrypt-key.ksh ${CODEBUILD_SRC_DIR}/terraform-infrastructure/global/private-keys/${target_host_key}.pem.cpt global/private-keys/${target_host_key}.pem
+      - PRIVATE_KEY=${CODEBUILD_SRC_DIR}/terraform-infrastructure/global/private-keys/${target_host_key}.pem
+      - chmod 600 ${PRIVATE_KEY}
+
+  build:
+    commands:
+      - echo "Executing as ${target_host_user} on ${target_host0}, command \"${target_command0}\""
+      - ssh -oStrictHostKeyChecking=accept-new -i ${PRIVATE_KEY} ${target_host_user}@${target_host0} ${target_command0}
+      - echo "Executing as ${target_host_user} on ${target_host1}, command \"${target_command1}\""
+      - ssh -oStrictHostKeyChecking=accept-new -i ${PRIVATE_KEY} ${target_host_user}@${target_host1} ${target_command1}
+
+#  post_build:
+#    commands:
+
+#
+# end of file
+#

@@ -1,0 +1,234 @@
+@use '../../mixins/index'as *;
+@use '../../base/index'as *;
+
+.rp-using {
+
+  // temporary
+  h2 em {
+    font-size: 16px;
+    padding: 2rem 0;
+  }
+
+  .virgo-search-header {
+    margin-top: 2rem;
+    margin-bottom: 1rem !important;
+  }
+
+  .virgo-search {
+    @include virgo-search;
+    position: inherit;
+    top: inherit;
+    left: inherit;
+    transform: inherit;
+    text-align: inherit;
+    margin-bottom: 3rem;
+
+    p {
+      padding: 0.25rem 0.5rem;
+      margin: 1rem auto;
+      max-width: fit-content;
+      background-color: #fff;
+      border-radius: 0.3rem;
+    }
+  }
+
+  .using-top {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    // grid-template-rows: 0.5fr 1fr 0.5fr;
+    grid-template-rows: 1fr 0.5fr;
+    grid-column-gap: 3rem;
+    grid-row-gap: 3rem;
+
+    .u-f-n,
+    .u-c-r,
+    .u-d-j,
+    .u-s-j,
+    .u-m-r {
+      background-color: white;
+      border: 1px solid $uva-grey-100;
+      border-top: 0.25rem solid $uva-brand-orange;
+      padding: 2.5rem;
+
+      h3,
+      h4 {
+        margin-bottom: 1rem;
+      }
+    }
+
+    .u-f-n {
+      grid-area: 2 / 1 / 3 / 2; //M
+    }
+    .u-c-r {
+      grid-area: 2 / 2 / 3 / 3; //D
+    }
+    .u-d-j {
+      grid-area: 1 / 1 / 2 / 2; //F      
+    }
+    .u-m-r {
+      grid-area: 1 / 2 / 2 / 3; //C
+    }
+
+    .u-s-j {
+      grid-area: 1 / 3 / 3 / 4;
+
+      h4 {
+        margin-top: 1.5rem;
+      }
+      p:last-of-type {
+        margin-top: 2rem;
+        text-align: right;
+      }
+    }    
+  }
+
+  .n-t-header {
+    margin-top: 2.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .neighborhood-teaser {
+    display: grid;
+    grid-template-columns: 325px 1fr;
+    gap: 4rem;
+    margin-bottom: 3rem;
+    border: 1px solid $uva-grey-100;
+
+    .n-t-img {
+      // display: flex;
+      // justify-content: center;
+      // align-items: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      width: 325px;
+      height: 257px;
+      img {
+        flex-shrink: 0;
+        min-width: 100%;
+        min-height: 100%;
+        // object-fit: cover;
+      }
+    }
+
+    .n-t-frame {
+      display: grid;
+      grid-template-rows: 4rem 1fr;
+      // border: 1px solid $uva-grey-100;
+
+      .n-t-title {
+        // padding-left: 2rem;
+        align-self: center;
+      }
+
+      .n-t-contents {
+        display: grid;
+        grid-template-columns: 1fr 1fr 2.2rem;
+        gap: 2rem;
+        padding-right: 2rem;
+
+        h4 {
+          @extend .h5;
+        }
+
+        div:last-of-type {
+          display: grid;
+          margin-bottom: 1rem;
+
+          a {
+            width: 2rem;
+            height: 2rem;
+            align-self: end;
+            justify-self: end;
+            // color is defined within the svg file
+            content: $icon-arrow-right-link;
+
+            // color is defined within the svg file
+            &:hover {
+              content: $icon-arrow-right-hover;
+              // border-radius: 50%;
+              // transition: none;
+            }
+          }
+        }
+      }
+    }
+  }
+
+
+
+  @media (max-width:992px) {
+    .virgo-search-header {
+      margin-top: 1rem;
+    }
+
+    .virgo-search {
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      justify-content: center;
+      width: 100%;
+
+      form {
+        width: 100% !important;
+        max-width: none !important;
+        height: 55px;
+        display: flex;
+        margin-bottom: 1rem;
+        text-align: center;
+
+        button {
+          padding: 10px 0.5rem;
+        }
+      }
+    }
+
+    .using-top {
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: 0.5fr 0.5fr 0.5fr 0.5fr 1.25fr !important;
+      grid-row-gap: 1.5rem;
+
+      .u-f-n,
+      .u-c-r,
+      .u-d-j,
+      .u-s-j,
+      .u-m-r {
+        grid-area: auto;
+      }
+    }
+
+    .neighborhood-teaser {
+      grid-template-columns: 1fr !important;
+      margin-bottom: 3rem !important;
+
+      .n-t-img {
+        width: 100%;
+      }
+
+      .n-t-frame {
+        grid-template-rows: max-content;
+
+        .n-t-title {
+          padding-top: 1rem !important;
+          padding-left: 1rem !important;
+          padding-right: 0.5rem !important;
+        }
+
+        .n-t-contents {
+          padding: 2rem 1rem !important;
+          grid-template-columns: 1fr !important;
+          grid-template-rows: 1fr 1fr 0.25fr !important;
+        }
+
+        div:last-of-type {
+          a {
+            align-self: center !important;
+            justify-self: center !important;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,175 @@
+@use '../../mixins/index'as *;
+@use '../../base/index'as *;
+
+.exhibitions {
+  h2 {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+
+    h2:first-of-type {
+      margin-top: inherit;
+    }
+  }
+
+  img.align-right {
+    padding-left: 2rem;
+  }
+
+  .current {
+    margin-bottom: 2rem;
+
+    .view-content {
+      .views-row {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: 0.5fr 1fr repeat(3, 0.25fr);
+        grid-column-gap: 3rem;
+        grid-row-gap: 0.5rem;
+      }
+
+      .views-field-field-image {
+        grid-area: 1 / 1 / 3 / 2;
+        border: 1px solid $uva-grey-100;
+        display: flex;
+        justify-self: end;
+        align-self: start;
+      }
+
+      .views-field-title {
+        @extend .h3;
+        grid-area: 1 / 2 / 2 / 3;
+      }
+
+      .views-field-body {
+        grid-area: 2 / 2 / 3 / 3;
+      }
+
+      .views-field-field-further-location-informati {
+        grid-area: 3 / 2 / 4 / 3;
+        span {
+          font-weight: map-get($font-weights, medium);
+        }
+      }
+
+      .views-field-field-start-date {
+        grid-area: 4 / 2 / 5 / 3;
+        span {
+          font-weight: map-get($font-weights, medium);
+        }
+      }
+
+      .views-field-field-end-date-1 {
+        grid-area: 5 / 2 / 6 / 3;
+        span {
+          font-weight: map-get($font-weights, medium);
+        }
+      }
+
+    }
+
+  }
+
+  .permanent {
+    .view-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+
+      .views-row {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        align-content: flex-start;
+        align-items: flex-start;
+        gap: 0.5rem;
+
+        .views-field-title {
+          @extend .h5;
+        }
+      }
+    }
+  }
+
+  .view-exhibitions-past {
+    .view-content {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+
+      .views-row {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        align-content: flex-start;
+        align-items: flex-start;
+        gap: 0.5rem;
+
+        .views-field-title {
+          @extend .h5;
+        }
+      }
+    }
+  }
+
+  @media (max-width:992px) {
+
+    img.align-right {
+      margin: 0.25rem auto;
+      padding-left: 0 !important;
+    }
+
+    .current {
+      .views-row {
+        display: flex !important;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        align-content: flex-start;
+        align-items: flex-start;
+        gap: 0.5rem;
+
+        grid-template-columns: initial !important;
+        grid-template-rows: initial;
+
+        .views-field-field-image {
+          // grid-area: 1 / 1 / 2 / 2;
+          grid-area: initial;
+        }
+
+        .views-field-title {
+          grid-area: initial;
+          // grid-area: 2 / 1 / 3 / 2;
+        }
+
+        .views-field-body {
+          grid-area: initial;
+          // grid-area: 3 / 1 / 4 / 2;
+        }
+
+        .views-field-field-further-location-informati {
+          grid-area: initial;
+          //  grid-area: 4 / 1 / 5 / 2;
+        }
+
+        .views-field-field-start-date {
+          grid-area: initial;
+          // grid-area: 5 / 1 / 6 / 2;
+        }
+
+        .views-field-field-end-date-1 {
+          grid-area: initial;
+          //  grid-area: 6 / 1 / 7 / 2;
+        }
+      }
+    }
+
+    .permanent,
+    .view-exhibitions-past {
+      .view-content {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+}
