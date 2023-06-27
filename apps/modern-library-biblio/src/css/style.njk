@@ -10,6 +10,10 @@ permalink: "css/style.css"
   {% include "src/fonts/allura.css" %}
   {% include "src/fonts/rochester.css" %}
 
+  body {
+    --lumo-clickable-cursor: pointer;
+  }
+
   site-menu-bar {
     padding: 0;
   }
@@ -44,7 +48,6 @@ permalink: "css/style.css"
   uvalib-modal-image-button::part(button):focus {outline:0;}
 
   .smallcaps {font-variant-caps: small-caps;}
-
   
 {% endset %}
 {{ css | cssmin | safe }}

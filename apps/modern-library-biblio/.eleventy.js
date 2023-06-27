@@ -10,7 +10,12 @@ const pathPrefix = process.env.PATH_PREFIX || "";
 module.exports = function(eleventyConfig) {
   // Use the configuration from the template
   let config = templateConfig(eleventyConfig);
-//console.log(eleventyConfig);  
+
+  eleventyConfig.addPassthroughCopy({"src/js":"js"});
+  eleventyConfig.addPassthroughCopy({".nojekyll":".nojekyll"});
+  eleventyConfig.addPassthroughCopy({"src/mlb/images":"mlb/images"});
+  eleventyConfig.addPassthroughCopy({"src/images":"images"});
+  eleventyConfig.addPassthroughCopy({"src/fonts":"fonts"});
 
   eleventyConfig.addFilter('yearSearchPick', function(...args){
     let document = args.shift();
@@ -152,10 +157,10 @@ module.exports = function(eleventyConfig) {
     eleventyConfig.addNunjucksShortcode("arrayOrStringPara", arrayOrStringToParaShortcode);
     
     eleventyConfig.addPassthroughCopy({"src/js":"js"});
-    eleventyConfig.addPassthroughCopy("src/.nojekyll");
-    eleventyConfig.addPassthroughCopy("src/mlb/images");
-    eleventyConfig.addPassthroughCopy("src/images");
-    eleventyConfig.addPassthroughCopy("src/fonts");
+    eleventyConfig.addPassthroughCopy(".nojekyll");
+    eleventyConfig.addPassthroughCopy("mlb/images");
+    eleventyConfig.addPassthroughCopy("images");
+    eleventyConfig.addPassthroughCopy("fonts");
     eleventyConfig.addFilter("cssmin", function(code) { return new CleanCSS({}).minify(code).styles; });
     
     return {
