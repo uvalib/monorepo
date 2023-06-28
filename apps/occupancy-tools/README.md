@@ -1,13 +1,13 @@
 # `occupancy-tools`
 
-> Scripts to pull occupancy (and related) data from endpoints into our db
+> Script to pull occupancy (and related) data from endpoints into our libinsight db 
 
 ## Usage
 
 ```
-export FIREBASEKEY=$(cat /path/to/keyfile)
 export AXISUSER=user
 export AXISPASS=password
+export LIBINSIGHTTOKEN=token
 npx occupancy-poller
 ```
 

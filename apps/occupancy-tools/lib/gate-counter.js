@@ -6,7 +6,6 @@
  * export AXISPASS=password
  */
 
-import OccupancyBase from './occupancy-base.js';
 import DigestFetch from 'digest-fetch';
 
 import dateTime from 'date-and-time'; // use this NodeJS module to format date strings as needed
@@ -23,22 +22,19 @@ const gateIDs = {
     "TBD: Harrison Small" : 18
 };
 
-export default class GateCounter extends OccupancyBase {
+export default class GateCounter {
     getGateCounts() {
 
         // This script would run once a day to pull the 24h bin for the previous day. So get the current date.
-        //const now = new Date("2022-10-03");
         const now = new Date();
         const today = dateTime.format(now,"YYYYMMDD") + "000000";
 
-        this._logInfo(`Getting gate counts: ${today}`);
+        console.info(`Getting gate counts: ${today}`);
 
         // need to get yesterday's date to align the count with the proper date when written to gate counts
         const daybefore = dateTime.addDays(now, -1);
         const yesterday = dateTime.format(daybefore, "YYYYMMDD"); // use this string in the URL to get the 24h bin JSON element
         const yesterHyphen = dateTime.format(daybefore, "YYYY-MM-DD") + " 00:00:00"; // use this string for the Springshare API
-//        console.log("yesterday: %s", yesterday);
-//        console.log("yesterHyphen: %s", yesterHyphen);
 
         // add *yesterday* variable defined above to the end of each url property to retrieve the data from the sensors
         const occupancyEstimators = [
@@ -55,19 +51,15 @@ export default class GateCounter extends OccupancyBase {
             occupancyEstimators.forEach((oe) => {
                 const client = new DigestFetch(process.env.AXISUSER, process.env.AXISPASS, {algorithm: 'MD5'});
                 const retryFetch = (client, url, retries=5) => {
-                        //console.log("Attempt to fetch "+url)
                         return client.fetch(url)
                             .then(res => {
                                 if (res.ok) return res;
                                 if (retries>0) {
-                                    //console.log("Trying to fetch again since we got "+res.status);
                                     return retryFetch(client, url, retries-1)
                                 }
                                 throw new Error(res.status)
                             }).catch((e)=>{
-                                //console.log("Error!!!!!!!!!!!!!!!!!!")
                                 if (retries>0) {
-                                    //console.log("Trying to fetch again since we got "+e.message);
                                     return retryFetch(client, url, retries-1)
                                 } else {
                                     throw e;
@@ -92,12 +84,11 @@ export default class GateCounter extends OccupancyBase {
                             }
                             return;
                         })
-                        .catch((e) => this._logError(`fetch from endpoint at ${oe.url}: ${e}`) ),
+                        .catch((e) => console.error(`fetch from endpoint at ${oe.url}: ${e}`) ),
                 );
             });
             Promise.all(promises)
             .then((data) => {
-                //console.log(gateLocationsData);
                 if (gateLocationsData.length > 0) {
                     fetch(`https://virginia.libinsight.com/add.php?wid=34&type=5&token=${process.env.LIBINSIGHTTOKEN}&data=json`,
                     { method: 'POST', body: JSON.stringify(gateLocationsData), headers: headerObjJson })
@@ -106,24 +97,24 @@ export default class GateCounter extends OccupancyBase {
                         if (body) {
                             const result = JSON.parse(body);
                             if (result.response) {
-                                this._logInfo(`LibInsight Gate Count data write succeeded for ${yesterHyphen}`);
+                                console.info(`LibInsight Gate Count data write succeeded for ${yesterHyphen}`);
                             } else {
-                                this._logError(`LibInsight Gate Count data write failed for ${yesterHyphen}`);
+                                console.error(`LibInsight Gate Count data write failed for ${yesterHyphen}`);
                             }
                         }
                         return;
                     })
                     .catch((e) => {
-                        this._logError(e);
+                        console.error(e);
                     });
             }
             return;
             })
             .catch((e) => {
-                this._logError(e);
+                console.error(e);
             });
         } catch (e) {
-            this._logError(e);
+            console.error(e);
         }
 
 
