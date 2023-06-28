@@ -4,15 +4,22 @@
 
 ## Usage
 
-```
+Set the necessary environment variables:
+
+```sh
 export AXISUSER=user
 export AXISPASS=password
 export LIBINSIGHTTOKEN=token
-npx occupancy-poller
+```
+
+Now you can execute the compiled script by running:
+
+```sh
+pnpm start
 ```
 
 ## Deployment
 
-First build the service container using [this TeamCity job](https://teamcity.lib.virginia.edu/buildConfiguration/OccupancyService_BuildImage#all-projects).
+First, build the service container using [this TeamCity job](https://teamcity.lib.virginia.edu/buildConfiguration/OccupancyService_BuildImage#all-projects).
 
-Then deploy the container using [this TeamCity job](https://teamcity.lib.virginia.edu/buildConfiguration/OccupancyService_ProductionDeploy#all-projects)
+Then, deploy the container using [this TeamCity job](https://teamcity.lib.virginia.edu/buildConfiguration/OccupancyService_ProductionDeploy#all-projects).

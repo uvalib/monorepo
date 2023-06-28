@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+      "target": "ES2019",
+      "module": "ESNext",
+      "outDir": "./dist",
+      "rootDir": "./lib",
+      "strict": true,
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "forceConsistentCasingInFileNames": true,
+      "resolveJsonModule": true,
+      "moduleResolution": "node"
+    },
+    "include": ["**/*.ts"],
+    "exclude": ["node_modules", "dist"]
+  }
+  

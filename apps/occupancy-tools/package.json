@@ -5,27 +5,29 @@
   "author": "Doug Chestnut <dougchestnut@users.noreply.github.com>",
   "homepage": "https://github.com/uvalib/monorepo/tree/main/apps/occupancy-tools#readme",
   "license": "ISC",
-  "main": "occupancy-polling.js",
+  "main": "dist/occupancy-polling.js",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
   },
   "files": [
-    "lib"
+    "dist"
   ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/uvalib/monorepo.git"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "build": "tsc",
+    "start": "npm run build && node dist/occupancy-poller.js"
   },
   "bugs": {
     "url": "https://github.com/uvalib/monorepo/issues"
   },
   "type": "module",
   "bin": {
-    "occupancy-poller": "./lib/occupancy-poller.js"
+    "occupancy-poller": "./dist/occupancy-poller.js"
   },
   "dependencies": {
     "date-and-time": "^3.0.2",
