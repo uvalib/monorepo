@@ -20,7 +20,7 @@
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
     "build": "tsc",
-    "start": "pnpm build && node dist/occupancy-poller.js"
+    "start": "npm build && node dist/occupancy-poller.js"
   },
   "bugs": {
     "url": "https://github.com/uvalib/monorepo/issues"
