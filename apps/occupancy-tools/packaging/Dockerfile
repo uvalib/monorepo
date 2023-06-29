@@ -28,7 +28,7 @@ RUN mkdir -p $APP_HOME/lib $APP_HOME/scripts
 
 # Move in necessary assets
 COPY packaging/scripts/entry.sh $APP_HOME/scripts/entry.sh
-COPY package.json tsconfig.json $APP_HOME
+COPY package.json tsconfig.json $APP_HOME/
 COPY lib/* $APP_HOME/lib/
 
 # Update permissions
