@@ -9,7 +9,8 @@ class OccupancyPoller {
         this.gateCounter = new GateCounter();
         this.lastGateCountDay = new Date().getDate();
 
-        // this.gateCounter.getGateCounts();
+        // Immediately call getGateCounts upon construction
+        this.gateCounter.getGateCounts();
     }
 
     startPolling(interval: number): void {
@@ -21,7 +22,6 @@ class OccupancyPoller {
             }
         }, interval);
     }
-
 }
 
 const POLL_INTERVAL = 3600000; // 1 hour in milliseconds
