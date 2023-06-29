@@ -2,6 +2,14 @@
 
 > Script to pull occupancy (and related) data from endpoints into our libinsight db 
 
+## Build (if needed)
+
+If you make changes to the typescript files, go ahead and build the project:
+
+```sh
+pnpm build
+```
+
 ## Usage
 
 Set the necessary environment variables:
@@ -16,6 +24,10 @@ Now you can execute the compiled script by running:
 
 ```sh
 pnpm start
+```
+or
+```sh
+npm run start
 ```
 
 ## Deployment
