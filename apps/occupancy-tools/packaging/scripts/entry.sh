@@ -2,8 +2,7 @@
 # main entry point
 #
 
-# run the script
-# node lib/occupancy-poller.js
+# start the service
 npm start
 
 #
