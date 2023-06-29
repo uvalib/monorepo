@@ -32,5 +32,8 @@
   "dependencies": {
     "date-and-time": "^3.0.2",
     "digest-fetch": "^3.0.4"
+  },
+  "devDependencies": {
+    "typescript": "^5.1.6"
   }
 }
