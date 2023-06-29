@@ -2,7 +2,7 @@
 # build the target container
 #
 
-FROM public.ecr.aws/docker/library/node:18.7.0-buster-slim
+FROM public.ecr.aws/docker/library/node:18.16-bullseye-slim
 
 # update the packages
 RUN apt-get -y update && apt-get install -y iputils-ping curl traceroute procps
@@ -28,7 +28,7 @@ RUN mkdir -p $APP_HOME/lib $APP_HOME/scripts
 
 # Move in necessary assets
 COPY packaging/scripts/entry.sh $APP_HOME/scripts/entry.sh
-COPY package.json $APP_HOME
+COPY package.json tsconfig.json $APP_HOME/
 COPY lib/* $APP_HOME/lib/
 
 # Update permissions
