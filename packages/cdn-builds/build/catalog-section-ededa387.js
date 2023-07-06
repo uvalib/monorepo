@@ -1,4 +1,4 @@
-import{_ as s,e as t,a as i,b as e,x as a}from"./query-assigned-elements-23ba9e4f.js";import{C as l}from"./ArticlesData-c1e511c9.js";import{B as r}from"./BentoSection-3ae60287.js";import"./unsafe-html-b3407b2c.js";import"./SiteStyle-86c89e81.js";var o;class u extends r{constructor(){super(),o.set(this,void 0),this.items=[],this.meta={totalResults:0},this.title="Virgo Catalog",i(this,o,new l({query:""}),"f"),this.limit=5}updated(s){super.updated(s),(s.has("query")||s.has("limit"))&&(this.loading=!0,e(this,o,"f").query=this.query,e(this,o,"f").fetchData({limit:this.limit}).then((s=>{this.items=s.items,this.meta=s.meta,this.loading=!1})))}render(){var s,t,i;return a`
+import{_ as s,e as t,a as i,b as e}from"./query-assigned-elements-ba719eec.js";import{x as a}from"./lit-element-b1a1c7e4.js";import{C as l}from"./ArticlesData-e9b81d53.js";import{B as r}from"./BentoSection-4595ae76.js";import"./unsafe-html-d2a53643.js";import"./SiteStyle-00ee8f65.js";var o;class n extends r{constructor(){super(),o.set(this,void 0),this.items=[],this.meta={totalResults:0},this.title="Virgo Catalog",i(this,o,new l({query:""}),"f"),this.limit=5}updated(s){super.updated(s),(s.has("query")||s.has("limit"))&&(this.loading=!0,e(this,o,"f").query=this.query,e(this,o,"f").fetchData({limit:this.limit}).then((s=>{this.items=s.items,this.meta=s.meta,this.loading=!1})))}render(){var s,t,i;return a`
         <div class="bs-results--header">
             <h3>${this.title}</h3>
             <div ?hidden="${!this.isEmptySearch}"><a href="${null===(t=null===(s=this.meta)||void 0===s?void 0:s.url)||void 0===t?void 0:t.replace(/(.*)\?.*/,"$1")}" class="uvalib-button">Search Virgo</a></div>
@@ -29,4 +29,4 @@ import{_ as s,e as t,a as i,b as e,x as a}from"./query-assigned-elements-23ba9e4
   
             </ol>
         </div>
-    `}}o=new WeakMap,s([t({type:Array})],u.prototype,"items",void 0),window.customElements.define("catalog-section",u);
+    `}}o=new WeakMap,s([t({type:Array})],n.prototype,"items",void 0),window.customElements.define("catalog-section",n);

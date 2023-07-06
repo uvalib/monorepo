@@ -1,4 +1,4 @@
-import{x as t}from"./query-assigned-elements-23ba9e4f.js";function e(t){const e=t.match(/(\d+):(\d+)(am|pm)/i);if(e){const t=e[1],r=e[2],o=e[3].toLowerCase();return"00"===r?`${t}${o}`:`${t}:${r}${o}`}return t}function r(t){return t.replace("24hours","24 Hours").replace("ByApp","By Appt")}function o(o){return o.hours?o.hours.map((r=>t`
+import{x as t}from"./lit-element-b1a1c7e4.js";function e(t){const e=t.match(/(\d+):(\d+)(am|pm)/i);if(e){const t=e[1],r=e[2],o=e[3].toLowerCase();return"00"===r?`${t}${o}`:`${t}:${r}${o}`}return t}function r(t){return t.replace("24hours","24 Hours").replace("ByApp","By Appt")}function o(o){return o.hours?o.hours.map((r=>t`
       ${e(r.from)} - ${e(r.to)}
     `)):o.status?r(o.status):""}function n(o){if(o&&o.hours&&o.hours.rawDates){const n=o.hours,s=Object.values(n.rawDates)[0];if(s.hours)return s.hours.map((r=>t`
         ${e(r.from)} - ${e(r.to)}

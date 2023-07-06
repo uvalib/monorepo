@@ -1,4 +1,4 @@
-import{i as e,_ as i,e as t,s as o,x as n}from"./query-assigned-elements-23ba9e4f.js";import{o as r}from"./unsafe-html-b3407b2c.js";import{S as a}from"./SiteStyle-86c89e81.js";var s=e`
+import{_ as e,e as i}from"./query-assigned-elements-ba719eec.js";import{i as t,s as o,x as n}from"./lit-element-b1a1c7e4.js";import{o as r}from"./unsafe-html-d2a53643.js";import{S as s}from"./SiteStyle-00ee8f65.js";var a=t`
     :host {
         --bento-section-padding: 25px;
         --bento-section-border-color: black;
@@ -44,7 +44,7 @@ import{i as e,_ as i,e as t,s as o,x as n}from"./query-assigned-elements-23ba9e4
         <div class="bento-section-title">${r(e.title)}</div>
       `}
       <div class="bento-section-desc">${r(e.description)}</div>
-    `}d.styles=e`
+    `}d.styles=t`
     :host {
       display: block;
     }
@@ -226,7 +226,7 @@ import{i as e,_ as i,e as t,s as o,x as n}from"./query-assigned-elements-23ba9e4
         background: #fff;
       }
     }
-  `,i([t({type:String})],d.prototype,"message",void 0),i([t({type:Boolean})],d.prototype,"overlay",void 0),i([t({type:Boolean})],d.prototype,"book",void 0),i([t({type:String,reflect:!0})],d.prototype,"role",void 0),i([t({type:String,reflect:!0,attribute:"aria-label"})],d.prototype,"label",void 0),window.customElements.define("site-spinner",d);class p extends a{constructor(){super(...arguments),this.query="",this.limit=0,this.title="",this.label="",this.items=[],this.loading=!1,this.noResultDescribe="",this.isEmptySearch=!0}static get styles(){return[...super.styles,s]}updated(e){(e.has("items")||e.has("loading"))&&(this.isEmptySearch=this.loading||!this.items||0===this.items.length)}renderBriefItem(e){return l(e)}limitTitle(e){return this.maxTitleLength&&e&&e.length>=this.maxTitleLength?`${e.substring(0,this.maxTitleLength)}…`:e}render(){return n`
+  `,e([i({type:String})],d.prototype,"message",void 0),e([i({type:Boolean})],d.prototype,"overlay",void 0),e([i({type:Boolean})],d.prototype,"book",void 0),e([i({type:String,reflect:!0})],d.prototype,"role",void 0),e([i({type:String,reflect:!0,attribute:"aria-label"})],d.prototype,"label",void 0),window.customElements.define("site-spinner",d);class p extends s{constructor(){super(...arguments),this.query="",this.limit=0,this.title="",this.label="",this.items=[],this.loading=!1,this.noResultDescribe="",this.isEmptySearch=!0}static get styles(){return[...super.styles,a]}updated(e){(e.has("items")||e.has("loading"))&&(this.isEmptySearch=this.loading||!this.items||0===this.items.length)}renderBriefItem(e){return l(e)}limitTitle(e){return this.maxTitleLength&&e&&e.length>=this.maxTitleLength?`${e.substring(0,this.maxTitleLength)}…`:e}render(){return n`
       <h1>${this.limitTitle(this.title)}</h1>
       <h2 ?hidden="${this.loading}">${this.label?this.label:`Search for ${this.query}`}</h2>
       ${this.loading?n`<site-spinner></site-spinner>`:""}
@@ -238,4 +238,4 @@ import{i as e,_ as i,e as t,s as o,x as n}from"./query-assigned-elements-23ba9e4
           </li>
         `))}
       </ul>
-    `}}i([t({type:String})],p.prototype,"query",void 0),i([t({type:Number})],p.prototype,"limit",void 0),i([t({type:String})],p.prototype,"title",void 0),i([t({type:Number,attribute:"max-title-length"})],p.prototype,"maxTitleLength",void 0),i([t({type:String})],p.prototype,"label",void 0),i([t({type:Array})],p.prototype,"items",void 0),i([t({type:Boolean})],p.prototype,"loading",void 0),i([t({type:String,attribute:"no-result-describe"})],p.prototype,"noResultDescribe",void 0),i([t({type:Boolean,attribute:"is-empty-search"})],p.prototype,"isEmptySearch",void 0);export{p as B,l as r};
+    `}}e([i({type:String})],p.prototype,"query",void 0),e([i({type:Number})],p.prototype,"limit",void 0),e([i({type:String})],p.prototype,"title",void 0),e([i({type:Number,attribute:"max-title-length"})],p.prototype,"maxTitleLength",void 0),e([i({type:String})],p.prototype,"label",void 0),e([i({type:Array})],p.prototype,"items",void 0),e([i({type:Boolean})],p.prototype,"loading",void 0),e([i({type:String,attribute:"no-result-describe"})],p.prototype,"noResultDescribe",void 0),e([i({type:Boolean,attribute:"is-empty-search"})],p.prototype,"isEmptySearch",void 0);export{p as B,l as r};

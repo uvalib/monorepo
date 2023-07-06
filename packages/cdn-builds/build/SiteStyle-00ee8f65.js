@@ -1,4 +1,4 @@
-import{i as a,_ as e,s as r,a as t,b as l,B as u,x as o,e as v}from"./query-assigned-elements-23ba9e4f.js";const n=a`
+import{_ as a,a as e,b as r,e as t}from"./query-assigned-elements-ba719eec.js";import{i as l,s as o,B as u,x as v}from"./lit-element-b1a1c7e4.js";const n=l`
 :host {
   /* UVA Brand Blue */
   --uva-brand-blue-lightest: #87B9D9;
@@ -98,13 +98,13 @@ import{i as a,_ as e,s as r,a as t,b as l,B as u,x as o,e as v}from"./query-assi
   /* UVA White */
   --uva-white: #fff;
 }
-`,i=a`
+`,i=l`
 :host {
   --box-shadow:  0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   --box-shadow-light: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.12);
   --box-shadow-mid:  0 2px 4px rgba(0, 0, 0, 0.10), 0 2px 4px rgba(0, 0, 0, 0.12);
 }
-`,s=a`
+`,s=l`
 .w3-col, .w3-half, .w3-third, .w3-twothird, .w3-threequarter, .w3-quarter {
     float: left;
     width: 100%;
@@ -120,7 +120,7 @@ import{i as a,_ as e,s as r,a as t,b as l,B as u,x as o,e as v}from"./query-assi
 .w3-width-1360 {
     max-width: 1360px !important;
 }
-`,d=a`
+`,d=l`
 * {
     font-family: franklin-gothic-urw, Arial, Helvetica, sans-serif !important;
 }
@@ -141,6 +141,6 @@ body {
 input, button, textarea, select {
     font: inherit;
 }
-`;var b;class g extends r{constructor(){super(...arguments),this.noShadowDom=!1,this.noStyle=!1,this.imports={},this.importedStyles="",this.headingLevelStart=2,b.set(this,null)}resizeReactive(){import("./resize_controller-08b62fc4.js").then((({ResizeController:a})=>{this._resizeController=new a(this,{})}))}static get styles(){return[n,i,s,d]}firstUpdated(){this.imports&&!this.noStyle&&Object.keys(this.imports).forEach((a=>{if(this.imports[a]){const e=this.imports[a];import(e).then((e=>{this.importedStyles+=e.default.toString().replace(/:host/,a.toLowerCase())}))}}))}connectedCallback(){super.connectedCallback(),this.noShadowDom&&!this.noStyle&&(t(this,b,document.createElement("style"),"f"),this.appendChild(l(this,b,"f")),u(o`${Object.getPrototypeOf(this).constructor.styles.map((a=>a.toString().replace(/:host/m,this.tagName.toLowerCase())))}`,l(this,b,"f")))}createRenderRoot(){return this.noShadowDom?this:super.createRenderRoot()}render(){return o`
-      ${this.noShadowDom?"":o`<slot></slot>`}
-    `}}b=new WeakMap,e([v({type:Boolean,attribute:"no-shadow-dom"})],g.prototype,"noShadowDom",void 0),e([v({type:Boolean,attribute:"no-style"})],g.prototype,"noStyle",void 0),e([v({type:Object})],g.prototype,"imports",void 0),e([v({type:String})],g.prototype,"importedStyles",void 0),e([v({type:Number})],g.prototype,"headingLevelStart",void 0);export{g as S};
+`;var b;class g extends o{constructor(){super(...arguments),this.noShadowDom=!1,this.noStyle=!1,this.imports={},this.importedStyles="",this.headingLevelStart=2,b.set(this,null)}resizeReactive(){import("./resize_controller-08b62fc4.js").then((({ResizeController:a})=>{this._resizeController=new a(this,{})}))}static get styles(){return[n,i,s,d]}firstUpdated(){this.imports&&!this.noStyle&&Object.keys(this.imports).forEach((a=>{if(this.imports[a]){const e=this.imports[a];import(e).then((e=>{this.importedStyles+=e.default.toString().replace(/:host/,a.toLowerCase())}))}}))}connectedCallback(){super.connectedCallback(),this.noShadowDom&&!this.noStyle&&(e(this,b,document.createElement("style"),"f"),this.appendChild(r(this,b,"f")),u(v`${Object.getPrototypeOf(this).constructor.styles.map((a=>a.toString().replace(/:host/m,this.tagName.toLowerCase())))}`,r(this,b,"f")))}createRenderRoot(){return this.noShadowDom?this:super.createRenderRoot()}render(){return v`
+      ${this.noShadowDom?"":v`<slot></slot>`}
+    `}}b=new WeakMap,a([t({type:Boolean,attribute:"no-shadow-dom"})],g.prototype,"noShadowDom",void 0),a([t({type:Boolean,attribute:"no-style"})],g.prototype,"noStyle",void 0),a([t({type:Object})],g.prototype,"imports",void 0),a([t({type:String})],g.prototype,"importedStyles",void 0),a([t({type:Number})],g.prototype,"headingLevelStart",void 0);export{g as S};
