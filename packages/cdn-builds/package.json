@@ -20,7 +20,8 @@
     "@uvalib/site-components": "workspace:*",
     "@uvalib/site-button": "workspace:*",
     "@uvalib/data-wrap": "workspace:*",
-    "@uvalib/site-header": "workspace:*"
+    "@uvalib/site-header": "workspace:*",
+    "@uvalib/site-footer": "workspace:*"
   },
   "devDependencies": {
     "tsconfig": "workspace:*"
@@ -38,6 +39,7 @@
     "./site-components/site-tabs.js": "./build/@uvalib/site-components/site-tabs.js",
     "./site-components/site-switch.js": "./build/@uvalib/site-components/site-switch.js",
     "./site-header/site-header.js": "./build/@uvalib/site-header/site-header.js",
+    "./site-footer/site-footer.js": "./build/@uvalib/site-footer/site-footer.js",
     "./site-hours/site-hours-section.js": "./build/@uvalib/site-hours/site-hours-section.js",
     "./site-hours/library-weekly-hours.js": "./build/@uvalib/site-hours/library-weekly-hours.js",
     "./site-style/site-style.js": "./build/@uvalib/site-style/site-style.js",
