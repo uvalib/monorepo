@@ -10,7 +10,8 @@
     "dev": "turbo run dev",
     "mkPkg": "cd packages; npm init @open-wc",
     "mkApp": "cd apps; npm init @open-wc",
-    "pullExternal": "git subtree pull --prefix=packages/drupal_library_theme/src external-drupal-theme-repo main"
+    "pullExternal": "git subtree pull --prefix=packages/drupal_library_theme/src external-drupal-theme-repo main",
+    "deployCDNBuildPatch": "pnpm build && cd packages/cdn-builds && pnpm build-rollup && pnpm version patch && pnpm publish --no-git-checks && git add . && git commit -m'new cdn build' && git push origin main"
   },
   "keywords": [],
   "author": "",

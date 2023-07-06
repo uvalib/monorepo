@@ -286,6 +286,9 @@ importers:
       '@uvalib/site-components':
         specifier: workspace:*
         version: link:../site-components
+      '@uvalib/site-footer':
+        specifier: workspace:*
+        version: link:../site-footer
       '@uvalib/site-header':
         specifier: workspace:*
         version: link:../site-header
