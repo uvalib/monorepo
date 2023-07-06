@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  drupal:
+    build: ./
+    ports:
+      - "8080:80"
+    volumes:
+      - drupal-data:/var/www/html
+
+volumes:
+  drupal-data:

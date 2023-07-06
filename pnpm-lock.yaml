@@ -139,10 +139,6 @@ importers:
       digest-fetch:
         specifier: ^3.0.4
         version: 3.0.4
-    devDependencies:
-      typescript:
-        specifier: ^5.1.6
-        version: 5.1.6
 
   apps/site-mock:
     dependencies:

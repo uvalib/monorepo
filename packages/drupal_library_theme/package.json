@@ -1,0 +1,15 @@
+{
+  "name": "drupal_library_theme",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "check:docker-compose": "bash scripts/check-docker-compose.sh",
+    "docker:up": "pnpm check:docker-compose && docker-compose -f docker/docker-compose.yml up --build -d",
+    "install:theme": "bash scripts/install-theme.sh",
+    "sync:content": "bash scripts/sync-content.sh",
+    "test": "vendor/bin/phpunit --configuration tests/phpunit.xml"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
