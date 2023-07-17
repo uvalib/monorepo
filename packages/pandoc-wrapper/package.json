@@ -1,0 +1,12 @@
+{
+  "name": "pandoc-wrapper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "pandoc": "node pandoc.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
