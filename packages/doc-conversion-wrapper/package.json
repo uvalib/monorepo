@@ -1,0 +1,21 @@
+{
+  "name": "@uvalib/doc-conversion-wrapper",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "pandoc": "node pandoc.js",
+    "doc2md": "node convert.js",
+    "build": "cd pandoc && docker build -t pandoc-debian . && cd ../saxon && docker build -t saxon-debian ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mammoth": "^1.6.0",
+    "turndown": "^7.1.2"
+  },
+  "bin": {
+    "doc2md": "./convert.js"
+  }
+}
