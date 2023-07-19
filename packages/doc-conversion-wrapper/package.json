@@ -13,7 +13,8 @@
   "license": "ISC",
   "dependencies": {
     "mammoth": "^1.6.0",
-    "turndown": "^7.1.2"
+    "turndown": "^7.1.2",
+    "yargs": "^17.7.2"
   },
   "bin": {
     "doc2md": "./convert.js"
