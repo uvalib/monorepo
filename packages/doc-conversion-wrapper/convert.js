@@ -6,6 +6,7 @@ const fs = require('fs');
 const path = require('path');
 const yargs = require('yargs/yargs');
 const { hideBin } = require('yargs/helpers');
+const { execSync } = require('child_process');
 
 const turndownService = new TurndownService();
 
@@ -23,22 +24,23 @@ const argv = yargs(hideBin(process.argv))
     .argv;
 
 // Retrieve the file paths from the command line arguments
-const docxPaths = argv._;
+const docPaths = argv._;
 const outDir = argv.outdir;
 const overwrite = argv.overwrite;
 
-if (!docxPaths.length) {
-    console.error('Please provide a .docx file path or pattern as an argument.');
+if (!docPaths.length) {
+    console.error('Please provide a .docx or .tei file path or pattern as an argument.');
     process.exit(1);
 }
 
-docxPaths.forEach(docxPath => {
+docPaths.forEach(docPath => {
     // Derive the new file path
-    const parsedPath = path.parse(docxPath);
+    const parsedPath = path.parse(docPath);
     const outputDirectory = outDir || parsedPath.dir;
 
     // If output directory does not exist, create it
     if (!fs.existsSync(outputDirectory)) {
+        console.log(outputDirectory);
         fs.mkdirSync(outputDirectory, { recursive: true });
     }
 
@@ -50,16 +52,43 @@ docxPaths.forEach(docxPath => {
         return;
     }
 
-    mammoth.convertToHtml({ path: docxPath })
-        .then(result => {
-            const html = result.value;
-            const messages = result.messages;
-            
-            // Check if there are any warnings and print them
-            if (messages.length) {
-                console.warn("Conversion warnings for file", docxPath);
-                messages.forEach((message) => console.warn(message.message));
-            }
+    if (parsedPath.ext === '.docx') {
+        // If it's a .docx file, use Mammoth to convert to HTML
+        mammoth.convertToHtml({ path: docPath })
+            .then(result => {
+                const html = result.value;
+                const messages = result.messages;
+                
+                // Check if there are any warnings and print them
+                if (messages.length) {
+                    console.warn("Conversion warnings for file", docPath);
+                    messages.forEach((message) => console.warn(message.message));
+                }
+
+                // Convert the HTML to markdown
+                const markdown = turndownService.turndown(html);
+
+                // Write the markdown to a file
+                fs.writeFileSync(newFilePath, markdown);
+
+                console.log(`Markdown file created at ${newFilePath}`);
+            })
+            .catch(err => {
+                console.error('An error occurred:', err);
+            });
+    } else if (parsedPath.ext === '.tei') {
+        // If it's a .tei file, use Docker and the Saxon HE jar to convert to HTML
+        const htmlFilePath = path.join(outputDirectory, `${parsedPath.name}.html`);
+
+        try {
+            const absoluteDocPath = path.resolve(docPath);
+            const command = `docker run -v "${path.dirname(absoluteDocPath)}:/data" saxon-debian -s:/data/${path.basename(docPath)} -xsl:/data/tei2html.xsl -o:/data/${path.basename(htmlFilePath)}`;
+
+
+            execSync(command);
+
+            // Read the generated HTML file
+            const html = fs.readFileSync(path.join(path.dirname(absoluteDocPath), path.basename(htmlFilePath)), 'utf8');
 
             // Convert the HTML to markdown
             const markdown = turndownService.turndown(html);
@@ -67,9 +96,14 @@ docxPaths.forEach(docxPath => {
             // Write the markdown to a file
             fs.writeFileSync(newFilePath, markdown);
 
+            // Delete the HTML file
+            fs.unlinkSync(path.join(path.dirname(absoluteDocPath), path.basename(htmlFilePath)));
+
             console.log(`Markdown file created at ${newFilePath}`);
-        })
-        .catch(err => {
+        } catch (err) {
             console.error('An error occurred:', err);
-        });
+        }
+    } else {
+        console.error(`Unsupported file extension: ${parsedPath.ext}`);
+    }
 });
