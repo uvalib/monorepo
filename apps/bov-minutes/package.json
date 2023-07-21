@@ -1,0 +1,17 @@
+{
+  "name": "@uvalib/bov-minutes",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 0",
+    "import-docs": "doc2md import/*.tei --outdir documents"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@uvalib/11ty-template": "workspace:^",
+    "@uvalib/doc-conversion-wrapper": "workspace:*"
+  }
+}
