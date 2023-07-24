@@ -17,6 +17,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@11ty/eleventy": "^2.0.1",
     "@babel/core": "^7.20.5",
     "@babel/preset-env": "^7.15.0",
     "@custom-elements-manifest/analyzer": "^0.8.3",
