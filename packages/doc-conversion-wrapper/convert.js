@@ -82,8 +82,8 @@ docPaths.forEach(docPath => {
 
         try {
             const absoluteDocPath = path.resolve(docPath);
-            const command = `docker run -v "${path.dirname(absoluteDocPath)}:/data" saxon-debian -s:/data/${path.basename(docPath)} -xsl:/data/tei2html.xsl -o:/data/${path.basename(htmlFilePath)}`;
-
+            const absoluteStylesheetPath = path.resolve(__dirname, 'tei2html.xsl');
+            const command = `docker run -v "${path.dirname(absoluteDocPath)}:/data" -v "${path.dirname(absoluteStylesheetPath)}:/styles" saxon-debian -s:/data/${path.basename(docPath)} -xsl:/styles/tei2html.xsl -o:/data/${path.basename(htmlFilePath)}`;
 
             execSync(command);
 

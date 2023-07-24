@@ -14,9 +14,4 @@ RUN unzip SaxonHE12-3J.zip -d SaxonHE12-3J && rm SaxonHE12-3J.zip
 # Move the Saxon directory to the root
 RUN mv SaxonHE12-3J /SaxonHE12-3J
 
-# Clone TEIC Stylesheets
-RUN git clone https://github.com/TEIC/Stylesheets.git
-
-WORKDIR /Stylesheets
-
 ENTRYPOINT ["java", "-jar", "/SaxonHE12-3J/saxon-he-12.3.jar"]
