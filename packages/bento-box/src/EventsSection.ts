@@ -40,13 +40,13 @@ export class EventsSection extends BentoSection {
     `
   }
 
-  static isSameDay(date1: Date, date2: Date): boolean {
-    return (
-      date1.getFullYear() === date2.getFullYear() &&
-      date1.getMonth() === date2.getMonth() &&
-      date1.getDate() === date2.getDate()
-    );
+  static isSameDay(date1: Date, date2: Date, timeZone: string = 'America/New_York'): boolean {
+    function toDateString(date: Date) {
+      return date.toLocaleDateString('en-US', {timeZone});
+    }
+    return toDateString(date1) === toDateString(date2);
   }
+
 
   static dateRange(_start: number|undefined, _end: number|undefined){
     const start = _start? new Date(_start): new Date();
