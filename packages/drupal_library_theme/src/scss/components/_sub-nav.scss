@@ -1,9 +1,13 @@
 @use '../base/index'as *;
 
-.field--name-field-subnav {
+.site-sidebar--subnav {
+  h4:first-of-type {
+    margin-top: 0;
+  }
   nav {
     ul {
       padding-left: 0;
+      list-style-type: none;
 
       li { 
         @extend h5;
@@ -14,8 +18,8 @@
           li {
             font-size: 1rem !important;
             font-weight: normal;
-            padding: 0.5rem 0.7rem;
-            border-left: 4px solid $uva-brand-orange;
+            padding: 0.5rem 1rem;
+            border-left: 2px solid #{$uva-brand-orange};
             outline: inherit;
             margin: 0 !important;
             &:first-child {
@@ -30,3 +34,7 @@
     }
   }
 }
+
+// .site-sidebar--sidebar {
+//  margin-top: 1rem;
+// }

@@ -61,6 +61,7 @@ base:
     js/utils.js: {}
     js/dialog.js: {}
     js/staff-bio.js: {}
+    js/components.js: {}
   dependencies:
     - core/jquery
     - core/drupal.ajax

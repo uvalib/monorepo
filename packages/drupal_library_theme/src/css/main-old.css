@@ -12,6 +12,7 @@ h3,
 .event-container .event-url .event-date .event--day,
 h4,
 .rds-articles h2,
+.rds-articles h3,
 .library-hours .uva-library--hours .weekly-hours-header-section .heading-h2,
 .staff-directory .staff-directory-row .staff-directory-name,
 footer .footer--main .block h2,
@@ -59,9 +60,10 @@ select {
   html:focus-within {
     scroll-behavior: auto;
   }
+
   *,
-  *::before,
-  *::after {
+*::before,
+*::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
@@ -111,7 +113,7 @@ h3, .event-container .event-url .event-date .event--day,
   line-height: 1.15;
 }
 
-h4, .rds-articles h2, .library-hours .uva-library--hours .weekly-hours-header-section .heading-h2, .staff-directory .staff-directory-row .staff-directory-name, footer .footer--main .block h2,
+h4, .rds-articles h2, .rds-articles h3, .library-hours .uva-library--hours .weekly-hours-header-section .heading-h2, .staff-directory .staff-directory-row .staff-directory-name, footer .footer--main .block h2,
 .h4,
 .sustainable-scholarship .sustainable-links a,
 .staff-bio .block > h2,
@@ -125,12 +127,13 @@ h4, .rds-articles h2, .library-hours .uva-library--hours .weekly-hours-header-se
   line-height: 1.15;
 }
 
-h5, .rds-section .rds-recent--articles ul li a, .rds-articles h3, .event-container .event-url .event-date .event--month, .event-container .event-url .event-date .event--wkday, .site-sidebar--subnav nav ul li,
+h5, .rds-section .rds-recent--articles ul li a, .event-container .event-url .event-date .event--month, .event-container .event-url .event-date .event--wkday, .site-sidebar--subnav nav ul li,
 .h5,
 .rds-section .neighborhood-teaser .n-t-contents h4,
 .rds-section .neighborhood-teaser .n-t-contents .rds-articles h2,
 .rds-articles .rds-section .neighborhood-teaser .n-t-contents h2,
-.library-hours .three-col .hover-block h3,
+.rds-section .neighborhood-teaser .n-t-contents .rds-articles h3,
+.rds-articles .rds-section .neighborhood-teaser .n-t-contents h3,
 .how-do-i-main .view-content .item-list ul li a,
 .how-do-i-detail .view-content h2,
 .staff-bio .field--name-field-uva-ldap-title .field__item:last-child,
@@ -167,12 +170,12 @@ h3,
 .event-container .event-url .event-date .event--day,
 h4,
 .rds-articles h2,
+.rds-articles h3,
 .library-hours .uva-library--hours .weekly-hours-header-section .heading-h2,
 .staff-directory .staff-directory-row .staff-directory-name,
 footer .footer--main .block h2,
 h5,
 .rds-section .rds-recent--articles ul li a,
-.rds-articles h3,
 .event-container .event-url .event-date .event--month,
 .event-container .event-url .event-date .event--wkday,
 .site-sidebar--subnav nav ul li,
@@ -180,6 +183,24 @@ h6,
 .uva-alert--sitewide .alert4 h2.alert-title {
   margin-top: 0;
   margin-bottom: 0;
+}
+
+h1,
+h2,
+h3,
+.event-container .event-url .event-date .event--day {
+  margin-top: 3rem;
+  margin-bottom: 2rem;
+}
+
+h4, .rds-articles h2, .rds-articles h3, .library-hours .uva-library--hours .weekly-hours-header-section .heading-h2, .staff-directory .staff-directory-row .staff-directory-name, footer .footer--main .block h2,
+h5,
+.rds-section .rds-recent--articles ul li a,
+.event-container .event-url .event-date .event--month,
+.event-container .event-url .event-date .event--wkday,
+.site-sidebar--subnav nav ul li {
+  margin-top: 1rem;
+  margin-bottom: 2rem;
 }
 
 .all-caps {
@@ -502,7 +523,7 @@ img {
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgb(0, 0, 0);
+  background-color: black;
   background-color: rgba(0, 0, 0, 0.4);
 }
 
@@ -650,41 +671,52 @@ img {
   .w3-col.m1 {
     width: 8.33333%;
   }
+
   .w3-col.m2 {
     width: 16.66666%;
   }
+
   .w3-col.m3,
-  .w3-quarter {
+.w3-quarter {
     width: 24.99999%;
   }
+
   .w3-col.m4,
-  .w3-third {
+.w3-third {
     width: 33.33333%;
   }
+
   .w3-col.m5 {
     width: 41.66666%;
   }
+
   .w3-col.m6,
-  .w3-half {
+.w3-half {
     width: 49.99999%;
   }
+
   .w3-col.m7 {
     width: 58.33333%;
   }
+
   .w3-col.m8,
-  .w3-twothird {
+.w3-twothird {
     width: 66.66666%;
   }
+
   .w3-col.m9,
-  .w3-threequarter {
+.w3-threequarter {
     width: 74.99999%;
   }
+
   .w3-col.m10 {
     width: 83.33333%;
   }
+
   .w3-col.m11 {
     width: 91.66666%;
   }
+
   .w3-col.m12 {
     width: 99.99999%;
   }
@@ -693,36 +725,47 @@ img {
   .w3-col.l1 {
     width: 8.33333%;
   }
+
   .w3-col.l2 {
     width: 16.66666%;
   }
+
   .w3-col.l3 {
     width: 24.99999%;
   }
+
   .w3-col.l4 {
     width: 33.33333%;
   }
+
   .w3-col.l5 {
     width: 41.66666%;
   }
+
   .w3-col.l6 {
     width: 49.99999%;
   }
+
   .w3-col.l7 {
     width: 58.33333%;
   }
+
   .w3-col.l8 {
     width: 66.66666%;
   }
+
   .w3-col.l9 {
     width: 74.99999%;
   }
+
   .w3-col.l10 {
     width: 83.33333%;
   }
+
   .w3-col.l11 {
     width: 91.66666%;
   }
+
   .w3-col.l12 {
     width: 99.99999%;
   }
@@ -794,31 +837,37 @@ img {
     margin: 0 10px;
     width: auto !important;
   }
+
   .w3-modal {
     padding-top: 30px;
   }
+
   .w3-dropdown-hover.w3-mobile .w3-dropdown-content,
-  .w3-dropdown-click.w3-mobile .w3-dropdown-content {
+.w3-dropdown-click.w3-mobile .w3-dropdown-content {
     position: relative;
   }
+
   .w3-hide-small {
     display: none !important;
   }
+
   .w3-mobile {
     display: block;
     width: 100% !important;
   }
+
   .w3-bar-item.w3-mobile,
-  .w3-dropdown-hover.w3-mobile,
-  .w3-dropdown-click.w3-mobile {
+.w3-dropdown-hover.w3-mobile,
+.w3-dropdown-click.w3-mobile {
     text-align: center;
   }
+
   .w3-dropdown-hover.w3-mobile,
-  .w3-dropdown-hover.w3-mobile .w3-btn,
-  .w3-dropdown-hover.w3-mobile .w3-button,
-  .w3-dropdown-click.w3-mobile,
-  .w3-dropdown-click.w3-mobile .w3-btn,
-  .w3-dropdown-click.w3-mobile .w3-button {
+.w3-dropdown-hover.w3-mobile .w3-btn,
+.w3-dropdown-hover.w3-mobile .w3-button,
+.w3-dropdown-click.w3-mobile,
+.w3-dropdown-click.w3-mobile .w3-btn,
+.w3-dropdown-click.w3-mobile .w3-button {
     width: 100%;
   }
 }
@@ -826,6 +875,7 @@ img {
   .w3-modal-content {
     width: 500px;
   }
+
   .w3-modal {
     padding-top: 50px;
   }
@@ -834,9 +884,11 @@ img {
   .w3-modal-content {
     width: 900px;
   }
+
   .w3-hide-large {
     display: none !important;
   }
+
   .w3-sidebar.w3-collapse {
     display: block !important;
   }
@@ -850,10 +902,12 @@ img {
   .w3-sidebar.w3-collapse {
     display: none;
   }
+
   .w3-main {
     margin-left: 0 !important;
     margin-right: 0 !important;
   }
+
   .w3-auto {
     max-width: 100%;
   }
@@ -1099,6 +1153,7 @@ h3 a,
 .event-container .event-url .event-date .event--day a,
 h4 a,
 .rds-articles h2 a,
+.rds-articles h3 a,
 .library-hours .uva-library--hours .weekly-hours-header-section .heading-h2 a,
 .staff-directory .staff-directory-row .staff-directory-name a,
 footer .footer--main .block h2 a,
@@ -1859,8 +1914,8 @@ a.uvalib_link--button--alt.uvalib_link--button--active {
 /* buttons for mobile */
 @media (min-width: 30rem) {
   .uvalib-button, .path-user-login .user-login-form .form-actions input,
-  .drupal-login-page .user-login-form .form-actions input,
-  .uvalib_link--button {
+.drupal-login-page .user-login-form .form-actions input,
+.uvalib_link--button {
     width: auto;
   }
 }
@@ -2277,7 +2332,7 @@ figure figcaption {
 }
 @media (max-width: 992px) {
   .path-user-login .user-login-form .form-text,
-  .drupal-login-page .user-login-form .form-text {
+.drupal-login-page .user-login-form .form-text {
     max-width: 286px !important;
   }
 }
@@ -2522,6 +2577,7 @@ nav #uvalibrary-nav .mainlibrary-nav button[aria-expanded=true]::after {
   .open-mobile-menu:hover, .open-mobile-menu:focus {
     color: #E57200;
   }
+
   .overlayTest {
     position: fixed;
     top: 0;
@@ -2534,25 +2590,32 @@ nav #uvalibrary-nav .mainlibrary-nav button[aria-expanded=true]::after {
     backdrop-filter: blur(3px);
     z-index: -1;
   }
+
   .mobile-menu-modal > ul {
     display: grid;
     margin-top: 2.5rem;
   }
+
   body {
     position: relative;
   }
+
   nav.main-nav {
     display: none;
   }
+
   .utility-nav {
     display: none;
   }
+
   .open-nav-inner {
     display: inline-block !important;
   }
+
   .main-navigation-wrapper.w3-sidebar {
     right: 0;
   }
+
   .mobile-nav-menu-2 {
     background-color: #fff;
     height: fit-content;
@@ -2603,6 +2666,7 @@ nav #uvalibrary-nav .mainlibrary-nav button[aria-expanded=true]::after {
   .mobile-nav-menu-2 .mainlibrary-nav .menu-list-parent ul li {
     box-shadow: none;
   }
+
   nav.mobile-nav {
     display: block;
     margin-bottom: 1rem;
@@ -2753,7 +2817,7 @@ footer .footer--post .post-footer div {
   }
 }
 .layout__region--second {
-  padding-left: 3.5rem;
+  padding-left: 8rem;
 }
 @media (max-width: 1023px) {
   .layout__region--second {
@@ -2770,6 +2834,7 @@ footer .footer--post .post-footer div {
   .not-mobile {
     display: inherit;
   }
+
   .mobile-only {
     display: none;
   }
@@ -2779,6 +2844,7 @@ footer .footer--post .post-footer div {
   .not-mobile {
     display: inherit;
   }
+
   .mobile-only {
     display: none;
   }
@@ -2788,6 +2854,7 @@ footer .footer--post .post-footer div {
   .not-mobile {
     display: none;
   }
+
   .mobile-only {
     display: inherit;
   }
@@ -2828,7 +2895,7 @@ footer .footer--post .post-footer div {
 
 @media screen and (max-width: 767px) {
   .two-col, .section--grid .layout__region--content,
-  .three-col {
+.three-col {
     grid-template-columns: 1fr !important;
   }
 }
@@ -3261,7 +3328,7 @@ footer .footer--post .post-footer div {
     max-width: 42.5rem;
   }
   .home-page .home-news-featured .views-row .views-field-title,
-  .home-page .home-news-featured .views-row .views-field-body {
+.home-page .home-news-featured .views-row .views-field-body {
     padding: 0 0.5rem;
     max-width: 42.5rem;
   }
@@ -3275,6 +3342,7 @@ footer .footer--post .post-footer div {
   .home-news-featured .views-row {
     margin-right: 0 !important;
   }
+
   .home-feature-container {
     margin-left: 0 !important;
   }
@@ -3437,7 +3505,7 @@ footer .footer--post .post-footer div {
     grid-template-columns: 1fr;
   }
   .mitford .exhibit_JK .container_column,
-  .mitford .exhibit_JK .auto-column {
+.mitford .exhibit_JK .auto-column {
     grid-template-columns: 1fr;
   }
   .mitford .column_swap-mobile {
@@ -3451,7 +3519,7 @@ footer .footer--post .post-footer div {
     flex: 90%;
   }
   .mitford .exhibit_lead-block,
-  .mitford .exhibit_block {
+.mitford .exhibit_block {
     display: grid;
     grid-template-columns: 1fr;
   }
@@ -3661,10 +3729,10 @@ footer .footer--post .post-footer div {
     grid-row-gap: 1.5rem;
   }
   .rp-using .using-top .u-f-n,
-  .rp-using .using-top .u-c-r,
-  .rp-using .using-top .u-d-j,
-  .rp-using .using-top .u-s-j,
-  .rp-using .using-top .u-m-r {
+.rp-using .using-top .u-c-r,
+.rp-using .using-top .u-d-j,
+.rp-using .using-top .u-s-j,
+.rp-using .using-top .u-m-r {
     grid-area: auto;
   }
   .rp-using .neighborhood-teaser {
@@ -3825,10 +3893,11 @@ footer .footer--post .post-footer div {
 
 @media (max-width: 992px) {
   .et-top-container,
-  .et-mid-section,
-  .et-bottom-section {
+.et-mid-section,
+.et-bottom-section {
     grid-template-columns: 1fr !important;
   }
+
   .et-top-container {
     max-width: 100% !important;
   }
@@ -3935,15 +4004,15 @@ footer .footer--post .post-footer div {
 
 @media screen and (max-width: 767px) {
   .t-w--writing,
-  .t-w--planning {
+.t-w--planning {
     grid-template-columns: 1fr !important;
   }
   .t-w--writing div:first-of-type,
-  .t-w--planning div:first-of-type {
+.t-w--planning div:first-of-type {
     grid-area: 2/1/3/2;
   }
   .t-w--writing div:last-of-type,
-  .t-w--planning div:last-of-type {
+.t-w--planning div:last-of-type {
     grid-area: 1/1/2/2;
   }
 }
@@ -4118,7 +4187,7 @@ footer .footer--post .post-footer div {
     grid-area: initial;
   }
   .exhibitions .permanent .view-content,
-  .exhibitions .view-exhibitions-past .view-content {
+.exhibitions .view-exhibitions-past .view-content {
     grid-template-columns: 1fr;
   }
 }
@@ -4226,7 +4295,7 @@ footer .footer--post .post-footer div {
     width: 100%;
   }
   .special-collections .sc-fa-uva,
-  .special-collections .sc-fa-sarv {
+.special-collections .sc-fa-sarv {
     grid-template-columns: 1fr !important;
     gap: 2rem;
   }
@@ -4315,10 +4384,10 @@ footer .footer--post .post-footer div {
 }
 @media (max-width: 992px) {
   .r-m-c .top-section,
-  .r-m-c .mid-section,
-  .r-m-c .equip-section, .scholars-lab .top-section,
-  .scholars-lab .mid-section,
-  .scholars-lab .equip-section {
+.r-m-c .mid-section,
+.r-m-c .equip-section, .scholars-lab .top-section,
+.scholars-lab .mid-section,
+.scholars-lab .equip-section {
     grid-template-columns: 1fr;
   }
   .r-m-c .mid-content-block .event-container, .scholars-lab .mid-content-block .event-container {
@@ -4628,7 +4697,7 @@ footer .footer--post .post-footer div {
 }
 @media (max-width: 992px) {
   .about-uva-library .top-section,
-  .about-uva-library .body-grid {
+.about-uva-library .body-grid {
     grid-template-columns: 1fr;
   }
   .about-uva-library .learn {
@@ -5044,14 +5113,6 @@ footer .footer--post .post-footer div {
   gap: 2rem;
   grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
 }
-.library-hours .three-col {
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-}
-.library-hours .three-col .hover-block {
-  border-left: 1px solid #DADADA;
-  text-align: center;
-}
 .library-hours .toggle-header {
   display: flex;
   align-items: center;
@@ -5081,7 +5142,7 @@ footer .footer--post .post-footer div {
   flex-wrap: nowrap;
   justify-content: flex-start;
   align-content: flex-start;
-  align-items: stretch;
+  align-items: flex-start;
   gap: 0.5rem;
 }
 .library-hours .uva-library--locations .view-content .views-row > div {
@@ -5294,20 +5355,6 @@ footer .footer--post .post-footer div {
   padding-left: 0;
 }
 
-.rds-section h1,
-.rds-section h2,
-.rds-section h3 {
-  margin-top: 3rem;
-  margin-bottom: 2rem;
-}
-.rds-section h4, .rds-section .rds-articles h2, .rds-articles .rds-section h2,
-.rds-section h5,
-.rds-section .rds-articles h3,
-.rds-articles .rds-section h3,
-.rds-section .rds-recent--articles ul li a {
-  margin-top: 1rem;
-  margin-bottom: 0.5rem;
-}
 .rds-section .rds-top {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -5397,9 +5444,6 @@ footer .footer--post .post-footer div {
   /*The monospace is, indeed, important. */
   /*These are largely blocks*/
 }
-.rds-articles h2 {
-  margin-bottom: 0.5rem;
-}
 .rds-articles code,
 .rds-articles pre {
   font-family: monospace !important;
@@ -5408,14 +5452,13 @@ footer .footer--post .post-footer div {
   background-color: #F1F1F1;
 }
 .rds-articles code {
-  background-color: #F1F1F1;
+  background-color: #FEF6C8;
 }
 .rds-articles .rds-article--input {
-  background-color: #F1F1F1;
+  background-color: #FEF6C8;
   padding: 1rem;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
-  font-size: 0.9rem;
 }
 .rds-articles .rds-article--input pre {
   margin-top: 0;
@@ -5424,21 +5467,20 @@ footer .footer--post .post-footer div {
   white-space: pre-wrap;
   word-wrap: break-word;
   padding: 0.25rem 2rem;
-  background-color: #F1F1F1;
+  background-color: #FEF6C8;
 }
 .rds-articles .rds-article--output {
-  background-color: white;
+  background-color: #F1F1F1;
   padding: 1rem;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
-  font-size: 0.9rem;
 }
 .rds-articles .rds-article--output pre {
   margin-top: 0;
   white-space: pre-wrap;
   word-wrap: break-word;
   padding: 0.25rem 2rem;
-  background-color: white;
+  background-color: #F1F1F1;
 }
 
 body.maintenance-page {

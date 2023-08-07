@@ -1,9 +1,11 @@
-@use '../base/index' as *;
+@use '../base/index'as *;
 
+///Amount of spacing between the sidebar and the main content - 
+/// increasing this decreases the width of the sidebar 
 .layout__region--second {
-  padding-left: 2rem;
+  padding-left: 3.5rem;
 
-  @media (max-width:992px) {
+  @media (max-width: #{$tablet}) {
     padding-left: inherit;
   }
 }
@@ -16,32 +18,37 @@
 }
 
 @media screen and (min-width: #{$desktop}) {
+
   /* Styles for desktop screens go here */
   .not-mobile {
     display: inherit;
   }
+
   .mobile-only {
-    display:none;
+    display: none;
   }
 }
 
 @media screen and (max-width: #{$tablet}) {
+
   /* Styles for tablet screens go here */
   .not-mobile {
     display: inherit;
   }
+
   .mobile-only {
     display: none;
   }
 }
 
 @media screen and (max-width: #{$mobile}) {
-  /* Styles for mobile screens go here */
-    .not-mobile {
-      display: none;
-    }
 
-    .mobile-only {
-      display: inherit;
-    }
+  /* Styles for mobile screens go here */
+  .not-mobile {
+    display: none;
+  }
+
+  .mobile-only {
+    display: inherit;
+  }
 }

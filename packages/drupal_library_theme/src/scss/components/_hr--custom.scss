@@ -19,4 +19,8 @@
     width: 75px;
     height: 4px;
   }
+  &.sidebar,
+  &.subnav {
+    margin: 1rem 0 2rem;
+  }
 }
