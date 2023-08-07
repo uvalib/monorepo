@@ -7,7 +7,8 @@
     "docker:up": "pnpm check:docker-compose && docker-compose -f docker/docker-compose.yml up --build -d",
     "install:theme": "bash scripts/install-theme.sh",
     "sync:content": "bash scripts/sync-content.sh",
-    "test": "vendor/bin/phpunit --configuration tests/phpunit.xml"
+    "test": "vendor/bin/phpunit --configuration tests/phpunit.xml",
+    "themePull": "bash scripts/theme-pull.sh"
   },
   "keywords": [],
   "author": "",
