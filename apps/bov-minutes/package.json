@@ -5,13 +5,19 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 0",
-    "import-docs": "doc2md import/*.tei --outdir documents"
+    "import-docs": "doc2md import/* --outdir minutes && node scripts/addMetadata.js --dir minutes",
+    "build": "pnpm import-docs && NODE_OPTIONS=\"--max-old-space-size=8192\" npx eleventy",
+    "serve": "NODE_OPTIONS=\"--max-old-space-size=8192\" npx eleventy --serve"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@uvalib/11ty-template": "workspace:^",
-    "@uvalib/doc-conversion-wrapper": "workspace:*"
+    "@uvalib/doc-conversion-wrapper": "workspace:*",
+    "gray-matter": "^4.0.3"
+  },
+  "dependencies": {
+    "flexsearch": "^0.7.31"
   }
 }

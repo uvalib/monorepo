@@ -1,0 +1,17 @@
+---
+layout: base.njk
+title: Board of Visitors Minutes
+---
+
+<h1>{{ title }}</h1>
+
+{% for year, minutes in collections.minutesByYear %}
+  <h2>{{ year }}</h2>
+  <ul>
+    {% for minute in minutes %}
+      <li>
+        <a href="{{ minute.url }}">{{ minute.data.year }}-{{ minute.data.month }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endfor %}
