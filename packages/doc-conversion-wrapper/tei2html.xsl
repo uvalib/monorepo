@@ -4,9 +4,6 @@
     
     <xsl:template match="/">
         <html>
-            <head>
-                <title>TEI to HTML</title>
-            </head>
             <body>
                 <xsl:apply-templates select="//body"/>
             </body>

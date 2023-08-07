@@ -7,6 +7,7 @@ const path = require('path');
 const yargs = require('yargs/yargs');
 const { hideBin } = require('yargs/helpers');
 const { execSync } = require('child_process');
+const sharp = require('sharp'); // Added sharp import
 
 const turndownService = new TurndownService();
 
@@ -40,7 +41,6 @@ docPaths.forEach(docPath => {
 
     // If output directory does not exist, create it
     if (!fs.existsSync(outputDirectory)) {
-        console.log(outputDirectory);
         fs.mkdirSync(outputDirectory, { recursive: true });
     }
 
@@ -54,11 +54,31 @@ docPaths.forEach(docPath => {
 
     if (parsedPath.ext === '.docx') {
         // If it's a .docx file, use Mammoth to convert to HTML
-        mammoth.convertToHtml({ path: docPath })
+        mammoth.convertToHtml(
+            { path: docPath},
+            {           
+            convertImage: mammoth.images.imgElement(function (image) {
+                return image.read("base64").then(async function (imageBuffer) {
+                    const buffer = Buffer.from(imageBuffer, "base64");
+                    const img = await sharp(buffer)
+                        .resize(400) // Set the desired width
+                        .webp({ quality: 80 }) // Set the desired format and quality
+                        .toBuffer()
+                        .then(function (resizedBuffer) {
+                            return {
+                                src: "data:image/webp;base64," + resizedBuffer.toString("base64")
+                            };
+                        });
+                    return img;
+                });
+            })
+        })
+        
+        
             .then(result => {
                 const html = result.value;
                 const messages = result.messages;
-                
+
                 // Check if there are any warnings and print them
                 if (messages.length) {
                     console.warn("Conversion warnings for file", docPath);

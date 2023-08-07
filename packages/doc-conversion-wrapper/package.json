@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "mammoth": "^1.6.0",
+    "sharp": "^0.32.4",
     "turndown": "^7.1.2",
     "yargs": "^17.7.2"
   },
