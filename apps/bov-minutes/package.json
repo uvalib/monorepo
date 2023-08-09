@@ -6,6 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 0",
     "import-docs": "doc2md import/* --outdir minutes && node scripts/addMetadata.js --dir minutes",
+    "index-docs": "createSearchIndex --outputIndex ./searchIndex.json --inputDir ./minutes --indexType flexsearch",
+    "index-docs-fuse": "createSearchIndex --outputIndex ./searchIndexFuse.json --inputDir ./minutes --indexType fuse",
     "build": "pnpm import-docs && NODE_OPTIONS=\"--max-old-space-size=8192\" npx eleventy",
     "serve": "NODE_OPTIONS=\"--max-old-space-size=8192\" npx eleventy --serve"
   },
@@ -13,8 +15,9 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@uvalib/11ty-template": "workspace:^",
+    "@uvalib/11ty-template": "workspace:*",
     "@uvalib/doc-conversion-wrapper": "workspace:*",
+    "@uvalib/js-search": "workspace:*",
     "gray-matter": "^4.0.3"
   },
   "dependencies": {
