@@ -12,11 +12,6 @@ if [ ! -d .git ] && [ ! -f .git ]; then
   exit 1
 fi
 
-# Stash changes if there are any
-git stash save "Temporary stash for themePull"
-
 # Execute the git subtree pull command
-git subtree pull --prefix=packages/drupal_library_theme/src external-theme-repo main
+git subtree pull --prefix=packages/drupal_library_theme/src https://github.com/uvalib/uvalib-drupal-theme.git main
 
-# Apply the stash
-git stash apply
