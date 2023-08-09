@@ -8,15 +8,26 @@ export type IndexType = 'flexsearch' | 'fuse';
 export class IndexCreator {
   private index: any;
   private inputDir: string;
-  private outputIndex: string;
+  private outputIndex?: string;
   private filenames: string[];
   private indexType: IndexType;
 
-  constructor(inputDir: string, outputIndex: string, indexType: IndexType = 'flexsearch') {
+  constructor(inputDir: string = '', outputIndex?: string, indexType: IndexType = 'flexsearch') {
     this.inputDir = inputDir;
     this.outputIndex = outputIndex;
     this.filenames = [];
     this.indexType = indexType;
+  }
+
+  // Method to add documents directly
+  addDocument(id: number, text: string) {
+    if (this.indexType === 'flexsearch') {
+      this.index.add(id, text);
+    } else if (this.indexType === 'fuse') {
+      this.index.push({ id, text });
+    }
+
+    this.filenames.push(`Document_${id}`);
   }
 
   private async processFile(file: string, index: number) {
@@ -43,8 +54,7 @@ export class IndexCreator {
     }
   }
 
-  async createIndex() {
-    // Dynamic import based on index type
+  async createIndex(): Promise<string | void> {
     if (this.indexType === 'flexsearch') {
       const { Index } = await import('flexsearch');
       this.index = new Index({
@@ -74,11 +84,27 @@ export class IndexCreator {
         count += 1;
 
         if (count === numberOfKeysToExport) {
-          this.writeIndexToFile(exportedIndex);
+          if (this.outputIndex) {
+            this.writeIndexToFile(exportedIndex);
+          } else {
+            return JSON.stringify({
+              indexType: this.indexType,
+              index: exportedIndex,
+              filenames: this.filenames,
+            });
+          }
         }
       });
     } else if (this.indexType === 'fuse') {
-      this.writeIndexToFile(this.index);
+      if (this.outputIndex) {
+        this.writeIndexToFile(this.index);
+      } else {
+        return JSON.stringify({
+          indexType: this.indexType,
+          index: this.index,
+          filenames: this.filenames,
+        });
+      }
     }
   }
 
@@ -90,8 +116,10 @@ export class IndexCreator {
         filenames: this.filenames,
       };
 
-      fs.writeFileSync(this.outputIndex, JSON.stringify(outputData));
-      console.log(`Search index written to ${this.outputIndex}.`);
+      if (this.outputIndex) {
+        fs.writeFileSync(this.outputIndex, JSON.stringify(outputData));
+        console.log(`Search index written to ${this.outputIndex}.`);
+      }
     } catch (error) {
       console.error(`Error writing search index: ${error}`);
     }
