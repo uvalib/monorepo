@@ -1,13 +1,16 @@
 {
-  "name": "js-search",
+  "name": "@uvalib/js-search",
   "version": "0.0.1",
   "description": "",
   "main": "dist/index.js",
   "bin": {
-    "createSearchIndex": "./dist/index.js"
+    "createSearchIndex": "./dist/index.js",
+    "searchIndex": "./dist/searchIndex.js"
   },
   "scripts": {
     "build": "tsc",
+    "createIndex": "node dist/indexCreator.js",
+    "searchIndex": "node dist/searchIndex.js",
     "test": "mocha -r ts-node/register 'test/**/*.test.ts'"
   },
   "keywords": [],
@@ -15,6 +18,7 @@
   "license": "ISC",
   "dependencies": {
     "flexsearch": "^0.7.11",
+    "fuse.js": "^6.6.2",
     "gray-matter": "^4.0.3",
     "yargs": "^17.7.2"
   },
