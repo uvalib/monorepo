@@ -41,12 +41,12 @@ export function printTimesForLibrary(lib: Library) {
   if (lib && lib.hours && lib.hours.rawDates) {
     const hours = <Hours> lib.hours;
     const today = <{hours:Array<{from: string, to: string}>|null, status:string|null}> Object.values(hours.rawDates)[0];
-    if (today.hours) {
+    if (today && today.hours) {
       return today.hours.map((h: { from: string; to: string; }) => html`
         ${formatTime(h.from)} - ${formatTime(h.to)}
       `);
     } 
-    if (today.status) {
+    if (today && today.status) {
       return formatStatus(today.status);
     }
   }
