@@ -53,13 +53,16 @@ export class LibrariesData extends DrupalSearchData {
       .fetchHours(start, count)
       .then((hours: any) => {
         this.items.forEach((library) => {
-          // Libraries can get their own hours, but we are spoon-feeding them in this case so we can make one request for all
-          if (library.hoursId)
-            library.setHours(
-              hours.find(
-                (h: { id: string | undefined }) => parseInt(<string>h.id, 10) === parseInt(<string>library.hoursId, 10)
-              )
+          if (library.hoursId) {
+            const matchingHours = hours.find(
+              (h: { id: string | undefined }) => parseInt(<string>h.id, 10) === parseInt(<string>library.hoursId, 10)
             );
+            if (matchingHours) {
+              library.setHours(matchingHours);
+            } else {
+              console.warn(`No matching hours found for library with hoursId: ${library.hoursId}`);
+            }
+          }
         });
       });
   }

@@ -1,6 +1,8 @@
 import { GeneralSearchResult } from './GeneralSearchResult.js';
 import { Hours } from './Hours.js';
 
+const SITE_LINK_BASE = "https://www.library.virginia.edu";
+
 export class Library extends GeneralSearchResult {
   public uuid?: string;
   public body?: string;
@@ -27,25 +29,53 @@ export class Library extends GeneralSearchResult {
   public children?: Library[];
   public closureOverride?: number;
   public hours?: Hours;
+  public priorityPlacement?: number;
 
   public setHours(h?: Hours) {
+    if (!h) {
+      throw new Error("Invalid Hours object provided.");
+    }
     this.hours = h;
   }
 
   public getHoursCalIds() {
-    let ids: number[] = new Array();
-    if (this.hoursId) ids.push(parseInt(this.hoursId));
-    if (this.children)
+    let ids: number[] = [];
+    if (this.hoursId) {
+      const parsedId = parseInt(this.hoursId);
+      if (isNaN(parsedId)) {
+        throw new Error(`Invalid hoursId value: ${this.hoursId}`);
+      }
+      ids.push(parsedId);
+    }
+
+    if (this.children) {
       this.children.forEach((c) => {
-        if (c.hoursId) ids.push(parseInt(c.hoursId));
+        if (c.hoursId) {
+          const parsedChildId = parseInt(c.hoursId);
+          if (isNaN(parsedChildId)) {
+            throw new Error(`Invalid hoursId value for child: ${c.hoursId}`);
+          }
+          ids.push(parsedChildId);
+        }
       });
+    }
+
     return ids;
   }
 
   public async fetchHours() {
-    if (this.hoursId) {
-      // Fetch hours logic here
-    } else throw new Error(`hoursId is undefined`);
+    if (!this.hoursId) {
+      throw new Error(`hoursId is undefined`);
+    }
+
+    // If you fetch from an API:
+    // try {
+    //   const response = await fetch(YOUR_API_ENDPOINT);
+    //   const data = await response.json();
+    //   // Handle the data here
+    // } catch (error) {
+    //   throw new Error("Failed to fetch hours: " + error.message);
+    // }
   }
 
   constructor(init?: Partial<Library>) {
@@ -53,42 +83,54 @@ export class Library extends GeneralSearchResult {
   }
 
   public async getChildren() {
-    // Get children logic here
+    // Error handling should be similar to fetchHours
   }
 
   public async getParent() {
-    // Get parent logic here
+    // Error handling should be similar to fetchHours
   }
 }
 
-export function parse(lib: {
-  relationships: any;
-  id: any;
-  attributes: {
-    title: any;
-    body: { processed: any };
-    field_short_title: any;
-    field_type_basic: any;
-    field_contact_form: any;
-    field_donor_description: any;
-    field_donor_title: any;
-    field_email_address: any;
-    field_hours_information: any;
-    field_libcal_id: any;
-    field_library_feed: any;
-    field_library_site_link: { uri: any };
-    field_location_key: any;
-    field_fm_location: { lat: any; lng: any };
-    field_mygroup_id: any;
-    field_phone_number: any;
-    field_social_media: { uri: any; title: any }[];
-    field_slug: any;
-    field_zip_code: any;
-    field_google_my_business: any;
-    field_parent: { data: { id: string | undefined } };
-    field_closure_override: any;
+interface ApiResponseShape {
+  relationships: {
+    field_parent?: {
+      data?: {
+        id?: string;
+      };
+    };
   };
-}) {
+  id: string;
+  attributes: {
+    title: string;
+    body?: { processed: string };
+    field_short_title?: string;
+    field_type_basic?: string;
+    field_contact_form?: string;
+    field_donor_description?: string;
+    field_donor_title?: string;
+    field_email_address?: string;
+    field_hours_information?: { processed: string };
+    field_libcal_id?: string;
+    field_library_feed?: string;
+    field_library_site_link?: { uri: string };
+    field_location_key?: string;
+    field_fm_location?: { lat: string; lng: string };
+    field_mygroup_id?: string;
+    field_phone_number?: string;
+    field_social_media?: { uri: string; title: string }[];
+    field_slug?: string;
+    field_zip_code?: string;
+    field_google_my_business?: boolean;
+    field_closure_override?: number;
+    field_priority_placement?: number;
+  };
+}
+
+export function parse(lib: ApiResponseShape): Library {
+  if (!lib || !lib.id || !lib.attributes.title) {
+    throw new Error("Invalid library data provided.");
+  }
+
   return new Library({
     id: lib.id,
     uuid: lib.id,
@@ -105,7 +147,10 @@ export function parse(lib: {
     hoursId: lib.attributes.field_libcal_id,
     libraryFeed: lib.attributes.field_library_feed,
     link: lib.attributes.field_library_site_link?.uri,
-    siteLink: lib.attributes.field_library_site_link?.uri.replace("internal:","https://www.library.virginia.edu"),
+    siteLink: {
+      title: lib.attributes.field_library_site_link?.uri ?? "", 
+      uri: lib.attributes.field_library_site_link?.uri.replace("internal:", SITE_LINK_BASE) ?? ""
+    },
     fmKey: lib.attributes.field_location_key,
     location: lib.attributes.field_fm_location ? {
       lat: lib.attributes.field_fm_location.lat,
@@ -113,16 +158,12 @@ export function parse(lib: {
     } : undefined,
     mygroupId: lib.attributes.field_mygroup_id,
     phoneNumber: lib.attributes.field_phone_number,
-    socialMedia: lib.attributes.field_social_media ?
-      lib.attributes.field_social_media.map((sm: { uri: any; title: any }) => ({ uri: sm.uri, title: sm.title })) :
-      undefined,
+    socialMedia: lib.attributes.field_social_media?.map(sm => ({ uri: sm.uri, title: sm.title })),
     slug: lib.attributes.field_slug,
     zipCode: lib.attributes.field_zip_code,
     googleMyBusiness: lib.attributes.field_google_my_business,
-    parent: lib.relationships.field_parent && lib.relationships.field_parent.data && lib.relationships.field_parent.data.id ?
-      lib.relationships.field_parent.data.id :
-      undefined,
-    closureOverride: lib.attributes.field_closure_override
+    parent: lib.relationships.field_parent?.data?.id,
+    closureOverride: lib.attributes.field_closure_override,
+    priorityPlacement: lib.attributes.field_priority_placement
   });
 }
-
