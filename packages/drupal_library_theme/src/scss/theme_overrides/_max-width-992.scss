@@ -1,0 +1,163 @@
+@use '../base/index'as *;
+
+// These are parent theme overrides
+
+@media screen and (max-width: #{$lg}) {
+// @media (max-width:992px) {
+  .site-name {
+    font-size: 28px;
+  }
+
+  .site-slogan {
+    font-size: 20px !important;
+  }
+
+  h1.page-title {
+    padding: 16px;
+    font-size: 32px;
+  }
+
+  .ui-dialog {
+    max-width: 90%;
+    margin: 0 5%;
+  }
+
+  .ui-dialog .ui-dialog-buttonpane {
+    text-align: center;
+  }
+
+  .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
+    float: none;
+  }
+
+  #main-container-inner>div:nth-child(2) .breadcrumb-found:first-child {
+    margin-top: 0 !important;
+  }
+
+  .top-container-inner .first-top,
+  .top-container-inner .second-top,
+  .top-container-inner .third-top,
+  .main-container-inner .first-sidebar,
+  .main-container-inner .w3css-content,
+  .main-container-inner .second-sidebar,
+  .bottom-container-inner .first-bottom,
+  .bottom-container-inner .second-bottom,
+  .bottom-container-inner .third-bottom,
+  .bottom-container-inner .forth-bottom,
+  .footer-container-inner .first-footer,
+  .footer-container-inner .second-footer,
+  .footer-container-inner .third-footer {
+    width: 100% !important;
+  }
+
+  #top-container-inner,
+  #main-container-inner,
+  #main-container-inner > div,
+  #bottom-container-inner,
+  #footer-container-inner,
+  #footer-menu-inner {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .top-container-inner .third-top,
+  .main-container-inner .second-sidebar,
+  .bottom-container-inner .forth-bottom,
+  .footer-container-inner .third-footer {
+    margin-bottom: 8px;
+  }
+
+  .top-container-inner .first-top,
+  .main-container-inner .first-sidebar,
+  .bottom-container-inner .first-bottom,
+  .footer-container-inner .first-footer {
+    margin-top: 8px;
+  }
+
+  .main-container-inner .first-sidebar {
+    margin-bottom: 0;
+    margin-top: 20px;
+  }
+
+  .main-container-inner .second-sidebar {
+    margin-top: 0;
+    margin-bottom: 20px;
+  }
+
+  /* Default Article Node */
+  .page-node-type-article .node .field--type-image {
+    float: none;
+    margin: 0 auto;
+  }
+
+  .page-node-type-article .field--type-text,
+  .page-node-type-article .field--type-text-with-summary {
+    display: block !important;
+    clear: both;
+  }
+
+  /* Global Menus */
+  .ul-child {
+    position: relative !important;
+  }
+
+  .li-1 .right-arrow {
+    display: none;
+  }
+
+  .li-1 .dropdown-arrow {
+    display: flex;
+  }
+
+  .ul-parent  li.li-expanded > span,
+  .ul-parent  li.li-expanded > a > span {
+    padding: 10px 16px;
+    height: auto;
+  }
+
+  .ul-parent li.li-expanded > a {
+    padding-right: 56px;
+  }
+
+  /* Horizontal Main Menu */
+  .ul-responsive-h .li-item > a,
+  .ul-responsive-h .li-item,
+  .ul-responsive-h .ul-child,
+  .ul-responsive-h .ul-parent,
+  #main-navigation-h .li-item > a,
+  #main-navigation-h .li-item,
+  #main-navigation-h .ul-child,
+  #main-navigation-h .ul-parent {
+    clear: both;
+    width: 100%;
+    float: left;
+  }
+
+  .ul-responsive-h .ul-parent,
+  #main-navigation-h .ul-parent {
+    display: none;
+  }
+
+  .ul-responsive-h .ul-parent ul li > a,
+  #main-navigation-h .ul-parent ul li > a {
+    padding-left: 35px !important;
+  }
+
+  .ul-responsive-h .ul-parent ul ul li > a,
+  #main-navigation-h .ul-parent ul ul li > a {
+    padding-left: 50px !important;
+  }
+
+  /* Vertical Menus */
+  #main-navigation-v .li-1 .toggle-child:after {
+    content: none;
+  }
+
+  .node--view-mode-full .node__content .field--type-text-long,
+  .node--view-mode-full .node__content .field--type-string-long,
+  .node--view-mode-full .node__content .field--type-text-with-summary {
+    font-size: 100%;
+    line-height: 1.7;
+  }
+
+}

@@ -1,0 +1,88 @@
+@use '../base/index'as *;
+
+// These are parent theme overrides
+@media screen and (min-width: #{$lg-adjusted}) {
+// @media (min-width:993px) {
+
+  /* node edit */
+  .path-node .layout-node-form {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .layout-region-node-secondary {
+    -webkit-box-shadow: 10px 0px 20px 10px rgba(180, 180, 180, 0.1);
+    box-shadow: 10px 0px 20px 10px rgba(180, 180, 180, 0.2);
+    width: 29%;
+    margin: 20px 0 20px 1%;
+  }
+
+  .layout-region-node-main {
+    -webkit-box-shadow: -10px 0px 20px 10px rgba(180, 180, 180, 0.1);
+    box-shadow: -10px 0px 20px 10px rgba(180, 180, 180, 0.2);
+    width: 69%;
+    margin: 20px 1% 20px 0;
+  }
+
+  .layout-region-node-footer {
+    margin-top: 0;
+    flex: 0 0 100%;
+  }
+
+  #main-container-inner .breadcrumb-found {
+    margin-top: 0 !important;
+  }
+
+  .highlighted-inner {
+    padding: 0 20px;
+  }
+
+  li.li-expanded > span {
+    pointer-events: none;
+  }
+
+  /* Main Menu */
+  .ul-parent li > a {
+    padding: 12px 16px;
+  }
+
+  .ul-parent li li > a {
+    padding: 10px 14px;
+  }
+
+  /* Global Menus */
+  .ul-parent .ul-child {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .ul-parent li .li-expanded:hover ul {
+    left: 100%;
+    top: 0;
+  }
+
+  .ul-parent li ul {
+    position: absolute;
+  }
+
+  .ul-parent .li-expanded:hover > ul,
+  .ul-parent .li-expanded .li-expanded:hover > ul {
+    z-index: 1;
+    display: block;
+    animation: comeout 0.3s;
+  }
+
+  .li-1 .dropdown-arrow {
+    display: none;
+  }
+
+  .li-1 .right-arrow {
+    display: flex;
+  }
+
+  li.li-expanded > span,
+  li.li-expanded > a > span {
+    align-items: center;
+    height: 100%;
+  }
+
+}

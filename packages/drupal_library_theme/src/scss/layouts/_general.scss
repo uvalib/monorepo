@@ -2,11 +2,19 @@
 
 ///Amount of spacing between the sidebar and the main content - 
 /// increasing this decreases the width of the sidebar 
-.layout__region--second {
-  padding-left: 3.5rem;
-
-  @media (max-width: #{$tablet}) {
-    padding-left: inherit;
+.layout__region--first {
+  padding-right: 3.5rem;
+  @media screen and (min-width: #{$sm}) {
+    padding-right: 0;
+    // background-color: blueviolet;
+  }
+  @media screen and (min-width: #{$tablet-min}) and (max-width: #{$tablet-max}), screen and (min-width: #{$lg}) {
+    padding-right: 3.5rem;
+    // background-color:yellow;
+  }
+  @media screen and (max-width: #{$md}) {
+    padding-right: inherit;
+    // background-color: seagreen;
   }
 }
 
@@ -17,7 +25,21 @@
   }
 }
 
-@media screen and (min-width: #{$desktop}) {
+//trying to force the sidebar to stay between 993px and 1086px
+// @media screen and (width: #{$lg-adjusted}) {
+@media screen and (max-width: #{$lg-adjusted}) and (min-width: #{$desktop}) {
+  article {
+    .layout--twocol-section--67-33 {
+      .layout__region--first {
+        flex: 0 1 67% !important;
+        // outline: 1px solid red;
+      }
+      .layout__region--second {
+        flex: 0 1 33% !important;
+        // outline: 1px solid blue;
+      }
+    }
+  }
 
   /* Styles for desktop screens go here */
   .not-mobile {
@@ -29,7 +51,12 @@
   }
 }
 
-@media screen and (max-width: #{$tablet}) {
+@media screen and (min-width: #{$tablet-min}) and (max-width: #{$tablet-max}) {
+  article {
+    .layout--twocol-section > .layout__region {
+      flex: 0 1 100% !important;
+    }
+  }
 
   /* Styles for tablet screens go here */
   .not-mobile {

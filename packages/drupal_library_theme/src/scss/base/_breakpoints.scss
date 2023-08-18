@@ -1,14 +1,79 @@
-// $breakpoints: (
-//   'small':  ( min-width: 40em ),
-//   'medium': ( min-width: 65em ),
-//   'large':  ( min-width: 106em ),
-// ) !default;
+// Taken from Bootstrap v5.0. We probably don't want to change these?
+$xs: 0;
+$sm: 576px;
+$md: 768px;
+$lg: 992px;
+$xl: 1200px;
+$xxl: 1400px;
 
 // Breakpoints
-$desktop: 1024px;
-$tablet: 1023px;
-$mobile: 767px;
-
-// $desktop: 988px;
-// $tablet: 987px;
 // $mobile: 767px;
+// $tablet: 1023px;
+// $desktop: 1024px;
+
+///These measurements are tweaks to allow for fluid display
+/// Be sure to test multiple pages before changing values
+$mobile: $md - 1px;
+$tablet-min: $md;
+// $tablet-max: $lg + 81px;
+$tablet-max: $lg;
+$desktop: $lg + 1px;
+
+
+/// These adjustments are so that they match what was in the original parent theme files.
+/// If we need to tweak the base sizes, I suggest we test it out here.
+$sm-adjusted: $sm - 1px;
+$md-adjusted: $md - 168px;
+$md-adjusted-2: $md - 167px;
+$lg-adjusted: $lg + 1px;
+
+
+/// UNCOMMENT THIS SECTION TO DEBUG
+
+// @media screen and (max-width: #{$mobile}) {
+//   * {
+//     outline: 2px pink solid;
+//   }
+// }
+// @media screen and (min-width: #{$tablet-min}) and (max-width: #{$tablet-max}) {
+//   * {
+//     outline: 2px teal solid;
+//   }
+// }
+// @media screen and (min-width: #{$desktop}) {
+//   * {
+//     outline: 2px orange solid;
+//   }
+// }
+
+
+// @media screen and (min-width: #{$xs}) {
+//   * {
+//     outline: 1px cyan solid;
+//   }
+// }
+// @media screen and (min-width: #{$sm}) {
+//   * {
+//     outline: 1px blue solid;
+//   }
+// }
+// @media screen and (min-width: #{$md}) {
+//   * {
+//     outline: 1px green solid;
+//   }
+// }
+// @media screen and (min-width: #{$lg}) {
+//   * {
+//     outline: 1px red solid;
+//   }
+// }
+// @media screen and (min-width: #{$xl}) {
+//   * {
+//     outline: 1px yellow solid;
+//   }
+// }
+// @media screen and (min-width: #{$xxl}) {
+//   * {
+//     outline: 1px purple solid;
+//   }
+// }

@@ -1,50 +1,15 @@
-/// When including a new mixin, if you think that
-/// and example of how to use would be helpful, please
-/// include a "USAGE" section after the code.
-/// Please be sure to comment out ALL unnecessary code.
+// @use '../base/breakpoints'as *;
 
-
-
-/// BREAKPOINTS
-/// @author Kitty Giraudel
-/// @param {String} $breakpoint - Breakpoint name
-/// @require $breakpoints
-@mixin respond-to($breakpoint) {
-
-  // If the key exists in the map
-  @if map-has-key($breakpoints, $breakpoint) {
-
-    // Prints a media query based on the value
-    @media #{inspect(map-get($breakpoints, $breakpoint))} {
-      @content;
-    }
-  }
-
-  // If the key doesn't exist in the map
-  @else {
-    @warn "Unfortunately, no value could be retrieved from `#{$breakpoint}`. "
-    +"Available breakpoints are: #{map-keys($breakpoints)}.";
-  }
-}
-
-/// USAGE
-// .selector {
-//   color: red;
-
-//   @include respond-to('small') {
-//     color: blue;
+// //Taken from Bootstrap v5.0
+// // Media of at most the maximum breakpoint width. No query for the largest breakpoint.
+// // Makes the @content apply to the given breakpoint and narrower.
+// @mixin media-breakpoint-down($breakpoint) {
+//   $max: breakpoint-max($name, $breakpoint);
+//   @if $max {
+//     @media (max-width: $max) {
+//       @content;
+//     }
+//   } @else {
+//     @content;
 //   }
 // }
-
-/// RESULT
-// .selector {
-//   color: red;
-// }
-
-// @media (min-width: 40em) {
-//   .selector {
-//     color: blue;
-//   }
-// }
-
-/// END BREAKPOINTS

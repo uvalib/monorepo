@@ -64,6 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			// Create the <hr> element
 			var hrElement = document.createElement("hr");
 			hrElement.className = "hr--custom sidebar";
+			hrElement.setAttribute("aria-hidden", "true"); // Add aria-hidden attribute
 
 			// Insert the <hr> element after the closing </h4> tag
 			firstH4.insertAdjacentElement("afterend", hrElement);

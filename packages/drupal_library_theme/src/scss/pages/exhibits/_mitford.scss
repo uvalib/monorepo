@@ -189,7 +189,7 @@
     margin-top: 2.5em;
   }
 
-  @media screen and (max-width: #{$tablet}),(max-width: #{$mobile}) {
+  @media screen and (min-width: #{$tablet-min}) and (max-width: #{$tablet-max}),(max-width: #{$mobile}) {
 
     .exhibit_lead-block {
       grid-template-columns: 1fr;

@@ -1,0 +1,16 @@
+@use '../base/index'as *;
+
+// These are parent theme overrides
+@media screen and (max-width: #{$sm-adjusted}) {
+// @media (max-width:767px) {
+  .node--view-mode-teaser .field--name-field-image {
+    min-width: 100%;
+  }
+
+  .view .node--view-mode-teaser .node__title,
+  .view .node--view-mode-teaser .node__content .field--name-field-image {
+    padding-right: 0 !important;
+    margin-right: 0 !important;
+  }
+
+}

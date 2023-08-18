@@ -89,6 +89,12 @@
   // LIBRARY HOURS
   // .list-view
   .uva-library--hours {
+    h2 {
+      margin-bottom: 3rem;
+    }
+    span > h2 {
+        margin-bottom: initial;
+      }
     .location-head {
       margin-top: 3rem;
     }
@@ -165,7 +171,7 @@
 
   
  
-   @media (max-width: $tablet) {
+   @media screen and (min-width: #{$tablet-min}) and (max-width: #{$tablet-max}) {
     // td.date--mobile {
     //   display: inherit;
     // }

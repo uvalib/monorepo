@@ -74,13 +74,17 @@ footer {
     padding: 1rem 2rem;
 
     .post-footer {
-      div {
+      .post-footer--copyright {
         display: flex;
         justify-content: center;
-        align-items: center;
+        align-items: baseline;
         gap: 1.5rem;
         color: #fff !important;
         margin: 0 auto;
+        svg {
+          width: 2rem;
+          height: 2rem;
+        }
       }
     }
   }
@@ -94,6 +98,9 @@ footer {
         justify-content: start !important;
         padding: 1rem;
       }
+    }
+    .post-footer--copyright {
+      align-items: center !important;
     }
   }
 }

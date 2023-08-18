@@ -1,0 +1,25 @@
+@use '../base/index'as *;
+
+// These are parent theme overrides
+
+/* Medium Screen Only */
+@media (max-width: #{$lg}) and (min-width: #{$md-adjusted-2}) {
+// @media (max-width:992px) and (min-width:601px)  {
+  .top-container-inner .first-top > div,
+  .top-container-inner .second-top > div,
+  .top-container-inner .third-top > div,
+  .main-container-inner .first-sidebar > div,
+  .main-container-inner .w3css-content > div,
+  .main-container-inner .second-sidebar > div,
+  .bottom-container-inner .first-bottom > div,
+  .bottom-container-inner .second-bottom > div,
+  .bottom-container-inner .third-bottom > div,
+  .bottom-container-inner .forth-bottom > div,
+  .footer-container-inner .first-footer > div,
+  .footer-container-inner .second-footer > div,
+  .footer-container-inner .third-footer > div,
+  .footer-menu-inner > div {
+    padding: 10px !important;
+  }
+
+}
