@@ -1,1 +1,0 @@
-import '@uvalib/uvalib-image/src/UvalibModalImageButton.js'
