@@ -6,7 +6,13 @@ export const mlbExtrasURL = "https://mlbib.library.virginia.edu/json/extras.json
 
 export const mlbYearsURL = "https://mlbib.library.virginia.edu/json/years.json";
 
+export const mlbBooksURL = "https://mlbib.library.virginia.edu/json/books.json";
+
+export const mlbRevisionsURL = "https://mlbib.library.virginia.edu/json/revisions.json";
+
 export class MLBib extends GeneralSearchResult {
+
+    public readonly year?: number;
 
     constructor(init?:Partial<MLBib>) {
         super(init);

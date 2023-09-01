@@ -4,15 +4,25 @@ import { GeneralData } from './GeneralData.js';
 import { GeneralSearchResult } from "./GeneralSearchResult.js";
 import { GeneralSearchMeta } from "./GeneralSearchMeta.js";
 
-export function parseMLB(mlbData: any) {
+/**
+ * Parses MLB data and returns an instance of MLBib.
+ * @param mlbData - The MLB data to parse.
+ * @returns An instance of MLBib.
+ */
+export function parseMLB(mlbData: any): MLBib {
+  const linkBase = mlbData.id.match(/^\d+$/) 
+    ? `https://mlbib.library.virginia.edu/year/${mlbData.id}.html` 
+    : `https://mlbib.library.virginia.edu/${mlbData.id}.html`;
+
+console.log(mlbData);
+
   return new MLBib({
     id: mlbData.id,
     title: mlbData.doc.title,
     description: mlbData.doc.plainText,
-    link: (mlbData.id.match(/^\d+$/)) ?
-      `https://mlbib.library.virginia.edu/year/${mlbData.id}.html` :
-      `https://mlbib.library.virginia.edu/${mlbData.id}.html`
-  })
+    year: mlbData.doc.year,
+    link: linkBase
+  });
 }
 
 export class MLBData extends GeneralData {
@@ -20,30 +30,39 @@ export class MLBData extends GeneralData {
     document: {
       id: "id",
       index: ["plainText"],
-      store: ["title", "plainText"]
+      store: ["title", "year", "plainText"]
     }
   });
 
   public searchReady: boolean = false;
-
   public items: MLBib[] = [];
-
   public ids: number[] = [];
+
+  // Add the indexes property to the class
+  public indexes: string[] = [];
 
   constructor(init?: Partial<MLBData>) {
     super();
     Object.assign(this, init);
+
+    // If no indexes are provided, default to the existing ones
+    if (!this.indexes.length) {
+      this.indexes = [mlbExtrasURL, mlbYearsURL];
+    }
+
     this.initSearchIndex();
   }
 
-  private async initSearchIndex() {
+  /**
+   * Initializes the search index by fetching data from the provided URLs.
+   */
+  private async initSearchIndex(): Promise<void> {
     try {
-      const [mlbExtras, mlbYears] = await Promise.all([
-        fetch(mlbExtrasURL).then(r => r.json()),
-        fetch(mlbYearsURL).then(r => r.json())
-      ]);
+      // Fetch data from the provided URLs
+      const fetchedData = await Promise.all(this.indexes.map(url => fetch(url).then(r => r.json())));
 
-      [...mlbExtras, ...mlbYears].forEach((element: any) => {
+      // Flatten the fetched data arrays and add them to the search index
+      fetchedData.flat().forEach((element: any) => {
         this.searchIndex.add(element);
       });
 
@@ -53,17 +72,31 @@ export class MLBData extends GeneralData {
     }
   }
 
+  /**
+   * Fetches data and waits for the search index to be ready.
+   * @returns An object containing the search results and meta data.
+   */
   async fetchData(): Promise<{ items: GeneralSearchResult[]; meta: GeneralSearchMeta; }> {
     const waitForTrue = async (): Promise<{ items: GeneralSearchResult[]; meta: GeneralSearchMeta; }> => {
-      while (!this.searchReady) {
-        await new Promise(resolve => setTimeout(resolve, 100));
-      }
+        while (!this.searchReady) {
+            await new Promise(resolve => setTimeout(resolve, 100));
+        }
 
-      const results = this.searchIndex.search(this.query || '', { enrich: true });
-      const items = results[0].result.map((res: any) => parseMLB(res));
-      return { items, meta: {} };
+        const results = this.searchIndex.search(this.query || '', { enrich: true });
+
+        // Check if results and results[0] are defined
+        if (!results || !results[0] || !results[0].result) {
+            console.warn("No search results found or unexpected result structure.");
+            return { items: [], meta: {} };
+        }
+
+        const items = results[0].result.map((res: any) => parseMLB(res));
+        return { items, meta: {} };
     }
 
     return waitForTrue();
   }
+
+
+
 }
