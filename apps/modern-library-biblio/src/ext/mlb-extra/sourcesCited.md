@@ -3,11 +3,8 @@ layout: page-layout.njk
 permalink: "sourcesCited.html"
 ---
 
-<!-- {% comment %} -->
-<style>
-@import url("https://mlbib.library.virginia.edu/css/style.css")
-</style>
-<!-- {% endcomment %} -->
+<style>@import url("https://mlbib.library.virginia.edu/css/style.css")</style>
+
 
 ## SOURCES AND WORKS CITED
 

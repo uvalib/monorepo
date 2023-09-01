@@ -3,11 +3,8 @@ layout: page-layout.njk
 permalink: "chronology.html"
 ---
 
-<!-- {% comment %} -->
-<style>
-@import url("https://mlbib.library.virginia.edu/css/style.css")
-</style>
-<!-- {% endcomment %} -->
+<style>@import url("https://mlbib.library.virginia.edu/css/style.css")</style>
+
 
 ## CHRONOLOGY
 

@@ -3,11 +3,8 @@ layout: page-layout.njk
 permalink: "datingKey.html"
 ---
 
-<!-- {% comment %} -->
-<style>
-@import url("https://mlbib.library.virginia.edu/css/style.css")
-</style>
-<!-- {% endcomment %} -->
+<style>@import url("https://mlbib.library.virginia.edu/css/style.css")</style>
+
 
 ## DATING KEY TO MODERN LIBRARY LISTS AND JACKETS   
 

@@ -44,7 +44,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addFilter("addAnchors", function(...args){
     let html = args.shift();
     const dom = new JSDOM(html);
-    [...dom.window.document.querySelectorAll('h3')].forEach(el=>{
+    [...dom.window.document.querySelectorAll('h3, h4')].forEach(el=>{
       const anchorName = _.camelCase(el.textContent);
       const anchor = dom.window.document.createElement('a')
       anchor.setAttribute("name",anchorName);

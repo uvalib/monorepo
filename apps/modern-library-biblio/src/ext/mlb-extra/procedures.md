@@ -3,11 +3,8 @@ layout: page-layout.njk
 permalink: "procedures.html"
 ---
 
-<!-- {% comment %} -->
-<style>
-@import url("https://mlbib.library.virginia.edu/css/style.css")
-</style>
-<!-- {% endcomment %} -->
+<style>@import url("https://mlbib.library.virginia.edu/css/style.css")</style>
+
 
 ## BIBLIOGRAPHICAL PROCEDURES AND FORMAT 
 
