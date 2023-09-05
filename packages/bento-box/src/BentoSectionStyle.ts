@@ -19,6 +19,14 @@ export default css`
         border-radius: var(--bento-section-border-radius);
     }
 
+    :host([embedded]) {
+        border: none;
+    }    
+
+    :host([embedded]) ol {
+        list-style-type: upper-alpha
+    }
+
     [hidden] {
         display: none;
     }

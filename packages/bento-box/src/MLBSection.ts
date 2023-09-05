@@ -85,24 +85,18 @@ export class MLBSection extends BentoSection {
             <p id="no-results" ?hidden="${!this.isEmptySearch}">${this.noResultDescribe}</p>
             <ol ?hidden="${this.isEmptySearch}" class="bs-results--list">
 
-            ${this.items.map(result=>html`
-              <li class="bs-results--list--entry">
-                <a href="${result.link? result.link:''}" class="bento-section-title">${result.title}</a>
-                ${result.description? html`
-                  <div class="bento-section-desc">
-                    ${ this.highlight(result.description) }
-                    ------
-                    year: ${ result.year}
-                    ------
-                    id: ${ result.id }
-                    ------
-                    ${ result.year && !String(result.id).startsWith("anchor")? html`
-                      <mlb-section .query="${this.query}" indexYear="${result.year}"></mlb-section>
-                    `:"" }
-                  </div>
-                `:''}
-              </li>
-            `)}
+              ${this.items.map(result=>html`
+                <li class="bs-results--list--entry">
+                  <a href="${result.link? result.link:''}" class="bento-section-title">${result.title}</a>
+                  ${result.description? html`
+                    <div class="bento-section-desc">
+                      ${ result.year && !String(result.id).startsWith("anchor")? html`
+                        <mlb-section embedded .query="${this.query}" indexYear="${result.year}"></mlb-section>
+                      `: this.highlight(result.description) }
+                    </div>
+                  `:''}
+                </li>
+              `)}
 
             </ol>
         </div>

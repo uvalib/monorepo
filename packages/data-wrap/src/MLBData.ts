@@ -10,11 +10,14 @@ import { GeneralSearchMeta } from "./GeneralSearchMeta.js";
  * @returns An instance of MLBib.
  */
 export function parseMLB(mlbData: any): MLBib {
-  const linkBase = mlbData.id.match(/^\d+$/) 
-    ? `https://mlbib.library.virginia.edu/year/${mlbData.id}.html` 
-    : `https://mlbib.library.virginia.edu/${mlbData.id}.html`;
 
 console.log(mlbData);
+
+  const linkBase = mlbData.id.match(/^\d+$/) 
+    ? `https://mlbib.library.virginia.edu/year/${mlbData.id}.html` 
+    : mlbData.id.startsWith("anchor") && mlbData.doc.year
+      ? `https://mlbib.library.virginia.edu/${mlbData.id.replace("anchor-",`year/${mlbData.doc.year}.html#`)}`
+      : `https://mlbib.library.virginia.edu/${mlbData.id}.html`;
 
   return new MLBib({
     id: mlbData.id,
