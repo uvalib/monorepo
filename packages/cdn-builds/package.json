@@ -1,6 +1,6 @@
 {
   "name": "@uvalib/cdn-builds",
-  "version": "2.2.10",
+  "version": "2.2.11",
   "description": "",
   "main": "build/index.js",
   "scripts": {
