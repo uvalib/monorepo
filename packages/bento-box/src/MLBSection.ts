@@ -5,6 +5,7 @@ import {unsafeHTML} from 'lit/directives/unsafe-html.js';
 import { MLBib, GeneralSearchMeta, MLBData, GeneralSearchResult } from '@uvalib/data-wrap';
 import { property } from 'lit/decorators.js';
 import { BentoSection } from './BentoSection.js';
+import '@uvalib/site-spinner/site-spinner.js';
 
 export class MLBSection extends BentoSection {
 
@@ -121,7 +122,9 @@ export class MLBSection extends BentoSection {
       </div>
 
       <div class="bs-results--body">
-          <p id="no-results" ?hidden="${!this.isEmptySearch}">${this.noResultDescribe}</p>
+          ${this.loading ? html`<site-spinner></site-spinner>` : html`
+            <p id="no-results" ?hidden="${!this.isEmptySearch || this.loading}">${this.noResultDescribe}</p>
+          `}
 
           ${this.embedded ? html`
             <ul ?hidden="${this.isEmptySearch}" class="bs-results--list">
