@@ -11,6 +11,7 @@ export class MLBSection extends BentoSection {
 
   @property({ type: Array }) items: MLBib[] = [];
   @property({ type: Number }) indexYear?: number;
+  @property({ type: Boolean }) embedded: boolean = false;
 
   meta: GeneralSearchMeta = {totalResults:0};
 
@@ -76,30 +77,43 @@ export class MLBSection extends BentoSection {
       return result.snippet;
   }
 
+  /**
+   * Renders the list of items.
+   * @returns The rendered list of items.
+   */
+  private renderItems() {
+    return this.items.map(result => html`
+      <li class="bs-results--list--entry">
+        <a href="${result.link? result.link:''}" class="bento-section-title">${result.title}</a>
+        ${result.description? html`
+          <div class="bento-section-desc">
+            ${ result.year && !String(result.id).startsWith("anchor")? html`
+              <mlb-section embedded .query="${this.query}" indexYear="${result.year}"></mlb-section>
+            `: this.highlight(result.description) }
+          </div>
+        `:''}
+      </li>
+    `);
+  }
+
   render() {
     return html`
-        <div class="bs-results--header">
-        </div>
+      <div class="bs-results--header">
+      </div>
 
-        <div class="bs-results--body">
-            <p id="no-results" ?hidden="${!this.isEmptySearch}">${this.noResultDescribe}</p>
+      <div class="bs-results--body">
+          <p id="no-results" ?hidden="${!this.isEmptySearch}">${this.noResultDescribe}</p>
+
+          ${this.embedded ? html`
+            <ul ?hidden="${this.isEmptySearch}" class="bs-results--list">
+              ${this.renderItems()}
+            </ul>
+          ` : html`
             <ol ?hidden="${this.isEmptySearch}" class="bs-results--list">
-
-              ${this.items.map(result=>html`
-                <li class="bs-results--list--entry">
-                  <a href="${result.link? result.link:''}" class="bento-section-title">${result.title}</a>
-                  ${result.description? html`
-                    <div class="bento-section-desc">
-                      ${ result.year && !String(result.id).startsWith("anchor")? html`
-                        <mlb-section embedded .query="${this.query}" indexYear="${result.year}"></mlb-section>
-                      `: this.highlight(result.description) }
-                    </div>
-                  `:''}
-                </li>
-              `)}
-
+              ${this.renderItems()}
             </ol>
-        </div>
+          `}
+      </div>
     `;
   }
 }
