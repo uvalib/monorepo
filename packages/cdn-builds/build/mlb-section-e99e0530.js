@@ -14,7 +14,9 @@ import{_ as e,e as t,a as s,b as i}from"./query-assigned-elements-ba719eec.js";i
       </div>
 
       <div class="bs-results--body">
-          <p id="no-results" ?hidden="${!this.isEmptySearch}">${this.noResultDescribe}</p>
+          ${this.loading?r`<site-spinner></site-spinner>`:r`
+            <p id="no-results" ?hidden="${!this.isEmptySearch||this.loading}">${this.noResultDescribe}</p>
+          `}
 
           ${this.embedded?r`
             <ul ?hidden="${this.isEmptySearch}" class="bs-results--list">
