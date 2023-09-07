@@ -48,7 +48,7 @@ export const LibraryColors = css`
 --uva-grey-dark: #4F4F4F;;
 --uva-grey-darkest: #2B2B2B;;
 --uva-grey: #808080;;
-  
+
   /* UVA White */
   --uva-white: #fff;
 }
