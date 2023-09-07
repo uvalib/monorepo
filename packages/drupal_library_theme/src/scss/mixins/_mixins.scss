@@ -4,7 +4,11 @@
 @use '../base/svg_icons'as *;
 
 
-
+@mixin edge-color-fill {
+  margin: 1rem -1000px;
+      padding: 1rem 1000px;
+      background-color: #ffffff;
+}
 
 
 

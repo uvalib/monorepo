@@ -139,6 +139,7 @@ h5, .rds-section .rds-recent--articles ul li a, .rds-articles h3, .event-contain
 .exhibitions .view-exhibitions-past .view-content .views-row .views-field-title,
 .uvalibrary-spaces .rerserve-container .reserve-location h3,
 .rp-using .neighborhood-teaser .n-t-frame .n-t-contents h4,
+.home-page .home-hours-block .hour-head,
 .jumpmenu ul li {
   font-size: 1.2rem !important;
   font-weight: 500;
@@ -148,7 +149,6 @@ h5, .rds-section .rds-recent--articles ul li a, .rds-articles h3, .event-contain
 
 h6, .uva-alert--sitewide .alert4 h2.alert-title,
 .h6,
-.home-page .home-hours-block .hour-head,
 .event-container .event-url .event-title,
 .jumpmenu ul li::after {
   font-size: 1rem !important;
@@ -1235,6 +1235,15 @@ ul li a:focus {
   top: 5px;
   width: auto;
   z-index: 100000;
+}
+
+.a11y-sr-only {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
 }
 
 dl.dl--inline {
@@ -2797,6 +2806,12 @@ footer .footer--post .post-footer .post-footer--copyright svg {
     display: none;
   }
 }
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
 @media screen and (min-width: 768px) and (max-width: 992px) {
   article .layout--twocol-section > .layout__region {
     flex: 0 1 100% !important;
@@ -2810,6 +2825,10 @@ footer .footer--post .post-footer .post-footer--copyright svg {
   }
 }
 @media screen and (max-width: 767px) {
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
   /* Styles for mobile screens go here */
   .not-mobile {
     display: none;
@@ -3061,24 +3080,14 @@ footer .footer--post .post-footer .post-footer--copyright svg {
   color: #2B2B2B;
   padding: 0.3rem 0.5rem;
   font-weight: 700;
+  margin-left: -0.5rem;
+  margin-right: -0.5rem;
 }
 .home-page .home-hours-block .hour-head {
-  padding: 2rem 0.5rem 1.25rem 0.5rem;
-}
-.home-page .home-hours-block dl {
-  padding-left: 0.5rem;
-}
-.home-page .home-hours-block dl.dl--inline {
-  font-size: 0.95rem;
-  row-gap: normal;
-  grid-template-columns: 1fr;
-}
-.home-page .home-hours-block dl dt {
-  border-bottom: 1px solid #DADADA;
-  width: 100%;
+  margin: 2rem 0 1.25rem 0;
+  border-bottom: 1px dotted #DADADA;
 }
 .home-page .home-hours-block dl dd {
-  padding-left: 1rem;
   text-align: right;
 }
 .home-page .home-hours-block p.hours-see-all {
@@ -3489,6 +3498,97 @@ footer .footer--post .post-footer .post-footer--copyright svg {
     align-content: stretch;
     align-items: stretch;
   }
+}
+
+.harlemrenaissance #main-content h1.page-title span, .harlemrenaissance #main-content h2, .harlemrenaissance #main-content h3, .harlemrenaissance #main-content h4, .harlemrenaissance #main-content h5, .harlemrenaissance #main-content a, .harlemrenaissance #main-content a span, .harlemrenaissance #main-content p {
+  font-family: "Jost", sans-serif !important;
+  color: #2B2B2B !important;
+}
+.harlemrenaissance #main-content h1.page-title span {
+  display: block;
+  margin: 1rem -1000px;
+  padding: 1rem 1000px;
+  background-color: #ffffff;
+  background-color: #C5A22D;
+  font-weight: 600;
+  margin-bottom: 0;
+}
+.harlemrenaissance #main-content .layout--twocol-section--33-67 {
+  margin: 1rem -1000px;
+  padding: 1rem 1000px;
+  background-color: #ffffff;
+  background-color: #C5A22D;
+  margin-top: 0;
+}
+.harlemrenaissance #main-content .layout--twocol-section--33-67 a {
+  color: #2B2B2B;
+}
+.harlemrenaissance #main-content .layout--twocol-section--33-67 .layout__region--first img {
+  margin-bottom: 1rem;
+}
+.harlemrenaissance #main-content #events {
+  margin-bottom: 1rem;
+}
+.harlemrenaissance #main-content .harlem-top img {
+  margin-bottom: 1rem;
+}
+.harlemrenaissance #main-content .harlem-bio {
+  margin: 1rem -1000px;
+  padding: 1rem 1000px;
+  background-color: #ffffff;
+  background-color: #84D2C4;
+  margin-bottom: 0;
+}
+.harlemrenaissance #main-content .harlem-bio .harlem-bio--container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: center;
+  margin: 1rem auto;
+  max-width: 906px;
+  justify-content: center;
+}
+.harlemrenaissance #main-content .harlem-bio .harlem-bio--container .harlem-bio--artist {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  outline: 1px solid black;
+  text-align: center;
+  align-items: center;
+  width: 300px;
+  height: 300px;
+}
+.harlemrenaissance #main-content .harlem-bio .harlem-bio--container .harlem-bio--artist img {
+  height: 100px;
+  width: 100px;
+}
+.harlemrenaissance #main-content .harlem-bio .harlem-bio--container .harlem-bio-main {
+  padding: 0;
+}
+.harlemrenaissance #main-content .harlem-bio .harlem-bio--container .harlem-bio-main img {
+  width: 100%;
+  height: 100%;
+}
+.harlemrenaissance #main-content .harlem-collections {
+  margin: 1rem -1000px;
+  padding: 1rem 1000px;
+  background-color: #ffffff;
+  background-color: #F2EBDB;
+  margin-top: 0;
+}
+.harlemrenaissance #main-content .harlem-collections dt a {
+  background-color: #F2EBDB;
+}
+.harlemrenaissance #main-content .harlem-gallery {
+  background-color: #000;
+  color: #fff;
+}
+.harlemrenaissance .et-events .event-date {
+  background-color: #AB93A5;
+}
+.harlemrenaissance .et-events .event-date .event--day, .harlemrenaissance .et-events .event-date .event--month, .harlemrenaissance .et-events .event-date .event--wkday {
+  color: #000 !important;
 }
 
 .rp-using h2 em {
@@ -5345,15 +5445,6 @@ footer .footer--post .post-footer .post-footer--copyright svg {
   grid-template-columns: repeat(2, 1fr);
   grid-column-gap: 3rem;
   grid-row-gap: 3rem;
-}
-.rds-section .rds-top .rds-dr,
-.rds-section .rds-top .rds-rdm,
-.rds-section .rds-top .rds-rs,
-.rds-section .rds-top .rds-ld {
-  background-color: white;
-  border: 1px solid #DADADA;
-  border-top: 0.25rem solid #E57200;
-  padding: 1.5rem;
 }
 .rds-section .rds-top .rds-dr h3,
 .rds-section .rds-top .rds-rdm h3,

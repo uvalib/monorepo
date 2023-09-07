@@ -55,8 +55,8 @@ document.addEventListener("DOMContentLoaded", function () {
 // SIDEBAR HR CUSTOM ADD
 // Wait for the DOM to load
 document.addEventListener("DOMContentLoaded", function () {
-	// Check if the class ".layout__region--second" is present on the page
-	if (document.querySelector(".layout__region--second")) {
+	// Check if the class ".site-sidebar--subnav" is present on the page
+	if (document.querySelector(".site-sidebar--subnav")) {
 		// Find the first <h4> tag on the page
 		var firstH4 = document.querySelector("h4");
 

@@ -116,30 +116,35 @@
       color: $uva-text-color-dark;
       padding: 0.3rem 0.5rem;
       font-weight: map-get($font-weights, demi);
+      margin-left: -0.5rem;
+      margin-right: -0.5rem;
     }
 
     .hour-head {
-      @extend .h6;
-      padding: 2rem 0.5rem 1.25rem 0.5rem;
+      @extend .h5;
+      // padding: 2rem 0.5rem 1.25rem 0.5rem;
+      margin: 2rem 0 1.25rem 0;
+      border-bottom: 1px dotted $uva-grey-100;
       // font-weight: map-get($font-weights, demi);
     }
 
     dl {
-      padding-left: 0.5rem;
+    //   padding-left: 0.5rem;
 
-      &.dl--inline {
-        font-size: 0.95rem;
-        row-gap: normal;
-        grid-template-columns: 1fr;
-      }
+    //   &.dl--inline {
+    //     font-size: 0.95rem;
+    //     row-gap: normal;
+    //     grid-template-columns: 1fr;
+    //   }
 
       dt {
-        border-bottom: 1px solid $uva-grey-100;
-        width: 100%;
+        // padding-left: 0.5rem;
+    //     border-bottom: 1px solid $uva-grey-100;
+    //     width: 100%;
       }
 
       dd {
-        padding-left: 1rem;
+        // padding-right: .5rem;
         text-align: right;
       }
     }

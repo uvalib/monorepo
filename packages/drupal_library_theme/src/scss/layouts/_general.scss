@@ -51,6 +51,12 @@
   }
 }
 
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
 @media screen and (min-width: #{$tablet-min}) and (max-width: #{$tablet-max}) {
   article {
     .layout--twocol-section > .layout__region {
@@ -69,6 +75,10 @@
 }
 
 @media screen and (max-width: #{$mobile}) {
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
 
   /* Styles for mobile screens go here */
   .not-mobile {

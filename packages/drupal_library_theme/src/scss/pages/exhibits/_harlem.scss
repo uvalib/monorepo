@@ -1,0 +1,108 @@
+@use '../../mixins/index'as *;
+@use '../../base/index'as *;
+
+// *****Harlem Renaissance EXHIBIT*******
+
+.harlemrenaissance {
+$color-header: #C5A22D;
+$color-press: #F2EBDB;
+$color-event: #AB93A5;
+$color-bio: #84D2C4;
+$color-featured-collection: $color-press;
+$color-link: #215D9E;
+
+  #main-content {
+    h1.page-title span, h2, h3, h4, h5, a, a span, p {
+      font-family: 'Jost', sans-serif !important;
+      color: $uva-text-color-dark !important;
+    }
+    h1.page-title span {
+      display: block;
+      @include edge-color-fill;
+      background-color: $color-header;
+      font-weight: 600;
+      margin-bottom: 0;
+    }
+    .layout--twocol-section--33-67 {
+      @include edge-color-fill;
+      background-color: $color-header;
+      margin-top: 0;
+      a {
+        color: $uva-text-color-dark;
+      }
+      .layout__region--first {
+        img {
+          margin-bottom: 1rem;
+        }
+      }
+    }
+    #events {
+      margin-bottom: 1rem;
+    }
+    .harlem-top {
+      img {
+        margin-bottom: 1rem;
+      }
+    }
+    .harlem-bio {
+      @include edge-color-fill;
+      background-color: $color-bio;
+      margin-bottom: 0;
+      .harlem-bio--container {
+        // display: grid;
+        // grid-template-columns: repeat(3, 300px);
+        // grid-template-rows: repeat(2, 300px);
+        // gap: 0px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        align-content: center;
+        margin: 1rem auto;
+        max-width: 906px;
+        justify-content: center;
+        .harlem-bio--artist {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-evenly;
+          outline: 1px solid black;
+          text-align: center;
+          align-items: center;
+          width: 300px;
+          height: 300px;
+          img {
+            height: 100px;
+            width: 100px;
+          }
+        }
+        .harlem-bio-main {
+          padding: 0;
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+      }
+    }
+    .harlem-collections {
+      @include edge-color-fill;
+      background-color: $color-featured-collection;
+      margin-top: 0;
+      dt a {
+      background-color: $color-featured-collection;
+      }
+    }
+    .harlem-gallery {
+      background-color: #000;
+      color: #fff;
+    }
+  }
+  .et-events {
+    .event-date {
+      background-color: $color-event;
+      .event--day, .event--month, .event--wkday {
+        color: #000 !important;
+      }
+    }
+  }
+}
