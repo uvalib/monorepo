@@ -41,6 +41,7 @@
     "markdown-it": "^13.0.1",
     "mocha": "^10.2.0",
     "node-dev": "^8.0.0",
+    "node-sass": "^9.0.0",
     "path": "^0.12.7",
     "path-exists": "^5.0.0",
     "path-exists-cli": "^2.0.0",

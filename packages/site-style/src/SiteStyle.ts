@@ -2,7 +2,8 @@
 import { html, LitElement, render } from 'lit';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { property } from 'lit/decorators.js';
-import { LibraryColors } from './SiteStyleColors.js';
+//import { LibraryColors } from './SiteStyleColors.js';
+import { LibraryColors } from './LibraryColors.js';
 import { LibraryVariables } from './SiteStyleVariables.js';
 import { W3CSS } from './SiteStyleW3.js';
 import { LibraryMain } from './SiteStyleMain.js';
