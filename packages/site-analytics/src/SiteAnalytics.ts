@@ -21,14 +21,13 @@ interface SearchDetail {
 }
 
 interface EventDetail {
-  event: any[]; // This is based on the usage, but you might want to refine this type
+  event: any[];
 }
-
 
 export class SiteAnalytics extends LitElement {
   static styles = css`
     :host {
-      display: block;
+      display: none;
     }
   `;
 
@@ -42,25 +41,27 @@ export class SiteAnalytics extends LitElement {
   firstUpdated() {
     this.initMatomo();
 
-    // Explicitly type the event listeners
+    // Add event listeners
     document.addEventListener("site-analytics-search", this.logSearch.bind(this) as EventListener);
     document.addEventListener("site-analytics-event", this.logEvent.bind(this) as EventListener);
     document.addEventListener("site-analytics-pageview", this.logPageView.bind(this) as EventListener);
   }
 
   private logPageView(e: CustomEvent<PageViewDetail>) {
-    if (this.matomoTracker) {
-      let customTitle = e.detail ? e.detail.customTitle : document.querySelector('title')?.text;
-      let referrer = e.detail && e.detail.referrer ? 
-        e.detail.referrer.indexOf('http') > -1 ? e.detail.referrer : document.location.origin + e.detail.referrer : document.referrer;
-      this.matomoTracker.setDocumentTitle(customTitle || "");
-      this.matomoTracker.setReferrerUrl(referrer);
-      this.matomoTracker.trackPageView(customTitle || "");
-    }
+    if (!this.matomoTracker) return;
+
+    const customTitle = e.detail?.customTitle || document.querySelector('title')?.text || "";
+    const referrer = e.detail?.referrer?.startsWith('http') ? e.detail.referrer : document.location.origin + (e.detail?.referrer || document.referrer);
+
+    this.matomoTracker.setDocumentTitle(customTitle);
+    this.matomoTracker.setReferrerUrl(referrer);
+    this.matomoTracker.trackPageView(customTitle);
   }
 
   private logSearch(e: CustomEvent<SearchDetail>) {
-    if (this.matomoTracker) this.matomoTracker.trackSiteSearch(e.detail.searchQuery, e.detail.searchCategory, e.detail.resultCount.toString());
+    if (this.matomoTracker) {
+      this.matomoTracker.trackSiteSearch(e.detail.searchQuery, e.detail.searchCategory, e.detail.resultCount.toString());
+    }
   }
 
   private logEvent(e: CustomEvent<EventDetail>) {
@@ -70,25 +71,27 @@ export class SiteAnalytics extends LitElement {
   }
 
   private initMatomo() {
-    if (this.matomoId) {
-      const _paq: any[] = window._paq = window._paq || [];
-      if (!this.spa) {
-        _paq.push(['trackPageView']);
-        _paq.push(['enableLinkTracking']);
-      }
-      _paq.push(['setTrackerUrl', `${this.matomoURL}matomo.php`]);
-      _paq.push(['setSiteId', this.matomoId.toString()]);
-      if (this.variables) {
-        Object.keys(this.variables).forEach(key => {
-          _paq.push(['setCustomDimension', key, this.variables[key]]);
-        });
-      }
+    if (!this.matomoId) return;
 
-      const scriptElement = document.createElement('script');
-      scriptElement.setAttribute('src', `${this.matomoURL}matomo.js`);
-      document.head.appendChild(scriptElement);
-      this.getTracker(1000);
+    const _paq: any[] = window._paq = window._paq || [];
+    if (!this.spa) {
+      _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
     }
+    _paq.push(['setTrackerUrl', `${this.matomoURL}matomo.php`]);
+    _paq.push(['setSiteId', this.matomoId.toString()]);
+
+    if (this.variables) {
+      for (const key in this.variables) {
+        _paq.push(['setCustomDimension', key, this.variables[key]]);
+      }
+    }
+
+    const scriptElement = document.createElement('script');
+    scriptElement.src = `${this.matomoURL}matomo.js`;
+    document.head.appendChild(scriptElement);
+
+    this.getTracker(1000);
   }
 
   private getTracker(timeout: number) {
