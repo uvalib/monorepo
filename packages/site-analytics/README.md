@@ -1,76 +1,103 @@
-# \<site-analytics>
+# @uvalib/site-analytics
 
-This webcomponent follows the [open-wc](https://github.com/open-wc/open-wc) recommendation.
+A web component for integrating site analytics using Matomo. This package also provides a mixin for easily dispatching analytics events.
+
+## Features
+
+- Easily integrate Matomo analytics into your web application.
+- Dispatch custom analytics events using the provided mixin.
+- Support for Single Page Applications (SPA).
+- Customizable Matomo URL and site ID.
 
 ## Installation
 
 ```bash
-npm i site-analytics
+pnpm add @uvalib/site-analytics
 ```
 
 ## Usage
 
+### Web Component
+
 ```html
 <script type="module">
-  import 'site-analytics/site-analytics.js';
+  import '@uvalib/site-analytics/site-analytics.js';
 </script>
 
-<site-analytics></site-analytics>
+<site-analytics matomoId="YOUR_MATOMO_ID"></site-analytics>
 ```
 
-## Linting and formatting
+### Mixin
 
-To scan the project for linting and formatting errors, run
+To use the `SiteAnalyticsMixin` in your LitElement-based component:
+
+```typescript
+import { SiteAnalyticsMixin } from '@uvalib/site-analytics';
+
+class MyComponent extends SiteAnalyticsMixin(LitElement) {
+  // Your component logic here
+}
+```
+
+## Configuration
+
+- `matomoURL`: The URL to your Matomo instance. Default is "https://analytics.lib.virginia.edu/".
+- `matomoId`: The site ID for your Matomo instance.
+- `spa`: A boolean indicating if the site is a Single Page Application. Default is `false`.
+- `variables`: An object containing custom variables to be sent with analytics data.
+
+## Development
+
+### Linting and Formatting
+
+Scan the project for linting and formatting errors:
 
 ```bash
-npm run lint
+pnpm run lint
 ```
 
-To automatically fix linting and formatting errors, run
+Automatically fix linting and formatting errors:
 
 ```bash
-npm run format
+pnpm run format
 ```
 
-## Testing with Web Test Runner
+### Testing
 
-To execute a single test run:
+Execute a single test run:
 
 ```bash
-npm run test
+pnpm run test
 ```
 
-To run the tests in interactive watch mode run:
+Run the tests in interactive watch mode:
 
 ```bash
-npm run test:watch
+pnpm run test:watch
 ```
 
-## Demoing with Storybook
+### Storybook
 
-To run a local instance of Storybook for your component, run
+Run a local instance of Storybook:
 
 ```bash
-npm run storybook
+pnpm run storybook
 ```
 
-To build a production version of Storybook, run
+Build a production version of Storybook:
 
 ```bash
-npm run storybook:build
+pnpm run storybook:build
 ```
 
+### Local Development
 
-## Tooling configs
-
-For most of the tools, the configuration is in the `package.json` to reduce the amount of files in your project.
-
-If you customize the configuration a lot, you can consider moving them to individual files.
-
-## Local Demo with `web-dev-server`
+To run a local development server:
 
 ```bash
-npm start
+pnpm start
 ```
 
-To run a local development server that serves the basic demo located in `demo/index.html`
+## License
+
+MIT
