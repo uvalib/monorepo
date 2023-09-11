@@ -42,7 +42,7 @@ export class SiteStyle extends LitElement {
     ];
   }
 
-  protected firstUpdated(): void {
+  protected firstUpdated(changedProperties: Map<string | number | symbol, unknown>): void {
     if (this.imports && !this.noStyle) {
       Object.keys(this.imports).forEach(key=>{
         if (this.imports[key]) {
