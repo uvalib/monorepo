@@ -5,9 +5,10 @@ export default {
   title: 'SiteAnalytics',
   component: 'site-analytics',
   argTypes: {
-    header: { control: 'text' },
-    counter: { control: 'number' },
-    textColor: { control: 'color' },
+    matomoURL: { control: 'text' },
+    matomoId: { control: 'number' },
+    spa: { control: 'boolean' },
+    variables: { control: 'object' },
   },
 };
 
@@ -18,43 +19,34 @@ interface Story<T> {
 }
 
 interface ArgTypes {
-  header?: string;
-  counter?: number;
-  textColor?: string;
-  slot?: TemplateResult;
+  matomoURL?: string;
+  matomoId?: number;
+  spa?: boolean;
+  variables?: Record<string, string>;
 }
 
 const Template: Story<ArgTypes> = ({
-  header = 'Hello world',
-  counter = 5,
-  textColor,
-  slot,
+  matomoURL = 'https://analytics.lib.virginia.edu/',
+  matomoId = 23,
+  spa = false,
+  variables = { "1": "foo", "2": "bar" },
 }: ArgTypes) => html`
   <site-analytics
-    style="--site-analytics-text-color: ${textColor || 'black'}"
-    .header=${header}
-    .counter=${counter}
-  >
-    ${slot}
-  </site-analytics>
+    .matomoURL=${matomoURL}
+    .matomoId=${matomoId}
+    .spa=${spa}
+    .variables=${variables}
+  ></site-analytics>
 `;
 
 export const Regular = Template.bind({});
 
-export const CustomHeader = Template.bind({});
-CustomHeader.args = {
-  header: 'My header',
+export const WithSPA = Template.bind({});
+WithSPA.args = {
+  spa: true,
 };
 
-export const CustomCounter = Template.bind({});
-CustomCounter.args = {
-  counter: 123456,
-};
-
-export const SlottedContent = Template.bind({});
-SlottedContent.args = {
-  slot: html`<p>Slotted content</p>`,
-};
-SlottedContent.argTypes = {
-  slot: { table: { disable: true } },
+export const CustomVariables = Template.bind({});
+CustomVariables.args = {
+  variables: { "1": "customFoo", "2": "customBar" },
 };
