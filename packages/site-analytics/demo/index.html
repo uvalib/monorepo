@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      background: #fafafa;
+    }
+  </style>
+  <title>Demo site-analytics page</title>
+</head>
+<body>
+  <button>Click me to trigger an event</button><br />
+  <input placeholder="fake search field to log site search" /><br />
+  <a href="somepage.html">Log page view</a><br />
+  <a href="anotherpage.html">Log another page view with custom title</a>
+  <site-analytics variables='{"1":"foo", "2":"bar"}' spa matomoId="23"></site-analytics>
+
+  <script type="module">
+    import '../dist/site-analytics.js';
+
+    document.querySelector('button').addEventListener('click',(e)=>{
+      e.target.dispatchEvent(new CustomEvent("site-analytics-event", {
+        detail: {event:["foo","bar","test","me"]},
+        bubbles: true
+      }));
+    });
+
+    document.querySelector('input').addEventListener('keypress',(e)=>{
+      if (e.key === 'Enter') {
+        let searchQuery = e.target.value;
+        e.target.dispatchEvent(new CustomEvent("site-analytics-search", {
+          detail: {searchQuery:searchQuery, searchCategory:"testSearch", resultCount: 55555},
+          bubbles: true
+        }));
+      }
+    });
+
+    let links = document.querySelectorAll('a');
+    links[0].addEventListener('click',(e)=>{
+      e.preventDefault();
+      e.target.dispatchEvent(new CustomEvent("site-analytics-pageview", { bubbles: true }));
+    });
+    links[1].addEventListener('click',(e)=>{
+      e.preventDefault();
+      e.target.dispatchEvent(new CustomEvent("site-analytics-pageview", { bubbles: true, detail: {customTitle:"foobar"} }));
+    });
+  </script>
+</body>
+</html>
