@@ -1,6 +1,11 @@
 import { css } from 'lit';
 
 export default css`
+    /* just hide site-alert till it is ready */
+    site-alert {
+      display:none;
+    }
+
     :host {
       display: block;
     }

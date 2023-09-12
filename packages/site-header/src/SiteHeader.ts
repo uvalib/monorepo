@@ -19,13 +19,6 @@ export class SiteHeader extends SiteAnalyticsMixin(SiteStyle) {
 
   firstUpdated(changedProperties: Map<string | number | symbol, unknown>): void {
     super.firstUpdated(changedProperties);
-
-    // Check if site-analytics is present in the shadow DOM
-    const siteAnalytics = this.shadowRoot?.querySelector('site-analytics');
-    if (siteAnalytics) {
-      // Dynamically import the module if site-analytics is present
-      import('@uvalib/site-analytics/site-analytics.js');
-    }
   }
 
   private _handleButtonClick() {
@@ -77,9 +70,6 @@ export class SiteHeader extends SiteAnalyticsMixin(SiteStyle) {
           </div>
         </slot>
 
-        <slot name="tracking">
-          <site-analytics matomoId="23"></site-analytics> <!-- 23 is a test profile id -->
-        </slot>
       </div>
     </slot>
   </div>
