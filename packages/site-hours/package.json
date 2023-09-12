@@ -26,8 +26,7 @@
   "dependencies": {
     "@uvalib/data-wrap": "workspace:*",
     "@uvalib/site-components": "workspace:*",
-    "@uvalib/site-style": "workspace:*",
-    "lit": "^2.0.0-rc.2"
+    "@uvalib/site-style": "workspace:*"
   },
   "devDependencies": {
     "@open-wc/eslint-config": "^4.3.0",

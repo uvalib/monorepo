@@ -9,7 +9,8 @@
   "module": "dist/src/index.js",
   "exports": {
     ".": "./dist/src/index.js",
-    "./site-analytics.js": "./dist/src/site-analytics.js"
+    "./site-analytics.js": "./dist/src/site-analytics.js",
+    "./SiteAnalyticsMixin.js": "./dist/src/SiteAnalyticsMixin.js"
   },
   "scripts": {
     "analyze": "cem analyze --litelement",
@@ -22,9 +23,6 @@
     "test:watch": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wtr --watch\"",
     "storybook": "tsc && npm run analyze -- --exclude dist && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds -c .storybook/server.mjs\"",
     "storybook:build": "tsc && npm run analyze -- --exclude dist && build-storybook"
-  },
-  "dependencies": {
-    "lit": "^2.0.2"
   },
   "devDependencies": {
     "@custom-elements-manifest/analyzer": "^0.4.17",
@@ -40,8 +38,7 @@
     "husky": "^4.3.8",
     "lint-staged": "^10.5.4",
     "prettier": "^2.4.1",
-    "tslib": "^2.3.1",
-    "typescript": "^4.5.2"
+    "tslib": "^2.3.1"
   },
   "customElements": "custom-elements.json",
   "eslintConfig": {

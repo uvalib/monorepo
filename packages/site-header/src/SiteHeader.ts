@@ -1,12 +1,14 @@
 import { html, css, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 import { SiteStyle } from '@uvalib/site-style';
+import { SiteAnalyticsMixin } from '@uvalib/site-analytics/SiteAnalyticsMixin.js'; // Import the mixin
 import SiteHeaderStyle from './SiteHeaderStyle.js';
 
 // async import the site-alert component
 import ('@uvalib/site-alert/site-alert.js');
 
-export class SiteHeader extends SiteStyle {
+// Apply the mixin to the class
+export class SiteHeader extends SiteAnalyticsMixin(SiteStyle) {
 
   static get styles() {
     return [
@@ -18,11 +20,11 @@ export class SiteHeader extends SiteStyle {
   firstUpdated(changedProperties: Map<string | number | symbol, unknown>): void {
     super.firstUpdated(changedProperties);
 
-    // Check if uvalib-analytics is present in the shadow DOM
-    const uvalibAnalytics = this.shadowRoot?.querySelector('uvalib-analytics');
-    if (uvalibAnalytics) {
-      // Dynamically import the module if uvalib-analytics is present
-      import('@uvalib/uvalib-analytics/uvalib-analytics.html');
+    // Check if site-analytics is present in the shadow DOM
+    const siteAnalytics = this.shadowRoot?.querySelector('site-analytics');
+    if (siteAnalytics) {
+      // Dynamically import the module if site-analytics is present
+      import('@uvalib/site-analytics/site-analytics.js');
     }
   }
 
@@ -32,6 +34,9 @@ export class SiteHeader extends SiteStyle {
       bubbles: true,
       composed: true
     }));
+
+    // Call the analyticsEvent method from the mixin
+    this.analyticsEvent(['site-header', 'button-click', 'toggle-menu']);
   }
 
   render() {
@@ -73,7 +78,7 @@ export class SiteHeader extends SiteStyle {
         </slot>
 
         <slot name="tracking">
-          <uvalib-analytics matomoid="10"><noscript><p><img src="https://analytics.lib.virginia.edu/matomo.php?idsite=10&rec=1" style="border:0;" alt="" /></p></noscript></uvalib-analytics>
+          <site-analytics matomoId="23"></site-analytics> <!-- 23 is a test profile id -->
         </slot>
       </div>
     </slot>

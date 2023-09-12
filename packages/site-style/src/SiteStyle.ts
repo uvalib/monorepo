@@ -17,7 +17,7 @@ export class SiteStyle extends LitElement {
 
   @property({ type: String }) importedStyles: string = "";
 
-  @property() rootLinkDomain: string = "https://www.library.virginia.edu";
+  @property({ type: String }) rootLinkDomain: string = "https://www.library.virginia.edu";
 
   // many web components have headings embedded within a children and shadowdom, this parameter should control where to start a heading level in those comonents depending on where they are used.
   @property({ type: Number }) headingLevelStart: number = 2;

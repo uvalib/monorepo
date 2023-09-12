@@ -31,8 +31,7 @@
   "dependencies": {
     "@microsoft/fast-components": "^2.30.6",
     "@microsoft/fast-element": "^1.11.0",
-    "@vaadin/menu-bar": "^24.0.0",
-    "lit": "^2.0.0-rc.2"
+    "@vaadin/menu-bar": "^24.0.0"
   },
   "devDependencies": {
     "@open-wc/eslint-config": "^4.3.0",

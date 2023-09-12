@@ -22,8 +22,7 @@
     "storybook:build": "tsc && build-storybook"
   },
   "dependencies": {
-    "@antv/g6": "^4.8.3",
-    "lit": "^2.0.0-rc.2"
+    "@antv/g6": "^4.8.3"
   },
   "devDependencies": {
     "@babel/eslint-plugin": "^7.19.1",

@@ -26,8 +26,7 @@
     "@uvalib/data-wrap": "workspace:*",
     "@uvalib/site-spinner": "workspace:*",
     "@uvalib/site-style": "workspace:*",
-    "date-fns": "^2.29.3",
-    "lit": "^2.4.1"
+    "date-fns": "^2.29.3"
   },
   "devDependencies": {
     "@open-wc/eslint-config": "^4.3.0",
