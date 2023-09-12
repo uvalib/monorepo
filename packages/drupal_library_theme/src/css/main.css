@@ -3529,6 +3529,10 @@ footer .footer--post .post-footer .post-footer--copyright svg {
 .harlemrenaissance #main-content #events {
   margin-bottom: 1rem;
 }
+.harlemrenaissance #main-content .harlem-top h2 {
+  margin-top: 1rem;
+  margin-bottom: 0;
+}
 .harlemrenaissance #main-content .harlem-top img {
   margin-bottom: 1rem;
 }
@@ -3576,13 +3580,40 @@ footer .footer--post .post-footer .post-footer--copyright svg {
   background-color: #ffffff;
   background-color: #F2EBDB;
   margin-top: 0;
+  margin-bottom: 0;
 }
 .harlemrenaissance #main-content .harlem-collections dt a {
   background-color: #F2EBDB;
 }
 .harlemrenaissance #main-content .harlem-gallery {
+  margin: 1rem -1000px;
+  padding: 1rem 1000px;
+  background-color: #ffffff;
+  margin-bottom: 0;
+  margin-top: 0;
   background-color: #000;
-  color: #fff;
+}
+.harlemrenaissance #main-content .harlem-gallery h2 {
+  color: #fff !important;
+}
+.harlemrenaissance #main-content .harlem-gallery .harlem-gallery--collection {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: center;
+  margin: 1rem auto;
+  max-width: 917px;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.harlemrenaissance #main-content .harlem-gallery .harlem-gallery--collection .harlem-gallery--image {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 300px;
+  height: 300px;
 }
 .harlemrenaissance .et-events .event-date {
   background-color: #AB93A5;
