@@ -30,7 +30,7 @@
     "@web/dev-server": "^0.1.21",
     "@web/test-runner": "next",
     "concurrently": "^5.3.0",
-    "drupal_library_theme": "workspace:^",
+    "drupal_library_theme": "workspace:*",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "lint-staged": "^10.5.4",
