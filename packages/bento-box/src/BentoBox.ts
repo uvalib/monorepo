@@ -38,8 +38,8 @@ export class BentoBox extends SiteStyle {
     }
   }
 
-  protected firstUpdated(): void {
-      super.firstUpdated();
+  firstUpdated(changedProperties: Map<string | number | symbol, unknown>): void {
+      super.firstUpdated(changedProperties);
 
       // set query from url, done here so it overwrites query set via dom attribute
       const urlParams = new URLSearchParams(window.location.search);

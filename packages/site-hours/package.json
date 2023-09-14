@@ -29,19 +29,7 @@
     "@uvalib/site-style": "workspace:*"
   },
   "devDependencies": {
-    "@open-wc/eslint-config": "^4.3.0",
-    "@open-wc/testing": "next",
-    "@typescript-eslint/eslint-plugin": "^4.29.2",
-    "@typescript-eslint/parser": "^4.29.2",
-    "@web/dev-server": "^0.1.21",
-    "@web/test-runner": "next",
-    "concurrently": "^5.3.0",
-    "eslint": "^7.32.0",
-    "eslint-config-prettier": "^8.3.0",
-    "lint-staged": "^10.5.4",
-    "prettier": "^2.3.2",
-    "tsconfig": "workspace:*",
-    "tslib": "^2.3.1"
+    "tsconfig": "workspace:*"
   },
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",

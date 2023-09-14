@@ -1,31 +1,29 @@
 {
-  "name": "@uvalib/site-header",
-  "description": "Webcomponent site-header following open-wc recommendations",
+  "name": "@uvalib/site-page",
+  "description": "Webcomponent site-page following open-wc recommendations",
   "license": "MIT",
-  "author": "site-header",
+  "author": "site-page",
   "version": "0.0.0",
+  "type": "module",
   "main": "dist/src/index.js",
   "module": "dist/src/index.js",
   "exports": {
     ".": "./dist/src/index.js",
-    "./site-header.js": "./dist/src/site-header.js"
+    "./site-page.js": "./dist/src/site-page.js"
   },
   "scripts": {
+    "analyze": "cem analyze --litelement",
     "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
-    "build": "tsc",
-    "prepublish": "tsc",
+    "build": "tsc && npm run analyze -- --exclude dist",
+    "prepublish": "tsc && npm run analyze -- --exclude dist",
     "lint": "eslint --ext .ts,.html . --ignore-path .gitignore && prettier \"**/*.ts\" --check --ignore-path .gitignore",
     "format": "eslint --ext .ts,.html . --fix --ignore-path .gitignore && prettier \"**/*.ts\" --write --ignore-path .gitignore",
-    "test": "tsc && wtr --port=$(npx get-port) --coverage",
+    "test": "tsc && wtr --coverage",
     "test:watch": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wtr --watch\"",
-    "storybook": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds -c .storybook/server.mjs\"",
-    "storybook:build": "tsc && build-storybook"
+    "storybook": "tsc && npm run analyze -- --exclude dist && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds -c .storybook/server.mjs\"",
+    "storybook:build": "tsc && npm run analyze -- --exclude dist && build-storybook"
   },
-  "devDependencies": {
-    "drupal_library_theme": "workspace:*",
-    "purgecss": "^5.0.0",
-    "tsconfig": "workspace:*"
-  },
+  "customElements": "custom-elements.json",
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",
     "extends": [
@@ -54,10 +52,15 @@
     "singleQuote": true,
     "arrowParens": "avoid"
   },
-  "dependencies": {
-    "@uvalib/site-alert": "workspace:*",
-    "@uvalib/site-analytics": "workspace:*",
-    "@uvalib/site-nav": "workspace:*",
-    "@uvalib/site-style": "workspace:*"
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.ts": [
+      "eslint --fix",
+      "prettier --write"
+    ]
   }
 }
