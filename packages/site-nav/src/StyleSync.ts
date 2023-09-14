@@ -1925,7 +1925,7 @@ svg {
   width: 1rem;
   height: 1rem;
   margin-top: 0.75em;
-  content: url(../assets/svg-icons/bell.svg);
+  content: url(https://www.library.virginia.edu/themes/uvalib-drupal-theme/assets/svg-icons/bell.svg);
   margin-top: 0.25rem;
 }
 
@@ -1943,7 +1943,7 @@ svg {
   width: 1rem;
   height: 1rem;
   margin-top: 0.75em;
-  content: url(../assets/svg-icons/magnifying-glass.svg);
+  content: url(https://www.library.virginia.edu/themes/uvalib-drupal-theme/assets/svg-icons/magnifying-glass.svg);
   margin-top: 0.25rem;
 }
 

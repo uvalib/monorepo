@@ -2,7 +2,7 @@ import { html, css, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 import { SiteStyle } from '@uvalib/site-style';
 import { SiteAnalyticsMixin } from '@uvalib/site-analytics/SiteAnalyticsMixin.js';
-import SiteNavStyle from './SiteNavStyle.js';
+import SiteNavStyle from './StyleSync.js';
 
 export class SiteNav extends SiteAnalyticsMixin(SiteStyle) {
   static get styles() {
@@ -12,8 +12,26 @@ export class SiteNav extends SiteAnalyticsMixin(SiteStyle) {
     ];
   }
 
+  private _handleButtonClick() {
+    // Emit an event when the button is clicked
+    this.dispatchEvent(new CustomEvent('menu-toggle', {
+      bubbles: true,
+      composed: true
+    }));
+
+    // Call the analyticsEvent method from the mixin
+    this.analyticsEvent(['site-header', 'button-click', 'toggle-menu']);
+  }
+
   render() {
     return html`
+      <button @click="${this._handleButtonClick}" id="openmobilemenu" tabindex="0" class="open-mobile-menu" aria-label="open menu"> 
+        <svg aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="butt" stroke-linejoin="bevel">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
       <nav role="navigation" aria-labelledby="block-uvalibrary-v2a-utilitynavmain-menu" id="block-uvalibrary-v2a-utilitynavmain" class="utility-nav">
         <h2 class="visually-hidden" id="block-uvalibrary-v2a-utilitynavmain-menu">Utility Nav-main</h2>
         <div id="utility-nav">
