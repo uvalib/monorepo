@@ -62,5 +62,11 @@
       "eslint --fix",
       "prettier --write"
     ]
+  },
+  "dependencies": {
+    "@uvalib/site-analytics": "workspace:*",
+    "@uvalib/site-footer": "workspace:*",
+    "@uvalib/site-header": "workspace:*",
+    "@uvalib/site-style": "workspace:*"
   }
 }

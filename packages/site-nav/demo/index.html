@@ -9,6 +9,64 @@
   </style>
 </head>
 <body>
+  <site-nav></site-nav>
+
+  <site-nav-main .items="${menuItems}"></site-nav-main>
+
+<script>
+  const menuItems = [
+    {
+      title: 'About',
+      url: '/about',
+      below: [
+        {
+          title: 'About UVA Library',
+          url: '/about-uva-library'
+        },
+        {
+          title: 'Plan a visit',
+          url: '/about-uva-library#visit'
+        },
+        {
+          title: 'Assessment',
+          url: '/about-uva-library/assessment'
+        }
+      ]
+    },
+    {
+      title: 'Using the Library',
+      url: '/using-the-library',
+      below: [
+        {
+          title: 'Research: Search, borrow, request',
+          url: '/services'
+        },
+        {
+          title: 'Teaching & publication',
+          url: '/teaching-and-writing'
+        }
+      ]
+    },
+    {
+      title: 'Get help',
+      url: '/get-help',
+      below: [
+        {
+          title: 'Ask a Librarian',
+          url: '/askalibrarian'
+        },
+        {
+          title: 'Accessibility services',
+          url: '/services/accessibility-services'
+        }
+      ]
+    }
+  ];
+
+  const navMain = document.querySelector('site-nav-main');
+  navMain.items = menuItems;
+</script>
+
   <site-utility-nav>
     <site-utility-nav-item href="https://search.lib.virginia.edu/account" title="My account">My account</site-utility-nav-item>
     <site-utility-nav-item href="https://library.virginia.edu/askalibrarian" title="Ask a Librarian">Ask a Librarian</site-utility-nav-item>
@@ -20,6 +78,7 @@
 
   <script type="module">
     import '../dist/src/site-nav.js';
+    import '../dist/src/site-nav-main.js';
     import '../dist/src/site-utility-nav.js'
   </script>
 </body>
