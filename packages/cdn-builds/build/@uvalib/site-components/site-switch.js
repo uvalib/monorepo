@@ -1,4 +1,4 @@
-import{h as e,F as s,_ as t,a,o as c,c as o,r as i,e as d,B as r,C as h,f as l,s as n,z as b,G as k,Y as p,N as $,Z as u,g,w as m,n as x,t as y,u as w,T as f,E as v,I as H,U as T,P as j,V as F,p as O}from"../../fast-design-system-d046069d.js";import{d as C}from"../../display-058af2ce.js";import{d as N,h as z}from"../../size-b693d30e.js";import{s as L,o as S,l as _,m as E}from"../../focus-3563f905.js";import{f as G,S as A}from"../../match-media-stylesheet-behavior-575be983.js";import{D as B}from"../../direction-00084adb.js";import{C as I}from"../../form-associated-0ae06292.js";class P extends s{}class V extends(I(P)){constructor(){super(...arguments),this.proxy=document.createElement("input")}}class D extends V{constructor(){super(),this.initialValue="on",this.keypressHandler=e=>{if(!this.readOnly)switch(e.key){case _:case S:this.checked=!this.checked}},this.clickHandler=e=>{this.disabled||this.readOnly||(this.checked=!this.checked)},this.proxy.setAttribute("type","checkbox")}readOnlyChanged(){this.proxy instanceof HTMLInputElement&&(this.proxy.readOnly=this.readOnly),this.readOnly?this.classList.add("readonly"):this.classList.remove("readonly")}checkedChanged(e,s){super.checkedChanged(e,s),this.checked?this.classList.add("checked"):this.classList.remove("checked")}}t([a({attribute:"readonly",mode:"boolean"})],D.prototype,"readOnly",void 0),t([c],D.prototype,"defaultSlottedNodes",void 0);const M=D.compose({baseName:"switch",template:(s,t)=>e`
+import{h as e,F as s,a as t,o as a,c,r as o,e as i,B as d,C as r,f as h,s as l,z as n,G as b,Y as k,N as p,Z as $,g as u,w as g,n as m,t as x,u as y,T as w,E as f,I as v,U as H,P as T,V as j,p as F}from"../../fast-design-system-b703147e.js";import{d as O}from"../../display-058af2ce.js";import{d as N,h as z}from"../../size-720798a2.js";import{s as C,o as L,l as S,m as _}from"../../focus-20c16bb0.js";import{f as B,S as E}from"../../match-media-stylesheet-behavior-575be983.js";import{D as G}from"../../direction-88bcdd2b.js";import{_ as D}from"../../tslib.es6-6ae91544.js";import{C as I}from"../../form-associated-e5f30f6f.js";class P extends s{}class V extends(I(P)){constructor(){super(...arguments),this.proxy=document.createElement("input")}}class A extends V{constructor(){super(),this.initialValue="on",this.keypressHandler=e=>{if(!this.readOnly)switch(e.key){case S:case L:this.checked=!this.checked}},this.clickHandler=e=>{this.disabled||this.readOnly||(this.checked=!this.checked)},this.proxy.setAttribute("type","checkbox")}readOnlyChanged(){this.proxy instanceof HTMLInputElement&&(this.proxy.readOnly=this.readOnly),this.readOnly?this.classList.add("readonly"):this.classList.remove("readonly")}checkedChanged(e,s){super.checkedChanged(e,s),this.checked?this.classList.add("checked"):this.classList.remove("checked")}}D([t({attribute:"readonly",mode:"boolean"})],A.prototype,"readOnly",void 0),D([a],A.prototype,"defaultSlottedNodes",void 0);const M=A.compose({baseName:"switch",template:(s,t)=>e`
     <template
         role="switch"
         aria-checked="${e=>e.checked}"
@@ -13,7 +13,7 @@ import{h as e,F as s,_ as t,a,o as c,c as o,r as i,e as d,B as r,C as h,f as l,s
             part="label"
             class="${e=>e.defaultSlottedNodes&&e.defaultSlottedNodes.length?"label":"label label__hidden"}"
         >
-            <slot ${L("defaultSlottedNodes")}></slot>
+            <slot ${C("defaultSlottedNodes")}></slot>
         </label>
         <div part="switch" class="switch">
             <slot name="switch">${t.switch||""}</slot>
@@ -27,21 +27,21 @@ import{h as e,F as s,_ as t,a,o as c,c as o,r as i,e as d,B as r,C as h,f as l,s
             </span>
         </span>
     </template>
-`,styles:(e,s)=>o`
+`,styles:(e,s)=>c`
         :host([hidden]) {
             display: none;
         }
 
-        ${C("inline-flex")} :host {
+        ${O("inline-flex")} :host {
             align-items: center;
             outline: none;
-            font-family: ${i};
-            margin: calc(${d} * 1px) 0;
+            font-family: ${o};
+            margin: calc(${i} * 1px) 0;
             ${""} user-select: none;
         }
 
         :host([disabled]) {
-            opacity: ${r};
+            opacity: ${d};
         }
 
         :host([disabled]) .label,
@@ -56,48 +56,48 @@ import{h as e,F as s,_ as t,a,o as c,c as o,r as i,e as d,B as r,C as h,f as l,s
             outline: none;
             box-sizing: border-box;
             width: calc(${z} * 1px);
-            height: calc((${z} / 2 + ${d}) * 1px);
-            background: ${h};
-            border-radius: calc(${l} * 1px);
-            border: calc(${n} * 1px) solid ${b};
+            height: calc((${z} / 2 + ${i}) * 1px);
+            background: ${r};
+            border-radius: calc(${h} * 1px);
+            border: calc(${l} * 1px) solid ${n};
         }
 
         .switch:hover {
-            background: ${k};
-            border-color: ${p};
+            background: ${b};
+            border-color: ${k};
             cursor: pointer;
         }
 
         host([disabled]) .switch:hover,
         host([readonly]) .switch:hover {
-            background: ${k};
-            border-color: ${p};
+            background: ${b};
+            border-color: ${k};
             cursor: ${N};
         }
 
         :host(:not([disabled])) .switch:active {
-            background: ${$};
-            border-color: ${u};
+            background: ${p};
+            border-color: ${$};
         }
 
-        :host(:${E}) .switch {
-            box-shadow: 0 0 0 2px ${g}, 0 0 0 4px ${m};
+        :host(:${_}) .switch {
+            box-shadow: 0 0 0 2px ${u}, 0 0 0 4px ${g};
         }
 
         .checked-indicator {
             position: absolute;
             top: 5px;
             bottom: 5px;
-            background: ${x};
-            border-radius: calc(${l} * 1px);
+            background: ${m};
+            border-radius: calc(${h} * 1px);
             transition: all 0.2s ease-in-out;
         }
 
         .status-message {
-            color: ${x};
+            color: ${m};
             cursor: pointer;
-            font-size: ${y};
-            line-height: ${w};
+            font-size: ${x};
+            line-height: ${y};
         }
 
         :host([disabled]) .status-message,
@@ -106,10 +106,10 @@ import{h as e,F as s,_ as t,a,o as c,c as o,r as i,e as d,B as r,C as h,f as l,s
         }
 
         .label {
-            color: ${x};
-            margin-inline-end: calc(${d} * 2px + 2px);
-            font-size: ${y};
-            line-height: ${w};
+            color: ${m};
+            margin-inline-end: calc(${i} * 2px + 2px);
+            font-size: ${x};
+            line-height: ${y};
             cursor: pointer;
         }
 
@@ -120,38 +120,38 @@ import{h as e,F as s,_ as t,a,o as c,c as o,r as i,e as d,B as r,C as h,f as l,s
 
         ::slotted([slot="checked-message"]),
         ::slotted([slot="unchecked-message"]) {
-            margin-inline-start: calc(${d} * 2px + 2px);
+            margin-inline-start: calc(${i} * 2px + 2px);
         }
 
         :host([aria-checked="true"]) .checked-indicator {
-            background: ${f};
+            background: ${w};
         }
 
         :host([aria-checked="true"]) .switch {
+            background: ${f};
+            border-color: ${f};
+        }
+
+        :host([aria-checked="true"]:not([disabled])) .switch:hover {
             background: ${v};
             border-color: ${v};
         }
 
-        :host([aria-checked="true"]:not([disabled])) .switch:hover {
-            background: ${H};
-            border-color: ${H};
-        }
-
         :host([aria-checked="true"]:not([disabled])) .switch:hover .checked-indicator {
-            background: ${T};
+            background: ${H};
         }
 
         :host([aria-checked="true"]:not([disabled])) .switch:active {
-            background: ${j};
-            border-color: ${j};
+            background: ${T};
+            border-color: ${T};
         }
 
         :host([aria-checked="true"]:not([disabled])) .switch:active .checked-indicator {
-            background: ${F};
+            background: ${j};
         }
 
-        :host([aria-checked="true"]:${E}:not([disabled])) .switch {
-            box-shadow: 0 0 0 2px ${g}, 0 0 0 4px ${m};
+        :host([aria-checked="true"]:${_}:not([disabled])) .switch {
+            box-shadow: 0 0 0 2px ${u}, 0 0 0 4px ${g};
         }
 
         .unchecked-message {
@@ -169,54 +169,54 @@ import{h as e,F as s,_ as t,a,o as c,c as o,r as i,e as d,B as r,C as h,f as l,s
         :host([aria-checked="true"]) .checked-message {
             display: block;
         }
-    `.withBehaviors(G(o`
+    `.withBehaviors(B(c`
             .checked-indicator,
             :host(:not([disabled])) .switch:active .checked-indicator {
                 forced-color-adjust: none;
-                background: ${A.FieldText};
+                background: ${E.FieldText};
             }
             .switch {
                 forced-color-adjust: none;
-                background: ${A.Field};
-                border-color: ${A.FieldText};
+                background: ${E.Field};
+                border-color: ${E.FieldText};
             }
             :host(:not([disabled])) .switch:hover {
-                background: ${A.HighlightText};
-                border-color: ${A.Highlight};
+                background: ${E.HighlightText};
+                border-color: ${E.Highlight};
             }
             :host([aria-checked="true"]) .switch {
-                background: ${A.Highlight};
-                border-color: ${A.Highlight};
+                background: ${E.Highlight};
+                border-color: ${E.Highlight};
             }
             :host([aria-checked="true"]:not([disabled])) .switch:hover,
             :host(:not([disabled])) .switch:active {
-                background: ${A.HighlightText};
-                border-color: ${A.Highlight};
+                background: ${E.HighlightText};
+                border-color: ${E.Highlight};
             }
             :host([aria-checked="true"]) .checked-indicator {
-                background: ${A.HighlightText};
+                background: ${E.HighlightText};
             }
             :host([aria-checked="true"]:not([disabled])) .switch:hover .checked-indicator {
-                background: ${A.Highlight};
+                background: ${E.Highlight};
             }
             :host([disabled]) {
                 opacity: 1;
             }
-            :host(:${E}) .switch {
-                border-color: ${A.Highlight};
-                box-shadow: 0 0 0 2px ${A.Field}, 0 0 0 4px ${A.FieldText};
+            :host(:${_}) .switch {
+                border-color: ${E.Highlight};
+                box-shadow: 0 0 0 2px ${E.Field}, 0 0 0 4px ${E.FieldText};
             }
-            :host([aria-checked="true"]:${E}:not([disabled])) .switch {
-                box-shadow: 0 0 0 2px ${A.Field}, 0 0 0 4px ${A.FieldText};
+            :host([aria-checked="true"]:${_}:not([disabled])) .switch {
+                box-shadow: 0 0 0 2px ${E.Field}, 0 0 0 4px ${E.FieldText};
             }
             :host([disabled]) .checked-indicator {
-                background: ${A.GrayText};
+                background: ${E.GrayText};
             }
             :host([disabled]) .switch {
-                background: ${A.Field};
-                border-color: ${A.GrayText};
+                background: ${E.Field};
+                border-color: ${E.GrayText};
             }
-        `),new B(o`
+        `),new G(c`
                 .checked-indicator {
                     left: 5px;
                     right: calc(((${z} / 2) + 1) * 1px);
@@ -226,7 +226,7 @@ import{h as e,F as s,_ as t,a,o as c,c as o,r as i,e as d,B as r,C as h,f as l,s
                     left: calc(((${z} / 2) + 1) * 1px);
                     right: 5px;
                 }
-            `,o`
+            `,c`
                 .checked-indicator {
                     right: 5px;
                     left: calc(((${z} / 2) + 1) * 1px);
@@ -236,4 +236,4 @@ import{h as e,F as s,_ as t,a,o as c,c as o,r as i,e as d,B as r,C as h,f as l,s
                     right: calc(((${z} / 2) + 1) * 1px);
                     left: 5px;
                 }
-            `)),switch:'\n        <span class="checked-indicator" part="checked-indicator"></span>\n    '});O().withPrefix("site").register(M({}));
+            `)),switch:'\n        <span class="checked-indicator" part="checked-indicator"></span>\n    '});F().withPrefix("site").register(M({}));
