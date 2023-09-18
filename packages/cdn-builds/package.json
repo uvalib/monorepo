@@ -14,14 +14,16 @@
   "license": "ISC",
   "dependencies": {
     "@uvalib/bento-box": "workspace:*",
-    "@uvalib/site-hours": "workspace:*",
-    "@uvalib/viz-graph": "workspace:*",
-    "@uvalib/site-style": "workspace:*",
-    "@uvalib/site-components": "workspace:*",
-    "@uvalib/site-button": "workspace:*",
     "@uvalib/data-wrap": "workspace:*",
+    "@uvalib/site-analytics": "workspace:*",
+    "@uvalib/site-button": "workspace:*",
+    "@uvalib/site-components": "workspace:*",
+    "@uvalib/site-footer": "workspace:*",
     "@uvalib/site-header": "workspace:*",
-    "@uvalib/site-footer": "workspace:*"
+    "@uvalib/site-hours": "workspace:*",
+    "@uvalib/site-page": "workspace:*",
+    "@uvalib/site-style": "workspace:*",
+    "@uvalib/viz-graph": "workspace:*"
   },
   "devDependencies": {
     "tsconfig": "workspace:*"
@@ -31,10 +33,12 @@
     "./bento-box/bento-box.js": "./build/@uvalib/bento-box/bento-box.js",
     "./bento-box/events-section.js": "./build/@uvalib/bento-box/events-section.js",
     "./data-wrap/data-wrap.js": "./build/@uvalib/data-wrap/data-wrap.js",
+    "./site-analytics/site-analytics.js": "./build/@uvalib/site-analytics/site-analytics.js",
     "./site-components/site-data-grid.js": "./build/@uvalib/site-components/site-data-grid.js",
     "./site-components/site-avatar.js": "./build/@uvalib/site-components/site-avatar.js",
     "./site-button/site-button.js": "./build/@uvalib/site-button/site-button.js",
     "./site-components/site-card.js": "./build/@uvalib/site-components/site-card.js",
+    "./site-page/site-page.js": "./build/@uvalib/site-page/site-page.js",
     "./site-components/site-select.js": "./build/@uvalib/site-components/site-select.js",
     "./site-components/site-tabs.js": "./build/@uvalib/site-components/site-tabs.js",
     "./site-components/site-switch.js": "./build/@uvalib/site-components/site-switch.js",

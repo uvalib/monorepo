@@ -314,6 +314,9 @@ importers:
       '@uvalib/data-wrap':
         specifier: workspace:*
         version: link:../data-wrap
+      '@uvalib/site-analytics':
+        specifier: workspace:^
+        version: link:../site-analytics
       '@uvalib/site-button':
         specifier: workspace:*
         version: link:../site-button
@@ -329,6 +332,9 @@ importers:
       '@uvalib/site-hours':
         specifier: workspace:*
         version: link:../site-hours
+      '@uvalib/site-page':
+        specifier: workspace:^
+        version: link:../site-page
       '@uvalib/site-style':
         specifier: workspace:*
         version: link:../site-style

@@ -3,6 +3,7 @@ import { html, css, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 import { SiteStyle } from '@uvalib/site-style';
 import { SiteAnalyticsMixin } from '@uvalib/site-analytics/SiteAnalyticsMixin.js';
+import SiteNavMainStyle from './SiteNavMainStyle.js';
 import './site-nav-main-item.js'; // Import the SiteNavMainItem component
 
 export class SiteNavMain extends SiteAnalyticsMixin(SiteStyle) {
@@ -10,6 +11,7 @@ export class SiteNavMain extends SiteAnalyticsMixin(SiteStyle) {
   static get styles() {
     return [
       ...super.styles,
+      SiteNavMainStyle,
       css``
     ];
   }

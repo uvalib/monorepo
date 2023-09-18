@@ -3,27 +3,20 @@
 <head>
   <meta charset="utf-8">
   <style>
+    html, body {
+      padding: 0;
+      margin: 0;
+    }
     body {
       background: #fafafa;
     }
   </style>
 </head>
 <body>
-  <div id="demo"></div>
+  <site-page></site-page>
 
   <script type="module">
-    import { html, render } from 'lit';
     import '../dist/src/site-page.js';
-
-    const header = 'Hello owc World!';
-    render(
-      html`
-        <site-page .header=${header}>
-          some light-dom
-        </site-page>
-      `,
-      document.querySelector('#demo')
-    );
   </script>
 </body>
 </html>

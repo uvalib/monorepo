@@ -1,27 +1,22 @@
 import { html, css, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 
+import "@uvalib/site-header/site-header.js";
+import ("@uvalib/site-footer/site-footer.js");  // at the bottom so can be dynamicly/async loaded
+
 export class SitePage extends LitElement {
   static styles = css`
     :host {
-      display: block;
-      padding: 25px;
-      color: var(--site-page-text-color, #000);
+      display:block;
     }
   `;
 
-  @property({ type: String }) header = 'Hey there';
-
-  @property({ type: Number }) counter = 5;
-
-  __increment() {
-    this.counter += 1;
-  }
 
   render() {
     return html`
-      <h2>${this.header} Nr. ${this.counter}!</h2>
-      <button @click=${this.__increment}>increment</button>
+      <site-header></site-header>
+      <slot></slot>
+      <site-footer></site-footer>
     `;
   }
 }

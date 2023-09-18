@@ -2,6 +2,8 @@
 import { html, css, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 
+import SiteNavMainStyle from './SiteNavMainStyle.js';
+
 interface NavItem {
   title: string;
   url?: string;
@@ -10,9 +12,7 @@ interface NavItem {
 
 export class SiteNavMainItem extends LitElement {
 
-  static styles = css`
-    /* Add your styles here */
-  `;
+  static styles = SiteNavMainStyle;
 
   @property({ type: Object }) item!: NavItem;
 

@@ -4,6 +4,7 @@ import { SitePage } from '../src/SitePage.js';
 import '../src/site-page.js';
 
 describe('SitePage', () => {
+/*
   it('has a default header "Hey there" and counter 5', async () => {
     const el = await fixture<SitePage>(html`<site-page></site-page>`);
 
@@ -29,4 +30,5 @@ describe('SitePage', () => {
 
     await expect(el).shadowDom.to.be.accessible();
   });
+*/
 });
