@@ -4,9 +4,17 @@
   <meta charset="utf-8">
   <title>{{ title }}</title>
   <!-- Add your CSS, JavaScript, and other head elements here -->
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
 </head>
 <body>
-  <!-- Insert the content of the child layout -->
-  {{ content | safe }}
+  <site-style no-shadow-dom></site-style>
+  <site-page>
+      {{ content | safe }}
+  </site-page>
 </body>
 </html>
