@@ -315,7 +315,7 @@ importers:
         specifier: workspace:*
         version: link:../data-wrap
       '@uvalib/site-analytics':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../site-analytics
       '@uvalib/site-button':
         specifier: workspace:*
@@ -333,7 +333,7 @@ importers:
         specifier: workspace:*
         version: link:../site-hours
       '@uvalib/site-page':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../site-page
       '@uvalib/site-style':
         specifier: workspace:*
@@ -380,12 +380,18 @@ importers:
       mammoth:
         specifier: ^1.6.0
         version: 1.6.0
+      saxon-js:
+        specifier: ^2.5.0
+        version: 2.5.0
       sharp:
         specifier: ^0.32.4
         version: 0.32.4
       turndown:
         specifier: ^7.1.2
         version: 7.1.2
+      xslt3:
+        specifier: ^2.5.0
+        version: 2.5.0
       yargs:
         specifier: ^17.7.2
         version: 17.7.2
@@ -7690,6 +7696,14 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
+  /axios@0.24.0:
+    resolution: {integrity: sha512-Q6cWsys88HoPgAaFAVUb0WpPk0O8iTeisR9IMqy9G8AbO4NlpVknrnQS03zzF9PGAWgO3cgletO3VjV/P7VztA==}
+    dependencies:
+      follow-redirects: 1.15.2
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
   /axobject-query@2.2.0:
     resolution: {integrity: sha512-Td525n+iPOOyUQIeBfcASuG6uJsDOITl7Mds5gFyerkWiX7qhUTdYUBlSgNMyVqtSJqwpt1kXGLdUt6SykLMRA==}
     dev: true
@@ -9981,6 +9995,16 @@ packages:
 
   /flexsearch@0.7.31:
     resolution: {integrity: sha512-XGozTsMPYkm+6b5QL3Z9wQcJjNYxp0CYn3U1gO7dwD6PAqU1SVWZxI9CCg3z+ml3YfqdPnrBehaBrnH2AGKbNA==}
+    dev: false
+
+  /follow-redirects@1.15.2:
+    resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
     dev: false
 
   /for-each@0.3.3:
@@ -14127,6 +14151,14 @@ packages:
       xmlchars: 2.2.0
     dev: true
 
+  /saxon-js@2.5.0:
+    resolution: {integrity: sha512-bdUmnW//mNha5OFYGDA/rqh+4ZuHPtYUQor8yqnOIhFb0JxD+mauFuZbp2GpEwHnTEpFTQ8OcoVFLcDxu7SXAg==}
+    dependencies:
+      axios: 0.24.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
   /section-matter@1.0.0:
     resolution: {integrity: sha512-vfD3pmTzGpufjScBh50YHKzEu2lxBWhVEHsNGoEXmCmn2hKGfeNLYMzCJpe8cD7gqX7TJluOVpBkAequ6dgMmA==}
     engines: {node: '>=4'}
@@ -16066,6 +16098,16 @@ packages:
   /xmlchars@2.2.0:
     resolution: {integrity: sha512-JZnDKK8B0RCDw84FNdDAIpZK+JuJw+s7Lz8nksI7SIuU3UXJJslUthsi+uWBUYOwPFwW7W7PRLRfUKpxjtjFCw==}
     dev: true
+
+  /xslt3@2.5.0:
+    resolution: {integrity: sha512-ZtdcA7di6dATmN21t3yX9tAbpuXPda2gjBCwCBSdTr5BFVbDFtIeaOhi50onwz785Wowr04m0qdb7wCL80y0fQ==}
+    hasBin: true
+    dependencies:
+      axios: 0.24.0
+      saxon-js: 2.5.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
 
   /xtend@4.0.2:
     resolution: {integrity: sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==}
