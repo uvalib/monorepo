@@ -33,7 +33,7 @@ export class SearchLibrary {
   performSearch(query: string): string[] {
     let results: any[] = [];
     if (this.indexType === 'flexsearch') {
-      results = this.index.search(query);
+      results = this.index.search(query, {enrich: true});
     } else if (this.indexType === 'fuse') {
       results = this.index.search(query).map((item: any) => item.refIndex);
     }

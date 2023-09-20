@@ -22,7 +22,12 @@ export class IndexCreator {
   // Method to add documents directly
   addDocument(id: number, text: string) {
     if (this.indexType === 'flexsearch') {
-      this.index.add(id, text);
+      this.index.add({
+        id: id,
+        title: "foo",
+        year: "bar",
+        content: text
+      });
     } else if (this.indexType === 'fuse') {
       this.index.push({ id, text });
     }
@@ -45,7 +50,8 @@ export class IndexCreator {
       };
 
       if (this.indexType === 'flexsearch') {
-        this.index.add(docToAdd.id, docToAdd.text);
+//        this.index.add(docToAdd.id, docToAdd.text);
+          this.addDocument(docToAdd.id, docToAdd.text);
       } else if (this.indexType === 'fuse') {
         this.index.push(docToAdd);
       }
@@ -54,15 +60,36 @@ export class IndexCreator {
     }
   }
 
+  private async saveIndex(): Promise<Record<string, any>> {
+
+    return new Promise((resolve, reject) => {
+      
+      const exportedIndex: Record<string, any> = {};
+      let count = 0;
+      const numberOfKeysToExport = Object.keys(this.index.index).length * 3 + 3;
+
+      this.index.export((key: any, data: any) => {
+        exportedIndex[key] = data;
+        count += 1;
+
+        if (count === numberOfKeysToExport) {
+          resolve(exportedIndex);
+        }
+      });
+
+    });
+  }
+
   async createIndex(): Promise<string | void> {
     if (this.indexType === 'flexsearch') {
-      const { Index } = await import('flexsearch');
-      this.index = new Index({
-        charset: "latin",
-        preset: 'match',
-        tokenize: 'strict',
-        cache: false
-      });
+      const { Document } = await import('flexsearch');
+      this.index = new Document({
+        document: {
+          id: "id",
+          index: ["content"],
+          store: ["title", "year"]
+        }
+      });      
     } else if (this.indexType === 'fuse') {
       this.index = [];
     }
@@ -75,26 +102,19 @@ export class IndexCreator {
     }
 
     if (this.indexType === 'flexsearch') {
-      const numberOfKeysToExport = 4;
-      let count = 0;
-      const exportedIndex: Record<string, any> = {};
 
-      this.index.export((key: any, data: any) => {
-        exportedIndex[key] = data;
-        count += 1;
+//console.log( JSON.stringify(this.index.search("jefferson",{enrich:true})) )
 
-        if (count === numberOfKeysToExport) {
-          if (this.outputIndex) {
-            this.writeIndexToFile(exportedIndex);
-          } else {
-            return JSON.stringify({
-              indexType: this.indexType,
-              index: exportedIndex,
-              filenames: this.filenames,
-            });
-          }
-        }
-      });
+      const exportedIndex = await this.saveIndex();
+      if (this.outputIndex) {
+        this.writeIndexToFile(exportedIndex);
+      } else {
+        return JSON.stringify({
+          indexType: this.indexType,
+          index: exportedIndex,
+          filenames: this.filenames,
+        });
+      }
     } else if (this.indexType === 'fuse') {
       if (this.outputIndex) {
         this.writeIndexToFile(this.index);
@@ -109,6 +129,7 @@ export class IndexCreator {
   }
 
   private writeIndexToFile(indexData: any) {
+    
     try {
       const outputData = {
         indexType: this.indexType,
