@@ -64,6 +64,9 @@ export class BentoBox extends SiteStyle {
 
     ${this.boxes.map(box=>{
         switch (box) {
+          case 'client-search':
+            import('./client-search-section.js');
+            return html`<client-search-section no-result-describe="${this.noResultDescribe}" class="bs-results--block" ?no-shadow-dom="${this.noShadowDom}" ?no-style="${this.noStyle}" limit="${this.limit}" query="${this.query}"></client-search-section>`;
           case 'mlb':
             import('./mlb-section.js');
             return html`<mlb-section no-result-describe="${this.noResultDescribe}" class="bs-results--block" ?no-shadow-dom="${this.noShadowDom}" ?no-style="${this.noStyle}" limit="${this.limit}" query="${this.query}"></mlb-section>`;
