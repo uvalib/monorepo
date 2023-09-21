@@ -4,6 +4,8 @@ module.exports = function(eleventyConfig) {
     // Use the configuration from the template
     let config = templateConfig(eleventyConfig);
 
+    eleventyConfig.addPassthroughCopy({ "searchIndex.json": "demo/searchIndex.json" });
+
     // Add a collection for the minutes
     eleventyConfig.addCollection("minutes", function(collectionApi) {
       return collectionApi.getFilteredByGlob("minutes/*.md");

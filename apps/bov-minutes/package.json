@@ -9,7 +9,8 @@
     "index-docs": "createSearchIndex --outputIndex ./searchIndex.json --inputDir ./minutes --indexType flexsearch",
     "index-docs-fuse": "createSearchIndex --outputIndex ./searchIndexFuse.json --inputDir ./minutes --indexType fuse",
     "build": "pnpm import-docs && NODE_OPTIONS=\"--max-old-space-size=8192\" npx eleventy",
-    "serve": "NODE_OPTIONS=\"--max-old-space-size=8192\" npx eleventy --serve"
+    "serve": "NODE_OPTIONS=\"--max-old-space-size=8192\" npx eleventy --serve",
+    "start": "pnpm serve"
   },
   "keywords": [],
   "author": "",
