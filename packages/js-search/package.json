@@ -8,7 +8,10 @@
     "searchIndex": "./dist/searchIndex.js"
   },
   "scripts": {
-    "build": "tsc",
+    "build-rollup": "rimraf build && tsc && rollup -c rollup.config.mjs",
+    "build:node": "tsc",
+    "build:browser": "tsc -p tsconfig.browser.json",
+    "build": "npm run build:node && npm run build:browser",
     "createIndex": "node dist/indexCreator.js",
     "searchIndex": "node dist/searchIndex.js",
     "test": "mocha -r ts-node/register 'test/**/*.test.ts'"

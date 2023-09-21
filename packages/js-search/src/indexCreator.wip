@@ -1,7 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import matter from 'gray-matter';
-
 import MarkdownIt from 'markdown-it';
 
 export type IndexType = 'flexsearch' | 'fuse';
@@ -33,7 +32,7 @@ export class IndexCreator {
       this.index.push({ id, text });
     }
 
-//    this.filenames.push(`Document_${id}`);
+    this.filenames.push(`Document_${id}`);
   }
 
   private async processFile(file: string, index: number) {
@@ -51,8 +50,7 @@ export class IndexCreator {
       };
 
       if (this.indexType === 'flexsearch') {
-//        this.index.add(docToAdd.id, docToAdd.text);
-          this.addDocument(docToAdd.id, docToAdd.text);
+        this.index.add(docToAdd.id, docToAdd.text);
       } else if (this.indexType === 'fuse') {
         this.index.push(docToAdd);
       }
@@ -61,36 +59,16 @@ export class IndexCreator {
     }
   }
 
-  private async saveIndex(): Promise<Record<string, any>> {
-
-    return new Promise((resolve, reject) => {
-      
-      const exportedIndex: Record<string, any> = {};
-      let count = 0;
-      const numberOfKeysToExport = Object.keys(this.index.index).length * 3 + 3;
-
-      this.index.export((key: any, data: any) => {
-        exportedIndex[key] = data;
-        count += 1;
-
-        if (count === numberOfKeysToExport) {
-          resolve(exportedIndex);
-        }
-      });
-
-    });
-  }
-
   async createIndex(): Promise<string | void> {
     if (this.indexType === 'flexsearch') {
       const { Document } = await import('flexsearch');
       this.index = new Document({
         document: {
           id: "id",
-          index: ["content"],
+          index: "content",
           store: ["title", "year"]
         }
-      });      
+      });
     } else if (this.indexType === 'fuse') {
       this.index = [];
     }
@@ -104,16 +82,27 @@ export class IndexCreator {
 
     if (this.indexType === 'flexsearch') {
 
-      const exportedIndex = await this.saveIndex();
-      if (this.outputIndex) {
-        this.writeIndexToFile(exportedIndex);
-      } else {
-        return JSON.stringify({
-          indexType: this.indexType,
-          index: exportedIndex,
-          filenames: this.filenames,
-        });
-      }
+      const numberOfKeysToExport = 6;
+      let count = 0;
+      const exportedIndex: Record<string, any> = {};
+
+      this.index.export((key: any, data: any) => {
+        exportedIndex[key] = data;
+        count += 1;
+
+        if (count === numberOfKeysToExport) {
+          if (this.outputIndex) {
+            this.writeIndexToFile(exportedIndex);
+          } else {
+            return JSON.stringify({
+              indexType: this.indexType,
+              index: exportedIndex,
+              filenames: this.filenames,
+            });
+          }
+        }
+      });
+
     } else if (this.indexType === 'fuse') {
       if (this.outputIndex) {
         this.writeIndexToFile(this.index);
@@ -128,7 +117,6 @@ export class IndexCreator {
   }
 
   private writeIndexToFile(indexData: any) {
-    
     try {
       const outputData = {
         indexType: this.indexType,
