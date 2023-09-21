@@ -11,7 +11,8 @@
     "build-rollup": "rimraf build && tsc && rollup -c rollup.config.mjs",
     "build:node": "tsc",
     "build:browser": "tsc -p tsconfig.browser.json",
-    "build": "npm run build:node && npm run build:browser",
+    "build-wip": "npm run build:node && npm run build:browser",
+    "build": "pwd",
     "createIndex": "node dist/indexCreator.js",
     "searchIndex": "node dist/searchIndex.js",
     "test": "mocha -r ts-node/register 'test/**/*.test.ts'"
