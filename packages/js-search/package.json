@@ -26,6 +26,7 @@
     "yargs": "^17.7.2"
   },
   "devDependencies": {
+    "@types/markdown-it": "^13.0.1",
     "@types/yargs": "^17.0.24"
   }
 }

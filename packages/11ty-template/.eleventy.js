@@ -50,7 +50,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy('src/static');
 
   eleventyConfig.addPlugin(new CustomElementsPlugin({
-    version: "2.2.14",
+    version: "2.2.15",
   }));
 
   return {
