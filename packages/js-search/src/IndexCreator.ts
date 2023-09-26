@@ -1,7 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import matter from 'gray-matter';
-
 import MarkdownIt from 'markdown-it';
 
 export type IndexType = 'flexsearch' | 'fuse';
@@ -10,30 +9,30 @@ export class IndexCreator {
   private index: any;
   private inputDir: string;
   private outputIndex?: string;
-  private filenames: string[];
+  private filenames: string[] = [];
   private indexType: IndexType;
+  private storedMeta?: string | string[];
 
-  constructor(inputDir: string = '', outputIndex?: string, indexType: IndexType = 'flexsearch') {
+  constructor(inputDir: string = '', outputIndex?: string, indexType: IndexType = 'flexsearch', storedMeta?: string | string[]) {
     this.inputDir = inputDir;
     this.outputIndex = outputIndex;
-    this.filenames = [];
     this.indexType = indexType;
+    this.storedMeta = storedMeta;
   }
 
-  // Method to add documents directly
-  addDocument(id: number, text: string) {
-    if (this.indexType === 'flexsearch') {
-      this.index.add({
-        id: id,
-        title: "foo",
-        year: "bar",
-        content: text
-      });
-    } else if (this.indexType === 'fuse') {
-      this.index.push({ id, text });
+  private async gatherUniqueFrontmatterFields(): Promise<string[]> {
+    const uniqueFields = new Set<string>();
+    const files = fs.readdirSync(this.inputDir);
+    const markdownFiles = files.filter((file) => path.extname(file) === '.md');
+
+    for (const file of markdownFiles) {
+      const filePath = path.join(this.inputDir, file);
+      const rawContent = fs.readFileSync(filePath, 'utf8');
+      const { data } = matter(rawContent);
+      Object.keys(data).forEach(field => uniqueFields.add(field));
     }
 
-//    this.filenames.push(`Document_${id}`);
+    return Array.from(uniqueFields);
   }
 
   private async processFile(file: string, index: number) {
@@ -47,12 +46,12 @@ export class IndexCreator {
     if (data && textContent.trim() !== '' && Object.keys(data).length > 0) {
       const docToAdd = {
         id: index,
-        text: textContent,
+        content: textContent,
+        ...data
       };
 
       if (this.indexType === 'flexsearch') {
-//        this.index.add(docToAdd.id, docToAdd.text);
-          this.addDocument(docToAdd.id, docToAdd.text);
+        this.index.add(docToAdd);
       } else if (this.indexType === 'fuse') {
         this.index.push(docToAdd);
       }
@@ -62,9 +61,7 @@ export class IndexCreator {
   }
 
   private async saveIndex(): Promise<Record<string, any>> {
-
     return new Promise((resolve, reject) => {
-      
       const exportedIndex: Record<string, any> = {};
       let count = 0;
       const numberOfKeysToExport = Object.keys(this.index.index).length * 3 + 3;
@@ -77,20 +74,27 @@ export class IndexCreator {
           resolve(exportedIndex);
         }
       });
-
     });
   }
 
   async createIndex(): Promise<string | void> {
+    let storeFields: string[] = [];
+
+    if (this.storedMeta) {
+      storeFields = Array.isArray(this.storedMeta) ? this.storedMeta : [this.storedMeta];
+    } else {
+      storeFields = await this.gatherUniqueFrontmatterFields();
+    }
+
     if (this.indexType === 'flexsearch') {
       const { Document } = await import('flexsearch');
       this.index = new Document({
         document: {
           id: "id",
           index: ["content"],
-          store: ["title", "year"]
+          store: storeFields
         }
-      });      
+      });
     } else if (this.indexType === 'fuse') {
       this.index = [];
     }
@@ -103,7 +107,6 @@ export class IndexCreator {
     }
 
     if (this.indexType === 'flexsearch') {
-
       const exportedIndex = await this.saveIndex();
       if (this.outputIndex) {
         this.writeIndexToFile(exportedIndex);
@@ -128,7 +131,6 @@ export class IndexCreator {
   }
 
   private writeIndexToFile(indexData: any) {
-    
     try {
       const outputData = {
         indexType: this.indexType,
