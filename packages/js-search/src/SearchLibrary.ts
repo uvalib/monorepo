@@ -8,12 +8,6 @@ interface FlexSearchResult {
   }>;
 }
 
-// @ts-ignore
-import FlexSearch from 'flexsearch';
-const { Document } = FlexSearch;
-
-//import { Document } from 'flexsearch';
-
 export class SearchLibrary {
   private index: any;
   private filenames: string[];
@@ -30,10 +24,8 @@ export class SearchLibrary {
     this.filenames = parsedContent.filenames;
   
     if (this.indexType === 'flexsearch') {
-//      const { Document } = await import('flexsearch');
-console.log('document:')
-console.log(FlexSearch);
-console.log(Document);
+      const { Document } = await import('flexsearch');
+
       this.index = new Document({
         document: {
           id: "id",
@@ -56,12 +48,12 @@ console.log(Document);
   performSearch(query: string): string[] {
     let results: any[] = [];
     if (this.indexType === 'flexsearch') {
-console.log(this.index)      
+//console.log(this.index)      
       const searchResults = this.index.search(query, {enrich: true});
-console.log(searchResults)      
-      //results = searchResults.flatMap(result => result.result);
+console.log(JSON.stringify(searchResults))      
+
       results = searchResults.flatMap((result: FlexSearchResult) => result.result);
-console.log(results);
+//console.log(results);
     } else if (this.indexType === 'fuse') {
       results = this.index.search(query).map((item: any) => item.refIndex);
     }
