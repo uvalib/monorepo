@@ -1,5 +1,5 @@
 import { html, css, LitElement } from 'lit';
-import { property } from 'lit/decorators.js';
+import { property, query } from 'lit/decorators.js';
 
 export class SitePageSearch extends LitElement {
   static styles = css`
@@ -14,11 +14,17 @@ export class SitePageSearch extends LitElement {
     .content {
       margin-top: 50px;
     }
+    .header[hidden] {
+      display: none;
+    }
   `;
 
   @property({ type: Boolean, attribute: 'case-sensitive' }) caseSensitive = false;
   @property({ type: String }) query = '';
   @property({ type: String, attribute: 'query-string-param' }) queryStringParam = '';
+  @property({ type: Boolean }) disabled = false;
+
+  @query('input[type="search"]') searchInput!: HTMLInputElement;
 
   private currentIndex = 0;
   private results!: NodeListOf<HTMLElement>;
@@ -26,10 +32,21 @@ export class SitePageSearch extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    // Store the original content once the component is connected to the DOM
-    this.originalContent = this.innerHTML;
+    this.storeOriginalContent();
+    this.updateQueryFromURL();
+    document.addEventListener('keydown', this.handleShortcutKey);
+  }
 
-    // If queryStringParam is set, look for it in the URL and update the query
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    document.removeEventListener('keydown', this.handleShortcutKey);
+  }
+
+  storeOriginalContent() {
+    this.originalContent = this.innerHTML;
+  }
+
+  updateQueryFromURL() {
     if (this.queryStringParam) {
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.has(this.queryStringParam)) {
@@ -39,24 +56,58 @@ export class SitePageSearch extends LitElement {
     }
   }
 
+  handleShortcutKey = (e: KeyboardEvent) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'f') {
+      e.preventDefault();
+      this.disabled = false;
+      this.mark(this.query);
+      setTimeout(() => {
+        this.searchInput.focus();
+      }, 10);
+    }
+  }
+
+  private updateURL() {
+    if (this.queryStringParam) {
+      const url = new URL(window.location.href);
+      const params = new URLSearchParams(url.search);
+      if (this.query && !this.disabled) {
+        params.set(this.queryStringParam, this.query);
+      } else {
+        params.delete(this.queryStringParam);
+      }
+      url.search = params.toString();
+      window.history.replaceState({}, '', url.toString());
+    }
+  }
+
+  private handleInput(e: InputEvent) {
+    this.query = (e.target as HTMLInputElement).value;
+    this.search(this.query);
+    this.updateURL();
+  }
+
   updated(changedProperties: Map<string | number | symbol, unknown>) {
-    // If the query property changes, update the search
     if (changedProperties.has('query')) {
       this.search(this.query);
+      this.updateURL();
+    }
+    if (changedProperties.has('disabled')) {
+      this.updateURL();
+      if (this.disabled) {
+        this.unmark();
+      } else {
+        this.mark(this.query);
+      }
     }
   }
 
   private mark(searchTerm: string) {
     if (!searchTerm) return;
-
-    // Reset the content to the original content
     this.innerHTML = this.originalContent;
-
-    const tokens = searchTerm.split(/\s+/).filter(Boolean); // Split by spaces and remove empty tokens
-
+    const tokens = searchTerm.split(/\s+/).filter(Boolean);
     tokens.forEach(token => {
         const regex = new RegExp(`(${token})`, this.caseSensitive ? 'g' : 'gi');
-
         const walk = (node: Node) => {
           if (node.nodeType === 3 && node.parentNode && node.parentNode.nodeName !== 'MARK') {
               const matches = Array.from(node.nodeValue!.matchAll(regex));
@@ -87,10 +138,8 @@ export class SitePageSearch extends LitElement {
               }
           }
         };    
-
         walk(this);
     });
-
     this.results = this.querySelectorAll('mark');
     this.currentIndex = 0;
     this.jumpTo();
@@ -146,12 +195,12 @@ export class SitePageSearch extends LitElement {
 
   render() {
     return html`
-      <div class="header">
+      <div class="header" ?hidden=${this.disabled}>
         Search:
-        <input type="search" .value=${this.query} @input=${(e: InputEvent) => this.search((e.target as HTMLInputElement).value)}>
+        <input type="search" .value=${this.query} @input=${this.handleInput}>
         <button @click=${this.handlePrev}>&uarr;</button>
         <button @click=${this.handleNext}>&darr;</button>
-        <button @click=${this.unmark}>✖</button>
+        <button @click=${() => { this.disabled = true; }}>✖</button>
       </div>
       <div class="content">
         <slot></slot>
