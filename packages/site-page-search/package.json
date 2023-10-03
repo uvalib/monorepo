@@ -1,5 +1,5 @@
 {
-  "name": "site-page-search",
+  "name": "@uvalib/site-page-search",
   "description": "Webcomponent site-page-search following open-wc recommendations",
   "license": "MIT",
   "author": "site-page-search",
