@@ -4,19 +4,19 @@ A web component that provides an enhanced search functionality for your web page
 
 ## Installation
 
-OOObash
+```bash
 npm i @uvalib/site-page-search
-OOO
+```
 
 ## Usage
 
-OOOhtml
+```html
 <script type="module">
   import '@uvalib/site-page-search/site-page-search.js';
 </script>
 
 <site-page-search></site-page-search>
-OOO
+```
 
 ### Attributes/Properties
 
@@ -35,48 +35,48 @@ OOO
 
 To scan the project for linting and formatting errors, run:
 
-OOObash
+```bash
 npm run lint
-OOO
+```
 
 To automatically fix linting and formatting errors, run:
 
-OOObash
+```bash
 npm run format
-OOO
+```
 
 ## Testing with Web Test Runner
 
 To execute a single test run:
 
-OOObash
+```bash
 npm run test
-OOO
+```
 
 To run the tests in interactive watch mode run:
 
-OOObash
+```bash
 npm run test:watch
-OOO
+```
 
 ## Demoing with Storybook
 
 To run a local instance of Storybook for your component, run:
 
-OOObash
+```bash
 npm run storybook
-OOO
+```
 
 To build a production version of Storybook, run:
 
-OOObash
+```bash
 npm run storybook:build
-OOO
+```
 
 ## Local Demo with `web-dev-server`
 
-OOObash
+```bash
 npm start
-OOO
+```
 
 To run a local development server that serves the basic demo located in `demo/index.html`
