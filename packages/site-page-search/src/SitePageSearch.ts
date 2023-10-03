@@ -17,6 +17,8 @@ export class SitePageSearch extends LitElement {
   `;
 
   @property({ type: Boolean, attribute: 'case-sensitive' }) caseSensitive = false;
+  @property({ type: String }) query = '';
+  @property({ type: String, attribute: 'query-string-param' }) queryStringParam = '';
 
   private currentIndex = 0;
   private results!: NodeListOf<HTMLElement>;
@@ -26,6 +28,22 @@ export class SitePageSearch extends LitElement {
     super.connectedCallback();
     // Store the original content once the component is connected to the DOM
     this.originalContent = this.innerHTML;
+
+    // If queryStringParam is set, look for it in the URL and update the query
+    if (this.queryStringParam) {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has(this.queryStringParam)) {
+        this.query = urlParams.get(this.queryStringParam) || '';
+        this.search(this.query);
+      }
+    }
+  }
+
+  updated(changedProperties: Map<string | number | symbol, unknown>) {
+    // If the query property changes, update the search
+    if (changedProperties.has('query')) {
+      this.search(this.query);
+    }
   }
 
   private mark(searchTerm: string) {
@@ -40,7 +58,7 @@ export class SitePageSearch extends LitElement {
         const regex = new RegExp(`(${token})`, this.caseSensitive ? 'g' : 'gi');
 
         const walk = (node: Node) => {
-          if (node.nodeType === 3 && node.parentNode && node.parentNode.nodeName !== 'MARK') { // Text node and not a child of a <mark> element
+          if (node.nodeType === 3 && node.parentNode && node.parentNode.nodeName !== 'MARK') {
               const matches = Array.from(node.nodeValue!.matchAll(regex));
               if (matches.length > 0) {
                   let lastIndex = 0;
@@ -78,7 +96,6 @@ export class SitePageSearch extends LitElement {
     this.jumpTo();
     this.dispatchEvent(new CustomEvent('search-initiated'));
   }
-
 
   private unmark() {
     const marks = this.querySelectorAll('mark');
@@ -131,7 +148,7 @@ export class SitePageSearch extends LitElement {
     return html`
       <div class="header">
         Search:
-        <input type="search" @input=${(e: InputEvent) => this.search((e.target as HTMLInputElement).value)}>
+        <input type="search" .value=${this.query} @input=${(e: InputEvent) => this.search((e.target as HTMLInputElement).value)}>
         <button @click=${this.handlePrev}>&uarr;</button>
         <button @click=${this.handleNext}>&darr;</button>
         <button @click=${this.unmark}>✖</button>
