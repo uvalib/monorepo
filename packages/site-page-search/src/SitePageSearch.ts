@@ -57,6 +57,7 @@ export class SitePageSearch extends LitElement {
   }
 
   handleShortcutKey = (e: KeyboardEvent) => {
+    // Enable search
     if ((e.metaKey || e.ctrlKey) && e.key === 'f') {
       e.preventDefault();
       this.disabled = false;
@@ -64,6 +65,18 @@ export class SitePageSearch extends LitElement {
       setTimeout(() => {
         this.searchInput.focus();
       }, 10);
+    }
+  
+    // Next search result
+    if ((e.metaKey || e.ctrlKey) && e.key === 'g' && !e.shiftKey) {
+      e.preventDefault();
+      this.handleNext();
+    }
+  
+    // Previous search result
+    if ((e.metaKey || e.ctrlKey) && e.key === 'g' && e.shiftKey) {
+      e.preventDefault();
+      this.handlePrev();
     }
   }
 
