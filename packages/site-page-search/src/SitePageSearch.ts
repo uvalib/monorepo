@@ -50,6 +50,7 @@ export class SitePageSearch extends LitElement {
     if (this.queryStringParam) {
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.has(this.queryStringParam)) {
+        this.disabled = false;
         this.query = urlParams.get(this.queryStringParam) || '';
         this.search(this.query);
       }
