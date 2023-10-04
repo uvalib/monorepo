@@ -341,6 +341,9 @@ importers:
       '@uvalib/site-page':
         specifier: workspace:*
         version: link:../site-page
+      '@uvalib/site-page-search':
+        specifier: workspace:^
+        version: link:../site-page-search
       '@uvalib/site-style':
         specifier: workspace:*
         version: link:../site-style

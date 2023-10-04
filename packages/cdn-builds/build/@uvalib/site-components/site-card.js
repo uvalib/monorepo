@@ -1,4 +1,4 @@
-import{s}from"../../SiteStyleMapping-3f0e5ae7.js";import{h as a,F as e,c as t,g as o,f as r,i,j as l,p as c}from"../../fast-design-system-b703147e.js";import{e as n}from"../../elevation-63298dfb.js";import{d}from"../../display-058af2ce.js";import{f as h,S as p}from"../../match-media-stylesheet-behavior-575be983.js";import"../../tslib.es6-6ae91544.js";let m=class extends e{};const g=(s,a)=>t`
+import{s}from"../../SiteStyleMapping-3f0e5ae7.js";import{h as a,F as e,c as t,g as o,f as r,i,j as l,p as c}from"../../fast-design-system-b703147e.js";import{e as n}from"../../elevation-63298dfb.js";import{d}from"../../display-058af2ce.js";import{f as h,S as m}from"../../match-media-stylesheet-behavior-575be983.js";import"../../tslib.es6-6ae91544.js";let p=class extends e{};const g=(s,a)=>t`
         ${d("block")} :host {
             --elevation: 4;
             display: block;
@@ -13,10 +13,10 @@ import{s}from"../../SiteStyleMapping-3f0e5ae7.js";import{h as a,F as e,c as t,g 
     `.withBehaviors(h(t`
                 :host {
                     forced-color-adjust: none;
-                    background: ${p.Canvas};
-                    box-shadow: 0 0 0 1px ${p.CanvasText};
+                    background: ${m.Canvas};
+                    box-shadow: 0 0 0 1px ${m.CanvasText};
                 }
-            `));const b=class extends m{connectedCallback(){super.connectedCallback();const s=i(this);s&&o.setValueFor(this,(a=>l.getValueFor(a).evaluate(a,o.getValueFor(s))))}}.compose({baseName:"card",baseClass:m,template:(s,e)=>a`
+            `));const b=class extends p{connectedCallback(){super.connectedCallback();const s=i(this);s&&o.setValueFor(this,(a=>l.getValueFor(a).evaluate(a,o.getValueFor(s))))}}.compose({baseName:"card",baseClass:p,template:(s,e)=>a`
     <slot></slot>
 `,styles:g});c().withPrefix("site").register(b({styles:(a,e)=>t`
                 ${s}

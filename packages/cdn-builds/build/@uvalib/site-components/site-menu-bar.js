@@ -1,4 +1,4 @@
-import{_ as t,n as e}from"../../query-assigned-elements-f7cc377b.js";import{o,i as n,s as i,x as s}from"../../lit-element-9e1ac43c.js";
+import{_ as t,n as e}from"../../query-assigned-elements-8ef6cca7.js";import{o,i as n,s as i,x as s}from"../../lit-element-9e1ac43c.js";
 /**
  * @license
  * Copyright (c) 2017 - 2023 Vaadin Ltd.

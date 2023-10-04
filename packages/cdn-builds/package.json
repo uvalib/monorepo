@@ -22,6 +22,7 @@
     "@uvalib/site-header": "workspace:*",
     "@uvalib/site-hours": "workspace:*",
     "@uvalib/site-page": "workspace:*",
+    "@uvalib/site-page-search": "workspace:*",
     "@uvalib/site-style": "workspace:*",
     "@uvalib/viz-graph": "workspace:*"
   },
@@ -39,6 +40,7 @@
     "./site-button/site-button.js": "./build/@uvalib/site-button/site-button.js",
     "./site-components/site-card.js": "./build/@uvalib/site-components/site-card.js",
     "./site-page/site-page.js": "./build/@uvalib/site-page/site-page.js",
+    "./site-page/site-page-search.js": "./build/@uvalib/site-page/site-page-search.js",
     "./site-components/site-select.js": "./build/@uvalib/site-components/site-select.js",
     "./site-components/site-tabs.js": "./build/@uvalib/site-components/site-tabs.js",
     "./site-components/site-switch.js": "./build/@uvalib/site-components/site-switch.js",

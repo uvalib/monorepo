@@ -1,0 +1,1 @@
+import{B as e}from"./BentoSection-42015d06.js";import"./query-assigned-elements-8ef6cca7.js";import"./lit-element-9e1ac43c.js";import"./unsafe-html-9171da0a.js";import"./SiteStyle-35a18246.js";window.customElements.define("bento-section",e);

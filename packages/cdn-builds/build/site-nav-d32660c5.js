@@ -1,4 +1,4 @@
-import{i as t,x as i}from"./lit-element-9e1ac43c.js";import{S as o}from"./SiteStyle-d4ac8580.js";import{S as a}from"./site-header-acba1290.js";import"./query-assigned-elements-f7cc377b.js";var n=t`
+import{i as t,x as i}from"./lit-element-9e1ac43c.js";import{S as o}from"./SiteStyle-35a18246.js";import{S as a}from"./site-header-1957684e.js";import"./query-assigned-elements-8ef6cca7.js";var n=t`
 html,
 body {
   font-size: 17px !important;
