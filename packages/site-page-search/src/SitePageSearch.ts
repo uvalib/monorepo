@@ -30,6 +30,11 @@ export class SitePageSearch extends LitElement {
   private results!: NodeListOf<HTMLElement>;
   private originalContent: string = '';
 
+  get searchCount(): string {
+    if (!this.results || this.results.length === 0) return '';
+    return `${this.currentIndex + 1}/${this.results.length}`;
+  }
+
   connectedCallback() {
     super.connectedCallback();
     this.storeOriginalContent();
@@ -188,6 +193,7 @@ export class SitePageSearch extends LitElement {
         behavior: 'smooth',
         block: 'center'
       });
+      this.requestUpdate();  // Request a re-render to update the displayed count
     }
   }
 
@@ -212,6 +218,7 @@ export class SitePageSearch extends LitElement {
       <div class="header" ?hidden=${this.disabled}>
         Search:
         <input type="search" .value=${this.query} @input=${this.handleInput}>
+        <span>${this.searchCount}</span>
         <button @click=${this.handlePrev}>&uarr;</button>
         <button @click=${this.handleNext}>&darr;</button>
         <button @click=${() => { this.disabled = true; }}>✖</button>
