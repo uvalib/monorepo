@@ -7,6 +7,7 @@ site-card: https://unpkg.internal.lib.virginia.edu/web-components/cdn-v{version}
 site-data-grid: https://unpkg.internal.lib.virginia.edu/web-components/cdn-v{version}/@uvalib/site-components/site-data-grid.js
 site-menu-bar: https://unpkg.internal.lib.virginia.edu/web-components/cdn-v{version}/@uvalib/site-components/site-menu-bar.js
 site-page: https://unpkg.internal.lib.virginia.edu/web-components/cdn-v{version}/@uvalib/site-page/site-page.js
+site-page-search: https://unpkg.internal.lib.virginia.edu/web-components/cdn-v{version}/@uvalib/site-page-search/site-page-search.js
 site-select: https://unpkg.internal.lib.virginia.edu/web-components/cdn-v{version}/@uvalib/site-components/site-select.js
 site-switch: https://unpkg.internal.lib.virginia.edu/web-components/cdn-v{version}/@uvalib/site-components/site-switch.js
 site-tabs: https://unpkg.internal.lib.virginia.edu/web-components/cdn-v{version}/@uvalib/site-components/site-tabs.js
