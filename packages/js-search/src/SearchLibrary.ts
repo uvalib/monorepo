@@ -24,9 +24,9 @@ export class SearchLibrary {
     this.filenames = parsedContent.filenames;
   
     if (this.indexType === 'flexsearch') {
-      const { Document } = await import('flexsearch');
+      const flexsearch = await import('flexsearch');
 
-      this.index = new Document({
+      this.index = new flexsearch.Document({
         document: {
           id: "id",
           index: ["content"],

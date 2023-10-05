@@ -2,7 +2,7 @@
 
 import yargs from 'yargs/yargs';
 import { hideBin } from 'yargs/helpers';
-import { IndexCreator, IndexType } from './indexCreator';
+import { IndexCreator, IndexType } from './indexCreator.js';
 
 const argv = yargs(hideBin(process.argv)).options({
   'outputIndex': { type: 'string', demandOption: true, description: 'Output path for the search index' },
