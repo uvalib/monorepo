@@ -104,7 +104,7 @@ export class MLBSection extends BentoSection {
   private renderItems() {
     return this.items.map(result => html`
       <li class="bs-results--list--entry">
-        <a href="${result.link? result.link:''}" class="bento-section-title">${result.title}</a>
+        <a href="${result.link? result.link:''}?query=${this.query}" class="bento-section-title">${result.title}</a>
         ${result.description? html`
           <div class="bento-section-desc">
             ${ result.year && !String(result.id).startsWith("anchor")? html`
