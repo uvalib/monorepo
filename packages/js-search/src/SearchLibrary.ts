@@ -39,9 +39,16 @@ export class SearchLibrary {
         this.index.import(key, parsedContent.index[key]);
       }
     } else if (this.indexType === 'fuse') {
-      const Fuse = await import('fuse.js');
+      //const Fuse = await import('fuse.js');
       //const { default: Fuse } = await import('fuse.js');
-      this.index = new Fuse.default(parsedContent.index, { keys: ['text'] });
+      //const { default: Fuse } = await import('fuse.js');
+
+      //this.index = new Fuse.default(parsedContent.index, { keys: ['text'] });
+      //this.index = new Fuse(parsedContent.index, { keys: ['text'] });
+      const { default: FuseAny } = await import('fuse.js');
+      const Fuse = FuseAny as any;
+      this.index = new Fuse(parsedContent.index, { keys: ['text'] });
+
     }
   }
  

@@ -342,7 +342,7 @@ importers:
         specifier: workspace:*
         version: link:../site-page
       '@uvalib/site-page-search':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../site-page-search
       '@uvalib/site-style':
         specifier: workspace:*
@@ -416,7 +416,7 @@ importers:
   packages/js-search:
     dependencies:
       flexsearch:
-        specifier: ^0.7.11
+        specifier: ^0.7.31
         version: 0.7.31
       fuse.js:
         specifier: ^6.6.2
@@ -428,6 +428,9 @@ importers:
         specifier: ^17.7.2
         version: 17.7.2
     devDependencies:
+      '@types/flexsearch':
+        specifier: ^0.7.3
+        version: 0.7.3
       '@types/markdown-it':
         specifier: ^13.0.1
         version: 13.0.1
