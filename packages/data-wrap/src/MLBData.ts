@@ -9,7 +9,7 @@ import { GeneralSearchMeta } from "./GeneralSearchMeta.js";
  * @param mlbData - The MLB data to parse.
  * @returns An instance of MLBib.
  */
-export function parseMLB(mlbData: any, query: string): MLBib {
+export function parseMLB(mlbData: any, query?: string): MLBib {
 
 console.log(mlbData);
 
