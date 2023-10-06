@@ -9,15 +9,15 @@ import { GeneralSearchMeta } from "./GeneralSearchMeta.js";
  * @param mlbData - The MLB data to parse.
  * @returns An instance of MLBib.
  */
-export function parseMLB(mlbData: any): MLBib {
+export function parseMLB(mlbData: any, query: string): MLBib {
 
 console.log(mlbData);
 
   const linkBase = mlbData.id.match(/^\d+$/) 
-    ? `https://mlbib.library.virginia.edu/year/${mlbData.id}.html` 
+    ? `https://mlbib.library.virginia.edu/year/${mlbData.id}.html?query=${query}` 
     : mlbData.id.startsWith("anchor") && mlbData.doc.year
       ? `https://mlbib.library.virginia.edu/${mlbData.id.replace("anchor-",`year/${mlbData.doc.year}.html#`)}`
-      : `https://mlbib.library.virginia.edu/${mlbData.id}.html`;
+      : `https://mlbib.library.virginia.edu/${mlbData.id}.html?query=${query}`;
 
   return new MLBib({
     id: mlbData.id,
@@ -93,7 +93,7 @@ export class MLBData extends GeneralData {
             return { items: [], meta: {} };
         }
 
-        const items = results[0].result.map((res: any) => parseMLB(res));
+        const items = results[0].result.map((res: any) => parseMLB(res, this.query));
         return { items, meta: {} };
     }
 
