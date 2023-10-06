@@ -1,3 +1,5 @@
+/// <reference path="../declarations.d.ts" />
+
 import * as fs from 'fs';
 import * as path from 'path';
 import matter from 'gray-matter';

@@ -1,3 +1,5 @@
+/// <reference path="../declarations.d.ts" />
+
 type IndexType = 'flexsearch' | 'fuse';
 
 interface FlexSearchResult {
