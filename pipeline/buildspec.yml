@@ -27,7 +27,7 @@ phases:
     commands:
       - npm install -g pnpm
       - pnpm install --no-frozen-lockfile
-      - pnpm turbo run build --filter=cdn-builds
+#      - pnpm turbo run build --filter=cdn-builds
       - echo "Uploading to s3://${latest_target}"
       - aws s3 sync ${target_assets} s3://${latest_target} --delete --quiet
       - |
