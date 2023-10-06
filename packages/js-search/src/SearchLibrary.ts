@@ -4,7 +4,6 @@ interface FlexSearchResult {
   field: string;
   result: Array<{
     id: number;
-    // ... other properties if needed
   }>;
 }
 
@@ -24,9 +23,9 @@ export class SearchLibrary {
     this.filenames = parsedContent.filenames;
   
     if (this.indexType === 'flexsearch') {
-      const flexsearch = await import('flexsearch');
+      const { Document } = await import('flexsearch');
 
-      this.index = new flexsearch.Document({
+      this.index = new Document({
         document: {
           id: "id",
           index: ["content"],
