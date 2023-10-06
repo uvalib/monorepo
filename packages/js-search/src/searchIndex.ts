@@ -3,7 +3,7 @@
 import * as fs from 'fs';
 import yargs from 'yargs/yargs';
 import { hideBin } from 'yargs/helpers';
-import { SearchLibrary } from './SearchLibrary';
+import { SearchLibrary } from './SearchLibrary.js';
 
 const argv = yargs(hideBin(process.argv))
   .option('indexFile', {
