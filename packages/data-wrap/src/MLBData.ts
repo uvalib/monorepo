@@ -16,7 +16,7 @@ console.log(mlbData);
   const linkBase = mlbData.id.match(/^\d+$/) 
     ? `https://mlbib.library.virginia.edu/year/${mlbData.id}.html?query=${query}` 
     : mlbData.id.startsWith("anchor") && mlbData.doc.year
-      ? `https://mlbib.library.virginia.edu/${mlbData.id.replace("anchor-",`year/${mlbData.doc.year}.html#`)}`
+      ? `https://mlbib.library.virginia.edu/${mlbData.id.replace("anchor-",`year/${mlbData.doc.year}.html?query=${query}#`)}`
       : `https://mlbib.library.virginia.edu/${mlbData.id}.html?query=${query}`;
 
   return new MLBib({
