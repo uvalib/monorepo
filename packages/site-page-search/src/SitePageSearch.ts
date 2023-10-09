@@ -58,6 +58,19 @@ export class SitePageSearch extends LitElement {
         this.disabled = false;
         this.query = urlParams.get(this.queryStringParam) || '';
         this.search(this.query);
+
+        // Adjust the currentIndex based on the anchor's position
+        this.results = this.querySelectorAll('mark');
+        const anchorElem = this.getAnchorElement();
+        if (anchorElem) {
+          const anchorIndex = Array.from(this.results).findIndex(mark => 
+            anchorElem.compareDocumentPosition(mark) === Node.DOCUMENT_POSITION_FOLLOWING
+          );
+          if (anchorIndex !== -1) {
+            this.currentIndex = anchorIndex;
+            this.jumpTo();
+          }
+        }
       }
     }
   }
@@ -128,42 +141,54 @@ export class SitePageSearch extends LitElement {
     tokens.forEach(token => {
         const regex = new RegExp(`(${token})`, this.caseSensitive ? 'g' : 'gi');
         const walk = (node: Node) => {
-          if (node.nodeType === 3 && node.parentNode && node.parentNode.nodeName !== 'MARK') {
-              const matches = Array.from(node.nodeValue!.matchAll(regex));
-              if (matches.length > 0) {
-                  let lastIndex = 0;
-                  matches.forEach(match => {
-                      const start = match.index!;
-                      const end = start + match[0].length;
-                      const before = node.nodeValue!.slice(lastIndex, start);
-                      const marked = node.nodeValue!.slice(start, end);
-                      if (before) {
-                          node.parentNode!.insertBefore(document.createTextNode(before), node);
-                      }
-                      const markElem = document.createElement('mark');
-                      markElem.textContent = marked;
-                      node.parentNode!.insertBefore(markElem, node);
-                      lastIndex = end;
-                  });
-                  const after = node.nodeValue!.slice(lastIndex);
-                  if (after) {
-                      node.parentNode!.insertBefore(document.createTextNode(after), node);
-                  }
-                  node.parentNode!.removeChild(node);
-              }
-          } else {
-              for (let i = 0; i < node.childNodes.length; i++) {
-                  walk(node.childNodes[i]);
-              }
-          }
-        };    
+            if (node.nodeType === 3 && node.parentNode && node.parentNode.nodeName !== 'MARK') {
+                const matches = Array.from(node.nodeValue!.matchAll(regex));
+                if (matches.length > 0) {
+                    let lastIndex = 0;
+                    matches.forEach(match => {
+                        const start = match.index!;
+                        const end = start + match[0].length;
+                        const before = node.nodeValue!.slice(lastIndex, start);
+                        const marked = node.nodeValue!.slice(start, end);
+                        if (before) {
+                            node.parentNode!.insertBefore(document.createTextNode(before), node);
+                        }
+                        const markElem = document.createElement('mark');
+                        markElem.textContent = marked;
+                        node.parentNode!.insertBefore(markElem, node);
+                        lastIndex = end;
+                    });
+                    const after = node.nodeValue!.slice(lastIndex);
+                    if (after) {
+                        node.parentNode!.insertBefore(document.createTextNode(after), node);
+                    }
+                    node.parentNode!.removeChild(node);
+                }
+            } else {
+                for (let i = 0; i < node.childNodes.length; i++) {
+                    walk(node.childNodes[i]);
+                }
+            }
+        };
         walk(this);
     });
     this.results = this.querySelectorAll('mark');
     this.currentIndex = 0;
+
+    // Adjust the currentIndex based on the anchor's position
+    const anchorElem = this.getAnchorElement();
+    if (anchorElem) {
+        const anchorPosition = Array.from(this.children).findIndex(child => child.contains(anchorElem));
+        this.currentIndex = Array.from(this.results).findIndex(mark => 
+            Array.from(this.children).findIndex(child => child.contains(mark)) > anchorPosition
+        );
+        if (this.currentIndex === -1) this.currentIndex = 0; // If no result after anchor, start from the beginning
+    }
+
     this.jumpTo();
     this.dispatchEvent(new CustomEvent('search-initiated'));
   }
+
 
   private unmark() {
     const marks = this.querySelectorAll('mark');
@@ -211,6 +236,12 @@ export class SitePageSearch extends LitElement {
       this.jumpTo();
       this.dispatchEvent(new CustomEvent('search-prev'));
     }
+  }
+
+  private getAnchorElement(): HTMLElement | null {
+    const anchorName = window.location.hash.substring(1);
+    if (!anchorName) return null;
+    return this.querySelector(`[id="${anchorName}"], [name="${anchorName}"]`);
   }
 
   render() {
