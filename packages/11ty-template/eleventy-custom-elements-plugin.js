@@ -21,17 +21,24 @@ class CustomElementsPlugin {
         for (const [name, cdnUrl] of Object.entries(customElements)) {
           // Only add script if the custom element tag is found in the content
           if (content.includes(`<${name}`)) {
+            let finalUrl = cdnUrl;
+            if (this.config.version === 'latest') {
+              finalUrl = cdnUrl.replace('cdn-v{version}', 'latest');
+            } else {
+              finalUrl = cdnUrl.replace('{version}', this.config.version);
+            }
             const script = `
-              <script type="module" src="${cdnUrl.replace("{version}", this.config.version)}"></script>
+              <script type="module" src="${finalUrl}"></script>
             `;
             scripts += script;
           }
         }
-
+    
         return content + scripts;
       }
       return content;
     });
+    
     
 
   };
