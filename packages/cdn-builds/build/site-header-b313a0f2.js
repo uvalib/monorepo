@@ -57,14 +57,14 @@ import{_ as i,n as e}from"./query-assigned-elements-8ef6cca7.js";import{i as a,s
 
     /* Direct styles for the header elements */
     #header {
-      position: fixed;
-      top: 0;
+      /* position: fixed;
+      top: 0; */
       width: 100%;
       z-index: 1000;
     }
     #header-inner {
       max-width: 1340px;
-      margin: 0 auto;
+      margin: 0 /* auto */;
       position: relative;
     }
     .open-mobile-menu {
