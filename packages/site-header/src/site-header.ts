@@ -1,3 +1,3 @@
 import { SiteHeader } from './SiteHeader.js';
 
-window.customElements.define('site-header', SiteHeader as any);
+window.customElements.define('site-header', SiteHeader);

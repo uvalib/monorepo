@@ -3,9 +3,7 @@
 <head>
   <meta charset="utf-8">
   <style>
-    html, body {
-      padding: 0;
-      margin: 0;
+    body {
       background: #fafafa;
     }
   </style>
@@ -17,10 +15,12 @@
     import { html, render } from 'lit';
     import '../dist/src/site-header.js';
 
-    const title = 'Hello owc World!';
+    const header = 'Hello owc World!';
     render(
       html`
-        <site-header .title=${title}></site-header>
+        <site-header .header=${header}>
+          some light-dom
+        </site-header>
       `,
       document.querySelector('#demo')
     );

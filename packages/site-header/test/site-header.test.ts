@@ -5,10 +5,10 @@ import '../src/site-header.js';
 
 describe('SiteHeader', () => {
 /*
-  it('has a default title "Hey there" and counter 5', async () => {
+  it('has a default header "Hey there" and counter 5', async () => {
     const el = await fixture<SiteHeader>(html`<site-header></site-header>`);
 
-    expect(el.title).to.equal('Hey there');
+    expect(el.header).to.equal('Hey there');
     expect(el.counter).to.equal(5);
   });
 
@@ -19,10 +19,10 @@ describe('SiteHeader', () => {
     expect(el.counter).to.equal(6);
   });
 
-  it('can override the title via attribute', async () => {
-    const el = await fixture<SiteHeader>(html`<site-header title="attribute title"></site-header>`);
+  it('can override the header via attribute', async () => {
+    const el = await fixture<SiteHeader>(html`<site-header header="attribute header"></site-header>`);
 
-    expect(el.title).to.equal('attribute title');
+    expect(el.header).to.equal('attribute header');
   });
 
   it('passes the a11y audit', async () => {
