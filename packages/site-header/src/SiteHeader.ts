@@ -29,14 +29,14 @@ export class SiteHeader extends LitElement {
 
     /* Direct styles for the header elements */
     #header {
-      position: fixed;
-      top: 0;
+      /* position: fixed;
+      top: 0; */
       width: 100%;
       z-index: 1000;
     }
     #header-inner {
       max-width: 1340px;
-      margin: 0 auto;
+      margin: 0 /* auto */;
       position: relative;
     }
     .open-mobile-menu {
