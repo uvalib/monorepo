@@ -25,6 +25,7 @@
   "dependencies": {
     "@uvalib/data-wrap": "workspace:*",
     "@uvalib/js-search": "workspace:*",
+    "@uvalib/site-search-index": "workspace:*",
     "@uvalib/site-spinner": "workspace:*",
     "@uvalib/site-style": "workspace:*",
     "date-fns": "^2.29.3",

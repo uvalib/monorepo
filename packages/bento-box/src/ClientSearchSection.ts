@@ -1,6 +1,7 @@
 import { html } from 'lit';
 import { property } from 'lit/decorators.js';
-import { SearchLibrary } from '@uvalib/js-search/dist/browser/SearchLibrary.js';
+import { SearchLibrary } from '@uvalib/site-search-index/SearchLibrary.js';
+//import { SearchLibrary } from '@uvalib/js-search/dist/browser/SearchLibrary.js';
 import { BentoSection, renderBriefItem } from './BentoSection.js';
 
 export class ClientSearch extends BentoSection {
