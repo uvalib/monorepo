@@ -228,6 +228,13 @@ importers:
       digest-fetch:
         specifier: ^3.0.4
         version: 3.0.4
+      luxon:
+        specifier: ^3.4.3
+        version: 3.4.3
+    devDependencies:
+      '@types/luxon':
+        specifier: ^3.3.3
+        version: 3.3.3
 
   apps/site-mock:
     dependencies:
@@ -295,6 +302,9 @@ importers:
       '@uvalib/js-search':
         specifier: workspace:*
         version: link:../js-search
+      '@uvalib/site-search-index':
+        specifier: workspace:*
+        version: link:../site-search-index
       '@uvalib/site-spinner':
         specifier: workspace:*
         version: link:../site-spinner
@@ -366,10 +376,16 @@ importers:
       fuse.js:
         specifier: ^6.6.2
         version: 6.6.2
+      luxon:
+        specifier: ^3.4.3
+        version: 3.4.3
     devDependencies:
       '@types/flexsearch':
         specifier: ^0.7.3
         version: 0.7.3
+      '@types/luxon':
+        specifier: ^3.3.3
+        version: 3.3.3
       tsconfig:
         specifier: workspace:*
         version: link:../tsconfig
@@ -565,6 +581,9 @@ importers:
       flexsearch:
         specifier: ^0.7.31
         version: 0.7.31
+      fuse.js:
+        specifier: ^6.6.2
+        version: 6.6.2
       yargs:
         specifier: ^17.7.2
         version: 17.7.2
@@ -604,7 +623,7 @@ importers:
     devDependencies:
       '@babel/eslint-plugin':
         specifier: ^7.19.1
-        version: 7.19.1(@babel/eslint-parser@7.22.15)(eslint@8.50.0)
+        version: 7.19.1(@babel/eslint-parser@7.22.15)(eslint@8.51.0)
       '@rollup/plugin-replace':
         specifier: ^5.0.2
         version: 5.0.2(rollup@2.79.1)
@@ -673,7 +692,7 @@ packages:
       iso-639-1: 2.1.15
       kleur: 4.1.5
       liquidjs: 10.8.4
-      luxon: 3.3.0
+      luxon: 3.4.3
       markdown-it: 13.0.1
       micromatch: 4.0.5
       minimist: 1.2.8
@@ -1115,7 +1134,7 @@ packages:
       semver: 6.3.1
     dev: true
 
-  /@babel/eslint-parser@7.22.15(@babel/core@7.22.17)(eslint@8.50.0):
+  /@babel/eslint-parser@7.22.15(@babel/core@7.22.17)(eslint@8.51.0):
     resolution: {integrity: sha512-yc8OOBIQk1EcRrpizuARSQS0TWAcOMpEJ1aafhNznaeYkeL+OhqnDObGFylB8ka8VFF/sZc+S4RzHyO+3LjQxg==}
     engines: {node: ^10.13.0 || ^12.13.0 || >=14.0.0}
     peerDependencies:
@@ -1124,20 +1143,20 @@ packages:
     dependencies:
       '@babel/core': 7.22.17
       '@nicolo-ribaudo/eslint-scope-5-internals': 5.1.1-v1
-      eslint: 8.50.0
+      eslint: 8.51.0
       eslint-visitor-keys: 2.1.0
       semver: 6.3.1
     dev: true
 
-  /@babel/eslint-plugin@7.19.1(@babel/eslint-parser@7.22.15)(eslint@8.50.0):
+  /@babel/eslint-plugin@7.19.1(@babel/eslint-parser@7.22.15)(eslint@8.51.0):
     resolution: {integrity: sha512-ElGPkQPapKMa3zVqXHkZYzuL7I5LbRw9UWBUArgWsdWDDb9XcACqOpBib5tRPA9XvbVZYrFUkoQPbiJ4BFvu4w==}
     engines: {node: ^10.13.0 || ^12.13.0 || >=14.0.0}
     peerDependencies:
       '@babel/eslint-parser': '>=7.11.0'
       eslint: '>=7.5.0'
     dependencies:
-      '@babel/eslint-parser': 7.22.15(@babel/core@7.22.17)(eslint@8.50.0)
-      eslint: 8.50.0
+      '@babel/eslint-parser': 7.22.15(@babel/core@7.22.17)(eslint@8.51.0)
+      eslint: 8.51.0
       eslint-rule-composer: 0.3.0
     dev: true
 
@@ -2571,7 +2590,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.21.8
-      '@babel/helper-annotate-as-pure': 7.18.6
+      '@babel/helper-annotate-as-pure': 7.22.5
       '@babel/helper-create-class-features-plugin': 7.21.8(@babel/core@7.21.8)
       '@babel/helper-plugin-utils': 7.22.5
       '@babel/plugin-syntax-private-property-in-object': 7.14.5(@babel/core@7.21.8)
@@ -3313,14 +3332,14 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.21.8
-      '@babel/helper-annotate-as-pure': 7.18.6
+      '@babel/helper-annotate-as-pure': 7.22.5
       '@babel/helper-compilation-targets': 7.22.15
-      '@babel/helper-environment-visitor': 7.21.5
-      '@babel/helper-function-name': 7.21.0
+      '@babel/helper-environment-visitor': 7.22.5
+      '@babel/helper-function-name': 7.22.5
       '@babel/helper-optimise-call-expression': 7.18.6
       '@babel/helper-plugin-utils': 7.22.5
       '@babel/helper-replace-supers': 7.21.5
-      '@babel/helper-split-export-declaration': 7.18.6
+      '@babel/helper-split-export-declaration': 7.22.6
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
@@ -4918,16 +4937,6 @@ packages:
       es-module-lexer: 0.9.3
     dev: true
 
-  /@eslint-community/eslint-utils@4.4.0(eslint@8.50.0):
-    resolution: {integrity: sha512-1/sA4dwrzBAyeUoQ6oxahHKmrZvsnLCg4RfxW3ZFGGmQkSNQPFNLV9CUEFQP1x9EYXHTo5p6xdhZM1Ne9p/AfA==}
-    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
-    peerDependencies:
-      eslint: ^6.0.0 || ^7.0.0 || >=8.0.0
-    dependencies:
-      eslint: 8.50.0
-      eslint-visitor-keys: 3.4.3
-    dev: true
-
   /@eslint-community/eslint-utils@4.4.0(eslint@8.51.0):
     resolution: {integrity: sha512-1/sA4dwrzBAyeUoQ6oxahHKmrZvsnLCg4RfxW3ZFGGmQkSNQPFNLV9CUEFQP1x9EYXHTo5p6xdhZM1Ne9p/AfA==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
@@ -4958,11 +4967,6 @@ packages:
       strip-json-comments: 3.1.1
     transitivePeerDependencies:
       - supports-color
-    dev: true
-
-  /@eslint/js@8.50.0:
-    resolution: {integrity: sha512-NCC3zz2+nvYd+Ckfh87rA47zfu2QsQpvc6k1yzTk+b9KzRj0wkGa8LSoGOXN6Zv4lRf/EIoZ80biDh9HOI+RNQ==}
-    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
   /@eslint/js@8.51.0:
@@ -6532,6 +6536,10 @@ packages:
 
   /@types/lodash@4.14.199:
     resolution: {integrity: sha512-Vrjz5N5Ia4SEzWWgIVwnHNEnb1UE1XMkvY5DGXrAeOGE9imk0hgTHh5GyDjLDJi9OTCn9oo9dXH1uToK1VRfrg==}
+    dev: true
+
+  /@types/luxon@3.3.3:
+    resolution: {integrity: sha512-/BJF3NT0pRMuxrenr42emRUF67sXwcZCd+S1ksG/Fcf9O7C3kKCY4uJSbKBE4KDUIYr3WMsvfmWD8hRjXExBJQ==}
     dev: true
 
   /@types/markdown-it@13.0.1:
@@ -9650,52 +9658,6 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
-  /eslint@8.50.0:
-    resolution: {integrity: sha512-FOnOGSuFuFLv/Sa+FDVRZl4GGVAAFFi8LecRsI5a1tMO5HIE8nCm4ivAlzt4dT3ol/PaaGC0rJEEXQmHJBGoOg==}
-    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
-    hasBin: true
-    dependencies:
-      '@eslint-community/eslint-utils': 4.4.0(eslint@8.50.0)
-      '@eslint-community/regexpp': 4.8.1
-      '@eslint/eslintrc': 2.1.2
-      '@eslint/js': 8.50.0
-      '@humanwhocodes/config-array': 0.11.11
-      '@humanwhocodes/module-importer': 1.0.1
-      '@nodelib/fs.walk': 1.2.8
-      ajv: 6.12.6
-      chalk: 4.1.2
-      cross-spawn: 7.0.3
-      debug: 4.3.4(supports-color@8.1.1)
-      doctrine: 3.0.0
-      escape-string-regexp: 4.0.0
-      eslint-scope: 7.2.2
-      eslint-visitor-keys: 3.4.3
-      espree: 9.6.1
-      esquery: 1.5.0
-      esutils: 2.0.3
-      fast-deep-equal: 3.1.3
-      file-entry-cache: 6.0.1
-      find-up: 5.0.0
-      glob-parent: 6.0.2
-      globals: 13.20.0
-      graphemer: 1.4.0
-      ignore: 5.2.4
-      imurmurhash: 0.1.4
-      is-glob: 4.0.3
-      is-path-inside: 3.0.3
-      js-yaml: 4.1.0
-      json-stable-stringify-without-jsonify: 1.0.1
-      levn: 0.4.1
-      lodash.merge: 4.6.2
-      minimatch: 3.1.2
-      natural-compare: 1.4.0
-      optionator: 0.9.3
-      strip-ansi: 6.0.1
-      text-table: 0.2.0
-    transitivePeerDependencies:
-      - supports-color
-    dev: true
-
   /eslint@8.51.0:
     resolution: {integrity: sha512-2WuxRZBrlwnXi+/vFSJyjMqrNjtJqiasMzehF0shoLaW7DzS3/9Yvrmq5JiT66+pNjiX4UBnLDiKHcWAr/OInA==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
@@ -11953,10 +11915,9 @@ packages:
     engines: {node: '>=16.14'}
     dev: true
 
-  /luxon@3.3.0:
-    resolution: {integrity: sha512-An0UCfG/rSiqtAIiBPO0Y9/zAnHUZxAMiCpTd5h2smgsj7GGmcenvrvww2cqNA8/4A5ZrD1gJpHN2mIHZQF+Mg==}
+  /luxon@3.4.3:
+    resolution: {integrity: sha512-tFWBiv3h7z+T/tDaoxA8rqTxy1CHV6gHS//QdaH4pulbq/JuBSGgQspQQqcgnwdAx6pNI7cmvz5Sv/addzHmUg==}
     engines: {node: '>=12'}
-    dev: true
 
   /magic-string@0.25.9:
     resolution: {integrity: sha512-RmF0AsMzgt25qzqqLc1+MbHmhdx0ojF2Fvs4XnOqz2ZOBXzzkEwc/dJQZCYHAn7v1jbVOjAZfK8msRn4BxO4VQ==}
