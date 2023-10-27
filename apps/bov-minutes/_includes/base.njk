@@ -4,16 +4,21 @@
   <meta charset="utf-8">
   <title>{{ title }}</title>
   <!-- Add your CSS, JavaScript, and other head elements here -->
+  <link rel="stylesheet" media="all" href="https://www.library.virginia.edu/themes/uvalib-drupal-theme/css/main.css" />
   <style>
     html, body {
       margin: 0;
       padding: 0;
     }
+    #main-content {
+      margin-left: 3em;
+      margin-right: 3em;
+    }
   </style>
 </head>
 <body>
   <site-style no-shadow-dom></site-style>
-  <site-page>
+  <site-page id="main-content">
       {{ content | safe }}
   </site-page>
 </body>
