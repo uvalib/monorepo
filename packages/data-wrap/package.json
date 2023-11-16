@@ -9,7 +9,8 @@
   "exports": {
     ".": "./dist/src/index.js",
     "./data-wrap.js": "./dist/src/data-wrap.js",
-    "./VirgoData.js": "./dist/src/VirgoData.js"
+    "./VirgoData.js": "./dist/src/VirgoData.js",
+    "./CatalogData.js": "./dist/src/CatalogData.js"
   },
   "scripts": {
     "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
@@ -60,5 +61,6 @@
   "prettier": {
     "singleQuote": true,
     "arrowParens": "avoid"
-  }
+  },
+  "type": "module"
 }
