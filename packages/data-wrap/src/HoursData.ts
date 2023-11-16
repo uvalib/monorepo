@@ -32,7 +32,6 @@ function formatLocalSSDate(date: Date) {
 
 export class HoursData extends GeneralData {
   public items: Hours[] = [];
-
   public ids: number[] = [];
 
   constructor(init?: Partial<HoursData>) {
@@ -40,7 +39,7 @@ export class HoursData extends GeneralData {
     Object.assign(this, init);
   }
 
-  async fetchHours(startDate: Date, count: number | undefined) {
+  async fetchHours(startDate: Date, count: number | undefined, extra: boolean = false) {
     let end;
     if (count && Math.trunc(count) > 0) {
       end = new Date(startDate);
@@ -49,12 +48,10 @@ export class HoursData extends GeneralData {
       end = new Date(startDate);
     }
     const qsa = `&from=${formatLocalSSDate(startDate)}&to=${formatLocalSSDate(end)}`;
-    return this.fetchData(qsa, startDate, count);
+    return this.fetchHoursData(qsa, startDate, count, extra);
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  async fetchData(qsa: string | undefined = undefined, startDate?: Date, count?: number) {
-    // Initialize rawDates with each date set to "closed"
+  async fetchHoursData(qsa: string | undefined = undefined, startDate?: Date, count?: number, extra: boolean = false) {
     const rawDates: RawDates = {};
     for (let i = 0; startDate && count && i <= count; i++) {
       const date = new Date(startDate);
@@ -62,17 +59,24 @@ export class HoursData extends GeneralData {
       const formattedDate = formatLocalSSDate(date);
       rawDates[formattedDate] = { status: " " };
     }
-    
+
     const rawData = await this.fetchWithRetry(`${hoursEndpointURL.replace('[[calIds]]', this.ids.join(','))}${qsa ? `&${qsa}` : ''}`)
       .then((res) => res.json())
-      .then((hoursData) => hoursData.map((hours: Partial<Hours> | undefined) => {
-        // Update rawDates with data from API, or use initialized rawDates if no data
-        hours = parseHours(hours);
-        hours.rawDates = Object.assign({}, rawDates, hours.rawDates);
-        return hours;
-      }));
+      .then(async (hoursData) => Promise.all(hoursData.map(async (hours: Partial<Hours> | undefined) => {
+        let returnHours: Partial<Hours> | undefined = parseHours(hours);
+        returnHours.rawDates = Object.assign({}, rawDates, returnHours?.rawDates);
+/*        
+        if (extra && hours) {
+          const extraHours = await import('./HoursDataExtra.js');
+          returnHours.nextClosingTime = extraHours.getNextClosingTime(hours as HoursData);
+          returnHours.nextOpeningTime = extraHours.getNextOpeningTime(hours as HoursData);
+          returnHours.isOpen = extraHours.isOpenNow(hours as HoursData); // This now contains Unix time
+        }
+        return returnHours;
+*/        
+        return {items: [], meta: {totalResults: 0}};
+      })));
 
     return rawData;
   }
-
 }

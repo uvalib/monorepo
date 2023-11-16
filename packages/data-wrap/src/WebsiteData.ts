@@ -30,7 +30,8 @@ export class WebsiteData extends DrupalSearchData {
         return parseNews(n);
       return {
         title: n.attributes.title,
-        description: n.attributes.body? n.attributes.body.value:null
+        description: n.attributes.body? n.attributes.body.value:null,
+//        link: "https://google.com"
       }
     }):[]
       

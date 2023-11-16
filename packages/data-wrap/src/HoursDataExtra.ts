@@ -101,3 +101,47 @@ export function getNextClosingTime(hours: HoursData): DateTime | null {
 
     return null;
 }
+
+export function isOpenNow(hours: HoursData): Number | null {
+    const currentDate = DateTime.now().setZone(TIMEZONE);
+    const currentDateString = currentDate.toISODate();
+
+    // Make sure currentDateString is not null before proceeding.
+    if (!currentDateString) {
+        console.error('Error fetching the current date in ISO format.');
+        return null;
+    }
+
+    const currentDayHours = hours[currentDateString];
+
+    // If there's no data for today, it's closed.
+    if (!currentDayHours) {
+        return null;
+    }
+
+    // If it's marked as 24 hours for today, it's open.
+    if (currentDayHours.status === '24hours') {
+        return currentDate.toMillis();
+    }
+
+    // If it's marked as open, we need to check the time ranges.
+    if (currentDayHours.status === 'open') {
+        for (let timeRange of currentDayHours.hours) {
+            const fromTime = parseTime(currentDateString, timeRange.from);
+            const toTime = parseTime(currentDateString, timeRange.to);
+
+            // If the current time is within any of the open time ranges, it's open.
+            if (fromTime && toTime && currentDate >= fromTime && currentDate <= toTime) {
+                return currentDate.toMillis();
+            }
+
+            // Special case for midnight closure.
+            if (toTime && timeRange.to === '12:00am' && currentDate <= toTime) {
+                return currentDate.toMillis();
+            }
+        }
+    }
+
+    // If none of the above conditions are met, it's closed.
+    return null;
+}

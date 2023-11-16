@@ -4,6 +4,9 @@ export const hoursEndpointURL = "https://cal.lib.virginia.edu/api/1.0/hours/[[ca
 
 export class Hours extends GeneralSearchResult {
   public rawDates: any | undefined;
+  public nextClosingTime: Date | null = null;
+  public nextOpeningTime: Date | null = null;
+  public isOpen: Number | null = null;
 
   constructor(init?: Partial<Hours>) {
     super(init);
