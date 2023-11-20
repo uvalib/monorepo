@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+    <!-- Google Tag Manager -->
+    <script>
+       var decodedCookie = decodeURIComponent(document.cookie)
+       if ( decodedCookie.includes("\"v4_opt_out\":true") == false ){
+         (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+         new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+         j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+         'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-MJ6TMLG');
+       }
+    </script>
+    <!-- End Google Tag Manager -->
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" crossorigin="anonymous">
+    <link rel="icon" href="/favicon.ico">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css" rel="stylesheet" type="text/css">
+    <title>Virgo</title>
+    <script type="module" crossorigin src="/index57578.js"></script>
+    <link rel="stylesheet" href="/index57578.css">
+  </head>
+  <body>
+    <noscript>
+      <strong>We're sorry but Virgo doesn't work without JavaScript enabled. Please enable it to continue.</strong>
+      <!-- Google Tag Manager (noscript) -->
+      <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MJ6TMLG"
+              height="0" width="0" style="display:none;visibility:hidden"></iframe>
+      <!-- End Google Tag Manager (noscript) -->
+    </noscript>
+
+    
+    <div id="app" tabindex="-1" role="application"></div>
+  </body>
+</html>

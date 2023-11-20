@@ -1,0 +1,37 @@
+{
+  "rules": {
+    ".read": true,
+    ".write": false,
+    "services": {
+      ".indexOn": "featured"
+    },
+    "bookplates": {
+      ".indexOn": "fundID"
+    },
+    "mediaobjects": {
+      ".indexOn": "association"
+    },
+    "forms": {
+      ".indexOn": "target_id"
+    },
+    "pages": {
+      ".indexOn": ["title", "uuid"]
+    },
+    "newsBlog": {
+      ".indexOn": "created"
+    },
+    "users": {
+      "$uid": {
+        ".write": "$uid === auth.uid",
+        ".read": "$uid === auth.uid"
+      }
+    },
+    "requests": {
+      ".write": true,
+      ".read": false
+    },
+    "browncounts": {
+      ".indexOn": "time"
+    }
+  }
+}

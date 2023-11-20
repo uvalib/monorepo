@@ -1,0 +1,135 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: UVALib API
+  license:
+    name: MIT
+servers:
+  - url: https://us-central1-uvalib-api.cloudfunctions.net/api
+paths:
+  /virgoCatalogSearch:
+    get:
+      summary: Perform a search in the Virgo Catalog
+      operationId: virgoCatalogSearch
+      tags:
+        - search
+      parameters:
+        - name: query
+          in: query
+          description: Search query string
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Limit on number of results to return
+          required: false
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: Catalog search results
+          content:
+            application/json:    
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    $ref: "#/components/schemas/CatalogItems"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /item/{id}:
+    get:
+      summary: Get details of a specific item
+      operationId: getItemById
+      tags:
+        - item
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The id of the item to retrieve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    $ref: "#/components/schemas/Item"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /datetime:
+    get:
+      summary: Get current date and time
+      operationId: getCurrentDateTime
+      tags:
+        - utility
+      responses:
+        '200':
+          description: Current date and time
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  datetime:
+                    type: string
+                    format: date-time
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+components:
+  schemas:
+    Item:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        # Add additional properties as needed
+
+    CatalogItems:
+      type: array
+      items:
+        $ref: "#/components/schemas/Item"
+
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
