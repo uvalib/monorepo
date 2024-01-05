@@ -26,6 +26,11 @@ const app = new App({
 // Global error handler
 app.error(logger.log);
 
+// Listening for app_mention events
+app.event('app_mention', async ({ event, context, say }) => {
+    await say(`Hello, <@${event.user}>!`);
+});
+
 // A simple command handling a prompt
 app.command('/hoo-helper-prompt', async ({ command, ack, say, context }) => {
     // Acknowledge command request
@@ -40,16 +45,7 @@ app.command('/hoo-helper-prompt', async ({ command, ack, say, context }) => {
         ["user", "{input}"],
       ]);
     const chain = prompt.pipe(chat);
-    const response = await chain.invoke({input: command.text});
-/*
-    await say({blocks: [{
-        type: "section",
-        text: {
-          type: "mrkdwn",
-          text: response.content,
-        },
-    }]});
-*/  
+    const response = await chain.invoke({input: command.text}); 
 
     // update the message with the response
     await app.client.chat.update({
