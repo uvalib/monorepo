@@ -1,6 +1,10 @@
 'use strict'
 const { logger, https } = require("firebase-functions/v2");
 const { App, ExpressReceiver } = require('@slack/bolt');
+
+const { ChatOpenAI } = require('@langchain/openai');
+const { ChatPromptTemplate } = require('@langchain/core/prompts');
+
 const expressReceiver = new ExpressReceiver({
     signingSecret: process.env.SLACK_SIGNING_SECRET,
     endpoints: '/events',
@@ -15,18 +19,34 @@ const app = new App({
 // Global error handler
 app.error(logger.log);
 
-// Handle `/echo` command invocations
-app.command('/echo-from-hoo-helper', async ({ command, ack, say }) => {
+app.command('/hoo-helper-prompt', async ({ command, ack, say }) => {
     // Acknowledge command request
     await ack();
+    
+    const chat = new ChatOpenAI({openAIApiKey: process.env.OPENAI_API_KEY});
+    const prompt = ChatPromptTemplate.fromMessages([
+        ["system", "You are a librarian at the University of Virginia Library. Format your responses in Markdown"],
+        ["user", "{input}"],
+      ]);
+    const chain = prompt.pipe(chat);
+    const response = await chain.invoke({input: command.text});
+    await say({blocks: [{
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: response.content,
+        },
+      }]});
+//    await say(response.content);
+});
 
-    // Requires:
-    // Add chat:write scope + invite the bot user to the channel you run this command
-    // Add chat:write.public + run this command in a public channel
+app.command('/hoo-helper-echo', async ({ command, ack, say }) => {
+    // Acknowledge command request
+    await ack();
     await say(`You said "${command.text}"`);
 });
 
 // https://{your domain}.cloudfunctions.net/slack/events
 exports.slack = https.onRequest(
-    {secrets: ["SLACK_SIGNING_SECRET","SLACK_BOT_TOKEN"]}, 
+    {secrets: ["SLACK_SIGNING_SECRET","SLACK_BOT_TOKEN","OPENAI_API_KEY"]}, 
     expressReceiver.app);

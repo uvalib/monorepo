@@ -13,9 +13,11 @@
   },
   "main": "index.js",
   "dependencies": {
+    "@langchain/openai": "^0.0.9",
     "@slack/bolt": "^3.17.0",
     "firebase-admin": "^11.8.0",
-    "firebase-functions": "^4.3.1"
+    "firebase-functions": "^4.3.1",
+    "langchain": "^0.0.214"
   },
   "devDependencies": {
     "firebase-functions-test": "^3.1.0"
