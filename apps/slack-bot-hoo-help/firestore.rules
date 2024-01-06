@@ -1,4 +1,14 @@
 service cloud.firestore {
+
+  match /chathistory/{sessionId} {
+    allow read: if request.auth.uid == resource.data.createdBy;
+    allow write: if request.auth.uid == request.resource.data.createdBy;
+  }
+  match /chathistory/{sessionId}/messages/{messageId} {
+    allow read: if request.auth.uid == resource.data.createdBy;
+    allow write: if request.auth.uid == request.resource.data.createdBy;
+  }
+
   match /databases/{database}/documents {
     match /{document=**} {
       // This rule allows anyone with your database reference to view, edit,

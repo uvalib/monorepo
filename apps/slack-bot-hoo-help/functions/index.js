@@ -1,14 +1,18 @@
 'use strict'
 
 // The Cloud Functions for Firebase SDK to create Cloud Functions and setup triggers.
-const { logger, https } = require("firebase-functions/v2");
+import { logger, https } from "firebase-functions/v2";
 
 // Bolt js imports for Slack integration
-const { App, ExpressReceiver } = require('@slack/bolt');
+import pkg from '@slack/bolt';
+const { App, ExpressReceiver } = pkg;
 
 // Langchain imports for LLM integration
-const { ChatOpenAI } = require('@langchain/openai');
-const { ChatPromptTemplate } = require('@langchain/core/prompts');
+import { ChatOpenAI } from '@langchain/openai';
+import { ChatPromptTemplate } from '@langchain/core/prompts';
+import { BufferMemory } from 'langchain/memory';
+import { ConversationChain } from 'langchain/chains';
+import { FirestoreChatMessageHistory } from '@langchain/community/stores/message/firestore';
 
 // Initialize the Bolt app with the signing secret and bot token as an Express app
 // secrets are set in the firebase console like `firebase functions:secrets:set SLACK_BOT_TOKEN`
@@ -39,25 +43,47 @@ app.command('/hoo-helper-prompt', async ({ command, ack, say, context }) => {
     // Send an immediate response
     const message = await say('Processing your request...');  
 
+    const memory = new BufferMemory({
+        chatHistory: new FirestoreChatMessageHistory({
+          collectionName: "chathistory",
+          sessionId: context.userId, //"lc-example",
+          userId: context.userId,
+          config: {   
+            apiKey: "AIzaSyDsTrjUL9kRug7fw_sNU31cy7JYzJAUvmQ",
+            authDomain: "uvalib-api.firebaseapp.com",
+            databaseURL: "https://uvalib-api.firebaseio.com",
+            projectId: "uvalib-api",
+            storageBucket: "uvalib-api.appspot.com",
+            messagingSenderId: "602799472461",
+            appId: "1:602799472461:web:b00ba08fd6fac9e4" 
+          },
+        }),
+    });
+
     const chat = new ChatOpenAI({openAIApiKey: process.env.OPENAI_API_KEY});
-    const prompt = ChatPromptTemplate.fromMessages([
-        ["system", "You are a librarian at the University of Virginia Library. Format your responses in Markdown"],
-        ["user", "{input}"],
-      ]);
-    const chain = prompt.pipe(chat);
-    const response = await chain.invoke({input: command.text}); 
+    const chain = new ConversationChain({ llm: chat, memory});
+
+    const response = await chain.invoke({input: command.text});
+
+//    const prompt = ChatPromptTemplate.fromMessages([
+//        ["system", "You are a librarian at the University of Virginia Library. Format your responses in Markdown"],
+//        ["user", "{input}"],
+//    ]);
+    
+//    const chain = prompt.pipe(chat);
+//    const response = await chain.invoke({input: command.text}); 
 
     // update the message with the response
     await app.client.chat.update({
         token: context.botToken,
         channel: message.channel,
         ts: message.ts,
-        text: response.content,
+        text: response.response,
     });
   
 });
 
 // https://{your domain}.cloudfunctions.net/slack/events
-exports.slack = https.onRequest(
+export const slack = https.onRequest(
     {secrets: ["SLACK_SIGNING_SECRET","SLACK_BOT_TOKEN","OPENAI_API_KEY"]}, 
     expressReceiver.app);

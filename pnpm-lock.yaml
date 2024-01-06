@@ -279,6 +279,9 @@ importers:
 
   apps/slack-bot-hoo-help/functions:
     dependencies:
+      '@langchain/community':
+        specifier: ^0.0.14
+        version: 0.0.14(firebase-admin@11.11.1)
       '@langchain/openai':
         specifier: ^0.0.9
         version: 0.0.9
@@ -286,7 +289,7 @@ importers:
         specifier: ^3.17.0
         version: 3.17.0
       firebase-admin:
-        specifier: ^11.8.0
+        specifier: ^11.11.1
         version: 11.11.1
       firebase-functions:
         specifier: ^4.3.1
