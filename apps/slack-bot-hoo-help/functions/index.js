@@ -9,7 +9,9 @@ const { App, ExpressReceiver } = pkg;
 
 // Langchain imports for LLM integration
 import { ChatOpenAI } from '@langchain/openai';
-import { ChatPromptTemplate } from '@langchain/core/prompts';
+import { ChatPromptTemplate, MessagesPlaceholder } from '@langchain/core/prompts';
+import { PromptTemplate } from "langchain/prompts";
+import { RunnableWithMessageHistory } from '@langchain/core/runnables';
 import { BufferMemory } from 'langchain/memory';
 import { ConversationChain } from 'langchain/chains';
 import { FirestoreChatMessageHistory } from '@langchain/community/stores/message/firestore';
@@ -30,26 +32,52 @@ const app = new App({
 // Global error handler
 app.error(logger.log);
 
-// Listening for app_mention events
-app.event('app_mention', async ({ event, context, say }) => {
-    await say(`Hello, <@${event.user}>!`);
-});
+const handleConvo = async ({ event, context, say }) => {  
+/*
+    const prompt = ChatPromptTemplate.fromMessages([
+        ["system", "You are a librarian at the University of Virginia Library. Format your responses in Markdown"],
+        new MessagesPlaceholder("history"),
+        ["human", "{input}"],
+    ]);
 
-// A simple command handling a prompt
-app.command('/hoo-helper-prompt', async ({ command, ack, say, context }) => {
-    // Acknowledge command request
-    await ack();
-    
-    // Send an immediate response
-    const message = await say('Processing your request...');  
+    const chain = prompt.pipe(new ChatOpenAI({openAIApiKey: process.env.OPENAI_API_KEY}));
 
+    const chainWithHistory = new RunnableWithMessageHistory({
+        runnable: chain,
+        getMessageHistory: (sessionId) =>
+            new FirestoreChatMessageHistory({
+                collectionName: "chathistory",
+                sessionId,
+                userId: sessionId,
+                config: {   
+                    apiKey: process.env.OUR_FIREBASE_KEY,
+                    authDomain: "uvalib-api.firebaseapp.com",
+                    databaseURL: "https://uvalib-api.firebaseio.com",
+                    projectId: "uvalib-api",
+                    storageBucket: "uvalib-api.appspot.com",
+                    messagingSenderId: "602799472461",
+                    appId: "1:602799472461:web:b00ba08fd6fac9e4" 
+                },
+            }),
+        inputMessagesKey: "input",
+        historyMessagesKey: "history",
+    });
+    return chainWithHistory.invoke(
+        {input: event.text},
+        {configurable: {
+            sessionId: context.userId,
+        }},
+    );
+*/    
+
+    // Setup the memory store for the conversation
     const memory = new BufferMemory({
         chatHistory: new FirestoreChatMessageHistory({
           collectionName: "chathistory",
-          sessionId: context.userId, //"lc-example",
+          sessionId: context.userId,
           userId: context.userId,
           config: {   
-            apiKey: "AIzaSyDsTrjUL9kRug7fw_sNU31cy7JYzJAUvmQ",
+            apiKey: process.env.OUR_FIREBASE_KEY,
             authDomain: "uvalib-api.firebaseapp.com",
             databaseURL: "https://uvalib-api.firebaseio.com",
             projectId: "uvalib-api",
@@ -60,30 +88,85 @@ app.command('/hoo-helper-prompt', async ({ command, ack, say, context }) => {
         }),
     });
 
+    // Setup the LLM chatbot (OpenAI for now)
     const chat = new ChatOpenAI({openAIApiKey: process.env.OPENAI_API_KEY});
-    const chain = new ConversationChain({ llm: chat, memory});
+/*
+    // Setup the prompt template
+    const prompt = ChatPromptTemplate.fromMessages([
+        ["system", "You are a librarian at the University of Virginia Library. Format your responses in Markdown"],
+//        ["Current conversation","{history}"],
+        ["human", "{input}"],
+    ]);
+*/    
 
-    const response = await chain.invoke({input: command.text});
+    const prompt = new PromptTemplate({
+        template: `
+    You are a librarian at the University of Virginia Library. Format your responses in Markdown.
+    The following is a friendly conversation between a human and an AI. If the AI does not know the answer to a question, it truthfully says it does not know.
 
-//    const prompt = ChatPromptTemplate.fromMessages([
-//        ["system", "You are a librarian at the University of Virginia Library. Format your responses in Markdown"],
-//        ["user", "{input}"],
-//    ]);
+        Current conversation:
+        {history}
+        Human: {input}
+        AI:`,
+        inputVariables: ["history", "input"],
+    })
+
+    // Setup the conversation chain
+    const chain = new ConversationChain({ 
+        llm: chat, 
+        memory,
+        prompt,}); 
+
     
-//    const chain = prompt.pipe(chat);
-//    const response = await chain.invoke({input: command.text}); 
+    return chain.invoke({input: event.text});
 
+};
+
+
+// Listening for app_mention events
+app.event('app_mention', async ({ event, context, say }) => {
+    logger.log(event);
+    logger.log(context);
+    const response = await handleConvo({ event, context, say });
+    logger.log(response);
+//    say(response.content);
+    say(response.response);
+});
+
+/*
+// Listening for message events
+app.message(async ({ message, context, say }) => {
+    const response = await handleConvo({ event: message, context, say });
+    say(response.response);
+});
+*/
+
+// A simple command handling a prompt
+app.command('/hoo-helper-prompt', async ({ command, ack, say, context }) => {
+    // Acknowledge request
+    await ack();
+
+    logger.log(command)
+    logger.log(context);
+    
+    // Send an immediate response
+    const message = await say('Processing your request :dancingdog:');
+
+    const response = await handleConvo({ event: command, say, context });
+
+    logger.log(response);
     // update the message with the response
     await app.client.chat.update({
         token: context.botToken,
         channel: message.channel,
         ts: message.ts,
+//        text: response.content,
         text: response.response,
     });
-  
+    return;
 });
 
 // https://{your domain}.cloudfunctions.net/slack/events
 export const slack = https.onRequest(
-    {secrets: ["SLACK_SIGNING_SECRET","SLACK_BOT_TOKEN","OPENAI_API_KEY"]}, 
+    {secrets: ["SLACK_SIGNING_SECRET","SLACK_BOT_TOKEN","OPENAI_API_KEY","OUR_FIREBASE_KEY"]}, 
     expressReceiver.app);
