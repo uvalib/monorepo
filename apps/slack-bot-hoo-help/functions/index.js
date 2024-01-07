@@ -9,7 +9,7 @@ const { App, ExpressReceiver } = pkg;
 
 // Langchain imports for LLM integration
 import { ChatOpenAI } from '@langchain/openai';
-import { ChatPromptTemplate, MessagesPlaceholder } from '@langchain/core/prompts';
+import { MessagesPlaceholder } from '@langchain/core/prompts';
 import { PromptTemplate } from "langchain/prompts";
 import { RunnableWithMessageHistory } from '@langchain/core/runnables';
 import { BufferMemory } from 'langchain/memory';
@@ -33,42 +33,6 @@ const app = new App({
 app.error(logger.log);
 
 const handleConvo = async ({ event, context, say }) => {  
-/*
-    const prompt = ChatPromptTemplate.fromMessages([
-        ["system", "You are a librarian at the University of Virginia Library. Format your responses in Markdown"],
-        new MessagesPlaceholder("history"),
-        ["human", "{input}"],
-    ]);
-
-    const chain = prompt.pipe(new ChatOpenAI({openAIApiKey: process.env.OPENAI_API_KEY}));
-
-    const chainWithHistory = new RunnableWithMessageHistory({
-        runnable: chain,
-        getMessageHistory: (sessionId) =>
-            new FirestoreChatMessageHistory({
-                collectionName: "chathistory",
-                sessionId,
-                userId: sessionId,
-                config: {   
-                    apiKey: process.env.OUR_FIREBASE_KEY,
-                    authDomain: "uvalib-api.firebaseapp.com",
-                    databaseURL: "https://uvalib-api.firebaseio.com",
-                    projectId: "uvalib-api",
-                    storageBucket: "uvalib-api.appspot.com",
-                    messagingSenderId: "602799472461",
-                    appId: "1:602799472461:web:b00ba08fd6fac9e4" 
-                },
-            }),
-        inputMessagesKey: "input",
-        historyMessagesKey: "history",
-    });
-    return chainWithHistory.invoke(
-        {input: event.text},
-        {configurable: {
-            sessionId: context.userId,
-        }},
-    );
-*/    
 
     // Setup the memory store for the conversation
     const memory = new BufferMemory({
@@ -89,15 +53,7 @@ const handleConvo = async ({ event, context, say }) => {
     });
 
     // Setup the LLM chatbot (OpenAI for now)
-    const chat = new ChatOpenAI({openAIApiKey: process.env.OPENAI_API_KEY});
-/*
-    // Setup the prompt template
-    const prompt = ChatPromptTemplate.fromMessages([
-        ["system", "You are a librarian at the University of Virginia Library. Format your responses in Markdown"],
-//        ["Current conversation","{history}"],
-        ["human", "{input}"],
-    ]);
-*/    
+    const chat = new ChatOpenAI({openAIApiKey: process.env.OPENAI_API_KEY}); 
 
     const prompt = new PromptTemplate({
         template: `
@@ -129,7 +85,6 @@ app.event('app_mention', async ({ event, context, say }) => {
     logger.log(context);
     const response = await handleConvo({ event, context, say });
     logger.log(response);
-//    say(response.content);
     say(response.response);
 });
 
@@ -160,10 +115,8 @@ app.command('/hoo-helper-prompt', async ({ command, ack, say, context }) => {
         token: context.botToken,
         channel: message.channel,
         ts: message.ts,
-//        text: response.content,
         text: response.response,
     });
-    return;
 });
 
 // https://{your domain}.cloudfunctions.net/slack/events
