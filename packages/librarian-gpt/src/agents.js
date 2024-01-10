@@ -18,20 +18,11 @@ import { BaseChain, LLMChain } from "langchain/chains";
 import { ChainValues } from "langchain/schema";
 import { CallbackManagerForChainRun } from "langchain/callbacks";
 import { BaseLanguageModel } from "langchain/base_language";
-import { loadStageAnalyzerChain, loadLibraryConversationChain, get_tools } from './your_library_setup'; // Import your library setup functions
-import { CustomPromptTemplateForLibrary } from './your_custom_prompt_template'; // Import your custom prompt template
-import { LibraryConvoOutputParser } from './your_output_parser'; // Import your custom output parser
-import { LIBRARY_CONVERSATION_STAGES, LIBRARY_AGENT_TOOLS_PROMPT } from './your_library_constants'; // Import your constants
-
-import { LLMSingleActionAgent, AgentExecutor } from "langchain/agents";
-import { BaseChain, LLMChain } from "langchain/chains";
-import { ChainValues } from "langchain/schema";
-import { CallbackManagerForChainRun } from "langchain/callbacks";
-import { BaseLanguageModel } from "langchain/base_language";
-import { loadStageAnalyzerChain, loadLibraryConversationChain, get_tools } from './library_setup_functions'; // Replace with actual imports
-import { CustomPromptTemplateForLibrary } from './custom_prompt_template'; // Replace with actual import
-import { LibraryConvoOutputParser } from './output_parser'; // Replace with actual import
-import { LIBRARY_CONVERSATION_STAGES, LIBRARY_AGENT_TOOLS_PROMPT } from './library_constants'; // Replace with actual imports
+import { loadStageAnalyzerChain, loadLibraryConversationChain, get_tools } from './prompts.js';
+import { CustomPromptTemplateForLibrary } from './templates.js'; // Import your custom prompt template
+import { LibraryConvoOutputParser } from './parsers.js'; // Import your custom output parser
+import { LIBRARY_AGENT_TOOLS_PROMPT } from './prompts.js'; // Import your constants
+import { CONVERSATOIN_STAGES } from './stages.js';
 
 export class LibraryGPT extends BaseChain {
   conversation_stage_id: string;
@@ -42,7 +33,7 @@ export class LibraryGPT extends BaseChain {
   library_agent_executor?: AgentExecutor;
   use_tools: boolean = false;
 
-  conversation_stage_dict: Record<string, string> = LIBRARY_CONVERSATION_STAGES;
+  conversation_stage_dict: Record<string, string> = CONVERSATION_STAGES;
 
   librarian_name: string = "Alex Morgan"; // Example name
 
