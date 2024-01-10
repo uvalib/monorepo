@@ -16,6 +16,8 @@ import { BufferMemory } from 'langchain/memory';
 import { ConversationChain } from 'langchain/chains';
 import { FirestoreChatMessageHistory } from '@langchain/community/stores/message/firestore';
 
+import { LibraryGPT } from './librarian-gpt/agents.js';
+
 // Initialize the Bolt app with the signing secret and bot token as an Express app
 // secrets are set in the firebase console like `firebase functions:secrets:set SLACK_BOT_TOKEN`
 const expressReceiver = new ExpressReceiver({
@@ -33,7 +35,20 @@ const app = new App({
 app.error(logger.log);
 
 const handleConvo = async ({ event, context, say }) => {  
+    const config = {
+        librarian_name: "Hoo Helper",
+        use_tools: true,
+        collection_catalog: "./dummy_library_catalog.txt",
+    };
+    const llm = new ChatOpenAI({ temperature: 0.9 });
+    const library_agent = await LibraryGPT.from_llm(llm, false, config);
+    await library_agent.seed_agent();
 
+    let stageResponse = await library_agent.determine_conversation_stage();
+    console.log(stageResponse);
+    return {response: stageResponse};
+//return {response: "Hello World!"};
+/*    
     // Setup the memory store for the conversation
     const memory = new BufferMemory({
         chatHistory: new FirestoreChatMessageHistory({
@@ -75,7 +90,7 @@ const handleConvo = async ({ event, context, say }) => {
 
     
     return chain.invoke({input: event.text});
-
+*/
 };
 
 
