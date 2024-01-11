@@ -23,7 +23,11 @@ export class LibraryGPT extends BaseChain {
   }
 
   retrieve_conversation_stage(key = "0") {
-    return this.conversation_stage_dict[key] || "1";
+    const _key = parseInt(key).toString();
+console.log(`retrieve_conversation_stage: ${_key}`);
+console.log(this.conversation_stage_dict);
+console.log(this.conversation_stage_dict[_key]);
+    return this.conversation_stage_dict[_key] || "1";
   }
 
   seed_agent() {
@@ -39,9 +43,14 @@ export class LibraryGPT extends BaseChain {
       conversation_stage_id: this.conversation_stage_id,
     });
 
-    this.conversation_stage_id = text;
-    this.current_conversation_stage = this.retrieve_conversation_stage(text);
-    return text;
+console.log('stage analysis:'); 
+console.log(text);
+
+    this.conversation_stage_id = parseInt(text.text).toString();
+    this.current_conversation_stage = this.retrieve_conversation_stage(text.text);
+
+//    return text;
+    return this.current_conversation_stage;
   }
 
   human_step(human_input) {

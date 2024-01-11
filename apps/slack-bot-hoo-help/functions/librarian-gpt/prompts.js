@@ -14,7 +14,7 @@ export function loadStageAnalyzerChain(llm, verbose = false) {
              Now determine what should be the next immediate conversation stage for the librarian in the service conversation by selecting only from the following options:
              ${Object.entries(CONVERSATION_STAGES).map(([key, value]) => `${key}. ${value}`).join('\n ')}
 
-             Only answer with a number between 1 through 8 with a best guess of what stage should the conversation continue with.
+             Only answer with a number between 1 through ${Object.entries(CONVERSATION_STAGES).length} with a best guess of what stage should the conversation continue with.
              If there is no conversation history, output 1.
              The answer needs to be one number only, no words.
              Do not answer anything else nor add anything to your answer.`,

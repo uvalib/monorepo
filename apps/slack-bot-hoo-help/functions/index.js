@@ -44,9 +44,47 @@ const handleConvo = async ({ event, context, say }) => {
     const library_agent = await LibraryGPT.from_llm(llm, false, config);
     await library_agent.seed_agent();
 
+    await library_agent.human_step(event.text);
+    await say(`*Me:* ${event.text}`);
     let stageResponse = await library_agent.determine_conversation_stage();
     console.log(stageResponse);
-    return {response: stageResponse};
+    await say(stageResponse);
+
+    let stepResponse = await library_agent.step();
+    console.log(stepResponse);
+    await say(stepResponse);
+
+    await library_agent.human_step("What can you tell me about the Astronomical Data Archives?");
+    await say(`*Me:* What can you tell me about the Astronomical Data Archives?`);
+    stageResponse = await library_agent.determine_conversation_stage();
+    console.log(stageResponse);
+    await say(stageResponse);
+
+    stepResponse = await library_agent.step();
+    console.log(stepResponse);
+    await say(stepResponse);
+
+    await library_agent.human_step("What is your name?");
+    await say(`*Me:* What is your name?`);
+    stageResponse = await library_agent.determine_conversation_stage();
+    console.log(stageResponse);
+    await say(stageResponse);
+
+    stepResponse = await library_agent.step();
+    console.log(stepResponse);
+    await say(stepResponse);
+
+    await library_agent.human_step("Thank you, you have been most helpful.");
+    await say(`*Me:* Thank you, you have been most helpful.`);
+    stageResponse = await library_agent.determine_conversation_stage();
+    console.log(stageResponse);
+    await say(stageResponse);
+
+    stepResponse = await library_agent.step();
+    console.log(stepResponse);
+    await say(stepResponse);
+
+    return {response: "done with test"};
 //return {response: "Hello World!"};
 /*    
     // Setup the memory store for the conversation
