@@ -1,15 +1,15 @@
 import { GeneralData } from './GeneralData.js';
 
 export class DrupalData extends GeneralData {
-  protected drupalEndpointURL =
-    window && window.location && window.location.hostname &&
-    (window.location.hostname === 'library.virginia.edu' ||
-      window.location.hostname === 'www.library.virginia.edu' ||
-      window.location.hostname === 'library-drupal-dev-1.internal.lib.virginia.edu' ||
-      window.location.hostname === 'library-drupal-dev.internal.lib.virginia.edu') ||
-      window.location.hostname === 'uvalib-drupal-theme.ddev.site'
-      ? `/jsonapi/index/default_index`
-      : 'https://5570499q1i.execute-api.us-east-2.amazonaws.com/1_1_2/drupal';
+  protected drupalEndpointURL = `/jsonapi/index/default_index`;
+//    window && window.location && window.location.hostname &&
+//    (window.location.hostname === 'library.virginia.edu' ||
+//      window.location.hostname === 'www.library.virginia.edu' ||
+//      window.location.hostname === 'library-drupal-dev-1.internal.lib.virginia.edu' ||
+//      window.location.hostname === 'library-drupal-dev.internal.lib.virginia.edu') ||
+//      window.location.hostname === 'uvalib-drupal-theme.ddev.site'
+//      ? `/jsonapi/index/default_index`
+//      : 'https://5570499q1i.execute-api.us-east-2.amazonaws.com/1_1_2/drupal';
 
   protected type: string = '';
 
