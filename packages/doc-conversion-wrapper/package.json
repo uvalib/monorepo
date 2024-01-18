@@ -6,7 +6,7 @@
   "scripts": {
     "pandoc": "node pandoc.js",
     "doc2md": "node convert.js",
-    "build": "cd pandoc && docker build -t pandoc-debian . && cd ../saxon && docker build -t saxon-debian ."
+    "build": "cd pandoc && docker build -t pandoc-debian . && cd ../saxon && docker build -t saxon-debian . || echo 'Warning: Docker build failed, is Docker running?'"
   },
   "keywords": [],
   "author": "",
