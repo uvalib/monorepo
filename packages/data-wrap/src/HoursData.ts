@@ -33,6 +33,7 @@ function formatLocalSSDate(date: Date) {
 export class HoursData extends GeneralData {
   public items: Hours[] = [];
   public ids: number[] = [];
+  [key: string]: any;
 
   constructor(init?: Partial<HoursData>) {
     super();
@@ -51,6 +52,8 @@ export class HoursData extends GeneralData {
     return this.fetchHoursData(qsa, startDate, count, extra);
   }
 
+  
+
   async fetchHoursData(qsa: string | undefined = undefined, startDate?: Date, count?: number, extra: boolean = false) {
     const rawDates: RawDates = {};
     for (let i = 0; startDate && count && i <= count; i++) {
@@ -65,18 +68,44 @@ export class HoursData extends GeneralData {
       .then(async (hoursData) => Promise.all(hoursData.map(async (hours: Partial<Hours> | undefined) => {
         let returnHours: Partial<Hours> | undefined = parseHours(hours);
         returnHours.rawDates = Object.assign({}, rawDates, returnHours?.rawDates);
-/*        
+        
         if (extra && hours) {
           const extraHours = await import('./HoursDataExtra.js');
-          returnHours.nextClosingTime = extraHours.getNextClosingTime(hours as HoursData);
-          returnHours.nextOpeningTime = extraHours.getNextOpeningTime(hours as HoursData);
-          returnHours.isOpen = extraHours.isOpenNow(hours as HoursData); // This now contains Unix time
+//          returnHours.nextClosingTime = extraHours.getNextClosingTime(hours as HoursData);
+//          returnHours.nextOpeningTime = extraHours.getNextOpeningTime(hours as HoursData);
+const hoursData: HoursData = convertHoursToHoursData(hours); // You'll need to implement this function
+returnHours.nextClosingTime = extraHours.getNextClosingTime(hoursData)?.toJSDate();
+returnHours.nextOpeningTime = extraHours.getNextOpeningTime(hoursData)?.toJSDate();
+returnHours.isOpen = extraHours.isOpenNow(hoursData);
         }
         return returnHours;
-*/        
-        return {items: [], meta: {totalResults: 0}};
+        
+//        return {items: [], meta: {totalResults: 0}};
       })));
 
     return rawData;
   }
+}
+
+function convertHoursToHoursData(hours: Partial<Hours>): HoursData {
+  // Create a new instance of Hours
+  const newHours: Hours = new Hours({
+    id: hours.id,
+    title: hours.title,
+    description: hours.description,
+    link: hours.link,
+    rawDates: hours.rawDates,
+  });
+
+  // Check if newHours.id is a number
+  const id = typeof newHours.id === 'number' ? newHours.id : undefined;
+
+  // Create a new instance of HoursData
+  const hoursData: HoursData = new HoursData({
+    items: [newHours], // Assuming 'items' should be an array containing 'newHours'
+    ids: id ? [id] : [], // If id is a number, add it to the array. Otherwise, leave the array empty.
+    // Add other properties as needed
+  });
+
+  return hoursData;
 }

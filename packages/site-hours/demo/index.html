@@ -9,6 +9,7 @@
   </style>
 </head>
 <body>
+<!--  
   <library-daily-hours library-slug="clemons" refresh-every="1000" no-shadow-dom warn-before="3600000" warn-after="3600000">
     <span slot="open" class="open"></span>
     <span slot="closed" class="close"></span>
@@ -16,11 +17,14 @@
     <span slot="close-warning">closing soon</span>
   </library-daily-hours>
   <hr />
-  <library-weekly-hours library-slug="harrison-small" no-shadow-dom no-style></library-weekly-hours>
+-->  
+  <library-weekly-hours library-slug="clemons" no-shadow-dom no-style></library-weekly-hours>
+<!--
   <hr />
   <site-hours-section limited no-style no-shadow-dom></site-hours-section>
-
+-->
   <script type="module">
+    import '../dist/src/library-daily-hours.js';
     import '../dist/src/library-weekly-hours.js';
     import '../dist/src/site-hours-section.js';
   </script>
