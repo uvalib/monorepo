@@ -1,4 +1,4 @@
-import{h as e,F as s,a as t,o as a,c,r as o,e as i,B as d,C as r,f as h,s as l,z as n,G as b,Y as p,N as k,Z as $,g as u,w as g,n as m,t as x,u as y,T as w,E as f,I as v,U as H,P as T,V as j,p as F}from"../../fast-design-system-b703147e.js";import{d as O}from"../../display-058af2ce.js";import{d as z,h as N}from"../../size-720798a2.js";import{s as C,o as L,l as S,m as _}from"../../focus-20c16bb0.js";import{f as E,S as G}from"../../match-media-stylesheet-behavior-575be983.js";import{D as A}from"../../direction-88bcdd2b.js";import{_ as B}from"../../tslib.es6-6ae91544.js";import{C as D}from"../../form-associated-e5f30f6f.js";class I extends s{}class P extends(D(I)){constructor(){super(...arguments),this.proxy=document.createElement("input")}}class V extends P{constructor(){super(),this.initialValue="on",this.keypressHandler=e=>{if(!this.readOnly)switch(e.key){case S:case L:this.checked=!this.checked}},this.clickHandler=e=>{this.disabled||this.readOnly||(this.checked=!this.checked)},this.proxy.setAttribute("type","checkbox")}readOnlyChanged(){this.proxy instanceof HTMLInputElement&&(this.proxy.readOnly=this.readOnly),this.readOnly?this.classList.add("readonly"):this.classList.remove("readonly")}checkedChanged(e,s){super.checkedChanged(e,s),this.checked?this.classList.add("checked"):this.classList.remove("checked")}}B([t({attribute:"readonly",mode:"boolean"})],V.prototype,"readOnly",void 0),B([a],V.prototype,"defaultSlottedNodes",void 0);const M=V.compose({baseName:"switch",template:(s,t)=>e`
+import{h as e,F as s,a as t,o as a,c,r as o,e as i,B as d,C as r,f as h,s as l,z as n,G as b,Y as p,N as k,Z as $,g as u,w as g,n as m,t as x,u as y,T as w,E as f,I as v,U as H,P as T,V as j,p as F}from"../../fast-design-system-b703147e.js";import{d as O}from"../../display-058af2ce.js";import{d as N,h as z}from"../../size-720798a2.js";import{s as C,o as L,l as S,m as _}from"../../focus-20c16bb0.js";import{f as E,S as G}from"../../match-media-stylesheet-behavior-575be983.js";import{D as B}from"../../direction-88bcdd2b.js";import{_ as A}from"../../tslib.es6-6ae91544.js";import{C as I}from"../../form-associated-e5f30f6f.js";class P extends s{}class V extends(I(P)){constructor(){super(...arguments),this.proxy=document.createElement("input")}}class D extends V{constructor(){super(),this.initialValue="on",this.keypressHandler=e=>{if(!this.readOnly)switch(e.key){case S:case L:this.checked=!this.checked}},this.clickHandler=e=>{this.disabled||this.readOnly||(this.checked=!this.checked)},this.proxy.setAttribute("type","checkbox")}readOnlyChanged(){this.proxy instanceof HTMLInputElement&&(this.proxy.readOnly=this.readOnly),this.readOnly?this.classList.add("readonly"):this.classList.remove("readonly")}checkedChanged(e,s){super.checkedChanged(e,s),this.checked?this.classList.add("checked"):this.classList.remove("checked")}}A([t({attribute:"readonly",mode:"boolean"})],D.prototype,"readOnly",void 0),A([a],D.prototype,"defaultSlottedNodes",void 0);const M=D.compose({baseName:"switch",template:(s,t)=>e`
     <template
         role="switch"
         aria-checked="${e=>e.checked}"
@@ -48,15 +48,15 @@ import{h as e,F as s,a as t,o as a,c,r as o,e as i,B as d,C as r,f as h,s as l,z
         :host([readonly]) .label,
         :host([readonly]) .switch,
         :host([disabled]) .switch {
-            cursor: ${z};
+            cursor: ${N};
         }
 
         .switch {
             position: relative;
             outline: none;
             box-sizing: border-box;
-            width: calc(${N} * 1px);
-            height: calc((${N} / 2 + ${i}) * 1px);
+            width: calc(${z} * 1px);
+            height: calc((${z} / 2 + ${i}) * 1px);
             background: ${r};
             border-radius: calc(${h} * 1px);
             border: calc(${l} * 1px) solid ${n};
@@ -72,7 +72,7 @@ import{h as e,F as s,a as t,o as a,c,r as o,e as i,B as d,C as r,f as h,s as l,z
         host([readonly]) .switch:hover {
             background: ${b};
             border-color: ${p};
-            cursor: ${z};
+            cursor: ${N};
         }
 
         :host(:not([disabled])) .switch:active {
@@ -102,7 +102,7 @@ import{h as e,F as s,a as t,o as a,c,r as o,e as i,B as d,C as r,f as h,s as l,z
 
         :host([disabled]) .status-message,
         :host([readonly]) .status-message {
-            cursor: ${z};
+            cursor: ${N};
         }
 
         .label {
@@ -216,24 +216,24 @@ import{h as e,F as s,a as t,o as a,c,r as o,e as i,B as d,C as r,f as h,s as l,z
                 background: ${G.Field};
                 border-color: ${G.GrayText};
             }
-        `),new A(c`
+        `),new B(c`
                 .checked-indicator {
                     left: 5px;
-                    right: calc(((${N} / 2) + 1) * 1px);
+                    right: calc(((${z} / 2) + 1) * 1px);
                 }
 
                 :host([aria-checked="true"]) .checked-indicator {
-                    left: calc(((${N} / 2) + 1) * 1px);
+                    left: calc(((${z} / 2) + 1) * 1px);
                     right: 5px;
                 }
             `,c`
                 .checked-indicator {
                     right: 5px;
-                    left: calc(((${N} / 2) + 1) * 1px);
+                    left: calc(((${z} / 2) + 1) * 1px);
                 }
 
                 :host([aria-checked="true"]) .checked-indicator {
-                    right: calc(((${N} / 2) + 1) * 1px);
+                    right: calc(((${z} / 2) + 1) * 1px);
                     left: 5px;
                 }
             `)),switch:'\n        <span class="checked-indicator" part="checked-indicator"></span>\n    '});F().withPrefix("site").register(M({}));
