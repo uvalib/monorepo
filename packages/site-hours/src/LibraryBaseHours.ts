@@ -26,6 +26,7 @@ export class LibraryBaseHours extends SiteStyle {
   @property({type:Object}) library?:Library;
 
   @property({type:String}) todayString:string;
+  @property({type:String}) todayTimeString:string;
   
   private intervalId: number | undefined;
 
@@ -35,17 +36,22 @@ export class LibraryBaseHours extends SiteStyle {
   // Class constructor, initializes librariesData and sets selected week
   constructor(){
     super();
-
     // Calculate today's date (and recalculate it every 10 minutes)
     let today = new Date();
     this.todayString = today.toISOString().split('T')[0];
-
-    this.intervalId = window.setInterval(()=>{
-      today = new Date();
-      this.todayString = today.toISOString().split('T')[0];
-    }, this.refreshEvery );
-
+    this.todayTimeString = today.getTime().toString();
     this.librariesData = new LibrariesData();
+  }
+
+  firstUpdated(){
+
+    console.log(this.refreshEvery);
+    this.intervalId = window.setInterval(()=>{
+      console.log("refreshing today")
+      let today = new Date();
+      this.todayString = today.toISOString().split('T')[0];
+      this.todayTimeString = today.getTime().toString();
+    }, this.refreshEvery );
   }
 
   disconnectedCallback() {

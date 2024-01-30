@@ -9,6 +9,13 @@ export class LibraryDailyHours extends LibraryBaseHours {
     this.mode = 'daily';
   }
 
+  protected updated(_changedProperties: Map<PropertyKey, unknown>): void {
+    super.updated(_changedProperties);
+    if (_changedProperties.has('todayTimeString')) {
+      this.requestUpdate();
+    }
+  }
+
   // Render method for the component
   render() {
     console.log(this.library);
@@ -20,6 +27,8 @@ export class LibraryDailyHours extends LibraryBaseHours {
     // Render the widget with the appropriate slots
     return html`
       <div class="daily-hours-widget">
+        ${this.refreshEvery}
+        ${this.todayTimeString}
         ${(this.library && this.library.hours )? html`
             <div class="daily-hours-listing">
               <span class="daily-hours-label">Building: </span>
