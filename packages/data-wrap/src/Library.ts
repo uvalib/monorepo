@@ -63,9 +63,20 @@ export class Library extends GeneralSearchResult {
     return ids;
   }
 
-  public async fetchHours() {
+  public async fetchHours(startDate: Date, count: number | undefined, extra: boolean = false) {
     if (!this.hoursId) {
       throw new Error(`hoursId is undefined`);
+    } else  {
+      import("./HoursData.js").then((module) => {
+        const HoursData = module.HoursData;
+        if (this.hoursId !== undefined) {
+          const hoursData = new HoursData({ ids: [parseInt(this.hoursId)] });
+          hoursData.fetchHours(startDate, count).then((hours) => {
+            console.log(hours)
+            this.setHours(hours[0]);
+          });
+        }
+      });
     }
 
     // If you fetch from an API:

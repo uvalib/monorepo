@@ -1,102 +1,11 @@
-import { html, PropertyValueMap } from 'lit';
-import { property } from 'lit/decorators.js';
-import { SiteStyle } from '@uvalib/site-style';
-import { LibrariesData, Library } from '@uvalib/data-wrap';
-import { printTimes, stringDateFormat } from './utils';
+import { html } from 'lit';
+import { LibraryBaseHours } from './LibraryBaseHours';
 
 // Main class for LibraryWeeklyHours
-export class LibraryWeeklyHours extends SiteStyle {
-
-  // A `week-count` of 0 is default and means 'this week', 1 is next week and -1 is last week.
-  // Reflect property changes to attribute
-  @property({type:Number, attribute:"week-count", reflect: true}) weekCount = 0;
-
-  // Library slug property
-  @property({type:String, attribute:"library-slug"}) librarySlug?:string;
-
-  // Week start and end date properties
-  @property({type:Object}) weekStart?:Date;
-  @property({type:Object}) weekEnd?:Date;
-
-  // Library object property
-  @property({type:Object}) library?:Library;
-
-  @property({type:String}) todayString:string;
-  
-  private intervalId: number | undefined;
-
-  // LibrariesData instance
-  librariesData:LibrariesData;
-
-  // Class constructor, initializes librariesData and sets selected week
-  constructor(){
-    super();
-
-    // Calculate today's date (and recalculate it every 10 minutes)
-    let today = new Date();
-    this.todayString = today.toISOString().split('T')[0];
-
-    this.intervalId = window.setInterval(()=>{
-      today = new Date();
-      this.todayString = today.toISOString().split('T')[0];
-    }, 1000*60*10)
-
-    this.librariesData = new LibrariesData();
-    this.setSelectedWeek();
-  }
-
-  disconnectedCallback() {
-    super.disconnectedCallback();
-    if (this.intervalId !== undefined) {
-      window.clearInterval(this.intervalId);
-      this.intervalId = undefined;
-    }
-  }
-
-  // Triggered every time a property changes
-  protected updated(_changedProperties: PropertyValueMap<any> | Map<PropertyKey, unknown>): void {
-    if ( _changedProperties.has('weekCount') ) {
-      this.setSelectedWeek();
-    }
-    if ( _changedProperties.has('librarySlug') ) {
-      this.getLibraryData();
-    }
-    if ( _changedProperties.has('weekStart') ) {
-      this.getHours();
-    }
-  }
-
-  // Fetch library hours based on week start
-  protected async getHours() {
-    if (this.library && this.librariesData) {
-      const ids = this.library.getHoursCalIds();
-      try {
-        await this.librariesData.fetchHours(this.weekStart,6,ids);
-        this.requestUpdate();
-      } catch (error) {
-        console.error("Error fetching hours:", error);
-      }
-    }
-  }
-
-  // Fetch library data based on library slug
-  protected async getLibraryData() {
-    if (this.librarySlug) {
-      try {
-        const lib = await this.librariesData.getLibrary(this.librarySlug, true);
-        if (lib) {
-          this.library = lib;
-          await this.getHours();
-        }
-      } catch (error) {
-        console.error("Error fetching library data:", error);
-      }
-    }
-  }
+export class LibraryWeeklyHours extends LibraryBaseHours {
 
   // Render method for the component
   render() {
-//console.log(this.library);
     return html`
       <style>
         :host, site-hours {
@@ -119,11 +28,11 @@ export class LibraryWeeklyHours extends SiteStyle {
       </style>
       
       <div ?hidden="${!this.librarySlug}" class="weekly-hours-header-section">
-        <button class="uvalib-button uvalib-button--basic" @click="${ ()=>this.weekCount-- }">Previous week</button>
+        <button class="uvalib-button uvalib-button--basic" @click="${ ()=>{if (this.weekCount !== null) this.weekCount--;} }">Previous week</button>
         <div class="heading-h${this.headingLevelStart}" role="heading" aria-level="${this.headingLevelStart}">
           ${this.dateFormat(this.weekStart)} - ${this.dateFormat(this.weekEnd)}
         </div>
-        <button class="uvalib-button uvalib-button--basic" @click="${ ()=>this.weekCount++ }">Next week</button>
+        <button class="uvalib-button uvalib-button--basic" @click="${ ()=>{if (this.weekCount !== null) this.weekCount++;} }">Next week</button>
       </div>
       <table ?hidden="${!this.librarySlug}" class="weekly-hours-body-section">
         <colgroup>
@@ -206,45 +115,4 @@ export class LibraryWeeklyHours extends SiteStyle {
     `;
   }
 
-  // Helper function to print times
-  protected printTimes(day: any){
-    return printTimes(day);
-  }
-  
-  // Helper function for string date format
-  protected stringDateFormat(dateString:string, format:number){
-    return stringDateFormat(dateString, format);
-  }
-
-  // Helper function for date format
-  protected dateFormat(date:Date = new Date(), long:boolean = false){
-    const formattedDate = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit' }).format(date);
-    return formattedDate.replace(',', '.');
-  }
-
-  // Set selected week based on weekCount
-  setSelectedWeek() {
-    const start = this.getCurrentWeekStart();
-    start.setDate( start.getDate() + this.weekCount*7 );
-    this.weekStart = start;
-    const end = new Date(this.weekStart);
-    end.setDate( end.getDate() + 6 );
-    this.weekEnd = end;
-  }
-
-  // Get the start of the current week, defaults to today's date
-  getCurrentWeekStart(today:Date = new Date()) {
-
-    // Get the current day of the week (0 = Sunday, 1 = Monday, etc.)
-    const currentDayOfWeek = today.getDay();
-
-    // Calculate the number of days to subtract to get to last Sunday
-    const daysToSubtract = currentDayOfWeek === 0 ? 0 : currentDayOfWeek;
-
-    // Create a new date object for last Sunday or today if today is Sunday
-    const lastSunday = new Date(today);
-    lastSunday.setDate(today.getDate() - daysToSubtract);
-
-    return lastSunday;
-  }
 }
