@@ -79,14 +79,14 @@ export class LibraryBaseHours extends SiteStyle {
 */    
 
     if (this.library && this.librariesData) {
-console.log(this.library)      
+//console.log(this.library)      
       const ids = this.library.getHoursCalIds();
       try {
         if (this.mode === 'weekly') {
           await this.librariesData.fetchHours(this.weekStart, 6, ids);
         } else {
           // For daily mode, fetch hours for today only
-          await this.librariesData.fetchHours(this.weekStart, 0, ids);
+          await this.librariesData.fetchHours(this.weekStart, 2, ids);
         }
         this.requestUpdate();
       } catch (error) {
