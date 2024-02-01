@@ -1,3 +1,4 @@
+import proxy from 'koa-proxy';
 // import { hmrPlugin, presets } from '@open-wc/dev-server-hmr';
 
 /** Use Hot Module replacement by adding --hmr to the start command */
@@ -24,4 +25,13 @@ export default /** @type {import('@web/dev-server').DevServerConfig} */ ({
   ],
 
   // See documentation for all available options
+  // See documentation for all available options
+  middleware: [
+    // Configure koa-proxy as middleware
+    proxy({
+      host: 'https://www.library.virginia.edu', // Proxy target
+      match: /^\/jsonapi/,                      // Path to match and proxy
+      // Additional options if needed
+    }),
+  ],  
 });
