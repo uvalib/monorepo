@@ -1,10 +1,10 @@
 import { GeneralData } from './GeneralData.js';
 
 export class LibGuidesData extends GeneralData {
-  protected readonly libGuidesAPIURL = 'https://api.library.virginia.edu/libguides/srch_process_cs.php?action=580&search_source_id=0&layout=tab&start=0&group_id=0&guide_id=0&f_group_id=&f_guide_type_id=&f_guide_owner_id=&f_guide_tag_ids=&f_guide_subject_ids=&sort=_score';
+  protected readonly libGuidesAPIURL = 'https://5570499q1i.execute-api.us-east-2.amazonaws.com/1_1_2/libguides-proxy?';
 
   async fetchData(params?: { limit?: number }) {
-    return fetch(`${this.libGuidesAPIURL}&q=${this.query}`)
+    return fetch(`${this.libGuidesAPIURL}q=${this.query}`)
       .then((r) => r.json())
       .then((d) => {
         this.meta.url = d.data.fulllink;
