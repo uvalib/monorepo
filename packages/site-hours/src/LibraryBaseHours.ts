@@ -4,6 +4,7 @@ import { SiteStyle } from '@uvalib/site-style';
 import { LibrariesData, Library } from '@uvalib/data-wrap';
 import { printTimes, stringDateFormat } from './utils';
 
+
 // Main class for LibraryBaseHours
 export class LibraryBaseHours extends SiteStyle {
 
@@ -76,16 +77,10 @@ export class LibraryBaseHours extends SiteStyle {
   }
 
   // Fetch library hours based on week start
-  protected async getHours() {   
-/*     
-    if (this.library && this.weekStart) {
-      const count = this.mode === 'weekly' ? 6 : 2;      
-      return this.library.fetchHours(this.weekStart, count, true);
-    }
-*/    
+  protected async getHours() {      
 
     if (this.library && this.librariesData) {
-//console.log(this.library)      
+     
       const ids = this.library.getHoursCalIds();
       try {
         if (this.mode === 'weekly') {
@@ -117,6 +112,63 @@ export class LibraryBaseHours extends SiteStyle {
       }
     }
   }
+  
+  protected isOpen(rawDates: any, now: any = new Date()): boolean {
+    const timeZone = 'America/New_York';
+  
+    // Convert 'now' to New York timezone
+    let currentDate = new Date(now.toLocaleString('en-US', { timeZone: timeZone }));
+  
+    // Format currentDate to match the rawDates keys
+    const dateString = currentDate.toISOString().split('T')[0];
+  
+    console.log(`Current time (NY timezone): ${currentDate}`);
+  
+    // Check if the current date's information is available
+    const todayInfo = rawDates[dateString];
+    if (!todayInfo) {
+      console.log('No information available for today.');
+      return false; // Library info for the current date is not available
+    }
+  
+    // Check if the library is open 24 hours
+    if (todayInfo.status === '24hours') {
+      console.log('Library is open 24 hours today.');
+      return true;
+    }
+  
+    // If the library has open hours, check against them
+    if (todayInfo.status === 'open' && todayInfo.hours) {
+      for (const hours of todayInfo.hours) {
+        // Format the time strings to a recognized format (e.g., "10:00 AM")
+        const formattedFromTime = hours.from.replace(/(am|pm)/, ' $1').toUpperCase();
+        const formattedToTime = hours.to.replace(/(am|pm)/, ' $1').toUpperCase();
+  
+        let from = new Date(`${dateString} ${formattedFromTime}`);
+        let to = new Date(`${dateString} ${formattedToTime}`);
+  
+        console.log(`Checking hours: from ${from} to ${to}`);
+  
+        // If closing time is after midnight (e.g., '2:00am'), adjust 'to' to the next day
+        if (to.getHours() < from.getHours()) {
+          to.setDate(to.getDate() + 1);
+          console.log(`Adjusted 'to' time for after midnight: ${to}`);
+        }
+  
+        // Check if the current time is within the hours interval
+        if (currentDate >= from && currentDate <= to) {
+          console.log('Library is currently open.');
+          return true; // Currently within open hours
+        }
+      }
+      console.log('Library is currently closed.');
+    } else {
+      console.log('Library status is not "open" or no hours provided.');
+    }
+  
+    return false; // Not open 24 hours and not within any specified hours range
+  }
+   
 
   // Helper function to print times
   protected printTimes(day: any){
