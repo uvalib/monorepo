@@ -1,7 +1,8 @@
 import { GeneralSearchResult } from './GeneralSearchResult.js';
 import { Hours } from './Hours.js';
 
-const SITE_LINK_BASE = "https://www.library.virginia.edu";
+//const SITE_LINK_BASE = "https://www.library.virginia.edu";
+const SITE_LINK_BASE = "";
 
 export class Library extends GeneralSearchResult {
   public uuid?: string;
