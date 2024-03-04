@@ -24,6 +24,13 @@ function drupal_module_loader_element_info_alter(&$types) {
  * Implements hook_page_bottom().
  */
 function drupal_module_loader_page_bottom(array &$page_bottom) {
+
+  $html = \Drupal::service('renderer')->renderRoot($page_bottom);
+  error_log('HTML Output: ' . $html); // Log the HTML output
+
+  preg_match_all('/<([a-z0-9\-]+)>/i', $html, $matches);
+  error_log('Found Tags: ' . print_r($matches[1], TRUE)); // Log the found tags
+
   // Get the entire rendered HTML output.
   $html = \Drupal::service('renderer')->renderRoot($page_bottom);
 
