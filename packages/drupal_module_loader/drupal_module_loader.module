@@ -20,42 +20,32 @@ function drupal_module_loader_element_info_alter(&$types) {
   }
 }
 
-/**
- * Implements hook_page_bottom().
- */
-function drupal_module_loader_page_bottom(array &$page_bottom) {
+function drupal_module_loader_page_attachments(array &$attachments) {
+  // Retrieve the found tags from the Drupal state.
+  $found_tags = \Drupal::state()->get('drupal_module_loader_found_tags', []);
 
-  $html = \Drupal::service('renderer')->renderRoot($page_bottom);
-  error_log('HTML Output: ' . $html); // Log the HTML output
-
-  preg_match_all('/<([a-z0-9\-]+)>/i', $html, $matches);
-  error_log('Found Tags: ' . print_r($matches[1], TRUE)); // Log the found tags
-
-  // Get the entire rendered HTML output.
-  $html = \Drupal::service('renderer')->renderRoot($page_bottom);
-
-  // Check if the HTML contains any custom element tags.
-  preg_match_all('/<([a-z0-9\-]+)>/i', $html, $matches);
-
-  $map = drupal_module_loader_get_map();
-
-  // Add a script tag to the head for each custom element tag found.
-  foreach ($matches[1] as $tag) {
-    if (isset($map[$tag])) {
-      $url = str_replace('{version}', \Drupal::state()->get('drupal_module_loader_version', '1.0.0'), $map[$tag]);
-      $page_bottom['#attached']['html_head'][] = [
-        [
-          '#tag' => 'script',
-          '#attributes' => [
-            'type' => 'module',
-            'src' => $url,
+  // Check if there are any found tags.
+  if (!empty($found_tags)) {
+    $map = drupal_module_loader_get_map();
+    // Add a script tag to the head for each custom element tag found.
+    foreach ($found_tags as $tag) {
+      if (isset($map[$tag])) {
+        $url = str_replace('{version}', \Drupal::state()->get('drupal_module_loader_version', '1.0.0'), $map[$tag]);
+        $attachments['#attached']['html_head'][] = [
+          [
+            '#tag' => 'script',
+            '#attributes' => [
+              'type' => 'module',
+              'src' => $url,
+            ],
           ],
-        ],
-        'drupal_module_loader:' . $tag,
-      ];
+          'drupal_module_loader:' . $tag,
+        ];
+      }
     }
   }
 }
+
 
 function drupal_module_loader_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id == 'system_performance_settings') {

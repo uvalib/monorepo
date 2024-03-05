@@ -1,0 +1,5 @@
+services:
+  drupal_module_loader.event_subscriber:
+    class: Drupal\drupal_module_loader\EventSubscriber\DrupalModuleLoaderSubscriber
+    tags:
+      - { name: 'event_subscriber' }
