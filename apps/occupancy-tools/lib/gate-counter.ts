@@ -16,7 +16,10 @@ interface GateRecord {
 // Define the structure of OccupancyEstimator
 interface OccupancyEstimator {
     loc: string;
-    url: string;
+    gateID?: number;
+    software?: string;
+    url?: string;
+    urls?: string[];
 }
 
 // Define the structure of Data
@@ -29,54 +32,76 @@ interface Data {
     };
 }
 
+// Define the structure for 3D camera data
+interface Camera3DData {
+    data: {
+        start: string;
+        end: string;
+        in: number;
+        out: number;
+        adults_in: number;
+        adults_out: number;
+    }[];
+}
+
 class GateCounter {
     async getGateCounts(): Promise<void> {
         // Get the current date
         const now = new Date();
         const today = dateTime.format(now, "YYYYMMDD") + "000000";
+        const yesterHyphen = dateTime.format(dateTime.addDays(now, -1), "YYYY-MM-DD") + " 00:00:00";
 
         console.info(`Getting gate counts: ${today}`);
-
-        // Calculate the date for the day before
-        const daybefore = dateTime.addDays(now, -1);
-        const yesterday = dateTime.format(daybefore, "YYYYMMDD");
-        const yesterHyphen = dateTime.format(daybefore, "YYYY-MM-DD") + " 00:00:00";
 
         // Define the endpoints for different locations
         const occupancyEstimators: OccupancyEstimator[] = [
             { loc: 'SEL', url: 'http://172.29.12.101/local/occupancy-estimator/.api?occupancy-export-json&res=24h&date=' },
             { loc: 'Clemons', url: 'http://172.29.5.87/local/occupancy-estimator/.api?occupancy-export-json&res=24h&date=' },
             { loc: 'FAL', url: 'http://172.29.8.29/local/people-counter/.api?export-json&res=24h&date=' },
-            { loc: 'Music', url: 'http://172.29.72.19/local/people-counter/.api?export-json&res=24h&date=' }
+            { loc: 'Music', url: 'http://172.29.72.19/local/people-counter/.api?export-json&res=24h&date=' },
+            { loc: 'Shannon', gateID: 4, software: "3d", urls: ['http://172.29.3.47', 'http://172.29.3.48', 'http://172.29.3.49', 'http://172.29.3.50', /*'http://172.29.3.51',*/ 'http://172.29.3.52', 'http://172.29.3.53', 'http://172.29.3.54', 'http://172.29.3.55', 'http://172.29.3.56', 'http://172.29.3.57', 'http://172.29.3.58', 'http://172.29.3.59', 'http://172.29.3.60'].map(url => `${url}/a3dpc/api/export/json?start=yesterday&end=today&resolution=day`) }
         ];
 
         // Initialize the digest-fetch client with authentication
         const client = new DigestFetch(process.env.AXISUSER, process.env.AXISPASS, { algorithm: 'MD5' });
 
-        // Fetch data from all endpoints in parallel
-        const fetchPromises = occupancyEstimators.map(oe => this.retryFetch(client, oe.url + yesterday, MAX_RETRIES));
-        console.info("Fetching data from all endpoints in parallel...");
-        const results = await Promise.all(fetchPromises);
-        console.info("Data fetched from all endpoints.");
-
-        // Process and accumulate the fetched data
+        // Fetch and process data from all endpoints
         let gateLocationsData: GateRecord[] = [];
-        results.forEach((data: Data, index: number) => {
-            if (data && data.data[today]) {
-                let gateRecord: GateRecord = {
-                    date: yesterHyphen,
-                    gate_id: gateIDs[data.counter.name],
-                    gate_start: data.data[today][2]
-                };
-                gateRecord.gate_start = (data.data[today].length > 2) ? data.data[today][2] : data.data[today][0];
-                gateLocationsData.push(gateRecord);
-                console.info(`Data processed for endpoint ${occupancyEstimators[index].loc}.`);
+        for (const oe of occupancyEstimators) {
+            if (oe.software === '3d' && oe.urls && oe.gateID) {
+                // Handle 3D camera software
+                const fetchPromises = oe.urls.map(url => this.retryFetch(client, url, MAX_RETRIES));
+                const results = await Promise.all(fetchPromises);
+
+                let totalInCount = 0;
+                results.forEach((data: Camera3DData) => {
+                    if (data && data.data.length > 0) {
+                        totalInCount += data.data.reduce((sum, item) => sum + item.in, 0);
+                    }
+                });
+
+                gateLocationsData.push({ date: yesterHyphen, gate_id: oe.gateID, gate_start: totalInCount });
+                console.info(`Data processed for 3D cameras at location ${oe.loc}. Total in count: ${totalInCount}`);
+            } else if (oe.url) {
+                // Handle other camera software
+                const data: Data = await this.retryFetch(client, oe.url + dateTime.format(dateTime.addDays(now, -1), "YYYYMMDD"), MAX_RETRIES);
+                if (data && data.data[today]) {
+                    let gateRecord: GateRecord = {
+                        date: yesterHyphen,
+                        gate_id: gateIDs[data.counter.name],
+                        gate_start: data.data[today][2]
+                    };
+                    gateRecord.gate_start = (data.data[today].length > 2) ? data.data[today][2] : data.data[today][0];
+                    gateLocationsData.push(gateRecord);
+                    console.info(`Data processed for endpoint ${oe.loc}.`);
+                }
             }
-        });
+        }
 
         // Send the accumulated data to LibInsight
         if (gateLocationsData.length > 0) {
             console.info("Sending data to LibInsight...");
+            console.info(JSON.stringify(gateLocationsData));
             try {
                 const response = await fetch(`https://virginia.libinsight.com/add.php?wid=34&type=5&token=${process.env.LIBINSIGHTTOKEN}&data=json`,
                     { method: 'POST', body: JSON.stringify(gateLocationsData), headers: headerObjJson });
