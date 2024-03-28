@@ -9,6 +9,12 @@ const { hideBin } = require('yargs/helpers');
 const { execSync } = require('child_process');
 const sharp = require('sharp'); // Added sharp import
 
+const crypto = require('crypto');
+
+function generateHash(buffer) {
+    return crypto.createHash('sha256').update(buffer).digest('hex');
+}
+
 const turndownService = new TurndownService();
 
 const argv = yargs(hideBin(process.argv))
@@ -39,10 +45,16 @@ docPaths.forEach(docPath => {
     const parsedPath = path.parse(docPath);
     const outputDirectory = outDir || parsedPath.dir;
 
-    // If output directory does not exist, create it
-    if (!fs.existsSync(outputDirectory)) {
+    // If output directory does not exist and is not empty, create it
+    if (outputDirectory && !fs.existsSync(outputDirectory)) {
         fs.mkdirSync(outputDirectory, { recursive: true });
     }
+
+    const imgDir = path.join(outputDirectory, 'images');
+    if (!fs.existsSync(imgDir)) {
+        fs.mkdirSync(imgDir, { recursive: true });
+    }
+
 
     const newFilePath = path.join(outputDirectory, `${parsedPath.name}.md`);
 
@@ -56,7 +68,31 @@ docPaths.forEach(docPath => {
         // If it's a .docx file, use Mammoth to convert to HTML
         mammoth.convertToHtml(
             { path: docPath},
-            {           
+            {   
+                
+                convertImage: mammoth.images.imgElement(function (image) {
+                    return image.read("base64").then(async function (imageBuffer) {
+                        const buffer = Buffer.from(imageBuffer, "base64");
+                        const hash = generateHash(buffer);
+                        const imgPath = path.join(imgDir, `${hash}.webp`);
+                
+                        // Check if the image file already exists before writing
+                        if (!fs.existsSync(imgPath)) {
+                            const resizedBuffer = await sharp(buffer)
+                                .resize(400) // Set the desired width
+                                .webp({ quality: 80 }) // Set the desired format and quality
+                                .toBuffer();
+                
+                            fs.writeFileSync(imgPath, resizedBuffer);
+                        }
+                
+                        return {
+                            src: path.relative(outputDirectory, imgPath)
+                        };
+                    });
+                })
+                    
+/*
             convertImage: mammoth.images.imgElement(function (image) {
                 return image.read("base64").then(async function (imageBuffer) {
                     const buffer = Buffer.from(imageBuffer, "base64");
@@ -72,6 +108,7 @@ docPaths.forEach(docPath => {
                     return img;
                 });
             })
+*/            
         })
         
         
