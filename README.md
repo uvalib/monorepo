@@ -31,6 +31,9 @@ pnpm install
 ```
 * hopefully you didn't get any errors :|
 
+ToDo: say something about setting up a .env file
+ToDo: say something about Docker requirements for some projects
+
 ### Executing scripts/commands
 
 You should be able to execute scripts/commands as you normally would on individual packages (calling on scripts defined in the package.json for the individual package/project/app).

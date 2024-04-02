@@ -16,6 +16,21 @@ import { BufferMemory } from 'langchain/memory';
 import { ConversationChain } from 'langchain/chains';
 import { FirestoreChatMessageHistory } from '@langchain/community/stores/message/firestore';
 
+const fs = require('fs');
+const path = require('path');
+
+// Construct the path to the .env file relative to the script's location
+const envPath = path.resolve(__dirname, '../../../.env');
+
+// Check if the .env file exists
+if (fs.existsSync(envPath)) {
+    // If it exists, require dotenv and load the .env file
+    const dotenv = require('dotenv');
+    dotenv.config({ path: envPath });
+} else {
+    console.log('.env file not found, skipping dotenv configuration.');
+}
+
 import { LibraryGPT } from './librarian-gpt/agents.js';
 
 // Initialize the Bolt app with the signing secret and bot token as an Express app

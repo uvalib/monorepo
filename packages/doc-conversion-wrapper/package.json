@@ -12,6 +12,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@langchain/core": "^0.1.52",
+    "@langchain/openai": "^0.0.10",
+    "langchain": "^0.1.1",
     "mammoth": "^1.6.0",
     "saxon-js": "^2.5.0",
     "sharp": "^0.32.4",
@@ -20,6 +23,6 @@
     "yargs": "^17.7.2"
   },
   "bin": {
-    "doc2md": "./convert.js"
+    "doc2md": "./convert.mjs"
   }
 }
