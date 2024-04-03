@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@langchain/core": "^0.1.52",
+    "@langchain/google-genai": "^0.0.10",
     "@langchain/openai": "^0.0.10",
     "langchain": "^0.1.1",
     "mammoth": "^1.6.0",
