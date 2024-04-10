@@ -10,9 +10,20 @@ import { execSync } from 'child_process';
 import sharp from 'sharp';
 import crypto from 'crypto';
 import dotenv from 'dotenv';
-import { ChatGoogleGenerativeAI } from '@langchain/google-genai';
+
 import { ChatOpenAI } from '@langchain/openai';
 import { PromptTemplate } from '@langchain/core/prompts';
+import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter';
+
+const llmConfig = {
+    'openai': {
+        maxInputTokens: 15000 // Adjust based on the actual limit for GPT-4
+    },
+    'openai4': {
+        model: 'gpt-4',
+        maxInputTokens: 15000 // Adjust based on the actual limit for GPT-4
+    },
+};
 
 function generateHash(buffer) {
     return crypto.createHash('sha256').update(buffer).digest('hex');
@@ -45,7 +56,7 @@ const argv = yargs(hideBin(process.argv))
     .option('llm', {
         alias: 'l',
         type: 'string',
-        description: 'LLM to use (openai or google)',
+        description: 'LLM to use (openai or openai4)',
         default: 'openai'
     })    
     .option('prompts', {
@@ -60,25 +71,17 @@ const docPaths = argv._;
 const outDir = argv.outdir;
 const overwrite = argv.overwrite;
 
-let model;
-if (argv.llm === 'google') {
-    model = new ChatGoogleGenerativeAI({
-        modelName: 'gemini-pro',
-        maxOutputTokens: 2048,
-        apiKey: process.env.GOOGLE_API_KEY
-    });
-} else {
-    model = new ChatOpenAI({
-        apiKey: process.env.OPENAI_API_KEY
-    });
-}
+let modelConfig = llmConfig[argv.llm] || llmConfig['openai'];
+let model = new ChatOpenAI(modelConfig);
+
+let maxInputTokens = modelConfig.maxInputTokens;
 
 if (!docPaths.length) {
     console.error('Please provide a .docx or .tei file path or pattern as an argument.');
     process.exit(1);
 }
 
-docPaths.forEach(async docPath => {
+docPaths.forEach(async (docPath) => {
     // Derive the new file path
     const parsedPath = path.parse(docPath);
     const outputDirectory = outDir || parsedPath.dir;
@@ -158,12 +161,29 @@ docPaths.forEach(async docPath => {
         return;
     }
 
-    // Run each prompt on the result
-    for (const promptText of argv.prompts) {
-        const promptTemplate = PromptTemplate.fromTemplate(promptText+":\n\n{markdown}");
-        const chain = promptTemplate.pipe(model);
-        const formattedResult = await chain.invoke({ markdown: markdown });
-        markdown = formattedResult.content;
+    if (argv.prompts) {
+        for (const promptText of argv.prompts) {
+            // Split the markdown document into chunks
+            const splitter = RecursiveCharacterTextSplitter.fromLanguage("markdown", {
+                chunkSize: maxInputTokens - 1000, // Leave some space for the prompt
+                chunkOverlap: 100,
+            });
+            const chunks = await splitter.createDocuments([markdown]);
+
+// Process each chunk
+for (const [index, chunk] of chunks.entries()) {
+    const chunkPrompt = `Process the following chunk of a markdown document:\n\n${chunk.pageContent}\n\n${promptText}`;
+    console.log(`Chunk prompt for chunk ${index + 1}:`, chunkPrompt); // Add this line for debugging
+const promptTemplate = PromptTemplate.fromTemplate(chunkPrompt);
+
+
+    const chain = promptTemplate.pipe(model);
+    const result = await chain.invoke();
+    console.log(`Processed chunk ${index + 1} of ${chunks.length}:`, result.choices[0].text);
+}
+
+
+        }
     }
 
     // Write the final result to a file

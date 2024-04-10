@@ -1,5 +1,9 @@
 #!/usr/bin/env node
+import { config } from 'dotenv';
+import { resolve } from 'path';
 import GateCounter from './gate-counter.js';
+
+config({ path: resolve(__dirname, '../.env') });
 
 class OccupancyPoller {
     private gateCounter: GateCounter;
