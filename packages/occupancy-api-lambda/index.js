@@ -1,5 +1,5 @@
-import mysql from 'mysql';
-import dotenv from 'dotenv';
+const mysql = require('mysql');
+const dotenv = require('dotenv');
 
 dotenv.config();
 
@@ -13,7 +13,7 @@ const dbConfig = {
 
 const connection = mysql.createConnection(dbConfig);
 
-export const handler = async (event) => {
+exports.handler = async (event) => {
   const library = event.queryStringParameters.library;
 
   return new Promise((resolve, reject) => {
@@ -26,7 +26,7 @@ export const handler = async (event) => {
         WHERE location_short = ?
       )
       ORDER BY id DESC
-      LIMIT 1
+      LIMIT 10
     `;
 
     connection.query(query, [library], (error, results) => {

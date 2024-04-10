@@ -51,6 +51,7 @@
     "get-port-cli": "^3.0.0",
     "husky": "^8.0.3",
     "koa-proxy": "1.0.0-alpha.3",
+    "lambda-local": "^2.1.2",
     "lint-staged": "^14.0.1",
     "markdown-it": "^13.0.1",
     "mocha": "^10.2.0",
