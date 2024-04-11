@@ -484,6 +484,9 @@ importers:
 
   packages/occupancy-api-lambda:
     dependencies:
+      dotenv:
+        specifier: ^16.4.5
+        version: 16.4.5
       mysql:
         specifier: ^2.18.1
         version: 2.18.1
