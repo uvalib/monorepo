@@ -11,6 +11,15 @@ const dbConfig = {
   database: process.env.DB_DATABASE
 };
 
+// Lead cameras
+const mainCameras = {
+  'clemons': 'ACCC8EF00E27',
+  'science': 'ACCC8EF6B105',
+  'music': 'B8A44F4F1939',
+  'finearts': 'B8A44F4F195D',
+//  'shannon': 'ACCC8EF00E2D',
+};
+
 const connection = mysql.createConnection(dbConfig);
 
 exports.handler = async (event) => {
@@ -18,25 +27,17 @@ exports.handler = async (event) => {
 
   return new Promise((resolve, reject) => {
     const query = `
-      SELECT total_in, total_out, occupancy
-      FROM rawmetrics_occupancy
-      WHERE serial_no IN (
-        SELECT serial_no
-        FROM cameras
-        WHERE location_short = ?
-      )
-      ORDER BY id DESC
-      LIMIT 10
+    SELECT occupancy, total_in, total_out, date, time FROM rawmetrics_occupancy WHERE serial_no = ? ORDER BY date DESC, time DESC LIMIT 1;
     `;
 
-    connection.query(query, [library], (error, results) => {
+    connection.query(query, [ mainCameras[library] ], (error, results) => {
       if (error) {
         reject(new Error('Database query failed'));
       } else {
         resolve({
           statusCode: 200,
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(results[0] || {})
+          body: JSON.stringify(results || {})
         });
       }
     });
