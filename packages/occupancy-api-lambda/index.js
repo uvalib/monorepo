@@ -23,11 +23,11 @@ const mainCameras = {
 const connection = mysql.createConnection(dbConfig);
 
 exports.handler = async (event) => {
-  const library = event.queryStringParameters.library;
+  const library = event.queryStringParameters.library.toLowerCase();
 
   return new Promise((resolve, reject) => {
     const query = `
-    SELECT occupancy, total_in, total_out, date, time FROM rawmetrics_occupancy WHERE serial_no = ? ORDER BY date DESC, time DESC LIMIT 1;
+    SELECT occupancy, total_in, total_out, date, time FROM rawmetrics_occupancy WHERE serial_no = ? ORDER BY id DESC LIMIT 1;
     `;
 
     connection.query(query, [ mainCameras[library] ], (error, results) => {
