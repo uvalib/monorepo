@@ -41,7 +41,7 @@ Rules:
     let markdownContent = await fs.readFile(filePath, 'utf8');
     const prompt = `${instruction}\n\nHere is the markdown:\n${"```"}${markdownContent}${"```"}`;
 
-console.log(prompt);
+//console.log(prompt);
 
     const response = await openai.chat.completions.create({
 //      model: "gpt-4-turbo",  // Confirm this is the correct model identifier

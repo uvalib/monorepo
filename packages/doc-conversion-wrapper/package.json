@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "pandoc": "node pandoc.js",
-    "doc2md": "node convert.js",
-    "build": "cd pandoc && docker build -t pandoc-debian . && cd ../saxon && docker build -t saxon-debian . || echo 'Warning: Docker build failed, is Docker running?'"
+    "doc2md": "node convert.js"
   },
   "keywords": [],
   "author": "",
@@ -17,7 +16,9 @@
     "@langchain/google-genai": "^0.0.10",
     "@langchain/openai": "^0.0.10",
     "langchain": "^0.1.1",
+    "libxmljs": "^1.0.11",
     "mammoth": "^1.6.0",
+    "pandoc": "^0.2.0",
     "saxon-js": "^2.5.0",
     "sharp": "^0.32.4",
     "turndown": "^7.1.2",
@@ -25,6 +26,6 @@
     "yargs": "^17.7.2"
   },
   "bin": {
-    "doc2md": "./convert.mjs"
+    "doc2md": "./convert.js"
   }
 }

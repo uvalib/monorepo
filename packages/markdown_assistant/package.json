@@ -23,5 +23,10 @@
     "unified": "^11.0.4",
     "unist-util-visit": "^5.0.0",
     "unist-util-visit-parents": "^6.0.1"
+  },
+  "bin": {
+    "md-assistant-reformat": "./index.js",
+    "md-assistant-metadata": "./metadata.js",
+    "md-assistant-a11y": "./a11y.js"
   }
 }
