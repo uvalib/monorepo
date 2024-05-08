@@ -1,15 +1,15 @@
-#!/usr/bin/env node
+import mammoth from 'mammoth';
+import TurndownService from 'turndown';
+import fs from 'fs';
+import path from 'path';
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
+import libxmljs from 'libxmljs';
+import saxonJs from 'saxon-js';
+import sharp from 'sharp';
+import { fileURLToPath } from 'url';
 
-const mammoth = require('mammoth');
-const TurndownService = require('turndown');
-const fs = require('fs');
-const path = require('path');
-const yargs = require('yargs/yargs');
-const { hideBin } = require('yargs/helpers');
-const libxmljs = require('libxmljs');
-const saxonJs = require('saxon-js');
-const sharp = require('sharp');
-
+const __dirname = path.dirname(fileURLToPath(import.meta.url));  // Define __dirname for ES Modules
 const turndownService = new TurndownService();
 
 const argv = yargs(hideBin(process.argv))
@@ -24,7 +24,7 @@ const argv = yargs(hideBin(process.argv))
         description: 'Overwrite existing markdown files',
     })
     .argv;
-
+    
 const docPaths = argv._;
 const outDir = argv.outdir;
 const overwrite = argv.overwrite;
