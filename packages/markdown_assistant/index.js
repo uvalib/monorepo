@@ -8,25 +8,20 @@ import { unified } from 'unified';
 import markdown from 'remark-parse';
 import stringify from 'remark-stringify';
 
-// Load environment variables
-const loadEnv = async () => {
+async function loadEnv() {
   const envPath = path.resolve(path.dirname(import.meta.url.replace('file://', '')), '../../.env');
-  try {
-    await fs.access(envPath);
+  if (await fs.access(envPath).then(() => true).catch(() => false)) {
     dotenv.config({ path: envPath });
     console.log('.env file loaded successfully.');
     return true;
-  } catch {
+  } else {
     console.log('.env file not found, skipping dotenv configuration.');
     return false;
   }
-};
+}
 
-const processMarkdown = async (apiKey, filePath, instruction) => {
-  try {
-    const openai = new OpenAI({
-      apiKey: apiKey
-    });
+async function processMarkdown({ apiKey, filePath, instruction }) {
+  const openai = new OpenAI({ apiKey });
 
     // Explicit instruction modification for better heading handling
     instruction += `
@@ -36,78 +31,52 @@ Rules:
   - Ensure proper heading levels (h1,h2,h3,etc)
   - Do not change the textual content of the markdown! Ensure that the same text is included in the markdown in the same order.
   - Ensure to include all of the images!
+  - Don't wrap the markdown in ${"```"}
 `;
 
-    let markdownContent = await fs.readFile(filePath, 'utf8');
-    const prompt = `${instruction}\n\nHere is the markdown:\n${"```"}${markdownContent}${"```"}`;
+  const markdownContent = await fs.readFile(filePath, 'utf8');
+  const prompt = `${instruction}\n\nHere is the markdown:\n${"```"}${markdownContent}${"```"}`;
 
-//console.log(prompt);
+  const response = await openai.chat.completions.create({
+    model: "gpt-4-turbo",
+    temperature: 0.8,
+    messages: [{ role: 'user', content: prompt }],
+  });
 
-    const response = await openai.chat.completions.create({
-//      model: "gpt-4-turbo",  // Confirm this is the correct model identifier
-      model: "gpt-4",
-      temperature: .8,
-      messages: [{
-        role: 'user',
-        content: prompt
-      }],
+  const content = response.choices[0].message.content;
+  const parsedMarkdown = await unified().use(markdown).use(stringify).process(content);
+  return String(parsedMarkdown);
+}
 
-    });
-
-    // Access the content of the first choice's message
-    let content = response.choices[0].message.content;
-
-    const parsedMarkdown = await unified()
-      .use(markdown)
-      .use(stringify)
-      .process(content);
-
-    return String(parsedMarkdown);
-  } catch (error) {
-    console.error('Error processing markdown:', error);
-    throw error;
+export async function formatMarkdown(options) {
+  if (!await loadEnv() || !process.env.OPENAI_API_KEY) {
+    throw new Error('API key is missing or .env is not loaded.');
   }
-};
+  
+  const formattedContent = await processMarkdown({
+    apiKey: process.env.OPENAI_API_KEY,
+    filePath: options.filePath,
+    instruction: options.instruction
+  });
 
-
-const main = async () => {
-  const envLoaded = await loadEnv();
-  if (!envLoaded || !process.env.OPENAI_API_KEY) {
-    console.error('API key is missing.');
-    return;
+  if (options.output) {
+    await fs.writeFile(options.output, formattedContent);
+    console.log(`Output written to ${options.output}`);
+  } else {
+    console.log(formattedContent);
   }
+}
 
+if (import.meta.url === `file://${process.argv[1]}`) {
   const argv = yargs(hideBin(process.argv))
-    .option('file', {
-      alias: 'f',
-      describe: 'Path to the markdown file',
-      type: 'string',
-      demandOption: true
-    })
-    .option('instruction', {
-      alias: 'i',
-      describe: 'Instruction to process the markdown',
-      type: 'string',
-      default: 'Format the following markdown for readability and accessibility, correcting the use of markdown.'
-    })
-    .option('output', {
-      alias: 'o',
-      describe: 'Output file path',
-      type: 'string'
-    })
+    .option('file', { alias: 'f', describe: 'Path to the markdown file', type: 'string', demandOption: true })
+    .option('instruction', { alias: 'i', describe: 'Instruction to process the markdown', type: 'string', default: 'Please format this markdown correctly.' })
+    .option('output', { alias: 'o', describe: 'Output file path', type: 'string' })
     .parse();
 
-  try {
-    const result = await processMarkdown(process.env.OPENAI_API_KEY, argv.file, argv.instruction);
-    if (argv.output) {
-      await fs.writeFile(argv.output, result);
-      console.log(`Output written to ${argv.output}`);
-    } else {
-      console.log(result);
-    }
-  } catch (error) {
-    console.error('Failed to execute script:', error);
-  }
-};
-
-main();
+  formatMarkdown({
+    filePath: argv.file,
+    instruction: argv.instruction,
+    output: argv.output
+  }).catch(e => console.error(e));
+}
