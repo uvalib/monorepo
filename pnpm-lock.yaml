@@ -418,6 +418,9 @@ importers:
       '@langchain/openai':
         specifier: ^0.0.10
         version: 0.0.10
+      '@uvalib/markdown-assistant':
+        specifier: workspace:*
+        version: link:../markdown-assistant
       langchain:
         specifier: ^0.1.1
         version: 0.1.1(axios@0.24.0)(ignore@5.2.4)(jsdom@22.1.0)(lodash@4.17.21)(mammoth@1.6.0)(ws@8.13.0)
@@ -488,7 +491,7 @@ importers:
         specifier: ^0.1.1
         version: 0.1.1(axios@0.24.0)(ignore@5.2.4)(jsdom@22.1.0)(lodash@4.17.21)(mammoth@1.6.0)(ws@8.13.0)
 
-  packages/markdown_assistant:
+  packages/markdown-assistant:
     dependencies:
       '@langchain/openai':
         specifier: ^0.0.10
@@ -6547,10 +6550,6 @@ packages:
     resolution: {integrity: sha512-7x81NCL719oNbsq/3mh+hVrAWmFuEYUqrq/Iw3kUzH8ReypT9QQ0BLoJS7/G9k6N81XjW4qHWtjWwe/9eLy1EQ==}
     engines: {node: '>=12'}
 
-  openai@4.32.1:
-    resolution: {integrity: sha512-3e9QyCY47tgOkxBe2CSVKlXOE2lLkMa24Y0s3LYZR40yYjiBU9dtVze+C3mu1TwWDGiRX52STpQAEJZvRNuIrA==}
-    hasBin: true
-
   openai@4.40.0:
     resolution: {integrity: sha512-ofh9qMxRPDSZTWYvifScusMfnyIwEQL3w+fv3ucQGn3cIn0W6Zw4vXSUod8DwYfcX/hkAx9/ZvWrdkFYnVXlmQ==}
     hasBin: true
@@ -11459,7 +11458,7 @@ snapshots:
     dependencies:
       '@langchain/core': 0.1.52
       js-tiktoken: 1.0.8
-      openai: 4.32.1
+      openai: 4.40.0
       zod: 3.22.4
       zod-to-json-schema: 3.22.5(zod@3.22.4)
     transitivePeerDependencies:
@@ -17075,19 +17074,6 @@ snapshots:
       define-lazy-prop: 2.0.0
       is-docker: 2.2.1
       is-wsl: 2.2.0
-
-  openai@4.32.1:
-    dependencies:
-      '@types/node': 18.19.4
-      '@types/node-fetch': 2.6.10
-      abort-controller: 3.0.0
-      agentkeepalive: 4.5.0
-      form-data-encoder: 1.7.2
-      formdata-node: 4.4.1
-      node-fetch: 2.7.0
-      web-streams-polyfill: 3.3.2
-    transitivePeerDependencies:
-      - encoding
 
   openai@4.40.0:
     dependencies:

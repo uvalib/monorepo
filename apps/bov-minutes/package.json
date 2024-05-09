@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 0",
-    "import-docs": "doc2md import/* --outdir minutes",
+    "import-docs": "doc2md import/* --outdir minutes --format",
     "index-docs": "createSearchIndex --outputIndex ./searchIndex.json --inputDir ./minutes --indexType flexsearch",
     "build": "pnpm import-docs && pnpm index-docs && NODE_OPTIONS=\"--max-old-space-size=8192\" npx eleventy",
     "serve": "NODE_OPTIONS=\"--max-old-space-size=8192\" npx eleventy --serve",

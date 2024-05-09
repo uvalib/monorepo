@@ -8,6 +8,7 @@ import libxmljs from 'libxmljs';
 import saxonJs from 'saxon-js';
 import sharp from 'sharp';
 import { fileURLToPath } from 'url';
+import { formatMarkdown as mdAssistantFormat } from '@uvalib/markdown-assistant/index.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));  // Define __dirname for ES Modules
 const turndownService = new TurndownService();
@@ -23,6 +24,11 @@ const argv = yargs(hideBin(process.argv))
         type: 'boolean',
         description: 'Overwrite existing markdown files',
     })
+    .option('format', {
+        alias: 'f',
+        type: 'boolean',
+        description: 'Format the markdown using OpenAI'
+    })
     .argv;
     
 const docPaths = argv._;
@@ -34,7 +40,7 @@ if (!docPaths.length) {
     process.exit(1);
 }
 
-docPaths.forEach(docPath => {
+docPaths.forEach(async docPath => {
     const parsedPath = path.parse(docPath);
     const outputDirectory = outDir || parsedPath.dir;
 
@@ -69,7 +75,7 @@ docPaths.forEach(docPath => {
                     });
                 })
             })
-            .then(result => {
+            .then(async result => {
                 const html = result.value;
                 const messages = result.messages;
 
@@ -81,7 +87,15 @@ docPaths.forEach(docPath => {
                 const markdown = turndownService.turndown(html);
                 fs.writeFileSync(newFilePath, markdown);
 
-                console.log(`Markdown file created at ${newFilePath}`);
+                if (argv.format) {
+                    await mdAssistantFormat({
+                        filePath: newFilePath,
+                        output: newFilePath
+                    }).catch(err => { console.error(err); })
+                    console.log("Markdown formatted with OpenAI.");
+                } else {
+                    console.log(`Markdown file created at ${newFilePath}`);
+                }
             })
             .catch(err => {
                 console.error('An error occurred:', err);
@@ -164,7 +178,16 @@ docPaths.forEach(docPath => {
             fs.writeFileSync(newFilePath, markdown);
 
             console.log("transformed with xsl");
-            console.log(`Markdown file created at ${newFilePath}`);
+
+            if (argv.format) {
+                await mdAssistantFormat({
+                    filePath: newFilePath,
+                    output: newFilePath
+                }).catch(err => { console.error(err); })
+                console.log("Markdown formatted with OpenAI.");
+            } else {
+                console.log(`Markdown file created at ${newFilePath}`);
+            }
         } catch (err) {
             console.error('An error occurred during transformation:', err);
             throw err;
