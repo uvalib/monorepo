@@ -2,7 +2,7 @@
 {
   "@context": "http://schema.org",
   "@type": "Event",
-  "name": "Board of Visitors Meeting, December 2022",
+  "name": "Board of Visitors Meeting",
   "startDate": "2022-12-08",
   "endDate": "2022-12-09",
   "location": {
@@ -10,20 +10,18 @@
     "name": "University of Virginia",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "1827 University Ave",
       "addressLocality": "Charlottesville",
       "addressRegion": "VA",
-      "postalCode": "22903",
       "addressCountry": "USA"
     }
   },
   "organizer": {
     "@type": "Organization",
     "name": "University of Virginia",
-    "url": "https://www.virginia.edu"
+    "url": "http://www.virginia.edu"
   },
-  "keywords": "Board of Visitors, UVA, meeting, resolutions, policies",
-  "description": "The Board of Visitors of the University of Virginia met to adopt and discuss various resolutions concerning university policies, appointments, and memorials.",
+  "keywords": "University of Virginia, Board of Visitors, Meeting, Resolutions, Education",
+  "description": "Meeting of the University of Virginia Board of Visitors where various resolutions were adopted and other university matters were discussed.",
   "attendee": [
     {
       "@type": "Person",
@@ -84,7 +82,8 @@
     },
     {
       "@type": "Person",
-      "name": "James V. Reyes"
+      "name": "James V. Reyes",
+      "additionalName": "via Zoom"
     },
     {
       "@type": "Person",
@@ -100,23 +99,83 @@
     },
     {
       "@type": "Person",
-      "name": "Angela H. Mangano",
-      "description": "Absent"
+      "name": "James E. Ryan",
+      "jobTitle": "President"
+    },
+    {
+      "@type": "Person",
+      "name": "Ian B. Baucom"
+    },
+    {
+      "@type": "Person",
+      "name": "Jennifer Wagner Davis"
+    },
+    {
+      "@type": "Person",
+      "name": "Susan G. Harris"
+    },
+    {
+      "@type": "Person",
+      "name": "Cliff Iler"
+    },
+    {
+      "@type": "Person",
+      "name": "Melody S. Bianchetto"
+    },
+    {
+      "@type": "Person",
+      "name": "Kennedy Kipps"
+    },
+    {
+      "@type": "Person",
+      "name": "Mark Luellen"
+    },
+    {
+      "@type": "Person",
+      "name": "David Martel"
+    },
+    {
+      "@type": "Person",
+      "name": "Clark L. 'Chip' Murray"
+    },
+    {
+      "@type": "Person",
+      "name": "Margaret Grundy Noland"
+    },
+    {
+      "@type": "Person",
+      "name": "Debra D. Rinker"
+    },
+    {
+      "@type": "Person",
+      "name": "Margot M. Rogers"
+    },
+    {
+      "@type": "Person",
+      "name": "Jerilyn Teahan"
+    },
+    {
+      "@type": "Person",
+      "name": "Tish Jennings",
+      "jobTitle": "Presenter"
+    },
+    {
+      "@type": "Person",
+      "name": "Ms. Lily A. Roberts",
+      "jobTitle": "Presenter"
     }
   ],
   "about": [
     {
       "@type": "Thing",
-      "name": "Memorial Resolutions",
-      "description": "Resolutions to commemorate Thomas A. Saunders III and Arnold Harrison Leon."
+      "name": "Memorial Resolution for Thomas A. Saunders III"
     },
     {
       "@type": "Thing",
-      "name": "Faculty Appointments and Promotions",
-      "description": "Decisions on faculty appointments, promotions, and reappointments."
+      "name": "Memorial Resolution for Arnold Harrison Leon"
     }
   ],
-  "url": "https://www.virginia.edu/bov/meetings"
+  "url": "http://www.virginia.edu/boardofvisitors/meetings"
 }
 </script>
 

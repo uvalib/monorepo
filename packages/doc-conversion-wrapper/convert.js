@@ -9,6 +9,7 @@ import saxonJs from 'saxon-js';
 import sharp from 'sharp';
 import { fileURLToPath } from 'url';
 import { formatMarkdown as mdAssistantFormat } from '@uvalib/markdown-assistant/index.js';
+import { processMarkdown as addMetadata } from '@uvalib/markdown-assistant/metadata.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));  // Define __dirname for ES Modules
 const turndownService = new TurndownService();
@@ -28,6 +29,11 @@ const argv = yargs(hideBin(process.argv))
         alias: 'f',
         type: 'boolean',
         description: 'Format the markdown using OpenAI'
+    })
+    .option("metadata", {
+        alias: "m",
+        type: "boolean",
+        description: "Add metadata to the markdown file"
     })
     .argv;
     
@@ -93,9 +99,17 @@ docPaths.forEach(async docPath => {
                         output: newFilePath
                     }).catch(err => { console.error(err); })
                     console.log("Markdown formatted with OpenAI.");
-                } else {
-                    console.log(`Markdown file created at ${newFilePath}`);
                 }
+                if (argv.metadata) {
+                    await addMetadata({
+                        filePath: newFilePath,
+                        output: newFilePath,
+                        embed: true
+                    }).catch(err => { console.error(err); })
+                    console.log("Metadata added to markdown.");
+                }
+                console.log(`Markdown file created at ${newFilePath}`);
+                
             })
             .catch(err => {
                 console.error('An error occurred:', err);
@@ -185,9 +199,17 @@ docPaths.forEach(async docPath => {
                     output: newFilePath
                 }).catch(err => { console.error(err); })
                 console.log("Markdown formatted with OpenAI.");
-            } else {
-                console.log(`Markdown file created at ${newFilePath}`);
             }
+            if (argv.metadata) {
+                await addMetadata({
+                    filePath: newFilePath,
+                    output: newFilePath,
+                    embed: true
+                }).catch(err => { console.error(err); })
+                console.log("Metadata added to markdown.");
+            }
+            console.log(`Markdown file created at ${newFilePath}`);
+            
         } catch (err) {
             console.error('An error occurred during transformation:', err);
             throw err;
