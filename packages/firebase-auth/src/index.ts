@@ -1,1 +1,1 @@
-export { FirebaseAuth } from './FirebaseAuth.js';
+export { FirebaseAuth } from './firebase-auth.js';
