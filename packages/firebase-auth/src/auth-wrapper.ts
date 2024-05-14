@@ -14,7 +14,7 @@ class AuthWrapper extends LitElement {
     render() {
         return html`
             <firebase-auth
-                config=${this.firebaseConfig}
+                .config=${this.firebaseConfig}
                 @auth-changed="${(e: CustomEvent) => {
                     this.user = e.detail.user;
                     this.loggedIn = !!this.user;

@@ -3,7 +3,7 @@
   "description": "Webcomponent firebase-auth following open-wc recommendations",
   "license": "MIT",
   "author": "firebase-auth",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "type": "module",
   "main": "dist/src/index.js",
   "module": "dist/src/index.js",
