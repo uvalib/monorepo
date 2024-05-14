@@ -6,8 +6,7 @@ import './firebase-auth.js';
 @customElement('auth-wrapper')
 class AuthWrapper extends LitElement {
 
-    @property({ type: String, attribute:"firebase-api-key" }) firebaseApiKey?: string;
-    @property({ type: String, attribute:"firebase-auth-domain" }) firebaseAuthDomain?: string;
+    @property( { type: Object, attribute:"firebase-config" } ) firebaseConfig?: any;
 
     @property({ type: Object }) user = null;
     @property({ type: Boolean }) loggedIn = false;
@@ -15,8 +14,7 @@ class AuthWrapper extends LitElement {
     render() {
         return html`
             <firebase-auth
-                api-key=${this.firebaseApiKey}
-                auth-domain=${this.firebaseAuthDomain}
+                config=${this.firebaseConfig}
                 @auth-changed="${(e: CustomEvent) => {
                     this.user = e.detail.user;
                     this.loggedIn = !!this.user;

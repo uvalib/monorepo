@@ -9,10 +9,7 @@ import '@material/web/button/outlined-button.js';
 
 export class FirebaseAuth extends LitElement {
 
-  @property({ type: String, attribute:"api-key" }) apiKey?: string;
-  @property({ type: String, attribute:"auth-domain" }) authDomain?: string;
-  @property({ type: String, attribute:"database-url" }) databaseURL?: string;
-  @property({ type: String, attribute:"project-id" }) projectId?: string;
+  @property({ type: Object }) config?: any;
 
   @state() private user: User | null = null;
   private auth: Auth | undefined;
@@ -27,16 +24,10 @@ export class FirebaseAuth extends LitElement {
   }
 
   private maybeInitializeFirebase() {
-    if (this.apiKey && this.authDomain) {
+    if (this.config) {
       if (!this.firebaseApp) {
         console.log('Initializing Firebase Auth');
-        const firebaseConfig = {
-          apiKey: this.apiKey,
-          authDomain: this.authDomain,
-          databaseURL: this.databaseURL,
-          projectId: this.projectId,
-        };
-        this.firebaseApp = initializeApp(firebaseConfig);
+        this.firebaseApp = initializeApp(this.config);
       }
       console.log('Firebase App initialized');      
       this.auth = getAuth(this.firebaseApp);
