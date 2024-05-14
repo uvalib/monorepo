@@ -43,8 +43,7 @@ ${"```"}
   "keywords": "keyword1, keyword2, ...",
   "description": "...",
   "attendee": [...],
-  "about": [{...},{...}],
-  "url": "..."
+  "about": [{...},{...}]
 }
 ${"```"}
 
