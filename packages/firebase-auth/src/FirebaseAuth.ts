@@ -11,6 +11,8 @@ export class FirebaseAuth extends LitElement {
 
   @property({ type: String, attribute:"api-key" }) apiKey?: string;
   @property({ type: String, attribute:"auth-domain" }) authDomain?: string;
+  @property({ type: String, attribute:"database-url" }) databaseURL?: string;
+  @property({ type: String, attribute:"project-id" }) projectId?: string;
 
   @state() private user: User | null = null;
   private auth: Auth | undefined;
@@ -31,8 +33,8 @@ export class FirebaseAuth extends LitElement {
         const firebaseConfig = {
           apiKey: this.apiKey,
           authDomain: this.authDomain,
-          databaseURL: "https://fir-tagging-tool.firebaseio.com",
-          projectId: "firebase-tagging-tool",
+          databaseURL: this.databaseURL,
+          projectId: this.projectId,
         };
         this.firebaseApp = initializeApp(firebaseConfig);
       }

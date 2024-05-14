@@ -3,13 +3,14 @@
   "description": "Webcomponent firebase-auth following open-wc recommendations",
   "license": "MIT",
   "author": "firebase-auth",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "main": "dist/src/index.js",
   "module": "dist/src/index.js",
   "exports": {
     ".": "./dist/src/index.js",
-    "./firebase-auth.js": "./dist/src/firebase-auth.js"
+    "./firebase-auth.js": "./dist/src/firebase-auth.js",
+    "./auth-wrapper.js": "./dist/src/auth-wrapper.js"
   },
   "scripts": {
     "analyze": "cem analyze --litelement",
