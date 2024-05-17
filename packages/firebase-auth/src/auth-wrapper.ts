@@ -4,7 +4,7 @@ import {customElement, property} from 'lit/decorators.js';
 import './firebase-auth.js';
 
 @customElement('auth-wrapper')
-class AuthWrapper extends LitElement {
+export class AuthWrapper extends LitElement {
 
     @property( { type: Object, attribute:"firebase-config" } ) firebaseConfig?: any;
 
