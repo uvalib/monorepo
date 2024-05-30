@@ -9,6 +9,14 @@ export class SitePage extends LitElement {
     :host {
       display:block;
     }
+    ::slotted(*) {
+      margin-left: 3em;
+      margin-right: 3em;
+    }
+    site-footer {
+      width: 100%;
+      display: block;
+    }
   `;
 
 
