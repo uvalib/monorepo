@@ -1,4 +1,4 @@
-import{_ as e,a as t,b as a,n as r}from"./query-assigned-elements-8ef6cca7.js";import{i as o,s as i,D as l,x as n}from"./lit-element-9e1ac43c.js";const s=o`
+import{_ as e,a as t,b as a,n as r}from"./property-8648e151.js";import{i as o,s as i,j as l,x as n}from"./lit-element-ab109411.js";const s=o`
 :host {
   --uva-brand-blue-lightest: #87B9D9;;
 --uva-brand-blue-lighter: #3395D4;;
@@ -71,7 +71,7 @@ import{_ as e,a as t,b as a,n as r}from"./query-assigned-elements-8ef6cca7.js";i
 .w3-width-1360 {
     max-width: 1360px !important;
 }
-`,u=o`
+`,p=o`
 * {
     font-family: franklin-gothic-urw, Arial, Helvetica, sans-serif !important;
 }
@@ -118,6 +118,6 @@ input, button, textarea, select {
 .invisible {
   visibility: hidden;
 }
-`;var p;class b extends i{constructor(){super(...arguments),this.noShadowDom=!1,this.noStyle=!1,this.imports={},this.importedStyles="",this.rootLinkDomain="https://www.library.virginia.edu",this.headingLevelStart=2,p.set(this,null)}resizeReactive(){import("./resize_controller-08b62fc4.js").then((({ResizeController:e})=>{this._resizeController=new e(this,{})}))}static get styles(){return[s,d,h,u]}firstUpdated(e){this.imports&&!this.noStyle&&Object.keys(this.imports).forEach((e=>{if(this.imports[e]){const t=this.imports[e];import(t).then((t=>{this.importedStyles+=t.default.toString().replace(/:host/,e.toLowerCase())}))}}))}connectedCallback(){super.connectedCallback(),this.noShadowDom&&!this.noStyle&&(t(this,p,document.createElement("style"),"f"),this.appendChild(a(this,p,"f")),l(n`${Object.getPrototypeOf(this).constructor.styles.map((e=>e.toString().replace(/:host/m,this.tagName.toLowerCase())))}`,a(this,p,"f")))}createRenderRoot(){return this.noShadowDom?this:super.createRenderRoot()}render(){return n`
+`;var u;class b extends i{constructor(){super(...arguments),this.noShadowDom=!1,this.noStyle=!1,this.imports={},this.importedStyles="",this.rootLinkDomain="https://www.library.virginia.edu",this.headingLevelStart=2,u.set(this,null)}resizeReactive(){import("./resize_controller-08b62fc4.js").then((({ResizeController:e})=>{this._resizeController=new e(this,{})}))}static get styles(){return[s,d,h,p]}firstUpdated(e){this.imports&&!this.noStyle&&Object.keys(this.imports).forEach((e=>{if(this.imports[e]){const t=this.imports[e];import(t).then((t=>{this.importedStyles+=t.default.toString().replace(/:host/,e.toLowerCase())}))}}))}connectedCallback(){super.connectedCallback(),this.noShadowDom&&!this.noStyle&&(t(this,u,document.createElement("style"),"f"),this.appendChild(a(this,u,"f")),l(n`${Object.getPrototypeOf(this).constructor.styles.map((e=>e.toString().replace(/:host/m,this.tagName.toLowerCase())))}`,a(this,u,"f")))}createRenderRoot(){return this.noShadowDom?this:super.createRenderRoot()}render(){return n`
       ${this.noShadowDom?"":n`<slot></slot>`}
-    `}}p=new WeakMap,e([r({type:Boolean,attribute:"no-shadow-dom"})],b.prototype,"noShadowDom",void 0),e([r({type:Boolean,attribute:"no-style"})],b.prototype,"noStyle",void 0),e([r({type:Object})],b.prototype,"imports",void 0),e([r({type:String})],b.prototype,"importedStyles",void 0),e([r({type:String})],b.prototype,"rootLinkDomain",void 0),e([r({type:Number})],b.prototype,"headingLevelStart",void 0);export{b as S};
+    `}}u=new WeakMap,e([r({type:Boolean,attribute:"no-shadow-dom"})],b.prototype,"noShadowDom",void 0),e([r({type:Boolean,attribute:"no-style"})],b.prototype,"noStyle",void 0),e([r({type:Object})],b.prototype,"imports",void 0),e([r({type:String})],b.prototype,"importedStyles",void 0),e([r({type:String})],b.prototype,"rootLinkDomain",void 0),e([r({type:Number})],b.prototype,"headingLevelStart",void 0);export{b as S};

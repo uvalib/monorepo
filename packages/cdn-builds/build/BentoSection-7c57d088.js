@@ -1,4 +1,4 @@
-import{_ as e,n as i}from"./query-assigned-elements-8ef6cca7.js";import{i as t,s as o,x as n}from"./lit-element-9e1ac43c.js";import{o as r}from"./unsafe-html-9171da0a.js";import{S as s}from"./SiteStyle-35a18246.js";var a=t`
+import{_ as e,n as i}from"./property-8648e151.js";import{i as t,s as o,x as r}from"./lit-element-ab109411.js";import{o as n}from"./unsafe-html-e63196f7.js";import{S as s}from"./SiteStyle-ee7ab697.js";var a=t`
     :host {
         --bento-section-padding: 25px;
         --bento-section-border-color: black;
@@ -25,18 +25,18 @@ import{_ as e,n as i}from"./query-assigned-elements-8ef6cca7.js";import{i as t,s
     [hidden] {
         display: none;
     }
-`;class d extends o{constructor(){super(),this.message="",this.overlay=!1,this.book=!1,this.role="status",this.message?this.label=this.message:this.label="loading"}render(){return n`
+`;class d extends o{constructor(){super(),this.message="",this.overlay=!1,this.book=!1,this.role="status",this.message?this.label=this.message:this.label="loading"}render(){return r`
         <div class="${this.overlay?"v4-spinner-overlay":"v4-spinner embed"}" aria-hidden="true">
           <div class="${this.overlay?"v4-spinner "+(this.book?"border":""):""}">
-            ${this.book?n`
+            ${this.book?r`
               <div class="book">
                 <div class="book-page"></div>
                 <div class="book-page"></div>
                 <div class="book-page"></div>
                 <p>${this.message?this.message:"Searching"}...</p>
               </div>             
-            `:n`
-              ${this.message?n`<h3>${this.message}</h3>`:""}              
+            `:r`
+              ${this.message?r`<h3>${this.message}</h3>`:""}              
               <div class="spinner-animation">
                 <div class="bounce1"></div>
                 <div class="bounce2"></div>
@@ -45,13 +45,13 @@ import{_ as e,n as i}from"./query-assigned-elements-8ef6cca7.js";import{i as t,s
             `}
           </div>
         </div>  
-      `}}function l(e){return n`
-      ${e.link?n`
-        <div class="bento-section-title"><a href="${e.link}">${r(e.title)}</a></div>
-      `:n`
-        <div class="bento-section-title">${r(e.title)}</div>
+      `}}function l(e){return r`
+      ${e.link?r`
+        <div class="bento-section-title"><a href="${e.link}">${n(e.title)}</a></div>
+      `:r`
+        <div class="bento-section-title">${n(e.title)}</div>
       `}
-      <div class="bento-section-desc">${r(e.description)}</div>
+      <div class="bento-section-desc">${n(e.description)}</div>
     `}d.styles=t`
     :host {
       display: block;
@@ -234,13 +234,13 @@ import{_ as e,n as i}from"./query-assigned-elements-8ef6cca7.js";import{i as t,s
         background: #fff;
       }
     }
-  `,e([i({type:String})],d.prototype,"message",void 0),e([i({type:Boolean})],d.prototype,"overlay",void 0),e([i({type:Boolean})],d.prototype,"book",void 0),e([i({type:String,reflect:!0})],d.prototype,"role",void 0),e([i({type:String,reflect:!0,attribute:"aria-label"})],d.prototype,"label",void 0),window.customElements.define("site-spinner",d);class p extends s{constructor(){super(...arguments),this.query="",this.limit=0,this.title="",this.label="",this.items=[],this.loading=!1,this.noResultDescribe="",this.isEmptySearch=!0}static get styles(){return[...super.styles,a]}updated(e){(e.has("items")||e.has("loading"))&&(this.isEmptySearch=this.loading||!this.items||0===this.items.length)}renderBriefItem(e){return l(e)}limitTitle(e){return this.maxTitleLength&&e&&e.length>=this.maxTitleLength?`${e.substring(0,this.maxTitleLength)}…`:e}render(){return n`
+  `,e([i({type:String})],d.prototype,"message",void 0),e([i({type:Boolean})],d.prototype,"overlay",void 0),e([i({type:Boolean})],d.prototype,"book",void 0),e([i({type:String,reflect:!0})],d.prototype,"role",void 0),e([i({type:String,reflect:!0,attribute:"aria-label"})],d.prototype,"label",void 0),window.customElements.define("site-spinner",d);class p extends s{constructor(){super(...arguments),this.query="",this.limit=0,this.title="",this.label="",this.items=[],this.loading=!1,this.noResultDescribe="",this.isEmptySearch=!0}static get styles(){return[...super.styles,a]}updated(e){(e.has("items")||e.has("loading"))&&(this.isEmptySearch=this.loading||!this.items||0===this.items.length)}renderBriefItem(e){return l(e)}limitTitle(e){return this.maxTitleLength&&e&&e.length>=this.maxTitleLength?`${e.substring(0,this.maxTitleLength)}…`:e}render(){return r`
       <h1>${this.limitTitle(this.title)}</h1>
       <h2 ?hidden="${this.loading}">${this.label?this.label:`Search for ${this.query}`}</h2>
-      ${this.loading?n`<site-spinner></site-spinner>`:""}
+      ${this.loading?r`<site-spinner></site-spinner>`:""}
       <p id="no-results" ?hidden="${!this.isEmptySearch}">${this.noResultDescribe?this.noResultDescribe:`No results found for "${this.query}"`}</p>
       <ul ?hidden="${this.loading}">
-        ${this.items.map((e=>n`
+        ${this.items.map((e=>r`
           <li>
             ${this.renderBriefItem(e)}
           </li>

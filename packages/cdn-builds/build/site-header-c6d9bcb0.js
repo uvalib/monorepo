@@ -1,4 +1,4 @@
-import{_ as i,n as e}from"./query-assigned-elements-8ef6cca7.js";import{i as a,s as t,x as n}from"./lit-element-9e1ac43c.js";class l extends t{constructor(){super(...arguments),this.rootLinkDomain="https://www.library.virginia.edu"}render(){return n`
+import{_ as i,n as e}from"./property-8648e151.js";import{i as a,s as t,x as n}from"./lit-element-ab109411.js";class l extends t{constructor(){super(...arguments),this.rootLinkDomain="https://www.library.virginia.edu"}render(){return n`
       <header
         id="header" class="w3-col w3-clear w3-theme-l4 none" role="banner" aria-label="Site header">
         <div id="header-inner" class="w3-container header-inner none">

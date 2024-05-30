@@ -1,4 +1,4 @@
-import{_ as t,n as o}from"../../query-assigned-elements-8ef6cca7.js";import{i as e,s as i,x as a}from"../../lit-element-9e1ac43c.js";const n=e`
+import{_ as t,n as o}from"../../property-8648e151.js";import{i as e,s as i,x as a}from"../../lit-element-ab109411.js";const n=e`
 :host {
   font-family: franklin-gothic-urw, Arial, Helvetica, sans-serif;
 }
