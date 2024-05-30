@@ -1,5 +1,6 @@
 // web-src/ts/chat-message.ts
-import { LitElement, html, css, property } from 'lit';
+import { LitElement, html, css } from 'lit';
+import { property, state } from 'lit/decorators.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { marked } from 'marked';
 
@@ -11,7 +12,10 @@ interface Message {
 
 export class ChatMessage extends LitElement {
   @property({ type: Object })
-  message: Message;
+message: Message = { sender: '', senderName: '', text: '' };
+
+@state()
+private renderedHtml: string = '';
 
   static styles = css`
     :host {
@@ -44,11 +48,23 @@ export class ChatMessage extends LitElement {
     }
   `;
 
+  updated(changedProperties: Map<string | number | symbol, unknown>) {
+    if (changedProperties.has('message')) {
+      this.renderMessageHtml();
+    }
+  }
+
+  async renderMessageHtml() {
+    if (this.message && this.message.text) {
+      this.renderedHtml = await marked(this.message.text);
+    }
+  }
+
   render() {
     return html`
       <div class="message ${this.message.sender}">
         <div class="sender">${this.message.senderName}</div>
-        <span>${unsafeHTML(marked(this.message.text))}</span>
+        <span>${unsafeHTML(this.renderedHtml)}</span>
       </div>
     `;
   }

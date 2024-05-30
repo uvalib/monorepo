@@ -1,5 +1,6 @@
 // web-src/ts/chat-input.ts
-import { LitElement, html, css, property } from 'lit';
+import { LitElement, html, css } from 'lit';
+import { property } from 'lit/decorators.js';
 import '@material/web/button/filled-button.js';
 import '@material/web/textfield/filled-text-field.js';
 
