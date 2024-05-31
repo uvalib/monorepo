@@ -22,7 +22,8 @@
     "sharp": "^0.32.4",
     "unified": "^11.0.4",
     "unist-util-visit": "^5.0.0",
-    "unist-util-visit-parents": "^6.0.1"
+    "unist-util-visit-parents": "^6.0.1",
+    "yargs": "^17.7.2"
   },
   "bin": {
     "md-assistant-reformat": "./index.js",
