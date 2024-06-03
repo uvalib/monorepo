@@ -1,63 +1,3 @@
-import yargs from 'yargs';
-import { hideBin } from 'yargs/helpers';
-import { loadEnv, createBatchFile, processMarkdown, readBatchOutput } from './utils.js';
-import fs from 'fs/promises';
-
-async function formatMarkdown(options) {
-  if (!await loadEnv() || !process.env.OPENAI_API_KEY) {
-    throw new Error('API key is missing or .env is not loaded.');
-  }
-
-  if (options.batch) {
-    const batchOutput = await readBatchOutput(options.output || `${options.filePath}.batch.jsonl`);
-    if (batchOutput) {
-      console.log(batchOutput);
-      if (options.output) {
-        await fs.writeFile(options.output, batchOutput);
-        console.log(`Output written to ${options.output}`);
-      }
-    } else {
-      await createBatchFile({
-        filePath: options.filePath,
-        instruction: options.instruction,
-        output: options.output
-      });
-    }
-  } else {
-    const formattedContent = await processMarkdown({
-      apiKey: process.env.OPENAI_API_KEY,
-      filePath: options.filePath,
-      instruction: options.instruction
-    });
-
-    if (options.output) {
-      await fs.writeFile(options.output, formattedContent);
-      console.log(`Output written to ${options.output}`);
-    } else {
-      console.log(formattedContent);
-    }
-  }
-}
-
-if (import.meta.url === `file://${process.argv[1]}`) {
-  const argv = yargs(hideBin(process.argv))
-    .option('file', { alias: 'f', describe: 'Path to the markdown file', type: 'string', demandOption: true })
-    .option('instruction', { alias: 'i', describe: 'Instruction to process the markdown', type: 'string', default: 'Please format this markdown correctly.' })
-    .option('output', { alias: 'o', describe: 'Output file path', type: 'string' })
-    .option('batch', { alias: 'b', describe: 'Create a batch file and use output if present', type: 'boolean', default: false })
-    .parse();
-
-  formatMarkdown(argv).catch(e => console.error(e));
-}
-
-
-
-
-
-
-
-/*
-
 import fs from 'fs/promises';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
@@ -172,4 +112,3 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   }).catch(e => console.error(e));
 }
 
-*/
