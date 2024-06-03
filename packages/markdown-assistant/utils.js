@@ -58,3 +58,19 @@ export async function processMarkdown({ apiKey, filePath, instruction }) {
   const parsedMarkdown = await unified().use(markdown).use(stringify).process(content);
   return String(parsedMarkdown);
 }
+
+export async function readBatchOutput(batchFilePath) {
+  try {
+    const batchContent = await fs.readFile(batchFilePath, 'utf8');
+    const lines = batchContent.split('\n').filter(line => line.trim());
+    const outputs = lines.map(line => {
+      const json = JSON.parse(line);
+      return json.response ? json.response.body.choices[0].message.content : null;
+    }).filter(content => content);
+
+    return outputs.join('\n');
+  } catch (error) {
+    console.error('Error reading batch output:', error);
+    return null;
+  }
+}

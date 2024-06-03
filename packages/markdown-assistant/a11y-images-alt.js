@@ -1,8 +1,11 @@
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
-import { loadEnv, createBatchFile, processMarkdown } from './utils.js';
+import { loadEnv, createBatchFile, processMarkdown, readBatchOutput } from './utils.js';
 import fs from 'fs/promises';
 import { visitParents } from 'unist-util-visit-parents';
+import { unified } from 'unified';
+import markdown from 'remark-parse';
+import stringify from 'remark-stringify';
 
 const encodeImage = async (filePath) => {
   const imageBuffer = await fs.readFile(filePath);
@@ -28,7 +31,7 @@ function findTextContext(node, ancestors) {
     }
   }
   return { beforeText, afterText };
-};
+}
 
 async function processImages({ markdownContent, apiKey, overwrite }) {
   const OpenAI = require('openai');
@@ -45,14 +48,15 @@ async function processImages({ markdownContent, apiKey, overwrite }) {
   for (const { node, beforeText, afterText } of imageNodes) {
     if (overwrite || !node.alt) {
       const base64Image = await encodeImage(node.url);
-      const prompt = `Create an accessible alt attribute text for this image.
-      The following rules must be followed or a litter of kittens will be killed! That would be terrible as you love kittens (you are a cat person).  Please don't kill the kittens!!!
+      let prompt = `Create an accessible alt attribute text for this image.
+      The following rules must be followed or a litter of kittens will be killed! That would be terrible as you love kittens (you are a cat person). Please don't kill the kittens!!!
       Rules:
         - Only describe what is within the image provided
-        - Be sure to describe as well as inform (ex: "signature that appears to read 'John Doe'" instead of "John Doe")      
+        - Be sure to describe as well as inform (ex: "signature that appears to read 'John Doe'" instead of "John Doe")
       `;
-      if (beforeText || afterText)
+      if (beforeText || afterText) {
         prompt += `Here is text in close proximity to the image (might help provide context): '${beforeText}' '${afterText}'.`;
+      }
 
       const response = await openai.chat.completions.create({
         model: "gpt-4-turbo",
@@ -100,21 +104,39 @@ async function processAccessibility(options) {
   }
 }
 
+async function handleBatchOutput(options) {
+  if (options.batch) {
+    const batchOutput = await readBatchOutput(options.output || `${options.filePath}.batch.jsonl`);
+    if (batchOutput) {
+      console.log(batchOutput);
+      if (options.output) {
+        await fs.writeFile(options.output, batchOutput);
+        console.log(`Output written to ${options.output}`);
+      }
+    } else {
+      console.error('No batch output found.');
+    }
+  } else {
+    await processAccessibility(options);
+  }
+}
+
 if (import.meta.url === `file://${process.argv[1]}`) {
   const argv = yargs(hideBin(process.argv))
     .option('file', { alias: 'f', describe: 'Path to the markdown file', type: 'string', demandOption: true })
     .option('output', { alias: 'o', describe: 'Output file path', type: 'string' })
     .option('overwrite', { alias: 'ow', describe: 'Overwrite existing alt attributes', type: 'boolean', default: false })
     .option('batch', { alias: 'b', describe: 'Create a batch file instead of sending request', type: 'boolean', default: false })
+    .option('use-batch-output', { alias: 'u', describe: 'Use the output from the batch file if present', type: 'boolean', default: false })
     .parse();
 
-  processAccessibility({
-    filePath: argv.file,
-    overwrite: argv.overwrite,
-    output: argv.output,
-    batch: argv.batch
-  }).catch(e => console.error(e));
+  if (argv.useBatchOutput) {
+    handleBatchOutput(argv).catch(e => console.error(e));
+  } else {
+    processAccessibility(argv).catch(e => console.error(e));
+  }
 }
+
 
 
 

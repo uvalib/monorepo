@@ -1,6 +1,6 @@
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
-import { loadEnv, createBatchFile, processMarkdown } from './utils.js';
+import { loadEnv, createBatchFile, processMarkdown, readBatchOutput } from './utils.js';
 import fs from 'fs/promises';
 
 async function processMetadata(options) {
@@ -53,18 +53,39 @@ The following rules must be followed:
       content = `\n<script type="application/ld+json">\n${content}\n</script>\n` + markdownContent;
     }
 
-    const finalContent = await processMarkdown({
-      apiKey: process.env.OPENAI_API_KEY,
-      filePath: options.filePath,
-      instruction: content
-    });
-
     if (options.output) {
-      await fs.writeFile(options.output, finalContent);
+      await fs.writeFile(options.output, content);
       console.log(`Output written to ${options.output}`);
     } else {
-      console.log(finalContent);
+      console.log(content);
     }
+  }
+}
+
+async function handleBatchOutput(options) {
+  if (options.batch) {
+    const batchOutput = await readBatchOutput(options.output || `${options.filePath}.batch.jsonl`);
+    if (batchOutput) {
+      if (options.embed) {
+        const markdownContent = await fs.readFile(options.filePath, 'utf8');
+        const embeddedContent = `\n<script type="application/ld+json">\n${batchOutput}\n</script>\n` + markdownContent;
+        console.log(embeddedContent);
+        if (options.output) {
+          await fs.writeFile(options.output, embeddedContent);
+          console.log(`Output written to ${options.output}`);
+        }
+      } else {
+        console.log(batchOutput);
+        if (options.output) {
+          await fs.writeFile(options.output, batchOutput);
+          console.log(`Output written to ${options.output}`);
+        }
+      }
+    } else {
+      console.error('No batch output found.');
+    }
+  } else {
+    await processMetadata(options);
   }
 }
 
@@ -75,16 +96,16 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     .option('output', { alias: 'o', describe: 'Output file path', type: 'string' })
     .option('embed', { alias: 'e', type: 'boolean', describe: 'Embed JSON-LD metadata into the original markdown', default: false })
     .option('batch', { alias: 'b', describe: 'Create a batch file instead of sending request', type: 'boolean', default: false })
+    .option('use-batch-output', { alias: 'u', describe: 'Use the output from the batch file if present', type: 'boolean', default: false })
     .parse();
 
-  processMetadata({
-    filePath: argv.file,
-    instruction: argv.instruction,
-    embed: argv.embed,
-    output: argv.output,
-    batch: argv.batch
-  }).catch(e => console.error(e));
+  if (argv.useBatchOutput) {
+    handleBatchOutput(argv).catch(e => console.error(e));
+  } else {
+    processMetadata(argv).catch(e => console.error(e));
+  }
 }
+
 
 
 

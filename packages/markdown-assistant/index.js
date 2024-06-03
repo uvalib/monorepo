@@ -1,13 +1,13 @@
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
-import { loadEnv, createBatchFile, processMarkdown } from './utils.js';
+import { loadEnv, createBatchFile, processMarkdown, readBatchOutput } from './utils.js';
 import fs from 'fs/promises';
 
 async function formatMarkdown(options) {
   if (!await loadEnv() || !process.env.OPENAI_API_KEY) {
     throw new Error('API key is missing or .env is not loaded.');
   }
-  
+
   if (options.batch) {
     await createBatchFile({
       filePath: options.filePath,
@@ -30,20 +30,37 @@ async function formatMarkdown(options) {
   }
 }
 
+async function handleBatchOutput(options) {
+  if (options.batch) {
+    const batchOutput = await readBatchOutput(options.output || `${options.filePath}.batch.jsonl`);
+    if (batchOutput) {
+      console.log(batchOutput);
+      if (options.output) {
+        await fs.writeFile(options.output, batchOutput);
+        console.log(`Output written to ${options.output}`);
+      }
+    } else {
+      console.error('No batch output found.');
+    }
+  } else {
+    await formatMarkdown(options);
+  }
+}
+
 if (import.meta.url === `file://${process.argv[1]}`) {
   const argv = yargs(hideBin(process.argv))
     .option('file', { alias: 'f', describe: 'Path to the markdown file', type: 'string', demandOption: true })
     .option('instruction', { alias: 'i', describe: 'Instruction to process the markdown', type: 'string', default: 'Please format this markdown correctly.' })
     .option('output', { alias: 'o', describe: 'Output file path', type: 'string' })
     .option('batch', { alias: 'b', describe: 'Create a batch file instead of sending request', type: 'boolean', default: false })
+    .option('use-batch-output', { alias: 'u', describe: 'Use the output from the batch file if present', type: 'boolean', default: false })
     .parse();
 
-  formatMarkdown({
-    filePath: argv.file,
-    instruction: argv.instruction,
-    output: argv.output,
-    batch: argv.batch
-  }).catch(e => console.error(e));
+  if (argv.useBatchOutput) {
+    handleBatchOutput(argv).catch(e => console.error(e));
+  } else {
+    formatMarkdown(argv).catch(e => console.error(e));
+  }
 }
 
 

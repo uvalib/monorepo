@@ -29,12 +29,13 @@ async function checkBatchStatus(batchId) {
   return batch;
 }
 
-async function downloadBatchResults(fileId) {
+async function downloadBatchResults(fileId, batchFilePath) {
   const openai = new OpenAI();
   const fileContent = await openai.files.content(fileId);
-  const outputPath = path.resolve(process.cwd(), 'batch_output.jsonl');
-  fs.writeFileSync(outputPath, fileContent);
-  console.log(`Batch results written to ${outputPath}`);
+  const batchFileContent = fs.readFileSync(batchFilePath, 'utf8');
+  const updatedBatchContent = batchFileContent + '\n' + fileContent;
+  fs.writeFileSync(batchFilePath, updatedBatchContent);
+  console.log(`Batch results appended to ${batchFilePath}`);
 }
 
 async function processBatchFile(batchFilePath) {
@@ -56,7 +57,7 @@ async function processBatchFile(batchFilePath) {
     fs.writeFileSync(batchFilePath, JSON.stringify(batchFileContent, null, 2));
 
     if (batchStatus.status === 'completed') {
-      await downloadBatchResults(batchStatus.output_file_id);
+      await downloadBatchResults(batchStatus.output_file_id, batchFilePath);
       break;
     } else if (['failed', 'cancelled', 'expired'].includes(batchStatus.status)) {
       console.error('Batch processing failed or cancelled:', batchStatus);
