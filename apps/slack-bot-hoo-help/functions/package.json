@@ -14,14 +14,11 @@
   },
   "main": "index.js",
   "dependencies": {
-    "@langchain/community": "^0.0.14",
-    "@langchain/openai": "^0.0.9",
     "@slack/bolt": "^3.17.0",
     "@uvalib/librarian-gpt": "^0.0.1",
     "firebase-admin": "^11.11.1",
     "firebase-functions": "^4.3.1",
-    "hnswlib-node": "^1.4.2",
-    "langchain": "^0.0.214"
+    "hnswlib-node": "^1.4.2"
   },
   "devDependencies": {
     "firebase-functions-test": "^3.1.0"
