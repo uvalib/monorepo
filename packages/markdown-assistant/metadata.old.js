@@ -60,7 +60,7 @@ The following rules must be followed:
     const prompt = `${instruction}\n\nHere is the markdown:\n${"```"}${markdownContent}${"```"}`;
 
     const response = await openai.chat.completions.create({
-      model: "gpt-4-turbo",
+      model: "gpt-4o",
       temperature: 0.8,
       messages: [{ role: 'user', content: prompt }],
     });

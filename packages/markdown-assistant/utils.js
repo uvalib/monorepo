@@ -6,6 +6,7 @@ import { unified } from 'unified';
 import markdown from 'remark-parse';
 import stringify from 'remark-stringify';
 import { v4 as uuidv4 } from 'uuid';
+import OpenAI from 'openai';
 
 export async function loadEnv() {
   const envPath = path.resolve(path.dirname(import.meta.url.replace('file://', '')), '../../.env');
@@ -20,7 +21,7 @@ export async function loadEnv() {
   }
 }
 
-export async function createBatchFile({ filePath, instruction, output }) {
+export async function createBatchFile({ filePath, instruction, output, originalOutputPath }) {
   const markdownContent = await fs.readFile(filePath, 'utf8');
   const prompt = `${instruction}\n\nHere is the markdown:\n${"```"}${markdownContent}${"```"}`;
   const customId = uuidv4();
@@ -30,26 +31,35 @@ export async function createBatchFile({ filePath, instruction, output }) {
     method: "POST",
     url: "/v1/chat/completions",
     body: {
-      model: "gpt-4-turbo",
-      messages: [{ role: 'user', content: prompt }],
-      max_tokens: 1000
+      model: "gpt-4o",
+      temperature: 0.8,
+      messages: [{ role: 'user', content: prompt }]
     }
   };
 
-  const batchFilePath = output ? output : `${filePath}.batch.jsonl`;
+  const batchFilePath = `${filePath}.batch.jsonl`;
+
+  // Append the request line to the batch file
   await fs.appendFile(batchFilePath, JSON.stringify(batchRequest) + '\n');
+
+  // Save the original output path separately in a metadata file
+  const metadataFilePath = `${batchFilePath}.metadata.json`;
+  const metadata = { originalOutputPath };
+  await fs.writeFile(metadataFilePath, JSON.stringify(metadata, null, 2));
+
   console.log(`Batch request written to ${batchFilePath}`);
 }
 
+
+
 export async function processMarkdown({ apiKey, filePath, instruction }) {
-  const OpenAI = require('openai');
   const openai = new OpenAI({ apiKey });
 
   const markdownContent = await fs.readFile(filePath, 'utf8');
   const prompt = `${instruction}\n\nHere is the markdown:\n${"```"}${markdownContent}${"```"}`;
 
   const response = await openai.chat.completions.create({
-    model: "gpt-4-turbo",
+    model: "gpt-4o",
     temperature: 0.8,
     messages: [{ role: 'user', content: prompt }],
   });
@@ -61,15 +71,26 @@ export async function processMarkdown({ apiKey, filePath, instruction }) {
 
 export async function readBatchOutput(batchFilePath) {
   try {
+    // Check if the batch file exists
+    await fs.access(batchFilePath);
+    
     const batchContent = await fs.readFile(batchFilePath, 'utf8');
     const lines = batchContent.split('\n').filter(line => line.trim());
     const outputs = lines.map(line => {
-      const json = JSON.parse(line);
-      return json.response ? json.response.body.choices[0].message.content : null;
+      try {
+        const json = JSON.parse(line);
+        return json.response ? json.response.body.choices[0].message.content : null;
+      } catch (e) {
+        return null;
+      }
     }).filter(content => content);
 
     return outputs.join('\n');
   } catch (error) {
+    if (error.code === 'ENOENT') {
+      console.log('Batch file does not exist yet.');
+      return null;
+    }
     console.error('Error reading batch output:', error);
     return null;
   }

@@ -31,11 +31,30 @@ async function checkBatchStatus(batchId) {
 
 async function downloadBatchResults(fileId, batchFilePath) {
   const openai = new OpenAI();
-  const fileContent = await openai.files.content(fileId);
-  const batchFileContent = fs.readFileSync(batchFilePath, 'utf8');
-  const updatedBatchContent = batchFileContent + '\n' + fileContent;
-  fs.writeFileSync(batchFilePath, updatedBatchContent);
-  console.log(`Batch results appended to ${batchFilePath}`);
+  const fileContentResponse = await openai.files.content(fileId);
+
+  // Convert the response to text
+  const fileContent = await fileContentResponse.text();
+  const lines = fileContent.split('\n').filter(line => line.trim());
+
+  // Read the original output path from the metadata file
+  const metadataFilePath = `${batchFilePath}.metadata.json`;
+  const metadataContent = fs.readFileSync(metadataFilePath, 'utf8');
+  const metadata = JSON.parse(metadataContent);
+  const originalOutputPath = metadata.originalOutputPath;
+
+  if (!originalOutputPath) {
+    throw new Error('Original output path not found in metadata file.');
+  }
+
+  // Extract and write only the response choice content to the original output path
+  const results = lines.map(line => {
+    const json = JSON.parse(line);
+    return json.response ? json.response.body.choices[0].message.content : null;
+  }).filter(content => content).join('\n');
+
+  fs.writeFileSync(originalOutputPath, results);
+  console.log(`Batch results written to ${originalOutputPath}`);
 }
 
 async function processBatchFile(batchFilePath) {
@@ -50,11 +69,6 @@ async function processBatchFile(batchFilePath) {
     console.log('Checking batch status...');
     batchStatus = await checkBatchStatus(batch.id);
     console.log('Current status:', batchStatus.status);
-
-    // Update the batch file with the current status
-    const batchFileContent = JSON.parse(fs.readFileSync(batchFilePath, 'utf8'));
-    batchFileContent.status = batchStatus.status;
-    fs.writeFileSync(batchFilePath, JSON.stringify(batchFileContent, null, 2));
 
     if (batchStatus.status === 'completed') {
       await downloadBatchResults(batchStatus.output_file_id, batchFilePath);

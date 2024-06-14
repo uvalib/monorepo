@@ -65,5 +65,3 @@ SGH:ddr
 These minutes have been posted to the University of Virginia’s Board of Visitors website.
 
 http://bov.virginia.edu/public-minutes
-
-strip the document of all markdown and just return the text.

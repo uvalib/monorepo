@@ -38,7 +38,7 @@ Rules:
   const prompt = `${instruction}\n\nHere is the markdown:\n${"```"}${markdownContent}${"```"}`;
 
   const response = await openai.chat.completions.create({
-    model: "gpt-4-turbo",
+    model: "gpt-4o",
     temperature: 0.8,
     messages: [{ role: 'user', content: prompt }],
   });
@@ -58,7 +58,7 @@ async function createBatchFile({ filePath, instruction, output }) {
     method: "POST",
     url: "/v1/chat/completions",
     body: {
-      model: "gpt-4-turbo",
+      model: "gpt-4o",
       messages: [{ role: 'user', content: prompt }],
       max_tokens: 1000
     }

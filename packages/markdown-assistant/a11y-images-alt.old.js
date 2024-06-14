@@ -61,7 +61,7 @@ export const processImages = async ({ markdownContent, apiKey, overwrite }) => {
         prompt += `Here is text in close proximity to the image (might help provide context): '${beforeText}' '${afterText}'.`;
       console.log(prompt);
       const response = await openai.chat.completions.create({
-        model: "gpt-4-turbo",
+        model: "gpt-4o",
         temperature: 1,
         messages: [{ role: 'user', content: [{
           type: 'text',

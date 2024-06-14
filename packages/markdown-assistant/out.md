@@ -1,3 +1,5 @@
+![](images/d79af9c45d48ee7066f7e6569144c3bc7c872389d2a432af4db2521b5ce73487.webp)
+
 # November 19, 2021
 
 The Board of Visitors of the University of Virginia met as the full Board in open session at 10:40 a.m. on Friday, November 19, 2021, at the David J. Prior Convocation Center, University of Virginia’s College at Wise.
@@ -7,8 +9,6 @@ Present and participating were Rector Whittington W. Clement, Mark T. Bowles, Ca
 Also present were President James E. Ryan, EVP and Chief Operating Officer Jennifer W. Davis, Vice President for Strategic Initiatives Margot M. Rogers, Secretary to the Board of Visitors Susan G. Harris, and Chancellor of the College at Wise Donna P. Henry.
 
 The meeting of the Board was a joint meeting with the University of Virginia College at Wise’s advisory board. Chair Marcia A. Gilliam chaired the joint meeting, which was held for members of the Board of Visitors to learn about the College at Wise and to meet with members of the advisory board and others.
-
-![](images/d79af9c45d48ee7066f7e6569144c3bc7c872389d2a432af4db2521b5ce73487.webp)
 
 ## Welcome Board of Visitors
 
@@ -32,7 +32,7 @@ Participants convened for lunch, and during lunch five research projects were pr
 
 At 1:00 p.m. the meeting reconvened for a session on the economic and community landscape in the southwest Virginia region. Guests included Beth Rhinehart, President of the Bristol and Tennessee Chamber of Commerce; Delegate Will Morefield; County Administrator Mike Hatfield; Delegate William Wampler; and Delegate Terry Kilgore.
 
-Delegate Kilgore provided background about the region. He said the region was dominated by coal for many years. Gas was also big, but now the region does not have the jobs it once had. Population is declining. They have worked with the Tobacco Commission to increase broadband capacity. People are proud, hardworking, and open to change. Just recently Earthlink said they were moving some of their operations to the region. They are trying to look for more people willing to do that, but still want to be the “be all end all” for energy in the Commonwealth—electricity, solar, etc. He said anything UVA can do to help, they would be grateful.
+Delegate Kilgore provide background about the region. He said the region was dominated by coal for many years. Gas was also big, but now the region does not have the jobs it once had. Population is declining. They have worked with the Tobacco Commission to increase broadband capacity. People are proud, hardworking, and open to change. Just recently Earthlink said they were moving some of their operations to the region. They are trying to look for more people willing to do that, but still want to be the “be all end all” for energy in the Commonwealth—electricity, solar, etc. He said anything UVA can do to help, they would be grateful.
 
 Delegate Wampler and Morefield and the other guests spoke about the economic situation. Delegate Wampler said natural beauty is one of the resources, as is affordable housing and land, and the College at Wise. It is important to continue to find ways to work together to benefit both UVA and the region. Energy and data centers and data processing can be industries in the region—cheap land, cheap electricity, etc. Delegate Kilgore added that we should grow the College at Wise, maybe to as many as 5,000 students.
 
@@ -60,6 +60,4 @@ Secretary
 
 SGH:ddr
 
-These minutes have been posted to the University of Virginia’s Board of Visitors website.
-
-http://bov.virginia.edu/public-minutes
+These minutes have been posted to the University of Virginia’s Board of Visitors website. [http://bov.virginia.edu/public-minutes](http://bov.virginia.edu/public-minutes)
