@@ -1,0 +1,4 @@
+import { css } from 'lit-element';
+export default css`
+@import url("https://use.typekit.net/tgy5tlj.css");#app{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;background:#fff;color:#4f4f4f;font-family:franklin-gothic-urw,arial,sans-serif;margin:0;padding:0;text-align:center}#app h1{color:#e57200;font-weight:700;margin:25px 0;position:relative}#app a{font-weight:500;text-decoration:none}#app a,#app a.alt-color-dark{color:#005679}#app a:hover{text-decoration:underline}#app #v4-main,#app #v4-main:focus{outline:0}#app a:focus{outline:3px dotted #0370b7;outline-offset:3px}#app div.header a:focus,#app footer a:focus,#app nav a:focus{outline:3px dotted #f1f1f1;outline-offset:3px}#app input:focus,#app select:focus,#app textarea:focus{outline:3px dotted #0370b7;outline-offset:3px}
+`;
