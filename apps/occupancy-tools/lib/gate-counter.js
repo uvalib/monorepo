@@ -17,7 +17,7 @@ class GateCounter {
             { loc: 'Clemons', url: 'http://172.29.5.87/local/occupancy-estimator/.api?occupancy-export-json&res=24h&date=' },
             { loc: 'FAL', url: 'http://172.29.8.29/local/people-counter/.api?export-json&res=24h&date=' },
             { loc: 'Music', url: 'http://172.29.72.19/local/people-counter/.api?export-json&res=24h&date=' },
-            { loc: 'Shannon', gateID: 4, software: "3d", urls: ['http://172.29.3.47', 'http://172.29.3.48', 'http://172.29.3.49', 'http://172.29.3.50', /*'http://172.29.3.51',*/ 'http://172.29.3.52', 'http://172.29.3.53', 'http://172.29.3.54', 'http://172.29.3.55', 'http://172.29.3.56', 'http://172.29.3.57', 'http://172.29.3.58', 'http://172.29.3.59', 'http://172.29.3.60'].map(url => `${url}/a3dpc/api/export/json?start=yesterday&end=today&resolution=day`) }
+            { loc: 'Shannon', gateID: 4, software: "3d", urls: ['http://172.29.3.47', 'http://172.29.3.48', 'http://172.29.3.49', 'http://172.29.3.50', 'http://172.29.3.51', 'http://172.29.3.52', 'http://172.29.3.53', 'http://172.29.3.54', 'http://172.29.3.55', 'http://172.29.3.56', 'http://172.29.3.57', 'http://172.29.3.58', 'http://172.29.3.59', 'http://172.29.3.60'].map(url => `${url}/a3dpc/api/export/json?start=yesterday&end=today&resolution=day`) }
         ];
         // Initialize the digest-fetch client with authentication
         const client = new DigestFetch(process.env.AXISUSER, process.env.AXISPASS, { algorithm: 'MD5' });

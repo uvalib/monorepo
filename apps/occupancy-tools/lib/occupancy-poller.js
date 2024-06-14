@@ -1,5 +1,8 @@
 #!/usr/bin/env node
+import { config } from 'dotenv';
+import { resolve } from 'path';
 import GateCounter from './gate-counter.js';
+config({ path: resolve(__dirname, '../.env.local') });
 class OccupancyPoller {
     constructor() {
         // Initialize gateCounter with an instance of GateCounter class
