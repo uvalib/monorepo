@@ -1,0 +1,24 @@
+{
+  "@context": "https://schema.org",
+  "@type": "ImageObject",
+  "name": "A man playing a trumpet in an orange cap and shirt. He is holding his instrument with his left hand and blowing into it with his right hand.",
+  "description": "These photos are his originals from photo shoots of events and people on the grounds of UVA.",
+  "contentUrl": "addison/48526360-babf-5011-b443-f59c9e68f332.webp",
+  "encodingFormat": "image/webp",
+  "exifData": {
+    "Make": "Canon",
+    "Model": "Canon EOS-1D Mark II",
+    "Orientation": "Horizontal (normal)",
+    "XResolution": 72,
+    "YResolution": 72,
+    "ResolutionUnit": "inches",
+    "ModifyDate": "2006-02-04T20:28:51.000Z",
+    "YCbCrPositioning": 2,
+    "ExposureTime": 0.002,
+    "FNumber": 3.2,
+    "ExposureProgram": "Manual",
+    "ISO": 12
+  },
+  "embedUrl": "addison/48526 360-babf-50 11-b 443-f59c9e68f 332.jpg",
+  "originalPath": "/Volumes/lib_content107/Addison_2018/Shoots 2005/05-06 Basketball/UVa - Wake Forest/NW9M 11138.JPG"
+}

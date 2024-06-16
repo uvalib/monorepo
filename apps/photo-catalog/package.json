@@ -1,0 +1,23 @@
+{
+  "name": "photo-catalog",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@tensorflow/tfjs": "^4.20.0",
+    "@tensorflow/tfjs-node": "^4.20.0",
+    "exifr": "^7.1.3",
+    "ollama": "^0.5.2",
+    "retry": "^0.13.1",
+    "sharp": "^0.32.4",
+    "uuid": "^10.0.0",
+    "yargs": "^17.7.2"
+  }
+}

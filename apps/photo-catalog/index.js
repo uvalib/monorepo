@@ -1,0 +1,215 @@
+import fs from 'fs';
+import path from 'path';
+import { v5 as uuidv5 } from 'uuid';
+import exifr from 'exifr';
+import ollama from 'ollama';
+import * as tf from '@tensorflow/tfjs-node';
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
+import sharp from 'sharp';
+import retry from 'retry';
+
+// Generate a consistent UUID from the string
+const NAMESPACE_STRING = 'lib.virginia.edu';
+const NAMESPACE = uuidv5(NAMESPACE_STRING, uuidv5.DNS);
+
+const argv = yargs(hideBin(process.argv))
+    .option('description', {
+        alias: 'd',
+        type: 'string',
+        description: 'Path to a plain text file containing the collection description',
+    })
+    .option('out', {
+        alias: 'o',
+        type: 'string',
+        description: 'Directory to store generated metadata files',
+        default: process.cwd(),
+    })
+    .demandCommand(1, 'You need to specify the root directory to start processing')
+    .help()
+    .alias('help', 'h')
+    .argv;
+
+// Supported resolutions for llava-llama3
+const SUPPORTED_RESOLUTIONS = [
+    { width: 672, height: 672 },
+    { width: 336, height: 1344 },
+    { width: 1344, height: 336 }
+];
+
+async function getMetadata(filePath) {
+    const exif = await exifr.parse(filePath, { xmp: true });
+    return exif;
+}
+
+function generateUUID(filePath) {
+    return uuidv5(filePath, NAMESPACE);
+}
+
+async function generateEmbeddings(imagePath) {
+    const imageBuffer = fs.readFileSync(imagePath);
+    const imageData = imageBuffer.toString('base64');
+
+    const operation = retry.operation({ retries: 3, factor: 2, minTimeout: 1000 });
+
+    return new Promise((resolve, reject) => {
+        operation.attempt(async currentAttempt => {
+            try {
+                const response = await ollama.embeddings({
+                    model: 'llava-llama3',
+                    prompt: imageData
+                });
+                console.log(`Generated embeddings on attempt ${currentAttempt}`);
+                resolve(response.embeddings);
+            } catch (err) {
+                if (operation.retry(err)) {
+                    console.log(`Retrying embeddings generation (attempt ${currentAttempt})...`);
+                    return;
+                }
+                reject(err);
+            }
+        });
+    });
+}
+
+function getBestResolution(width, height) {
+    return SUPPORTED_RESOLUTIONS.reduce((best, res) => {
+        const resAspectRatio = res.width / res.height;
+        const imageAspectRatio = width / height;
+        
+        const padWidth = res.width - (res.height * imageAspectRatio);
+        const padHeight = res.height - (res.width / imageAspectRatio);
+
+        const padding = Math.max(padWidth, 0) * res.height + Math.max(padHeight, 0) * res.width;
+
+        return padding < best.padding ? { ...res, padding } : best;
+    }, { width: 0, height: 0, padding: Infinity });
+}
+
+async function processImage(filePath, collectionDescription) {
+    console.log(`Processing image: ${filePath}`);
+    const metadata = await getMetadata(filePath);
+    console.log(`Extracted metadata for ${filePath}`);
+    const uuid = generateUUID(filePath);
+    const metadataFilePath = path.join(argv.out, `${uuid}.json`);
+
+    if (fs.existsSync(metadataFilePath)) {
+        console.log(`Metadata for ${filePath} already exists. Skipping.`);
+        return;
+    }
+
+    // Convert image to JPEG and resize it
+    const imageBuffer = await sharp(filePath)
+        .jpeg()
+        .toBuffer();
+    console.log(`Converted ${filePath} to JPEG format`);
+
+    const { width, height } = await sharp(imageBuffer).metadata();
+    const bestRes = getBestResolution(width, height);
+
+    const resizedImageBuffer = await sharp(imageBuffer)
+        .resize({
+            width: bestRes.width,
+            height: bestRes.height,
+            fit: 'contain',
+            background: { r: 0, g: 0, b: 0 } // Change to white { r: 255, g: 255, b: 255 } if preferred
+        })
+        .toBuffer();
+    console.log(`Resized ${filePath} to best resolution: ${bestRes.width}x${bestRes.height}`);
+
+    // Save the resized image as a temporary file for LLM processing
+    const tempImagePath = path.join(argv.out, `${uuid}.jpg`);
+    fs.writeFileSync(tempImagePath, resizedImageBuffer);
+    console.log(`Saved temporary resized image at ${tempImagePath}`);
+
+    // Create and save a WebP version of the original image resized to a max of 800px
+    const webpImageBuffer = await sharp(filePath)
+        .resize({ width: 800, height: 800, fit: 'inside' })
+        .webp()
+        .toBuffer();
+    const webpImagePath = path.join(argv.out, `${uuid}.webp`);
+    fs.writeFileSync(webpImagePath, webpImageBuffer);
+    console.log(`Saved WebP image at ${webpImagePath}`);
+
+    const imageData = resizedImageBuffer.toString('base64');
+
+    const prompt = `
+    Generate JSON-LD metadata for the following image based on the provided metadata and description.
+    Provide a title and fill in the relevant fields in the template:
+    
+    Template:
+    {
+      "@context": "https://schema.org",
+      "@type": "ImageObject",
+      "name": "",
+      "description": "${collectionDescription}",
+      "contentUrl": "${webpImagePath}",
+      "encodingFormat": "image/webp",
+      "exifData": ${JSON.stringify(metadata)},
+      "embedUrl": "${tempImagePath}",
+      "originalPath": "${filePath}"
+    }
+    `;
+
+    const operation = retry.operation({ retries: 3, factor: 2, minTimeout: 1000 });
+
+    return new Promise((resolve, reject) => {
+        operation.attempt(async currentAttempt => {
+            try {
+                const response = await ollama.generate({
+                    model: 'llava-llama3',
+                    prompt: prompt,
+                    images: [imageData],
+                    format: 'json'
+                });
+                console.log(`Generated JSON-LD metadata for ${filePath} on attempt ${currentAttempt}`);
+
+                const metadataJson = JSON.parse(response.response);
+                metadataJson.embeddings = await generateEmbeddings(tempImagePath);
+                console.log(`Generated embeddings for ${filePath}`);
+
+                fs.writeFileSync(metadataFilePath, JSON.stringify(metadataJson, null, 2));
+                console.log(`Metadata for ${filePath} written to ${metadataFilePath}`);
+
+                // Delete the temporary image file
+                fs.unlinkSync(tempImagePath);
+                console.log(`Deleted temporary resized image at ${tempImagePath}`);
+                resolve();
+            } catch (err) {
+                if (operation.retry(err)) {
+                    console.log(`Retrying metadata generation (attempt ${currentAttempt})...`);
+                    return;
+                }
+                // Ensure the temporary image file is deleted on error
+                fs.unlinkSync(tempImagePath);
+                console.log(`Deleted temporary resized image at ${tempImagePath} due to error`);
+                reject(err);
+            }
+        });
+    });
+}
+
+async function main() {
+    const collectionDescription = argv.description ? fs.readFileSync(argv.description, 'utf8') : '';
+
+    const processDirectory = async (dir) => {
+        console.log(`Processing directory: ${dir}`);
+        const files = fs.readdirSync(dir);
+
+        for (const file of files) {
+            const filePath = path.join(dir, file);
+
+            if (fs.statSync(filePath).isDirectory()) {
+                await processDirectory(filePath);
+            } else if (/\.(jpg|jpeg|png|tiff|raw)$/i.test(file)) {
+                await processImage(filePath, collectionDescription);
+            }
+        }
+    };
+
+    const rootDir = argv._[0];
+    await processDirectory(rootDir);
+    console.log('Processing complete.');
+}
+
+main().catch(console.error);
