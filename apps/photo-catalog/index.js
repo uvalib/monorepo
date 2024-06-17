@@ -86,6 +86,19 @@ function getBestResolution(width, height) {
     }, { width: 0, height: 0, padding: Infinity });
 }
 
+function applyOrientation(image, orientation) {
+    switch (orientation) {
+        case 'Rotate 90 CW':
+            return image.rotate(90);
+        case 'Rotate 180':
+            return image.rotate(180);
+        case 'Rotate 270 CW':
+            return image.rotate(270);
+        default:
+            return image;
+    }
+}
+
 async function processImage(filePath, collectionDescription) {
     console.log(`Processing image: ${filePath}`);
     const metadata = await getMetadata(filePath);
@@ -98,11 +111,17 @@ async function processImage(filePath, collectionDescription) {
         return;
     }
 
-    // Convert image to JPEG and resize it
-    const imageBuffer = await sharp(filePath)
-        .jpeg()
-        .toBuffer();
-    console.log(`Converted ${filePath} to JPEG format`);
+    // Create an empty metadata file as a placeholder
+    fs.writeFileSync(metadataFilePath, '{}');
+    console.log(`Created placeholder metadata file for ${filePath}`);
+
+    // Convert image to JPEG and rotate it if necessary
+    let image = sharp(filePath).jpeg();
+    if (metadata.Orientation) {
+        image = applyOrientation(image, metadata.Orientation);
+    }
+    const imageBuffer = await image.toBuffer();
+    console.log(`Converted and possibly rotated ${filePath} to JPEG format`);
 
     const { width, height } = await sharp(imageBuffer).metadata();
     const bestRes = getBestResolution(width, height);
@@ -151,7 +170,7 @@ async function processImage(filePath, collectionDescription) {
     }
     `;
 
-    const operation = retry.operation({ retries: 3, factor: 2, minTimeout: 1000 });
+    const operation = retry.operation({ retries: 3, factor: 2, minTimeout: 1000, maxTimeout: 30000 });
 
     return new Promise((resolve, reject) => {
         operation.attempt(async currentAttempt => {
@@ -180,9 +199,12 @@ async function processImage(filePath, collectionDescription) {
                     console.log(`Retrying metadata generation (attempt ${currentAttempt})...`);
                     return;
                 }
-                // Ensure the temporary image file is deleted on error
+
+                // Ensure all related files are deleted on error
                 fs.unlinkSync(tempImagePath);
-                console.log(`Deleted temporary resized image at ${tempImagePath} due to error`);
+                fs.unlinkSync(webpImagePath);
+                fs.unlinkSync(metadataFilePath);
+                console.log(`Deleted temporary resized image, WebP image, and placeholder metadata file at ${tempImagePath} due to error`);
                 reject(err);
             }
         });
