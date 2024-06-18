@@ -8,6 +8,7 @@ import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import sharp from 'sharp';
 import retry from 'retry';
+import fetch from 'node-fetch';
 
 // Generate a consistent UUID from the string
 const NAMESPACE_STRING = 'lib.virginia.edu';
@@ -57,7 +58,7 @@ async function generateEmbeddings(imagePath) {
             try {
                 const response = await ollama.embeddings({
                     model: 'llava-llama3',
-                    prompt: imageData
+                    images: [imageData]
                 });
                 console.log(`Generated embeddings on attempt ${currentAttempt}`);
                 resolve(response.embedding);
@@ -97,6 +98,12 @@ function applyOrientation(image, orientation) {
         default:
             return image;
     }
+}
+
+async function getFriendlyLocationName(lat, lng) {
+    const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`);
+    const data = await response.json();
+    return data.display_name;
 }
 
 async function processImage(filePath, collectionContext) {
@@ -152,38 +159,38 @@ async function processImage(filePath, collectionContext) {
 
     const imageData = resizedImageBuffer.toString('base64');
 
+    let locationName = 'Not available';
+    if (metadata.GPSLatitude && metadata.GPSLongitude) {
+        locationName = await getFriendlyLocationName(metadata.GPSLatitude, metadata.GPSLongitude);
+        console.log(`Friendly location name: ${locationName}`);
+    }
+
     const systemPrompt = `
     You are a cataloger at the UVA Library. You always use ALA best practices and never infer metadata that is not present in the source material. Your task is to create metadata for images.
+    Be as concise as possible and never make up data that is not present in the source material. If not certain in your description of a detail of the image, you can always leave that detail out.
     `;
     
     const prompt = `
     Based on the following context and metadata, generate a concise and descriptive title, a short description, a detailed long description, and appropriate categories for the image.
 
-    Context: The photo was taken in 2005 during the 05-06 Basketball season, at a basketball game between UVa and Wake Forest.
-    Creation Date: ${metadata.DateTimeOriginal}
-    GPS Coordinates: ${metadata.GPSLatitude ? metadata.GPSLatitude + ', ' + metadata.GPSLongitude : 'Not available'}
+    The original path and filename of this image is: "${filePath}"
+    In some cases the file path (directory names) and/or filename may provide the only context we have for the image.
+
+    Creation Date: "${metadata.DateTimeOriginal}"
+    Collection Context: """${collectionContext}"""
+    ${ locationName && locationName!=="Not available" ? `Location: ${locationName}`:""}
 
     Template:
     {
       "title": "A concise and descriptive title",
       "shortDescription": "A brief description of the image content",
-      "longDescription": "A detailed description of the image content",
-      "categories": {
-        "LOC": [
-          "Musicians",
-          "Brass Instruments",
-          "Bands",
-          "Women Musicians"
-        ],
-        "Getty": [
-          "Music",
-          "Performances",
-          "Female Musicians",
-          "Trombones"
-        ]
-      }
+      "description": "A detailed description of the image content",
+      "longDescription": "An extra extensive detailed description of the image content",
+      "categories": ["Category1", "Category2"]
     }
     `;
+
+    console.log(prompt);
 
     const operation = retry.operation({ retries: 3, factor: 2, minTimeout: 1000, maxTimeout: 30000 });
 
