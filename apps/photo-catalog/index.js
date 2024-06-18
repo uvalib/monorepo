@@ -14,10 +14,10 @@ const NAMESPACE_STRING = 'lib.virginia.edu';
 const NAMESPACE = uuidv5(NAMESPACE_STRING, uuidv5.DNS);
 
 const argv = yargs(hideBin(process.argv))
-    .option('description', {
-        alias: 'd',
+    .option('context', {
+        alias: 'c',
         type: 'string',
-        description: 'Path to a plain text file containing the collection description',
+        description: 'Path to a plain text file containing the collection context',
     })
     .option('out', {
         alias: 'o',
@@ -50,7 +50,7 @@ async function generateEmbeddings(imagePath) {
     const imageBuffer = fs.readFileSync(imagePath);
     const imageData = imageBuffer.toString('base64');
 
-    const operation = retry.operation({ retries: 3, factor: 2, minTimeout: 1000 });
+    const operation = retry.operation({ retries: 10, factor: 2, minTimeout: 1000 });
 
     return new Promise((resolve, reject) => {
         operation.attempt(async currentAttempt => {
@@ -60,7 +60,7 @@ async function generateEmbeddings(imagePath) {
                     prompt: imageData
                 });
                 console.log(`Generated embeddings on attempt ${currentAttempt}`);
-                resolve(response.embeddings);
+                resolve(response.embedding);
             } catch (err) {
                 if (operation.retry(err)) {
                     console.log(`Retrying embeddings generation (attempt ${currentAttempt})...`);
@@ -99,7 +99,7 @@ function applyOrientation(image, orientation) {
     }
 }
 
-async function processImage(filePath, collectionDescription) {
+async function processImage(filePath, collectionContext) {
     console.log(`Processing image: ${filePath}`);
     const metadata = await getMetadata(filePath);
     console.log(`Extracted metadata for ${filePath}`);
@@ -152,21 +152,36 @@ async function processImage(filePath, collectionDescription) {
 
     const imageData = resizedImageBuffer.toString('base64');
 
-    const prompt = `
-    Generate JSON-LD metadata for the following image based on the provided metadata and description.
-    Provide a title and fill in the relevant fields in the template:
+    const systemPrompt = `
+    You are a cataloger at the UVA Library. You always use ALA best practices and never infer metadata that is not present in the source material. Your task is to create metadata for images.
+    `;
     
+    const prompt = `
+    Based on the following context and metadata, generate a concise and descriptive title, a short description, a detailed long description, and appropriate categories for the image.
+
+    Context: The photo was taken in 2005 during the 05-06 Basketball season, at a basketball game between UVa and Wake Forest.
+    Creation Date: ${metadata.DateTimeOriginal}
+    GPS Coordinates: ${metadata.GPSLatitude ? metadata.GPSLatitude + ', ' + metadata.GPSLongitude : 'Not available'}
+
     Template:
     {
-      "@context": "https://schema.org",
-      "@type": "ImageObject",
-      "name": "",
-      "description": "${collectionDescription}",
-      "contentUrl": "${webpImagePath}",
-      "encodingFormat": "image/webp",
-      "exifData": ${JSON.stringify(metadata)},
-      "embedUrl": "${tempImagePath}",
-      "originalPath": "${filePath}"
+      "title": "A concise and descriptive title",
+      "shortDescription": "A brief description of the image content",
+      "longDescription": "A detailed description of the image content",
+      "categories": {
+        "LOC": [
+          "Musicians",
+          "Brass Instruments",
+          "Bands",
+          "Women Musicians"
+        ],
+        "Getty": [
+          "Music",
+          "Performances",
+          "Female Musicians",
+          "Trombones"
+        ]
+      }
     }
     `;
 
@@ -178,12 +193,19 @@ async function processImage(filePath, collectionDescription) {
                 const response = await ollama.generate({
                     model: 'llava-llama3',
                     prompt: prompt,
+                    system: systemPrompt,
                     images: [imageData],
                     format: 'json'
                 });
-                console.log(`Generated JSON-LD metadata for ${filePath} on attempt ${currentAttempt}`);
+                console.log(`Generated metadata for ${filePath} on attempt ${currentAttempt}`);
 
                 const metadataJson = JSON.parse(response.response);
+                metadataJson.exifData = metadata;
+                metadataJson.contentUrl = webpImagePath;
+                metadataJson.encodingFormat = 'image/webp';
+                metadataJson.embedUrl = tempImagePath;
+                metadataJson.originalPath = filePath;
+                console.log(`Generating embeddings for ${filePath}`);
                 metadataJson.embeddings = await generateEmbeddings(tempImagePath);
                 console.log(`Generated embeddings for ${filePath}`);
 
@@ -212,7 +234,7 @@ async function processImage(filePath, collectionDescription) {
 }
 
 async function main() {
-    const collectionDescription = argv.description ? fs.readFileSync(argv.description, 'utf8') : '';
+    const collectionContext = argv.context ? fs.readFileSync(argv.context, 'utf8') : '';
 
     const processDirectory = async (dir) => {
         console.log(`Processing directory: ${dir}`);
@@ -224,7 +246,7 @@ async function main() {
             if (fs.statSync(filePath).isDirectory()) {
                 await processDirectory(filePath);
             } else if (/\.(jpg|jpeg|png|tiff|raw)$/i.test(file)) {
-                await processImage(filePath, collectionDescription);
+                await processImage(filePath, collectionContext);
             }
         }
     };
