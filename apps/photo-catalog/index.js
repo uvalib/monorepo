@@ -47,30 +47,38 @@ function generateUUID(filePath) {
     return uuidv5(filePath, NAMESPACE);
 }
 
-async function generateEmbeddings(imagePath) {
-    const imageBuffer = fs.readFileSync(imagePath);
-    const imageData = imageBuffer.toString('base64');
-
-    const operation = retry.operation({ retries: 10, factor: 2, minTimeout: 1000 });
+async function retryOllamaCall(fn, params, retries = 3) {
+    const operation = retry.operation({ retries: retries, factor: 2, minTimeout: 1000, maxTimeout: 30000 });
 
     return new Promise((resolve, reject) => {
         operation.attempt(async currentAttempt => {
             try {
-                const response = await ollama.embeddings({
-                    model: 'llava-llama3',
-                    images: [imageData]
-                });
-                console.log(`Generated embeddings on attempt ${currentAttempt}`);
-                resolve(response.embedding);
+                const response = await fn(params);
+                console.log(`Ollama API call succeeded on attempt ${currentAttempt}`);
+                resolve(response);
             } catch (err) {
                 if (operation.retry(err)) {
-                    console.log(`Retrying embeddings generation (attempt ${currentAttempt})...`);
+                    console.log(`Retrying Ollama API call (attempt ${currentAttempt})...`);
                     return;
                 }
                 reject(err);
             }
         });
     });
+}
+
+async function generateEmbeddings(imagePath) {
+    const imageBuffer = fs.readFileSync(imagePath);
+    const imageData = imageBuffer.toString('base64');
+
+    const response = await retryOllamaCall(
+        params => ollama.embeddings(params),
+        {
+            model: 'llava-llama3',
+            images: [imageData]
+        }
+    );
+    return response.embedding;
 }
 
 function getBestResolution(width, height) {
@@ -104,6 +112,53 @@ async function getFriendlyLocationName(lat, lng) {
     const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`);
     const data = await response.json();
     return data.display_name;
+}
+
+async function analyzePathAndFilename(filePath) {
+    filePath = filePath.replace("/Volumes/lib_content107/Addison_2018", '');
+    const prompt = `Analyze the following path and filename to infer the context of the image. Provide a detailed context string based on the directory names and filename.
+
+    Path: ${filePath}
+    `;
+
+    const systemPrompt = `
+    You are a contextual analyzer. Your task is to analyze file paths and filenames to infer the context of the image. 
+    Use directory names and filenames to provide as much context as possible.
+
+    If the filename is "IMG_1234.jpg" you can infer that the image was taken with a camera and the image number is 1234.
+    If the directory name is "Shoots 2022" you can infer that the image was taken in the year 2022.
+    If the directory name is "05-06 Basketball" you can infer that the image is related to basketball and the 2005-2006 season.
+    If the directory name is "UVa - Wake Forrest" you can infer that the image is related to a sports event between the University of Virginia and Wake Forrest.
+
+    Template:
+    """
+    {
+        "description": "Detailed context string based on the directory names and filename.",
+        "event": "Event name or description",
+        "teams": ["Team1", "Team2"],
+        "season": "Season name or description",
+        "filename inference": "Inference based on the filename"
+    }
+    """
+
+    `;
+    console.log(prompt);
+
+    const response = await retryOllamaCall(
+        params => ollama.generate(params),
+        {
+            model: 'llava-llama3',
+            prompt: prompt,
+            system: systemPrompt,
+            format: 'json'
+        }
+    );
+
+    console.log(response.response);
+    const context = response.response;
+
+    console.log(`Inferred context for ${filePath}: ${context}`);
+    return context;
 }
 
 async function processImage(filePath, collectionContext) {
@@ -165,79 +220,68 @@ async function processImage(filePath, collectionContext) {
         console.log(`Friendly location name: ${locationName}`);
     }
 
+    const inferredContext = await analyzePathAndFilename(filePath);
+
     const systemPrompt = `
-    You are a cataloger at the UVA Library. You always use ALA best practices and never infer metadata that is not present in the source material. Your task is to create metadata for images.
-    Be as concise as possible and never make up data that is not present in the source material. If not certain in your description of a detail of the image, you can always leave that detail out.
+    You are a Librarian/cataloger at the University of Virginia. You always use ALA best practices and never infer metadata that is not present in the source material. Your task is to create metadata for images.
+    Be as concise as possible and never make up data that is not present in the source material. Try to describe the image as accurately as possible.
+
+    Try to be logical in your assessment of the image. If the image is about a basketball game and the person is holding an instrument you can infer that the person is a band member. 
+    If the image is about a basketball game and the person is holding a basketball you can infer that the person is a basketball player.
     `;
     
     const prompt = `
-    Based on the following context and metadata, generate a concise and descriptive title, a short description, a detailed long description, and appropriate categories for the image.
+    Based on the following context and metadata, generate a concise and descriptive title, a short description, a detailed description and appropriate categories for the image.
 
     The original path and filename of this image is: "${filePath}"
     In some cases the file path (directory names) and/or filename may provide the only context we have for the image.
+    ${inferredContext}
 
-    Creation Date: "${metadata.DateTimeOriginal}"
-    Collection Context: """${collectionContext}"""
+    Date Photo was taken: "${metadata.DateTimeOriginal}"
+    
     ${ locationName && locationName!=="Not available" ? `Location: ${locationName}`:""}
 
     Template:
     {
       "title": "A concise and descriptive title",
       "shortDescription": "A brief description of the image content",
-      "description": "A detailed description of the image content",
-      "longDescription": "An extra extensive detailed description of the image content",
+      "longDescription": "A detailed description of the image content",
       "categories": ["Category1", "Category2"]
     }
+
     `;
 
     console.log(prompt);
 
-    const operation = retry.operation({ retries: 3, factor: 2, minTimeout: 1000, maxTimeout: 30000 });
+    const response = await retryOllamaCall(
+        params => ollama.generate(params),
+        {
+            model: 'llava-llama3',
+            prompt: prompt,
+            system: systemPrompt,
+            images: [imageData],
+            format: 'json'
+        }
+    );
 
-    return new Promise((resolve, reject) => {
-        operation.attempt(async currentAttempt => {
-            try {
-                const response = await ollama.generate({
-                    model: 'llava-llama3',
-                    prompt: prompt,
-                    system: systemPrompt,
-                    images: [imageData],
-                    format: 'json'
-                });
-                console.log(`Generated metadata for ${filePath} on attempt ${currentAttempt}`);
+    console.log(`Generated metadata for ${filePath}`);
 
-                const metadataJson = JSON.parse(response.response);
-                metadataJson.exifData = metadata;
-                metadataJson.contentUrl = webpImagePath;
-                metadataJson.encodingFormat = 'image/webp';
-                metadataJson.embedUrl = tempImagePath;
-                metadataJson.originalPath = filePath;
-                console.log(`Generating embeddings for ${filePath}`);
-                metadataJson.embeddings = await generateEmbeddings(tempImagePath);
-                console.log(`Generated embeddings for ${filePath}`);
+    const metadataJson = JSON.parse(response.response);
+    metadataJson.exifData = metadata;
+    metadataJson.contentUrl = webpImagePath;
+    metadataJson.encodingFormat = 'image/webp';
+    metadataJson.embedUrl = tempImagePath;
+    metadataJson.originalPath = filePath;
+    console.log(`Generating embeddings for ${filePath}`);
+    metadataJson.embeddings = await generateEmbeddings(tempImagePath);
+    console.log(`Generated embeddings for ${filePath}`);
 
-                fs.writeFileSync(metadataFilePath, JSON.stringify(metadataJson, null, 2));
-                console.log(`Metadata for ${filePath} written to ${metadataFilePath}`);
+    fs.writeFileSync(metadataFilePath, JSON.stringify(metadataJson, null, 2));
+    console.log(`Metadata for ${filePath} written to ${metadataFilePath}`);
 
-                // Delete the temporary image file
-                fs.unlinkSync(tempImagePath);
-                console.log(`Deleted temporary resized image at ${tempImagePath}`);
-                resolve();
-            } catch (err) {
-                if (operation.retry(err)) {
-                    console.log(`Retrying metadata generation (attempt ${currentAttempt})...`);
-                    return;
-                }
-
-                // Ensure all related files are deleted on error
-                fs.unlinkSync(tempImagePath);
-                fs.unlinkSync(webpImagePath);
-                fs.unlinkSync(metadataFilePath);
-                console.log(`Deleted temporary resized image, WebP image, and placeholder metadata file at ${tempImagePath} due to error`);
-                reject(err);
-            }
-        });
-    });
+    // Delete the temporary image file
+    fs.unlinkSync(tempImagePath);
+    console.log(`Deleted temporary resized image at ${tempImagePath}`);
 }
 
 async function main() {
