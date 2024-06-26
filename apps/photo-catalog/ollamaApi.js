@@ -3,7 +3,7 @@ import ollama from 'ollama';
 import fs from 'fs';
 
 export async function retryOllamaCall(fn, params, retries = 10) {
-    const operation = retry.operation({ retries: retries, factor: 2, minTimeout: 1000, maxTimeout: 30000 });
+    const operation = retry.operation({ retries: retries, factor: 2, minTimeout: 4000, maxTimeout: 60000 });
 
     return new Promise((resolve, reject) => {
         operation.attempt(async currentAttempt => {
