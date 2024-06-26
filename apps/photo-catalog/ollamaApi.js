@@ -2,7 +2,7 @@ import retry from 'retry';
 import ollama from 'ollama';
 import fs from 'fs';
 
-export async function retryOllamaCall(fn, params, retries = 3) {
+export async function retryOllamaCall(fn, params, retries = 10) {
     const operation = retry.operation({ retries: retries, factor: 2, minTimeout: 1000, maxTimeout: 30000 });
 
     return new Promise((resolve, reject) => {
@@ -48,11 +48,17 @@ export async function analyzePathAndFilename(filePath) {
     const systemPrompt = `
     You are a contextual analyzer. Your task is to analyze file paths and filenames to infer the context of the image. 
     Use directory names and filenames to provide as much context as possible.
-
-    If the filename is "IMG_1234.jpg" you can infer that the image was taken with a camera and the image number is 1234.
-    If the directory name is "Shoots 2022" you can infer that the image was taken in the year 2022.
-    If the directory name is "05-06 Basketball" you can infer that the image is related to basketball and the 2005-2006 season.
-    If the directory name is "UVa - Wake Forrest" you can infer that the image is related to a sports event between the University of Virginia and Wake Forrest.
+    The following rules must be followed or the context will be considered incorrect (and you will be penalized):
+    * If the filename is similar to "IMG_1234.jpg" you can infer that the image was taken with a camera and the image number is 1234.
+    * If the filename appears to contain a name (e.g. "MarcusHagans_02HiRes_DA.jpg" refers to "Marcus Hagans" and "Michael_Johnson_04HiRes_DA.jpg" refers to "Michael Johnson") you can infer that the image is related to that person.
+    * If the filename contains a keyword you can infer that the image is related to that keyword (e.g. "Band_01HiRes_DA.jpg" refers to a band, "Celebration_01HiRes_DA.jpg" refers to a celebration, "Paratrooper_06.jpg" refers to a paratrooper).
+    * If the directory name is similar to "Shoots 2022" you can infer that the image was taken in the year 2022.
+    * If the directory name is similar to "05-06 Basketball" you can infer that the image is related to basketball and the 2005-2006 season.
+    * If the directory name appears to contain two schools (e.g. "UVA vs VT" or "UVA-VT") you can infer that the image is related to a sports event between those schools.
+    * If the directory contains a keyword you can infer that the image is related to that keyword (e.g. "Graduation" refers to a graduation event, "Wedding" refers to a wedding event).
+    * If the directory name contains what appears to be a Name (e.g. "John Doe") you can infer that the image is related to that person.
+    * The directory path can contain multiple levels of directories. Use the directory names to provide additional context.
+    * If the filename is more descriptive than what would come from a camera (e.g. "UVA vs VT Football Game 2005.jpg") you can use the filename to infer additional (more specific) context.
 
     Template:
     """

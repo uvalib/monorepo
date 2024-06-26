@@ -111,22 +111,37 @@ async function processImageFile(filePath, collectionContext) {
 
     console.log(prompt);
 
-    const response = await retryOllamaCall(
-        params => ollama.generate(params),
-        {
-//            model: 'llava-llama3',
-            model: 'llava',
-//            temperature: 0.7,
-            prompt: prompt,
-            system: systemPrompt,
-            images: [imageData],
-            format: 'json'
+    let response;
+    for (let attempt = 1; attempt <= 3; attempt++) {
+        try {
+            response = await retryOllamaCall(
+                params => ollama.generate(params),
+                {
+                    model: 'llava',
+                    prompt: prompt,
+                    system: systemPrompt,
+                    images: [imageData],
+                    format: 'json'
+                }
+            );
+            break; // If successful, exit the loop
+        } catch (error) {
+            console.log(`Attempt ${attempt} failed: ${error.message}`);
+            if (attempt === 3) {
+                throw error; // Rethrow the error after the final attempt
+            }
         }
-    );
+    }
 
     console.log(`Generated metadata for ${filePath}`);
 
-    const metadataJson = JSON.parse(response.response);
+    let metadataJson;
+    try {
+        metadataJson = JSON.parse(response.response);
+    } catch (error) {
+        console.error("Error parsing JSON response:", error);
+        throw error; // Rethrow the error after the final attempt
+    }
     metadataJson.exifData = metadata;
     metadataJson.contentUrl = webpImagePath;
     metadataJson.encodingFormat = 'image/webp';
