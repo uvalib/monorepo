@@ -148,8 +148,8 @@ async function processImageFile(filePath, collectionContext) {
     metadataJson.embedUrl = tempImagePath;
     metadataJson.originalPath = filePath;
     metadataJson.context = inferredContext;
-    console.log(`Generating embeddings for ${filePath}`);
-    metadataJson.embeddings = await generateEmbeddings(tempImagePath);
+//    console.log(`Generating embeddings for ${filePath}`);
+//    metadataJson.embeddings = await generateEmbeddings(tempImagePath);
     console.log(`Generated embeddings for ${filePath}`);
 
     fs.writeFileSync(metadataFilePath, JSON.stringify(metadataJson, null, 2));

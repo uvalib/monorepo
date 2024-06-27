@@ -10,16 +10,21 @@
       margin: 0;
       padding: 0;
     }
-    #main-content {
+    .main-content {
+      margin: 0 auto;
       margin-left: 3em;
       margin-right: 3em;
-    }
+      max-width: 800px;
+      padding: 1em;
+    } 
   </style>
 </head>
 <body>
   <site-style no-shadow-dom></site-style>
-  <site-page id="main-content">
+  <site-page>
+    <div class="main-content">
       {{ content | safe }}
+    </div>
   </site-page>
 </body>
 </html>
