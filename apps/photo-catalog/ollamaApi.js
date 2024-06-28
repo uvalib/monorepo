@@ -38,7 +38,7 @@ export async function generateEmbeddings(imagePath) {
     return response.embedding;
 }
 
-export async function analyzePathAndFilename(filePath) {
+export async function analyzePathAndFilename(filePath, collectionContext) {
     filePath = filePath.replace("/Volumes/lib_content107/Addison_2018", '');
     const prompt = `Analyze the following path and filename to infer the context of the image. Provide a detailed context string based on the directory names and filename.
 
@@ -71,13 +71,18 @@ export async function analyzePathAndFilename(filePath) {
     }
     """
 
+        ${collectionContext? `
+            The following context pertains to the collection this image is part of:
+            """${collectionContext}"""    
+        `:''}
     `;
     console.log(prompt);
 
     const response = await retryOllamaCall(
         params => ollama.generate(params),
         {
-            model: 'llama3',
+//            model: 'llama3',
+            model: 'gemma2',
             prompt: prompt,
             system: systemPrompt,
             format: 'json'

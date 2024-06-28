@@ -1,2 +1,4 @@
  These images are from the Dan Addison photo collection at the University of Virginia Library.
  Addison is the lead staff photographer at UVA since 2005.
+ In the context of file and directory names assume reference to Dan Addison means that he was the photographer.
+ The majority of these photographs are taken of and for The University of Virginia.

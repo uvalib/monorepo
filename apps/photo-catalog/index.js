@@ -72,7 +72,7 @@ async function processImageFile(filePath, collectionContext) {
         console.log(`Friendly location name: ${locationName}`);
     }
 
-    const inferredContext = await analyzePathAndFilename(filePath);
+    const inferredContext = await analyzePathAndFilename(filePath, collectionContext);
 
     const systemPrompt = `
     You are a Librarian/cataloger at the University of Virginia. You always use ALA best practices and never infer metadata that is not present in the source material. Your task is to create metadata for images.
@@ -83,14 +83,17 @@ async function processImageFile(filePath, collectionContext) {
     * If text is unclear or unreadable do not attempt to transcribe it.
     * Don't specify timezones when providing dates.
     * Don't provide information that is not present in the image or metadata.
+    * It's better to provide less information than to provide incorrect information.
 
     Feel free to point out details that may be of interest to users, but do not make assumptions about the image content that are not obvious.
+
     `;
     
     const dateTaken = metadata.DateTimeOriginal;
 
     const prompt = `
     Based on the following context and metadata, generate a concise and descriptive title, a short description, a detailed description, and as many appropriate categories as you can for the image.
+    If we know the photographer, event, or people in the image, include that information as well.
 
     Date Photo was taken: "${dateTaken}"
     
@@ -102,11 +105,15 @@ async function processImageFile(filePath, collectionContext) {
       "shortDescription": "A brief description of the image content",
       "longDescription": "A detailed description of the image content",
       "categories": ["Category1", "Category2", "Category3", "Category4", "Category5", ...]
+      "photographer": "Photographer name",
+      "event": "Event name or description",
+      "people": ["Person1", "Person2", "Person3", "Person4", "Person5", ...]
     }
 
     The following context was inferred from the path and filename of the image. Use this only when necessary to provide additional context when describing the image.
-    Only use this information if it is relevant to the image content (e.g. the image was taken at a specific event or location).
     """${inferredContext}"""
+    Only use this information if it is relevant to the image content (e.g. the image was taken at a specific event or location).
+    Never list the photographer in the title or descriptions as they are behind the camera.
     `;
 
     console.log(prompt);
@@ -124,6 +131,23 @@ async function processImageFile(filePath, collectionContext) {
                     format: 'json'
                 }
             );
+            // Attempt to parse the JSON response
+            const metadataJson = JSON.parse(response.response);
+            metadataJson.exifData = metadata;
+            metadataJson.contentUrl = webpImagePath;
+            metadataJson.encodingFormat = 'image/webp';
+            metadataJson.embedUrl = tempImagePath;
+            metadataJson.originalPath = filePath;
+            metadataJson.context = inferredContext;
+            console.log(`Generating embeddings for ${filePath}`);
+            metadataJson.embeddings = await generateEmbeddings(tempImagePath);
+            console.log(`Generated embeddings for ${filePath}`);
+
+            fs.writeFileSync(metadataFilePath, JSON.stringify(metadataJson, null, 2));
+            console.log(`Metadata for ${filePath} written to ${metadataFilePath}`);
+
+            fs.unlinkSync(tempImagePath);
+            console.log(`Deleted temporary resized image at ${tempImagePath}`);
             break; // If successful, exit the loop
         } catch (error) {
             console.log(`Attempt ${attempt} failed: ${error.message}`);
@@ -132,31 +156,6 @@ async function processImageFile(filePath, collectionContext) {
             }
         }
     }
-
-    console.log(`Generated metadata for ${filePath}`);
-
-    let metadataJson;
-    try {
-        metadataJson = JSON.parse(response.response);
-    } catch (error) {
-        console.error("Error parsing JSON response:", error);
-        throw error; // Rethrow the error after the final attempt
-    }
-    metadataJson.exifData = metadata;
-    metadataJson.contentUrl = webpImagePath;
-    metadataJson.encodingFormat = 'image/webp';
-    metadataJson.embedUrl = tempImagePath;
-    metadataJson.originalPath = filePath;
-    metadataJson.context = inferredContext;
-//    console.log(`Generating embeddings for ${filePath}`);
-//    metadataJson.embeddings = await generateEmbeddings(tempImagePath);
-    console.log(`Generated embeddings for ${filePath}`);
-
-    fs.writeFileSync(metadataFilePath, JSON.stringify(metadataJson, null, 2));
-    console.log(`Metadata for ${filePath} written to ${metadataFilePath}`);
-
-    fs.unlinkSync(tempImagePath);
-    console.log(`Deleted temporary resized image at ${tempImagePath}`);
 }
 
 async function main() {
