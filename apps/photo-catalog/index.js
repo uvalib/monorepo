@@ -4,7 +4,7 @@ import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import { v5 as uuidv5 } from 'uuid';
 import { getMetadata } from './metadata.js';
-import { processImage } from './imageProcessing.js';
+import { processImage, convertRawToJpeg } from './imageProcessing.js';
 import { retryOllamaCall, generateEmbeddings, analyzePathAndFilename } from './ollamaApi.js';
 import { getFriendlyLocationName } from './location.js';
 import ollama from 'ollama';
@@ -41,8 +41,7 @@ function generateUUID(filePath) {
 
 async function processImageFile(filePath, collectionContext) {
     console.log(`Processing image: ${filePath}`);
-    const metadata = await getMetadata(filePath);
-    console.log(`Extracted metadata for ${filePath}`);
+    
     const uuid = generateUUID(filePath);
     const metadataFilePath = path.join(argv.out, `${uuid}.json`);
 
@@ -51,10 +50,41 @@ async function processImageFile(filePath, collectionContext) {
         return;
     }
 
+    const metadata = await getMetadata(filePath);
+    if (!metadata) {
+        console.error(`No metadata found for ${filePath}. Skipping.`);
+        return;
+    }
+    console.log(`Extracted metadata for ${filePath}: ${JSON.stringify(metadata, null, 2)}`);
+
     fs.writeFileSync(metadataFilePath, '{}');
     console.log(`Created placeholder metadata file for ${filePath}`);
 
-    const { resizedImageBuffer, webpImageBuffer } = await processImage(filePath, metadata, SUPPORTED_RESOLUTIONS);
+    // Convert raw image to JPEG if needed
+    const isRawImage = /\.(cr2|nef|dng|arw)$/i.test(filePath);
+    let imagePath = filePath;
+
+    if (isRawImage) {
+        try {
+            imagePath = await convertRawToJpeg(filePath, argv.out);
+            console.log(`Converted raw image to JPEG: ${imagePath}`);
+        } catch (error) {
+            console.error(`Error converting raw image: ${error.message}`);
+            return;
+        }
+    }
+
+    let resizedImageBuffer, webpImageBuffer;
+    try {
+        ({ resizedImageBuffer, webpImageBuffer } = await processImage(imagePath, metadata, SUPPORTED_RESOLUTIONS));
+    } catch (error) {
+        console.error(`Error processing image ${filePath}: ${error.message}`);
+        if (isRawImage && imagePath !== filePath) {
+            fs.unlinkSync(imagePath);
+            console.log(`Deleted temporary JPEG image at ${imagePath}`);
+        }
+        return;
+    }
 
     const tempImagePath = path.join(argv.out, `${uuid}.jpg`);
     fs.writeFileSync(tempImagePath, resizedImageBuffer);
@@ -86,10 +116,13 @@ async function processImageFile(filePath, collectionContext) {
     * It's better to provide less information than to provide incorrect information.
 
     Feel free to point out details that may be of interest to users, but do not make assumptions about the image content that are not obvious.
-
     `;
-    
-    const dateTaken = metadata.DateTimeOriginal;
+
+    const dateTaken = metadata.CreateDate ? String(metadata.CreateDate).split('T')[0] :
+                      metadata.DateTimeOriginal ? String(metadata.DateTimeOriginal).split('T')[0] :
+                      'Unknown';
+
+    console.log(`Date taken: ${dateTaken}`);
 
     const prompt = `
     Based on the following context and metadata, generate a concise and descriptive title, a short description, a detailed description, and as many appropriate categories as you can for the image.
@@ -97,14 +130,14 @@ async function processImageFile(filePath, collectionContext) {
 
     Date Photo was taken: "${dateTaken}"
     
-    ${ locationName && locationName!=="Not available" ? `Location: ${locationName}`:""}
+    ${ locationName && locationName !== "Not available" ? `Location: ${locationName}` : ""}
 
     Template:
     {
       "title": "A concise and descriptive title",
       "shortDescription": "A brief description of the image content",
       "longDescription": "A detailed description of the image content",
-      "categories": ["Category1", "Category2", "Category3", "Category4", "Category5", ...]
+      "categories": ["Category1", "Category2", "Category3", "Category4", "Category5", ...],
       "photographer": "Photographer name",
       "event": "Event name or description",
       "people": ["Person1", "Person2", "Person3", "Person4", "Person5", ...]
@@ -156,6 +189,16 @@ async function processImageFile(filePath, collectionContext) {
             }
         }
     }
+
+    // Clean up the temporary JPEG file created from the CR2 image
+    if (isRawImage && imagePath !== filePath) {
+        try {
+            fs.unlinkSync(imagePath);
+            console.log(`Deleted temporary JPEG image at ${imagePath}`);
+        } catch (error) {
+            console.error(`Error deleting temporary JPEG image: ${error.message}`);
+        }
+    }
 }
 
 async function main() {
@@ -170,7 +213,7 @@ async function main() {
 
             if (fs.statSync(filePath).isDirectory()) {
                 await processDirectory(filePath);
-            } else if (/\.(jpg|jpeg|png|tiff|raw)$/i.test(file)) {
+            } else if (/\.(jpg|jpeg|png|tiff|cr2|nef|dng|arw)$/i.test(file)) {
                 await processImageFile(filePath, collectionContext);
             }
         }

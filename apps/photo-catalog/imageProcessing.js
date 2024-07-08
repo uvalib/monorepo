@@ -1,4 +1,8 @@
 import sharp from 'sharp';
+import { exec } from 'child_process';
+import util from 'util';
+import path from 'path'; // Import the path module
+const execPromise = util.promisify(exec);
 
 export async function processImage(filePath, metadata, supportedResolutions) {
     // Convert image to JPEG and rotate it if necessary
@@ -57,4 +61,11 @@ export function getBestResolution(width, height, supportedResolutions) {
 
         return padding < best.padding ? { ...res, padding } : best;
     }, { width: 0, height: 0, padding: Infinity });
+}
+
+export async function convertRawToJpeg(rawFilePath, outputDir) {
+    const outputFilePath = path.join(outputDir, `${path.basename(rawFilePath, path.extname(rawFilePath))}.jpg`);
+    const command = `dcraw -c -w "${rawFilePath}" | convert - "${outputFilePath}"`;
+    await execPromise(command);
+    return outputFilePath;
 }
