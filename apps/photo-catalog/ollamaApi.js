@@ -32,7 +32,8 @@ export async function generateEmbeddings(imagePath) {
 //            model: 'llava-llama3',
             model: 'llava',
             temperature: 0.7,
-            prompt: imageData
+            prompt: imageData,
+            "keep_alive": "20m"
         }
     );
     return response.embedding;
@@ -85,7 +86,8 @@ export async function analyzePathAndFilename(filePath, collectionContext) {
             model: 'gemma2',
             prompt: prompt,
             system: systemPrompt,
-            format: 'json'
+            format: 'json',
+            "keep_alive": "20m"
         }
     );
 

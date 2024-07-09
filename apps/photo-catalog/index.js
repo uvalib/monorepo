@@ -161,7 +161,8 @@ async function processImageFile(filePath, collectionContext) {
                     prompt: prompt,
                     system: systemPrompt,
                     images: [imageData],
-                    format: 'json'
+                    format: 'json',
+                    "keep_alive": "20m"
                 }
             );
             // Attempt to parse the JSON response
