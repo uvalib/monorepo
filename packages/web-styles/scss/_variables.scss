@@ -1,0 +1,25 @@
+/// Spacing unit of measure
+$spacing-unit: 1em;
+
+@import 'fonts';
+@import 'color-vars';
+@import 'mixins';
+
+/// Borders should be used sparingly and be kept thin, whenever possible. A width of 1px, solid, and grey ($grey-light) is the preferred choice.
+/// @group bordersContainersRules
+$border: 1px solid $grey-light !default;
+
+/// Prefix for :root CSS variables
+$variable-prefix: uvalib- !default;
+
+$box-shadow:  0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+$box-shadow-light: 0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.12);
+$box-shadow-mid:  0 2px 4px rgba(0, 0, 0, 0.10), 0 2px 4px rgba(0, 0, 0, 0.12);
+
+$breakpoint-mobile: 768px;
+$breakpoint-tablet: 925px;
+$max-width: 1200px;
+/* small media width */
+@mixin small-viewport {
+  max-width: 30em;
+} ;

@@ -1,0 +1,137 @@
+@import url("https://use.typekit.net/tgy5tlj.css");
+/**
+* Screen Reader only text for use where text is needed for non visual users
+*
+* @mixin
+* @section Accessibility Mixins
+* @example
+*  span.srOnly {
+*    @include sr-only;
+*  }
+*/
+/* small media width */
+:root {
+  --uvalib-brand-blue-lightest: #87b9d9;
+  --uvalib-brand-blue-lighter: #3395d4;
+  --uvalib-brand-blue-light: #0370b7;
+  --uvalib-brand-blue: #232d4b;
+  --uvalib-brand-orange-lightest: #ffead6;
+  --uvalib-brand-orange: #e57200;
+  --uvalib-brand-orange-dark: #b35900;
+  --uvalib-blue-alt-light: #55c4ec;
+  --uvalib-blue-alt: #007bac;
+  --uvalib-blue-alt-dark: #005679;
+  --uvalib-blue-alt-darkest: #141e3c;
+  --uvalib-teal-lightest: #c8f2f4;
+  --uvalib-teal-light: #5bd7de;
+  --uvalib-teal: #25cad3;
+  --uvalib-teal-dark: #1da1a8;
+  --uvalib-teal-darker: #16777c;
+  --uvalib-green-lightest: #ddefdc;
+  --uvalib-green: #62bb46;
+  --uvalib-green-dark: #4e9737;
+  --uvalib-red-lightest: #fbcfda;
+  --uvalib-red: #ef3f6b;
+  --uvalib-red-emergency: #b30000;
+  --uvalib-red-darker: #b30000;
+  --uvalib-red-dark: #df1e43;
+  --uvalib-yellow-light: #fef6c8;
+  --uvalib-yellow: #ecc602;
+  --uvalib-yellow-dark: #b99c02;
+  --uvalib-beige: #f7efe1;
+  --uvalib-beige-dark: #c0b298;
+  --uvalib-grey-lightest: #f1f1f1;
+  --uvalib-grey-light: #dadada;
+  --uvalib-grey: #808080;
+  --uvalib-grey-dark: #4f4f4f;
+  --uvalib-grey-darkest: #2b2b2b;
+  --uvalib-white: #ffffff;
+  --uvalib-text-light: #ffffff;
+  --uvalib-text: #4f4f4f;
+  --uvalib-text-dark: #2b2b2b;
+  --uvalib-primary-orange: #e57200;
+  --uvalib-accessibility-highlight: #0370b7;
+  --uvalib-color-link: #005679;
+  --uvalib-color-link-darker: #005679;
+  --uvalib-color-primary-text: #4f4f4f;
+  --uvalib-color-error: #b30000;
+  font-family: "franklin-gothic-urw", arial, sans-serif;
+  font-weight: 300;
+  margin-top: 1em;
+  margin-bottom: calc(1em/ 4);
+  text-transform: none;
+  color: #4f4f4f;
+}
+
+.apply-border {
+  position: relative;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid #dadada;
+}
+
+h1,
+.h1 {
+  font-family: "franklin-gothic-urw", arial, sans-serif;
+  font-weight: 700;
+  font-size: calc(16px* 3.75);
+  line-height: calc(16px* 3.75);
+  color: #232d4b;
+  margin-top: calc(1em/ 4);
+  margin-bottom: calc(1em/ 1.5);
+}
+
+h2,
+.h2 {
+  font-family: "franklin-gothic-urw", arial, sans-serif;
+  font-weight: 500;
+  font-size: calc(16px* 2);
+  line-height: calc(16px* 2);
+  color: #232d4b;
+}
+
+h3,
+.h3 {
+  font-family: "franklin-gothic-urw", arial, sans-serif;
+  font-weight: 500;
+  font-size: calc(16px* 1.5);
+  line-height: calc(16px* 1.5);
+  color: #232d4b;
+}
+
+h4,
+.h4 {
+  font-family: "franklin-gothic-urw", arial, sans-serif;
+  font-weight: 500;
+  font-size: calc(16px* 1.25);
+  line-height: calc(16px* 1.25);
+  color: #232d4b;
+}
+
+h5,
+.h5 {
+  font-family: "franklin-gothic-urw", arial, sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 16px;
+  color: #232d4b;
+}
+
+h6,
+.h6 {
+  font-family: "franklin-gothic-urw", arial, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 16px;
+  color: #4f4f4f;
+}
+
+/* rid of FOUCE (Flash of Undefined Custom Elements) */
+:not(:defined) {
+  visibility: hidden;
+}
+
+/* Common Components used */
+playground-ide {
+  margin-top: 1em;
+}

@@ -1,0 +1,59 @@
+// Configuration
+@import 'variables';
+
+// Layout & components
+@import 'root';
+
+/// Applies borders, padding, and margin
+/// @group bordersContainersRules
+/// @example markup - Note that apply-border does not style corners. Rounded corners are only used for regional alerts
+///   <div class="apply-border">
+///     This is an example of proper border color and weight when applied to a container.
+///   </div>
+.apply-border {
+  position: relative;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+  border: $border;
+}
+
+h1,
+.h1 {
+  @include h1;
+}
+
+h2,
+.h2 {
+  @include h2;
+}
+
+h3,
+.h3 {
+  @include h3;
+}
+
+h4,
+.h4 {
+  @include h4;
+}
+
+h5,
+.h5 {
+  @include h5;
+}
+
+h6,
+.h6 {
+  @include h6;
+}
+
+/* rid of FOUCE (Flash of Undefined Custom Elements) */
+:not(:defined) {
+  visibility: hidden;
+}
+
+/* Common Components used */
+
+playground-ide {
+  margin-top: $spacing-unit;
+}
