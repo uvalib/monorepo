@@ -5,6 +5,7 @@
   "main": "build/index.js",
   "scripts": {
     "build": "path-exists ./build/index.js && echo 'build has been built'",
+    "build-web-styles": "mkdir ./build/@uvalib/web-styles && cp -r ./node_modules/@uvalib/web-styles/css ./build/@uvalib/web-styles/css && cp -r ./node_modules/@uvalib/web-styles/scss ./build/@uvalib/web-styles/scss",
     "build-rollup": "rimraf build && tsc && rollup -c rollup.config.mjs",
     "test": "echo \"Error: no test specified\" && exit 0",
     "postpublish": "PACKAGE_VERSION=$(cat package.json | grep \\\"version\\\" | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && git tag cdn-v$PACKAGE_VERSION && git push --tags"
@@ -24,7 +25,8 @@
     "@uvalib/site-page": "workspace:*",
     "@uvalib/site-page-search": "workspace:*",
     "@uvalib/site-style": "workspace:*",
-    "@uvalib/viz-graph": "workspace:*"
+    "@uvalib/viz-graph": "workspace:*",
+    "@uvalib/web-styles": "workspace:*"
   },
   "devDependencies": {
     "tsconfig": "workspace:*"
