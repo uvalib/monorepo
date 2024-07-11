@@ -1,4 +1,4 @@
-import{i as e,s as t,x as s}from"../../lit-element-ab109411.js";import"../../site-header-c6d9bcb0.js";import"../../property-8648e151.js";import("../../site-footer-ac75dd98.js");class o extends t{render(){return s`
+import{i as e,s as t,x as s}from"../../lit-element-ab109411.js";import"../../site-header-ffa7c624.js";import"../../property-fe2d5cc5.js";import("../../site-footer-ac75dd98.js");class o extends t{render(){return s`
       <site-header></site-header>
         <slot></slot>
       <site-footer></site-footer>

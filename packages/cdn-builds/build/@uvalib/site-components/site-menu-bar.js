@@ -1,4 +1,4 @@
-import{_ as t,n as e}from"../../property-8648e151.js";import{i as o,s as i,x as s}from"../../lit-element-ab109411.js";
+import{_ as t,n as e}from"../../property-fe2d5cc5.js";import{i as o,s as i,x as s}from"../../lit-element-ab109411.js";
 /**
  * @license
  * Copyright (c) 2017 - 2023 Vaadin Ltd.
