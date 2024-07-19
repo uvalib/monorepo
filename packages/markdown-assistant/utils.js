@@ -21,6 +21,11 @@ export async function loadEnv() {
   }
 }
 
+export function generateDefaultOutputPath(filePath) {
+  const parsedPath = path.parse(filePath);
+  return path.join(parsedPath.dir, `${parsedPath.name}.out${parsedPath.ext}`);
+}
+
 export async function createBatchFile({ filePath, instruction, output, originalOutputPath }) {
   const markdownContent = await fs.readFile(filePath, 'utf8');
   const prompt = `${instruction}\n\nHere is the markdown:\n${"```"}${markdownContent}${"```"}`;
@@ -31,7 +36,8 @@ export async function createBatchFile({ filePath, instruction, output, originalO
     method: "POST",
     url: "/v1/chat/completions",
     body: {
-      model: "gpt-4o",
+//      model: "gpt-4o",
+      model: "gpt-4o-mini",
       temperature: 0.8,
       messages: [{ role: 'user', content: prompt }]
     }
@@ -44,13 +50,11 @@ export async function createBatchFile({ filePath, instruction, output, originalO
 
   // Save the original output path separately in a metadata file
   const metadataFilePath = `${batchFilePath}.metadata.json`;
-  const metadata = { originalOutputPath };
+  const metadata = { originalOutputPath, inputFilePath: filePath };
   await fs.writeFile(metadataFilePath, JSON.stringify(metadata, null, 2));
 
   console.log(`Batch request written to ${batchFilePath}`);
 }
-
-
 
 export async function processMarkdown({ apiKey, filePath, instruction }) {
   const openai = new OpenAI({ apiKey });
@@ -59,7 +63,8 @@ export async function processMarkdown({ apiKey, filePath, instruction }) {
   const prompt = `${instruction}\n\nHere is the markdown:\n${"```"}${markdownContent}${"```"}`;
 
   const response = await openai.chat.completions.create({
-    model: "gpt-4o",
+//    model: "gpt-4o",
+    model: "gpt-4o-mini",
     temperature: 0.8,
     messages: [{ role: 'user', content: prompt }],
   });

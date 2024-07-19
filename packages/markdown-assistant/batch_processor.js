@@ -58,27 +58,45 @@ async function downloadBatchResults(fileId, batchFilePath) {
 }
 
 async function processBatchFile(batchFilePath) {
-  const uploadedFile = await uploadBatchFile(batchFilePath);
-  console.log('Batch file uploaded:', uploadedFile);
+  const metadataFilePath = `${batchFilePath}.metadata.json`;
+  let metadata = {};
 
-  const batch = await createBatch(uploadedFile);
-  console.log('Batch created:', batch);
+  // Check if the metadata file exists
+  if (fs.existsSync(metadataFilePath)) {
+    const metadataContent = fs.readFileSync(metadataFilePath, 'utf8');
+    metadata = JSON.parse(metadataContent);
+  }
 
-  let batchStatus;
-  do {
-    console.log('Checking batch status...');
-    batchStatus = await checkBatchStatus(batch.id);
-    console.log('Current status:', batchStatus.status);
+  // If the batch is not submitted yet, submit it
+  if (!metadata.batchId) {
+    const uploadedFile = await uploadBatchFile(batchFilePath);
+    console.log('Batch file uploaded:', uploadedFile);
 
-    if (batchStatus.status === 'completed') {
-      await downloadBatchResults(batchStatus.output_file_id, batchFilePath);
-      break;
-    } else if (['failed', 'cancelled', 'expired'].includes(batchStatus.status)) {
-      console.error('Batch processing failed or cancelled:', batchStatus);
-      break;
-    }
-    await new Promise(resolve => setTimeout(resolve, 60000)); // Wait for 1 minute before checking again
-  } while (true);
+    const batch = await createBatch(uploadedFile);
+    console.log('Batch created:', batch);
+
+    // Save the batch ID to the metadata file
+    metadata.batchId = batch.id;
+    fs.writeFileSync(metadataFilePath, JSON.stringify(metadata, null, 2));
+  }
+
+  // Check the batch status
+  const batchStatus = await checkBatchStatus(metadata.batchId);
+  console.log('Current status:', batchStatus.status);
+
+  if (batchStatus.status === 'completed') {
+    await downloadBatchResults(batchStatus.output_file_id, batchFilePath);
+    // Cleanup the batch file and metadata file
+    fs.unlinkSync(batchFilePath);
+    fs.unlinkSync(metadataFilePath);
+    console.log(`Batch file ${batchFilePath} and metadata file ${metadataFilePath} have been removed.`);
+  } else if (['failed', 'cancelled', 'expired'].includes(batchStatus.status)) {
+    console.error('Batch processing failed or cancelled:', batchStatus);
+    // Cleanup the batch file and metadata file
+    fs.unlinkSync(batchFilePath);
+    fs.unlinkSync(metadataFilePath);
+    console.log(`Batch file ${batchFilePath} and metadata file ${metadataFilePath} have been removed.`);
+  }
 }
 
 async function processAllBatchFiles(batchFilePaths) {

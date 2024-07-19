@@ -33,7 +33,7 @@ This package provides scripts to process markdown files using the OpenAI API. It
 
 ### Format Markdown
 
-Format a markdown file using OpenAI API.
+Format a markdown file or all markdown files in a directory using OpenAI API.
 
 #### Command
 
@@ -43,14 +43,14 @@ Format a markdown file using OpenAI API.
 
 #### Options
 
-- `--file, -f`: Path to the markdown file (required)
+- `--file, -f`: Path to the markdown file or directory containing markdown files (required)
 - `--instruction, -i`: Custom instruction for formatting the markdown
-- `--output, -o`: Path to the output file
+- `--output, -o`: Path to the output file. If not provided, the output file will be the input filename with `.out` added before the extension.
 - `--batch, -b`: Create a batch file and use output if present
 
 ### Generate Metadata
 
-Generate JSON-LD metadata for a markdown file.
+Generate JSON-LD metadata for a markdown file or all markdown files in a directory.
 
 #### Command
 
@@ -60,15 +60,15 @@ Generate JSON-LD metadata for a markdown file.
 
 #### Options
 
-- `--file, -f`: Path to the markdown file (required)
+- `--file, -f`: Path to the markdown file or directory containing markdown files (required)
 - `--instruction, -i`: Custom instruction for generating metadata
-- `--output, -o`: Path to the output file
+- `--output, -o`: Path to the output file. If not provided, the output file will be the input filename with `.out` added before the extension.
 - `--embed, -e`: Embed JSON-LD metadata into the original markdown
 - `--batch, -b`: Create a batch file and use output if present
 
 ### Ensure Image Accessibility
 
-Add or overwrite alt text for images in a markdown file based on accessibility guidelines.
+Add or overwrite alt text for images in a markdown file or all markdown files in a directory based on accessibility guidelines.
 
 #### Command
 
@@ -78,14 +78,14 @@ Add or overwrite alt text for images in a markdown file based on accessibility g
 
 #### Options
 
-- `--file, -f`: Path to the markdown file (required)
-- `--output, -o`: Path to the output file
+- `--file, -f`: Path to the markdown file or directory containing markdown files (required)
+- `--output, -o`: Path to the output file. If not provided, the output file will be the input filename with `.out` added before the extension.
 - `--overwrite, -ow`: Overwrite existing alt attributes
 - `--batch, -b`: Create a batch file and use output if present
 
 ### Batch Processor
 
-Process batch files created by the above scripts.
+Process batch files created by the above scripts. The batch processor will submit new jobs, check for completed jobs, output the results, and clean up the batch files of completed jobs.
 
 #### Command
 
@@ -104,19 +104,19 @@ Process batch files created by the above scripts.
 1. Create a batch file for formatting markdown:
 
    ```
-   node index.js --file path/to/markdown.md --batch --output path/to/batch_file.batch.jsonl
+   node index.js --file path/to/markdown.md --batch
    ```
 
 2. Process the batch file:
 
    ```
-   node batch_processor.js --input path/to/batch_file.batch.jsonl
+   node batch_processor.js --input path/to/markdown.md.batch.jsonl
    ```
 
-3. The next time you run the script with the `--batch` option, it will use the batch output if present.
+3. The next time you run the script with the `--batch` option, it will use the batch output if present:
 
    ```
-   node index.js --file path/to/markdown.md --batch --output path/to/formatted_output.md
+   node index.js --file path/to/markdown.md --batch
    ```
 
 ### Generating Metadata and Using Batch Output
@@ -124,19 +124,19 @@ Process batch files created by the above scripts.
 1. Create a batch file for generating metadata:
 
    ```
-   node metadata.js --file path/to/markdown.md --batch --output path/to/batch_file.batch.jsonl
+   node metadata.js --file path/to/markdown.md --batch
    ```
 
 2. Process the batch file:
 
    ```
-   node batch_processor.js --input path/to/batch_file.batch.jsonl
+   node batch_processor.js --input path/to/markdown.md.batch.jsonl
    ```
 
-3. The next time you run the script with the `--batch` option, it will use the batch output if present.
+3. The next time you run the script with the `--batch` option, it will use the batch output if present:
 
    ```
-   node metadata.js --file path/to/markdown.md --batch --output path/to/metadata_output.md
+   node metadata.js --file path/to/markdown.md --batch
    ```
 
 ### Ensuring Image Accessibility and Using Batch Output
@@ -144,19 +144,19 @@ Process batch files created by the above scripts.
 1. Create a batch file for ensuring image accessibility:
 
    ```
-   node a11y-images-alt.js --file path/to/markdown.md --batch --output path/to/batch_file.batch.jsonl
+   node a11y-images-alt.js --file path/to/markdown.md --batch
    ```
 
 2. Process the batch file:
 
    ```
-   node batch_processor.js --input path/to/batch_file.batch.jsonl
+   node batch_processor.js --input path/to/markdown.md.batch.jsonl
    ```
 
-3. The next time you run the script with the `--batch` option, it will use the batch output if present.
+3. The next time you run the script with the `--batch` option, it will use the batch output if present:
 
    ```
-   node a11y-images-alt.js --file path/to/markdown.md --batch --output path/to/updated_markdown.md
+   node a11y-images-alt.js --file path/to/markdown.md --batch
    ```
 
 ## Contributing

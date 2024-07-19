@@ -22,7 +22,7 @@ President Ryan also spoke about his experience as a first-generation college stu
 
 Chancellor Henry spoke about a program developed in 2018 that provides iPads for all students, faculty, and staff. This program is supported by an Apple employee who is embedded at Wise. This program was especially helpful during the COVID-19 virtual period when students and faculty were at home. The College’s IT staff helped get hotspots (supplied by UVA) to students who did not have access to the internet, and of course, the iPads helped students who did not have computers.
 
-This year the College was named an “Apple Distinguished School” and was presented with a plaque from Apple. Provost Trisha Folds Bennett outlined some projects conducted using this technology. Faculty and students presented on use of the technology, and three videos were shown of projects using iPad technology.
+This year the College was been named an “Apple Distinguished School” and was presented with a plaque from Apple. Provost Trisha Folds Bennett outlined some projects conducted using this technology. Faculty and students presented on use of the technology, and three videos were shown of projects using iPad technology.
 
 ## Luncheon and Research Blitz
 
@@ -32,21 +32,21 @@ Participants convened for lunch, and during lunch five research projects were pr
 
 At 1:00 p.m. the meeting reconvened for a session on the economic and community landscape in the southwest Virginia region. Guests included Beth Rhinehart, President of the Bristol and Tennessee Chamber of Commerce; Delegate Will Morefield; County Administrator Mike Hatfield; Delegate William Wampler; and Delegate Terry Kilgore.
 
-Delegate Kilgore provided background about the region. He said the region was dominated by coal for many years. Gas was also big, but now the region does not have the jobs it once had. Population is declining. They have worked with the Tobacco Commission to increase broadband capacity. People are proud, hardworking, and open to change. Just recently Earthlink said they were moving some of their operations to the region. They are trying to look for more people willing to do that, but still want to be the “be all end all” for energy in the Commonwealth—electricity, solar, etc. He said anything UVA can do to help, they would be grateful.
+Delegate Kilgore provide background about the region. He said the region was dominated by coal for many years. Gas was also big, but now the region does not have the jobs it once had. Population is declining. They have worked with the Tobacco Commission to increase broadband capacity. People are proud, hardworking, and open to change. Just recently Earthlink said they were moving some of their operations to the region. They are trying to look for more people willing to do that, but still want to be the “be all end all” for energy in the Commonwealth—electricity, solar, etc. He said anything UVA can do to help, they would be grateful.
 
 Delegate Wampler and Morefield and the other guests spoke about the economic situation. Delegate Wampler said natural beauty is one of the resources, as is affordable housing and land, and the College at Wise. It is important to continue to find ways to work together to benefit both UVA and the region. Energy and data centers and data processing can be industries in the region—cheap land, cheap electricity, etc. Delegate Kilgore added that we should grow the College at Wise, maybe to as many as 5,000 students.
 
-Delegate Morefield said the delegation is open-minded and willing to apply common sense to issues. They are able and willing to reach across the aisle and work with their Democratic colleagues. Access to quality healthcare and a strong educational network are crucial for the region. There are many opportunities, including Project Jonah—indoor salmon raising facility.
+Delegate Morefield said the delegation is open minded and willing to apply common sense to issues. They are able and willing to reach across the aisle and work with their Democratic colleagues. Access to quality healthcare and a strong educational network are crucial for the region. There are many opportunities, including Project Jonah—indoor salmon raising facility.
 
 Ms. Rhinehart said that as chair of Go Virginia for the region, the College at Wise is the backbone of this organization. Population is the key—young people are leaving the region to go other places. To not be a part of generational poverty, they need good jobs to stay. People will drive an hour to an hour and a half to go to a good job.
 
 Following the presentations, others contributed to the discussion and asked questions of the participants. The national nursing and healthcare shortage was mentioned, and the College at Wise program can help with this for the state. Students at the College can come up with innovative and entrepreneurial ideas; there is a class at the College on economic diversification in Appalachia.
 
-There was discussion about the community colleges in the region, which do a great deal of good. They are job-oriented and business-oriented, but they have some limitations, including adjunct faculty, and they don’t have healthcare available at the community colleges. They are quite different from what UVA Wise offers. President Ryan said perhaps Wise can expand the number of virtual internships since many people are working from home. This would be one way to allow students to work remotely and stay in the region.
+There was discussion about the community colleges in the region, which do a great deal of good. They are job-oriented and business oriented, but they have some limitations, including adjunct faculty, and they don’t have healthcare available at the community colleges. They are quite different from what UVA Wise offers. President Ryan said perhaps Wise can expand the number of virtual internships since many people are working from home. This would be one way to allow students to work remotely and stay in the region.
 
-There was discussion about infrastructure improvements the General Assembly could support, including trains. Natural beauty in the region and competing on costs can attract employees and students. Donna Henry said recruiting students has been improved through the Appalachian Regional Commission in-state tuition initiative. She said detractors for faculty and staff to move to Wise are the lack of higher-end mixed-use apartments near the College, and childcare for faculty, staff, and some students.
+There was discussion about infrastructure improvements the General Assembly could support, including trains. Natural beauty in the region and competing on costs can attract employees and students. Donna Henry said recruiting students has been improved through the Appalachian Regional Commission in-state tuition initiative. She said detractors for faculty and staff to move to Wise are the lack of higher end mixed use apartments near the College, and childcare for faculty, staff, and some students.
 
-A mention was made that creating more graduate programs and scaling up will keep students in the region. Graduate programs can help with recruiting undergraduates as well. Mr. DePasquale said the first order of business is to educate students because they will give back.
+A mention was made that creating more graduate programs and scaling up will keep students in the region. Graduate programs can help with recruiting undergraduates as well. Mr. DePasquale said the first order of business is to educate students, because they will give back.
 
 Following brief closing remarks, including President Ryan’s announcement of his recommendation of Chancellor Henry’s reappointment to the Board of Visitors, the formal agenda concluded at 2:30 p.m. and was followed by a tour of the campus.
 
@@ -62,4 +62,4 @@ SGH:ddr
 
 These minutes have been posted to the University of Virginia’s Board of Visitors website.
 
-[http://bov.virginia.edu/public-minutes](http://bov.virginia.edu/public-minutes)
+http://bov.virginia.edu/public-minutes

@@ -29,6 +29,6 @@
   "bin": {
     "md-assistant-reformat": "./index.js",
     "md-assistant-metadata": "./metadata.js",
-    "md-assistant-a11y": "./a11y.js"
+    "md-assistant-a11y": "./a11y-images-alt.js"
   }
 }

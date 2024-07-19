@@ -2,6 +2,7 @@ import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import { loadEnv, createBatchFile, processMarkdown, readBatchOutput } from './utils.js';
 import fs from 'fs/promises';
+import path from 'path';
 
 async function formatMarkdown(options) {
   if (!await loadEnv() || !process.env.OPENAI_API_KEY) {
@@ -20,43 +21,64 @@ async function formatMarkdown(options) {
     - Don't wrap the markdown in ${"```"}
   `;
 
-  const batchFilePath = `${options.file}.batch.jsonl`;
+  const processFile = async (filePath) => {
+    const batchFilePath = `${filePath}.batch.jsonl`;
 
-  if (options.batch) {
-    const batchOutput = await readBatchOutput(batchFilePath);
-    if (batchOutput) {
-      console.log(batchOutput);
-      if (options.output) {
-        await fs.writeFile(options.output, batchOutput);
-        console.log(`Output written to ${options.output}`);
+    let outputPath = options.output;
+    if (!outputPath) {
+      const parsedPath = path.parse(filePath);
+      outputPath = path.join(parsedPath.dir, `${parsedPath.name}.out${parsedPath.ext}`);
+    }
+
+    if (options.batch) {
+      const batchOutput = await readBatchOutput(batchFilePath);
+      if (batchOutput) {
+        console.log(batchOutput);
+        if (outputPath) {
+          await fs.writeFile(outputPath, batchOutput);
+          console.log(`Output written to ${outputPath}`);
+        }
+      } else {
+        await createBatchFile({
+          filePath: filePath,
+          instruction: instruction,
+          output: batchFilePath,
+          originalOutputPath: outputPath // Store the original output path in the batch file
+        });
       }
     } else {
-      await createBatchFile({
-        filePath: options.file,
-        instruction: instruction,
-        output: batchFilePath,
-        originalOutputPath: options.output // Store the original output path in the batch file
+      const formattedContent = await processMarkdown({
+        apiKey: process.env.OPENAI_API_KEY,
+        filePath: filePath,
+        instruction: instruction
       });
+
+      if (outputPath) {
+        await fs.writeFile(outputPath, formattedContent);
+        console.log(`Output written to ${outputPath}`);
+      } else {
+        console.log(formattedContent);
+      }
+    }
+  };
+
+  const stats = await fs.stat(options.file);
+  if (stats.isDirectory()) {
+    const files = await fs.readdir(options.file);
+    for (const file of files) {
+      const filePath = path.join(options.file, file);
+      if (path.extname(filePath) === '.md') {
+        await processFile(filePath);
+      }
     }
   } else {
-    const formattedContent = await processMarkdown({
-      apiKey: process.env.OPENAI_API_KEY,
-      filePath: options.file,
-      instruction: instruction
-    });
-
-    if (options.output) {
-      await fs.writeFile(options.output, formattedContent);
-      console.log(`Output written to ${options.output}`);
-    } else {
-      console.log(formattedContent);
-    }
+    await processFile(options.file);
   }
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
   const argv = yargs(hideBin(process.argv))
-    .option('file', { alias: 'f', describe: 'Path to the markdown file', type: 'string', demandOption: true })
+    .option('file', { alias: 'f', describe: 'Path to the markdown file or directory', type: 'string', demandOption: true })
     .option('instruction', { alias: 'i', describe: 'Instruction to process the markdown', type: 'string', default: 'Please format this markdown correctly.' })
     .option('output', { alias: 'o', describe: 'Output file path', type: 'string' })
     .option('batch', { alias: 'b', describe: 'Create a batch file and use output if present', type: 'boolean', default: false })

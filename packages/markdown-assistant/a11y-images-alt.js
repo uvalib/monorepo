@@ -1,6 +1,6 @@
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
-import { loadEnv, createBatchFile, processMarkdown, readBatchOutput } from './utils.js';
+import { loadEnv, createBatchFile, readBatchOutput, generateDefaultOutputPath } from './utils.js';
 import fs from 'fs/promises';
 import { visitParents } from 'unist-util-visit-parents';
 import { unified } from 'unified';
@@ -58,7 +58,8 @@ async function processImages({ markdownContent, apiKey, overwrite }) {
       }
 
       const response = await openai.chat.completions.create({
-        model: "gpt-4o",
+//        model: "gpt-4o",
+        model: "gpt-4o-mini",
         temperature: 1,
         messages: [{ role: 'user', content: prompt }],
         max_tokens: 300
@@ -83,19 +84,23 @@ async function processAccessibility(options) {
 
   const batchFilePath = `${options.file}.batch.jsonl`;
 
+  let outputPath = options.output;
+  if (!outputPath) {
+    outputPath = generateDefaultOutputPath(options.file);
+  }
+
   if (options.batch) {
     const batchOutput = await readBatchOutput(batchFilePath);
     if (batchOutput) {
       console.log(batchOutput);
-      if (options.output) {
-        await fs.writeFile(options.output, batchOutput);
-        console.log(`Output written to ${options.output}`);
-      }
+      await fs.writeFile(outputPath, batchOutput);
+      console.log(`Output written to ${outputPath}`);
     } else {
       await createBatchFile({
         filePath: options.file,
         instruction: instruction,
-        output: batchFilePath
+        output: batchFilePath,
+        originalOutputPath: outputPath // Store the original output path in the batch file
       });
     }
   } else {
@@ -105,12 +110,8 @@ async function processAccessibility(options) {
       overwrite: options.overwrite
     });
 
-    if (options.output) {
-      await fs.writeFile(options.output, updatedMarkdown);
-      console.log(`Updated markdown written to ${options.output}`);
-    } else {
-      console.log(updatedMarkdown);
-    }
+    await fs.writeFile(outputPath, updatedMarkdown);
+    console.log(`Updated markdown written to ${outputPath}`);
   }
 }
 

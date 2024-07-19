@@ -1,6 +1,6 @@
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
-import { loadEnv, createBatchFile, processMarkdown, readBatchOutput } from './utils.js';
+import { loadEnv, createBatchFile, processMarkdown, readBatchOutput, generateDefaultOutputPath } from './utils.js';
 import fs from 'fs/promises';
 
 async function processMetadata(options) {
@@ -10,7 +10,7 @@ async function processMetadata(options) {
 
   const instruction = `
 The metadata should take the following form:
-${"```"}
+***
 {
   "@context": "...",
   "@type": "...",
@@ -24,7 +24,7 @@ ${"```"}
   "attendee": [...],
   "about": [{...},{...}]
 }
-${"```"}
+***
 
 The following rules must be followed:
 - Only return the metadata for this document!
@@ -32,10 +32,15 @@ The following rules must be followed:
 - Be sure to list all of the attendees.
 - Please be as thorough as possible.
 - Ensure that you return valid json-ld using the schema.org vocabulary.
-- Do not wrap the metadata in ${"```"}.
+- Do not wrap the metadata in ***
 ` + (options.instruction || '');
 
   const batchFilePath = `${options.file}.batch.jsonl`;
+
+  let outputPath = options.output;
+  if (!outputPath) {
+    outputPath = generateDefaultOutputPath(options.file);
+  }
 
   if (options.batch) {
     const batchOutput = await readBatchOutput(batchFilePath);
@@ -44,22 +49,19 @@ The following rules must be followed:
         const markdownContent = await fs.readFile(options.file, 'utf8');
         const embeddedContent = `\n<script type="application/ld+json">\n${batchOutput}\n</script>\n` + markdownContent;
         console.log(embeddedContent);
-        if (options.output) {
-          await fs.writeFile(options.output, embeddedContent);
-          console.log(`Output written to ${options.output}`);
-        }
+        await fs.writeFile(outputPath, embeddedContent);
+        console.log(`Output written to ${outputPath}`);
       } else {
         console.log(batchOutput);
-        if (options.output) {
-          await fs.writeFile(options.output, batchOutput);
-          console.log(`Output written to ${options.output}`);
-        }
+        await fs.writeFile(outputPath, batchOutput);
+        console.log(`Output written to ${outputPath}`);
       }
     } else {
       await createBatchFile({
         filePath: options.file,
         instruction: instruction,
-        output: batchFilePath
+        output: batchFilePath,
+        originalOutputPath: outputPath // Store the original output path in the batch file
       });
     }
   } else {
@@ -74,12 +76,8 @@ The following rules must be followed:
       content = `\n<script type="application/ld+json">\n${content}\n</script>\n` + markdownContent;
     }
 
-    if (options.output) {
-      await fs.writeFile(options.output, content);
-      console.log(`Output written to ${options.output}`);
-    } else {
-      console.log(content);
-    }
+    await fs.writeFile(outputPath, content);
+    console.log(`Output written to ${outputPath}`);
   }
 }
 
