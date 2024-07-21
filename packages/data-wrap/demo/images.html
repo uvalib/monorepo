@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      background: #fafafa;
+    }
+  </style>
+</head>
+<body>
+  <h2>Example of ImagesData</h2>
+  <div>
+    <input type="text" id="searchQuery" placeholder="Search images..." value="football">
+    <button id="searchButton">Search</button>
+  </div>
+  <div>
+    <ul id="images"></ul>
+  </div>
+
+  <script type="module">
+
+    import { ImagesData } from '../dist/src/index.js';
+
+    let imagesData = new ImagesData({query:"football",limit:9});
+    imagesData.fetchData().then(results => {
+      console.log(results);
+      displayImagesItems(results.items);
+    });
+
+    document.getElementById('searchButton').addEventListener('click', () => {
+      const searchQuery = document.getElementById('searchQuery').value;
+      if (searchQuery) {
+        imagesData.query = searchQuery;
+        imagesData.fetchData({fullMeta:true}).then(results => {
+          console.log(results);
+          displayImagesItems(results.items);
+        });
+      }
+    });
+
+    function displayImagesItems(items) {
+      const imagesList = document.getElementById('images');
+      imagesList.innerHTML = items.map(r => `<li>${r.title}<br /><pre>${JSON.stringify(r)}</pre></li>`).join('');
+    }
+
+  </script>
+</body>
+</html>

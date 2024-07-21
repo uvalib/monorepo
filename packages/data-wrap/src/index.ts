@@ -2,6 +2,7 @@ export { MLBData } from './MLBData.js';
 export { mlbExtrasURL, mlbYearsURL, MLBib } from './MLBib.js';
 export { DataWrap } from './DataWrap.js';
 export { CatalogData } from './CatalogData.js';
+export { ImagesData } from './ImagesData.js';
 export { ArticlesData } from './ArticlesData.js';
 export { GeneralSearchResult } from './GeneralSearchResult.js';
 export { GeneralSearchMeta } from './GeneralSearchMeta.js';
