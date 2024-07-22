@@ -1,11 +1,12 @@
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
-import { loadEnv, createBatchFile, readBatchOutput, generateDefaultOutputPath } from './utils.js';
+import { loadEnv, createBatchFile, processMarkdown, readBatchOutput } from './utils.js';
 import fs from 'fs/promises';
 import { visitParents } from 'unist-util-visit-parents';
 import { unified } from 'unified';
 import markdown from 'remark-parse';
 import stringify from 'remark-stringify';
+import path from 'path';
 
 const encodeImage = async (filePath) => {
   const imageBuffer = await fs.readFile(filePath);
@@ -79,15 +80,16 @@ async function processAccessibility(options) {
     throw new Error('API key is missing or .env is not loaded.');
   }
 
+  if (options.overwrite && options.output) {
+    console.warn("Warning: Both --overwrite and --output options are specified. Overwrite will take precedence.");
+  }
+
+  const outputPath = options.overwrite ? options.file : (options.output || `${options.file}.out${path.extname(options.file)}`);
+
   const markdownContent = await fs.readFile(options.file, 'utf8');
   const instruction = `Process the images in the markdown file to add or overwrite alt text based on accessibility guidelines.` + (options.instruction || '');
 
   const batchFilePath = `${options.file}.batch.jsonl`;
-
-  let outputPath = options.output;
-  if (!outputPath) {
-    outputPath = generateDefaultOutputPath(options.file);
-  }
 
   if (options.batch) {
     const batchOutput = await readBatchOutput(batchFilePath);

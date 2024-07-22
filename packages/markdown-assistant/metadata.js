@@ -1,12 +1,19 @@
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
-import { loadEnv, createBatchFile, processMarkdown, readBatchOutput, generateDefaultOutputPath } from './utils.js';
+import { loadEnv, createBatchFile, processMarkdown, readBatchOutput } from './utils.js';
 import fs from 'fs/promises';
+import path from 'path';
 
 async function processMetadata(options) {
   if (!await loadEnv() || !process.env.OPENAI_API_KEY) {
     throw new Error('API key is missing or .env is not loaded.');
   }
+
+  if (options.overwrite && options.output) {
+    console.warn("Warning: Both --overwrite and --output options are specified. Overwrite will take precedence.");
+  }
+
+  const outputPath = options.overwrite ? options.file : (options.output || `${options.file}.out${path.extname(options.file)}`);
 
   const instruction = `
 The metadata should take the following form:
@@ -37,11 +44,6 @@ The following rules must be followed:
 
   const batchFilePath = `${options.file}.batch.jsonl`;
 
-  let outputPath = options.output;
-  if (!outputPath) {
-    outputPath = generateDefaultOutputPath(options.file);
-  }
-
   if (options.batch) {
     const batchOutput = await readBatchOutput(batchFilePath);
     if (batchOutput) {
@@ -65,7 +67,7 @@ The following rules must be followed:
       });
     }
   } else {
-    const content = await processMarkdown({
+    let content = await processMarkdown({
       apiKey: process.env.OPENAI_API_KEY,
       filePath: options.file,
       instruction: instruction
@@ -88,6 +90,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     .option('output', { alias: 'o', describe: 'Output file path', type: 'string' })
     .option('embed', { alias: 'e', type: 'boolean', describe: 'Embed JSON-LD metadata into the original markdown', default: false })
     .option('batch', { alias: 'b', describe: 'Create a batch file and use output if present', type: 'boolean', default: false })
+    .option('overwrite', { alias: 'ow', describe: 'Overwrite the input file with the output', type: 'boolean', default: false })
     .parse();
 
   processMetadata(argv).catch(e => console.error(e));
