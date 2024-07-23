@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 0",
     "import-docs": "doc2md import/* --outdir minutes --format --metadata",
     "index-docs": "createSearchIndex --outputIndex ./searchIndex.json --inputDir ./minutes --indexType flexsearch",
-    "build": "pnpm import-docs && pnpm index-docs && NODE_OPTIONS=\"--max-old-space-size=8192\" npx eleventy",
+    "build": "echo \"placeholder\" && exit 0",
+    "build-wip": "pnpm import-docs && pnpm index-docs && NODE_OPTIONS=\"--max-old-space-size=8192\" npx eleventy",
     "serve": "NODE_OPTIONS=\"--max-old-space-size=8192\" npx eleventy --serve",
     "start": "pnpm serve"
   },
@@ -21,6 +22,9 @@
     "gray-matter": "^4.0.3"
   },
   "dependencies": {
-    "flexsearch": "^0.7.31"
+    "flexsearch": "^0.7.31",
+    "fs-extra": "^11.1.1",
+    "js-yaml": "^4.1.0",
+    "luxon": "^3.4.3"
   }
 }

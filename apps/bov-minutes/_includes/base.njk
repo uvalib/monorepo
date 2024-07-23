@@ -17,11 +17,82 @@
       max-width: 800px;
       padding: 1em;
     } 
+    table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 18px;
+  text-align: left;
+}
+
+thead th {
+  background-color: #f2f2f2;
+  color: #333;
+  font-weight: bold;
+  padding: 10px;
+  border-bottom: 2px solid #ddd;
+}
+
+tbody td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tbody tr:last-child {
+  font-weight: bold;
+}
+
+tbody tr:last-child td {
+  border-top: 2px solid #ddd;
+}
+
+tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+td:last-child {
+  text-align: right;
+}
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            margin: 20px 0;
+            list-style: none;
+            padding: 0;
+        }
+        .breadcrumb a {
+            color: #0275d8;
+            text-decoration: none;
+        }
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        .breadcrumb li+li:before {
+            content: '>';
+            padding: 0 8px;
+            color: #555;
+        }
   </style>
 </head>
 <body>
   <site-style no-shadow-dom></site-style>
   <site-page>
+<!-- Breadcrumb -->
+<nav aria-label="breadcrumb">
+    <ul class="breadcrumb">
+        <li><a href="/">Home</a></li>
+        {% if page.url != '/' %}
+            <li>{{ title }}</li>
+        {% endif %}
+    </ul>
+</nav>
+ 
     <div class="main-content">
       {{ content | safe }}
     </div>

@@ -10,7 +10,7 @@ title: Board of Visitors Minutes
   <ul>
     {% for minute in minutes %}
       <li>
-        <a href="{{ minute.url }}">{{ minute.data.year }}-{{ minute.data.month }}</a>
+        <a href="{{ minute.url }}">{{ minute.data.title }}</a>
       </li>
     {% endfor %}
   </ul>
