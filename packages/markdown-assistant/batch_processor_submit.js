@@ -23,40 +23,6 @@ async function createBatch(fileId) {
   return batch;
 }
 
-async function checkBatchStatus(batchId) {
-  const openai = new OpenAI();
-  const batch = await openai.batches.retrieve(batchId);
-  return batch;
-}
-
-async function downloadBatchResults(fileId, batchFilePath, batchFileMappings) {
-  const openai = new OpenAI();
-  const fileContentResponse = await openai.files.content(fileId);
-
-  // Convert the response to text
-  const fileContent = await fileContentResponse.text();
-  const lines = fileContent.split('\n').filter(line => line.trim());
-
-  console.log('Lines received:', lines);
-
-  // Process each line as a separate response
-  lines.forEach((line, index) => {
-    console.log(`Processing line ${index}: ${line}`);
-    const json = JSON.parse(line);
-    const content = json.response ? json.response.body.choices[0].message.content : null;
-    if (content) {
-      const outputFilePath = batchFileMappings[json.custom_id]?.outputFilePath;
-      console.log(`Writing content to ${outputFilePath}`);
-      if (!outputFilePath) {
-        console.error(`No output file path found for custom_id: ${json.custom_id}`);
-      } else {
-        fs.writeFileSync(outputFilePath, content);
-        console.log(`Batch result written to ${outputFilePath}`);
-      }
-    }
-  });
-}
-
 async function processBatchFile(batchFilePath, batchFileMappings) {
   const uploadedFile = await uploadBatchFile(batchFilePath);
   console.log('Batch file uploaded:', uploadedFile);
@@ -71,22 +37,6 @@ async function processBatchFile(batchFilePath, batchFileMappings) {
     metadata.batchId = batch.id;
     fs.writeFileSync(metadataFilePath, JSON.stringify(metadata, null, 2));
   });
-
-  let batchStatus;
-  do {
-    console.log('Checking batch status...');
-    batchStatus = await checkBatchStatus(batch.id);
-    console.log('Current status:', batchStatus.status);
-
-    if (batchStatus.status === 'completed') {
-      await downloadBatchResults(batchStatus.output_file_id, batchFilePath, batchFileMappings);
-      break;
-    } else if (['failed', 'cancelled', 'expired'].includes(batchStatus.status)) {
-      console.error('Batch processing failed or cancelled:', batchStatus);
-      break;
-    }
-    await new Promise(resolve => setTimeout(resolve, 60000)); // Wait for 1 minute before checking again
-  } while (true);
 }
 
 async function processAllBatchFiles(batchFilePaths) {

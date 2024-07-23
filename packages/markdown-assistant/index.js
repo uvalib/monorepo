@@ -2,17 +2,14 @@ import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import { loadEnv, createBatchFile, processMarkdown, readBatchOutput } from './utils.js';
 import fs from 'fs/promises';
+import path from 'path';
+
+const DEFAULT_MODEL = 'gpt-4o-mini';
 
 async function formatMarkdown(options) {
   if (!await loadEnv() || !process.env.OPENAI_API_KEY) {
     throw new Error('API key is missing or .env is not loaded.');
   }
-
-  if (options.overwrite && options.output) {
-    console.warn("Warning: Both --overwrite and --output options are specified. Overwrite will take precedence.");
-  }
-
-  const outputPath = options.overwrite ? options.file : (options.output || `${options.file}.out${path.extname(options.file)}`);
 
   let instruction = options.instruction || 'Please format this markdown correctly for the web site.';
 
@@ -23,44 +20,65 @@ async function formatMarkdown(options) {
     - Ensure proper heading levels (h1,h2,h3,etc)
     - Do not change the textual content of the markdown! Ensure that the same text is included in the markdown in the same order.
     - Ensure to include all of the images!
-    - Don't wrap the markdown in ${"```"}
+    - Format tables and tabular data properly!
+    - Ensure that there is adequate spacing to help with readability of the text! 
+    - Don't wrap the markdown in ***
+    - return only the resulting markdown in your result, no additional messages, and don't wrap the markdown in any way.
   `;
 
-  const batchFilePath = `${options.file}.batch.jsonl`;
+  async function processFile(filePath) {
+    const batchFilePath = `${filePath}.batch.jsonl`;
 
-  if (options.batch) {
-    const batchOutput = await readBatchOutput(batchFilePath);
-    if (batchOutput) {
-      console.log(batchOutput);
-      await fs.writeFile(outputPath, batchOutput);
-      console.log(`Output written to ${outputPath}`);
+    if (options.batch) {
+      const batchOutput = await readBatchOutput(batchFilePath);
+      if (batchOutput) {
+        console.log(batchOutput);
+        const outputPath = options.output || filePath.replace(/\.md$/, '.out.md');
+        await fs.writeFile(outputPath, batchOutput);
+        console.log(`Output written to ${outputPath}`);
+      } else {
+        await createBatchFile({
+          filePath,
+          instruction,
+          output: batchFilePath,
+          originalOutputPath: options.output || filePath.replace(/\.md$/, '.out.md'),
+          model: options.model
+        });
+      }
     } else {
-      await createBatchFile({
-        filePath: options.file,
-        instruction: instruction,
-        output: batchFilePath,
-        originalOutputPath: outputPath // Store the original output path in the batch file
+      const formattedContent = await processMarkdown({
+        apiKey: process.env.OPENAI_API_KEY,
+        filePath,
+        instruction,
+        model: options.model
       });
+
+      const outputFilePath = options.output || filePath.replace(/\.md$/, '.out.md');
+      await fs.writeFile(outputFilePath, formattedContent);
+      console.log(`Output written to ${outputFilePath}`);
+    }
+  }
+
+  const stats = await fs.stat(options.file);
+  if (stats.isDirectory()) {
+    const files = await fs.readdir(options.file);
+    for (const file of files) {
+      if (file.endsWith('.md')) {
+        await processFile(path.join(options.file, file));
+      }
     }
   } else {
-    const formattedContent = await processMarkdown({
-      apiKey: process.env.OPENAI_API_KEY,
-      filePath: options.file,
-      instruction: instruction
-    });
-
-    await fs.writeFile(outputPath, formattedContent);
-    console.log(`Output written to ${outputPath}`);
+    await processFile(options.file);
   }
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
   const argv = yargs(hideBin(process.argv))
-    .option('file', { alias: 'f', describe: 'Path to the markdown file', type: 'string', demandOption: true })
+    .option('file', { alias: 'f', describe: 'Path to the markdown file or directory', type: 'string', demandOption: true })
     .option('instruction', { alias: 'i', describe: 'Instruction to process the markdown', type: 'string', default: 'Please format this markdown correctly.' })
     .option('output', { alias: 'o', describe: 'Output file path', type: 'string' })
     .option('batch', { alias: 'b', describe: 'Create a batch file and use output if present', type: 'boolean', default: false })
-    .option('overwrite', { alias: 'ow', describe: 'Overwrite the input file with the output', type: 'boolean', default: false })
+    .option('model', { alias: 'm', describe: 'Model to use for processing', type: 'string', default: DEFAULT_MODEL })
     .parse();
 
   formatMarkdown(argv).catch(e => console.error(e));

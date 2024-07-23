@@ -21,14 +21,9 @@ export async function loadEnv() {
   }
 }
 
-export function generateDefaultOutputPath(filePath) {
-  const parsedPath = path.parse(filePath);
-  return path.join(parsedPath.dir, `${parsedPath.name}.out${parsedPath.ext}`);
-}
-
-export async function createBatchFile({ filePath, instruction, output, originalOutputPath }) {
+export async function createBatchFile({ filePath, instruction, output, originalOutputPath, model }) {
   const markdownContent = await fs.readFile(filePath, 'utf8');
-  const prompt = `${instruction}\n\nHere is the markdown:\n${"```"}${markdownContent}${"```"}`;
+  const prompt = `${instruction}\n\nHere is the markdown:\n***${markdownContent}***`;
   const customId = uuidv4();
 
   const batchRequest = {
@@ -36,8 +31,7 @@ export async function createBatchFile({ filePath, instruction, output, originalO
     method: "POST",
     url: "/v1/chat/completions",
     body: {
-//      model: "gpt-4o",
-      model: "gpt-4o-mini",
+      model: model,
       temperature: 0.8,
       messages: [{ role: 'user', content: prompt }]
     }
@@ -48,23 +42,22 @@ export async function createBatchFile({ filePath, instruction, output, originalO
   // Append the request line to the batch file
   await fs.appendFile(batchFilePath, JSON.stringify(batchRequest) + '\n');
 
-  // Save the original output path separately in a metadata file
+  // Save the metadata
   const metadataFilePath = `${batchFilePath}.metadata.json`;
-  const metadata = { originalOutputPath, inputFilePath: filePath };
+  const metadata = { originalOutputPath };
   await fs.writeFile(metadataFilePath, JSON.stringify(metadata, null, 2));
 
   console.log(`Batch request written to ${batchFilePath}`);
 }
 
-export async function processMarkdown({ apiKey, filePath, instruction }) {
+export async function processMarkdown({ apiKey, filePath, instruction, model }) {
   const openai = new OpenAI({ apiKey });
 
   const markdownContent = await fs.readFile(filePath, 'utf8');
-  const prompt = `${instruction}\n\nHere is the markdown:\n${"```"}${markdownContent}${"```"}`;
+  const prompt = `${instruction}\n\nHere is the markdown:\n***${markdownContent}***`;
 
   const response = await openai.chat.completions.create({
-//    model: "gpt-4o",
-    model: "gpt-4o-mini",
+    model: model,
     temperature: 0.8,
     messages: [{ role: 'user', content: prompt }],
   });
