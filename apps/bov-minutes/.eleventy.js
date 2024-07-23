@@ -6,6 +6,16 @@ module.exports = function(eleventyConfig) {
 
     eleventyConfig.addPassthroughCopy({ "searchIndex.json": "demo/searchIndex.json" });
 
+    eleventyConfig.addFilter("safeJson", function(item) {
+      // Create a new object with only the properties you need
+      const safeItem = {
+        title: item.data.title,
+        description: item.data.description,
+        // Add other necessary properties here
+      };
+      return JSON.stringify(safeItem); // Return stringified JSON
+    });
+
     // Add a collection for the minutes
     eleventyConfig.addCollection("minutes", function(collectionApi) {
       return collectionApi.getFilteredByGlob("minutes/*.md");
