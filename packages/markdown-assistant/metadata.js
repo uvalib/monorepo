@@ -30,6 +30,7 @@ The metadata should take the following form:
 ***
 
 The following rules must be followed:
+- Attempt to name the document appropriate to the content and metadata.
 - Only return the metadata for this document!
 - Never make up data if it is not in the document or not known to be true.
 - Be sure to list all of the attendees.
@@ -67,7 +68,7 @@ The following rules must be followed:
         });
       }
     } else {
-      const content = await processMarkdown({
+      let content = await processMarkdown({
         apiKey: process.env.OPENAI_API_KEY,
         filePath,
         instruction,
