@@ -28,20 +28,20 @@ async function formatMarkdown(options) {
 
   async function processFile(filePath) {
     const batchFilePath = `${filePath}.batch.jsonl`;
+    const outputFilePath = options.overwrite ? filePath : (options.output || filePath.replace(/\.md$/, '.out.md'));
 
     if (options.batch) {
       const batchOutput = await readBatchOutput(batchFilePath);
       if (batchOutput) {
         console.log(batchOutput);
-        const outputPath = options.output || filePath.replace(/\.md$/, '.out.md');
-        await fs.writeFile(outputPath, batchOutput);
-        console.log(`Output written to ${outputPath}`);
+        await fs.writeFile(outputFilePath, batchOutput);
+        console.log(`Output written to ${outputFilePath}`);
       } else {
         await createBatchFile({
           filePath,
           instruction,
           output: batchFilePath,
-          originalOutputPath: options.output || filePath.replace(/\.md$/, '.out.md'),
+          originalOutputPath: outputFilePath,
           model: options.model
         });
       }
@@ -53,7 +53,6 @@ async function formatMarkdown(options) {
         model: options.model
       });
 
-      const outputFilePath = options.output || filePath.replace(/\.md$/, '.out.md');
       await fs.writeFile(outputFilePath, formattedContent);
       console.log(`Output written to ${outputFilePath}`);
     }
@@ -79,6 +78,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     .option('output', { alias: 'o', describe: 'Output file path', type: 'string' })
     .option('batch', { alias: 'b', describe: 'Create a batch file and use output if present', type: 'boolean', default: false })
     .option('model', { alias: 'm', describe: 'Model to use for processing', type: 'string', default: DEFAULT_MODEL })
+    .option('overwrite', { alias: 'w', describe: 'Overwrite the input file with the formatted content', type: 'boolean', default: false })
     .parse();
 
   formatMarkdown(argv).catch(e => console.error(e));
