@@ -5,7 +5,7 @@ import fs from 'fs/promises';
 import path from 'path';
 
 const DEFAULT_MODEL = 'gpt-4o-mini';
-const CHUNK_SIZE = 10;
+const CHUNK_SIZE = 5;
 const LLM_COMMENT = '<!-- llmformatted -->';
 
 async function formatMarkdown(options) {
@@ -32,13 +32,11 @@ async function formatMarkdown(options) {
     const batchFilePath = `${filePath}.batch.jsonl`;
     const outputFilePath = options.overwrite ? filePath : (options.output || filePath.replace(/\.md$/, '.out.md'));
 
-    // Check if the file has already been formatted if not overwriting
-    if (!options.overwrite) {
-      const content = await fs.readFile(filePath, 'utf8');
-      if (content.includes(LLM_COMMENT)) {
-        console.log(`Skipping already formatted file: ${filePath}`);
-        return;
-      }
+    // Check if the file has already been formatted
+    const content = await fs.readFile(filePath, 'utf8');
+    if (content.includes(LLM_COMMENT)) {
+      console.log(`Skipping already formatted file: ${filePath}`);
+      return;
     }
 
     if (options.batch) {

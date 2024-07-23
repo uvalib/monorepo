@@ -5,6 +5,8 @@ import fs from 'fs/promises';
 import path from 'path';
 
 const DEFAULT_MODEL = 'gpt-4o-mini';
+const CHUNK_SIZE = 1;
+const LLM_COMMENT = '<!-- llmmeta -->';
 
 async function processMetadata(options) {
   if (!await loadEnv() || !process.env.OPENAI_API_KEY) {
@@ -41,59 +43,82 @@ The following rules must be followed:
 
   async function processFile(filePath) {
     const batchFilePath = `${filePath}.batch.jsonl`;
+    const outputFilePath = options.overwrite ? filePath : (options.output || filePath.replace(/\.md$/, '.out.md'));
+
+    // Check if the file has already been formatted
+    const content = await fs.readFile(filePath, 'utf8');
+    if (content.includes(LLM_COMMENT)) {
+      console.log(`Skipping already formatted file: ${filePath}`);
+      return;
+    }
 
     if (options.batch) {
       const batchOutput = await readBatchOutput(batchFilePath);
       if (batchOutput) {
         if (options.embed) {
           const markdownContent = await fs.readFile(filePath, 'utf8');
-          const embeddedContent = `\n<script type="application/ld+json">\n${batchOutput}\n</script>\n` + markdownContent;
-          console.log(embeddedContent);
-          const outputPath = options.output || filePath.replace(/\.md$/, '.out.md');
-          await fs.writeFile(outputPath, embeddedContent);
-          console.log(`Output written to ${outputPath}`);
+          const embeddedContent = `${LLM_COMMENT}\n<script type="application/ld+json">\n${batchOutput}\n</script>\n${markdownContent}`;
+          await fs.writeFile(outputFilePath, embeddedContent);
+          console.log(`Output written to ${outputFilePath}`);
         } else {
-          console.log(batchOutput);
-          const outputPath = options.output || filePath.replace(/\.md$/, '.out.md');
-          await fs.writeFile(outputPath, batchOutput);
-          console.log(`Output written to ${outputPath}`);
+          const outputContent = `${LLM_COMMENT}\n${batchOutput}`;
+          await fs.writeFile(outputFilePath, outputContent);
+          console.log(`Output written to ${outputFilePath}`);
         }
       } else {
         await createBatchFile({
           filePath,
           instruction,
           output: batchFilePath,
-          originalOutputPath: options.output || filePath.replace(/\.md$/, '.out.md'),
+          originalOutputPath: outputFilePath,
           model: options.model
         });
       }
     } else {
-      let content = await processMarkdown({
-        apiKey: process.env.OPENAI_API_KEY,
-        filePath,
-        instruction,
-        model: options.model
-      });
+      let metadataContent;
+      while (true) {
+        try {
+          metadataContent = await processMarkdown({
+            apiKey: process.env.OPENAI_API_KEY,
+            filePath,
+            instruction,
+            model: options.model
+          });
+          break; // Exit the loop if successful
+        } catch (error) {
+          if (error.code === 'rate_limit_exceeded') {
+            console.log('Rate limit exceeded. Waiting for 60 seconds before retrying...');
+            await new Promise(resolve => setTimeout(resolve, 60000));
+          } else {
+            throw error; // Re-throw if not a rate limit error
+          }
+        }
+      }
 
       if (options.embed) {
         const markdownContent = await fs.readFile(filePath, 'utf8');
-        content = `\n<script type="application/ld+json">\n${content}\n</script>\n` + markdownContent;
+        metadataContent = `${LLM_COMMENT}\n<script type="application/ld+json">\n${metadataContent}\n</script>\n${markdownContent}`;
+      } else {
+        metadataContent = `${LLM_COMMENT}\n${metadataContent}`;
       }
 
-      const outputFilePath = options.output || filePath.replace(/\.md$/, '.out.md');
-      await fs.writeFile(outputFilePath, content);
+      await fs.writeFile(outputFilePath, metadataContent);
       console.log(`Output written to ${outputFilePath}`);
+    }
+  }
+
+  async function processFilesInChunks(files) {
+    for (let i = 0; i < files.length; i += CHUNK_SIZE) {
+      const chunk = files.slice(i, i + CHUNK_SIZE);
+      await Promise.all(chunk.map(file => processFile(file)));
     }
   }
 
   const stats = await fs.stat(options.file);
   if (stats.isDirectory()) {
     const files = await fs.readdir(options.file);
-    for (const file of files) {
-      if (file.endsWith('.md')) {
-        await processFile(path.join(options.file, file));
-      }
-    }
+    const markdownFiles = files.filter(file => file.endsWith('.md')).map(file => path.join(options.file, file));
+    await processFilesInChunks(markdownFiles);
   } else {
     await processFile(options.file);
   }
@@ -107,6 +132,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     .option('embed', { alias: 'e', type: 'boolean', describe: 'Embed JSON-LD metadata into the original markdown', default: false })
     .option('batch', { alias: 'b', describe: 'Create a batch file and use output if present', type: 'boolean', default: false })
     .option('model', { alias: 'm', describe: 'Model to use for processing', type: 'string', default: DEFAULT_MODEL })
+    .option('overwrite', { alias: 'w', describe: 'Overwrite the input file with the formatted content', type: 'boolean', default: false })
     .parse();
 
   processMetadata(argv).catch(e => console.error(e));
