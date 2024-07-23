@@ -63,7 +63,7 @@ export class ClientSearch extends BentoSection {
       });
     }
     return renderBriefItem({
-      link: item.url,
+      link: `${item.url}/index.html`,
       title: item.title,
       description: item.description
     });
