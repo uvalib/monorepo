@@ -1,14 +1,13 @@
 // Import necessary libraries/modules
 import { LitElement, css, html, PropertyValueMap } from 'lit';
 import { property } from 'lit/decorators.js';
-import G6 from '@antv/g6';
+import G6, { Graph, GraphData } from '@antv/g6';
 
 export class VizGraph extends LitElement {
-
   // Define properties for the VizGraph component
-  @property({ type: Object }) graph: any;
-  @property({ type: Array }) nodes: any;
-  @property({ type: Array }) edges: any;
+  @property({ type: Object }) graph?: Graph;
+  @property({ type: Array }) nodes: GraphData['nodes'] = [];
+  @property({ type: Array }) edges: GraphData['edges'] = [];
   @property({ type: String }) layout = "force";
   @property({ type: Boolean }) overlap = true;
 
@@ -32,7 +31,7 @@ export class VizGraph extends LitElement {
   }
 
   // Render or update the graph
-  __renderGraph() {
+  private __renderGraph() {
     if (this.graph) {
       const graphData = { nodes: this.nodes, edges: this.edges };
       this.graph.updateLayout({
@@ -59,7 +58,6 @@ export class VizGraph extends LitElement {
     if (container) {
       const width = container.scrollWidth;
       const height = container.scrollHeight || 500;
-
       // Create and configure tooltip for the graph
       const tooltip = new G6.Tooltip({
         offsetX: 10,
@@ -94,7 +92,6 @@ export class VizGraph extends LitElement {
           }
         },
       });
-
       // Initialize the graph with configuration and tooltip
       this.graph = new G6.Graph({
         container: container,
@@ -118,9 +115,8 @@ export class VizGraph extends LitElement {
           }
         }
       });
-
       // Render the graph if nodes or edges are available
-      if (this.nodes || this.edges) this.__renderGraph();
+      if ((this.nodes && this.nodes.length) || (this.edges && this.edges.length) ) this.__renderGraph();
     }
   }
 }
