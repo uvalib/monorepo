@@ -1,4 +1,4 @@
-import { Page, PageData } from "./Page";
+import { Page, PageData } from "./Page.js";
 
 export class News extends Page {};
 

@@ -1,5 +1,5 @@
 import { parseJSON } from 'date-fns';
-import { GeneralSearchResult } from './GeneralSearchResult';
+import { GeneralSearchResult } from './GeneralSearchResult.js';
 
 /* eslint-disable camelcase */
 export class Event extends GeneralSearchResult {

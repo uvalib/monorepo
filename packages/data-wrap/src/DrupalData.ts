@@ -1,22 +1,20 @@
 import { GeneralData } from './GeneralData.js';
 
 export class DrupalData extends GeneralData {
-  protected drupalEndpointURL = `/jsonapi/index/default_index`;
-//    window && window.location && window.location.hostname &&
-//    (window.location.hostname === 'library.virginia.edu' ||
-//      window.location.hostname === 'www.library.virginia.edu' ||
-//      window.location.hostname === 'library-drupal-dev-1.internal.lib.virginia.edu' ||
-//      window.location.hostname === 'library-drupal-dev.internal.lib.virginia.edu') ||
-//      window.location.hostname === 'uvalib-drupal-theme.ddev.site'
-//      ? `/jsonapi/index/default_index`
-//      : 'https://5570499q1i.execute-api.us-east-2.amazonaws.com/1_1_2/drupal';
+  protected drupalEndpointURL: string;
 
   protected type: string = '';
-
   public types: string[] = [];
 
   constructor(init?: Partial<DrupalData>) {
     super();
+
+    // Determine the base URL based on the environment variable or the current domain
+    if (typeof process !== 'undefined' && process.env.DRUPAL_BASE_URL) {
+      this.drupalEndpointURL = `${process.env.DRUPAL_BASE_URL}/jsonapi/index/default_index`;
+    } else {
+      this.drupalEndpointURL = `/jsonapi/index/default_index`;
+    }
   }
 
   protected makeQueryString() {

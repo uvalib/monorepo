@@ -49,7 +49,7 @@ async function listAccountsAndLocations() {
     if (accountsData.accounts && accountsData.accounts.length > 0) {
       for (const account of accountsData.accounts) {
         const accountId = account.name.split('/')[1];
-        const locationsUrl = `https://mybusinessbusinessinformation.googleapis.com/v1/accounts/${accountId}/locations?readMask=name`;
+        const locationsUrl = `https://mybusinessbusinessinformation.googleapis.com/v1/accounts/${accountId}/locations?readMask=name,title`;
         const locationsHeaders = {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',

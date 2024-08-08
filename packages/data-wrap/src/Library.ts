@@ -73,7 +73,7 @@ export class Library extends GeneralSearchResult {
         if (this.hoursId !== undefined) {
           const hoursData = new HoursData({ ids: [parseInt(this.hoursId)] });
           hoursData.fetchHours(startDate, count).then((hours) => {
-            console.log(hours)
+//            console.log(hours)
             this.setHours(hours[0]);
           });
         }

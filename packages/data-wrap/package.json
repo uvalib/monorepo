@@ -10,7 +10,8 @@
     ".": "./dist/src/index.js",
     "./data-wrap.js": "./dist/src/data-wrap.js",
     "./VirgoData.js": "./dist/src/VirgoData.js",
-    "./CatalogData.js": "./dist/src/CatalogData.js"
+    "./CatalogData.js": "./dist/src/CatalogData.js",
+    "./LibrariesData.js": "./dist/src/LibrariesData.js"
   },
   "scripts": {
     "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",

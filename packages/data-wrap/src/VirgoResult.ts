@@ -1,4 +1,4 @@
-import { GeneralSearchResult } from "./GeneralSearchResult";
+import { GeneralSearchResult } from "./GeneralSearchResult.js";
 
 export class VirgoResult extends GeneralSearchResult {
 

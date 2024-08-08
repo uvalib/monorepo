@@ -54,8 +54,8 @@ export class LibrariesData extends DrupalSearchData {
       .then((hours: any) => {
         this.items.forEach((library) => {
           if (library.hoursId) {
-console.log('hours');
-console.log(hours);            
+//console.log('hours');
+//console.log(hours);            
             const matchingHours = hours.find(
               (h: { id: string | undefined }) => parseInt(<string>h.id, 10) === parseInt(<string>library.hoursId, 10)
             );
