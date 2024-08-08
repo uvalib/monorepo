@@ -1,14 +1,13 @@
 import dotenv from 'dotenv';
-import { LibrariesData } from '@uvalib/data-wrap/LibrariesData.js';
 import { transformHoursForGoogle, updateBusinessHours } from '@uvalib/data-wrap/GoogleAPIsHelper.js';
+import { LibrariesData } from '@uvalib/data-wrap/LibrariesData.js';
 
 dotenv.config();
 
-// Mapping of library names to Google Location IDs
 const libraryNameToLocationId = {
   "clemons": "5593727798115540489",
   "main": "2775740908312360289",
-  "science": "7587690153343274973"
+  "science": "9073376664230470586"
 };
 
 async function fetchLibraryHours() {
@@ -32,19 +31,19 @@ async function fetchLibraryHours() {
   return libraryHours;
 }
 
-async function logAndPushLibraryHours() {
+async function main() {
   try {
     const libraryHours = await fetchLibraryHours();
 
     const googleFormattedHours = transformHoursForGoogle(libraryHours, libraryNameToLocationId);
     console.log('Google Formatted Hours:', JSON.stringify(googleFormattedHours, null, 2));
 
-    for (const [locationId, hours] of Object.entries(googleFormattedHours)) {
-      await updateBusinessHours(locationId, hours);
+    for (const [locationId, data] of Object.entries(googleFormattedHours)) {
+      await updateBusinessHours(locationId, data.regularHours.periods);
     }
   } catch (error) {
     console.error('Error fetching or updating library hours:', error.message);
   }
 }
 
-logAndPushLibraryHours();
+main();
