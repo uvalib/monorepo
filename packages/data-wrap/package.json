@@ -11,7 +11,8 @@
     "./data-wrap.js": "./dist/src/data-wrap.js",
     "./VirgoData.js": "./dist/src/VirgoData.js",
     "./CatalogData.js": "./dist/src/CatalogData.js",
-    "./LibrariesData.js": "./dist/src/LibrariesData.js"
+    "./LibrariesData.js": "./dist/src/LibrariesData.js",
+    "./GoogleAPIsHelper.js": "./dist/src/GoogleAPIsHelper.js"
   },
   "scripts": {
     "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
@@ -26,8 +27,10 @@
   },
   "dependencies": {
     "date-fns": "^2.29.3",
+    "dotenv": "^16.4.5",
     "flexsearch": "^0.7.31",
     "fuse.js": "^6.6.2",
+    "googleapis": "^140.0.1",
     "luxon": "^3.4.3"
   },
   "devDependencies": {
