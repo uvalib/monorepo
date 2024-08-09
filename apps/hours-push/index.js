@@ -1,49 +1,53 @@
+import { google } from 'googleapis';
+import open from 'open';
+import readline from 'readline';
 import dotenv from 'dotenv';
-import { transformHoursForGoogle, updateBusinessHours } from '@uvalib/data-wrap/GoogleAPIsHelper.js';
-import { LibrariesData } from '@uvalib/data-wrap/LibrariesData.js';
 
-dotenv.config();
+dotenv.config(); // Load environment variables from .env file
 
-const libraryNameToLocationId = {
-  "clemons": "5593727798115540489",
-  "main": "2775740908312360289",
-  "science": "9073376664230470586"
-};
+// Configure these with your actual credentials from the .env file
+const CLIENT_ID = process.env.CLIENT_ID;
+const CLIENT_SECRET = process.env.CLIENT_SECRET;
+const REDIRECT_URI = process.env.REDIRECT_URI;
+const SCOPES = ['https://www.googleapis.com/auth/business.manage'];
 
-async function fetchLibraryHours() {
-  const librariesData = new LibrariesData();
-  const today = new Date();
-  const weekStart = today.toISOString().split('T')[0];
+const oauth2Client = new google.auth.OAuth2(
+  CLIENT_ID,
+  CLIENT_SECRET,
+  REDIRECT_URI
+);
 
-  const libraries = Object.keys(libraryNameToLocationId);
+// Generate the URL that will be used for authorization
+const authUrl = oauth2Client.generateAuthUrl({
+  access_type: 'offline', // Get a refresh token
+  scope: SCOPES
+});
 
-  const libraryHours = {};
+console.log('Authorize this app by visiting this url:', authUrl);
 
-  for (const library of libraries) {
-    const lib = await librariesData.getLibrary(library, true);
-    if (lib) {
-      const ids = lib.getHoursCalIds();
-      await librariesData.fetchHours(today, 6, ids);
-      libraryHours[library] = lib.hours.rawDates;
+// Automatically open the URL in the default browser
+open(authUrl);
+
+// Create an interface for user input
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+// Prompt the user to enter the code from the URL
+rl.question('Enter the code from that page here: ', (code) => {
+  rl.close();
+
+  oauth2Client.getToken(code, (err, token) => {
+    if (err) {
+      console.error('Error retrieving access token', err);
+      return;
     }
-  }
+    console.log('Access Token:', token.access_token);
+    console.log('Refresh Token:', token.refresh_token);
 
-  return libraryHours;
-}
-
-async function main() {
-  try {
-    const libraryHours = await fetchLibraryHours();
-
-    const googleFormattedHours = transformHoursForGoogle(libraryHours, libraryNameToLocationId);
-    console.log('Google Formatted Hours:', JSON.stringify(googleFormattedHours, null, 2));
-
-    for (const [locationId, data] of Object.entries(googleFormattedHours)) {
-      await updateBusinessHours(locationId, data.regularHours.periods);
-    }
-  } catch (error) {
-    console.error('Error fetching or updating library hours:', error.message);
-  }
-}
-
-main();
+    // Save the token for future use (you can save this in a secure place)
+    console.log('Please save this refresh token for future use:');
+    console.log(token.refresh_token);
+  });
+});
