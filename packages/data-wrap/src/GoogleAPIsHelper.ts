@@ -45,86 +45,115 @@ async function fetchWithRetry(url: string, options: any, retries: number = 3): P
 }
 
 export async function listAccountsAndLocations() {
-  try {
-    const token = await getAccessToken();
-
-    const accountsUrl = 'https://mybusinessaccountmanagement.googleapis.com/v1/accounts';
-    const accountsHeaders = {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    };
-
-    const accountsResponse = await fetchWithRetry(accountsUrl, {
-      method: 'GET',
-      headers: accountsHeaders,
-    });
-
-    const accountsData = await accountsResponse.json();
-
-    if (accountsData.accounts && accountsData.accounts.length > 0) {
-      const locationsData: { [key: string]: any } = {};
-
-      for (const account of accountsData.accounts) {
-        const accountId = account.name.split('/')[1];
-        const locationsUrl = `https://mybusinessbusinessinformation.googleapis.com/v1/accounts/${accountId}/locations?readMask=name,title`;
-        const locationsHeaders = {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        };
-
-        const locationsResponse = await fetchWithRetry(locationsUrl, {
-          method: 'GET',
-          headers: locationsHeaders,
-        });
-
-        locationsData[accountId] = await locationsResponse.json();
-      }
-
-      return { accounts: accountsData, locations: locationsData };
-    } else {
-      console.log('No accounts found.');
-      return null;
-    }
-  } catch (error) {
-    if (error instanceof Error) {
-      console.error('Error listing accounts and locations:', error.message);
-    } else {
-      console.error('Error listing accounts and locations:', error);
-    }
-    throw error;
-  }
-}
-
-export function transformHoursForGoogle(libraryHours: { [key: string]: any }, libraryNameToLocationId: { [key: string]: string }) {
-  const transformed: { [key: string]: any } = {};
-
-  for (const [library, hours] of Object.entries(libraryHours)) {
-    const locationId = libraryNameToLocationId[library];
-    if (!locationId) continue;
-
-    const periods: { openDay: string; closeDay: string; openTime: any; closeTime: any; }[] = Object.entries(hours).map(([date, info]: [string, any]) => {
-      const dayOfWeek = getDayOfWeekInTimezone(date, 'America/New_York');
-      if (info.status === 'open' && info.hours && info.hours.length > 0) {
-        return {
-          openDay: dayOfWeekToGoogle(dayOfWeek),
-          closeDay: dayOfWeekToGoogle(dayOfWeek),
-          openTime: timeStringToGoogleTime(info.hours[0].from),
-          closeTime: timeStringToGoogleTime(info.hours[0].to)
-        };
+    try {
+      const token = await getAccessToken();
+  
+      const accountsUrl = 'https://mybusinessaccountmanagement.googleapis.com/v1/accounts';
+      const accountsHeaders = {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      };
+  
+      const accountsResponse = await fetchWithRetry(accountsUrl, {
+        method: 'GET',
+        headers: accountsHeaders,
+      });
+  
+      const accountsData = await accountsResponse.json();
+  
+      if (accountsData.accounts && accountsData.accounts.length > 0) {
+        const locationsData: { [key: string]: any } = {};
+  
+        for (const account of accountsData.accounts) {
+          const accountId = account.name.split('/')[1];
+          let locationsUrl = `https://mybusinessbusinessinformation.googleapis.com/v1/accounts/${accountId}/locations?readMask=name,title`;
+          const locationsHeaders = {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          };
+  
+          let allLocations: any[] = [];
+          let nextPageToken: string | undefined;
+  
+          do {
+            const locationsResponse = await fetchWithRetry(locationsUrl, {
+              method: 'GET',
+              headers: locationsHeaders,
+            });
+  
+            const responseData = await locationsResponse.json();
+            if (responseData.locations) {
+              allLocations = allLocations.concat(responseData.locations);
+            }
+  
+            nextPageToken = responseData.nextPageToken;
+            if (nextPageToken) {
+              locationsUrl = `https://mybusinessbusinessinformation.googleapis.com/v1/accounts/${accountId}/locations?readMask=name,title&pageToken=${nextPageToken}`;
+            }
+          } while (nextPageToken);
+  
+          locationsData[accountId] = allLocations;
+        }
+  
+        return { accounts: accountsData, locations: locationsData };
       } else {
+        console.log('No accounts found.');
         return null;
       }
-    }).filter((period): period is { openDay: string; closeDay: string; openTime: any; closeTime: any; } => period !== null);
-
-    transformed[locationId] = {
-      regularHours: {
-        periods: periods
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error('Error listing accounts and locations:', error.message);
+      } else {
+        console.error('Error listing accounts and locations:', error);
       }
-    };
+      throw error;
+    }
   }
+  
 
-  return transformed;
-}
+  export function transformHoursForGoogle(libraryHours: { [key: string]: any }, libraryNameToLocationId: { [key: string]: string | string[] }) {
+    const transformed: { [key: string]: any } = {};
+  
+    for (const [library, hours] of Object.entries(libraryHours)) {
+      const locationIds = libraryNameToLocationId[library];
+  
+      if (!locationIds) continue;
+  
+      const periods: { openDay: string; closeDay: string; openTime: any; closeTime: any; }[] = Object.entries(hours).map(([date, info]: [string, any]) => {
+        const dayOfWeek = getDayOfWeekInTimezone(date, 'America/New_York');
+        if (info.status === 'open' && info.hours && info.hours.length > 0) {
+          return {
+            openDay: dayOfWeekToGoogle(dayOfWeek),
+            closeDay: dayOfWeekToGoogle(dayOfWeek),
+            openTime: timeStringToGoogleTime(info.hours[0].from),
+            closeTime: timeStringToGoogleTime(info.hours[0].to)
+          };
+        } else {
+          return null;
+        }
+      }).filter((period): period is { openDay: string; closeDay: string; openTime: any; closeTime: any; } => period !== null);
+  
+      // Handle both single and multiple location IDs
+      if (Array.isArray(locationIds)) {
+        for (const locationId of locationIds) {
+          transformed[locationId] = {
+            regularHours: {
+              periods: periods
+            }
+          };
+        }
+      } else {
+        transformed[locationIds] = {
+          regularHours: {
+            periods: periods
+          }
+        };
+      }
+    }
+  
+    return transformed;
+  }
+  
 
 function dayOfWeekToGoogle(day: number) {
   const days = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];

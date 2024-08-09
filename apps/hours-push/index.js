@@ -7,7 +7,10 @@ dotenv.config();
 const libraryNameToLocationId = {
   "clemons": "5593727798115540489",
   "main": "2775740908312360289",
-  "science": "9073376664230470586"
+  "science": "9073376664230470586",
+  "harrison": ["9145152052087650144","5658702455840637440"],
+  "fine-arts": "3728675324704815655",
+  "music": "17792018800555508764"
 };
 
 async function fetchLibraryHours() {
@@ -45,5 +48,6 @@ async function main() {
     console.error('Error fetching or updating library hours:', error.message);
   }
 }
+
 
 main();
