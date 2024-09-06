@@ -1,4 +1,4 @@
-import{_ as t,n as e}from"../../property-fe2d5cc5.js";import{i as o,s as i,x as s}from"../../lit-element-ab109411.js";
+import{i as t,_ as e,n as o,s as i,x as s}from"../../property-4490ebb8.js";
 /**
  * @license
  * Copyright (c) 2017 - 2023 Vaadin Ltd.
@@ -1858,10 +1858,10 @@ const hn=new ResizeObserver((t=>{setTimeout((()=>{t.forEach((t=>{t.target.resiza
       <slot name="tooltip"></slot>
     `}static get is(){return"vaadin-menu-bar"}static get properties(){return{items:{type:Array,value:()=>[]},i18n:{type:Object,value:()=>({moreOptions:"More options"})},overlayClass:{type:String}}}static get observers(){return["_themeChanged(_theme, _overflow, _container)"]}ready(){super.ready(),this._tooltipController=new Ei(this),this._tooltipController.setManual(!0),this.addController(this._tooltipController)}_disabledChanged(t,e){super._disabledChanged(t,e),e!==t&&this.__updateButtonsDisabled(t)}_themeChanged(t,e,o){e&&o&&(this._buttons.forEach((e=>this._setButtonTheme(e,t))),this.__detectOverflow()),t?this._subMenu.setAttribute("theme",t):this._subMenu.removeAttribute("theme")}__updateButtonsDisabled(t){this._buttons.forEach((e=>{e.disabled=t||e.item&&e.item.disabled}))}}customElements.define(mn.is,mn);class _n extends i{constructor(){super(...arguments),this.items=[{text:"View",href:"https://google.com"},{text:"Edit"},{text:"Share",children:[{text:"On social media",children:[{text:"Facebook"},{text:"Twitter"},{text:"Instagram"}]},{text:"By email"},{text:"Get link"}]},{text:"Move",children:[{text:"To folder"},{text:"To trash"}]},{text:"Duplicate"}],this.counter=5}itemSelected(t){t.detail.value.href&&(window.location=t.detail.value.href)}render(){return s`
       <vaadin-menu-bar .items="${this.items}" @item-selected="${this.itemSelected}"></vaadin-menu-bar>
-    `}}_n.styles=o`
+    `}}_n.styles=t`
     :host {
       display: block;
       padding: 25px;
       color: var(--site-components-text-color, #000);
     }
-  `,t([e({type:Object})],_n.prototype,"items",void 0),t([e({type:Number})],_n.prototype,"counter",void 0),window.customElements.define("site-menu-bar",_n);
+  `,e([o({type:Object})],_n.prototype,"items",void 0),e([o({type:Number})],_n.prototype,"counter",void 0),window.customElements.define("site-menu-bar",_n);
