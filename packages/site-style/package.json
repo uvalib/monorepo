@@ -55,6 +55,7 @@
     "arrowParens": "avoid"
   },
   "dependencies": {
-    "@lit-labs/observers": "^1.1.0"
+    "@lit-labs/observers": "^1.1.0",
+    "lit": "^3.1.3"
   }
 }

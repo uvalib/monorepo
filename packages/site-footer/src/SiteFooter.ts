@@ -1,20 +1,25 @@
-import { html, css, LitElement } from 'lit';
+import { html, css, LitElement, adoptStyles } from 'lit';
 import { property } from 'lit/decorators.js';
+import { AccessibleSheet, MainStyleSheet } from "@uvalib/site-style";
 
 export class SiteFooter extends LitElement {
+
+  @property({ type: String, attribute: "root-link-domain" }) rootLinkDomain: string = "https://www.library.virginia.edu";
+
   static styles = css`
+:host {
+  display: block;
+  width: 100%;
+}    
 footer {
   display: inline-flex;
   flex-direction: column;
   width: inherit;
 }
-footer .w3-width-1360 {
-  margin: 0 auto;
-}
 footer .footer--pre {
   background-color: #BFE7F7;
 }
-footer .footer--pre p {
+footer .footer--pre p, footer .footer--pre ::slotted([slot="pre-footer"]) {
   text-align: center;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
@@ -78,29 +83,27 @@ footer .footer--post .post-footer div {
 }    
   `;
 
+override connectedCallback() {
+  super.connectedCallback();
+  adoptStyles(this.renderRoot as ShadowRoot, [ SiteFooter.styles, AccessibleSheet, MainStyleSheet]);
+}
+
   render() {
     return html`
 <footer>
-		<div class="footer--pre">
-<div id="block-prefooter" class="pre-footer block block-block-content block-block-contentc7bd168a-7764-42c1-a168-a5f992603d60">
-	
-		
-			  <div class="layout layout--onecol">
-    <div class="layout__region layout__region--content">
-      <div class="block block-layout-builder block-field-blockblock-contentbasicbody">
-	
-		
-			
-            <div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item"><p>This is the newest version of the Library website. <a href="/site-feedback">Please give us your feedback</a>.</p></div>
-      
-	</div>
-
+    <div class="footer--pre">
+      <div id="block-prefooter" class="pre-footer block block-block-content block-block-contentc7bd168a-7764-42c1-a168-a5f992603d60">
+        <div class="layout layout--onecol">
+          <div class="layout__region layout__region--content">
+            <div class="block block-layout-builder block-field-blockblock-contentbasicbody">
+              <div class="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item">
+                <slot name="pre-footer"></slot>
+              </div>      
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-
-	</div>
-
-</div>
 		<div class="footer--main">
 <div id="block-uvalibrary-v2a-footerusingthelibrary" class="block block-block-content block-block-contentbb3ca4ac-cdfd-49f0-a5f5-404f31e6f1d3">
 	

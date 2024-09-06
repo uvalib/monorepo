@@ -24,15 +24,24 @@ const transformedContent = variableMatches.map(variable => {
 // Wrap the transformed content in a LitElement CSS module
 const outputContent = `
 import { css } from 'lit';
+export const Colors = css\`
+  ${transformedContent}
+\`;
 
 export const LibraryColors = css\`
 :host {
-  ${transformedContent}
+  \$\{Colors\}
 
   /* UVA White */
   --uva-white: #fff;
+  --uva-black: #000;
 }
 \`;
+
+export const ColorsSheet = new CSSStyleSheet();
+ColorsSheet.replaceSync(\`
+  \$\{LibraryColors\}
+\`);
 `;
 
 // Write the transformed content to a new file

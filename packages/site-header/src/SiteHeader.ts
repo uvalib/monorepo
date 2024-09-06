@@ -1,43 +1,29 @@
-import { html, css, LitElement } from 'lit';
+import { html, css, LitElement, adoptStyles } from 'lit';
 import { property } from 'lit/decorators.js';
+import { AccessibleSheet, MainStyleSheet, W3CSSSheet } from "@uvalib/site-style";
 
 export class SiteHeader extends LitElement {
 
-  @property({ type: String }) rootLinkDomain: string = "https://www.library.virginia.edu";
+  @property({ type: String, attribute: "root-link-domain" }) rootLinkDomain: string = "https://www.library.virginia.edu";
 
-  static styles = css`
-
-    /* Styles for visually hidden elements */
-    .visually-hidden {
-      border: 0;
-      clip: rect(0 0 0 0);
-      height: 1px;
-      margin: -1px;
-      overflow: hidden;
-      padding: 0;
-      position: absolute;
-      white-space: nowrap;
-      width: 1px;
-    }
-
+  static override styles = css`
 
     :host {
       display: block;
-      padding: 25px;
-      color: var(--site-header-text-color, #000);
+      width: 100%;
     }
 
     /* Direct styles for the header elements */
     #header {
-      /* position: fixed;
-      top: 0; */
-      width: 100%;
-      z-index: 1000;
+      background-color: #ffffff !important;
+      padding: 0.5rem 0;
     }
     #header-inner {
-      max-width: 1340px;
-      margin: 0 /* auto */;
-      position: relative;
+      display: grid;
+      grid-template-columns: 225px 1fr;
+    }
+    #header #header-inner .utility-nav {
+      grid-area: 1/2/2/3;
     }
     .open-mobile-menu {
       display: none;
@@ -48,23 +34,33 @@ export class SiteHeader extends LitElement {
       border: none;
       outline: none;
     }
-    .utility-nav {
+    #utility-nav {
       float: right;
-      text-align: right;
-      margin-top: 10px;
     }
-    #utility-nav ul {
-      margin: 0;
-      padding: 0;
+    #utility-nav ul:first-of-type {
+      display: flex;
       list-style-type: none;
+      gap: 1.5rem;
     }
-    #utility-nav li {
-      display: inline-block;
+    #header #header-inner .block-system-branding-block {
+      grid-area: 1/1/2/2;
+      width: max-content;
     }
-    .site-logo img {
-      max-width: 100%;
-      height: auto;
-      display: block;
+    .header-inner > div {
+      float: left;
+      width: auto;
+    }
+    #header a.site-logo {
+      text-decoration: none !important;
+    }
+    .site-logo {
+      margin-top: 4px;
+    }
+    #header a.site-logo img {
+      max-width: 225px;
+    }
+    #header .site-name-slogan {
+      display: none;
     }
 
     /* Media queries for responsive design */
@@ -90,6 +86,11 @@ export class SiteHeader extends LitElement {
       }
     }
   `;
+
+  override connectedCallback() {
+    super.connectedCallback();
+    adoptStyles(this.renderRoot as ShadowRoot, [ SiteHeader.styles, AccessibleSheet, W3CSSSheet, MainStyleSheet]);
+  }
 
   render() {
     return html`

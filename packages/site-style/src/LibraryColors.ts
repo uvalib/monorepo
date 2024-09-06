@@ -1,8 +1,6 @@
 
 import { css } from 'lit';
-
-export const LibraryColors = css`
-:host {
+export const Colors = css`
   --uva-brand-blue-lightest: #87B9D9;;
 --uva-brand-blue-lighter: #3395D4;;
 --uva-brand-blue-light: #0370B7;;
@@ -48,8 +46,19 @@ export const LibraryColors = css`
 --uva-grey-dark: #4F4F4F;;
 --uva-grey-darkest: #2B2B2B;;
 --uva-grey: #808080;;
+`;
+
+export const LibraryColors = css`
+:host {
+  ${Colors}
 
   /* UVA White */
   --uva-white: #fff;
+  --uva-black: #000;
 }
 `;
+
+export const ColorsSheet = new CSSStyleSheet();
+ColorsSheet.replaceSync(`
+  ${LibraryColors}
+`);

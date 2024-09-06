@@ -16,4 +16,16 @@ export const W3CSS = css`
 .w3-width-1360 {
     max-width: 1360px !important;
 }
+.w3-animate-opacity {
+    animation: opac 0.6s;
+    animation-timing-function: cubic-bezier(0.1, 0.9, 2, 0.1);
+}
+.w3-row-padding, .w3-row-padding > .w3-half, .w3-row-padding > .w3-third, .w3-row-padding > .w3-twothird, .w3-row-padding > .w3-threequarter, .w3-row-padding > .w3-quarter, .w3-row-padding > .w3-col {
+    padding: 0 8px;
+}
 `;
+
+export const W3CSSSheet = new CSSStyleSheet();
+W3CSSSheet.replaceSync(`
+  ${W3CSS}
+`);
