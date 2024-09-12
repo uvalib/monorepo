@@ -63,5 +63,8 @@
       "eslint --fix",
       "prettier --write"
     ]
+  },
+  "dependencies": {
+    "@uvalib/webSiteInfo": "workspace:*"
   }
 }

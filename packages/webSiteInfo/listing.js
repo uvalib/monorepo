@@ -1,5 +1,3 @@
-import { url } from "inspector";
-
 const Sites = [
     { 
         name: "100 Objects", 
@@ -65,6 +63,7 @@ const Sites = [
         name: "Test UX", 
         matomoSiteId: 23,
         description: "Test Matomo Id for development/testing purposes",
+        matomoDefault: true
     },
     { 
         name: "The Taper", 

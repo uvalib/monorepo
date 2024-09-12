@@ -1,5 +1,6 @@
 import { html, css, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
+import Sites from '@uvalib/webSiteInfo/listing.js';
 
 // Extend the global Window interface
 declare global {
@@ -39,12 +40,31 @@ export class SiteAnalytics extends LitElement {
   private matomoTracker?: any;
 
   firstUpdated() {
+    // If matomoId is not provided, find the correct one based on the current URL
+    if (!this.matomoId) {
+      this.matomoId = this.getMatomoIdFromCurrentUrl();
+    }
+    
     this.initMatomo();
 
     // Add event listeners
     document.addEventListener("site-analytics-search", this.logSearch.bind(this) as EventListener);
     document.addEventListener("site-analytics-event", this.logEvent.bind(this) as EventListener);
     document.addEventListener("site-analytics-pageview", this.logPageView.bind(this) as EventListener);
+  }
+
+  private getMatomoIdFromCurrentUrl(): number | undefined {
+    const currentUrl = window.location.href;
+
+    // Find the matching site based on the current URL
+    const matchedSite = Sites.find(site =>
+      site.urls?.some(url => currentUrl.startsWith(url))
+    );
+
+    // If no match is found, use the "matomoDefault" site's ID
+    const defaultSite = Sites.find(site => site.matomoDefault === true);
+
+    return matchedSite?.matomoSiteId || defaultSite?.matomoSiteId;
   }
 
   private logPageView(e: CustomEvent<PageViewDetail>) {
