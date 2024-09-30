@@ -83,7 +83,7 @@ import{_ as t,n as e,x as r}from"./property-4490ebb8.js";import{S as i}from"./Si
             <tr>
               <th scope="row" colspan="2" aria-label="${t.title}">
                 ${t.siteLink?r`
-                <a class="lib-space-link" href="${t.siteLink}">${t.title}</a>            
+                <a class="lib-space-link" href="${t.siteLink.uri}">${t.title}</a>            
                 `:r`
                 <span class="lib-space">${t.title}</span>
                 `}
