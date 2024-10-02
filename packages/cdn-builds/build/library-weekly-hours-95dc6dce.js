@@ -82,7 +82,7 @@ import{_ as t,n as e,x as r}from"./property-4490ebb8.js";import{S as i}from"./Si
           ${this.library&&this.library.children?this.library.children.map((t=>r`
             <tr>
               <th scope="row" colspan="2" aria-label="${t.title}">
-                ${t.siteLink?r`
+                ${t.siteLink&&t.siteLink.uri?r`
                 <a class="lib-space-link" href="${t.siteLink.uri}">${t.title}</a>            
                 `:r`
                 <span class="lib-space">${t.title}</span>

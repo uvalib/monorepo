@@ -90,7 +90,7 @@ export class LibraryWeeklyHours extends LibraryBaseHours {
           ${(this.library && this.library.children )? this.library.children.map(l=>html`
             <tr>
               <th scope="row" colspan="2" aria-label="${l.title}">
-                ${l.siteLink? html`
+                ${(l.siteLink && l.siteLink.uri)? html`
                 <a class="lib-space-link" href="${l.siteLink.uri}">${l.title}</a>            
                 `:html`
                 <span class="lib-space">${l.title}</span>
