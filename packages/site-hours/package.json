@@ -26,7 +26,8 @@
   "dependencies": {
     "@uvalib/data-wrap": "workspace:*",
     "@uvalib/site-components": "workspace:*",
-    "@uvalib/site-style": "workspace:*"
+    "@uvalib/site-style": "workspace:*",
+    "@uvalib/site-spinner": "workspace:*"
   },
   "devDependencies": {
     "tsconfig": "workspace:*"

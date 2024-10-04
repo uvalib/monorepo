@@ -4,7 +4,6 @@ import { SiteStyle } from '@uvalib/site-style';
 import { LibrariesData, Library } from '@uvalib/data-wrap';
 import { printTimes, stringDateFormat } from './utils';
 
-
 // Main class for LibraryBaseHours
 export class LibraryBaseHours extends SiteStyle {
 
@@ -28,8 +27,14 @@ export class LibraryBaseHours extends SiteStyle {
 
   @property({type:String}) todayString:string;
   @property({type:String}) todayTimeString:string;
-  
+
+  // Loading state property
+  @property({type: Boolean}) loading = false;
+
   private intervalId: number | undefined;
+
+  // Loading counter
+  private _loadingCount = 0;
 
   // LibrariesData instance
   librariesData:LibrariesData;
@@ -45,7 +50,6 @@ export class LibraryBaseHours extends SiteStyle {
   }
 
   firstUpdated(){
-
     console.log(this.refreshEvery);
     this.intervalId = window.setInterval(()=>{
       console.log("refreshing today")
@@ -78,9 +82,9 @@ export class LibraryBaseHours extends SiteStyle {
 
   // Fetch library hours based on week start
   protected async getHours() {      
-
     if (this.library && this.librariesData) {
-     
+      this._loadingCount++;
+      this.loading = true;
       const ids = this.library.getHoursCalIds();
       try {
         if (this.mode === 'weekly') {
@@ -92,15 +96,18 @@ export class LibraryBaseHours extends SiteStyle {
         this.requestUpdate();
       } catch (error) {
         console.error("Error fetching hours:", error);
+      } finally {
+        this._loadingCount--;
+        this.loading = this._loadingCount > 0;
       }
     }
-    
   }
-  
 
   // Fetch library data based on library slug
   protected async getLibraryData() {
     if (this.librarySlug) {
+      this._loadingCount++;
+      this.loading = true;
       try {
         const lib = await this.librariesData.getLibrary(this.librarySlug, true);
         if (lib) {
@@ -109,10 +116,13 @@ export class LibraryBaseHours extends SiteStyle {
         }
       } catch (error) {
         console.error("Error fetching library data:", error);
+      } finally {
+        this._loadingCount--;
+        this.loading = this._loadingCount > 0;
       }
     }
   }
-  
+
   protected isOpen(rawDates: any, now: any = new Date()): boolean {
     const timeZone = 'America/New_York';
   
@@ -168,7 +178,6 @@ export class LibraryBaseHours extends SiteStyle {
   
     return false; // Not open 24 hours and not within any specified hours range
   }
-   
 
   // Helper function to print times
   protected printTimes(day: any){
@@ -204,11 +213,9 @@ export class LibraryBaseHours extends SiteStyle {
       this.weekStart = start;
     }
   }
-  
 
   // Get the start of the current week, defaults to today's date
   getCurrentWeekStart(today:Date = new Date()) {
-
     // Get the current day of the week (0 = Sunday, 1 = Monday, etc.)
     const currentDayOfWeek = today.getDay();
 
