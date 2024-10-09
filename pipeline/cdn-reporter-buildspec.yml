@@ -21,6 +21,7 @@ phases:
 
   build:
     commands:
+      - cd ${CODEBUILD_SRC_DIR}/apps/log-stats
       - npm install -g rimraf
       - npm install
       - npm run build
