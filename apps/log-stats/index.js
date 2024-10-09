@@ -53,9 +53,6 @@ exports.handler = async (event) => {
 
   console.log('Found prefixes:', prefixes);
 
-  // Limit the number of folders for testing
-  prefixes = prefixes.slice(0, 1); // Process only the first folder for testing
-
   // Process each folder sequentially
   for (const prefix of prefixes) {
     console.log(`Processing folder: ${prefix}`);
@@ -147,14 +144,11 @@ async function processLogsForFolder(sourceBucket, prefix, logFiles, destinationB
     // Prepare GoAccess arguments
     const args = [
       '--config-file=/opt/etc/goaccess.conf',
-      '--log-format=%d\\t%t\\t%^\\t%b\\t%h\\t%m\\t%v\\t%U\\t%s\\t%R\\t%u\\t%q\\t%^\\t%^\\t%^\\t%^\\t%H\\t%^\\t%^\\t%^\\t%^\\t%^\\t%^\\t%^\\t%^\\t%^\\t%^\\t%^\\t%^\\t%^\\t%^',
+      '--log-format=%d\\t%t\\t%^\\t%b\\t%h\\t%m\\t%v\\t%U\\t%s\\t%R\\t%u\\t%q\\t%^\\t%^\\t%^\\t%^\\t%^\\t%^\\t%^\\t%^\\t%^\\t%^\\t%^\\t%H\\t%^\\t%^\\t%^\\t%^\\t%^\\t%^\\t%^\\t%^\\t%^',
       '--date-format=%Y-%m-%d',
       '--time-format=%H:%M:%S',
       `--output=${reportFilePath}`,
-      '--real-os',
-      '--agent-list',
-      '--http-protocol=yes',
-      '--process-and-exit',
+      '--invalid-requests=/tmp/invalid-requests.log',
       '--debug-file=/tmp/goaccess-debug.log',
       '-', // Tell GoAccess to read from stdin
     ];
@@ -182,7 +176,7 @@ async function processLogsForFolder(sourceBucket, prefix, logFiles, destinationB
     });
 
     // Process each log file sequentially
-    for (const key of logFiles.slice(0, 10)) { // Limit to 10 log files for testing
+    for (const key of logFiles) { 
       console.log(`Processing log file: ${key}`);
 
       await new Promise((resolve, reject) => {
@@ -216,24 +210,48 @@ async function processLogsForFolder(sourceBucket, prefix, logFiles, destinationB
     goaccessProcess.stdin.end();
     console.log(`Closed GoAccess stdin for folder: ${prefix}`);
 
-    // Wait for GoAccess to finish processing
-    await new Promise((resolve, reject) => {
-      goaccessProcess.on('close', (code) => {
-        if (code === 0) {
-          console.log(`GoAccess process completed successfully for folder: ${prefix}`);
-          resolve();
-        } else {
-          console.error(`GoAccess exited with code ${code}`);
-          // Read and log the debug file
-          const debugFilePath = '/tmp/goaccess-debug.log';
-          if (fs.existsSync(debugFilePath)) {
-            const debugData = fs.readFileSync(debugFilePath, 'utf8');
-            console.error('GoAccess debug log:', debugData);
-          }
-          reject(new Error(`GoAccess exited with code ${code}`));
+// Wait for GoAccess to finish processing
+await new Promise((resolve, reject) => {
+  goaccessProcess.on('close', (code) => {
+    if (code === 0) {
+      console.log(`GoAccess process completed successfully for folder: ${prefix}`);
+
+      // Check if report file exists
+      if (!fs.existsSync(reportFilePath)) {
+        console.error(`Report file not found at ${reportFilePath}`);
+        // Read and log the debug file
+        const debugFilePath = '/tmp/goaccess-debug.log';
+        if (fs.existsSync(debugFilePath)) {
+          const debugData = fs.readFileSync(debugFilePath, 'utf8');
+          console.error('GoAccess debug log:', debugData);
         }
-      });
-    });
+        reject(new Error(`Report file not found at ${reportFilePath}`));
+        return;
+      }
+
+// After GoAccess process completion
+const invalidRequestsPath = '/tmp/invalid-requests.log';
+if (fs.existsSync(invalidRequestsPath)) {
+  const invalidRequestsData = fs.readFileSync(invalidRequestsPath, 'utf8');
+  console.error('GoAccess invalid requests log:', invalidRequestsData);
+}      
+
+      resolve();
+    } else {
+      console.error(`GoAccess exited with code ${code}`);
+      // Read and log the debug file
+      const debugFilePath = '/tmp/goaccess-debug.log';
+      if (fs.existsSync(debugFilePath)) {
+        const debugData = fs.readFileSync(debugFilePath, 'utf8');
+        console.error('GoAccess debug log:', debugData);
+      }
+      reject(new Error(`GoAccess exited with code ${code}`));
+    }
+
+
+  });
+});
+
 
     // Upload the report to the destination S3 bucket
     console.log(`Uploading report to S3 for folder: ${prefix}`);
