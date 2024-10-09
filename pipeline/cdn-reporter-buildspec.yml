@@ -22,7 +22,8 @@ phases:
   build:
     commands:
       - npm install -g rimraf
-      - npm install && npm run build
+      - npm install
+      - npm run build
       #
       # copy log-stats target
       - aws s3 cp ${CODEBUILD_SRC_DIR}/apps/log-stats/function.zip s3://${deploy_bucket}/${BUILD_VERSION}/cdn-reporter/function.zip --quiet
