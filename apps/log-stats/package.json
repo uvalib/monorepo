@@ -1,0 +1,16 @@
+{
+  "name": "log-stats",
+  "version": "1.0.0",
+  "description": "Lambda script to create cloudfront reports",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rimraf function.zip && zip -r function.zip index.js node_modules"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.1691.0"
+  }
+}
