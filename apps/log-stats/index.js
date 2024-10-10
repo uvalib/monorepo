@@ -1,9 +1,11 @@
 const { spawn } = require('child_process');
 const AWS = require('aws-sdk');
 const s3 = new AWS.S3();
+const lambda = new AWS.Lambda(); // Add this line
 const zlib = require('zlib');
 const path = require('path');
 const fs = require('fs');
+const { PassThrough } = require('stream');
 
 // Global exception handlers
 process.on('uncaughtException', (err) => {
@@ -14,7 +16,7 @@ process.on('unhandledRejection', (reason, promise) => {
   console.error('Unhandled Rejection at:', promise, 'reason:', reason);
 });
 
-exports.handler = async (event) => {
+exports.handler = async (event, context) => {
   const sourceBucket = 'uvalib-cdn-logs';
   const destinationBucket = 'uvalib-cdn-reports';
 
@@ -36,25 +38,10 @@ exports.handler = async (event) => {
 
   console.log(`Processing logs for ${yearStr}-${monthStr}`);
 
-  // List all 'folders' (prefixes) in the source bucket
-  const listParams = {
-    Bucket: sourceBucket,
-    Delimiter: '/',
-  };
-
-  let prefixes = [];
-  try {
-    const data = await s3.listObjectsV2(listParams).promise();
-    prefixes = data.CommonPrefixes.map(prefix => prefix.Prefix);
-  } catch (error) {
-    console.error('Error listing prefixes:', error);
-    throw error;
-  }
-
-  console.log('Found prefixes:', prefixes);
-
-  // Process each folder sequentially
-  for (const prefix of prefixes) {
+  // Check if the function was invoked with a specific prefix
+  if (event.prefix) {
+    // Process the specific folder
+    const prefix = event.prefix;
     console.log(`Processing folder: ${prefix}`);
 
     // List all log files in the folder for the previous month
@@ -62,23 +49,69 @@ exports.handler = async (event) => {
 
     if (logFiles.length === 0) {
       console.log(`No log files found for ${prefix} in ${yearStr}-${monthStr}`);
-      continue;
+      return {
+        statusCode: 200,
+        body: `No log files found for ${prefix} in ${yearStr}-${monthStr}`,
+      };
     }
 
     console.log(`Found ${logFiles.length} log files for ${prefix}`);
 
     // Process the log files
     try {
-      await processLogsForFolder(sourceBucket, prefix, logFiles, destinationBucket, yearStr, monthStr);
+      await processLogsForFolder(sourceBucket, prefix, logFiles, destinationBucket, yearStr, monthStr, previousMonth, previousYear);
     } catch (error) {
       console.error(`Error processing logs for folder ${prefix}:`, error);
+      throw error;
     }
-  }
 
-  return {
-    statusCode: 200,
-    body: 'Reports generated and uploaded successfully.',
-  };
+    return {
+      statusCode: 200,
+      body: `Report generated and uploaded successfully for ${prefix}.`,
+    };
+  } else {
+    // List all 'folders' (prefixes) in the source bucket
+    const listParams = {
+      Bucket: sourceBucket,
+      Delimiter: '/',
+    };
+
+    let prefixes = [];
+    try {
+      const data = await s3.listObjectsV2(listParams).promise();
+      prefixes = data.CommonPrefixes.map(prefix => prefix.Prefix);
+    } catch (error) {
+      console.error('Error listing prefixes:', error);
+      throw error;
+    }
+
+    console.log('Found prefixes:', prefixes);
+
+    // Invoke the function asynchronously for each prefix
+    const functionName = context.functionName;
+    const invokePromises = prefixes.map(async (prefix) => {
+      const params = {
+        FunctionName: functionName,
+        InvocationType: 'Event', // Asynchronous invocation
+        Payload: JSON.stringify({ prefix }),
+      };
+
+      try {
+        const result = await lambda.invoke(params).promise();
+        console.log(`Invoked Lambda for prefix ${prefix}:`, result);
+      } catch (error) {
+        console.error(`Error invoking Lambda for prefix ${prefix}:`, error);
+      }
+    });
+
+    // Wait for all invocations to be sent
+    await Promise.all(invokePromises);
+
+    return {
+      statusCode: 200,
+      body: 'Reports generation initiated for all prefixes.',
+    };
+  }
 };
 
 // Function to list log files for the previous month
@@ -122,13 +155,15 @@ async function getLogFilesForPreviousMonth(bucket, prefix, year, month) {
 }
 
 // Function to process logs for a folder with enhanced logging and error handling
-async function processLogsForFolder(sourceBucket, prefix, logFiles, destinationBucket, yearStr, monthStr) {
+async function processLogsForFolder(sourceBucket, prefix, logFiles, destinationBucket, yearStr, monthStr, previousMonth, previousYear) {
   console.log(`Starting processing logs for folder: ${prefix}`);
   try {
     const folderName = prefix.replace('/', '');
     const tempDir = `/tmp/${folderName}`;
     const reportFileName = `${yearStr}-${monthStr}.html`;
     const reportFilePath = `${tempDir}/${reportFileName}`;
+    const reportHtmlFilePath = `${tempDir}/${reportFileName}`;
+    const reportJsonFilePath = `${tempDir}/${yearStr}-${monthStr}.json`;
 
     // Ensure the temporary directory exists
     fs.mkdirSync(tempDir, { recursive: true });
@@ -141,13 +176,21 @@ async function processLogsForFolder(sourceBucket, prefix, logFiles, destinationB
       throw new Error(`GoAccess binary not found at ${goaccessPath}`);
     }
 
+    // Calculate the last day of the previous month
+    const lastDayOfMonth = new Date(previousYear, previousMonth + 1, 0).getDate();
+    const lastDayStr = String(lastDayOfMonth).padStart(2, '0');
+
     // Prepare GoAccess arguments
     const args = [
       '--config-file=/opt/etc/goaccess.conf',
       '--log-format=%d\\t%t\\t%^\\t%b\\t%h\\t%m\\t%v\\t%U\\t%s\\t%R\\t%u\\t%q\\t%^\\t%^\\t%^\\t%^\\t%^\\t%^\\t%^\\t%^\\t%^\\t%^\\t%^\\t%H\\t%^\\t%^\\t%^\\t%^\\t%^\\t%^\\t%^\\t%^\\t%^',
       '--date-format=%Y-%m-%d',
       '--time-format=%H:%M:%S',
-      `--output=${reportFilePath}`,
+      `--anonymize-ip`,
+//      `--since=${yearStr}-${monthStr}-01`,
+//      `--until=${yearStr}-${monthStr}-${lastDayStr}`,
+      `--output=${reportHtmlFilePath}`,
+      `--output=${reportJsonFilePath}`,
       '--invalid-requests=/tmp/invalid-requests.log',
       '--debug-file=/tmp/goaccess-debug.log',
       '-', // Tell GoAccess to read from stdin
@@ -175,106 +218,151 @@ async function processLogsForFolder(sourceBucket, prefix, logFiles, destinationB
       console.error(`GoAccess stdin error:`, error);
     });
 
-    // Process each log file sequentially
-    for (const key of logFiles) { 
-      console.log(`Processing log file: ${key}`);
+    // Create a combined stream
+    const combinedStream = new PassThrough();
 
-      await new Promise((resolve, reject) => {
+    // Pipe the combined stream into GoAccess stdin
+    combinedStream.pipe(goaccessProcess.stdin);
+
+    // Concurrency control variables
+    const maxConcurrency = 10; // Adjust based on testing and Lambda resources
+    let currentConcurrency = 0;
+    let queue = [...logFiles]; // Clone the logFiles array
+    let errored = false;
+
+    // Function to process log files with concurrency control
+    const processNext = () => {
+      if (errored) {
+        return;
+      }
+
+      while (currentConcurrency < maxConcurrency && queue.length > 0) {
+        const key = queue.shift();
+        currentConcurrency++;
+        console.log(`Processing log file: ${key}`);
+
         const params = { Bucket: sourceBucket, Key: key };
 
         const s3Stream = s3.getObject(params).createReadStream();
         const gunzip = zlib.createGunzip();
 
-        // Pipe the decompressed data into GoAccess stdin
-        s3Stream.pipe(gunzip).pipe(goaccessProcess.stdin, { end: false });
+        s3Stream.pipe(gunzip).pipe(combinedStream, { end: false });
 
-        // Handle stream events
-        s3Stream.on('end', () => {
-          console.log(`Finished reading log file: ${key}`);
-          resolve();
-        });
+        const onComplete = () => {
+          console.log(`Finished processing log file: ${key}`);
+          currentConcurrency--;
+          if (queue.length === 0 && currentConcurrency === 0) {
+            combinedStream.end();
+          } else {
+            processNext();
+          }
+        };
 
+        s3Stream.on('end', onComplete);
         s3Stream.on('error', (error) => {
           console.error(`Error reading log file from S3: ${key}`, error);
-          reject(error);
+          errored = true;
+          combinedStream.destroy();
+          goaccessProcess.kill();
         });
 
         gunzip.on('error', (error) => {
           console.error(`Error decompressing log file: ${key}`, error);
-          reject(error);
+          errored = true;
+          combinedStream.destroy();
+          goaccessProcess.kill();
         });
-      });
-    }
-
-    // Close GoAccess stdin to signal the end of input
-    goaccessProcess.stdin.end();
-    console.log(`Closed GoAccess stdin for folder: ${prefix}`);
-
-// Wait for GoAccess to finish processing
-await new Promise((resolve, reject) => {
-  goaccessProcess.on('close', (code) => {
-    if (code === 0) {
-      console.log(`GoAccess process completed successfully for folder: ${prefix}`);
-
-      // Check if report file exists
-      if (!fs.existsSync(reportFilePath)) {
-        console.error(`Report file not found at ${reportFilePath}`);
-        // Read and log the debug file
-        const debugFilePath = '/tmp/goaccess-debug.log';
-        if (fs.existsSync(debugFilePath)) {
-          const debugData = fs.readFileSync(debugFilePath, 'utf8');
-          console.error('GoAccess debug log:', debugData);
-        }
-        reject(new Error(`Report file not found at ${reportFilePath}`));
-        return;
       }
-
-// After GoAccess process completion
-const invalidRequestsPath = '/tmp/invalid-requests.log';
-if (fs.existsSync(invalidRequestsPath)) {
-  const invalidRequestsData = fs.readFileSync(invalidRequestsPath, 'utf8');
-  console.error('GoAccess invalid requests log:', invalidRequestsData);
-}      
-
-      resolve();
-    } else {
-      console.error(`GoAccess exited with code ${code}`);
-      // Read and log the debug file
-      const debugFilePath = '/tmp/goaccess-debug.log';
-      if (fs.existsSync(debugFilePath)) {
-        const debugData = fs.readFileSync(debugFilePath, 'utf8');
-        console.error('GoAccess debug log:', debugData);
-      }
-      reject(new Error(`GoAccess exited with code ${code}`));
-    }
-
-
-  });
-});
-
-
-    // Upload the report to the destination S3 bucket
-    console.log(`Uploading report to S3 for folder: ${prefix}`);
-    const reportData = fs.readFileSync(reportFilePath);
-    const destinationKey = `${folderName}/${reportFileName}`;
-    const uploadParams = {
-      Bucket: destinationBucket,
-      Key: destinationKey,
-      Body: reportData,
-      ContentType: 'text/html',
     };
 
-    await s3.putObject(uploadParams).promise();
-    console.log(`Report uploaded to ${destinationBucket}/${destinationKey}`);
+    // Start processing log files
+    processNext();
+
+    // Wait for the combined stream to end
+    await new Promise((resolve, reject) => {
+      combinedStream.on('end', resolve);
+      combinedStream.on('error', (error) => {
+        console.error('Combined stream error:', error);
+        reject(error);
+      });
+    });
+
+    console.log(`Closed GoAccess stdin for folder: ${prefix}`);
+
+    // Wait for GoAccess to finish processing
+    await new Promise((resolve, reject) => {
+      goaccessProcess.on('close', (code) => {
+        if (code === 0) {
+          console.log(`GoAccess process completed successfully for folder: ${prefix}`);
+
+          // Check if both report files exist
+          if (!fs.existsSync(reportHtmlFilePath) || !fs.existsSync(reportJsonFilePath)) {
+            console.error(`One or both report files not found at ${reportHtmlFilePath} and ${reportJsonFilePath}`);
+            // Read and log the debug file
+            const debugFilePath = '/tmp/goaccess-debug.log';
+            if (fs.existsSync(debugFilePath)) {
+              const debugData = fs.readFileSync(debugFilePath, 'utf8');
+              console.error('GoAccess debug log:', debugData);
+            }
+            reject(new Error(`One or both report files not found at ${reportHtmlFilePath} and ${reportJsonFilePath}`));
+            return;
+          }
+
+          // After GoAccess process completion
+          const invalidRequestsPath = '/tmp/invalid-requests.log';
+          if (fs.existsSync(invalidRequestsPath)) {
+            const invalidRequestsData = fs.readFileSync(invalidRequestsPath, 'utf8');
+            console.error('GoAccess invalid requests log:', invalidRequestsData);
+          }
+
+          resolve();
+        } else {
+          console.error(`GoAccess exited with code ${code}`);
+          // Read and log the debug file
+          const debugFilePath = '/tmp/goaccess-debug.log';
+          if (fs.existsSync(debugFilePath)) {
+            const debugData = fs.readFileSync(debugFilePath, 'utf8');
+              console.error('GoAccess debug log:', debugData);
+          }
+          reject(new Error(`GoAccess exited with code ${code}`));
+        }
+      });
+    });
+
+    // Upload both reports to S3
+    console.log(`Uploading reports to S3 for folder: ${prefix}`);
+
+    // Upload the HTML report
+    const htmlReportData = fs.readFileSync(reportHtmlFilePath);
+    const htmlUploadParams = {
+      Bucket: destinationBucket,
+      Key: `${folderName}/${reportFileName}`, // Includes .html extension
+      Body: htmlReportData,
+      ContentType: 'text/html',
+    };
+    await s3.putObject(htmlUploadParams).promise();
+    console.log(`HTML report uploaded to ${destinationBucket}/${htmlUploadParams.Key}`);
+
+    // Upload the JSON report
+    const jsonReportData = fs.readFileSync(reportJsonFilePath);
+    const jsonUploadParams = {
+      Bucket: destinationBucket,
+      Key: `${folderName}/${yearStr}-${monthStr}.json`,
+      Body: jsonReportData,
+      ContentType: 'application/json',
+    };
+    await s3.putObject(jsonUploadParams).promise();
+    console.log(`JSON report uploaded to ${destinationBucket}/${jsonUploadParams.Key}`);
 
     // Clean up temporary files
-    fs.unlinkSync(reportFilePath);
+    fs.unlinkSync(reportHtmlFilePath);
+    fs.unlinkSync(reportJsonFilePath);
     fs.rmdirSync(tempDir, { recursive: true });
     console.log(`Cleaned up temporary files for folder: ${prefix}`);
+
 
   } catch (error) {
     console.error(`Error in processLogsForFolder for ${prefix}:`, error);
     throw error;
   }
 }
-
