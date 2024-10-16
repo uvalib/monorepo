@@ -7,6 +7,7 @@ version: 0.2
 env:
   variables:
     deploy_bucket: default-lambda-deploy
+    GOACCESS_VERSION: 1.9.3
 
 phases:
   install:
@@ -16,31 +17,64 @@ phases:
 
   pre_build:
     commands:
-      - BUILD_VERSION=$(date --date="@$(echo $CODEBUILD_START_TIME | cut -c1-10)" +"%Y%m%d%H%M%S")
+      - echo "Setting up Build Variables..."
+      - BUILD_VERSION=$(date +"%Y%m%d%H%M%S")
       - COMMIT_TAG=gitcommit-${CODEBUILD_RESOLVED_SOURCE_VERSION}
+      - echo "Build Version: $BUILD_VERSION"
+      - export BUILD_VERSION
+      - mkdir -p dist
 
   build:
     commands:
-      - cd ${CODEBUILD_SRC_DIR}/apps/log-stats
+      #
+      # Build the Lambda layer
+      #
+      - echo "Building GoAccess Lambda Layer..."
+      - cd packages/goaccess-lambda-layer
+      - ./scripts/build.sh
+      #
+      # Upload the Lambda layer to S3
+      #
+      - echo "Uploading Lambda Layer to S3..."
+      - aws s3 cp dist/goaccess_layer.zip s3://${deploy_bucket}/${BUILD_VERSION}/goaccess_layer.zip --quiet
+      - aws s3 cp dist/goaccess_layer.zip s3://${deploy_bucket}/latest/goaccess_layer.zip --quiet
+      #
+      # Build the Lambda function
+      #
+      - echo "Building Lambda Function..."
+      - cd ../../apps/log-stats
       - npm install -g rimraf
       - npm install
       - npm run build
       #
-      # copy log-stats target
-      - aws s3 cp ${CODEBUILD_SRC_DIR}/apps/log-stats/function.zip s3://${deploy_bucket}/${BUILD_VERSION}/cdn-reporter/function.zip --quiet
+      # Zip the Lambda function (if not already zipped by build)
+      - echo "Zipping Lambda Function..."
+      - rimraf function.zip
+      - zip -r function.zip ./*
       #
-      # create the git commit tag file
+      # Upload Lambda function to S3
+      #
+      - echo "Uploading Lambda Function to S3..."
+      - aws s3 cp function.zip s3://${deploy_bucket}/${BUILD_VERSION}/cdn-reporter/function.zip --quiet
+      #
+      # Create a git commit tag file
       #
       - touch ${CODEBUILD_SRC_DIR}/${COMMIT_TAG}.git
       - aws s3 cp ${CODEBUILD_SRC_DIR}/${COMMIT_TAG}.git s3://${deploy_bucket}/${BUILD_VERSION}/${COMMIT_TAG}.git --quiet
       #
-      # make the latest folder
+      # Sync the build artifacts to the 'latest' folder in S3
       #
+      - echo "Syncing build artifacts to 'latest'..."
       - aws s3 sync s3://${deploy_bucket}/${BUILD_VERSION} s3://${deploy_bucket}/latest --delete --quiet
 
-#  post_build:
-#    commands:
+  post_build:
+    commands:
+      - echo "Storing Build Version in SSM..."
+      - aws --region=$AWS_REGION ssm put-parameter --name /lambdas/${deploy_bucket}/latest --value ${BUILD_VERSION} --type String --overwrite
 
-#
-# end of file
-#
+artifacts:
+  files:
+    - dist/goaccess_layer.zip
+    - apps/log-stats/function.zip
+  discard-paths: yes
+
