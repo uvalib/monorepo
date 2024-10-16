@@ -1,0 +1,70 @@
+# Use Amazon Linux 2 as the base image
+FROM amazonlinux:2
+
+# Install build dependencies
+RUN yum update -y && \
+    yum install -y zip gzip wget tar gcc make glib2-devel geoip-devel openssl-devel zlib-devel ncurses-devel
+
+# Set environment variables
+ENV GOACCESS_VERSION=1.9.3
+ENV LAYER_DIR=/opt
+
+# Set working directory
+WORKDIR /build
+
+# Copy the GeoIP database from the host (ensure it's in the context)
+COPY geoip/GeoLiteCity.dat /build/goaccess-${GOACCESS_VERSION}/geoip/GeoLiteCity.dat
+
+# Download and extract GoAccess source code
+RUN wget https://tar.goaccess.io/goaccess-${GOACCESS_VERSION}.tar.gz && \
+    tar -xzf goaccess-${GOACCESS_VERSION}.tar.gz
+
+# Navigate into GoAccess directory
+WORKDIR /build/goaccess-${GOACCESS_VERSION}
+
+# Configure and compile GoAccess
+RUN ./configure --enable-utf8 --enable-geoip=legacy --prefix=${LAYER_DIR} && \
+    make && \
+    make install
+
+# Check dependencies of the goaccess binary
+RUN echo "Listing dependencies for goaccess binary:" && \
+    ldd ${LAYER_DIR}/bin/goaccess
+
+# Prepare the Lambda layer directory structure
+RUN mkdir -p /layer/bin /layer/lib /layer/etc/goaccess
+
+# Copy GoAccess binary and configuration files
+RUN cp ${LAYER_DIR}/bin/goaccess /layer/bin/ && \
+    cp -r ${LAYER_DIR}/etc/goaccess/* /layer/etc/goaccess/
+
+# Copy GeoIP Legacy database into the layer
+COPY geoip/GeoLiteCity.dat /layer/etc/goaccess/GeoLiteCity.dat
+
+# Automatically find and copy shared library dependencies directly into /layer/lib/
+RUN ldd ${LAYER_DIR}/bin/goaccess | awk '/=>/ {print $3}' | sort | uniq | grep '^/' | while read -r lib; do \
+    if [ -f "$lib" ]; then \
+        cp "$lib" /layer/lib/; \
+    fi; \
+done
+
+# Remove any lib64 directory if it exists
+RUN rm -rf /layer/lib/lib64
+
+# Append the geoip-database configuration line
+RUN echo "geoip-database /opt/etc/goaccess/GeoLiteCity.dat" >> /layer/etc/goaccess/goaccess.conf
+
+# Set executable permissions for GoAccess
+RUN chmod +x /layer/bin/goaccess
+
+# Debug: List contents of /layer/lib/
+RUN echo "Contents of /layer/lib:" && ls -lah /layer/lib/
+
+# Set working directory to layer
+WORKDIR /layer
+
+# Package the Lambda layer
+RUN zip -r9 /build/goaccess_layer.zip .
+
+# Add a minimal command to prevent "no command specified" error
+CMD ["echo", "GoAccess Lambda Layer Built Successfully"]

@@ -1,0 +1,21 @@
+{
+  "name": "goaccess-lambda-layer",
+  "version": "1.0.0",
+  "description": "AWS Lambda layer containing GoAccess binary and dependencies",
+  "main": "index.js",
+  "scripts": {
+    "build": "rimraf ./dist/goaccess_layer.zip && sh ./scripts/build.sh",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "aws",
+    "lambda",
+    "goaccess",
+    "layer"
+  ],
+  "author": "Doug Chestnut",
+  "license": "MIT",
+  "dependencies": {
+    "rimraf": "^3.0.2"
+  }
+}
