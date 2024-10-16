@@ -13,7 +13,6 @@ phases:
   install:
     runtime-versions:
       nodejs: 20
-#    commands:
 
   pre_build:
     commands:
@@ -26,44 +25,31 @@ phases:
 
   build:
     commands:
-      #
-      # Build the Lambda layer
-      #
       - echo "Building GoAccess Lambda Layer..."
       - cd packages/goaccess-lambda-layer
       - ./scripts/build.sh
-      #
-      # Upload the Lambda layer to S3
-      #
+
       - echo "Uploading Lambda Layer to S3..."
       - aws s3 cp dist/goaccess_layer.zip s3://${deploy_bucket}/${BUILD_VERSION}/goaccess_layer.zip --quiet
       - aws s3 cp dist/goaccess_layer.zip s3://${deploy_bucket}/latest/goaccess_layer.zip --quiet
-      #
-      # Build the Lambda function
-      #
+
       - echo "Building Lambda Function..."
       - cd ../../apps/log-stats
       - npm install -g rimraf
       - npm install
       - npm run build
-      #
-      # Zip the Lambda function (if not already zipped by build)
+
       - echo "Zipping Lambda Function..."
       - rimraf function.zip
       - zip -r function.zip ./*
-      #
-      # Upload Lambda function to S3
-      #
+
       - echo "Uploading Lambda Function to S3..."
       - aws s3 cp function.zip s3://${deploy_bucket}/${BUILD_VERSION}/cdn-reporter/function.zip --quiet
-      #
-      # Create a git commit tag file
-      #
+
+      - echo "Creating git commit tag file..."
       - touch ${CODEBUILD_SRC_DIR}/${COMMIT_TAG}.git
       - aws s3 cp ${CODEBUILD_SRC_DIR}/${COMMIT_TAG}.git s3://${deploy_bucket}/${BUILD_VERSION}/${COMMIT_TAG}.git --quiet
-      #
-      # Sync the build artifacts to the 'latest' folder in S3
-      #
+
       - echo "Syncing build artifacts to 'latest'..."
       - aws s3 sync s3://${deploy_bucket}/${BUILD_VERSION} s3://${deploy_bucket}/latest --delete --quiet
 
@@ -77,4 +63,3 @@ artifacts:
     - dist/goaccess_layer.zip
     - apps/log-stats/function.zip
   discard-paths: yes
-
