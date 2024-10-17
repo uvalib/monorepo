@@ -30,7 +30,6 @@ phases:
 
       - echo "Uploading Lambda Layer to S3..."
       - aws s3 cp dist/goaccess_layer.zip s3://${deploy_bucket}/${BUILD_VERSION}/goaccess_layer.zip --quiet
-      - aws s3 cp dist/goaccess_layer.zip s3://${deploy_bucket}/latest/goaccess_layer.zip --quiet
 
       - echo "Building Lambda Function..."
       - cd ../../apps/log-stats
