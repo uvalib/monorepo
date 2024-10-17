@@ -32,6 +32,12 @@ phases:
           --s3-key ${deploy_payload}
 
       #
+      # dont like this at all...
+      #
+      - echo "Sleeping 30 seconds to wait for lambda code update to complete..."
+      - sleep 30
+
+      #
       # Publish the Lambda layer from S3
       #
       - echo "Publishing Lambda Layer from S3..."
