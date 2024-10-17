@@ -37,7 +37,7 @@ phases:
       #
       - echo "Retrieving Layer Version ARN..."
       - LAYER_VERSION_ARN=$(aws lambda list-layer-versions --layer-name goaccess-binary --max-items 1 --query 'LayerVersions[0].LayerVersionArn' --output text | head -1)
-      - echo "Published Layer ARN: $LAYER_VERSION_ARN"
+      - echo "Published Layer ARN $LAYER_VERSION_ARN"
 
       #
       # Update the Lambda function to use the new layer
