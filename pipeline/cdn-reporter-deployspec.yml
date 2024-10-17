@@ -22,6 +22,16 @@ phases:
   build:
     commands:
       #
+      # Update Lambda function code from S3
+      #
+      - echo "Updating Lambda Function Code from S3..."
+      - |
+        aws lambda update-function-code \
+          --function-name uvalib-cdn-reporter-production \
+          --s3-bucket ${deploy_bucket} \
+          --s3-key ${deploy_payload}
+
+      #
       # Publish the Lambda layer from S3
       #
       - echo "Publishing Lambda Layer from S3..."
@@ -41,6 +51,12 @@ phases:
       - echo "Published Layer ARN ${LAYER_VERSION_ARN}"
 
       #
+      # dont like this at all...
+      #
+      #- echo "Sleeping for 10 seconds to give update command a chance to complete..."
+      #- sleep 10
+
+      #
       # Update the Lambda function to use the new layer
       #
       - echo "Updating Lambda Function to use the new layer..."
@@ -48,16 +64,6 @@ phases:
         aws lambda update-function-configuration \
           --function-name uvalib-cdn-reporter-production \
           --layers ${LAYER_VERSION_ARN}
-
-      #
-      # Update Lambda function code from S3
-      #
-      - echo "Updating Lambda Function Code from S3..."
-      - |
-        aws lambda update-function-code \
-          --function-name uvalib-cdn-reporter-production \
-          --s3-bucket ${deploy_bucket} \
-          --s3-key ${deploy_payload}
 
 #
 # end of file
