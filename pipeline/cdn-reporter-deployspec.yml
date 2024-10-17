@@ -25,7 +25,8 @@ phases:
       # Publish the Lambda layer from S3
       #
       - echo "Publishing Lambda Layer from S3..."
-      - aws lambda publish-layer-version \
+      - |
+        aws lambda publish-layer-version \
           --layer-name goaccess-binary \
           --description "GoAccess Lambda Layer version" \
           --content S3Bucket=${deploy_bucket},S3Key=latest/goaccess_layer.zip \
@@ -43,7 +44,8 @@ phases:
       # Update the Lambda function to use the new layer
       #
       - echo "Updating Lambda Function to use the new layer..."
-      - aws lambda update-function-configuration \
+      - |
+        aws lambda update-function-configuration \
           --function-name uvalib-cdn-reporter-production \
           --layers $LAYER_VERSION_ARN
 
@@ -51,8 +53,11 @@ phases:
       # Update Lambda function code from S3
       #
       - echo "Updating Lambda Function Code from S3..."
-      - aws lambda update-function-code \
+      - |
+        aws lambda update-function-code \
           --function-name uvalib-cdn-reporter-production \
           --s3-bucket ${deploy_bucket} \
           --s3-key latest/cdn-reporter/function.zip \
           --quiet
+
+
