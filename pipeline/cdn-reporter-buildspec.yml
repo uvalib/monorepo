@@ -19,7 +19,6 @@ phases:
       - echo "Setting up Build Variables..."
       - BUILD_VERSION=$(date +"%Y%m%d%H%M%S")
       - COMMIT_TAG=gitcommit-${CODEBUILD_RESOLVED_SOURCE_VERSION}
-      - echo "Build Version: $BUILD_VERSION"
       - export BUILD_VERSION
       - mkdir -p dist
 
