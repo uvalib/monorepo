@@ -7,8 +7,8 @@ version: 0.2
 env:
   variables:
     deploy_bucket: default-lambda-deploy
-    deploy_payload: function.zip
-    layer_payload: goaccess_layer.zip
+    deploy_payload: latest/cdn-reporter/function.zip
+    layer_payload: latest/goaccess_layer.zip
 
 phases:
   install:
@@ -29,7 +29,7 @@ phases:
         aws lambda publish-layer-version \
           --layer-name goaccess-binary \
           --description "GoAccess Lambda Layer version" \
-          --content S3Bucket=${deploy_bucket},S3Key=latest/goaccess_layer.zip \
+          --content S3Bucket=${deploy_bucket},S3Key=${layer_payload} \
           --compatible-runtimes dotnet8 java21 nodejs20.x python3.12 ruby3.3 provided.al2023 \
           --license-info "MIT"
 
@@ -38,7 +38,7 @@ phases:
       #
       - echo "Retrieving Layer Version ARN..."
       - LAYER_VERSION_ARN=$(aws lambda list-layer-versions --layer-name goaccess-binary --max-items 1 --query 'LayerVersions[0].LayerVersionArn' --output text | head -1)
-      - echo "Published Layer ARN $LAYER_VERSION_ARN"
+      - echo "Published Layer ARN ${LAYER_VERSION_ARN}"
 
       #
       # Update the Lambda function to use the new layer
@@ -47,7 +47,7 @@ phases:
       - |
         aws lambda update-function-configuration \
           --function-name uvalib-cdn-reporter-production \
-          --layers $LAYER_VERSION_ARN
+          --layers ${LAYER_VERSION_ARN}
 
       #
       # Update Lambda function code from S3
@@ -57,7 +57,8 @@ phases:
         aws lambda update-function-code \
           --function-name uvalib-cdn-reporter-production \
           --s3-bucket ${deploy_bucket} \
-          --s3-key latest/cdn-reporter/function.zip \
-          --quiet
+          --s3-key ${deploy_payload}
 
-
+#
+# end of file
+#
