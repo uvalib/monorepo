@@ -51,12 +51,6 @@ phases:
       - echo "Published Layer ARN ${LAYER_VERSION_ARN}"
 
       #
-      # dont like this at all...
-      #
-      #- echo "Sleeping for 10 seconds to give update command a chance to complete..."
-      #- sleep 10
-
-      #
       # Update the Lambda function to use the new layer
       #
       - echo "Updating Lambda Function to use the new layer..."
