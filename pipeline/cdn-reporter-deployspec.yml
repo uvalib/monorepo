@@ -16,12 +16,8 @@ phases:
       nodejs: 20
 #    commands:
 
-  pre_build:
-    commands:
-      - echo "Retrieving Build Version from SSM..."
-      - BUILD_VERSION=$(aws --region=$AWS_REGION ssm get-parameter --name /lambdas/${deploy_bucket}/latest --query 'Parameter.Value' --output text)
-      - echo "Build Version: $BUILD_VERSION"
-      - export BUILD_VERSION
+#  pre_build:
+#    commands:
 
   build:
     commands:
@@ -31,8 +27,8 @@ phases:
       - echo "Publishing Lambda Layer from S3..."
       - aws lambda publish-layer-version \
           --layer-name goaccess-binary \
-          --description "GoAccess Lambda Layer version ${BUILD_VERSION}" \
-          --content S3Bucket=${deploy_bucket},S3Key=${BUILD_VERSION}/goaccess_layer.zip \
+          --description "GoAccess Lambda Layer version" \
+          --content S3Bucket=${deploy_bucket},S3Key=latest/goaccess_layer.zip \
           --compatible-runtimes dotnet8 java21 nodejs20.x python3.12 ruby3.3 provided.al2023 \
           --license-info "MIT"
 
@@ -40,7 +36,7 @@ phases:
       # Retrieve the Layer Version ARN
       #
       - echo "Retrieving Layer Version ARN..."
-      - LAYER_VERSION_ARN=$(aws lambda list-layer-versions --layer-name goaccess-binary --max-items 1 --query 'LayerVersions[0].LayerVersionArn' --output text)
+      - LAYER_VERSION_ARN=$(aws lambda list-layer-versions --layer-name goaccess-binary --max-items 1 --query 'LayerVersions[0].LayerVersionArn' --output text | head -1)
       - echo "Published Layer ARN: $LAYER_VERSION_ARN"
 
       #
@@ -58,17 +54,5 @@ phases:
       - aws lambda update-function-code \
           --function-name uvalib-cdn-reporter-production \
           --s3-bucket ${deploy_bucket} \
-          --s3-key ${BUILD_VERSION}/cdn-reporter/function.zip \
+          --s3-key latest/cdn-reporter/function.zip \
           --quiet
-
-      #
-      # Sync the latest folder in S3
-      #
-#      - echo "Syncing latest folder in S3..."
-#      - aws s3 sync s3://${deploy_bucket}/${BUILD_VERSION} s3://${deploy_bucket}/latest --delete --quiet
-
-artifacts:
-  files:
-    - dist/goaccess_layer.zip
-    - apps/log-stats/function.zip
-  discard-paths: yes
