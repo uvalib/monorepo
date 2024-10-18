@@ -47,6 +47,7 @@ phases:
           --description "GoAccess Lambda Layer version" \
           --content S3Bucket=${deploy_bucket},S3Key=${layer_payload} \
           --compatible-runtimes dotnet8 java21 nodejs20.x python3.12 ruby3.3 provided.al2023 \
+          --compatible-architectures x86_64 \
           --license-info "MIT"
 
       #
@@ -64,6 +65,7 @@ phases:
         aws lambda update-function-configuration \
           --function-name uvalib-cdn-reporter-production \
           --layers ${LAYER_VERSION_ARN}
+          --architectures x86_64
 
 #
 # end of file
