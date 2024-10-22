@@ -1,7 +1,7 @@
 const { spawn } = require('child_process');
 const AWS = require('aws-sdk');
 const s3 = new AWS.S3();
-const lambda = new AWS.Lambda(); // Add this line
+const lambda = new AWS.Lambda();
 const zlib = require('zlib');
 const path = require('path');
 const fs = require('fs');
@@ -161,7 +161,6 @@ async function processLogsForFolder(sourceBucket, prefix, logFiles, destinationB
     const folderName = prefix.replace('/', '');
     const tempDir = `/tmp/${folderName}`;
     const reportFileName = `${yearStr}-${monthStr}.html`;
-    const reportFilePath = `${tempDir}/${reportFileName}`;
     const reportHtmlFilePath = `${tempDir}/${reportFileName}`;
     const reportJsonFilePath = `${tempDir}/${yearStr}-${monthStr}.json`;
 
@@ -176,19 +175,13 @@ async function processLogsForFolder(sourceBucket, prefix, logFiles, destinationB
       throw new Error(`GoAccess binary not found at ${goaccessPath}`);
     }
 
-    // Calculate the last day of the previous month
-    const lastDayOfMonth = new Date(previousYear, previousMonth + 1, 0).getDate();
-    const lastDayStr = String(lastDayOfMonth).padStart(2, '0');
-
     // Prepare GoAccess arguments
     const args = [
       '--config-file=/opt/etc/goaccess.conf',
       '--log-format=%d\\t%t\\t%^\\t%b\\t%h\\t%m\\t%v\\t%U\\t%s\\t%R\\t%u\\t%q\\t%^\\t%^\\t%^\\t%^\\t%^\\t%^\\t%^\\t%^\\t%^\\t%^\\t%^\\t%H\\t%^\\t%^\\t%^\\t%^\\t%^\\t%^\\t%^\\t%^\\t%^',
       '--date-format=%Y-%m-%d',
       '--time-format=%H:%M:%S',
-      `--anonymize-ip`,
-//      `--since=${yearStr}-${monthStr}-01`,
-//      `--until=${yearStr}-${monthStr}-${lastDayStr}`,
+      '--anonymize-ip',
       `--output=${reportHtmlFilePath}`,
       `--output=${reportJsonFilePath}`,
       '--invalid-requests=/tmp/invalid-requests.log',
@@ -201,6 +194,18 @@ async function processLogsForFolder(sourceBucket, prefix, logFiles, destinationB
     const goaccessProcess = spawn(goaccessPath, args);
     console.log(`Spawned GoAccess process with PID: ${goaccessProcess.pid}`);
 
+    // Initialize error handling variables
+    let errored = false;
+    let activeStreams = [];
+
+    // Function to destroy active streams
+    const destroyActiveStreams = () => {
+      for (const stream of activeStreams) {
+        stream.destroy();
+      }
+      activeStreams = [];
+    };
+
     // Handle GoAccess process events
     goaccessProcess.stdout.on('data', (data) => {
       console.log(`GoAccess stdout: ${data}`);
@@ -212,14 +217,18 @@ async function processLogsForFolder(sourceBucket, prefix, logFiles, destinationB
 
     goaccessProcess.on('error', (error) => {
       console.error(`GoAccess process error:`, error);
-    });
-
-    goaccessProcess.stdin.on('error', (error) => {
-      console.error(`GoAccess stdin error:`, error);
+      errored = true;
+      combinedStream.destroy();
+      destroyActiveStreams();
     });
 
     // Create a combined stream
     const combinedStream = new PassThrough();
+
+    // Handle combined stream errors
+    combinedStream.on('error', (error) => {
+      console.error('Combined stream error:', error);
+    });
 
     // Pipe the combined stream into GoAccess stdin
     combinedStream.pipe(goaccessProcess.stdin);
@@ -228,11 +237,11 @@ async function processLogsForFolder(sourceBucket, prefix, logFiles, destinationB
     const maxConcurrency = 10; // Adjust based on testing and Lambda resources
     let currentConcurrency = 0;
     let queue = [...logFiles]; // Clone the logFiles array
-    let errored = false;
 
     // Function to process log files with concurrency control
     const processNext = () => {
       if (errored) {
+        console.log('Error detected, stopping further processing of log files.');
         return;
       }
 
@@ -246,11 +255,31 @@ async function processLogsForFolder(sourceBucket, prefix, logFiles, destinationB
         const s3Stream = s3.getObject(params).createReadStream();
         const gunzip = zlib.createGunzip();
 
+        // Keep track of active streams
+        activeStreams.push(s3Stream);
+        activeStreams.push(gunzip);
+
+        // Pipe streams
         s3Stream.pipe(gunzip).pipe(combinedStream, { end: false });
+
+        const removeStream = (stream) => {
+          const index = activeStreams.indexOf(stream);
+          if (index !== -1) {
+            activeStreams.splice(index, 1);
+          }
+        };
 
         const onComplete = () => {
           console.log(`Finished processing log file: ${key}`);
           currentConcurrency--;
+          removeStream(s3Stream);
+          removeStream(gunzip);
+
+          if (errored) {
+            console.log('Error detected during processing, not proceeding to next file.');
+            return;
+          }
+
           if (queue.length === 0 && currentConcurrency === 0) {
             combinedStream.end();
           } else {
@@ -259,11 +288,13 @@ async function processLogsForFolder(sourceBucket, prefix, logFiles, destinationB
         };
 
         s3Stream.on('end', onComplete);
+
         s3Stream.on('error', (error) => {
           console.error(`Error reading log file from S3: ${key}`, error);
           errored = true;
           combinedStream.destroy();
           goaccessProcess.kill();
+          destroyActiveStreams();
         });
 
         gunzip.on('error', (error) => {
@@ -271,6 +302,7 @@ async function processLogsForFolder(sourceBucket, prefix, logFiles, destinationB
           errored = true;
           combinedStream.destroy();
           goaccessProcess.kill();
+          destroyActiveStreams();
         });
       }
     };
@@ -283,6 +315,8 @@ async function processLogsForFolder(sourceBucket, prefix, logFiles, destinationB
       combinedStream.on('end', resolve);
       combinedStream.on('error', (error) => {
         console.error('Combined stream error:', error);
+        errored = true;
+        destroyActiveStreams();
         reject(error);
       });
     });
@@ -318,14 +352,23 @@ async function processLogsForFolder(sourceBucket, prefix, logFiles, destinationB
           resolve();
         } else {
           console.error(`GoAccess exited with code ${code}`);
+          errored = true;
+          destroyActiveStreams();
           // Read and log the debug file
           const debugFilePath = '/tmp/goaccess-debug.log';
           if (fs.existsSync(debugFilePath)) {
             const debugData = fs.readFileSync(debugFilePath, 'utf8');
-              console.error('GoAccess debug log:', debugData);
+            console.error('GoAccess debug log:', debugData);
           }
           reject(new Error(`GoAccess exited with code ${code}`));
         }
+      });
+
+      goaccessProcess.on('error', (error) => {
+        console.error(`GoAccess process error:`, error);
+        errored = true;
+        destroyActiveStreams();
+        reject(error);
       });
     });
 
@@ -359,8 +402,6 @@ async function processLogsForFolder(sourceBucket, prefix, logFiles, destinationB
     fs.unlinkSync(reportJsonFilePath);
     fs.rmdirSync(tempDir, { recursive: true });
     console.log(`Cleaned up temporary files for folder: ${prefix}`);
-
-
   } catch (error) {
     console.error(`Error in processLogsForFolder for ${prefix}:`, error);
     throw error;
