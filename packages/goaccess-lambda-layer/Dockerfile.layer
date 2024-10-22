@@ -54,6 +54,9 @@ RUN rm -rf /layer/lib/lib64
 # Append the geoip-database configuration line
 RUN echo "geoip-database /opt/etc/goaccess/GeoLiteCity.dat" >> /layer/etc/goaccess/goaccess.conf
 
+# link /layer/etc/goaccess/* to /layer/etc
+RUN ln -s /layer/etc/goaccess/* /layer/etc/
+
 # Set executable permissions for GoAccess
 RUN chmod +x /layer/bin/goaccess
 
