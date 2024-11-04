@@ -194,18 +194,6 @@ async function processLogsForFolder(sourceBucket, prefix, logFiles, destinationB
     const goaccessProcess = spawn(goaccessPath, args);
     console.log(`Spawned GoAccess process with PID: ${goaccessProcess.pid}`);
 
-    // Initialize error handling variables
-    let errored = false;
-    let activeStreams = [];
-
-    // Function to destroy active streams
-    const destroyActiveStreams = () => {
-      for (const stream of activeStreams) {
-        stream.destroy();
-      }
-      activeStreams = [];
-    };
-
     // Handle GoAccess process events
     goaccessProcess.stdout.on('data', (data) => {
       console.log(`GoAccess stdout: ${data}`);
@@ -217,17 +205,20 @@ async function processLogsForFolder(sourceBucket, prefix, logFiles, destinationB
 
     goaccessProcess.on('error', (error) => {
       console.error(`GoAccess process error:`, error);
-      errored = true;
       combinedStream.destroy();
-      destroyActiveStreams();
+      activeStreams.forEach(stream => stream.destroy());
+      throw error;
     });
 
-    // Create a combined stream
+    // Create a combined stream and increase its max listeners
     const combinedStream = new PassThrough();
+    combinedStream.setMaxListeners(20); 
 
     // Handle combined stream errors
     combinedStream.on('error', (error) => {
       console.error('Combined stream error:', error);
+      goaccessProcess.kill();
+      throw error;
     });
 
     // Pipe the combined stream into GoAccess stdin
@@ -237,6 +228,8 @@ async function processLogsForFolder(sourceBucket, prefix, logFiles, destinationB
     const maxConcurrency = 10; // Adjust based on testing and Lambda resources
     let currentConcurrency = 0;
     let queue = [...logFiles]; // Clone the logFiles array
+    let errored = false;
+    let activeStreams = [];
 
     // Function to process log files with concurrency control
     const processNext = () => {
@@ -251,7 +244,6 @@ async function processLogsForFolder(sourceBucket, prefix, logFiles, destinationB
         console.log(`Processing log file: ${key}`);
 
         const params = { Bucket: sourceBucket, Key: key };
-
         const s3Stream = s3.getObject(params).createReadStream();
         const gunzip = zlib.createGunzip();
 
@@ -294,7 +286,7 @@ async function processLogsForFolder(sourceBucket, prefix, logFiles, destinationB
           errored = true;
           combinedStream.destroy();
           goaccessProcess.kill();
-          destroyActiveStreams();
+          activeStreams.forEach(stream => stream.destroy());
         });
 
         gunzip.on('error', (error) => {
@@ -302,7 +294,7 @@ async function processLogsForFolder(sourceBucket, prefix, logFiles, destinationB
           errored = true;
           combinedStream.destroy();
           goaccessProcess.kill();
-          destroyActiveStreams();
+          activeStreams.forEach(stream => stream.destroy());
         });
       }
     };
@@ -315,8 +307,6 @@ async function processLogsForFolder(sourceBucket, prefix, logFiles, destinationB
       combinedStream.on('end', resolve);
       combinedStream.on('error', (error) => {
         console.error('Combined stream error:', error);
-        errored = true;
-        destroyActiveStreams();
         reject(error);
       });
     });
@@ -353,7 +343,7 @@ async function processLogsForFolder(sourceBucket, prefix, logFiles, destinationB
         } else {
           console.error(`GoAccess exited with code ${code}`);
           errored = true;
-          destroyActiveStreams();
+          goaccessProcess.kill();
           // Read and log the debug file
           const debugFilePath = '/tmp/goaccess-debug.log';
           if (fs.existsSync(debugFilePath)) {
@@ -366,8 +356,6 @@ async function processLogsForFolder(sourceBucket, prefix, logFiles, destinationB
 
       goaccessProcess.on('error', (error) => {
         console.error(`GoAccess process error:`, error);
-        errored = true;
-        destroyActiveStreams();
         reject(error);
       });
     });
@@ -407,3 +395,4 @@ async function processLogsForFolder(sourceBucket, prefix, logFiles, destinationB
     throw error;
   }
 }
+
