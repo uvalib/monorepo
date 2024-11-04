@@ -233,7 +233,7 @@ async function processLogsForFolder(sourceBucket, prefix, logFiles, destinationB
     let activeStreams = [];
 
     // Function to process log files with concurrency control
-    const processNext = () => {
+    const processNext = async () => {
       if (errored) {
         console.log('Error detected, stopping further processing of log files.');
         return;
@@ -253,7 +253,15 @@ async function processLogsForFolder(sourceBucket, prefix, logFiles, destinationB
         activeStreams.push(gunzip);
 
         // Pipe streams
-        s3Stream.pipe(gunzip).pipe(combinedStream, { end: false });
+        const { pipeline } = require('stream/promises');
+        try {
+          await pipeline(s3Stream, gunzip, combinedStream);
+        } catch (error) {
+          console.error(`Pipeline error for log file ${key}:`, error);
+          errored = true;
+          goaccessProcess.kill();
+          activeStreams.forEach(stream => stream.destroy());
+        }
 
         const removeStream = (stream) => {
           const index = activeStreams.indexOf(stream);
@@ -263,21 +271,23 @@ async function processLogsForFolder(sourceBucket, prefix, logFiles, destinationB
         };
 
         const onComplete = () => {
-          console.log(`Finished processing log file: ${key}`);
-          currentConcurrency--;
-          removeStream(s3Stream);
-          removeStream(gunzip);
-
-          if (errored) {
-            console.log('Error detected during processing, not proceeding to next file.');
-            return;
-          }
-
-          if (queue.length === 0 && currentConcurrency === 0) {
-            combinedStream.end();
-          } else {
-            processNext();
-          }
+          (async () => {
+            console.log(`Finished processing log file: ${key}`);
+            currentConcurrency--;
+            removeStream(s3Stream);
+            removeStream(gunzip);
+        
+            if (errored) {
+              console.log('Error detected during processing, not proceeding to next file.');
+              return;
+            }
+        
+            if (queue.length === 0 && currentConcurrency === 0) {
+              combinedStream.end();
+            } else {
+              await processNext();
+            }
+          })();
         };
 
         s3Stream.on('end', onComplete);
@@ -301,7 +311,7 @@ async function processLogsForFolder(sourceBucket, prefix, logFiles, destinationB
     };
 
     // Start processing log files
-    processNext();
+    await processNext();
 
     // Wait for the combined stream to end
     await new Promise((resolve, reject) => {
