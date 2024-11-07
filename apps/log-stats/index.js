@@ -213,7 +213,7 @@ async function processLogsForFolder(sourceBucket, prefix, logFiles, destinationB
 
     // Create a combined stream and increase its max listeners
     const combinedStream = new PassThrough();
-    combinedStream.setMaxListeners(20); 
+    combinedStream.setMaxListeners(20);
 
     // Handle combined stream errors
     combinedStream.on('error', (error) => {
@@ -232,86 +232,8 @@ async function processLogsForFolder(sourceBucket, prefix, logFiles, destinationB
     let errored = false;
     let activeStreams = [];
 
-    // Function to process log files with concurrency control
-    const processNext = async () => {
-      if (errored) {
-        console.log('Error detected, stopping further processing of log files.');
-        return;
-      }
-
-      while (currentConcurrency < maxConcurrency && queue.length > 0) {
-        const key = queue.shift();
-        currentConcurrency++;
-        console.log(`Processing log file: ${key}`);
-
-        const params = { Bucket: sourceBucket, Key: key };
-        const s3Stream = s3.getObject(params).createReadStream();
-        const gunzip = zlib.createGunzip();
-
-        // Keep track of active streams
-        activeStreams.push(s3Stream);
-        activeStreams.push(gunzip);
-
-        // Pipe streams
-        const { pipeline } = require('stream/promises');
-        try {
-          await pipeline(s3Stream, gunzip, combinedStream);
-        } catch (error) {
-          console.error(`Pipeline error for log file ${key}:`, error);
-          errored = true;
-          goaccessProcess.kill();
-          activeStreams.forEach(stream => stream.destroy());
-        }
-
-        const removeStream = (stream) => {
-          const index = activeStreams.indexOf(stream);
-          if (index !== -1) {
-            activeStreams.splice(index, 1);
-          }
-        };
-
-        const onComplete = () => {
-          (async () => {
-            console.log(`Finished processing log file: ${key}`);
-            currentConcurrency--;
-            removeStream(s3Stream);
-            removeStream(gunzip);
-        
-            if (errored) {
-              console.log('Error detected during processing, not proceeding to next file.');
-              return;
-            }
-        
-            if (queue.length === 0 && currentConcurrency === 0) {
-              combinedStream.end();
-            } else {
-              await processNext();
-            }
-          })();
-        };
-
-        s3Stream.on('end', onComplete);
-
-        s3Stream.on('error', (error) => {
-          console.error(`Error reading log file from S3: ${key}`, error);
-          errored = true;
-          combinedStream.destroy();
-          goaccessProcess.kill();
-          activeStreams.forEach(stream => stream.destroy());
-        });
-
-        gunzip.on('error', (error) => {
-          console.error(`Error decompressing log file: ${key}`, error);
-          errored = true;
-          combinedStream.destroy();
-          goaccessProcess.kill();
-          activeStreams.forEach(stream => stream.destroy());
-        });
-      }
-    };
-
     // Start processing log files
-    await processNext();
+    processNext();
 
     // Wait for the combined stream to end
     await new Promise((resolve, reject) => {
@@ -405,5 +327,68 @@ async function processLogsForFolder(sourceBucket, prefix, logFiles, destinationB
     console.error(`Error in processLogsForFolder for ${prefix}:`, error);
     throw error;
   }
+
+  // Inner functions
+  function processNext() {
+    if (errored) {
+      console.log('Error detected, stopping further processing of log files.');
+      return;
+    }
+
+    while (currentConcurrency < maxConcurrency && queue.length > 0) {
+      const key = queue.shift();
+      currentConcurrency++;
+      console.log(`Processing log file: ${key}`);
+
+      const params = { Bucket: sourceBucket, Key: key };
+      const s3Stream = s3.getObject(params).createReadStream();
+      const gunzip = zlib.createGunzip();
+
+      // Keep track of active streams
+      activeStreams.push(s3Stream);
+      activeStreams.push(gunzip);
+
+      // Pipe streams without ending the combinedStream
+      s3Stream.pipe(gunzip).pipe(combinedStream, { end: false });
+
+      const removeStream = (stream) => {
+        const index = activeStreams.indexOf(stream);
+        if (index !== -1) {
+          activeStreams.splice(index, 1);
+        }
+      };
+
+      const onComplete = () => {
+        console.log(`Finished processing log file: ${key}`);
+        currentConcurrency--;
+        removeStream(s3Stream);
+        removeStream(gunzip);
+
+        if (errored) {
+          console.log('Error detected during processing, not proceeding to next file.');
+          return;
+        }
+
+        if (queue.length === 0 && currentConcurrency === 0) {
+          combinedStream.end(); // Close the combinedStream when all files are processed
+        } else {
+          processNext(); // Continue processing the next files
+        }
+      };
+
+      const onError = (error) => {
+        console.error(`Error processing log file ${key}:`, error);
+        errored = true;
+        combinedStream.destroy();
+        goaccessProcess.kill();
+        activeStreams.forEach(stream => stream.destroy());
+      };
+
+      s3Stream.on('end', onComplete);
+      s3Stream.on('error', onError);
+      gunzip.on('error', onError);
+    }
+  }
 }
+
 
