@@ -1,5 +1,4 @@
-import{i as e,_ as t,n as o,s as i,S as n,x as s}from"../../property-4490ebb8.js";import"../../site-header-563ba7e6.js";import{C as a,M as r,W as l}from"../../SiteStyle-3d98d4f6.js";import{A as d}from"../../AccessibleStyles-e1ca487e.js";import("../../site-footer-722fe511.js"),import("../../site-analytics-0e7bb4d9.js");class c extends i{constructor(){super(...arguments),this.rootLinkDomain="https://www.library.virginia.edu"}addStylesheetToHead(){const e=document.createElement("link");e.rel="stylesheet",e.media="all",e.href="https://use.typekit.net/oym8nvz.css",document.head.appendChild(e)}handleSlotChange(){const e=this.shadowRoot.querySelector('slot[name="pre-footer"]').assignedNodes(),t=this.shadowRoot.querySelector(".pre-footer-container");e.length>0?t.setAttribute("has-content",""):t.removeAttribute("has-content")}connectedCallback(){super.connectedCallback(),n(this.renderRoot,[d,r,l,c.styles])}setHtmlStyles(){this.addStylesheetToHead();const e=new CSSStyleSheet;e.replaceSync(c.htmlStyles.cssText),document.adoptedStyleSheets=[...document.adoptedStyleSheets,d,r,e]}firstUpdated(){this.setHtmlStyles();this.shadowRoot.querySelector('slot[name="pre-footer"]').addEventListener("slotchange",(()=>this.handleSlotChange())),this.handleSlotChange()}render(){return s`
-      <site-analytics></site-analytics>
+import{i as e,_ as t,n as o,s as i,S as n,x as a}from"../../property-4490ebb8.js";import"../../site-header-9c4e7868.js";import{C as s,M as r,W as d}from"../../SiteStyle-3d98d4f6.js";import{A as l}from"../../AccessibleStyles-e1ca487e.js";import("../../site-footer-722fe511.js");class c extends i{constructor(){super(...arguments),this.rootLinkDomain="https://www.library.virginia.edu"}addStylesheetToHead(){const e=document.createElement("link");e.rel="stylesheet",e.media="all",e.href="https://use.typekit.net/oym8nvz.css",document.head.appendChild(e)}handleSlotChange(){const e=this.shadowRoot.querySelector('slot[name="pre-footer"]').assignedNodes(),t=this.shadowRoot.querySelector(".pre-footer-container");e.length>0?t.setAttribute("has-content",""):t.removeAttribute("has-content")}connectedCallback(){super.connectedCallback(),n(this.renderRoot,[l,r,d,c.styles])}setHtmlStyles(){this.addStylesheetToHead();const e=new CSSStyleSheet;e.replaceSync(c.htmlStyles.cssText),document.adoptedStyleSheets=[...document.adoptedStyleSheets,l,r,e]}firstUpdated(){this.setHtmlStyles();this.shadowRoot.querySelector('slot[name="pre-footer"]').addEventListener("slotchange",(()=>this.handleSlotChange())),this.handleSlotChange()}render(){return a`
       <a href="#main-content" class="visually-hidden focusable skip-link">
 				Skip to main content
 			</a>
@@ -41,7 +40,7 @@ import{i as e,_ as t,n as o,s as i,S as n,x as s}from"../../property-4490ebb8.js
     }
   `,c.htmlStyles=e`
     html {
-      ${a}
+      ${s}
       color: var(--uva-grey-darkest, #2B2B2B);
       overflow-x: hidden;
     }

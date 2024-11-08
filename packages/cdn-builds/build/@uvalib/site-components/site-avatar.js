@@ -1,5 +1,5 @@
-import{h as a,F as t,_ as e,a as o,c as i,b as r,d as s,e as l,t as d,n as c,f as n,p}from"../../fast-design-system-d046069d.js";import{D as v}from"../../direction-00084adb.js";import{d as h}from"../../display-058af2ce.js";import{w as m}from"../../when-46682a8a.js";let f=class extends t{connectedCallback(){super.connectedCallback(),this.shape||(this.shape="circle")}};e([o],f.prototype,"fill",void 0),e([o],f.prototype,"color",void 0),e([o],f.prototype,"link",void 0),e([o],f.prototype,"shape",void 0);class $ extends t{constructor(){super(...arguments),this.generateBadgeStyle=()=>{if(!this.fill&&!this.color)return;const a=`background-color: var(--badge-fill-${this.fill});`,t=`color: var(--badge-color-${this.color});`;return this.fill&&!this.color?a:this.color&&!this.fill?t:`${t} ${a}`}}}e([o({attribute:"fill"})],$.prototype,"fill",void 0),e([o({attribute:"color"})],$.prototype,"color",void 0),e([o({mode:"boolean"})],$.prototype,"circular",void 0);class b extends f{}e([o({attribute:"src"})],b.prototype,"imgSrc",void 0),e([o],b.prototype,"alt",void 0);const g=a`
-    ${m((a=>a.imgSrc),a`
+import{h as a,F as t,_ as e,a as o,c as i,b as r,d as s,e as l,t as d,n as c,f as n,p}from"../../fast-design-system-d046069d.js";import{D as v}from"../../direction-00084adb.js";import{d as h}from"../../display-058af2ce.js";import{w as f}from"../../when-46682a8a.js";let m=class extends t{connectedCallback(){super.connectedCallback(),this.shape||(this.shape="circle")}};e([o],m.prototype,"fill",void 0),e([o],m.prototype,"color",void 0),e([o],m.prototype,"link",void 0),e([o],m.prototype,"shape",void 0);class $ extends t{constructor(){super(...arguments),this.generateBadgeStyle=()=>{if(!this.fill&&!this.color)return;const a=`background-color: var(--badge-fill-${this.fill});`,t=`color: var(--badge-color-${this.color});`;return this.fill&&!this.color?a:this.color&&!this.fill?t:`${t} ${a}`}}}e([o({attribute:"fill"})],$.prototype,"fill",void 0),e([o({attribute:"color"})],$.prototype,"color",void 0),e([o({mode:"boolean"})],$.prototype,"circular",void 0);class b extends m{}e([o({attribute:"src"})],b.prototype,"imgSrc",void 0),e([o],b.prototype,"alt",void 0);const u=a`
+    ${f((a=>a.imgSrc),a`
             <img
                 src="${a=>a.imgSrc}"
                 alt="${a=>a.alt}"
@@ -8,7 +8,7 @@ import{h as a,F as t,_ as e,a as o,c as i,b as r,d as s,e as l,t as d,n as c,f a
                 part="media"
             />
         `)}
-`,u=b.compose({baseName:"avatar",baseClass:f,template:(t,e)=>a`
+`,g=b.compose({baseName:"avatar",baseClass:m,template:(t,e)=>a`
     <div
         class="backplate ${a=>a.shape}"
         part="backplate"
@@ -96,4 +96,4 @@ import{h as a,F as t,_ as e,a as o,c as i,b as r,d as s,e as l,t as d,n as c,f a
     ::slotted(${a.tagFor($)}) {
         left: 0;
     }
-`)(a))),media:g,shadowOptions:{delegatesFocus:!0}});p().withPrefix("site").register(u({}));
+`)(a))),media:u,shadowOptions:{delegatesFocus:!0}});p().withPrefix("site").register(g({}));

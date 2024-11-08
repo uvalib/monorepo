@@ -1,4 +1,4 @@
-import{_ as s,n as t,a as i,b as e,x as a}from"./property-4490ebb8.js";import"./document-77724c06.js";import{C as l}from"./ArticlesData-ef19c3aa.js";import{B as r}from"./BentoSection-e700f572.js";import"./unsafe-html-11e6b712.js";import"./SiteStyle-3d98d4f6.js";import"./AccessibleStyles-e1ca487e.js";var o;class h extends r{constructor(){super(),o.set(this,void 0),this.items=[],this.meta={totalResults:0},this.title="Virgo Catalog",i(this,o,new l({query:""}),"f"),this.limit=5}updated(s){super.updated(s),(s.has("query")||s.has("limit"))&&(this.loading=!0,e(this,o,"f").query=this.query,e(this,o,"f").fetchData({limit:this.limit}).then((s=>{this.items=s.items,this.meta=s.meta,this.loading=!1})))}render(){var s,t,i;return a`
+import{_ as s,n as t,a as i,b as e,x as a}from"./property-4490ebb8.js";import"./document-77724c06.js";import{C as l}from"./ArticlesData-ef19c3aa.js";import{B as r}from"./BentoSection-e700f572.js";import"./unsafe-html-11e6b712.js";import"./SiteStyle-3d98d4f6.js";import"./AccessibleStyles-e1ca487e.js";var o;class u extends r{constructor(){super(),o.set(this,void 0),this.items=[],this.meta={totalResults:0},this.title="Virgo Catalog",i(this,o,new l({query:""}),"f"),this.limit=5}updated(s){super.updated(s),(s.has("query")||s.has("limit"))&&(this.loading=!0,e(this,o,"f").query=this.query,e(this,o,"f").fetchData({limit:this.limit}).then((s=>{this.items=s.items,this.meta=s.meta,this.loading=!1})))}render(){var s,t,i;return a`
         <div class="bs-results--header">
             <h3>${this.title}</h3>
             <div ?hidden="${!this.isEmptySearch}"><a href="${null===(t=null===(s=this.meta)||void 0===s?void 0:s.url)||void 0===t?void 0:t.replace(/(.*)\?.*/,"$1")}" class="uvalib-button">Search Virgo</a></div>
@@ -29,4 +29,4 @@ import{_ as s,n as t,a as i,b as e,x as a}from"./property-4490ebb8.js";import"./
   
             </ol>
         </div>
-    `}}o=new WeakMap,s([t({type:Array})],h.prototype,"items",void 0),window.customElements.define("catalog-section",h);
+    `}}o=new WeakMap,s([t({type:Array})],u.prototype,"items",void 0),window.customElements.define("catalog-section",u);
