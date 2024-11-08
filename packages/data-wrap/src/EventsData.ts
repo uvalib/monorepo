@@ -2,14 +2,11 @@
 import { Event, parseEvent } from './Event.js';
 import { GeneralData } from './GeneralData.js';
 
-const eventsEndpointURL =
-  'https://api2.libcal.com/1.0/events?key=c45a1428103ed000ba4025e9970edf54&iid=863&cal_id=4299&limit=600&campus=&category=&days=365';
-const eventsSearchEndpointURL =
-  'https://api2.libcal.com/1.0/event_search?key=c45a1428103ed000ba4025e9970edf54&iid=863&cal_id=4299&limit=600&campus=&category=&days=365';
-
 export class EventsData extends GeneralData {
   public category?: string;
-
+  public calId: string = '4299'; // Default calId
+  public lid: string = '863'; // Default lid (iid)
+  public limit: number = 600; // Default limit
   items: Event[] = [];
 
   constructor(init?: Partial<EventsData>) {
@@ -18,12 +15,13 @@ export class EventsData extends GeneralData {
   }
 
   private endpointURL() {
-    let params = this.query ? `&search=${this.query}` : '';
-    params += this.limit ? `&limit=${this.limit}` : '';
-    params += this.category ? `&category=${this.category}` : '';
-    return this.query
-      ? `${eventsSearchEndpointURL}${params}`
-      : `${eventsEndpointURL}${params}`;
+    const baseUrl = 'https://api2.libcal.com/1.0/';
+    const endpoint = this.query ? 'event_search' : 'events';
+    let params = `?key=c45a1428103ed000ba4025e9970edf54&iid=${this.lid}&cal_id=${this.calId}&campus=&days=365`;
+    params += `&limit=${this.limit}`; // Use the limit property
+    if (this.query) params += `&search=${encodeURIComponent(this.query)}`;
+    if (this.category) params += `&category=${this.category}`;
+    return `${baseUrl}${endpoint}${params}`;
   }
 
   async fetchData() {
