@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      background: #fafafa;
+    }
+  </style>
+</head>
+<body>
+  <h2>Example of SpacesData</h2>
+  <div>
+    <ul id="spaces"></ul>
+  </div>
+
+  <script type="module">
+    import { SpacesData } from '../dist/src/SpacesData.js';
+    import { LibcalAuth } from '../dist/src/libcal-auth.js';
+
+    const clientId = '1658';
+    const clientSecret = 'd3625b897e1c69282faa8914bbdf0d03';
+    const baseUrl = 'https://cal.lib.virginia.edu/api/1.1';
+
+    const auth = new LibcalAuth(clientId, clientSecret, baseUrl);
+
+    const spacesData = new SpacesData(auth, {
+      date: '2023-11-08',
+      days: 7,
+      limit: 100,
+    });
+
+    spacesData.fetchData().then(results => {
+      console.log(results);
+      document.getElementById('spaces').innerHTML = results.items.map(r => `<li>${r.itemName}</li>`).join('');
+    }).catch(error => {
+      console.error('Error fetching spaces:', error);
+    });
+  </script>
+</body>
+</html>
