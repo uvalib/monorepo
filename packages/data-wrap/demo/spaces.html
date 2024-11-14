@@ -6,36 +6,221 @@
     body {
       background: #fafafa;
     }
+    /* Optional styling */
+    details {
+      margin-bottom: 1em;
+    }
+    summary {
+      cursor: pointer;
+      font-weight: bold;
+    }
+    pre {
+      background-color: #f0f0f0;
+      padding: 1em;
+      overflow-x: auto;
+    }
+    .html-content {
+      background-color: #f9f9f9;
+      padding: 1em;
+      border: 1px solid #ddd;
+      margin-bottom: 1em;
+    }
   </style>
 </head>
 <body>
   <h2>Example of SpacesData</h2>
+
+  <!-- Toggle for Details Flag -->
   <div>
+    <label>
+      <input type="checkbox" id="detailsToggle" checked>
+      Fetch Locations with Details
+    </label>
+    <button id="fetchLocationsButton">Fetch Locations</button>
+  </div>
+
+  <!-- Space Locations Section -->
+  <div>
+    <h3>Space Locations</h3>
+    <ul id="locations"></ul>
+  </div>
+
+  <!-- Select Location for Bookings -->
+  <div>
+    <h3>Space Bookings</h3>
+    <label for="locationSelect">Select Location:</label>
+    <select id="locationSelect">
+      <option value="">-- All Locations --</option>
+    </select>
+    <button id="fetchBookingsButton">Fetch Bookings</button>
     <ul id="spaces"></ul>
   </div>
 
   <script type="module">
     import { SpacesData } from '../dist/src/SpacesData.js';
-    import { LibcalAuth } from '../dist/src/libcal-auth.js';
 
-    const clientId = '1658';
-    const clientSecret = 'd3625b897e1c69282faa8914bbdf0d03';
-    const baseUrl = 'https://cal.lib.virginia.edu/api/1.1';
+    // Elements
+    const detailsToggle = document.getElementById('detailsToggle');
+    const fetchLocationsButton = document.getElementById('fetchLocationsButton');
+    const locationsList = document.getElementById('locations');
+    const locationSelect = document.getElementById('locationSelect');
+    const fetchBookingsButton = document.getElementById('fetchBookingsButton');
+    const spacesList = document.getElementById('spaces');
 
-    const auth = new LibcalAuth(clientId, clientSecret, baseUrl);
+    // SpacesData instance
+    const spacesData = new SpacesData();
 
-    const spacesData = new SpacesData(auth, {
-      date: '2023-11-08',
-      days: 7,
-      limit: 100,
-    });
+    // Function to fetch and display locations
+    async function fetchAndDisplayLocations() {
+      const detailsFlag = detailsToggle.checked ? 1 : 0;
+      try {
+        const locations = await spacesData.fetchLocations({ details: detailsFlag });
+        console.log('Space Locations:', locations);
+        displayLocations(locations);
+        populateLocationSelect(locations);
+      } catch (error) {
+        console.error('Error fetching space locations:', error);
+      }
+    }
 
-    spacesData.fetchData().then(results => {
-      console.log(results);
-      document.getElementById('spaces').innerHTML = results.items.map(r => `<li>${r.itemName}</li>`).join('');
-    }).catch(error => {
-      console.error('Error fetching spaces:', error);
-    });
+    // Function to display locations
+    function displayLocations(locations) {
+      locationsList.innerHTML = ''; // Clear existing content
+      locations.forEach(location => {
+        const listItem = document.createElement('li');
+
+        // Create the <details> element
+        const details = document.createElement('details');
+
+        // Create the <summary> element with the location name
+        const summary = document.createElement('summary');
+        summary.textContent = location.name || 'No Name';
+
+        if (detailsToggle.checked) {
+          // Create a container for the location details
+          const container = document.createElement('div');
+
+          // Display description if available
+          if (location.description) {
+            const descriptionHeader = document.createElement('h4');
+            descriptionHeader.textContent = 'Description:';
+            const descriptionContent = document.createElement('div');
+            descriptionContent.classList.add('html-content');
+            descriptionContent.innerHTML = location.description;
+
+            container.appendChild(descriptionHeader);
+            container.appendChild(descriptionContent);
+          }
+
+          // Display terms if available
+          if (location.terms) {
+            const termsHeader = document.createElement('h4');
+            termsHeader.textContent = 'Terms:';
+            const termsContent = document.createElement('div');
+            termsContent.classList.add('html-content');
+            termsContent.innerHTML = location.terms;
+
+            container.appendChild(termsHeader);
+            container.appendChild(termsContent);
+          }
+
+          // Create a <pre> element to display location properties in JSON format
+          const pre = document.createElement('pre');
+          pre.textContent = JSON.stringify(location, null, 2);
+
+          // Append elements to the details
+          details.appendChild(summary);
+          details.appendChild(container);
+          details.appendChild(pre);
+        } else {
+          // If details are not requested, just show the summary
+          details.appendChild(summary);
+        }
+
+        // Append the details to the list item
+        listItem.appendChild(details);
+
+        // Append the list item to the locations list
+        locationsList.appendChild(listItem);
+      });
+    }
+
+    // Function to populate the location select dropdown
+    function populateLocationSelect(locations) {
+      // Clear existing options except the first one
+      locationSelect.options.length = 1; // Keep the "-- All Locations --" option
+
+      locations.forEach(location => {
+        const option = document.createElement('option');
+        option.value = location.locationId;
+        option.textContent = location.name;
+        locationSelect.appendChild(option);
+      });
+    }
+
+    // Function to fetch and display bookings
+    async function fetchAndDisplayBookings() {
+      const selectedLocationId = locationSelect.value;
+      // Update the SpacesData instance with the selected locationId
+      const date = new Date().toISOString().split('T')[0];
+      const initParams = {
+        date: date,
+        days: 7,
+        limit: 600,
+      };
+      if (selectedLocationId) {
+        initParams.locationId = parseInt(selectedLocationId, 10);
+      } else {
+        delete initParams.locationId;
+      }
+
+      const spacesDataForBookings = new SpacesData(initParams);
+
+      try {
+        const results = await spacesDataForBookings.fetchData();
+        console.log('Space Bookings:', results);
+        displayBookings(results.items);
+      } catch (error) {
+        console.error('Error fetching spaces:', error);
+      }
+    }
+
+    // Function to display bookings
+    function displayBookings(bookings) {
+      spacesList.innerHTML = ''; // Clear existing content
+      bookings.forEach(booking => {
+        const listItem = document.createElement('li');
+
+        // Create the <details> element
+        const details = document.createElement('details');
+
+        // Create the <summary> element with the booking title or itemName
+        const summary = document.createElement('summary');
+        summary.textContent = booking.itemName || 'No Title';
+
+        // Create a <pre> element to display booking properties in JSON format
+        const pre = document.createElement('pre');
+        pre.textContent = JSON.stringify(booking, null, 2);
+
+        // Append the summary and pre to the details
+        details.appendChild(summary);
+        details.appendChild(pre);
+
+        // Append the details to the list item
+        listItem.appendChild(details);
+
+        // Append the list item to the spaces list
+        spacesList.appendChild(listItem);
+      });
+    }
+
+    // Event listeners
+    fetchLocationsButton.addEventListener('click', fetchAndDisplayLocations);
+    fetchBookingsButton.addEventListener('click', fetchAndDisplayBookings);
+
+    // Initial fetch
+    fetchAndDisplayLocations();
+    fetchAndDisplayBookings();
   </script>
 </body>
 </html>

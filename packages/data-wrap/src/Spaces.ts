@@ -2,7 +2,8 @@ import { parseJSON } from 'date-fns';
 import { GeneralSearchResult } from './GeneralSearchResult.js';
 
 /* eslint-disable camelcase */
-export class Space extends GeneralSearchResult {
+export class SpaceBooking extends GeneralSearchResult {
+  // Existing properties...
   public readonly bookId?: string;
   public readonly spaceId?: number;
   public readonly categoryId?: number;
@@ -24,12 +25,12 @@ export class Space extends GeneralSearchResult {
   public readonly checkInStatus?: string;
   public readonly formAnswers?: { [key: string]: any };
 
-  constructor(init?: Partial<Space>) {
+  constructor(init?: Partial<SpaceBooking>) {
     super(init);
   }
 }
 
-export function parseSpace(space: any): Space {
+export function parseSpaceBooking(space: any): SpaceBooking {
   // Extract known properties
   const {
     bookId,
@@ -55,18 +56,18 @@ export function parseSpace(space: any): Space {
     ...formAnswers
   } = space;
 
-  return new Space({
+  return new SpaceBooking({
     id: id,
     title: item_name,
-    description: undefined, // Changed from null to undefined
-    link: undefined,        // Changed from null to undefined
+    description: undefined,
+    link: undefined,
     bookId: bookId,
     spaceId: eid,
     categoryId: cid,
     locationId: lid,
-    fromDate: fromDate ? parseJSON(fromDate).getTime() : undefined, // Changed from null to undefined
-    toDate: toDate ? parseJSON(toDate).getTime() : undefined,       // Changed from null to undefined
-    created: created ? parseJSON(created).getTime() : undefined,    // Changed from null to undefined
+    fromDate: fromDate ? parseJSON(fromDate).getTime() : undefined,
+    toDate: toDate ? parseJSON(toDate).getTime() : undefined,
+    created: created ? parseJSON(created).getTime() : undefined,
     firstName,
     lastName,
     email,
@@ -80,5 +81,41 @@ export function parseSpace(space: any): Space {
     checkInCode: check_in_code,
     checkInStatus: check_in_status,
     formAnswers, // Contains custom form answers like q43, q44, etc.
+  });
+}
+
+export class SpaceLocation extends GeneralSearchResult {
+  public readonly locationId: number;
+  public readonly name: string;
+  public readonly isPublic: boolean;
+  public readonly formId?: number;
+  public readonly adminOnly: boolean;
+  public readonly description?: string;
+  public readonly terms?: string;
+
+  constructor(init?: Partial<SpaceLocation>) {
+    super(init);
+    this.locationId = init?.locationId ?? 0;
+    this.name = init?.name ?? '';
+    this.isPublic = init?.isPublic ?? false;
+    this.formId = init?.formId;
+    this.adminOnly = init?.adminOnly ?? false;
+    this.description = init?.description;
+    this.terms = init?.terms;
+  }
+}
+
+export function parseSpaceLocation(location: any): SpaceLocation {
+  return new SpaceLocation({
+    id: location.lid,
+    title: location.name,
+    description: location.description || undefined,
+    link: undefined,
+    locationId: location.lid,
+    name: location.name,
+    isPublic: location.public === 1,
+    formId: location.formid,
+    adminOnly: location.admin_only === 1,
+    terms: location.terms || undefined,
   });
 }
