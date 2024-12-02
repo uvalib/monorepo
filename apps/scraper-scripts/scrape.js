@@ -140,18 +140,23 @@
       console.log('No data to write to CSV');
       return;
     }
-
-    const headers = Object.keys(data[0]);
-
+  
+    // Collect all unique headers from all data
+    const headersSet = new Set();
+    data.forEach(item => {
+      Object.keys(item).forEach(key => headersSet.add(key));
+    });
+    const headers = Array.from(headersSet);
+  
     const csvLines = [];
-
+  
     // Write headers
     csvLines.push(headers.join(','));
-
+  
     // Write data
     data.forEach(row => {
       const values = headers.map(header => {
-        const value = row[header];
+        const value = row[header] !== undefined ? row[header] : '';
         if (typeof value === 'string') {
           // Escape double quotes and wrap the value in double quotes if it contains a comma or double quotes
           const escapedValue = value.replace(/"/g, '""');
@@ -162,10 +167,10 @@
       });
       csvLines.push(values.join(','));
     });
-
+  
     fs.writeFileSync(filename, csvLines.join('\n'));
     console.log(`Data saved to ${filename}`);
-  }
+  }  
 
   // Parse command-line arguments
   const args = process.argv.slice(2);
