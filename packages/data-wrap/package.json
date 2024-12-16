@@ -12,7 +12,9 @@
     "./VirgoData.js": "./dist/src/VirgoData.js",
     "./CatalogData.js": "./dist/src/CatalogData.js",
     "./LibrariesData.js": "./dist/src/LibrariesData.js",
-    "./GoogleAPIsHelper.js": "./dist/src/GoogleAPIsHelper.js"
+    "./GoogleAPIsHelper.js": "./dist/src/GoogleAPIsHelper.js",
+    "./SpacesData.js": "./dist/src/SpacesData.js",
+    "./EventsData.js": "./dist/src/EventsData.js"
   },
   "scripts": {
     "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",

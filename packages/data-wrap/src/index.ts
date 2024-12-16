@@ -19,3 +19,5 @@ export { Person } from './Person.js';
 export { PersonData } from './PersonData.js';
 export { WebsiteData } from './WebsiteData.js';
 export { DHatData } from './DHatData.js';
+export { SpaceLocation, SpaceBooking } from './Spaces.js';
+export { SpacesData } from './SpacesData.js';

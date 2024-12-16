@@ -90,7 +90,7 @@ export class SpacesData extends GeneralData {
     this.meta.totalResults = data.length;
   }
 
-  /** New method to fetch space locations */
+  /** fetch space locations */
   async fetchLocations(options?: { details?: number; adminOnly?: number }): Promise<SpaceLocation[]> {
     const endpoint = '/space/locations';
     const params = new URLSearchParams();

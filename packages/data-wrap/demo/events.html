@@ -18,7 +18,7 @@
 
     import { EventsData } from '../dist/src/index.js';
 
-    let eventsData = new EventsData({calId:"4299", category:"33496"});
+    let eventsData = new EventsData({calId:"4299", category:"33496", date:"2024-12-01"});
     eventsData.fetchData().then(results=>{
       console.log(results);
       document.getElementById('events').innerHTML = results.items.map(r=>`<li>${r.title}</li>`).join();
