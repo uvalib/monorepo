@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "date-and-time": "^3.0.2",
-    "digest-fetch": "^3.0.4"
+    "digest-fetch": "^3.0.4",
+    "dotenv": "^16.4.5"
   }
 }
