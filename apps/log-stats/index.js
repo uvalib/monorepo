@@ -6,7 +6,43 @@ const zlib = require('zlib');
 const path = require('path');
 const fs = require('fs');
 const { PassThrough } = require('stream');
+const { Transform } = require('stream');
 
+/**
+ * A Transform stream that filters out lines starting with '#'.
+ */
+function createFilterCommentsTransform() {
+  let leftover = '';
+
+  return new Transform({
+    transform(chunk, encoding, callback) {
+      // Convert chunk to string and prepend any leftover from previous chunk
+      let data = leftover + chunk.toString('utf8');
+      leftover = '';
+
+      // Split data into lines
+      const lines = data.split('\n');
+
+      // The last line may be incomplete, save it for next chunk
+      leftover = lines.pop() || '';
+
+      // Filter out lines that start with '#'
+      const filtered = lines.filter(line => !line.startsWith('#'));
+
+      // Push the filtered lines downstream
+      this.push(filtered.join('\n') + '\n');
+      callback();
+    },
+
+    flush(callback) {
+      // If there's leftover data after the last chunk, push it if it’s not a comment
+      if (leftover && !leftover.startsWith('#')) {
+        this.push(leftover + '\n');
+      }
+      callback();
+    }
+  });
+}
 
 // Global exception handlers
 process.on('uncaughtException', (err) => {
@@ -349,7 +385,10 @@ async function processLogsForFolder(sourceBucket, prefix, logFiles, destinationB
       activeStreams.push(gunzip);
 
       // Pipe streams without ending the combinedStream
-      s3Stream.pipe(gunzip).pipe(combinedStream, { end: false });
+      //s3Stream.pipe(gunzip).pipe(combinedStream, { end: false });
+      const filterComments = createFilterCommentsTransform();
+      s3Stream.pipe(gunzip).pipe(filterComments).pipe(combinedStream, { end: false });
+
 
       const removeStream = (stream) => {
         const index = activeStreams.indexOf(stream);
