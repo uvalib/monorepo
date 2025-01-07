@@ -194,14 +194,22 @@ async function getLogFilesForPreviousMonth(bucket, prefix, year, month) {
 // Function to process logs for a folder with enhanced logging and error handling
 async function processLogsForFolder(sourceBucket, prefix, logFiles, destinationBucket, yearStr, monthStr, previousMonth, previousYear) {
   console.log(`Starting processing logs for folder: ${prefix}`);
-  let errored = false;
-  try {
-    const folderName = prefix.replace('/', '');
-    const tempDir = `/tmp/${folderName}`;
-    const reportFileName = `${yearStr}-${monthStr}.html`;
-    const reportHtmlFilePath = `${tempDir}/${reportFileName}`;
-    const reportJsonFilePath = `${tempDir}/${yearStr}-${monthStr}.json`;
 
+  // Concurrency control variables
+  const maxConcurrency = 10; // Adjust based on testing and Lambda resources
+  let currentConcurrency = 0;
+  let queue;
+  let activeStreams = [];  
+  let errored = false;
+  const folderName = prefix.replace('/', '');
+  const tempDir = `/tmp/${folderName}`;
+  const reportFileName = `${yearStr}-${monthStr}.html`;
+  const reportHtmlFilePath = `${tempDir}/${reportFileName}`;
+  const reportJsonFilePath = `${tempDir}/${yearStr}-${monthStr}.json`;
+  let goaccessProcess;
+  let combinedStream;
+
+  try {
     // Ensure the temporary directory exists
     fs.mkdirSync(tempDir, { recursive: true });
     console.log(`Created temporary directory: ${tempDir}`);
@@ -229,7 +237,7 @@ async function processLogsForFolder(sourceBucket, prefix, logFiles, destinationB
     console.log(`GoAccess arguments: ${args.join(' ')}`);
 
     // Spawn GoAccess process
-    const goaccessProcess = spawn(goaccessPath, args);
+    goaccessProcess = spawn(goaccessPath, args);
     console.log(`Spawned GoAccess process with PID: ${goaccessProcess.pid}`);
 
     // Handle GoAccess process events
@@ -249,7 +257,7 @@ async function processLogsForFolder(sourceBucket, prefix, logFiles, destinationB
     });
 
     // Create a combined stream and increase its max listeners
-    const combinedStream = new PassThrough();
+    combinedStream = new PassThrough();
     combinedStream.setMaxListeners(20);
 
     // Handle combined stream errors
@@ -262,11 +270,7 @@ async function processLogsForFolder(sourceBucket, prefix, logFiles, destinationB
     // Pipe the combined stream into GoAccess stdin
     combinedStream.pipe(goaccessProcess.stdin);
 
-    // Concurrency control variables
-    const maxConcurrency = 10; // Adjust based on testing and Lambda resources
-    let currentConcurrency = 0;
-    let queue = [...logFiles]; // Clone the logFiles array
-    let activeStreams = [];
+    queue = [...logFiles]; // Clone the logFiles array
 
     // Start processing log files
     processNext();
