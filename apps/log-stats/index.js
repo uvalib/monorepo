@@ -194,6 +194,7 @@ async function getLogFilesForPreviousMonth(bucket, prefix, year, month) {
 // Function to process logs for a folder with enhanced logging and error handling
 async function processLogsForFolder(sourceBucket, prefix, logFiles, destinationBucket, yearStr, monthStr, previousMonth, previousYear) {
   console.log(`Starting processing logs for folder: ${prefix}`);
+  let errored = false;
   try {
     const folderName = prefix.replace('/', '');
     const tempDir = `/tmp/${folderName}`;
@@ -265,7 +266,6 @@ async function processLogsForFolder(sourceBucket, prefix, logFiles, destinationB
     const maxConcurrency = 10; // Adjust based on testing and Lambda resources
     let currentConcurrency = 0;
     let queue = [...logFiles]; // Clone the logFiles array
-    let errored = false;
     let activeStreams = [];
 
     // Start processing log files
