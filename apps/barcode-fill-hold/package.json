@@ -35,6 +35,7 @@
   "license": "MIT",
   "dependencies": {
     "@spectrum-web-components/bundle": "^0.22.3",
+    "@spectrum-web-components/overlay": "^1.1.2",
     "@uvalib/data-models": "^0.0.10",
     "@uvalib/uvalib-analytics": "^0.1.6",
     "@uvalib/uvalib-page": "^0.0.23",

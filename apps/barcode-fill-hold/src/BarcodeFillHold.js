@@ -141,46 +141,46 @@ export class BarcodeFillHold extends UvalibAnalyticsMixin(LitElement) {
           <h1>${this.title}</h1>
 
           <sp-button
-          variant="secondary"
-          @click="${e=>{
-            const trigger = e.target;
-            const interaction = 'modal';
-            const content = e.target.nextElementSibling;
-            const options = {
-                offset: 0,
-                placement: 'none',
-                receivesFocus: 'auto',
-            };
-            Overlay.open(
-                trigger, 
-                interaction,
-                content,
-                options
-            );
-            this._analyticsEvent(["Options","opened"]);
-          }}
-          ">Options</sp-button>
-      <sp-tray>
-        <sp-dialog size="small" dismissable>
-          <h2 slot="heading">Options</h2>
-          <sp-field-group vertical>          
-            <sp-switch label="Auto Print ${this.autoPrint ? 'On' : 'Off'}"
-              @change="${(e) => { 
-                this.autoPrint = !this.autoPrint; 
-                this._analyticsEvent(["Options","autoPrint",this.autoPrint ? 'On' : 'Off']);
-              }}"
-              value="${this.autoPrint ? 'on' : 'off'}"
-              ?checked="${this.autoPrint}">Auto Print ${this.autoPrint ? 'On' : 'Off'}</sp-switch>
-            <sp-switch label="Dummy Mode ${this.dummyMode ? 'On' : 'Off'}"
-              @change="${(e) => { 
-                this.dummyMode = !this.dummyMode;
-                this._analyticsEvent(["Options","dummyMode",this.dummyMode ? 'On' : 'Off']);
-              }}"
-              value="${this.dummyMode ? 'on' : 'off'}"
-              ?checked="${this.dummyMode}">Dummy Mode ${this.dummyMode ? 'On' : 'Off'}</sp-switch>
-          </sp-field-group>
-        </sp-dialog>
-      </sp-tray>
+            variant="secondary"
+            @click="${e=>{
+              const trigger = e.target;
+              const interaction = 'modal';
+              const content = e.target.nextElementSibling;
+              const options = {
+                  offset: 0,
+                  placement: 'none',
+                  receivesFocus: 'auto',
+              };
+              Overlay.open(
+                  trigger, 
+                  interaction,
+                  content,
+                  options
+              );
+              this._analyticsEvent(["Options","opened"]);
+            }}"
+          >Options</sp-button>
+          <sp-tray>
+            <sp-dialog size="small" dismissable>
+              <h2 slot="heading">Options</h2>
+              <sp-field-group vertical>          
+                <sp-switch label="Auto Print ${this.autoPrint ? 'On' : 'Off'}"
+                  @change="${(e) => { 
+                    this.autoPrint = !this.autoPrint; 
+                    this._analyticsEvent(["Options","autoPrint",this.autoPrint ? 'On' : 'Off']);
+                  }}"
+                  value="${this.autoPrint ? 'on' : 'off'}"
+                  ?checked="${this.autoPrint}">Auto Print ${this.autoPrint ? 'On' : 'Off'}</sp-switch>
+                <sp-switch label="Dummy Mode ${this.dummyMode ? 'On' : 'Off'}"
+                  @change="${(e) => { 
+                    this.dummyMode = !this.dummyMode;
+                    this._analyticsEvent(["Options","dummyMode",this.dummyMode ? 'On' : 'Off']);
+                  }}"
+                  value="${this.dummyMode ? 'on' : 'off'}"
+                  ?checked="${this.dummyMode}">Dummy Mode ${this.dummyMode ? 'On' : 'Off'}</sp-switch>
+              </sp-field-group>
+            </sp-dialog>
+          </sp-tray>
 
           <div id="login" ?hidden="${this.authenticated}">
             <sp-field-label for="userid">Sirsi Staff UserID</sp-field-label>
@@ -263,16 +263,14 @@ export class BarcodeFillHold extends UvalibAnalyticsMixin(LitElement) {
                 </div>
                 <hr />
               `)}
-              ${(this.holdRequests)? html`
+              ${(this.holdRequests) ? html`
               <sp-button variant="secondary"
               @click="${e => {
                 this._clearPrinted();
               }}"
               >Clear All Printed</sp-button>
-              `:''}
+              ` : ''}
             </div>
-
-
           </div>
           <sp-underlay ?open="${this.working}"></sp-underlay>
         </sp-theme>
@@ -300,15 +298,19 @@ export class BarcodeFillHold extends UvalibAnalyticsMixin(LitElement) {
     this.sirsi.fillhold(this.lastBarcode, override).then(res => {
       console.log(`we got a result`);
       console.log(res);
-      if (res.hold.error_messages.length > 0) {
+      
+      // Use errorMessages from the response if present; otherwise default to an empty array
+      const errorMessages = res.hold.error_messages || [];
+      
+      if (errorMessages.length > 0) {
         if (
-          res.hold.error_messages.find(
+          errorMessages.find(
             m => m.code && m.code == 'itemHasMultiplePieces'
           )
         ) {
           this._dialogHeading = 'Override?';
           this._dialogBody = html`
-            ${res.hold.error_messages.map(m => m.message).join('<br />')}
+            ${errorMessages.map(m => m.message).join('<br />')}
             <sp-button-group>
               <sp-button
                 @click="${function () {
@@ -322,13 +324,11 @@ export class BarcodeFillHold extends UvalibAnalyticsMixin(LitElement) {
               >
             </sp-button-group>
           `;
-
-          this._analyticsEvent(["hold-fill","error",this.lastBarcode,res.hold.error_messages.map(m => m.message).join('--')]);
+          this._analyticsEvent(["hold-fill","error",this.lastBarcode,errorMessages.map(m => m.message).join('--')]);
         } else {
           this._dialogHeading = 'Error';
-          this._dialogBody = res.hold.error_messages.map(m=>m.message?m.message:m).join('<br />');
-          
-          this._analyticsEvent(["hold-fill","error",this.lastBarcode,res.hold.error_messages.map(m=>m.message?m.message:m).join('<br />')]);
+          this._dialogBody = errorMessages.map(m => m.message ? m.message : m).join('<br />');
+          this._analyticsEvent(["hold-fill","error",this.lastBarcode,errorMessages.map(m => m.message ? m.message : m).join('<br />')]);
         }
         this.shadowRoot.querySelector('sp-popover').setAttribute('open', '');
       } else {
@@ -337,7 +337,6 @@ export class BarcodeFillHold extends UvalibAnalyticsMixin(LitElement) {
         if (this.autoPrint) {
           this.shadowRoot.getElementById('printView').innerHTML = this._formatPrint(res);
           res.printed = true;
-
           this._analyticsEvent(["hold-fill","auto-print",this.lastBarcode]);         
           window.print();
           this.working = false;
@@ -390,22 +389,22 @@ export class BarcodeFillHold extends UvalibAnalyticsMixin(LitElement) {
     }
   }
   _clearPrinted() {
-    this.holdRequests = this.holdRequests.filter(r=>!r.printed);
+    this.holdRequests = this.holdRequests.filter(r => !r.printed);
     this.holdRequests = this.holdRequests.slice(); // get a shallow copy to notify
     this._analyticsEvent(["hold-fill","clear-printed"]);
   }
   _isItemsToPrint() {
-    return this.holdRequests.find(i=>i.hold && !i.printed);
+    return this.holdRequests.find(i => i.hold && !i.printed);
   }
   _printAll() {
     this.shadowRoot.getElementById('printView').innerHTML = '';
-    this.holdRequests.filter(r=>!r.printed).forEach(i=>{
+    this.holdRequests.filter(r => !r.printed).forEach(i => {
       this.shadowRoot.getElementById('printView').innerHTML += this._formatPrint(i);
       i.printed = true;
     });
     window.print();
     this.holdRequests = this.holdRequests.slice(); // get a shallow copy to notify
-    this.working - false;
+    this.working = false;
     this._analyticsEvent(["hold-fill","print-all"]);
   }
   _formatPrint(res) {
