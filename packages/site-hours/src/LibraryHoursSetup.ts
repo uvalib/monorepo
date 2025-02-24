@@ -18,6 +18,11 @@ export class LibraryHoursSetup extends HTMLElement {
               newElement.setAttribute(attr.name, attr.value);
             }
           }
+          
+          // If the library-slug is "harrison", set the hide-building-hours attribute
+          if (newElement.getAttribute('library-slug') === 'harrison') {
+            newElement.setAttribute('hide-building-hours', '');
+          }
       
           // Move all child nodes from the div to the new element
           while (div.firstChild) {
@@ -29,6 +34,4 @@ export class LibraryHoursSetup extends HTMLElement {
         });
       }
       
-
-  }
-  
+}
