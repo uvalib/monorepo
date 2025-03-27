@@ -1,0 +1,17 @@
+{
+  "name": "library-assist-lambda",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "zip -r function.zip ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-bedrock-runtime": "^3.775.0",
+    "aws-sdk": "^2.1691.0"
+  }
+}

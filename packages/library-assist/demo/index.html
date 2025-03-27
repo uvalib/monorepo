@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>UVA Library Assistant Demo</title>
+    <script type="module" src="../dist/src/uvalib-assistant.js"></script>
+    <style>
+      body {
+        background: #fafafa;
+        font-family: sans-serif;
+      }
+      #search-box {
+        max-width: 500px;
+        margin: 20px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      #search-suggestion {
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <form id="search-box">
+      <input id="q" name="q" placeholder="Search the catalog..." />
+      <input type="submit" id="search-submit" value="Search" />
+      <div id="search-suggestion"></div>
+    </form>
+
+    <!-- Prevent page reload on form submission (simulate dynamic loading) -->
+    <script>
+      document.getElementById('search-box').addEventListener('submit', (e) => {
+        e.preventDefault();
+        // The page can perform dynamic loading here.
+      });
+    </script>
+
+    <uvalib-assistant>
+      <!-- Configuration for the assistant -->
+      <script type="assistant-config">
+        {
+          "searchAssist": {
+            "searchId": "q",
+            "suggestId": "search-suggestion",
+            "submit": "search-submit"
+          }
+        }
+      </script>
+    </uvalib-assistant>
+  </body>
+</html>
