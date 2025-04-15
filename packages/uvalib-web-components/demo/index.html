@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>UVALib Web Components Demo</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; }
+    h3 { margin-top: 2em; }
+    .section { margin-bottom: 2em; }
+    uvalib-button { margin-right: 0.5em; margin-bottom: 0.5em; }
+  </style>
+</head>
+<body>
+  <div id="button-preview-content" class="usa-accordion__content">
+    <div class="section">
+      <h3 class="site-preview-heading"><a id="default" class="usa-anchor"></a>Default</h3>
+      <uvalib-button>Default</uvalib-button>
+      <uvalib-button hover>Hover</uvalib-button>
+      <uvalib-button active>Active</uvalib-button>
+      <uvalib-button focus>Focus</uvalib-button>
+      <uvalib-button disabled>Disabled</uvalib-button>
+      <uvalib-button aria-disabled>aria-disabled</uvalib-button>
+      <uvalib-button unstyled>Unstyled button</uvalib-button>
+    </div>
+    <div class="section">
+      <h3 class="site-preview-heading"><a id="secondary-color" class="usa-anchor"></a>Secondary color</h3>
+      <uvalib-button secondary>Default</uvalib-button>
+      <uvalib-button secondary hover>Hover</uvalib-button>
+      <uvalib-button secondary active>Active</uvalib-button>
+      <uvalib-button secondary focus>Focus</uvalib-button>
+      <uvalib-button secondary disabled>Disabled</uvalib-button>
+      <uvalib-button secondary aria-disabled>aria-disabled</uvalib-button>
+      <uvalib-button secondary unstyled>Unstyled button</uvalib-button>
+    </div>
+    <div class="section">
+      <h3 class="site-preview-heading"><a id="accent-cool-color" class="usa-anchor"></a>Accent cool color</h3>
+      <uvalib-button accent-cool>Default</uvalib-button>
+      <uvalib-button accent-cool hover>Hover</uvalib-button>
+      <uvalib-button accent-cool active>Active</uvalib-button>
+      <uvalib-button accent-cool focus>Focus</uvalib-button>
+      <uvalib-button accent-cool disabled>Disabled</uvalib-button>
+      <uvalib-button accent-cool aria-disabled>aria-disabled</uvalib-button>
+      <uvalib-button accent-cool unstyled>Unstyled button</uvalib-button>
+    </div>
+    <div class="section">
+      <h3 class="site-preview-heading"><a id="accent-warm-color" class="usa-anchor"></a>Accent warm color</h3>
+      <uvalib-button accent-warm>Default</uvalib-button>
+      <uvalib-button accent-warm hover>Hover</uvalib-button>
+      <uvalib-button accent-warm active>Active</uvalib-button>
+      <uvalib-button accent-warm focus>Focus</uvalib-button>
+      <uvalib-button accent-warm disabled>Disabled</uvalib-button>
+      <uvalib-button accent-warm aria-disabled>aria-disabled</uvalib-button>
+      <uvalib-button accent-warm unstyled>Unstyled button</uvalib-button>
+    </div>
+    <div class="section">
+      <h3 class="site-preview-heading"><a id="base-color" class="usa-anchor"></a>Base color</h3>
+      <uvalib-button base>Default</uvalib-button>
+      <uvalib-button base hover>Hover</uvalib-button>
+      <uvalib-button base active>Active</uvalib-button>
+      <uvalib-button base focus>Focus</uvalib-button>
+      <uvalib-button base disabled>Disabled</uvalib-button>
+      <uvalib-button base aria-disabled>aria-disabled</uvalib-button>
+      <uvalib-button base unstyled>Unstyled button</uvalib-button>
+    </div>
+    <div class="section">
+      <h3 class="site-preview-heading"><a id="outline" class="usa-anchor"></a>Outline</h3>
+      <uvalib-button outline>Default</uvalib-button>
+      <uvalib-button outline hover>Hover</uvalib-button>
+      <uvalib-button outline active>Active</uvalib-button>
+      <uvalib-button outline focus>Focus</uvalib-button>
+      <uvalib-button outline disabled>Disabled</uvalib-button>
+      <uvalib-button outline aria-disabled>aria-disabled</uvalib-button>
+      <uvalib-button outline unstyled>Unstyled button</uvalib-button>
+    </div>
+    <div class="section">
+      <h3 class="site-preview-heading"><a id="outline-inverse" class="usa-anchor"></a>Outline inverse</h3>
+      <div class="bg-base-darkest" style="padding: 1em; display: inline-block; background-color: black;">
+        <uvalib-button outline-inverse>Default</uvalib-button>
+        <uvalib-button outline-inverse hover>Hover</uvalib-button>
+        <uvalib-button outline-inverse active>Active</uvalib-button>
+        <uvalib-button outline-inverse focus>Focus</uvalib-button>
+        <uvalib-button outline-inverse disabled>Disabled</uvalib-button>
+        <uvalib-button outline-inverse aria-disabled>aria-disabled</uvalib-button>
+        <uvalib-button outline-inverse unstyled>Unstyled button</uvalib-button>
+      </div>
+    </div>
+    <div class="section">
+      <h3 class="site-preview-heading"><a id="big-button" class="usa-anchor"></a>Big button</h3>
+      <uvalib-button big>Default</uvalib-button>
+      <uvalib-button big disabled>Disabled</uvalib-button>
+      <uvalib-button big aria-disabled>aria-disabled</uvalib-button>
+      <uvalib-button big unstyled>Unstyled button</uvalib-button>
+    </div>
+  </div>
+  <script type="module" src="bundle.js"></script>
+</body>
+</html>

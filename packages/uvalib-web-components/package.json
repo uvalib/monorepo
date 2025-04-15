@@ -1,0 +1,29 @@
+{
+  "name": "uvalib-web-components",
+  "type": "module",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "compile-css": "gulp compile",
+    "compile-js": "cp assets/uswds/css/styles.css src/styles/ && rollup -c",
+    "start": "serve",
+    "build": "pnpm run compile-css && pnpm run compile-js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@uswds/compile": "^1.2.2",
+    "@uswds/uswds": "^3.12.0",
+    "gulp": "^5.0.0",
+    "rollup": "^4.40.0",
+    "rollup-plugin-import-css": "^3.5.8",
+    "serve": "^14.2.0"
+  },
+  "dependencies": {
+    "lit": "^3.3.0"
+  }
+}
