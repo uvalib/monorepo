@@ -9,7 +9,6 @@ interface AssistantSearchConfig {
 
 interface AssistantConfig {
   searchAssist?: AssistantSearchConfig;
-  // Optionally, you can pass the WebSocket endpoint via config.
   wsEndpoint?: string;
 }
 
@@ -63,33 +62,34 @@ export class UvalibAssistant extends LitElement {
 
   // Parse the configuration JSON from a <script type="assistant-config"> block.
   private _parseConfig() {
-    const configScript = this.querySelector('script[type="assistant-config"]');
+    const configScript = (this as HTMLElement).querySelector('script[type="assistant-config"]');
     if (configScript) {
       try {
         this.config = JSON.parse(configScript.textContent || '{}');
+        console.log("Assistant config loaded:", this.config);
       } catch (e) {
         console.error('Error parsing assistant config:', e);
       }
     }
-  }
+  }  
 
   // Initialize the WebSocket connection.
   private _initWebSocket() {
-    // Use the wsEndpoint from config if provided; otherwise, use a hard-coded default.
+    // Use the wsEndpoint from config if provided; otherwise, use a default.
     const wsEndpoint = this.config.wsEndpoint || "wss://x8qxufgdfl.execute-api.us-east-1.amazonaws.com/production/";
     this.socket = new WebSocket(wsEndpoint);
 
     this.socket.onopen = () => {
-      console.log("WebSocket connection opened.");
+      console.log("WebSocket connection opened at", wsEndpoint);
     };
 
     this.socket.onmessage = (event: MessageEvent) => {
-      console.log("Received message:", event.data);
+      console.log("Raw WebSocket message received:", event.data);
       try {
         const data = JSON.parse(event.data);
+        console.log("Parsed response from Lambda:", data);
         if (data.suggestions) {
           this.suggestions = data.suggestions;
-          // Update the suggestion element.
           const suggestionDiv = document.getElementById(this.config.searchAssist?.suggestId || '');
           if (suggestionDiv) {
             suggestionDiv.innerHTML = this._renderSuggestions(this.suggestions);
@@ -101,7 +101,7 @@ export class UvalibAssistant extends LitElement {
     };
 
     this.socket.onerror = (error) => {
-      console.error("WebSocket error:", error);
+      console.error("WebSocket encountered error:", error);
     };
 
     this.socket.onclose = () => {
@@ -120,7 +120,6 @@ export class UvalibAssistant extends LitElement {
   }
 
   // Attach a click listener to the search button.
-  // We do not call preventDefault() here so the page can handle submission as needed.
   private _attachFormListener() {
     if (!this.config?.searchAssist) return;
     const { submit } = this.config.searchAssist;
@@ -132,7 +131,7 @@ export class UvalibAssistant extends LitElement {
     }
   }
 
-  // Send the query over the WebSocket.
+  // Handle the form submission by sending a query over the WebSocket.
   private _handleSubmit() {
     if (!this.config?.searchAssist) return;
     const { searchId, suggestId } = this.config.searchAssist;
@@ -146,19 +145,22 @@ export class UvalibAssistant extends LitElement {
       return;
     }
 
-    // Optionally show a loading message
-    suggestionDiv.textContent = 'Loading suggestions...';
+    // Log the outgoing query.
+    console.log("Sending query to Lambda:", query);
 
+    // Optionally show a loading message.
+    suggestionDiv.textContent = 'Loading suggestions...';
     this._sendQuery(query);
   }
 
-  // Send the query over the WebSocket connection.
+  // Send the query via WebSocket.
   private _sendQuery(query: string) {
     if (this.socket && this.socket.readyState === WebSocket.OPEN) {
       const message = { action: "query", data: query };
+      console.log("WebSocket sending message:", JSON.stringify(message));
       this.socket.send(JSON.stringify(message));
     } else {
-      console.error("WebSocket is not open.");
+      console.error("WebSocket is not open. Unable to send query:", query);
     }
   }
 
@@ -175,7 +177,6 @@ export class UvalibAssistant extends LitElement {
   }
 
   render() {
-    // The component renders a slot so any light-DOM content remains visible.
     return html`<slot></slot>`;
   }
 }
