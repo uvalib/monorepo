@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'lit';
-import { uswdsStyles } from '../styles/uswds-styles.js';
+import { uvalibStyles } from '../styles/uvalib-styles.js';
 
 export class UVALibButton extends LitElement {
   static properties = {
@@ -18,25 +18,25 @@ export class UVALibButton extends LitElement {
   };
 
   static styles = [
-    uswdsStyles,
+    uvalibStyles,
     css`
       /* ...custom styles... */
     `
   ];
 
   render() {
-    const classes = ['usa-button'];
-    if (this.big) classes.push('usa-button--big');
-    if (this.unstyled) classes.push('usa-button--unstyled');
-    if (this.secondary) classes.push('usa-button--secondary');
-    if (this.accentCool) classes.push('usa-button--accent-cool');
-    if (this.accentWarm) classes.push('usa-button--accent-warm');
-    if (this.base) classes.push('usa-button--base');
-    if (this.outline) classes.push('usa-button--outline');
-    if (this.outlineInverse) classes.push('usa-button--outline', 'usa-button--inverse');
-    if (this.hover) classes.push('usa-button--hover');
-    if (this.active) classes.push('usa-button--active');
-    if (this.focus) classes.push('usa-focus');
+    const classes = ['uvalib-button'];
+    if (this.big) classes.push('uvalib-button--big');
+    if (this.unstyled) classes.push('uvalib-button--unstyled');
+    if (this.secondary) classes.push('uvalib-button--secondary');
+    if (this.accentCool) classes.push('uvalib-button--accent-cool');
+    if (this.accentWarm) classes.push('uvalib-button--accent-warm');
+    if (this.base) classes.push('uvalib-button--base');
+    if (this.outline) classes.push('uvalib-button--outline');
+    if (this.outlineInverse) classes.push('uvalib-button--outline', 'usa-button--inverse');
+    if (this.hover) classes.push('uvalib-button--hover');
+    if (this.active) classes.push('uvalib-button--active');
+    if (this.focus) classes.push('uvalib-focus');
     return html`
       <button class="${classes.join(' ')}" type="button" ?disabled=${this.disabled}>
         <slot></slot>

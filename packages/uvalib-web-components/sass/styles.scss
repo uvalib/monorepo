@@ -1,3 +1,119 @@
 @forward "uswds-theme";
 @forward "uswds";
 @forward "uswds-theme-custom-styles";
+
+.uvalib-breadcrumb {
+    @extend .usa-breadcrumb;
+}
+.uvalib-breadcrumb--wrap {
+    @extend .usa-breadcrumb--wrap;
+}
+.uvalib-breadcrumb__list {
+    @extend .usa-breadcrumb__list;
+}
+.uvalib-breadcrumb__list-item {
+    @extend .usa-breadcrumb__list-item;
+}
+.uvalib-breadcrumb__link {
+    @extend .usa-breadcrumb__link;
+}
+
+/* uvalib-button is a class that extends the USA button styles */
+.uvalib-button {
+    @extend .usa-button;
+}
+.uvalib-button--big {
+    @extend .usa-button--big;
+}
+.uvalib-button--unstyled {
+    @extend .usa-button--unstyled;
+}
+.uvalib-button--secondary {
+    @extend .usa-button--secondary;
+}
+.uvalib-button--accent-cool {
+    @extend .usa-button--accent-cool;
+}
+.uvalib-button--accent-warm {
+    @extend .usa-button--accent-warm;
+}
+.uvalib-button--base {
+    @extend .usa-button--base;
+}
+.uvalib-button--outline {
+    @extend .usa-button--outline;
+}
+.uvalib-button--inverse {
+    @extend .usa-button--inverse;
+}
+.uvalib-button--hover {
+    @extend .usa-button--hover;
+}
+.uvalib-button--active {
+    @extend .usa-button--active;
+}
+/* end uvalib-button */
+
+.uvalib-button--group {
+    @extend .usa-button--group;
+}
+.uvalib-button-group__item {
+    @extend .usa-button-group__item;
+}
+
+.uvalib-card-group {
+    @extend .usa-card-group;
+}
+.uvalib-card {
+    @extend .usa-card;
+}
+.uvalib-card__container {
+    @extend .usa-card__container;
+}
+
+.uvalib-current {
+    @extend .usa-current;
+}
+
+.uvalib-icon {
+    @extend .usa-icon;
+}
+
+.uvalib-focus {
+    @extend .usa-focus;
+}
+
+/* uvalib-pagination is a class that extends the USA pagination styles */
+.uvalib-pagination {
+    @extend .usa-pagination;
+}
+.uvalib-pagination__arrow {
+    @extend .usa-pagination__arrow;
+}
+.uvalib-pagination__button {
+    @extend .usa-pagination__button;
+}
+.uvalib-pagination__item {
+    @extend .usa-pagination__item;
+}
+.uvalib-pagination__link {
+    @extend .usa-pagination__link;
+}
+.uvalib-pagination__list {
+    @extend .usa-pagination__list;
+}
+.uvalib-pagination__next-page {
+    @extend .usa-pagination__next-page;
+}
+.uvalib-pagination__overflow {
+    @extend .usa-pagination__overflow;
+}
+.uvalib-pagination__previous-page {
+    @extend .usa-pagination__previous-page;
+}
+
+.uvalib-prose {
+    @extend .usa-prose;
+}
+
+/* end uvalib-pagination */

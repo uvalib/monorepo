@@ -7,10 +7,14 @@
     body { font-family: Arial, sans-serif; margin: 2em; }
     h3 { margin-top: 2em; }
     .section { margin-bottom: 2em; }
-    uvalib-button { margin-right: 0.5em; margin-bottom: 0.5em; }
+    uvalib-button, uvalib-pagination { margin-right: 0.5em; margin-bottom: 0.5em; }
   </style>
 </head>
 <body>
+
+  <uvalib-accordion></uvalib-accordion>
+
+
   <div id="button-preview-content" class="usa-accordion__content">
     <div class="section">
       <h3 class="site-preview-heading"><a id="default" class="usa-anchor"></a>Default</h3>
@@ -92,6 +96,47 @@
       <uvalib-button big unstyled>Unstyled button</uvalib-button>
     </div>
   </div>
-  <script type="module" src="bundle.js"></script>
+  
+  <!-- Pagination Demos Section -->
+  <div class="section" id="pagination-demos">
+    <h3 class="site-preview-heading">
+      <a id="pagination-default" class="usa-anchor"></a>Default
+    </h3>
+    <uvalib-pagination count="24" current="10"></uvalib-pagination>
+    
+    <h3 class="site-preview-heading">
+      <a id="pagination-unbounded" class="usa-anchor"></a>unbounded
+    </h3>
+    <uvalib-pagination count="24" current="10" mode="unbounded"></uvalib-pagination>
+  </div>
+
+  <!-- Breadcrumb Demos Section -->
+  <div class="section" id="breadcrumb-demos">
+    <h3 class="site-preview-heading"><a id="breadcrumb-default" class="usa-anchor"></a>Default breadcrumb</h3>
+    <uvalib-breadcrumb>
+      <a href=""><span>Home</span></a>
+      <a href=""><span>Federal Contracting</span></a>
+      <a href=""><span>Contracting assistance programs</span></a>
+      <span>Economically disadvantaged women‑owned small business federal contracting program</span>
+    </uvalib-breadcrumb>
+
+    <h3 class="site-preview-heading"><a id="breadcrumb-rdfa" class="usa-anchor"></a>Breadcrumb with RDFa metadata</h3>
+    <uvalib-breadcrumb rdfa>
+      <a href=""><span>Home</span></a>
+      <a href=""><span>Federal Contracting</span></a>
+      <a href=""><span>Contracting assistance programs</span></a>
+      <span>Economically disadvantaged women‑owned small business federal contracting program</span>
+    </uvalib-breadcrumb>
+
+    <h3 class="site-preview-heading"><a id="breadcrumb-wrap" class="usa-anchor"></a>Wrapping breadcrumb</h3>
+    <uvalib-breadcrumb wrap>
+      <a href=""><span>Home</span></a>
+      <a href=""><span>Federal Contracting</span></a>
+      <a href=""><span>Contracting assistance programs</span></a>
+      <span>Economically disadvantaged women‑owned small business federal contracting program</span>
+    </uvalib-breadcrumb>
+  </div>
+
+  <script type="module" src="../dist/index.js"></script>
 </body>
 </html>

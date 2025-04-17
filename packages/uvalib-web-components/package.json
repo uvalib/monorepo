@@ -9,6 +9,13 @@
     "start": "serve",
     "build": "pnpm run compile-css && pnpm run compile-js"
   },
+  "exports": {
+    ".": "./dist/index.js",
+    "./UVALibAccordion.js": "./dist/UVALibAccordion.js",
+    "./UVALibBreadcrumb.js": "./dist/UVALibBreadcrumb.js",
+    "./UVALibButton.js": "./dist/UVALibButton.js",
+    "./UVALibPagination.js": "./dist/UVALibPagination.js"
+  }
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -21,6 +28,7 @@
     "gulp": "^5.0.0",
     "rollup": "^4.40.0",
     "rollup-plugin-import-css": "^3.5.8",
+    "rollup-plugin-multi-input": "^1.4.1",
     "serve": "^14.2.0"
   },
   "dependencies": {
