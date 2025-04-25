@@ -1,4 +1,4 @@
-import{i as t,_ as e,n as o,s as i,x as s}from"../../property-4490ebb8.js";
+import{i as t,_ as e,n as o,s as i,x as s}from"../../property-88ac5898.js";
 /**
  * @license
  * Copyright (c) 2017 - 2023 Vaadin Ltd.

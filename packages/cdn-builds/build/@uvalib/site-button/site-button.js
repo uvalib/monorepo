@@ -1,4 +1,4 @@
-import{i as t,_ as o,s as e,x as i,n as a}from"../../property-4490ebb8.js";const n=t`
+import{i as t,_ as o,s as e,x as i,n as a}from"../../property-88ac5898.js";const n=t`
 :host {
   font-family: franklin-gothic-urw, Arial, Helvetica, sans-serif;
 }

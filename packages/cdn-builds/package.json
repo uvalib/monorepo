@@ -1,6 +1,6 @@
 {
   "name": "@uvalib/cdn-builds",
-  "version": "2.2.40",
+  "version": "2.2.41",
   "description": "",
   "main": "build/index.js",
   "scripts": {
@@ -24,7 +24,7 @@
     "@uvalib/site-page": "workspace:*",
     "@uvalib/site-page-search": "workspace:*",
     "@uvalib/site-style": "workspace:*",
-    "@uvalib/viz-graph": "workspace:*"
+    "@uvalib/web-design-system": "workspace:*"
   },
   "devDependencies": {
     "tsconfig": "workspace:*"
