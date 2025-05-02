@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node index.js",
     'build': "echo 'no build step yet'",
+    'start': "node index.js"
   },
   "keywords": [],
   "author": "",
