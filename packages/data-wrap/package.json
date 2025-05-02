@@ -3,7 +3,7 @@
   "description": "Webcomponent data-wrap following open-wc recommendations",
   "license": "MIT",
   "author": "data-wrap",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "main": "dist/src/index.js",
   "module": "dist/src/index.js",
   "exports": {
