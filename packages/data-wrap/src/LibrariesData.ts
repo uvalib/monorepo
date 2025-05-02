@@ -68,4 +68,53 @@ export class LibrariesData extends DrupalSearchData {
         });
       });
   }
+
+  /**
+   * Determine if a library is open based on rawDates schedule.
+   * @param rawDates Map of ISO date strings to hours info
+   * @param now Current Date for evaluation
+   */
+  public isOpen(rawDates: Record<string, any>, now: Date = new Date()): boolean {
+    const timeZone = 'America/New_York';
+    // Determine today's date string in Eastern Time (YYYY-MM-DD)
+    const dateString = new Intl.DateTimeFormat('en-CA', { timeZone }).format(now);
+    // Current time for range comparisons in specified timezone
+    const currentTime = new Date(now.toLocaleString('en-US', { timeZone }));
+    console.log(`LibrariesData.isOpen: now=${now.toISOString()}, ET dateString=${dateString}, rawDates keys=${Object.keys(rawDates).join(',')}`);
+    // Check previous day's hours extending past midnight
+    const prevDate = new Date(currentTime);
+    prevDate.setDate(prevDate.getDate() - 1);
+    const prevDateString = prevDate.toISOString().split('T')[0];
+    const prevInfo = rawDates[prevDateString];
+    if (prevInfo) {
+      if (prevInfo.status === '24hours') return true;
+      if (prevInfo.status === 'open' && Array.isArray(prevInfo.hours)) {
+        for (const h of prevInfo.hours) {
+          const fm = h.from.replace(/(am|pm)/, ' $1').toUpperCase();
+          const tm = h.to.replace(/(am|pm)/, ' $1').toUpperCase();
+          const fromDate = new Date(`${prevDateString} ${fm}`);
+          const toDate = new Date(`${prevDateString} ${tm}`);
+          // extends past midnight
+          if (toDate.getHours() <= new Date(`${prevDateString} ${fm}`).getHours()) toDate.setDate(toDate.getDate() + 1);
+          if (currentTime >= fromDate && currentTime <= toDate) return true;
+        }
+      }
+    }
+    const todayInfo = rawDates[dateString];
+    if (!todayInfo) return false;
+    // 24-hour open
+    if (todayInfo.status === '24hours') return true;
+    // open with hours ranges
+    if (todayInfo.status === 'open' && Array.isArray(todayInfo.hours)) {
+      for (const h of todayInfo.hours) {
+        const fm = h.from.replace(/(am|pm)/, ' $1').toUpperCase();
+        const tm = h.to.replace(/(am|pm)/, ' $1').toUpperCase();
+        const from = new Date(`${dateString} ${fm}`);
+        const to = new Date(`${dateString} ${tm}`);
+        if (to.getHours() < from.getHours()) to.setDate(to.getDate() + 1);
+        if (currentTime >= from && currentTime <= to) return true;
+      }
+    }
+    return false;
+  }
 }
