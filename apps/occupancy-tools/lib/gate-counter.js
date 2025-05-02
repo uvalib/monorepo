@@ -1,5 +1,5 @@
-import DigestFetch from 'digest-fetch';
 import dateTime from 'date-and-time';
+import { createClient, occupancyEstimators, retryFetch } from './occupancy-client.js';
 // Constants for configuration
 const GATE_COUNT_INTERVAL = 360000; // 1 hour in milliseconds
 const MAX_RETRIES = 5; // Maximum number of retries for fetching data
@@ -11,43 +11,14 @@ class GateCounter {
         const today = dateTime.format(now, "YYYYMMDD") + "000000";
         const yesterHyphen = dateTime.format(dateTime.addDays(now, -1), "YYYY-MM-DD") + " 00:00:00";
         console.info(`Getting gate counts: ${today}`);
-        // Define the endpoints for different locations
-        // Make sure to supply the correct gateID for each location
-        const occupancyEstimators = [
-            { loc: 'SEL', gateID: 3, url: 'http://172.29.12.101/local/occupancy-estimator/.api?occupancy-export-json&res=24h&date=' },
-            { loc: 'Clemons', gateID: 5, url: 'http://172.29.5.87/local/occupancy-estimator/.api?occupancy-export-json&res=24h&date=' },
-            { loc: 'FAL', gateID: 7, url: 'http://172.29.8.29/local/people-counter/.api?export-json&res=24h&date=' },
-            { loc: 'Music', gateID: 6, url: 'http://172.29.72.19/local/people-counter/.api?export-json&res=24h&date=' },
-            {
-                loc: 'Shannon',
-                gateID: 4,
-                software: "3d",
-                urls: [
-                    'http://172.29.3.47',
-                    'http://172.29.3.48',
-                    'http://172.29.3.49',
-                    'http://172.29.3.50',
-                    'http://172.29.3.51',
-                    'http://172.29.3.52',
-                    'http://172.29.3.53',
-                    'http://172.29.3.54',
-                    'http://172.29.3.55',
-                    'http://172.29.3.56',
-                    'http://172.29.3.57',
-                    'http://172.29.3.58',
-                    'http://172.29.3.59',
-                    'http://172.29.3.60'
-                ].map(url => `${url}/a3dpc/api/export/json?start=yesterday&end=today&resolution=day`)
-            }
-        ];
-        // Initialize the digest-fetch client with authentication
-        const client = new DigestFetch(process.env.AXISUSER, process.env.AXISPASS, { algorithm: 'MD5' });
+        // Initialize the HTTP client with authentication
+        const client = createClient();
         // Fetch and process data from all endpoints
         let gateLocationsData = [];
         for (const oe of occupancyEstimators) {
             // Handle 3D cameras
             if (oe.software === '3d' && oe.urls) {
-                const fetchPromises = oe.urls.map(url => this.retryFetch(client, url, MAX_RETRIES));
+                const fetchPromises = oe.urls.map(url => retryFetch(client, url, MAX_RETRIES));
                 const results = await Promise.all(fetchPromises);
                 let totalInCount = 0;
                 let cameraErrorDetected = false;
@@ -78,7 +49,7 @@ class GateCounter {
             }
             else if (oe.url) {
                 const url = oe.url + dateTime.format(dateTime.addDays(now, -1), "YYYYMMDD");
-                const data = await this.retryFetch(client, url, MAX_RETRIES);
+                const data = await retryFetch(client, url, MAX_RETRIES);
                 if (!data || data.error) {
                     // If request failed or data is missing, record -1
                     console.warn(`Data could not be fetched for endpoint ${oe.loc}. Setting gate count to -1.`);
@@ -134,33 +105,6 @@ class GateCounter {
         }
         else {
             console.warn("No data to send to LibInsight.");
-        }
-    }
-    // Function to fetch data from a URL with retry logic in case of failure
-    async retryFetch(client, url, retries) {
-        console.info(`Fetching data from ${url}`);
-        try {
-            const response = await client.fetch(url);
-            if (response.ok) {
-                console.info(`Data successfully fetched from ${url}`);
-                return response.json();
-            }
-            console.warn(`Failed to fetch data from ${url}. Retries left: ${retries}`);
-            if (retries > 0) {
-                return this.retryFetch(client, url, retries - 1);
-            }
-            // All retries exhausted, return { error: true }
-            console.error(`Max retries reached for url: ${url}. Returning data with -1 indication.`);
-            return { error: true };
-        }
-        catch (error) {
-            console.error(`Error while fetching data from ${url}: ${error}`);
-            if (retries > 0) {
-                return this.retryFetch(client, url, retries - 1);
-            }
-            // If also fails on last retry, return an error object
-            console.error(`Max retries reached for url: ${url}. Returning data with -1 indication.`);
-            return { error: true };
         }
     }
 }
