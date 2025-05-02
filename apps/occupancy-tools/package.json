@@ -30,7 +30,7 @@
     "occupancy-poller": "./lib/occupancy-poller.js"
   },
   "dependencies": {
-    "@uvalib/data-wrap": "workspace:*",
+    "@uvalib/data-wrap": "latest",
     "date-and-time": "^3.0.2",
     "digest-fetch": "^3.0.4",
     "dotenv": "^16.4.5"
