@@ -1,4 +1,10 @@
 (function() {
+  // Helper that sets value in a way React can detect
+  function setNativeValue(el, value) {
+    const setter = Object.getOwnPropertyDescriptor(Object.getPrototypeOf(el), 'value').set;
+    setter.call(el, value);
+  }
+
   // Remove unwanted panels
   function removeUnwantedSections() {
     // Remove entire Authorities panel
@@ -34,27 +40,149 @@
     });
   }
 
-  // Fix named collection input
-  function fixNamedCollectionInput() {
-    const fieldset = document.querySelector('fieldset[data-name="namedCollection"]');
-    if (!fieldset) return;
-    const input = fieldset.querySelector('input');
+  // Fix Responsible Department field to always be 'Other'
+  function fixResponsibleDepartmentField() {
+    const container = document.querySelector('fieldset[data-name="responsibleDepartments"]');
+    if (!container) return;
+    const repeat = container.querySelector('fieldset[data-name="responsibleDepartment"]');
+    if (!repeat) return;
+    const input = repeat.querySelector('input[type="text"]');
     if (input) {
-      input.value = "Facilities Architectural Collection";
-      input.setAttribute("readonly", "true");
-      input.style.backgroundColor = "#f0f0f0";
+      setNativeValue(input, 'Other');
+      input.setAttribute('readonly', 'true');
+      input.style.backgroundColor = '#f0f0f0';
+      // Trigger events so React sees the change
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+      // Simulate clicking the 'Other' dropdown option if present
+      document.querySelectorAll('li').forEach(option => {
+        if (option.textContent.trim() === 'Other') {
+          option.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+          option.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+        }
+      });
+      console.log('Proxy MutationObserver: Set Responsible Department to Other and made read-only.');
     }
-    ['add','remove','moveToTop'].forEach(name => {
-      const btn = fieldset.querySelector(`button[data-name="${name}"]`);
+    // Remove add/remove buttons
+    ['add', 'remove'].forEach(name => {
+      const btn = repeat.querySelector(`button[data-name="${name}"]`);
       if (btn) btn.remove();
     });
+  }
+
+  // Fix the Responsible department condition input in search/filter forms
+  function fixResponsibleConditionField() {
+    document.querySelectorAll('div.cspace-ui-FieldConditionInput--common').forEach(container => {
+      const label = container.querySelector('div > span')?.textContent;
+      if (label === 'Responsible department') {
+        const repeat = container.querySelector('fieldset[data-name="responsibleDepartment"]');
+        if (!repeat) return;
+        const input = repeat.querySelector('input[type="text"]');
+        if (input) {
+          setNativeValue(input, 'Other');
+          input.setAttribute('readonly', 'true');
+          input.style.backgroundColor = '#f0f0f0';
+          input.dispatchEvent(new Event('input', { bubbles: true }));
+          input.dispatchEvent(new Event('change', { bubbles: true }));
+          // Simulate selecting 'Other' from the dropdown list
+          document.querySelectorAll('li').forEach(option => {
+            if (option.textContent.trim() === 'Other') {
+              option.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+              option.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+            }
+          });
+          console.log('Proxy MutationObserver: Set Responsible department condition to Other and made read-only.');
+        }
+        repeat.querySelectorAll('button[data-name="add"], button[data-name="remove"]').forEach(btn => btn.remove());
+        const removeBtn = container.querySelector('button.cspace-ui-RemoveConditionButton--common');
+        if (removeBtn) removeBtn.remove();
+      }
+    });
+  }
+
+  // Fix the boolean search operator dropdown to always show 'All'
+  function fixBooleanSearchOp() {
+    document.querySelectorAll('input[data-name="booleanSearchOp"]').forEach(input => {
+      // Hide input, set to 'All', and display static text next to it
+      if (input.nextElementSibling?.classList.contains('proxy-boolean-display')) {
+        return;
+      }
+      input.value = 'All';
+      input.setAttribute('readonly', 'true');
+      input.style.backgroundColor = '#f0f0f0';
+      input.style.display = 'none';
+      const span = document.createElement('span');
+      span.textContent = 'All';
+      span.className = 'proxy-boolean-display';
+      input.parentNode.insertBefore(span, input.nextSibling);
+      console.log('Proxy MutationObserver: Hid booleanSearchOp input, showed static All.');
+    });
+  }
+
+  // Fix the 'Last updated by' condition input in search/filter forms
+  function fixLastUpdatedByConditionField() {
+    document.querySelectorAll('div.cspace-ui-FieldConditionInput--common').forEach(container => {
+      const label = container.querySelector('div > span')?.textContent;
+      if (label === 'Last updated by') {
+        const repeat = container.querySelector('fieldset[data-name="updatedBy"]');
+        if (!repeat) return;
+        const input = repeat.querySelector('input[type="text"]');
+        if (input) {
+          // Set value using React-compatible setter, then fire InputEvent and change+blur
+          input.focus();
+          // React value tracker hack
+          const lastValue = input.value;
+          setNativeValue(input, 'dhc4z@virginia.edu');
+          const tracker = input._valueTracker;
+          if (tracker) tracker.setValue(lastValue);
+          // Ensure React sees defaultValue
+          input.defaultValue = 'dhc4z@virginia.edu';
+          // Dispatch a series of events to trigger React change detection
+          input.dispatchEvent(new InputEvent('input', { bubbles: true, cancelable: true }));
+          input.dispatchEvent(new Event('change', { bubbles: true, cancelable: true }));
+          // Simulate typing to cover any key handlers
+          ['keydown', 'keypress', 'keyup'].forEach(type => {
+            input.dispatchEvent(new KeyboardEvent(type, { bubbles: true, cancelable: true, key: 'd' }));
+          });
+          // Complete any composition
+          input.dispatchEvent(new CompositionEvent('compositionend', { bubbles: true }));
+          input.dispatchEvent(new FocusEvent('blur', { bubbles: true }));
+          // Fire React’s internal onChange if available
+          const reactHandlerKey = Object.keys(input).find(key => key.startsWith('__reactEventHandlers'));
+          if (reactHandlerKey) {
+            input[reactHandlerKey].onChange({ target: input });
+            console.log('Proxy MutationObserver: Called React onChange on Last updated by field');
+          }
+          console.log('Proxy MutationObserver: Set Last updated by to dhc4z@virginia.edu and made read-only.');
+        }
+        // Remove add/remove and remove-condition buttons
+        repeat.querySelectorAll('button[data-name="add"], button[data-name="remove"]').forEach(btn => btn.remove());
+        const removeBtn = container.querySelector('button.cspace-ui-RemoveConditionButton--common');
+        if (removeBtn) removeBtn.remove();
+      }
+    });
+  }
+
+  // Remove the Quick Search bar from the banner
+  function removeQuickSearchBar() {
+    const banner = document.querySelector('div.cspace-ui-BannerMain--common');
+    if (!banner) return;
+    const fs = banner.querySelector('fieldset');
+    if (fs) {
+      fs.remove();
+      console.log('Proxy MutationObserver: Removed Quick Search fieldset');
+    }
   }
 
   // Run all cleanup actions
   function runAllRemovals() {
     removeUnwantedSections();
     removeMenuItems();
-    fixNamedCollectionInput();
+    fixResponsibleDepartmentField();
+    fixResponsibleConditionField();
+    fixBooleanSearchOp();
+    fixLastUpdatedByConditionField();
+    removeQuickSearchBar();
   }
 
   if (document.readyState === 'loading') {

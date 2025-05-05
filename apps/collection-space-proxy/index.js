@@ -114,6 +114,9 @@ app.get('/cspace-services/login', async (req, res, next) => {
 
 // 3. Main Proxy Middleware
 app.use('/', proxy(destination, {
+  // Treat all request/response bodies as binary and prevent body parsing (for multipart uploads)
+  binary: true,
+  parseReqBody: false,
   proxyReqOptDecorator: (proxyReqOpts, srcReq) => {
     if (verbosity >= 1) console.log(`Proxying: ${srcReq.method} ${srcReq.originalUrl}`);
     if (verbosity >= 2) console.log(" -> Original Client Headers:", srcReq.headers);
