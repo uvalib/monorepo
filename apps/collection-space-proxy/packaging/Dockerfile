@@ -32,7 +32,7 @@ CMD ["scripts/entry.sh"]
 
 # Move in necessary assets
 COPY packaging/scripts/entry.sh ${APP_HOME}/scripts/entry.sh
-COPY package.json index.js ${APP_HOME}/
+COPY package.json index.js inject.js ${APP_HOME}/
 
 # Update permissions
 RUN chown -R ${USER}:${GROUP} ${APP_HOME}
