@@ -1,0 +1,36 @@
+#
+# deployspec.yml
+#
+
+version: 0.2
+
+env:
+  variables:
+    terraform_version: 1.11.3
+
+phases:
+  install:
+    runtime-versions:
+      golang: 1.x
+    commands:
+      - wget https://releases.hashicorp.com/terraform/${terraform_version}/terraform_${terraform_version}_linux_amd64.zip
+      - unzip terraform_${terraform_version}_linux_amd64.zip
+      - mv terraform /usr/local/bin
+
+  pre_build:
+    commands:
+      - latest_build=$(aws --region=$AWS_REGION ssm get-parameter --name /containers/$CONTAINER_IMAGE/latest | grep "Value" | awk -F\" '{print $4}')
+      - git clone https://$GITLAB_USER:$GITLAB_TOKEN@gitlab.com/uvalib/terraform-infrastructure.git
+
+  build:
+    commands:
+      - cd $CODEBUILD_SRC_DIR/terraform-infrastructure/cs-proxy/staging
+      - terraform init -no-color
+      - terraform apply -no-color -auto-approve -var container_tag=$latest_build
+
+#  post_build:
+#    commands:
+
+#
+# end of file
+#
