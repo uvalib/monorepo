@@ -174,6 +174,32 @@
     }
   }
 
+  // Prune the record type dropdown to only Objects and Media Handling
+  function pruneRecordTypeOptions() {
+    const container = document.querySelector('div.cspace-ui-SearchFormRecordType--common');
+    if (!container) return;
+    const list = container.querySelector('ul.cspace-input-Menu--common');
+    if (!list) return;
+    Array.from(list.children).forEach(li => {
+      const text = li.textContent.trim();
+      if (text !== 'Objects' && text !== 'Media Handling') {
+        li.remove();
+      } else {
+        // ensure correct selection state
+        if (text === 'Objects') {
+          li.setAttribute('aria-selected', 'true');
+          li.classList.add('cspace-input-MenuItem--selected');
+        } else {
+          li.setAttribute('aria-selected', 'false');
+          li.classList.remove('cspace-input-MenuItem--selected');
+        }
+      }
+    });
+    // Reset the input value to Objects
+    const input = container.querySelector('input[type="text"]');
+    if (input) input.value = 'Objects';
+  }
+
   // Run all cleanup actions
   function runAllRemovals() {
     removeUnwantedSections();
@@ -183,6 +209,7 @@
     fixBooleanSearchOp();
     fixLastUpdatedByConditionField();
     removeQuickSearchBar();
+    pruneRecordTypeOptions();
   }
 
   if (document.readyState === 'loading') {
