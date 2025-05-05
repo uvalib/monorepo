@@ -3,6 +3,9 @@ import 'dotenv/config'; // Load environment variables from .env at the start
 import express from 'express';
 import proxy from 'express-http-proxy';
 import { URLSearchParams } from 'url'; // Built-in URLSearchParams
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 // --- Configuration ---
 const app = express();
@@ -16,6 +19,15 @@ const verbosity = Number(process.env.VERBOSITY) || 0;
 const username = process.env.USERNAME;
 const password = process.env.PASSWORD;
 const tenantPathSegment = '/cspace/virginia'; // Adjust as needed
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const injectSource = fs.readFileSync(path.join(__dirname, 'inject.js'), 'utf8');
+function createInjectionScript(tenantPath) {
+  // Prevent breaking out of script tag and handle dynamic tenantPath
+  const safeSource = injectSource.replace(/<\/script>/g, '<\\/script>');
+  return '<script>const tenantPath=\'' + tenantPath + '\';\n' + safeSource + '</script>';
+}
 
 // --- Routes ---
 
@@ -138,81 +150,7 @@ app.use('/', proxy(destination, {
       let dataString = proxyResData.toString('utf8');
       if (verbosity >= 1) console.log(`HTML detected, injecting MutationObserver script for: ${userReq.originalUrl}`);
       // --- BEGIN SCRIPT INJECTION WITH MUTATION OBSERVER ---
-      const injectionScript = `
-        <script>
-          (function() {
-            const tenantPath = '${tenantPathSegment}';
-            function removeUnwantedSections() {
-              const proceduresPanel = document.querySelector('div.cspace-ui-CreatePagePanel--procedure');
-              if (proceduresPanel) {
-                proceduresPanel.remove();
-                console.log('Proxy MutationObserver: Removed Procedures panel.');
-              }
-              const authorityPanel = document.querySelector('div.cspace-ui-CreatePagePanel--authority');
-              if (authorityPanel) {
-                authorityPanel.remove();
-                console.log('Proxy MutationObserver: Removed Authorities panel.');
-              }
-            }
-            function removeMenuItems() {
-              const selectors = [
-                'a[href="' + tenantPath + '/dashboard"]',
-                'a[href="' + tenantPath + '/tool"]',
-                'a[href="' + tenantPath + '/admin"]'
-              ];
-              selectors.forEach(function(selector) {
-                const el = document.querySelector(selector);
-                if (el) {
-                  const li = el.closest('li');
-                  if (li) {
-                    li.remove();
-                    console.log('Proxy MutationObserver: Removed menu item with selector:', selector);
-                  }
-                }
-              });
-            }
-            function fixNamedCollectionInput() {
-              const fieldset = document.querySelector('fieldset[data-name="namedCollection"]');
-              if (fieldset) {
-                const input = fieldset.querySelector('input');
-                if (input) {
-                  input.value = "Facilities Architectural Collection";
-                  input.setAttribute("readonly", "true");
-                  input.style.backgroundColor = "#f0f0f0";
-                  console.log('Proxy MutationObserver: Set Named Collection input and made it read-only.');
-                }
-                const addBtn = fieldset.querySelector('button[data-name="add"]');
-                if (addBtn) {
-                  addBtn.remove();
-                  console.log('Proxy MutationObserver: Removed add button from Named Collection.');
-                }
-                const removeBtn = fieldset.querySelector('button[data-name="remove"]');
-                if (removeBtn) {
-                  removeBtn.remove();
-                  console.log('Proxy MutationObserver: Removed remove button from Named Collection.');
-                }
-                const moveBtn = fieldset.querySelector('button[data-name="moveToTop"]');
-                if (moveBtn) {
-                  moveBtn.remove();
-                  console.log('Proxy MutationObserver: Removed moveToTop button from Named Collection.');
-                }
-              }
-            }
-            function runAllRemovals() {
-              removeUnwantedSections();
-              removeMenuItems();
-              fixNamedCollectionInput();
-            }
-            if (document.readyState === 'loading') {
-              document.addEventListener('DOMContentLoaded', runAllRemovals);
-            } else {
-              runAllRemovals();
-            }
-            const observer = new MutationObserver(runAllRemovals);
-            observer.observe(document.body, { childList: true, subtree: true });
-          })();
-        </script>
-      `;
+      const injectionScript = createInjectionScript(tenantPathSegment);
       dataString = dataString.replace(/<\/body>/i, injectionScript + '</body>');
       body = dataString;
       // --- END SCRIPT INJECTION ---

@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "build": "echo 'no build step yet'",
-    "start": "node index.js"
+    "build": "rollup -c"
   },
   "keywords": [],
   "author": "",
@@ -15,5 +14,11 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-http-proxy": "^2.1.1"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^28.0.3",
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@rollup/plugin-replace": "^5.0.2",
+    "rollup": "^4.40.1"
   }
 }
