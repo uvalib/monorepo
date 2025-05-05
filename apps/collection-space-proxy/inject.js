@@ -94,6 +94,28 @@
     });
   }
 
+  // Fix the 'Last updated by' condition input in search/filter forms
+  function fixLastUpdatedByConditionField() {
+    document.querySelectorAll('div.cspace-ui-FieldConditionInput--common').forEach(container => {
+      const label = container.querySelector('div > span')?.textContent;
+      if (label === 'Last updated by') {
+        const repeat = container.querySelector('fieldset[data-name="updatedBy"]');
+        if (!repeat) return;
+        const input = repeat.querySelector('input[type="text"]');
+        if (input) {
+          input.value = 'dhc4z@virginia.edu';
+          input.setAttribute('readonly', 'true');
+          input.style.backgroundColor = '#f0f0f0';
+          console.log('Proxy MutationObserver: Set Last updated by to dhc4z@virginia.edu and made read-only.');
+        }
+        // Remove add/remove and remove-condition buttons
+        repeat.querySelectorAll('button[data-name="add"], button[data-name="remove"]').forEach(btn => btn.remove());
+        const removeBtn = container.querySelector('button.cspace-ui-RemoveConditionButton--common');
+        if (removeBtn) removeBtn.remove();
+      }
+    });
+  }
+
   // Run all cleanup actions
   function runAllRemovals() {
     removeUnwantedSections();
@@ -101,6 +123,7 @@
     fixResponsibleDepartmentField();
     fixResponsibleConditionField();
     fixBooleanSearchOp();
+    fixLastUpdatedByConditionField();
   }
 
   if (document.readyState === 'loading') {
