@@ -33,6 +33,7 @@
     "@uvalib/data-wrap": "latest",
     "date-and-time": "^3.0.2",
     "digest-fetch": "^3.0.4",
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "tslib": "^2.8.1"
   }
 }
