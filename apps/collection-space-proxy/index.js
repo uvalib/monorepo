@@ -36,10 +36,14 @@ app.use((req, res, next) => {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const injectSource = fs.readFileSync(path.join(__dirname, 'inject.js'), 'utf8');
-function createInjectionScript(tenantPath) {
-  // Prevent breaking out of script tag and handle dynamic tenantPath
+function createInjectionScript(tenantPath, proxyUsername) {
+  // Inject tenantPath and proxyUsername then include client script in one <script> tag
   const safeSource = injectSource.replace(/<\/script>/g, '<\\/script>');
-  return '<script>const tenantPath=\'' + tenantPath + '\';\n' + safeSource + '</script>';
+  return `<script>
+    const tenantPath = '${tenantPath}';
+    const proxyUsername = '${proxyUsername}';
+    ${safeSource}
+  </script>`;
 }
 
 // --- Routes ---
@@ -166,7 +170,7 @@ app.use('/', proxy(destination, {
       let dataString = proxyResData.toString('utf8');
       if (verbosity >= 1) console.log(`HTML detected, injecting MutationObserver script for: ${userReq.originalUrl}`);
       // --- BEGIN SCRIPT INJECTION WITH MUTATION OBSERVER ---
-      const injectionScript = createInjectionScript(tenantPathSegment);
+      const injectionScript = createInjectionScript(tenantPathSegment, username);
       dataString = dataString.replace(/<\/body>/i, injectionScript + '</body>');
       body = dataString;
       // --- END SCRIPT INJECTION ---

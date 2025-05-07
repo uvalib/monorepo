@@ -48,7 +48,7 @@
     if (!repeat) return;
     const input = repeat.querySelector('input[type="text"]');
     if (input) {
-      setNativeValue(input, 'Other');
+      setNativeValue(input, "University's Facilities Management");
       input.setAttribute('readonly', 'true');
       input.style.backgroundColor = '#f0f0f0';
       // Trigger events so React sees the change
@@ -56,12 +56,12 @@
       input.dispatchEvent(new Event('change', { bubbles: true }));
       // Simulate clicking the 'Other' dropdown option if present
       document.querySelectorAll('li').forEach(option => {
-        if (option.textContent.trim() === 'Other') {
+        if (option.textContent.trim() === "University's Facilities Management") {
           option.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
           option.dispatchEvent(new MouseEvent('click', { bubbles: true }));
         }
       });
-      console.log('Proxy MutationObserver: Set Responsible Department to Other and made read-only.');
+      console.log('Proxy MutationObserver: Set Responsible Department to University\'s Facilities Management and made read-only.');
     }
     // Remove add/remove buttons
     ['add', 'remove'].forEach(name => {
@@ -79,19 +79,19 @@
         if (!repeat) return;
         const input = repeat.querySelector('input[type="text"]');
         if (input) {
-          setNativeValue(input, 'Other');
+          setNativeValue(input, "University's Facilities Management");
           input.setAttribute('readonly', 'true');
           input.style.backgroundColor = '#f0f0f0';
           input.dispatchEvent(new Event('input', { bubbles: true }));
           input.dispatchEvent(new Event('change', { bubbles: true }));
           // Simulate selecting 'Other' from the dropdown list
           document.querySelectorAll('li').forEach(option => {
-            if (option.textContent.trim() === 'Other') {
+            if (option.textContent.trim() === "University's Facilities Management") {
               option.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
               option.dispatchEvent(new MouseEvent('click', { bubbles: true }));
             }
           });
-          console.log('Proxy MutationObserver: Set Responsible department condition to Other and made read-only.');
+          console.log('Proxy MutationObserver: Set Responsible department condition to University\'s Facilities Management and made read-only.');
         }
         repeat.querySelectorAll('button[data-name="add"], button[data-name="remove"]').forEach(btn => btn.remove());
         const removeBtn = container.querySelector('button.cspace-ui-RemoveConditionButton--common');
@@ -132,11 +132,13 @@
           input.focus();
           // React value tracker hack
           const lastValue = input.value;
-          setNativeValue(input, 'dhc4z@virginia.edu');
+          setNativeValue(input, proxyUsername);
           const tracker = input._valueTracker;
           if (tracker) tracker.setValue(lastValue);
-          // Ensure React sees defaultValue
-          input.defaultValue = 'dhc4z@virginia.edu';
+          // Ensure React sees defaultValue and make input read-only
+          input.defaultValue = proxyUsername;
+          input.setAttribute('readonly', 'true');
+          input.style.backgroundColor = '#f0f0f0';
           // Dispatch a series of events to trigger React change detection
           input.dispatchEvent(new InputEvent('input', { bubbles: true, cancelable: true }));
           input.dispatchEvent(new Event('change', { bubbles: true, cancelable: true }));
@@ -153,7 +155,7 @@
             input[reactHandlerKey].onChange({ target: input });
             console.log('Proxy MutationObserver: Called React onChange on Last updated by field');
           }
-          console.log('Proxy MutationObserver: Set Last updated by to dhc4z@virginia.edu and made read-only.');
+          console.log(`Proxy MutationObserver: Set Last updated by to ${proxyUsername} and made read-only.`);
         }
         // Remove add/remove and remove-condition buttons
         repeat.querySelectorAll('button[data-name="add"], button[data-name="remove"]').forEach(btn => btn.remove());
