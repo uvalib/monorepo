@@ -20,6 +20,19 @@ const username = process.env.USERNAME;
 const password = process.env.PASSWORD;
 const tenantPathSegment = '/cspace/virginia'; // Adjust as needed
 
+// Parse allowed user IDs from environment and enforce REMOTE_USER authorization
+const authIds = (process.env.AUTH_IDS || 'dhc4z,snh2ne,akr5gz,hmh5xj,arm8h,kod9dx')
+  .split(',')
+  .map(id => id.trim());
+app.use((req, res, next) => {
+  const remoteUser = req.get('REMOTE_USER');
+  if (!remoteUser || !authIds.includes(remoteUser)) {
+    if (verbosity >= 1) console.warn(`Unauthorized access attempt by user: ${remoteUser}`);
+    return res.status(403).send('Forbidden');
+  }
+  next();
+});
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const injectSource = fs.readFileSync(path.join(__dirname, 'inject.js'), 'utf8');
