@@ -21,7 +21,7 @@ const password = process.env.PASSWORD;
 const tenantPathSegment = '/cspace/virginia'; // Adjust as needed
 
 // Parse allowed user IDs from environment and enforce REMOTE_USER authorization
-const authIds = (process.env.AUTH_IDS || 'dhc4z,snh2ne,akr5gz,hmh5xj,arm8h,kod9dx')
+const authIds = (process.env.AUTH_IDS || 'dhc4z,smh2ne,akr5gz,hmh5xj,arm8h,kod9dx')
   .split(',')
   .map(id => id.trim());
 app.use((req, res, next) => {
