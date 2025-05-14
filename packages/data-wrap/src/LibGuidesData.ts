@@ -1,7 +1,7 @@
 import { GeneralData } from './GeneralData.js';
 
 export class LibGuidesData extends GeneralData {
-  protected readonly libGuidesAPIURL = 'https://5570499q1i.execute-api.us-east-2.amazonaws.com/1_1_2/libguides-proxy?';
+  protected readonly libGuidesAPIURL = 'https://qmo3jwybkg.execute-api.us-east-1.amazonaws.com/production/library/libguides-proxy?';
 
   async fetchData(params?: { limit?: number }) {
     return fetch(`${this.libGuidesAPIURL}q=${this.query}`)
