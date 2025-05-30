@@ -1,0 +1,21 @@
+{
+  "name": "pdf2tei",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "split": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.10.0",
+  "dependencies": {
+    "commander": "^14.0.0",
+    "pdf-lib": "^1.17.1"
+  },
+  "bin": {
+    "pdf-split": "index.js"
+  }
+}
