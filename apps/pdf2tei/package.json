@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "split": "node index.js"
+    "split": "node index.js",
+    "transcribe": "node transcribe.js"
   },
   "keywords": [],
   "author": "",
@@ -13,9 +15,12 @@
   "packageManager": "pnpm@10.10.0",
   "dependencies": {
     "commander": "^14.0.0",
+    "dotenv": "^16.5.0",
+    "openai": "^5.0.1",
     "pdf-lib": "^1.17.1"
   },
   "bin": {
-    "pdf-split": "index.js"
+    "pdf-split": "index.js",
+    "pdf-transcribe": "transcribe.js"
   }
 }
