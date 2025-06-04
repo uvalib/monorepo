@@ -32,6 +32,36 @@ pnpm split path/to/book.pdf -o pages
 
 Output filenames follow the pattern `<basename>-page-<n>.pdf`.
 
+Transcribe a single page into a TEI fragment:
+
+```bash
+# load API key (or add to .env)
+export OPENAI_API_KEY=your_key_here
+
+# via npm script
+pnpm transcribe pages/book-page-1.pdf --page-number 1 --prior-tags "<p>" --output fragment-1.xml
+
+# via global bin
+pdf-transcribe pages/book-page-1.pdf -n 1 -p "<p>" -o fragment-1.xml
+```
+
+- `--page-number`, `-n`: (required) The page number to tag in the TEI.
+- `--prior-tags`, `-p`: (optional) Open tag context from the previous page (e.g., `<p>`).
+- `--output`, `-o`: (optional) File to write the TEI fragment; defaults to stdout.
+
+Output will be a TEI XML fragment starting with `<pb n="1"/>` and including any open/closed tags as per the transcription rules.
+
+### Batch Transcription
+
+Process multiple pages in sequence, passing open-tag context from one to the next:
+
+```bash
+# Ensure pages live in book-pages/ and you have a .env with OPENAI_API_KEY
+pnpm exec node batchTranscribe.js
+```
+
+By default it starts at `book-pages/book-page-7.pdf` → page 1, then iterates through all PDFs in numeric order, writing JSON fragments to `fragments/`.
+
 ## Transcription Workflow
 
 1. Review the generated page PDFs in the `pages` directory.
@@ -77,10 +107,14 @@ See the sample tei document for any other rules that we need for this transcript
 
 ```text
 apps/pdf2tei/
-├── index.js        # CLI script to split PDF
-├── pages/          # Output directory for single-page PDFs
-├── transcription.md # Master transcript with TEI markup
-└── README.md       # This document
+├── index.js            # CLI script to split PDF
+├── transcribe.js       # Single-page TEI transcription script
+├── batchTranscribe.js  # Batch processing script over multiple pages
+├── pages/              # Output of split (single-page PDFs)
+├── book-pages/         # Manually provisioned pages for transcription
+├── fragments/          # JSON fragments output by batchTranscribe.js
+├── transcription.md    # Master transcript with TEI markup (optional)
+└── README.md           # This document
 ```
 
 ---
