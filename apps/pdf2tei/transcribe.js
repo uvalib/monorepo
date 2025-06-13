@@ -12,6 +12,15 @@ import PDFParser from 'pdf2json';
 import { XMLParser } from 'fast-xml-parser';
 import { diffLines } from 'diff';
 
+// Helper to sanitize XML entities in TEI output
+function sanitizeTei(tei) {
+  // Replace non-breaking space entity with numeric reference
+  let cleaned = tei.replace(/&nbsp;/g, '&#160;');
+  // Escape stray '&' not part of valid XML entities
+  cleaned = cleaned.replace(/&(?!(?:amp|lt|gt|quot|apos|#\d+);)/g, '&amp;');
+  return cleaned;
+}
+
 // Define schema for structured transcription output
 const TranscriptionResult = z.object({
   tei: z.string()          // TEI XML fragment
@@ -97,7 +106,9 @@ export async function transcribePDF(input, pageNumber, output) {
     try {
       // Build the prompt
       let userPrompt = `You are a University Librarian and an expert at PDF to TEI transcription.
- Given the attached PDF page, transcribe its content into TEI XML according to these rules:
+      It is critical that you faithfully transcribe every formatting detail from the original PDF (italics, bold, underline, smallcaps, superscript, dropcaps, etc.) using the correct TEI tags; do not omit or alter any styling.
+
+Given the attached PDF page, transcribe its content into TEI XML according to these rules:
 
 Use <pb n="${pageNumber}"/> at the start, where ${pageNumber} is the page number.
 
@@ -161,6 +172,8 @@ INPUTS:
         text: { format: zodTextFormat(TranscriptionResult, 'transcription') }
       });
       result = parsed.output_parsed;
+      console.log('Cleaning up TEI XML entities');
+      result.tei = sanitizeTei(result.tei);
       const teiXml = result.tei;
       // Audit the transcription
       const auditResult = await auditTranscription(pdfData, teiXml, pageNumber, openai);
