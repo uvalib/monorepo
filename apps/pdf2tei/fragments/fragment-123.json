@@ -1,4 +1,0 @@
-{
-  "tei": "<pb n=\"123\"/>\n<figure>\n  <head>Figure 3. Progressive degradation of signatures in Declaration facsimiles.</head>\n  <figDesc>The signatures are reproduced the same size as each other to show changes in letterforms.</figDesc>\n  <!-- Image link to be added during image export workflow -->\n</figure>\n",
-  "openTags": "p"
-}

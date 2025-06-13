@@ -11,6 +11,10 @@ const __dirname = path.dirname(__filename);
 // Paths
 const fragmentsDir = path.resolve(__dirname, 'fragments');
 const outputPath = path.resolve(__dirname, 'tei.xml');
+// Ensure fragments directory exists
+if (!fs.existsSync(fragmentsDir)) {
+  fs.mkdirSync(fragmentsDir, { recursive: true });
+}
 
 // Read fragment files, filter and sort by integer
 const files = fs.readdirSync(fragmentsDir)

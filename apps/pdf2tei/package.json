@@ -16,9 +16,12 @@
   "packageManager": "pnpm@10.10.0",
   "dependencies": {
     "commander": "^14.0.0",
+    "diff": "^8.0.2",
     "dotenv": "^16.5.0",
+    "fast-xml-parser": "^5.2.5",
     "openai": "^5.0.1",
-    "pdf-lib": "^1.17.1"
+    "pdf-lib": "^1.17.1",
+    "pdf2json": "^3.1.6"
   },
   "bin": {
     "pdf-split": "index.js",

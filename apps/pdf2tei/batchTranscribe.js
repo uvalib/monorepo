@@ -34,23 +34,26 @@ async function main() {
     process.exit(1);
   }
 
-  let priorTags = '';
   let pageNum = 1;
   for (let i = startIndex; i < files.length; i++) {
     const file = files[i];
     const inputPath = path.join(pagesDir, file);
     const outputFile = path.join(outputDir, `fragment-${pageNum}.json`);
+    // Skip if fragment already exists
+    if (fs.existsSync(outputFile)) {
+      console.log(`Skipping ${file} as fragment already exists: ${outputFile}`);
+      pageNum++;
+      continue;
+    }
     console.log(`Transcribing ${file} as page ${pageNum}...`);
     try {
-      console.log(`attempt transcribing page ${pageNum} from file ${file} with prior tags: ${priorTags}`);  
-      const result = await transcribePDF(inputPath, pageNum, priorTags, outputFile);
+      await transcribePDF(inputPath, pageNum, outputFile);
       console.log(`Wrote fragment to ${outputFile}`);
-      priorTags = result.openTags;
-      pageNum++;
     } catch (err) {
       console.error(`Error on page ${pageNum} (${file}):`, err.message);
       process.exit(1);
     }
+    pageNum++;
   }
 }
 
