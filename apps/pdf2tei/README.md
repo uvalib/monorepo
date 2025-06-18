@@ -4,8 +4,17 @@ This workspace is dedicated to transcribing a book into TEI (Text Encoding Initi
 
 ## Overview
 
-- **Splitting script**: The `index.js` script (exposed as `pdf-split`) splits any input PDF into single-page PDF files.
-- **Transcription**: Transcriptions are collected in a separate file (`transcription.md`), using ChatGPT prompts. This README will host the full list of prompts and notes.
+- **Splitting script** (`pdf-split`) – split a PDF into single-page PDFs.
+- **Outline detection** (`pdf-outline`) – analyse the full PDF and generate *book.outline.json* with page-range metadata for front/body/back and each chapter/article.
+- **Front builder** (`pdf-front`) – produce a validated `<teiHeader>` and `<front>` element from the pages marked as front matter.
+- **Per-page transcription** (`pdf-transcribe`, `batchTranscribe.js`) – convert body pages into TEI fragments.
+- **Assembler** (`tei-assemble`) – merge header, front, body and back fragments into a complete TEI document.
+
+### One-command view
+
+```text
+book.pdf ──► outline  ──► front  ──► transcribe pages  ──► assemble  ──► final-transcription.tei.xml
+```
 
 ## Prerequisites
 
@@ -18,6 +27,35 @@ This workspace is dedicated to transcribing a book into TEI (Text Encoding Initi
 cd apps/pdf2tei
 pnpm install
 ```
+
+## Quick-start (end-to-end)
+
+```bash
+# 0. API key
+export OPENAI_API_KEY=your_key
+
+# 1. Detect outline
+pnpm outline book.pdf            # → book.outline.json
+
+# 2. Build header + front matter
+pnpm front -p book.pdf -o book.outline.json   # → book.teiHeader.xml + book.front.xml
+
+# 3. (Optional) Split PDF if you want page-by-page files
+pnpm split book.pdf -o book-pages
+
+# 4. Transcribe body pages (existing workflow)
+node batchTranscribe.js          # writes fragments/, then
+pnpm merge                       # merges into tei.xml (<body>)
+
+# 5. Assemble everything
+pnpm assemble \
+  --header book.teiHeader.xml \
+  --front  book.front.xml \
+  --body   tei.xml \
+  -o final-transcription.tei.xml
+```
+
+At this point **final-transcription.tei.xml** is a complete TEI P5 document ready for QA.
 
 ## Usage
 
@@ -110,6 +148,10 @@ apps/pdf2tei/
 ├── index.js            # CLI script to split PDF
 ├── transcribe.js       # Single-page TEI transcription script
 ├── batchTranscribe.js  # Batch processing script over multiple pages
+├── outlineBook.js      # Generate outline JSON (front/body/back ranges)
+├── frontBuilder.js     # Create <teiHeader> and <front> fragments
+├── mergeFragments.js   # Merge page-level TEI fragments into <body>
+├── assembleTei.js      # Assemble final TEI document
 ├── pages/              # Output of split (single-page PDFs)
 ├── book-pages/         # Manually provisioned pages for transcription
 ├── fragments/          # JSON fragments output by batchTranscribe.js

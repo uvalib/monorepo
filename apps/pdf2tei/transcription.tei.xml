@@ -1,199 +1,174 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <TEI>
-  <teiHeader>
-    <fileDesc>
-      <titleStmt>
-        <title>STUDIES IN BIBLIOGRAPHY</title>
-        <author>DAVID L. VANDER MEULEN</author>
-        <respStmt>
-          <resp>TEI P5 XML markup in conformance with the TEI DTD</resp>
-          <name>Transcription Team, University Library</name>
-        </respStmt>
-      </titleStmt>
-      <publicationStmt>
-        <publisher>The Bibliographical Society of the University of Virginia</publisher>
-        <pubPlace>By The University of Virginia Press, Charlottesville</pubPlace>
-        <date>Volume Sixty-One, 2025</date>
-      </publicationStmt>
-      <sourceDesc>
-        <bibl>Studies in Bibliography, ed. David L. Vander Meulen, Vol. 61 (2025)</bibl>
-      </sourceDesc>
-    </fileDesc>
-    <profileDesc>
-      <langUsage>
-        <language ident="en">English</language>
-      </langUsage>
-    </profileDesc>
-  </teiHeader>
-  <text>
-    <front>
-      <titlePage>
-        <pb/>
-        <docTitle>
-          <titlePart type="main">STUDIES IN BIBLIOGRAPHY</titlePart>
-        </docTitle>
-        <pb/>
-        <pb/>
-        <docTitle>
-          <titlePart type="main">STUDIES IN BIBLIOGRAPHY</titlePart>
-          <titlePart type="main">
-            <hi rend="smallcaps">Edited by DAVID L. VANDER MEULEN</hi>
-          </titlePart>
-        </docTitle>
-        <byline>BY THE UNIVERSITY OF VIRGINIA PRESS, CHARLOTTESVILLE</byline>
-        <docImprint>
-          <publisher>
-            <hi rend="smallcaps">THE BIBLIOGRAPHICAL SOCIETY OF THE UNIVERSITY OF VIRGINIA</hi>
-          </publisher>
-          <pubPlace>
-            <hi rend="smallcaps">BY THE UNIVERSITY OF VIRGINIA PRESS, CHARLOTTESVILLE</hi>
-          </pubPlace>
-          <date>Volume Sixty-One, 2025</date>
-        </docImprint>
-      </titlePage>
-      <div type="colophon">
-        <pb/>
-        <p>
-          <hi rend="italic">Founding Editor</hi>
-        </p>
-        <p>
-          <name type="pname">Fredson Bowers</name> (<date>1905–1991</date>)
-        </p>
-        <p>
-          <hi rend="italic">Assistant to the Editor</hi>
-        </p>
-        <p>
-          <name type="pname">Elizabeth K. Lynch</name>
-        </p>
-        <p>THE UNIVERSITY OF VIRGINIA PRESS</p>
-        <p>Copyright © <date>2025</date> by the Rector and Visitors
-          <lb/>of the University of Virginia
-        </p>
-        <p>Virginia. University. Bibliographical Society.</p>
-        <p>Studies in bibliography; papers v.1—</p>
-        <p><date>1948 / 49</date>—</p>
-        <p>
-          <name type="place">Charlottesville.</name>
-        </p>
-        <p>v. illus. 26cm. annual.</p>
-        <p>Title varies: <date>1948 / 49</date>—</p>
-        <p>1. Bibliography—Societies. I. Title.</p>
-        <p>z1008.V55</p>
-        <p>010.6275549–3353 Rev.*</p>
-        <p>ISBN 978-0-8139-4261-2</p>
-        <p>
-          The editor invites articles and notes on analytical bibliography, textual<lb/>criticism,
-          manuscript study, the history of printing and publishing, and<lb/>related
-          matters of method and evidence. Submissions consistent with any<lb/>widely used
-          style sheet are acceptable, although <hi rend="italic">The Chicago Manual of Style</hi>
-          <lb/>is preferred. All copy, <hi rend="italic">including quotations and notes</hi>, should be double-spaced.
-          <lb/>Send manuscripts or electronic files to
-          <name type="pname">David Vander Meulen</name>
-          (dlv8g@<lb/>virginia.edu), University of
-          <name type="place">Virginia</name>, English Department, 219 Bryan Hall,
-          <lb/>PO Box 400121,
-          <name type="place">Charlottesville</name>, VA 22904-4121.
-        </p>
-        <p>
-          All correspondence concerning business affairs, including subscriptions<lb/>and
-          memberships, should be sent to the Executive Secretary,
-          <name type="pname">Anne G.<lb/>Ribble</name>, Bibliographical Society,
-          Edgar Shannon Library, PO Box<lb/>400152,
-          <name type="place">Charlottesville</name>, VA 22904-4152.
-        </p>
-        <p>This journal is a member of the Council of Editors of Learned Journals.</p>
-      </div>
-      <div type="content">
-        <pb/>
-        <head>Contents</head>
-        <table>
-          <row>
-            <cell>John Carter: An Assessment and a Handlist<br/>By G. Thomas Tanselle</cell>
-            <cell>1</cell>
-          </row>
-          <row>
-            <cell>The Sources of the Sussex Declaration: A Reconsideration<br/>By John Bidwell</cell>
-            <cell>105</cell>
-          </row>
-          <row>
-            <cell>A Documentary History of the University of Virginia’s First Library and Its Jeffersonian Catalogs<br/>By Samuel V. Lemley, Neal D. Curtis, and Madeline Zehnder</cell>
-            <cell>127</cell>
-          </row>
-          <row>
-            <cell>“Capítulo de una novela en prensa”: Teaser Chapters and Marketing Strategies in Victoria Ocampo’s Sur<br/>By Nora C. Benedict</cell>
-            <cell>167</cell>
-          </row>
-          <row>
-            <cell>The Engravings of Pope’s Works II (1735): ‘Envy must own, I live among the Great’<br/>By James McLaverty</cell>
-            <cell>187</cell>
-          </row>
-          <row>
-            <cell>Jonathan Richardson, Charles Chauncy, and the Manuscripts of Pope<br/>By John Considine</cell>
-            <cell>221</cell>
-          </row>
-          <row>
-            <cell>Extra-Illustrating Horace Walpole’s Description of Strawberry Hill: Three Case Studies<br/>By Stephen Clarke</cell>
-            <cell>233</cell>
-          </row>
-          <row>
-            <cell>Charles Dibdin and the Making of The Musical Tour of Mr. Dibdin (1788): A New “compact with the public”<br/>By David Chandler</cell>
-            <cell>255</cell>
-          </row>
-          <row>
-            <cell>Stages of Composition in Charlotte Brontë’s Fair-Copy Manuscript of Shirley<br/>By Barbara Heritage</cell>
-            <cell>271</cell>
-          </row>
-          <row>
-            <cell>“The Brothers” and the English Comte de Gabalis<br/>By Joscelyn Godwin</cell>
-            <cell>323</cell>
-          </row>
-          <row>
-            <cell>Three Endings: Fitzgerald, Hemingway, Faulkner<br/>By James L. W. West III</cell>
-            <cell>331</cell>
-          </row>
-          <row>
-            <cell>*     *     *     *     **     *     *     *     *</cell>
-            <cell/>
-          </row>
-          <row>
-            <cell>Notes on Contributors</cell>
-            <cell>345</cell>
-          </row>
-          <row>
-            <cell>Bibliographical Society of the University of Virginia</cell>
-            <cell>347</cell>
-          </row>
-          <row>
-            <cell>Members</cell>
-            <cell>348</cell>
-          </row>
-          <row>
-            <cell>Available Publications</cell>
-            <cell>353</cell>
-          </row>
-          <row>
-            <cell>Programs</cell>
-            <cell>355</cell>
-          </row>
-          <row>
-            <cell>Student Awards in Book Collecting</cell>
-            <cell>356</cell>
-          </row>
-          <row>
-            <cell>Battestin Fellowships</cell>
-            <cell>356</cell>
-          </row>
-        </table>
-      </div>
-    </front>
+<teiHeader>
+  <fileDesc>
+    <titleStmt>
+      <title>Studies in Bibliography</title>
+      <editor>David L. Vander Meulen</editor>
+    </titleStmt>
+    <publicationStmt>
+      <publisher>
+        Published for The Bibliographical Society of the University of Virginia; By The University of Virginia Press, Charlottesville
+      </publisher>
+      <date when="2025">2025</date>
+      <idno type="ISBN">978-0-8139-4261-2</idno>
+      <availability>
+        <p>Copyright © 2025 by the Rector and Visitors of the University of Virginia</p>
+      </availability>
+    </publicationStmt>
+    <sourceDesc>
+      <p>Volume Sixty-One</p>
+    </sourceDesc>
+  </fileDesc>
+  <profileDesc>
+    <abstract>
+      <p>The editor invites articles and notes on analytical bibliography, textual criticism, manuscript study, the history of printing and publishing, and related matters of method and evidence. Submissions consistent with any widely used style sheet are acceptable, although the <hi rend="italic">Chicago Manual of Style</hi> is preferred. All copy, including quotations and notes, should be double-spaced.</p>
+    </abstract>
+  </profileDesc>
+</teiHeader>
+<text>
+<front>
+  <pb n="i"/>
+  <div type="titlePage">
+    <head>STUDIES IN BIBLIOGRAPHY</head>
+    <byline>Edited by <name>David L. Vander Meulen</name></byline>
+    <note>Volume Sixty-One • 2025</note>
+    <imprint>
+      <publisher>
+        Published for The Bibliographical Society of the University of Virginia; By The University of Virginia Press, Charlottesville
+      </publisher>
+      <note type="copyright">Copyright © 2025 by the Rector and Visitors of the University of Virginia • Virginia. University. Bibliographical Society.</note>
+      <idno>08.V55 010.6275549–3353 Rev.*</idno>
+      <idno type="ISBN">978-0-8139-4261-2</idno>
+    </imprint>
+    <respStmt>
+      <resp>Founding Editor</resp>
+      <name>Fredson Bowers (1905–1991)</name>
+    </respStmt>
+    <respStmt>
+      <resp>Assistant to the Editor</resp>
+      <name>Elizabeth K. Lynch</name>
+    </respStmt>
+  </div>
+  <pb n="ii"/>
+  <div type="editorialNotice">
+    <p>
+      The editor invites articles and notes on analytical bibliography, textual criticism, manuscript study, the history of printing and publishing, and related matters of method and evidence.<lb/>
+      Submissions consistent with any widely used style sheet are acceptable, although the <hi rend="italic">Chicago Manual of Style</hi> is preferred.<lb/>
+      All copy, including quotations and notes, should be double-spaced.<lb/>
+      Send manuscripts or electronic files to David Vander Meulen (dlv8g@virginia.edu), University of Virginia, English Department, 219 Bryan Hall, PO Box 400121, Charlottesville, VA 22904-4121.<lb/>
+      All correspondence concerning business affairs, including subscriptions and memberships, should be sent to the Executive Secretary, Anne G. Ribble, Bibliographical Society, PO Box 400152, Edgar Shannon Library, 160 McCormick Road, Charlottesville, VA 22904-4152.<lb/>
+      This journal is a member of the Council of Editors of Learned Journals.
+    </p>
+  </div>
+  <pb n="iii"/>
+  <div type="toc">
+    <head>Contents</head>
+    <list>
+      <item>
+        <head>John Carter: An Assessment and a Handlist</head>
+        <byline>G. Thomas Tanselle</byline>
+        <p>1</p>
+      </item>
+      <item>
+        <head>The Sources of the Sussex Declaration: A Reconsideration</head>
+        <byline>John Bidwell</byline>
+        <p>105</p>
+      </item>
+      <item>
+        <head>A Documentary History of the University of Virginia’s First Library and Its Jeffersonian Catalogs</head>
+        <byline>Samuel V. Lemley; Neal D. Curtis; and Madeline Zehnder</byline>
+        <p>127</p>
+      </item>
+      <item>
+        <head>“Capítulo de una novela en prensa”: Teaser Chapters and Marketing Strategies in Victoria Ocampo’s Sur</head>
+        <byline>Nora C. Benedict</byline>
+      </item>
+      <item>
+        <head>The Engravings of Pope’s Works II (1735): ‘Envy must own, I live among the Great’</head>
+        <byline>James McLaverty</byline>
+        <p>187</p>
+      </item>
+      <item>
+        <head>Jonathan Richardson, Charles Chauncy, and the Manuscripts of Pope</head>
+        <byline>John Considine</byline>
+      </item>
+      <item>
+        <head>Extra-Illustrating Horace Walpole’s Description of Strawberry Hill: Three Case Studies</head>
+        <byline>Stephen Clarke</byline>
+        <p>221</p>
+      </item>
+      <item>
+        <head>Charles Dibdin and the Making of The Musical Tour of Mr. Dibdin (1788): A New “compact with the public”</head>
+        <byline>David Chandler</byline>
+        <p>233</p>
+      </item>
+      <item>
+        <head>Stages of Composition in Charlotte Brontë’s Fair-Copy Manuscript of Shirley</head>
+        <byline>Barbara Heritage</byline>
+        <p>255</p>
+      </item>
+      <item>
+        <head>“The Brothers” and the English Comte de Gabalis</head>
+        <byline>Joscelyn Godwin</byline>
+        <p>331</p>
+      </item>
+      <item>
+        <head>Three Endings: Fitzgerald, Hemingway, Faulkner</head>
+        <byline>James L. W. West III</byline>
+        <p>323</p>
+      </item>
+      <item>
+        <head>Notes on Contributors</head>
+        <p>?</p>
+      </item>
+      <item>
+        <head>Bibliographical Society of the University of Virginia</head>
+        <p>345</p>
+      </item>
+      <item>
+        <head>Members</head>
+        <p>347</p>
+      </item>
+      <item>
+        <head>Available Publications</head>
+        <p>348</p>
+      </item>
+      <item>
+        <head>Programs</head>
+        <p>353</p>
+      </item>
+      <item>
+        <head>Student Awards in Book Collecting</head>
+        <p>355</p>
+      </item>
+      <item>
+        <head>Battestin Fellowships</head>
+        <p>356</p>
+      </item>
+    </list>
+  </div>
+  <pb n="iv"/>
+  <div type="miscellaneous">
+    <p>This journal is a member of the Council of Editors of Learned Journals.</p>
+  </div>
+  <pb n="v"/>
+  <div type="appendix">
+    <p>Additional preliminary material may be included here.</p>
+  </div>
+  <pb n="vi"/>
+  <div type="colophon">
+    <p>Colophon information if available.</p>
+  </div>
+</front>
 <body>
-<div type="chapter">  
-<pb n="1"/>
+<div type="section" n="1">
+  <head>Introductory chapters — John Carter and Studies in Bibliography</head>
+<pb n="7"/>
 <head>John Carter: An Assessment<lb/>
 and a Handlist</head>
-<byline><hi rend="italic">by</hi><lb/><name type="pname"><hi rend="smallcaps">G. THOMAS TANSELLE</hi></name></byline>
-<milestone unit="horizontalRule" rend="hr"/>
-<p><hi rend="dropcap">J</hi>ohn Carter was one of the most prominent and significant <lb/>
+<byline><hi rend="italic">by</hi> <name type="pname"><hi rend="smallcaps">G. THOMAS TANSELLE</hi></name></byline>
+<p><hi rend="dropcap">J</hi>ohn carter was one of the most prominent and significant <lb/>
 figures in the Anglo-American book world in the twentieth <lb/>
 century. Indeed, he held a unique position, for he distinguished <lb/>
 himself as a bookseller, a collector, a scholar, and a writer, equally <lb/>
@@ -203,10 +178,12 @@ formed several notable collections, especially of Catullus and Housman; <lb/>
 was a pioneer investigator of the bibliographical problems of nineteenth-<lb/>
 century publishers’ bindings; performed (with Graham Pollard) a classic <lb/>
 piece of bibliographical detection in uncovering the Wise-Forman forger-<lb/>
-ies; produced a scholarly edition of Sir Thomas Browne’s <hi rend="italic">Urne Buriall</hi> and <hi rend="italic">the Garden of Cyrus</hi>; <lb/>
-and wrote (or co-wrote or co-edited) several celebrated <lb/>
-works—<hi rend="italic">An Enquiry into the Nature of Certain Nineteenth Century Pamphlets</hi> (1934), <hi rend="italic">Taste and Technique in Book-Collecting</hi> (1948), <hi rend="italic">ABC for Book-Collectors</hi> (1952), and <hi rend="italic">Printing and the Mind of Man</hi> (1967).</p>
-<p>A record of his published writings is obviously a basic guide to his ac-<lb/>
+ies; produced a scholarly edition of Sir Thomas Browne’s Urne Buriall and <lb/>
+the Garden of Cyrus; and wrote (or co-wrote or co-edited) several celebrated <lb/>
+works—An Enquiry into the Nature of Certain Nineteenth Century Pamphlets <lb/>
+(1934), Taste and Technique in Book-Collecting (1948), ABC for Book-Collectors <lb/>
+(1952), and Printing and the Mind of Man (1967).<lb/>
+A record of his published writings is obviously a basic guide to his ac-<lb/>
 complishment. But such a record is also desirable for another reason that <lb/>
 would not apply to many people: nearly every piece he wrote, no matter <lb/>
 how small (including brief reviews and letters to editors), is worth reading <lb/>
@@ -217,24 +194,67 @@ a wide array of venues that there are bound to be many items I have missed, <lb/
 especially among his letters to editors. But what is here is a comprehensive <lb/>
 nucleus to which additions can be made. As Carter said in his handlist of <lb/>
 Stanley Morison, it is “intended to serve as a series of signposts now and as <lb/>
-a basis for amplification, correction and addition in the future.”</p>
-<p>As an introduction to the handlist, I shall attempt a brief assessment of <lb/>
+a basis for amplification, correction and addition in the future.”<lb/>
+As an introduction to the handlist, I shall attempt a brief assessment of <lb/>
 Carter’s achievement, which is a by-product of the overview provided by <lb/>
 the handlist. It is inevitably biographical to some extent; but the empha-<lb/>
 sis is on Carter’s writings, not his life, because a book-length biography <lb/>
-already exists: Donald C. Dickinson’s <hi rend="italic">John Carter: The Taste and Technique of</hi></p>
-<pb n="2"/>
-<p><lb/>a Bookman (2004). The biographical details selected for mention here and<lb/>in the handlist (many of which do not appear in the Dickinson book) are<lb/>those that seem to me most relevant for understanding the background<lb/>and context of his writings and his wide influence. I knew John Carter for<lb/>only the last ten years of his life: some of my recollections were written<lb/>up in section 36 of my memoir, <hi rend="italic">The Living Room</hi> (published in vol<lb/>ume&#160;59 of <hi rend="italic">Studies in Bibliography</hi> and then in <hi rend="italic">Books in My Life</hi>, 2021), and<lb/>I dedicated my book about book-jackets to his memory. I shall not forget<lb/>the many kindnesses he showed me and the important favors he did for<lb/>me, and the present offering is a reflection of my gratitude.</p>
-<head><hi rend="smallcaps">ASSESSMENT</hi></head>
-<head>The&#160;1930s</head>
-<p><lb/>John Carter’s first post-collegiate publication on a bookish subject, an<lb/>article on “Original Condition” in the 15&#160;November&#160;1930 issue of<lb/><hi rend="italic">Publishers’ Weekly</hi>, came only three years after college and inaugurated an amaz-<lb/>ing four-year period of brilliant productivity. Born John Waynflete Carter<lb/>at Eton on 10&#160;May&#160;1905, he was educated at Eton and King’s College<lb/>Cambridge, where he achieved a double first in the classical tripos and<lb/>an honors degree in 1927. By that time he was already collecting Catullus<lb/>and had become interested in textual criticism through the influence of A.<lb/>E.&#160;Housman’s lectures. Almost immediately after leaving Cambridge he<lb/>was hired (in September&#160;1927) by the London office of Charles Scribner’s<lb/>Sons to locate rare books to be sold in their New York shop. In the three<lb/>years between then and that 1930 article, he was becoming acquainted<lb/>with the book dealers and collectors both in Britain and in America (his<lb/>first visit to New York being January to April&#160;1929). But he was clearly do-<lb/>ing more, for his first three letters to the <hi rend="italic">Times Literary Supplement</hi> (in 1931-<lb/>33) show that by then he was already immersed in research on Sir&#160;Thomas<lb/>Browne, publishers’ bindings, and the pamphlets that became known as<lb/>the Wise-Forman forgeries—the subjects of his first major publications<lb/>(and of his early articles for the main book-collecting journals of the time,<lb/><hi rend="italic">The Book Collector’s Quarterly</hi> in England and <hi rend="italic">The Colophon</hi> in America).</p>
-<p><lb/>In May&#160;1932 he published <hi rend="italic">Binding Variants in English Publishing, 1820-<lb/>1900</hi> as the sixth volume in Michael Sadleir’s important <hi rend="italic">Bibliographia</hi> se-<lb/>ries, which had the significant subtitle “Studies in Book History and Book<lb/>Structure” (where “structure” makes clear the interest in bibliographical<lb/>analysis). Sadleir, a publisher (Constable was his firm), novelist, and col-<lb/>lector, had already established himself (he was sixteen and a half years<lb/>older than Carter) as a bibliographical scholar and a pioneer historian<lb/>of publishers’ bindings. He had published a bibliography of Trollope in<lb/>1928 (a landmark through its explicit demonstration that an author bibli-<lb/>)</p>
-<pb n="3"/>
+already exists: Donald C. Dickinson’s John Carter: The Taste and Technique of <lb/>
+</p>
+<pb n="8"/>
+<p>
+ a Bookman (2004). The biographical details selected for mention here and<lb/>
+ in the handlist (many of which do not appear in the Dickinson book) are<lb/>
+ those that seem to me most relevant for understanding the background<lb/>
+ and context of his writings and his wide influence. I knew John Carter for<lb/>
+ only the last ten years of his life: some of my recollections were written<lb/>
+ up in section 36 of my memoir, <hi rend="italic">“The Living Room”</hi> (published in vol-<lb/>
+ ume 59 of <hi rend="italic">Studies in Bibliography</hi> and then in <hi rend="italic">Books in My Life</hi>, 2021), and<lb/>
+ I dedicated my book about book-jackets to his memory. I shall not forget<lb/>
+ the many kindnesses he showed me and the important favors he did for<lb/>
+ me, and the present offering is a reflection of my gratitude.<lb/>
+</p>
+<head><hi rend="smallcaps">ASSESSMENT</hi></head><lb/>
+<head>The 1930s</head><lb/>
+<p>
+ John Carter’s first post-collegiate publication on a bookish subject, an<lb/>
+ article on <hi rend="italic">“Original Condition”</hi> in the 15 November 1930 issue of <hi rend="italic">Publishers’<lb/>
+ Weekly</hi>, came only three years after college and inaugurated an amaz-<lb/>
+ ing four-year period of brilliant productivity. Born John Waynflete Carter<lb/>
+ at Eton on 10 May 1905, he was educated at Eton and King’s College<lb/>
+ Cambridge, where he achieved a double first in the classical tripos and<lb/>
+ an honors degree in 1927. By that time he was already collecting Catullus<lb/>
+ and had become interested in textual criticism through the influence of A.<lb/>
+ E. Housman’s lectures. Almost immediately after leaving Cambridge he<lb/>
+ was hired (in September 1927) by the London office of Charles Scribner’s<lb/>
+ Sons to locate rare books to be sold in their New York shop. In the three<lb/>
+ years between then and that 1930 article, he was becoming acquainted<lb/>
+ with the book dealers and collectors both in Britain and in America (his<lb/>
+ first visit to New York being January to April 1929). But he was clearly do-<lb/>
+ ing more, for his first three letters to the <hi rend="italic">Times Literary Supplement</hi> (in 1931-<lb/>
+ 33) show that by then he was already immersed in research on Sir Thomas<lb/>
+ Browne, publishers’ bindings, and the pamphlets that became known as<lb/>
+ the Wise-Forman forgeries—the subjects of his first major publications<lb/>
+ (and of his early articles for the main book-collecting journals of the time,<lb/>
+ <hi rend="italic">The Book Collector’s Quarterly</hi> in England and <hi rend="italic">The Colophon</hi> in America).<lb/>
+</p>
+<p>
+ In May 1932 he published <hi rend="italic">Binding Variants in English Publishing, 1820-1900</hi> as the<lb/>
+ sixth volume in Michael Sadleir’s important <hi rend="italic">Bibliographia</hi> se-<lb/>
+ ries, which had the significant subtitle “Studies in Book History and Book<lb/>
+ Structure” (where “structure” makes clear the interest in bibliographical<lb/>
+ analysis). Sadleir, a publisher (Constable was his firm), novelist, and col-<lb/>
+ lector, had already established himself (he was sixteen and a half years<lb/>
+ older than Carter) as a bibliographical scholar and a pioneer historian<lb/>
+ of publishers’ bindings. He had published a bibliography of Trollope in<lb/>
+ 1928 (a landmark through its explicit demonstration that an author bibli-<lb/>
+</p>
+<pb n="9"/>
 ography can be a contribution to the history of publishing); and two years<lb/>
-later The Evolution of Publishers’ Bindings Styles, 1770-1900 came out as the<lb/>
+later <hi rend="italic">The Evolution of Publishers’ Bindings Styles, 1770–1900</hi> came out as the<lb/>
 first volume in his Bibliographia series. Carter’s admiration for Sadleir<lb/>
-is suggested by a letter he wrote to The Times on 20 December 1957 to<lb/>
-supplement The Times’s obituary of Sadleir: “None of those who moved<lb/>
+is suggested by a letter he wrote to <hi rend="italic">The Times</hi> on 20 December 1957 to<lb/>
+supplement <hi rend="italic">The Times</hi>’s obituary of Sadleir: “None of those who moved<lb/>
 in his orbit . . . was ever made to feel a satellite. But in our corner of the<lb/>
 sky a star has fallen.” An “avowed disciple” of Sadleir (as he called himself<lb/>
 in a 1970 article), Carter had been following Sadleir’s lead in investigat-<lb/>
@@ -272,102 +292,9 @@ the beginner on how best to approach a nineteenth-century book: they<lb/>
 have not been superseded, nor have they been stated in more attractive<lb/>
 prose. Of the several pioneer studies of publishers’ bindings by Carter and<lb/>
 Sadleir, this one is the most continuingly useful, still valuable as a guide.<lb/>
-A few months after Binding Variants, another of Carter’s major pub-<lb/>
-lications came out: his edition of Sir Thomas Browne’s Urne Buriall and<lb/>
-<pb n="4"/>
-<p>the <hi rend="italic">Garden of Cyrus</hi> (originally published in 1658, with “Urne Buriall” as a<lb/>
-subtitle to “Hydriotaphia”). It was a lavish production, elegantly printed<lb/>
-by the Curwen Press and published (in an edition of 215 copies) by Cassell<lb/>
-&amp; Company with thirty drawings by Paul Nash (printed by collotype and<lb/>
-colored by pochoir) and a morocco and vellum binding designed by him.<lb/>
-This handsome book is regularly regarded as one of the masterpieces of<lb/>
-twentieth-century book production—as, for example, in Martin Hutner<lb/>
-and Jerry Kelly’s <hi rend="italic">A Century for a Century</hi> (Grolier Club, 1999). But the work<lb/>
-also makes a scholarly contribution to the study of Browne. Carter had<lb/>
-been reading Browne since his Eton days, and by the early 1930s he was<lb/>
-on the trail of author-corrected copies of the first edition (as his letter to<lb/>
-the <hi rend="italic">Times Literary Supplement</hi> on 16 July 1931 shows), while he was working<lb/>
-on a new edition, at the request of Desmond Flower (of Cassell’s). He was<lb/>
-able to locate and use six such copies before his edition came out, only<lb/>
-two of which had previously been known. The thoroughness of his work<lb/>
-is symbolized by his annotated copy of Edward H. Marshall’s 1929 Mac-<lb/>
-millan edition: its leaves, mounted on larger paper, were interleaved with<lb/>
-blanks, which were covered with his notes reporting collations, references,<lb/>
-and critical observations (described in G.&#160;F. Sims catalogue 102 [1979],<lb/>
-item&#160;85). As he noted in his introduction, he had collated all editions be-<lb/>
-fore 1800 and all published in Great Britain since then (though he does<lb/>
-not mention collating multiple copies of the early editions).</p>
-<p><hi rend="dropcap">C</hi>arter’s editorial approach was admirable. Because the successive<lb/>
-lifetime editions were unreliable, he based his text on the first edition<lb/>
-and reported all his departures from it (except the correction of turned,<lb/>
-dropped, or transposed letters), as well as the results of his collations.<lb/>
-Aside from the adoption of Browne’s own corrections, the departures<lb/>
-were few because he retained the punctuation and spelling of the first<lb/>
-edition (except the long s and the ”sporadic” use of v for u). He correctly<lb/>
-recognized that Browne’s “use of commas and semicolons, like his use of<lb/>
-initial capitals and italics is too much a part of himself and his period to<lb/>
-submit to this wholesale modernization [of earlier editors].” Nevertheless<lb/>
-he did make an “irreducible minimum of corrections where the com-<lb/>
-positor’s carelessness has produced intolerable obscurity.” Clearly there<lb/>
-is room for disagreement here, for some of the obscurity may not have<lb/>
-been caused by the compositor, and in any case what is intolerable is a<lb/>
-subjective matter. But critical editing necessarily entails judgment, and<lb/>
-these alterations are all recorded in the notes. The introduction ends with<lb/>
-a gracious point not often made: although he has criticized earlier edi-<lb/>
-tions, he says, “one cannot begin to criticize an edition until one has used<lb/>
-it thoroughly, so that criticism becomes almost a proof of obligation.”</p>
-<p>On 2 July 1934, less than two years after the Browne edition, Carter’s<lb/>
-third major publication appeared—the one that made him a book-world<lb/>
-</p>
-<pb n="5"/>
-<p><lb/>celebrity: <hi rend="italic">An Enquiry into the Nature of Certain Nineteenth Century Pamphlets</hi>,<lb/>written in collaboration with Graham Pollard, a bookseller with the firm<lb/>of Birrell &amp; Garnett. The story of how Carter and Pollard uncovered the<lb/>Wise-Forman forgeries has been told often; indeed, it is one of the best-<lb/>known episodes in bibliographical history, familiar to many people out-<lb/>side the book world (as a result of such treatments as Richard D. Altick’s,<lb/>in his 1950 book <hi rend="italic">The Scholar Adventurers</hi>, and Dwight Macdonald’s, in a<lb/>1962 <hi rend="italic">New Yorker</hi> article, as well as Carter’s own accounts). Its wide appeal<lb/>is understandable, as the story of two young booksellers who, through<lb/>persistent research, were able to bring down a dominant and respected<lb/>figure (for Thomas J. Wise was a distinguished collector and widely known<lb/>book-world symbol, the author of many bibliographies, and a former<lb/>president of the Bibliographical Society). It also has the elements of a de-<lb/>tective story, with parts of a puzzle gradually, but inexorably, falling into<lb/>place. And in the <hi rend="italic">Enquiry</hi>, given the panache of Carter’s prose, the story<lb/>was given a presentation that increased its appeal.</p>
-<p><lb/>Many of the people who are attracted to the story for all these reasons,<lb/>however, do not recognize its important contribution to bibliographical<lb/>scholarship. Identifying the perpetrators (which the book did not explic-<lb/>itly do) is a different activity from proving that the pamphlets are indeed<lb/>fraudulent. In the absence of explicit documents, the former involves<lb/>circumstantial evidence, such as the fact that the suspected pamphlets<lb/>entered the market from the stock of a single dealer (Herbert E. Gorfin).<lb/>But the latter requires physical evidence from the items themselves. The<lb/>use of such evidence for investigating books of earlier periods was well es-<lb/>tablished by this time, but the bibliographical analysis of nineteenth- and<lb/>twentieth-century books was in its infancy. The attention paid to “points”<lb/>in modern books by collectors, dealers, and the writers of author bibliog-<lb/>raphies was a form of physical examination, but it was often undisciplined<lb/>and lacking in a concern for uncovering book-production history. Pub-<lb/>lishers’ bindings, however, were beginning to be seriously studied, under<lb/>the leadership of Sadleir and Carter. And the <hi rend="italic">Enquiry</hi> took a major step<lb/>forward in demonstrating ways in which the analysis of paper and type<lb/>could also be applied to post-1800 books.</p>
-<p><lb/>It is possible that Carter’s collecting of detective fiction played a role<lb/>in inspiring the analysis of paper reported in the <hi rend="italic">Enquiry</hi>. He was certainly<lb/>aware of the detective stories of R. Austin Freeman (discussed in his es-<lb/>say in <hi rend="italic">New Paths in Book Collecting</hi> as reaching “a new level in scientific<lb/>detection”), and it is not unlikely that he knew “The Apparition of Burl-<lb/>ing Court” (1923; collected in <hi rend="italic">The Puzzle Lock</hi>, 1925). In that story, the<lb/>detective, Dr. Thorndyke, proves a book to be fraudulent through several<lb/>physical tests, the decisive one being a laboratory examination of the pa-<lb/>per, which showed that the paper contained mechanical wood-pulp and<lb/></p>
-<pb n="6"/>
-esparto. Thorndyke stated that “esparto was not used until 1860,” which<lb/>
-was twenty years after the purported date of the book. It turns out that the<lb/>
-presence of esparto in the paper of some of the pamphlets that Carter and<lb/>
-Pollard were investigating was the basis for proving them to be forgeries.<lb/>
-(Although Dr. Thorndyke is not referred to, another fictional detective,<lb/>
-Edgar Allan Poe’s Auguste Dupin, is cited as a precursor in a later chapter<lb/>
-[p. 87].) Whether or not there was any connection with Dr. Thorndyke,<lb/>
-Carter and Pollard used the same procedure: after having the papers of<lb/>
-the pamphlets tested and determining the dates when esparto and chemi-<lb/>
-cal wood-pulp were introduced into papermaking, they found that twenty-<lb/>
-two of the pamphlets had printed dates that preceded the dates when their<lb/>
-paper would have been available, and thus they were fraudulent.<lb/>
-The authors were aware that their use of paper evidence was more<lb/>
-groundbreaking than that of typographical evidence. The paper test, they<lb/>
-said, “has not hitherto been applied to bibliographical purposes” (p. 42),<lb/>
-whereas, in the opening sentence of the chapter on type, they call atten-<lb/>
-tion to Robert Proctor’s work, decades earlier, identifying the printers<lb/>
-of incunabula through the type designs. They also note that Proctor, a<lb/>
-friend of William Morris, had in 1898 questioned (on the basis of its type)<lb/>
-the Morris pamphlet that Carter and Pollard proved to be a forgery.<lb/>
-The typographical tests they used throughout were proposed by Stanley<lb/>
-Morison (they could hardly have had a greater typographical adviser).<lb/>
-He noticed the kernless “f” and “j” and the tilted question mark used<lb/>
-in many of the pamphlets; and these characteristics not only provided<lb/>
-another dating test (based on the earliest use of a kernless font) but also<lb/>
-led to the identification of the printer as Richard Clay &amp; Sons (Clay had<lb/>
-added that question mark to the font). The Clay firm was not involved in<lb/>
-the deception: having been commissioned by Wise to print many facsimi-<lb/>
-les for the Browning and Shelley societies, they had no reason to question<lb/>
-the imprints and dates being placed on these other pamphlets. Carter and<lb/>
-Pollard concluded that sixteen of the fraudulent pamphlets were definitely<lb/>
-printed by Clay &amp; Sons and that all the rest probably were.<lb/>
-The analysis of paper and type is set out in chapters 4 and 5 with<lb/>
-meticulous care and exemplary thoroughness. These chapters are part<lb/>
-of the six that constitute part I, “Deduction,” tracing the story from the<lb/>
-initial suspicion to the “proved conclusion.” In the last chapter of part I,<lb/>
-the authors say, “With all its drudgery, detective work has a great intel-<lb/>
-lectual fascination” (p. 93)—and this fascination has been conveyed to<lb/>
-the reader. With the “machinery of detection” having been set forth, the<lb/>
-authors move in part II, “Reconstruction,” to a description of the forger’s<lb/>
-motivation, methods, and marketing strategies. Then comes the largest<lb/>
-section of the book, part III, “Dossiers,” in which each of forty-six pam-<lb/>
-
+A few months after <hi rend="italic">Binding Variants</hi>, another of Carter’s major pub-<lb/>
+lications came out: his edition of Sir Thomas Browne’s <hi rend="italic">Urne Buriall</hi> and<lb/>
 </div>
 </body>
-  </text>
+</text>
 </TEI>

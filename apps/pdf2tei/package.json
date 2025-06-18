@@ -8,7 +8,14 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "split": "node index.js",
     "transcribe": "node transcribe.js",
-    "merge": "node mergeFragments.js"
+    "merge": "node mergeFragments.js",
+    "outline": "node outlineBook.js",
+    "front": "node frontBuilder.js",
+    "body": "node bodySectionTranscribe.js",
+    "back": "node backBuilder.js",
+    "assemble": "node assembleTei.js",
+    "build": "pnpm outline book.pdf && pnpm front -p book.pdf -o book.outline.json && pnpm split book.pdf -o book-pages && pnpm body -d book-pages -o book.outline.json -b book.body.xml && pnpm back -p book.pdf -o book.outline.json && pnpm assemble --header book.teiHeader.xml --front book.front.xml --body book.body.xml --back book.back.xml -o final-transcription.tei.xml",
+    "build-test": "pnpm outline book.pdf && pnpm front -p book.pdf -o book.outline.json && pnpm split book.pdf -o book-pages && pnpm body -d book-pages -o book.outline.json --max-pages 10 -b book.body.test.xml && pnpm back -p book.pdf -o book.outline.json --max-pages 5 && pnpm assemble --header book.teiHeader.xml --front book.front.xml --body book.body.test.xml --back book.back.xml -o final-transcription.test.tei.xml"
   },
   "keywords": [],
   "author": "",
@@ -21,10 +28,16 @@
     "fast-xml-parser": "^5.2.5",
     "openai": "^5.0.1",
     "pdf-lib": "^1.17.1",
-    "pdf2json": "^3.1.6"
+    "pdf2json": "^3.1.6",
+    "zod": "^3.22.4"
   },
   "bin": {
     "pdf-split": "index.js",
-    "pdf-transcribe": "transcribe.js"
+    "pdf-transcribe": "transcribe.js",
+    "pdf-outline": "outlineBook.js",
+    "pdf-front": "frontBuilder.js",
+    "pdf-body": "bodySectionTranscribe.js",
+    "pdf-back": "backBuilder.js",
+    "tei-assemble": "assembleTei.js"
   }
 }
