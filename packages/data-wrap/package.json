@@ -3,7 +3,7 @@
   "description": "Webcomponent data-wrap following open-wc recommendations",
   "license": "MIT",
   "author": "data-wrap",
-  "version": "0.1.0",
+  "version": "0.2.2",
   "main": "dist/src/index.js",
   "module": "dist/src/index.js",
   "exports": {
@@ -33,6 +33,7 @@
     "flexsearch": "^0.7.31",
     "fuse.js": "^6.6.2",
     "googleapis": "^140.0.1",
+    "lit": "^3.3.0",
     "luxon": "^3.4.3"
   },
   "devDependencies": {

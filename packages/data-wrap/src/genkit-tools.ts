@@ -19,7 +19,7 @@ export interface ToolDef<P extends Params = Params, R = unknown> {
 }
 
 function defineTool<P extends Params, R>(def: ToolDef<P, R>): ToolDef<P, R> {
-  return def;
+  return Object.assign(def, { kind: 'tool' });
 }
 
 async function fetchLibrary(slug: string): Promise<Library> {
@@ -38,6 +38,11 @@ async function fetchLibrary(slug: string): Promise<Library> {
 export const listLibraries = defineTool({
   name: 'listLibraries',
   description: 'List all UVA libraries (slug and title).',
+  parameters: {
+    type: 'object',
+    properties: {},
+    additionalProperties: false,
+  },
   async execute() {
     const libs = new LibrariesData();
     const { items } = await libs.fetchData();
@@ -53,8 +58,13 @@ export const searchWebsite = defineTool({
   name: 'searchWebsite',
   description: 'Full-site search for library.virginia.edu content (pages, news, people, libraries).',
   parameters: {
-    query: { type: 'string', description: 'Keyword search term.' },
-    limit: { type: 'number', optional: true, description: 'Maximum results (default 10).' },
+    type: 'object',
+    properties: {
+      query: { type: 'string', description: 'Keyword search term.' },
+      limit: { type: 'integer', minimum: 1, description: 'Maximum results (default 10).' },
+    },
+    required: ['query'],
+    additionalProperties: false,
   },
   async execute({ query, limit = 10 }: { query: string; limit?: number }) {
     const wd = new WebsiteData({ query, limit });
@@ -88,8 +98,13 @@ export const searchStaff = defineTool({
   name: 'searchStaff',
   description: 'Search UVA Library staff directory (Drupal person nodes).',
   parameters: {
-    query: { type: 'string', description: 'Name, title, or keyword.' },
-    limit: { type: 'number', optional: true, description: 'Maximum results (default 10).' },
+    type: 'object',
+    properties: {
+      query: { type: 'string', description: 'Name, title, or keyword.' },
+      limit: { type: 'integer', minimum: 1, description: 'Maximum results (default 10).' },
+    },
+    required: ['query'],
+    additionalProperties: false,
   },
   async execute({ query, limit = 10 }: { query: string; limit?: number }) {
     const pd = new PersonData({ query, limit });
@@ -116,8 +131,13 @@ export const searchNews = defineTool({
   name: 'searchNews',
   description: 'Search UVA Library news posts (Drupal articles).',
   parameters: {
-    query: { type: 'string', description: 'Search term.' },
-    limit: { type: 'number', optional: true, description: 'Number of results (default 10).' },
+    type: 'object',
+    properties: {
+      query: { type: 'string', description: 'Search term.' },
+      limit: { type: 'integer', minimum: 1, description: 'Number of results (default 10).' },
+    },
+    required: ['query'],
+    additionalProperties: false,
   },
   async execute({ query, limit = 10 }: { query: string; limit?: number }) {
     const nd = new NewsData({ query, limit });
@@ -142,8 +162,13 @@ export const searchLibGuides = defineTool({
   name: 'searchLibGuides',
   description: 'Search UVA Library LibGuides (subject & course guides).',
   parameters: {
-    query: { type: 'string', description: 'Search term.' },
-    limit: { type: 'number', optional: true, description: 'Max results (default 10).' },
+    type: 'object',
+    properties: {
+      query: { type: 'string', description: 'Search term.' },
+      limit: { type: 'integer', minimum: 1, description: 'Max results (default 10).' },
+    },
+    required: ['query'],
+    additionalProperties: false,
   },
   async execute({ query, limit = 10 }: { query: string; limit?: number }) {
     // Try to use LibGuidesData if a DOM is available. Otherwise, perform our own minimal parsing.
@@ -195,11 +220,15 @@ export const searchEvents = defineTool({
   name: 'searchEvents',
   description: 'Retrieve upcoming UVA Library events. Supports keyword, category, date ranges.',
   parameters: {
-    query: { type: 'string', optional: true, description: 'Keyword search term.' },
-    category: { type: 'string', optional: true, description: 'LibCal category id.' },
-    date: { type: 'string', optional: true, description: 'ISO date (YYYY-MM-DD) to fetch events for.' },
-    days: { type: 'number', optional: true, description: 'Number of future days to include (default 30).' },
-    limit: { type: 'number', optional: true, description: 'Maximum number of events to return.' },
+    type: 'object',
+    properties: {
+      query: { type: 'string', description: 'Keyword search term.' },
+      category: { type: 'string', description: 'LibCal category id.' },
+      date: { type: 'string', description: 'ISO date (YYYY-MM-DD) to fetch events for.' },
+      days: { type: 'integer', minimum: 1, description: 'Number of future days to include (default 30).' },
+      limit: { type: 'integer', minimum: 1, description: 'Maximum number of events to return.' },
+    },
+    additionalProperties: false,
   },
   async execute({ query, category, date, days = 30, limit }: {
     query?: string;
@@ -259,7 +288,14 @@ export const searchImages = defineTool({
 export const getLibraryInfo = defineTool({
   name: 'getLibraryInfo',
   description: 'Return details and hours info for the given library slug.',
-  parameters: { slug: { type: 'string' } },
+  parameters: {
+    type: 'object',
+    properties: {
+      slug: { type: 'string', description: 'Library slug (e.g. "clemons-library")' },
+    },
+    required: ['slug'],
+    additionalProperties: false,
+  },
   async execute({ slug }: { slug: string }) {
     const lib = await fetchLibrary(slug);
     const isOpen = lib.hours?.isOpen != null;
@@ -281,7 +317,15 @@ export const getLibraryInfo = defineTool({
 export const getLibraryHours = defineTool({
   name: 'getLibraryHours',
   description: 'Return the raw LibCal hours schedule for the given library.',
-  parameters: { slug: { type: 'string' }, days: { type: 'number', optional: true } },
+  parameters: {
+    type: 'object',
+    properties: {
+      slug: { type: 'string', description: 'Library slug (e.g. "clemons-library")' },
+      days: { type: 'integer', minimum: 1, description: 'Number of days to include (starting today). Default 7.' },
+    },
+    required: ['slug'],
+    additionalProperties: false,
+  },
   async execute({ slug, days = 7 }: { slug: string; days?: number }) {
     const lib = await fetchLibrary(slug);
     await lib.fetchHours(new Date(), days, true);
@@ -297,8 +341,13 @@ export const searchArticles = defineTool({
   name: 'searchArticles',
   description: 'Search for scholarly articles via Virgo (UVA discovery).',
   parameters: {
-    query: { type: 'string', description: 'Keyword or phrase to search.' },
-    limit: { type: 'number', optional: true, description: 'Number of results to return (default 10).' },
+    type: 'object',
+    properties: {
+      query: { type: 'string', description: 'Keyword or phrase to search.' },
+      limit: { type: 'integer', minimum: 1, description: 'Number of results to return (default 10).' },
+    },
+    required: ['query'],
+    additionalProperties: false,
   },
   async execute({ query, limit = 10 }: { query: string; limit?: number }) {
     const ad = new ArticlesData({ query, limit });
@@ -326,8 +375,13 @@ export const searchCatalog = defineTool({
   name: 'searchCatalog',
   description: 'Search the UVA Library catalog via Virgo.',
   parameters: {
-    query: { type: 'string', description: 'Search term.' },
-    limit: { type: 'number', optional: true, description: 'Number of results to return (default 10).' },
+    type: 'object',
+    properties: {
+      query: { type: 'string', description: 'Search term.' },
+      limit: { type: 'integer', minimum: 1, description: 'Number of results to return (default 10).' },
+    },
+    required: ['query'],
+    additionalProperties: false,
   },
   async execute({ query, limit = 10 }: { query: string; limit?: number }) {
     const cd = new CatalogData({ query, limit });
