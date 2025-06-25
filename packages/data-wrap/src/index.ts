@@ -18,6 +18,21 @@ export { DrupalSearchData, WebSearchPageURL } from './DrupalSearchData.js';
 export { Person } from './Person.js';
 export { PersonData } from './PersonData.js';
 export { WebsiteData } from './WebsiteData.js';
-export { DHatData } from './DHatData.js';
 export { SpaceLocation, SpaceBooking } from './Spaces.js';
 export { SpacesData } from './SpacesData.js';
+
+// Genkit tool wrappers – exported so that downstream applications can import
+// them directly or allow Genkit to discover them automatically.
+export {
+  listLibraries as listLibrariesTool,
+  getLibraryInfo as getLibraryInfoTool,
+  getLibraryHours as getLibraryHoursTool,
+  searchArticles as searchArticlesTool,
+  searchCatalog as searchCatalogTool,
+  searchImages as searchImagesTool,
+  searchEvents as searchEventsTool,
+  searchLibGuides as searchLibGuidesTool,
+  searchNews as searchNewsTool,
+  searchStaff as searchStaffTool,
+  searchWebsite as searchWebsiteTool,
+} from './genkit-tools.js';
