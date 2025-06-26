@@ -3,11 +3,14 @@
   "description": "Webcomponent data-wrap following open-wc recommendations",
   "license": "MIT",
   "author": "data-wrap",
-  "version": "0.2.2",
-  "main": "dist/src/index.js",
-  "module": "dist/src/index.js",
+  "version": "0.2.7",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
   "exports": {
-    ".": "./dist/src/index.js",
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
+    },
     "./data-wrap.js": "./dist/src/data-wrap.js",
     "./VirgoData.js": "./dist/src/VirgoData.js",
     "./CatalogData.js": "./dist/src/CatalogData.js",
@@ -16,9 +19,10 @@
     "./SpacesData.js": "./dist/src/SpacesData.js",
     "./EventsData.js": "./dist/src/EventsData.js"
   },
+  "types": "./dist/esm/index.d.ts",
   "scripts": {
     "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
-    "build": "tsc",
+    "build": "tsc && rollup -c rollup.config.js",
     "prepublish": "tsc",
     "lint": "eslint --ext .ts,.html . --ignore-path .gitignore && prettier \"**/*.ts\" --check --ignore-path .gitignore",
     "format": "eslint --ext .ts,.html . --fix --ignore-path .gitignore && prettier \"**/*.ts\" --write --ignore-path .gitignore",

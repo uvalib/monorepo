@@ -18,8 +18,24 @@ export interface ToolDef<P extends Params = Params, R = unknown> {
   execute: (params: P) => Promise<R> | R;
 }
 
+// Thin wrapper that marks an object as a Genkit tool. It also copies our
+// `parameters` (OpenAPI-style JSON-Schema) definition to `inputSchema` so that
+// Genkit’s `defineTool` heuristic can detect the schema regardless of the
+// property name it expects (older examples use `inputSchema`, newer use
+// `argsSchema`, and we historically used `parameters`).
 function defineTool<P extends Params, R>(def: ToolDef<P, R>): ToolDef<P, R> {
-  return Object.assign(def, { kind: 'tool' });
+  const tool: any = { ...def, kind: 'tool' };
+  // Bridge property names that Genkit may look for.
+  if ('parameters' in tool) {
+    if (!('inputSchema' in tool)) {
+      tool.inputSchema = (def as any).parameters;
+    }
+    // Some Genkit versions use `argsSchema` instead.
+    if (!('argsSchema' in tool)) {
+      tool.argsSchema = (def as any).parameters;
+    }
+  }
+  return tool as ToolDef<P, R>;
 }
 
 async function fetchLibrary(slug: string): Promise<Library> {
