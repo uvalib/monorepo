@@ -1,3 +1,4 @@
+import { genkit, z } from 'genkit';
 import { LibrariesData } from './LibrariesData.js';
 import type { Library } from './Library.js';
 import { ArticlesData } from './ArticlesData.js';
@@ -8,40 +9,33 @@ import { LibGuidesData } from './LibGuidesData.js';
 import { NewsData } from './NewsData.js';
 import { PersonData } from './PersonData.js';
 import { WebsiteData } from './WebsiteData.js';
+import {googleAI} from '@genkit-ai/googleai';
 
-type Params = Record<string, unknown>;
+export const ai = genkit({
+  plugins: [googleAI()],
+  model: 'googleai/gemini-2.5-flash-lite-preview-06-17',
+});
 
-export interface ToolDef<P extends Params = Params, R = unknown> {
-  name: string;
-  description: string;
-  parameters?: unknown;
-  execute: (params: P) => Promise<R> | R;
-}
+export const getWeather = ai.defineTool(
+  {
+    name: 'getWeather',
+    description: 'Gets the current weather in a given location',
+    inputSchema: z.object({
+      location: z.string().describe('The location to get the current weather for'),
+    }),
+    outputSchema: z.string(),
+  },
+  async (input) => {
+    // Here, we would typically make an API call or database query. For this
+    // example, we just return a fixed value.
+    return `The current weather in ${input.location} is 63°F and sunny.`;
+  },
+);
 
-// Thin wrapper that marks an object as a Genkit tool. It also copies our
-// `parameters` (OpenAPI-style JSON-Schema) definition to `inputSchema` so that
-// Genkit’s `defineTool` heuristic can detect the schema regardless of the
-// property name it expects (older examples use `inputSchema`, newer use
-// `argsSchema`, and we historically used `parameters`).
-function defineTool<P extends Params, R>(def: ToolDef<P, R>): ToolDef<P, R> {
-  const tool: any = { ...def, kind: 'tool' };
-  // Bridge property names that Genkit may look for.
-  if ('parameters' in tool) {
-    if (!('inputSchema' in tool)) {
-      tool.inputSchema = (def as any).parameters;
-    }
-    // Some Genkit versions use `argsSchema` instead.
-    if (!('argsSchema' in tool)) {
-      tool.argsSchema = (def as any).parameters;
-    }
-  }
-  return tool as ToolDef<P, R>;
-}
+const allLibraries = new LibrariesData();
 
 async function fetchLibrary(slug: string): Promise<Library> {
-  const libs = new LibrariesData();
-  await libs.fetchData();
-  const lib = await libs.getLibrary(slug, true);
+  const lib = await allLibraries.getLibrary(slug, true);
   if (!lib) throw new Error(`Library with slug "${slug}" not found`);
   try {
     await lib.fetchHours(new Date(), 7, true);
@@ -51,38 +45,37 @@ async function fetchLibrary(slug: string): Promise<Library> {
   return lib;
 }
 
-export const listLibraries = defineTool({
-  name: 'listLibraries',
-  description: 'List all UVA libraries (slug and title).',
-  parameters: {
-    type: 'object',
-    properties: {},
-    additionalProperties: false,
+export const listLibraries = ai.defineTool(
+  {
+    name: 'listLibraries',
+    description: 'List all UVA libraries (slug and title).',
+    inputSchema: z.object({}),
+    outputSchema: z.array(z.object({
+      slug: z.string().describe('Library slug (e.g. "clemons-library")'),
+      title: z.string().describe('Library title (e.g. "Clemons Library")'),
+    })),
   },
-  async execute() {
-    const libs = new LibrariesData();
-    const { items } = await libs.fetchData();
+  async () => {
+    const { items } = await allLibraries.fetchData();
     return items.map(l => ({ slug: l.slug, title: l.title }));
-  },
-});
+  }
+);
 
 // ---------------------------------------------------------------------------
 // Tool: searchWebsite
 // ---------------------------------------------------------------------------
 
-export const searchWebsite = defineTool({
-  name: 'searchWebsite',
-  description: 'Full-site search for library.virginia.edu content (pages, news, people, libraries).',
-  parameters: {
-    type: 'object',
-    properties: {
-      query: { type: 'string', description: 'Keyword search term.' },
-      limit: { type: 'integer', minimum: 1, description: 'Maximum results (default 10).' },
-    },
-    required: ['query'],
-    additionalProperties: false,
+export const searchWebsite = ai.defineTool(
+  {
+    name: 'searchWebsite',
+    description: 'Full-site search for library.virginia.edu content (pages, news, people, libraries).',
+    inputSchema: z.object({
+      query: z.string().describe('Keyword search term.'),
+      limit: z.number().int().min(1).optional().default(10).describe('Maximum results (default 10).'),
+    }),
+    outputSchema: z.any(),
   },
-  async execute({ query, limit = 10 }: { query: string; limit?: number }) {
+  async ({ query, limit }:{ query: string, limit: number }) => {
     const wd = new WebsiteData({ query, limit });
 
     // Ensure absolute Drupal endpoint URL when running outside the website.
@@ -103,26 +96,24 @@ export const searchWebsite = defineTool({
         link: r.link ?? r.path,
       })),
     };
-  },
-});
+  }
+);
 
 // ---------------------------------------------------------------------------
 // Tool: searchStaff
 // ---------------------------------------------------------------------------
 
-export const searchStaff = defineTool({
-  name: 'searchStaff',
-  description: 'Search UVA Library staff directory (Drupal person nodes).',
-  parameters: {
-    type: 'object',
-    properties: {
-      query: { type: 'string', description: 'Name, title, or keyword.' },
-      limit: { type: 'integer', minimum: 1, description: 'Maximum results (default 10).' },
-    },
-    required: ['query'],
-    additionalProperties: false,
+export const searchStaff = ai.defineTool(
+  {
+    name: 'searchStaff',
+    description: 'Search UVA Library staff directory (Drupal person nodes).',
+    inputSchema: z.object({
+      query: z.string().describe('Name, title, or keyword.'),
+      limit: z.number().int().min(1).optional().default(10).describe('Maximum results (default 10).'),
+    }),
+    outputSchema: z.any(),
   },
-  async execute({ query, limit = 10 }: { query: string; limit?: number }) {
+  async ({ query, limit }: { query: string, limit: number }) => {
     const pd = new PersonData({ query, limit });
     const { items, meta } = await pd.fetchData({ limit });
     return {
@@ -136,26 +127,24 @@ export const searchStaff = defineTool({
         description: p.description,
       })),
     };
-  },
-});
+  }
+);
 
 // ---------------------------------------------------------------------------
 // Tool: searchNews
 // ---------------------------------------------------------------------------
 
-export const searchNews = defineTool({
-  name: 'searchNews',
-  description: 'Search UVA Library news posts (Drupal articles).',
-  parameters: {
-    type: 'object',
-    properties: {
-      query: { type: 'string', description: 'Search term.' },
-      limit: { type: 'integer', minimum: 1, description: 'Number of results (default 10).' },
-    },
-    required: ['query'],
-    additionalProperties: false,
+export const searchNews = ai.defineTool(
+  {
+    name: 'searchNews',
+    description: 'Search UVA Library news posts (Drupal articles).',
+    inputSchema: z.object({
+      query: z.string().describe('Search term.'),
+      limit: z.number().int().min(1).optional().default(10).describe('Number of results (default 10).'),
+    }),
+    outputSchema: z.any(),
   },
-  async execute({ query, limit = 10 }: { query: string; limit?: number }) {
+  async ({ query, limit }: { query: string, limit: number }) => {
     const nd = new NewsData({ query, limit });
     const { items, meta } = await nd.fetchData({ limit });
     return {
@@ -167,26 +156,24 @@ export const searchNews = defineTool({
         link: n.link,
       })),
     };
-  },
-});
+  }
+);
 
 // ---------------------------------------------------------------------------
 // Tool: searchLibGuides
 // ---------------------------------------------------------------------------
 
-export const searchLibGuides = defineTool({
-  name: 'searchLibGuides',
-  description: 'Search UVA Library LibGuides (subject & course guides).',
-  parameters: {
-    type: 'object',
-    properties: {
-      query: { type: 'string', description: 'Search term.' },
-      limit: { type: 'integer', minimum: 1, description: 'Max results (default 10).' },
-    },
-    required: ['query'],
-    additionalProperties: false,
+export const searchLibGuides = ai.defineTool(
+  {
+    name: 'searchLibGuides',
+    description: 'Search UVA Library LibGuides (subject & course guides).',
+    inputSchema: z.object({
+      query: z.string().describe('Search term.'),
+      limit: z.number().int().min(1).optional().default(10).describe('Max results (default 10).'),
+    }),
+    outputSchema: z.any(),
   },
-  async execute({ query, limit = 10 }: { query: string; limit?: number }) {
+  async ({ query, limit }: { query: string, limit: number }) => {
     // Try to use LibGuidesData if a DOM is available. Otherwise, perform our own minimal parsing.
     if (typeof document !== 'undefined' && typeof window !== 'undefined') {
       const lg = new LibGuidesData({ query, limit });
@@ -225,34 +212,27 @@ export const searchLibGuides = defineTool({
     function stripHTML(text: string) {
       return text.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ');
     }
-  },
-});
+  }
+);
 
 // ---------------------------------------------------------------------------
 // Tool: searchEvents
 // ---------------------------------------------------------------------------
 
-export const searchEvents = defineTool({
-  name: 'searchEvents',
-  description: 'Retrieve upcoming UVA Library events. Supports keyword, category, date ranges.',
-  parameters: {
-    type: 'object',
-    properties: {
-      query: { type: 'string', description: 'Keyword search term.' },
-      category: { type: 'string', description: 'LibCal category id.' },
-      date: { type: 'string', description: 'ISO date (YYYY-MM-DD) to fetch events for.' },
-      days: { type: 'integer', minimum: 1, description: 'Number of future days to include (default 30).' },
-      limit: { type: 'integer', minimum: 1, description: 'Maximum number of events to return.' },
-    },
-    additionalProperties: false,
+export const searchEvents = ai.defineTool(
+  {
+    name: 'searchEvents',
+    description: 'Retrieve upcoming UVA Library events. Supports keyword, category, date ranges.',
+    inputSchema: z.object({
+      query: z.string().optional().describe('Keyword search term.'),
+      category: z.string().optional().describe('LibCal category id.'),
+      date: z.string().optional().describe('ISO date (YYYY-MM-DD) to fetch events for.'),
+      days: z.number().int().min(1).optional().default(30).describe('Number of future days to include (default 30).'),
+      limit: z.number().int().min(1).optional().describe('Maximum number of events to return.'),
+    }),
+    outputSchema: z.any(),
   },
-  async execute({ query, category, date, days = 30, limit }: {
-    query?: string;
-    category?: string;
-    date?: string;
-    days?: number;
-    limit?: number;
-  }) {
+  async ({ query, category, date, days, limit }: { query?: string, category?: string, date?: string, days: number, limit?: number }) => {
     const ed = new EventsData({ query, category, date, days, limit });
     const { items, meta } = await ed.fetchData();
     // limit items if provided because ed.limit may not respect if API returns more.
@@ -271,21 +251,24 @@ export const searchEvents = defineTool({
         registration: e.registration,
       })),
     };
-  },
-});
+  }
+);
 
 // ---------------------------------------------------------------------------
 // Tool: searchImages
 // ---------------------------------------------------------------------------
 
-export const searchImages = defineTool({
-  name: 'searchImages',
-  description: 'Search UVA Library image collections via Virgo.',
-  parameters: {
-    query: { type: 'string', description: 'Search term.' },
-    limit: { type: 'number', optional: true, description: 'Number of results (default 10).' },
+export const searchImages = ai.defineTool(
+  {
+    name: 'searchImages',
+    description: 'Search UVA Library image collections via Virgo.',
+    inputSchema: z.object({
+      query: z.string().describe('Search term.'),
+      limit: z.number().int().min(1).optional().default(10).describe('Number of results (default 10).'),
+    }),
+    outputSchema: z.any(),
   },
-  async execute({ query, limit = 10 }: { query: string; limit?: number }) {
+  async ({ query, limit }: { query: string, limit: number }) => {
     const id = new ImagesData({ query, limit });
     const { items, meta } = await id.fetchData();
     return {
@@ -298,21 +281,19 @@ export const searchImages = defineTool({
         format: (i as any).format,
       })),
     };
-  },
-});
+  }
+);
 
-export const getLibraryInfo = defineTool({
-  name: 'getLibraryInfo',
-  description: 'Return details and hours info for the given library slug.',
-  parameters: {
-    type: 'object',
-    properties: {
-      slug: { type: 'string', description: 'Library slug (e.g. "clemons-library")' },
-    },
-    required: ['slug'],
-    additionalProperties: false,
+export const getLibraryInfo = ai.defineTool(
+  {
+    name: 'getLibraryInfo',
+    description: 'Return details and hours info for the given library slug.',
+    inputSchema: z.object({
+      slug: z.string().describe('Library slug (e.g. "clemons-library")'),
+    }),
+    outputSchema: z.any(),
   },
-  async execute({ slug }: { slug: string }) {
+  async ({ slug }: { slug: string }) => {
     const lib = await fetchLibrary(slug);
     const isOpen = lib.hours?.isOpen != null;
     return {
@@ -327,45 +308,41 @@ export const getLibraryInfo = defineTool({
       nextClosingTime: lib.hours?.nextClosingTime ?? null,
       hours: lib.hours?.rawDates ?? null,
     };
-  },
-});
+  }
+);
 
-export const getLibraryHours = defineTool({
-  name: 'getLibraryHours',
-  description: 'Return the raw LibCal hours schedule for the given library.',
-  parameters: {
-    type: 'object',
-    properties: {
-      slug: { type: 'string', description: 'Library slug (e.g. "clemons-library")' },
-      days: { type: 'integer', minimum: 1, description: 'Number of days to include (starting today). Default 7.' },
-    },
-    required: ['slug'],
-    additionalProperties: false,
+export const getLibraryHours = ai.defineTool(
+  {
+    name: 'getLibraryHours',
+    description: 'Return the raw LibCal hours schedule for the given library.',
+    inputSchema: z.object({
+      slug: z.string().describe('Library slug (e.g. "clemons-library")'),
+      days: z.number().int().min(1).optional().default(7).describe('Number of days to include (starting today). Default 7.'),
+    }),
+    outputSchema: z.any(),
   },
-  async execute({ slug, days = 7 }: { slug: string; days?: number }) {
+  async ({ slug, days }: { slug: string, days: number }) => {
     const lib = await fetchLibrary(slug);
     await lib.fetchHours(new Date(), days, true);
     return lib.hours?.rawDates ?? null;
-  },
-});
+  }
+);
 
 // ---------------------------------------------------------------------------
 // Tool: searchArticles
 // ---------------------------------------------------------------------------
 
-export const searchArticles = defineTool({
-  name: 'searchArticles',
-  description: 'Search for scholarly articles via Virgo (UVA discovery).',
-  parameters: {
-    type: 'object',
-    properties: {
-      query: { type: 'string', description: 'Keyword or phrase to search.' },
-      limit: { type: 'integer', minimum: 1, description: 'Number of results to return (default 10).' },
-    },
-    required: ['query'],
-    additionalProperties: false,
+export const searchArticles = ai.defineTool(
+  {
+    name: 'searchArticles',
+    description: 'Search for scholarly articles via Virgo (UVA discovery).',
+    inputSchema: z.object({
+      query: z.string().describe('Keyword or phrase to search.'),
+      limit: z.number().int().min(1).optional().default(10).describe('Number of results to return (default 10).'),
+    }),
+    outputSchema: z.any(),
   },
-  async execute({ query, limit = 10 }: { query: string; limit?: number }) {
+  async ({ query, limit }: { query: string, limit: number }) => {
     const ad = new ArticlesData({ query, limit });
     const { items, meta } = await ad.fetchData();
     return {
@@ -380,26 +357,24 @@ export const searchArticles = defineTool({
         format: (i as any).format,
       })),
     };
-  },
-});
+  }
+);
 
 // ---------------------------------------------------------------------------
 // Tool: searchCatalog
 // ---------------------------------------------------------------------------
 
-export const searchCatalog = defineTool({
-  name: 'searchCatalog',
-  description: 'Search the UVA Library catalog via Virgo.',
-  parameters: {
-    type: 'object',
-    properties: {
-      query: { type: 'string', description: 'Search term.' },
-      limit: { type: 'integer', minimum: 1, description: 'Number of results to return (default 10).' },
-    },
-    required: ['query'],
-    additionalProperties: false,
+export const searchCatalog = ai.defineTool(
+  {
+    name: 'searchCatalog',
+    description: 'Search the UVA Library catalog via Virgo.',
+    inputSchema: z.object({
+      query: z.string().describe('Search term.'),
+      limit: z.number().int().min(1).optional().default(10).describe('Number of results to return (default 10).'),
+    }),
+    outputSchema: z.any(),
   },
-  async execute({ query, limit = 10 }: { query: string; limit?: number }) {
+  async ({ query, limit }: { query: string, limit: number }) => {
     const cd = new CatalogData({ query, limit });
     const { items, meta } = await cd.fetchData();
     return {
@@ -412,5 +387,5 @@ export const searchCatalog = defineTool({
         format: (i as any).format,
       })),
     };
-  },
-});
+  }
+);

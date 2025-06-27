@@ -3,7 +3,7 @@
   "description": "Webcomponent data-wrap following open-wc recommendations",
   "license": "MIT",
   "author": "data-wrap",
-  "version": "0.2.7",
+  "version": "0.2.16",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "exports": {
@@ -11,6 +11,7 @@
       "import": "./dist/esm/index.js",
       "require": "./dist/cjs/index.js"
     },
+    "./genkit-tools.js": "./dist/src/genkit-tools.js",
     "./data-wrap.js": "./dist/src/data-wrap.js",
     "./VirgoData.js": "./dist/src/VirgoData.js",
     "./CatalogData.js": "./dist/src/CatalogData.js",
@@ -32,10 +33,13 @@
     "storybook:build": "tsc && build-storybook"
   },
   "dependencies": {
+    "@genkit-ai/ai": "^1.13.0",
+    "@genkit-ai/googleai": "^1.13.0",
     "date-fns": "^2.29.3",
     "dotenv": "^16.4.5",
     "flexsearch": "^0.7.31",
     "fuse.js": "^6.6.2",
+    "genkit": "^1.13.0",
     "googleapis": "^140.0.1",
     "lit": "^3.3.0",
     "luxon": "^3.4.3"
