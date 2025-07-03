@@ -77,7 +77,7 @@ async function buildBack({ pdfPath, outlinePath, outputFile, maxPages }) {
   const schema = z.object({ back: z.string().min(10) });
 
   const parsed = await openai.responses.parse({
-    model: 'o3-mini',
+    model: 'o3',
     input: [
       { role: 'system', content: sysPrompt },
       { role: 'user', content: userPrompt }

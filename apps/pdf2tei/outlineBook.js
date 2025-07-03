@@ -137,7 +137,7 @@ Begin at page 1 and finish with the last page.  Aim for roughly 10-25 elements. 
 
   console.log('Requesting outline from OpenAI…');
   const parsedResp = await openai.responses.parse({
-    model: 'o3-mini',
+    model: 'o3',
     input: [
       { role: 'system', content: systemPrompt },
       { role: 'user', content: userPrompt }

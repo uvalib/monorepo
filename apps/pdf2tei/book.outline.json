@@ -2,87 +2,87 @@
   "outline": [
     {
       "section": "front",
-      "description": "Front matter: title pages, preliminary pages, and contents",
+      "description": "preliminary pages (title, copyright, contents)",
       "startPage": 1,
       "endPage": 6
     },
     {
       "section": "chapter",
-      "description": "John Carter: An Assessment – the opening essay introducing Carter’s significance",
+      "description": "John Carter: An Assessment and a Handlist",
       "startPage": 7,
-      "endPage": 28
+      "endPage": 104
     },
     {
       "section": "chapter",
-      "description": "Handlist of John Carter’s Published Writings",
-      "startPage": 29,
-      "endPage": 37
+      "description": "The Sources of the Sussex Declaration: A Reconsideration",
+      "startPage": 105,
+      "endPage": 126
     },
     {
       "section": "chapter",
-      "description": "Carter’s Bibliographical Essays and Commentary – a series of essays on bibliographical research",
-      "startPage": 38,
-      "endPage": 110
+      "description": "A Documentary History of the University of Virginia’s First Library and Its Jeffersonian Catalogs",
+      "startPage": 127,
+      "endPage": 166
     },
     {
       "section": "chapter",
-      "description": "Sources of the Sussex Declaration: A Reconsideration",
-      "startPage": 111,
-      "endPage": 114
+      "description": "Victoria Ocampo’s Sur: “Capítulo de una novela en prensa”",
+      "startPage": 167,
+      "endPage": 186
     },
     {
       "section": "chapter",
-      "description": "Carter’s Continued Essays and Contributions – further bibliographical investigations and reflections",
-      "startPage": 115,
+      "description": "The Engravings of Pope’s Works II (1735): “Envy must own, I live among the great”",
+      "startPage": 187,
       "endPage": 220
     },
     {
       "section": "chapter",
-      "description": "History of Pope’s Manuscripts – discussion of the provenance and analysis of Pope’s documentary materials",
+      "description": "Jonathan Richardson, Charles Chauncy, and the Manuscripts of Pope",
       "startPage": 221,
       "endPage": 232
     },
     {
       "section": "chapter",
-      "description": "Extra-illustrations and Strawberry Hill Studies – case studies on extra-illustrated texts and Strawberry Hill",
+      "description": "Extra-Illustrating Horace Walpole’s Description of Strawberry Hill: Three Case Studies",
       "startPage": 233,
-      "endPage": 252
-    },
-    {
-      "section": "appendix",
-      "description": "Appendix: Annotated proof copy and related drawings",
-      "startPage": 253,
       "endPage": 254
     },
     {
       "section": "chapter",
-      "description": "Musical Tour of Mr. Dibdin – an account of Dibdin’s stage tour and its cultural context",
+      "description": "Charles Dibdin and the Making of The Musical Tour of Mr. Dibdin (1788)",
       "startPage": 255,
       "endPage": 270
     },
     {
       "section": "chapter",
-      "description": "Charlotte Brontë’s Manuscript of Shirley – study of stages in composition, revisions, and production of the fair-copy",
+      "description": "Stages of Composition in Charlotte Brontë’s Fair-Copy Manuscript of Shirley",
       "startPage": 271,
       "endPage": 322
     },
     {
       "section": "chapter",
-      "description": "The Brothers’ Comte de Gabalis – exploration of the text’s publication and design by a private press",
+      "description": "“The Brothers” and the English Comte de Gabalis",
       "startPage": 323,
       "endPage": 330
     },
     {
       "section": "chapter",
-      "description": "Three Endings: Fitzgerald, Hemingway, Faulkner – recovery and discussion of alternative endings in American novels",
+      "description": "Three Endings: Fitzgerald, Hemingway, Faulkner",
       "startPage": 331,
       "endPage": 344
     },
     {
       "section": "back",
-      "description": "Bibliographical Society and Concluding Information – society officers, benefactors, subscribing members, available publications, and program details",
+      "description": "Notes on Contributors",
       "startPage": 345,
-      "endPage": 364
+      "endPage": 346
+    },
+    {
+      "section": "back",
+      "description": "Bibliographical Society information, benefactors, memberships, publications, programs, awards",
+      "startPage": 347,
+      "endPage": 358
     }
   ]
 }

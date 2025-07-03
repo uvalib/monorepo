@@ -1,17 +1,55 @@
 <teiHeader>
   <fileDesc>
     <titleStmt>
-      <title>Studies in Bibliography</title>
+      <title>Studies in Bibliography, Volume 61 (2025)</title>
       <editor>David L. Vander Meulen</editor>
+      <respStmt>
+        <resp>Founding editor</resp>
+        <name>Fredson Bowers</name>
+      </respStmt>
+      <respStmt>
+        <resp>Assistant to the editor</resp>
+        <name>Elizabeth K. Lynch</name>
+      </respStmt>
     </titleStmt>
     <publicationStmt>
-      <publisher>The University of Virginia Press, Charlottesville</publisher>
-      <pubPlace>Charlottesville</pubPlace>
-      <date>2025</date>
-      <distributor>The Bibliographical Society of the University of Virginia</distributor>
+      <publisher>University of Virginia Press for the Bibliographical Society of the University of Virginia</publisher>
+      <pubPlace>Charlottesville, VA</pubPlace>
+      <date when="2025"/>
+      <availability>
+        <licence target="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</licence>
+      </availability>
+      <idno type="ISBN">978-0-8139-4261-2</idno>
     </publicationStmt>
+    <seriesStmt>
+      <title level="s">Studies in Bibliography</title>
+      <biblScope unit="volume">61</biblScope>
+      <biblScope unit="date">2025</biblScope>
+    </seriesStmt>
     <sourceDesc>
-      <p>Front matter extracted from Studies in Bibliography, Volume Sixty-One.</p>
+      <bibl>
+        <title>Studies in Bibliography, Volume 61</title>
+        <publisher>University of Virginia Press</publisher>
+        <pubPlace>Charlottesville</pubPlace>
+        <date>2025</date>
+        <idno type="ISBN">978-0-8139-4261-2</idno>
+      </bibl>
     </sourceDesc>
   </fileDesc>
+  <encodingDesc>
+    <projectDesc>
+      <p>Encoded for digital publication in compliance with the TEI P5 Guidelines.</p>
+    </projectDesc>
+    <editorialDecl>
+      <p>The text was transcribed from the printed edition and lightly edited to remove obvious OCR artifacts; page breaks reproduce the pagination of the print source.</p>
+    </editorialDecl>
+  </encodingDesc>
+  <profileDesc>
+    <langUsage>
+      <language ident="en">English</language>
+    </langUsage>
+  </profileDesc>
+  <revisionDesc>
+    <change when="2025-07-03" who="#encoder">Initial encoding.</change>
+  </revisionDesc>
 </teiHeader>

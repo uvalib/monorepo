@@ -163,7 +163,7 @@ INPUTS:
         model: 'o3',
         input: [
           { role: 'user', content: [
-              { type: 'input_file', file_id: fileResp.id },
+//              { type: 'input_file', file_id: fileResp.id },
               { type: 'input_text', text: userPrompt },
               { type: 'input_text', text: `PDF JSON parse result:\n${pdfJsonString}` }
             ]

@@ -1,35 +1,39 @@
 <back>
-  <div type="editorial">
-    <head>Interleaved Annotations and Proof Corrections</head>
-    <p>The text records a wealth of annotations made by Kirgate (and occasionally by Walpole) on the proof copy of the 1784 <emphasis>Description</emphasis>. These annotations include cancellations (e.g. Sections D, E, L, and O), notes on additions and changes (such as the insertion of a line on page 93 and a heading change on page 94), and comments on typographical errors. There are numerous marginal notes, comparisons with the printed text, and observations on the provenance of drawings, prints, and other objects.</p>
-    <p>Among these notes, Kirgate records details of extra-illustration, including his instructions about the drawings pasted into the volume (for instance, notes on a drawing of the projecting canopy and a series of watercolors), and detailed price records for objects in the collection, ranging from a bust of Henry VIII and Children to a bronze padlock and various antiques.</p>
+  <div type="notes">
+    <head>Notes</head>
+    <note n="17">Hemingway, <title level="m">The Sun Also Rises: The Library of America Corrected Text</title>, ed. Robert W. Trogdon (New York: Library of America, 2022).</note>
+    <note n="18">The title is an allusion to Psalms&#160;137: “By the rivers of Babylon, there we sat down, yea, we wept, when we remembered Zion.”  Images and wording from this psalm, which concerns captivity and freedom, appear throughout Faulkner’s novel.</note>
+    <note n="19"><title level="m">The Wild Palms</title> (New York: New American Library, 1948); <title level="m">The Old Man</title> (New York: New American Library, 1948).  For these and later editions, the word “<quote>The</quote>” was added to the title of “Old Man.”</note>
+    <note n="20"><title level="m">The Wild Palms and The Old Man</title> (New York: New American Library, 1954).</note>
+    <note n="21">Faulkner had little leverage with his publisher in 1939.  Random House was the fifth imprint to publish his work and was carrying him as a <foreign xml:lang="fr">succès d’estime</foreign>.  His first book with Random House, <title level="m">Absalom, Absalom!</title>, had not sold well; <title level="m">If I Forget Thee, Jerusalem</title>, with another biblical title, was not likely to do better—hence, presumably, the change in title.  In 1939 Faulkner was best known as the author of <title level="m">Sanctuary</title> (1931), a scandalous novel about a young woman who is raped with a corn cob.  It is therefore not surprising that the publisher bowdlerized <title level="m">The Wild Palms</title>.  The sanitizing, however, was incomplete: the words “<quote>pricks</quote>” and “<quote>cunts</quote>” appear on p.&#160;52 of the first edition, and “<quote>Shit!</quote>” appears on p.&#160;101.  Later, after he had won the Nobel Prize in 1949, Faulkner wielded more weight at Random House, and the heavy editing of his texts ceased.</note>
+    <note n="22">Both the manuscript and the setting-copy typescript of the novel have been published in facsimile in <title level="m">William Faulkner Manuscripts</title>, vol.&#160;14, parts 1 and 2, ed. Thomas L. McHaney (New York and London: Garland Publishing, Inc., 1986).</note>
+    <note n="23"><title level="m">Les Palmiers sauvages</title> (Paris: Gallimard, 1952).</note>
+    <note n="24">McHaney, “William Faulkner’s <title level="m">The Wild Palms</title>: A Textual and Critical Study.”  Diss. University of South Carolina, 1968.  See especially Appendix I, “The Text,” pp.&#160;252–65.</note>
+    <note n="25">In the volume <author>William Faulkner</author>, <title level="m">Novels 1936–1940</title> (1990): 493–726.</note>
   </div>
-  
-  <div type="index">
-    <head>Index of Rooms and Visitor Records</head>
-    <p>An index is presented, headed “Index of Rooms,” which gives the page numbers of the 1784 edition. A pencil note at the foot of the second index provides information on the number of visitors to Strawberry Hill. For example, it records that in 1786 eighty tickets were given for admission, in 1787 seventy (with a "Ditto" marking) and in 1789 one hundred were given; later, in 1807, Mrs. Damer notes that about 80 or 90 tickets were used yearly. This index is supplemented by Walpole’s manuscript "Book of Visitors," which broadly confirms the early entries.</p>
-  </div>
-  
-  <div type="appendix">
-    <head>Appendix: Drawings and Additional Material</head>
-    <p>Between the two versions of the Index of Rooms appears a pencil list headed "The following Drawings were made by Mr. Carter for Mr. Bull &amp; Mr. Walpole." This list records thirty-six drawings created for Bull’s copy of the <emphasis>Description</emphasis>, with several also appearing in Walpole’s copy. One drawing, "Gallery 10 G[uineas]," is crossed through and marked as having been bought by Mr. Baker. Additional material includes a transcription dated 6 February 1780 by Kirgate, notes about an early design for mirrors on either side of the Refectory window, and a drawing of Walpole’s coat of arms alongside a pencil drawing of an ossuarium from the Armoury.</p>
-  </div>
-  
-  <div type="lists">
-    <head>Lists of Late Acquisitions and Additional Entries</head>
-    <p>Two short lists at the end of the More Additions appendix and on a blank back leaf record late acquisitions made by Walpole as late as 1791. The first list includes items such as a Brown earthen Miraculous Pitcher, a Miniature in enamel of [gap] Lord Bute (bought at Dalton’s Sale in 1791), and Six Portraits drawn by Rosalba. A second list records five further items: a carved Ivory Cup with a Bacchanalian Procession, Two Cocoa Nuts carved with the Arms of Orford, Two silver filigraine Hampers, and a Portrait of the Rev. William Cole on painted Glass.</p>
-  </div>
-  
+
   <div type="bibliography">
     <head>Bibliography</head>
     <listBibl>
-      <bibl>Snodin.</bibl>
-      <bibl>Horace Walpole’s Strawberry Hill, 36, figure 51.</bibl>
-      <bibl>Hieroglyphic Tales. Kenneth W. Gross (London: Pallas Athene, 2011).</bibl>
-      <bibl>A Catalogue of the Valuable and Curious Collection, Vine-Street, Piccadilly (Deceased): King &amp; Lochée, 3 December 1810 and following days, including Day 8, lot 413.</bibl>
-      <bibl>A Catalogue of the Very Choice and Select Library of the late George Baker, Esq. of St. Paul’s Churchyard: Sotheby, 6 June 1825, Day 3, lot 822.</bibl>
-      <bibl>Strawberry Hill Accounts, 20 and 179, note 1; Clarke, “Lord God! Jesus! What a House!” 380, note 41.</bibl>
-      <bibl>Timothy Wilson, “‘Playthings Still?’ Horace Walpole as a Collector of Ceramics,” in Snodin, Horace Walpole’s Strawberry Hill, 200–219, at 201; also see Yale Edition of Horace Walpole’s Correspondence, 12:216–252.</bibl>
+      <bibl>Faulkner, William. <title level="m">If I Forget Thee, Jerusalem [The Wild Palms]</title>.  Corrected text edited by Thomas L. McHaney and Noel Polk.  New York: Library of America, 1990.</bibl>
+      <bibl>———. <title level="m">The Wild Palms</title>.  New York: New American Library, 1948.</bibl>
+      <bibl>———. <title level="m">The Old Man</title>.  New York: New American Library, 1948.</bibl>
+      <bibl>———. <title level="m">The Wild Palms and The Old Man</title>.  New York: New American Library, 1954.</bibl>
+      <bibl>———. <title level="m">Sanctuary</title>.  New York: Random House, 1931.</bibl>
+      <bibl>———. <title level="m">Absalom, Absalom!</title>.  New York: Random House, 1936.</bibl>
+      <bibl>Hemingway, Ernest. <title level="m">The Sun Also Rises: The Library of America Corrected Text</title>.  Edited by Robert W. Trogdon.  New York: Library of America, 2022.</bibl>
+      <bibl>McHaney, Thomas L. “William Faulkner’s <title level="m">The Wild Palms</title>: A Textual and Critical Study.”  PhD diss., University of South Carolina, 1968.</bibl>
+      <bibl><title level="m">William Faulkner Manuscripts</title>.  Vol.&#160;14, parts 1–2.  Edited by Thomas L. McHaney.  New York and London: Garland Publishing, Inc., 1986.</bibl>
+      <bibl><title level="m">Les Palmiers sauvages</title>.  Paris: Gallimard, 1952.</bibl>
     </listBibl>
+  </div>
+
+  <div type="listFigures">
+    <head>List of Figures</head>
+    <list>
+      <item>Figure 6. From final page of the manuscript, <title>If I Forget Thee, Jerusalem</title>.  Papers of William Faulkner, Albert and Shirley Small Special Collections Library, University of Virginia.</item>
+      <item>Figure 7. From final page of the setting copy, <title>If I Forget Thee, Jerusalem</title>.  Papers of William Faulkner, Albert and Shirley Small Special Collections Library, University of Virginia.</item>
+      <item>Figure 8. From final page of the first edition, <title>The Wild Palms</title>.  Random House, 1939.</item>
+    </list>
   </div>
 </back>

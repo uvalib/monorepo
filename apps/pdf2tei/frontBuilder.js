@@ -142,7 +142,7 @@ ${plainText}`;
 
   console.log('Requesting TEI header + front from OpenAI…');
   const parsed = await openai.responses.parse({
-    model: 'o3-mini',
+    model: 'o3',
     input: [
       { role: 'system', content: systemPrompt },
       { role: 'user', content: finalPrompt }
