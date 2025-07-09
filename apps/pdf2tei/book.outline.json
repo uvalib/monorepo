@@ -2,8 +2,14 @@
   "outline": [
     {
       "section": "front",
-      "description": "preliminary pages (title, copyright, contents)",
+      "description": "title and preliminary pages",
       "startPage": 1,
+      "endPage": 4
+    },
+    {
+      "section": "front",
+      "description": "contents",
+      "startPage": 5,
       "endPage": 6
     },
     {
@@ -26,13 +32,13 @@
     },
     {
       "section": "chapter",
-      "description": "Victoria Ocampo’s Sur: “Capítulo de una novela en prensa”",
+      "description": "“Capítulo de una Novela en Prensa”: Teaser Chapters and Marketing Strategies in Victoria Ocampo’s Sur",
       "startPage": 167,
       "endPage": 186
     },
     {
       "section": "chapter",
-      "description": "The Engravings of Pope’s Works II (1735): “Envy must own, I live among the great”",
+      "description": "The Engravings of Pope’s Works II (1735): “Envy Must Own, I Live among the Great”",
       "startPage": 187,
       "endPage": 220
     },
@@ -74,13 +80,13 @@
     },
     {
       "section": "back",
-      "description": "Notes on Contributors",
+      "description": "notes on contributors",
       "startPage": 345,
       "endPage": 346
     },
     {
       "section": "back",
-      "description": "Bibliographical Society information, benefactors, memberships, publications, programs, awards",
+      "description": "society information, benefactors, publications, programs, fellowships",
       "startPage": 347,
       "endPage": 358
     }

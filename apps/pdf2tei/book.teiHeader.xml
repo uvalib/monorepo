@@ -1,47 +1,42 @@
 <teiHeader>
   <fileDesc>
     <titleStmt>
-      <title>Studies in Bibliography, Volume 61 (2025)</title>
+      <title level="s" type="main">Studies in Bibliography</title>
       <editor>David L. Vander Meulen</editor>
+    </titleStmt>
+    <publicationStmt>
+      <publisher>The University of Virginia Press</publisher>
+      <pubPlace>Charlottesville</pubPlace>
+      <date when="2025">2025</date>
+      <availability>
+        <licence target="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</licence>
+      </availability>
+    </publicationStmt>
+    <seriesStmt>
+      <title>Studies in Bibliography</title>
       <respStmt>
         <resp>Founding editor</resp>
         <name>Fredson Bowers</name>
       </respStmt>
-      <respStmt>
-        <resp>Assistant to the editor</resp>
-        <name>Elizabeth K. Lynch</name>
-      </respStmt>
-    </titleStmt>
-    <publicationStmt>
-      <publisher>University of Virginia Press for the Bibliographical Society of the University of Virginia</publisher>
-      <pubPlace>Charlottesville, VA</pubPlace>
-      <date when="2025"/>
-      <availability>
-        <licence target="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</licence>
-      </availability>
-      <idno type="ISBN">978-0-8139-4261-2</idno>
-    </publicationStmt>
-    <seriesStmt>
-      <title level="s">Studies in Bibliography</title>
       <biblScope unit="volume">61</biblScope>
-      <biblScope unit="date">2025</biblScope>
     </seriesStmt>
     <sourceDesc>
-      <bibl>
-        <title>Studies in Bibliography, Volume 61</title>
-        <publisher>University of Virginia Press</publisher>
-        <pubPlace>Charlottesville</pubPlace>
-        <date>2025</date>
-        <idno type="ISBN">978-0-8139-4261-2</idno>
-      </bibl>
+      <biblStruct>
+        <monogr>
+          <title>Studies in Bibliography, Volume 61 (2025)</title>
+          <imprint>
+            <publisher>The University of Virginia Press</publisher>
+            <pubPlace>Charlottesville</pubPlace>
+            <date when="2025"/>
+            <idno type="ISBN">978-0-8139-4261-2</idno>
+          </imprint>
+        </monogr>
+      </biblStruct>
     </sourceDesc>
   </fileDesc>
   <encodingDesc>
-    <projectDesc>
-      <p>Encoded for digital publication in compliance with the TEI P5 Guidelines.</p>
-    </projectDesc>
     <editorialDecl>
-      <p>The text was transcribed from the printed edition and lightly edited to remove obvious OCR artifacts; page breaks reproduce the pagination of the print source.</p>
+      <p>Front matter encoded in TEI P5; original page breaks preserved with &lt;pb&gt;.</p>
     </editorialDecl>
   </encodingDesc>
   <profileDesc>
@@ -50,6 +45,6 @@
     </langUsage>
   </profileDesc>
   <revisionDesc>
-    <change when="2025-07-03" who="#encoder">Initial encoding.</change>
+    <change when="2025-07-03">Initial encoding of front matter.</change>
   </revisionDesc>
 </teiHeader>
