@@ -1,50 +1,60 @@
-<teiHeader>
+<teiHeader xmlns="http://www.tei-c.org/ns/1.0">
   <fileDesc>
     <titleStmt>
       <title level="s" type="main">Studies in Bibliography</title>
-      <editor>David L. Vander Meulen</editor>
+      <title level="v">Volume Sixty-One</title>
+      <editor ref="#vanderMeulen">David L. Vander Meulen</editor>
+      <respStmt>
+        <resp>Founding editor</resp>
+        <name ref="#bowers">Fredson Bowers</name>
+        <note>(1905–1991)</note>
+      </respStmt>
+      <respStmt>
+        <resp>Assistant to the editor</resp>
+        <name ref="#lynch">Elizabeth K. Lynch</name>
+      </respStmt>
     </titleStmt>
     <publicationStmt>
       <publisher>The University of Virginia Press</publisher>
       <pubPlace>Charlottesville</pubPlace>
-      <date when="2025">2025</date>
+      <date when="2025"/>
+      <distributor>The Bibliographical Society of the University of Virginia</distributor>
       <availability>
-        <licence target="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</licence>
+        <p>© 2025 by the Rector and Visitors of the University of Virginia. All rights reserved.</p>
       </availability>
+      <idno type="isbn">978-0-8139-4261-2</idno>
     </publicationStmt>
-    <seriesStmt>
-      <title>Studies in Bibliography</title>
-      <respStmt>
-        <resp>Founding editor</resp>
-        <name>Fredson Bowers</name>
-      </respStmt>
-      <biblScope unit="volume">61</biblScope>
-    </seriesStmt>
     <sourceDesc>
       <biblStruct>
         <monogr>
-          <title>Studies in Bibliography, Volume 61 (2025)</title>
+          <title level="s">Studies in Bibliography</title>
+          <title level="v">Volume Sixty-One</title>
           <imprint>
             <publisher>The University of Virginia Press</publisher>
             <pubPlace>Charlottesville</pubPlace>
             <date when="2025"/>
-            <idno type="ISBN">978-0-8139-4261-2</idno>
+            <idno type="isbn">978-0-8139-4261-2</idno>
           </imprint>
         </monogr>
+        <series>
+          <title level="s">Studies in Bibliography; papers v.1—</title>
+          <biblScope unit="vol">1948/49—</biblScope>
+        </series>
       </biblStruct>
     </sourceDesc>
   </fileDesc>
-  <encodingDesc>
-    <editorialDecl>
-      <p>Front matter encoded in TEI P5; original page breaks preserved with &lt;pb&gt;.</p>
-    </editorialDecl>
-  </encodingDesc>
   <profileDesc>
     <langUsage>
       <language ident="en">English</language>
+      <language ident="es">Spanish</language>
     </langUsage>
+    <textClass>
+      <keywords scheme="lcsh">
+        <term>Bibliography—Societies</term>
+      </keywords>
+    </textClass>
   </profileDesc>
   <revisionDesc>
-    <change when="2025-07-03">Initial encoding of front matter.</change>
+    <change when="2025-07-11" who="#encoder">Encoded front matter in TEI-P5.</change>
   </revisionDesc>
 </teiHeader>

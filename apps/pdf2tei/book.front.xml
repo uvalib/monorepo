@@ -1,73 +1,175 @@
-<front>
+<front xmlns="http://www.tei-c.org/ns/1.0">
   <pb n="i"/>
   <titlePage>
-    <docTitle>
-      <titlePart rend="sc">STUDIES IN <lb/>BIBLIOGRAPHY</titlePart>
-    </docTitle>
+    <titlePart type="half"><hi rend="smallcaps">Studies in Bibliography</hi></titlePart>
   </titlePage>
-
   <pb n="ii"/>
-
+  <!-- blank verso of half-title -->
   <pb n="iii"/>
   <titlePage>
-    <docTitle>
-      <titlePart rend="sc">STUDIES IN <lb/>BIBLIOGRAPHY</titlePart>
-    </docTitle>
-    <docAuthor>Edited by <name>David L. Vander Meulen</name></docAuthor>
-    <docEdition>Volume Sixty-One</docEdition>
+    <titlePart type="main"><hi rend="smallcaps">Studies in Bibliography</hi></titlePart>
+    <docAuthor role="editor">Edited by <name>David L. Vander Meulen</name></docAuthor>
+    <titlePart type="volume">Volume Sixty-One</titlePart>
     <docDate>2025</docDate>
-    <docImprint>Published for the Bibliographical Society of the University of Virginia <lb/>By The University of Virginia Press, Charlottesville</docImprint>
+    <imprint>
+      <publisher>The University of Virginia Press</publisher>
+      <pubPlace>Charlottesville</pubPlace>
+      <address>
+        <addrLine>Published for The Bibliographical Society of the University of Virginia</addrLine>
+      </address>
+    </imprint>
   </titlePage>
-
   <pb n="iv"/>
-  <titlePage>
-    <p rend="sc">Founding Editor</p>
-    <p>Fredson Bowers (1905–1991)</p>
-    <lb/>
-    <p rend="sc">Assistant to the Editor</p>
-    <p>Elizabeth K. Lynch</p>
-    <lb/>
-    <p>THE UNIVERSITY OF VIRGINIA PRESS</p>
+  <div type="imprint">
+    <head>Publication Information</head>
+    <p><seg type="role">Founding Editor</seg>: <name>Fredson Bowers</name> (1905–1991)</p>
+    <p><seg type="role">Assistant to the Editor</seg>: <name>Elizabeth K. Lynch</name></p>
+    <p><hi rend="smallcaps">The University of Virginia Press</hi></p>
     <p>Copyright © 2025 by the Rector and Visitors of the University of Virginia</p>
-    <p>Virginia. University. Bibliographical Society.<lb/>Studies in bibliography; papers v.1—1948/49—<lb/>Charlottesville.<lb/>v. illus. 26 cm. annual.<lb/>Title varies: 1948/49—</p>
-    <p>1. Bibliography—Societies.<lb/>I. Title.</p>
-    <p>z10<lb/>08.V55<lb/>010.6275549–3353 Rev.*</p>
+    <p>Library of Congress Cataloging-in-Publication Data:</p>
+    <p>Virginia. University. Bibliographical Society.<lb/>
+       <lb/>Studies in bibliography; papers v.1— 1948/49— Charlottesville.<lb/>
+       v. illus. 26 cm. annual.<lb/>
+       Title varies: 1948/49—</p>
+    <list>
+      <item>1. Bibliography—Societies.</item>
+      <item>I. Title.</item>
+    </list>
+    <p>LCCN: 010.6275549–3353 Rev.*<lb/>
+       Dewey: 08.V55</p>
     <p>ISBN 978-0-8139-4261-2</p>
-    <p>This journal is a member of the Council of Editors of Learned Journals.</p>
-    <p>Submission guidelines:<lb/>The editor invites articles and notes on analytical bibliography, textual criticism, manuscript study, the history of printing and publishing, and related matters of method and evidence. Submissions consistent with any widely used style sheet are acceptable, although <hi rend="italic">The Chicago Manual of Style</hi> is preferred. All copy, including quotations and notes, should be double-spaced.</p>
-    <p>Send manuscripts or electronic files to David Vander Meulen (dlv8g@virginia.edu), University of Virginia, English Department, 219 Bryan Hall, PO Box 400121, Charlottesville, VA 22904-4121.</p>
-    <p>All correspondence concerning business affairs, including subscriptions and memberships, should be sent to the Executive Secretary, Anne G. Ribble, Bibliographical Society, PO Box 400152, Edgar Shannon Library, 160 McCormick Road, Charlottesville, VA 22904-4152.</p>
-  </titlePage>
-
+  </div>
   <pb n="v"/>
-  <div type="contents">
+  <div type="toc">
     <head>Contents</head>
     <list>
-      <item n="1"><title>John Carter: An Assessment and a Handlist</title> <author>G. Thomas Tanselle</author> <biblScope unit="page">1</biblScope></item>
-      <item n="2"><title>The Sources of the Sussex Declaration: A Reconsideration</title> <author>John Bidwell</author> <biblScope unit="page">105</biblScope></item>
-      <item n="3"><title>A Documentary History of the University of Virginia’s First Library and Its Jeffersonian Catalogs</title> <author>Samuel V. Lemley, Neal D. Curtis, and Madeline Zehnder</author> <biblScope unit="page">127</biblScope></item>
-      <item n="4"><title>“Capítulo de una novela en prensa”: Teaser Chapters and Marketing Strategies in Victoria Ocampo’s <hi rend="italic">Sur</hi></title> <author>Nora C. Benedict</author> <biblScope unit="page">167</biblScope></item>
-      <item n="5"><title>The Engravings of Pope’s <hi rend="italic">Works</hi> II (1735): ‘Envy must own, I live among the Great’</title> <author>James McLaverty</author> <biblScope unit="page">187</biblScope></item>
-      <item n="6"><title>Jonathan Richardson, Charles Chauncy, and the Manuscripts of Pope</title> <author>John Considine</author> <biblScope unit="page">221</biblScope></item>
-      <item n="7"><title>Extra-Illustrating Horace Walpole’s <hi rend="italic">Description</hi> of Strawberry Hill: Three Case Studies</title> <author>Stephen Clarke</author> <biblScope unit="page">233</biblScope></item>
-      <item n="8"><title>Charles Dibdin and the Making of <hi rend="italic">The Musical Tour of Mr. Dibdin</hi> (1788): A New “compact with the public”</title> <author>David Chandler</author> <biblScope unit="page">255</biblScope></item>
-      <item n="9"><title>Stages of Composition in Charlotte Brontë’s Fair-Copy Manuscript of <hi rend="italic">Shirley</hi></title> <author>Barbara Heritage</author> <biblScope unit="page">271</biblScope></item>
+      <item>
+        <bibl>
+          <title>John Carter: An Assessment and a Handlist</title>
+          <author><name>G. Thomas Tanselle</name></author>
+          <ref target="#p1">1</ref>
+        </bibl>
+      </item>
+      <item>
+        <bibl>
+          <title>The Sources of the Sussex Declaration: A Reconsideration</title>
+          <author><name>John Bidwell</name></author>
+          <ref target="#p105">105</ref>
+        </bibl>
+      </item>
+      <item>
+        <bibl>
+          <title>A Documentary History of the University of Virginia’s First Library and Its Jeffersonian Catalogs</title>
+          <author>
+            <name>Samuel V. Lemley</name>, <name>Neal D. Curtis</name>, <name>Madeline Zehnder</name>
+          </author>
+          <ref target="#p127">127</ref>
+        </bibl>
+      </item>
+      <item>
+        <bibl>
+          <title>“Capítulo de una novela en prensa”: Teaser Chapters and Marketing Strategies in Victoria Ocampo’s <title rend="italic">Sur</title></title>
+          <author><name>Nora C. Benedict</name></author>
+          <ref target="#p167">167</ref>
+        </bibl>
+      </item>
+      <item>
+        <bibl>
+          <title>The Engravings of Pope’s <title rend="italic">Works</title> II (1735): ‘Envy must own, I live among the Great’</title>
+          <author><name>James McLaverty</name></author>
+          <ref target="#p187">187</ref>
+        </bibl>
+      </item>
+      <item>
+        <bibl>
+          <title>Jonathan Richardson, Charles Chauncy, and the Manuscripts of Pope</title>
+          <author><name>John Considine</name></author>
+          <ref target="#p221">221</ref>
+        </bibl>
+      </item>
+      <item>
+        <bibl>
+          <title>Extra-Illustrating Horace Walpole’s <title rend="italic">Description</title> of Strawberry Hill: Three Case Studies</title>
+          <author><name>Stephen Clarke</name></author>
+          <ref target="#p233">233</ref>
+        </bibl>
+      </item>
+      <item>
+        <bibl>
+          <title>Charles Dibdin and the Making of <title rend="italic">The Musical Tour of Mr. Dibdin</title> (1788): A New “compact with the public”</title>
+          <author><name>David Chandler</name></author>
+          <ref target="#p255">255</ref>
+        </bibl>
+      </item>
+      <item>
+        <bibl>
+          <title>Stages of Composition in Charlotte Brontë’s Fair-Copy Manuscript of <title rend="italic">Shirley</title></title>
+          <author><name>Barbara Heritage</name></author>
+          <ref target="#p271">271</ref>
+        </bibl>
+      </item>
     </list>
   </div>
-
   <pb n="vi"/>
-  <div type="contents">
-    <head>Contents (continued)</head>
+  <div type="toc">
     <list>
-      <item n="10"><title>“The Brothers” and the English <hi rend="italic">Comte de Gabalis</hi></title> <author>Joscelyn Godwin</author> <biblScope unit="page">323</biblScope></item>
-      <item n="11"><title>Three Endings: Fitzgerald, Hemingway, Faulkner</title> <author>James L. W. West III</author> <biblScope unit="page">331</biblScope></item>
-      <item n="12"><title>Notes on Contributors</title> <biblScope unit="page">345</biblScope></item>
-      <item n="13"><title>Bibliographical Society of the University of Virginia</title> <biblScope unit="page">347</biblScope></item>
-      <item n="14"><title>Members</title> <biblScope unit="page">348</biblScope></item>
-      <item n="15"><title>Available Publications</title> <biblScope unit="page">353</biblScope></item>
-      <item n="16"><title>Programs</title> <biblScope unit="page">355</biblScope></item>
-      <item n="17"><title>Student Awards in Book Collecting</title> <biblScope unit="page">356</biblScope></item>
-      <item n="18"><title>Battestin Fellowships</title> <biblScope unit="page">356</biblScope></item>
+      <item>
+        <bibl>
+          <title>“The Brothers” and the English <title rend="italic">Comte de Gabalis</title></title>
+          <author><name>Joscelyn Godwin</name></author>
+          <ref target="#p323">323</ref>
+        </bibl>
+      </item>
+      <item>
+        <bibl>
+          <title>Three Endings: Fitzgerald, Hemingway, Faulkner</title>
+          <author><name>James L. W. West III</name></author>
+          <ref target="#p331">331</ref>
+        </bibl>
+      </item>
+      <milestone unit="section" rend="asterism"/>
+      <item>
+        <bibl>
+          <title>Notes on Contributors</title>
+          <ref target="#p345">345</ref>
+        </bibl>
+      </item>
+      <item>
+        <bibl>
+          <title>Bibliographical Society of the University of Virginia</title>
+          <ref target="#p347">347</ref>
+        </bibl>
+      </item>
+      <item>
+        <bibl>
+          <title>Members</title>
+          <ref target="#p348">348</ref>
+        </bibl>
+      </item>
+      <item>
+        <bibl>
+          <title>Available Publications</title>
+          <ref target="#p353">353</ref>
+        </bibl>
+      </item>
+      <item>
+        <bibl>
+          <title>Programs</title>
+          <ref target="#p355">355</ref>
+        </bibl>
+      </item>
+      <item>
+        <bibl>
+          <title>Student Awards in Book Collecting</title>
+          <ref target="#p356">356</ref>
+        </bibl>
+      </item>
+      <item>
+        <bibl>
+          <title>Battestin Fellowships</title>
+          <ref target="#p356">356</ref>
+        </bibl>
+      </item>
     </list>
   </div>
 </front>

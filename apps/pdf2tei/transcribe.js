@@ -53,6 +53,75 @@ async function auditTranscription(pdfData, teiXml, pageNumber, openai) {
   // Extract plain text from TEI XML
   console.log('Extracting text from TEI XML');
   const teiText = teiXml.replace(/<[^>]+>/g, '');
+
+  // ------------------------------------------------------------------
+  // Guard-rail: ensure the TEI transcription does not invent new words
+  // ------------------------------------------------------------------
+  // The TEI is allowed to omit content (headers, footers, artefacts) but it
+  // must never introduce text that is absent from the source PDF.  We enforce
+  // this by tokenising both the PDF text and the TEI text into case-
+  // insensitive “words” (sequences of letters or digits).  If we find any
+  // token present in the TEI that cannot be found in the PDF we fail the
+  // audit immediately.
+
+  const wordRegex = /[\p{L}\p{N}]+/gu;
+
+  // Build a set of distinct words that actually appear on the PDF page. We
+  // will use this both for direct membership checks and for word–break
+  // segmentation of concatenated tokens such as "printedby".
+  const pdfWordSet = new Set((pdfText.match(wordRegex) || []).map(w => w.toLowerCase()));
+
+  // Helper : decide if a TEI token should be ignored in the invented-word check
+  const shouldIgnoreToken = (tok) => {
+    // Common XML entity fragments or numeric codes
+    const ignoreSet = new Set(['amp', 'lt', 'gt', 'quot', 'apos', 'nbsp']);
+    if (ignoreSet.has(tok)) return true;
+    if (/^\d+$/.test(tok)) return true; // pure numbers (e.g. character refs like 160)
+    return false;
+  };
+
+  const teiTokens = (teiText.match(wordRegex) || []).map((w) => w.toLowerCase());
+  const inventedWords = [];
+  for (const tok of teiTokens) {
+    if (shouldIgnoreToken(tok)) continue;
+    // Quick acceptance path – exact word match
+    if (pdfWordSet.has(tok)) continue;
+
+    // If the TEI token is a concatenation of multiple PDF words (e.g.
+    // "printedby" -> "printed" + "by"), attempt to segment it.  We use a
+    // simple recursive DFS with memoisation because tokens are short.
+
+    const lowerTok = tok.toLowerCase();
+    const memo = {};
+    const canSegment = (start) => {
+      if (start === lowerTok.length) return true;
+      if (memo[start] !== undefined) return memo[start];
+      // limit segment length to reasonable to keep runtime low
+      for (let end = start + 1; end <= lowerTok.length; end++) {
+        const piece = lowerTok.slice(start, end);
+        if (pdfWordSet.has(piece) && canSegment(end)) {
+          return (memo[start] = true);
+        }
+      }
+      return (memo[start] = false);
+    };
+
+    if (!canSegment(0)) {
+      inventedWords.push(tok);
+      // Early exit if too many to keep audit quick
+      if (inventedWords.length > 50) break;
+    }
+  }
+
+  if (inventedWords.length > 0) {
+    console.warn('Audit failed – TEI introduces new words:', inventedWords.slice(0, 20));
+    return {
+      auditPassed: false,
+      issues: [
+        `Transcription contains words not present on PDF page: ${inventedWords.slice(0, 20).join(', ')}${inventedWords.length > 20 ? ', …' : ''}`,
+      ],
+    };
+  }
   // Compute diff
   console.log('Computing diff between PDF and TEI text');
   const diffs = diffLines(pdfText, teiText);

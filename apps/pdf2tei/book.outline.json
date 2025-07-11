@@ -2,13 +2,13 @@
   "outline": [
     {
       "section": "front",
-      "description": "title and preliminary pages",
+      "description": "title pages and preliminaries",
       "startPage": 1,
       "endPage": 4
     },
     {
       "section": "front",
-      "description": "contents",
+      "description": "table of contents",
       "startPage": 5,
       "endPage": 6
     },
@@ -86,7 +86,7 @@
     },
     {
       "section": "back",
-      "description": "society information, benefactors, publications, programs, fellowships",
+      "description": "society information, publications, programs, and indexes",
       "startPage": 347,
       "endPage": 358
     }
