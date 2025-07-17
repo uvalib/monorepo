@@ -18,6 +18,12 @@ function sanitizeTei(tei) {
   let cleaned = tei.replace(/&nbsp;/g, '&#160;');
   // Escape stray '&' not part of valid XML entities
   cleaned = cleaned.replace(/&(?!(?:amp|lt|gt|quot|apos|#\d+);)/g, '&amp;');
+
+  // Remove XML-invalid control characters (0x00–0x08, 0x0B, 0x0C, 0x0E–0x1F,
+  // 0x7F–0x9F). These occasionally appear when the LLM emits Windows-1252
+  // bytes that are then mis-decoded as UTF-8.
+  cleaned = cleaned.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]/g, '');
+
   return cleaned;
 }
 

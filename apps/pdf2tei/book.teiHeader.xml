@@ -1,60 +1,61 @@
-<teiHeader xmlns="http://www.tei-c.org/ns/1.0">
+<teiHeader>
   <fileDesc>
     <titleStmt>
-      <title level="s" type="main">Studies in Bibliography</title>
-      <title level="v">Volume Sixty-One</title>
-      <editor ref="#vanderMeulen">David L. Vander Meulen</editor>
+      <title level="m">Studies in Bibliography. Volume Sixty-One (2025)</title>
+      <editor>David L. Vander Meulen</editor>
       <respStmt>
         <resp>Founding editor</resp>
-        <name ref="#bowers">Fredson Bowers</name>
-        <note>(1905–1991)</note>
+        <name>Fredson Bowers (1905–1991)</name>
       </respStmt>
       <respStmt>
         <resp>Assistant to the editor</resp>
-        <name ref="#lynch">Elizabeth K. Lynch</name>
+        <name>Elizabeth K. Lynch</name>
       </respStmt>
     </titleStmt>
     <publicationStmt>
       <publisher>The University of Virginia Press</publisher>
-      <pubPlace>Charlottesville</pubPlace>
-      <date when="2025"/>
-      <distributor>The Bibliographical Society of the University of Virginia</distributor>
-      <availability>
-        <p>© 2025 by the Rector and Visitors of the University of Virginia. All rights reserved.</p>
+      <pubPlace>Charlottesville, VA</pubPlace>
+      <date when="2025">2025</date>
+      <availability status="restricted">
+        <p>Copyright © 2025 by the Rector and Visitors of the University of Virginia. All rights reserved.</p>
       </availability>
-      <idno type="isbn">978-0-8139-4261-2</idno>
     </publicationStmt>
+    <seriesStmt>
+      <title level="s">Studies in Bibliography</title>
+      <respStmt>
+        <resp>Published for</resp>
+        <name>The Bibliographical Society of the University of Virginia</name>
+      </respStmt>
+      <idno type="issn">0081-7600</idno>
+      <idno type="isbn">978-0-8139-4261-2</idno>
+    </seriesStmt>
     <sourceDesc>
       <biblStruct>
         <monogr>
-          <title level="s">Studies in Bibliography</title>
-          <title level="v">Volume Sixty-One</title>
+          <title level="m">Studies in Bibliography</title>
+          <editor>David L. Vander Meulen</editor>
           <imprint>
             <publisher>The University of Virginia Press</publisher>
             <pubPlace>Charlottesville</pubPlace>
-            <date when="2025"/>
-            <idno type="isbn">978-0-8139-4261-2</idno>
+            <date when="2025">2025</date>
           </imprint>
+          <idno type="isbn">978-0-8139-4261-2</idno>
+          <biblScope type="vol">61</biblScope>
         </monogr>
-        <series>
-          <title level="s">Studies in Bibliography; papers v.1—</title>
-          <biblScope unit="vol">1948/49—</biblScope>
-        </series>
       </biblStruct>
     </sourceDesc>
   </fileDesc>
+  <encodingDesc>
+    <appInfo>
+      <application ident="manual-encoding" version="1.0">Hand-encoded TEI</application>
+    </appInfo>
+  </encodingDesc>
   <profileDesc>
     <langUsage>
       <language ident="en">English</language>
-      <language ident="es">Spanish</language>
     </langUsage>
-    <textClass>
-      <keywords scheme="lcsh">
-        <term>Bibliography—Societies</term>
-      </keywords>
-    </textClass>
   </profileDesc>
   <revisionDesc>
-    <change when="2025-07-11" who="#encoder">Encoded front matter in TEI-P5.</change>
+    <change when="2025-07-14" who="#encoder">Initial creation of TEI header and front matter.</change>
   </revisionDesc>
 </teiHeader>

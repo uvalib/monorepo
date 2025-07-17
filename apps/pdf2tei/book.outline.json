@@ -2,14 +2,8 @@
   "outline": [
     {
       "section": "front",
-      "description": "title pages and preliminaries",
+      "description": "title, copyright, and contents pages",
       "startPage": 1,
-      "endPage": 4
-    },
-    {
-      "section": "front",
-      "description": "table of contents",
-      "startPage": 5,
       "endPage": 6
     },
     {
@@ -32,7 +26,7 @@
     },
     {
       "section": "chapter",
-      "description": "“Capítulo de una Novela en Prensa”: Teaser Chapters and Marketing Strategies in Victoria Ocampo’s Sur",
+      "description": "“Capítulo de una novela en prensa”: Teaser Chapters and Marketing Strategies in Victoria Ocampo’s SUR",
       "startPage": 167,
       "endPage": 186
     },
@@ -80,13 +74,13 @@
     },
     {
       "section": "back",
-      "description": "notes on contributors",
+      "description": "Notes on Contributors",
       "startPage": 345,
       "endPage": 346
     },
     {
       "section": "back",
-      "description": "society information, publications, programs, and indexes",
+      "description": "Bibliographical Society information, memberships, and publications",
       "startPage": 347,
       "endPage": 358
     }

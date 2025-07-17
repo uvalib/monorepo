@@ -1,45 +1,38 @@
-<back xmlns="http://www.tei-c.org/ns/1.0">
-   <div type="appendix" xml:id="app_figures">
-      <head>Appendix&#160;A. Illustrations</head>
-      <figure n="6" xml:id="fig6">
-         <head>Final page of the manuscript, <title level="m">If I Forget Thee, Jerusalem</title></head>
-         <figDesc>Leaf from the William Faulkner Papers, Albert and Shirley Small Special Collections Library, University of Virginia.</figDesc>
-      </figure>
-      <figure n="7" xml:id="fig7">
-         <head>Final page of the setting copy, <title level="m">If I Forget Thee, Jerusalem</title></head>
-         <figDesc>Typescript leaf from the William Faulkner Papers, Albert and Shirley Small Special Collections Library, University of Virginia.</figDesc>
-      </figure>
-      <figure n="8" xml:id="fig8">
-         <head>Final page of the first edition, <title level="m">The Wild Palms</title></head>
-         <figDesc>Page&#160;339 of the Random House 1939 first edition.</figDesc>
-      </figure>
-   </div>
+<back>
+  <div type="appendix" xml:id="figures">
+    <head>Appendix A. Figures Referenced</head>
+    <list>
+      <item n="6">From final page of the manuscript, <title>If I Forget Thee, Jerusalem</title>. Papers of William Faulkner, Albert and Shirley Small Special Collections Library, University of Virginia.</item>
+      <item n="7">From final page of the setting copy, <title>If I Forget Thee, Jerusalem</title>. Papers of William Faulkner, Albert and Shirley Small Special Collections Library, University of Virginia.</item>
+      <item n="8">From final page of the first edition, <title>The Wild Palms</title>. Random House, 1939.</item>
+    </list>
+  </div>
 
-   <div type="bibliography" xml:id="bib">
-      <head>Bibliography</head>
-      <listBibl>
-         <bibl xml:id="bib17">Hemingway, Ernest. <title level="m">The Sun Also Rises: The Library of America Corrected Text</title>. Edited by Robert&#160;W. Trogdon. New York: Library of America, 2022.</bibl>
-         <bibl xml:id="bib19a"><title level="m">The Wild Palms</title>. New York: New American Library, 1948.</bibl>
-         <bibl xml:id="bib19b"><title level="m">The Old Man</title>. New York: New American Library, 1948.</bibl>
-         <bibl xml:id="bib20"><title level="m">The Wild Palms and The Old Man</title>. New York: New American Library, 1954.</bibl>
-         <bibl xml:id="bib22">Faulkner, William. <title level="m">William Faulkner Manuscripts</title>, vol.&#160;14, parts&#160;1–2. Edited by Thomas&#160;L. McHaney. New York and London: Garland Publishing, 1986.</bibl>
-         <bibl xml:id="bib23">Faulkner, William. <title level="m">Les&#160;Palmiers sauvages</title>. Paris: Gallimard, 1952.</bibl>
-         <bibl xml:id="bib24">McHaney, Thomas&#160;L. “William Faulkner’s <title>The Wild Palms</title>: A Textual and Critical Study.” PhD diss., University of South Carolina, 1968.</bibl>
-         <bibl xml:id="bib25">Faulkner, William. <title level="m">Novels&#160;1936–1940</title>. New York: Library of America, 1990, pp.&#160;493–726.</bibl>
-      </listBibl>
-   </div>
+  <div type="notes" xml:id="notes">
+    <head>Notes</head>
+    <note n="17">Hemingway, <title>The Sun Also Rises: The Library of America Corrected Text</title>, ed. Robert W. Trogdon (New York: Library of America, 2022).</note>
+    <note n="18">The title is an allusion to Psalms 137: “By the rivers of Babylon, there we sat down, yea, we wept, when we remembered Zion.” Images and wording from this psalm, which concerns captivity and freedom, appear throughout Faulkner’s novel.</note>
+    <note n="19"><title>The Wild Palms</title> (New York: New American Library, 1948); <title>The Old Man</title> (New York: New American Library, 1948). For these and later editions, the word “<quote>The</quote>” was added to the title of “Old Man.”</note>
+    <note n="20"><title>The Wild Palms and The Old Man</title> (New York: New American Library, 1954).</note>
+    <note n="21">Faulkner had little leverage with his publisher in 1939. Random House was the fifth imprint to publish his work and was carrying him as a <foreign xml:lang="fr">succès d’estime</foreign>. His first book with Random House, <title>Absalom, Absalom!</title>, had not sold well; <title>If I Forget Thee, Jerusalem</title>, with another biblical title, was not likely to do better—hence, presumably, the change in title. In 1939 Faulkner was best known as the author of <title>Sanctuary</title> (1931), a scandalous novel about a young woman who is raped with a corn cob. It is not surprising that the publisher bowdlerized <title>The Wild Palms</title>. The sanitizing, however, was incomplete: the words “pricks” and “cunts” appear on p. 52 of the first edition, and “Shit!” appears on p. 101. Later, after he had won the Nobel Prize in 1949, Faulkner wielded more authority at Random House, and the heavy editing of his texts ceased.</note>
+    <note n="22">Both the manuscript and the setting-copy typescript of the novel have been published in facsimile in <title>William Faulkner Manuscripts</title>, vol. 14, parts 1 and 2, ed. Thomas L. McHaney (New York &amp; London: Garland Publishing, 1986).</note>
+    <note n="23"><title>Les Palmiers sauvages</title> (Paris: Gallimard, 1952).</note>
+    <note n="24">McHaney, “William Faulkner’s <title>The Wild Palms</title>: A Textual and Critical Study.” Diss. University of South Carolina, 1968. See especially Appendix I, “The Text,” pp. 252–65.</note>
+    <note n="25">In the volume William Faulkner, <title>Novels 1936–1940</title> (1990): 493–726.</note>
+  </div>
 
-   <div type="index" xml:id="idx">
-      <head>Index of Names and Titles</head>
-      <list>
-         <item n="1"><name type="person">Faulkner, William</name> <ref target="#bib22 #bib23 #bib25"/></item>
-         <item n="2"><name type="person">Hemingway, Ernest</name> <ref target="#bib17"/></item>
-         <item n="3"><name type="person">McHaney, Thomas&#160;L.</name> <ref target="#bib24"/></item>
-         <item n="4"><name type="person">Polk, Noel</name></item>
-         <item n="5"><name type="title">If I Forget Thee, Jerusalem</name> <ref target="#bib25"/></item>
-         <item n="6"><name type="title">The Wild Palms</name> <ref target="#bib19a #bib20"/></item>
-         <item n="7"><name type="title">Old Man</name> <ref target="#bib19b #bib20"/></item>
-         <item n="8"><name type="title">The Sun Also Rises</name> <ref target="#bib17"/></item>
-      </list>
-   </div>
+  <div type="bibliography" xml:id="bibliography">
+    <head>Selected Bibliography</head>
+    <listBibl>
+      <bibl xml:id="b17">Hemingway, Ernest. <title level="m">The Sun Also Rises: The Library of America Corrected Text</title>. Edited by Robert W. Trogdon. New York: Library of America, 2022.</bibl>
+      <bibl xml:id="b19a">Faulkner, William. <title level="m">The Wild Palms</title>. New York: New American Library, 1948.</bibl>
+      <bibl xml:id="b19b">Faulkner, William. <title level="m">The Old Man</title>. New York: New American Library, 1948.</bibl>
+      <bibl xml:id="b20">Faulkner, William. <title level="m">The Wild Palms and The Old Man</title>. New York: New American Library, 1954.</bibl>
+      <bibl xml:id="b22">McHaney, Thomas L., ed. <title level="m">William Faulkner Manuscripts</title>. Vol. 14, Parts 1–2. New York &amp; London: Garland Publishing, 1986.</bibl>
+      <bibl xml:id="b23">Faulkner, William. <title level="m">Les Palmiers sauvages</title>. Paris: Gallimard, 1952.</bibl>
+      <bibl xml:id="b24">McHaney, Thomas L. “William Faulkner’s <title level="a">The Wild Palms</title>: A Textual and Critical Study.” PhD diss., University of South Carolina, 1968.</bibl>
+      <bibl xml:id="b25">Faulkner, William. <title level="m">Novels 1936–1940</title>. New York: Library of America, 1990.</bibl>
+      <bibl xml:id="bBible"><title level="m">The Holy Bible</title>. King James Version. Book of Psalms 137.</bibl>
+    </listBibl>
+  </div>
 </back>

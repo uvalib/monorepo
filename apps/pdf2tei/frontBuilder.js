@@ -35,6 +35,10 @@ import { XMLParser } from 'fast-xml-parser';
 function sanitizeTei(xml) {
   let cleaned = xml.replace(/&nbsp;/g, '&#160;');
   cleaned = cleaned.replace(/&(?!(?:amp|lt|gt|quot|apos|#\d+);)/g, '&amp;');
+
+  // Strip XML-invalid control characters
+  cleaned = cleaned.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]/g, '');
+
   return cleaned.trim();
 }
 import { fileURLToPath } from 'url';
