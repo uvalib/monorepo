@@ -1,0 +1,7 @@
+{
+  "tei": "<pb n=\"142\"/>\n<figure>\n  <head>figures 2a and 2b.</head>\n  <figDesc>1783 catalog, entries on facing pages 18 and 19 in Jefferson’s first chapter, “Antient History.”<lb/>Jefferson’s original listing is on the left and his supplemental record on the right.<lb/>Images courtesy of the Massachusetts Historical Society.</figDesc>\n  <!-- Image link to be added during image export workflow -->\n</figure>",
+  "audit": {
+    "auditPassed": true,
+    "issues": []
+  }
+}

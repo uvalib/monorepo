@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 import 'dotenv/config';
-
 import fs from 'fs';
 import path from 'path';
 import { Command } from 'commander';
@@ -11,31 +10,74 @@ import { fileURLToPath } from 'url';
 import PDFParser from 'pdf2json';
 import { XMLParser } from 'fast-xml-parser';
 import { diffLines } from 'diff';
+import { DOMParser, XMLSerializer } from 'xmldom';
 
 // Helper to sanitize XML entities in TEI output
 function sanitizeTei(tei) {
-  // Replace non-breaking space entity with numeric reference
-  let cleaned = tei.replace(/&nbsp;/g, '&#160;');
-  // Escape stray '&' not part of valid XML entities
-  cleaned = cleaned.replace(/&(?!(?:amp|lt|gt|quot|apos|#\d+);)/g, '&amp;');
-
-  // Remove XML-invalid control characters (0x00–0x08, 0x0B, 0x0C, 0x0E–0x1F,
-  // 0x7F–0x9F). These occasionally appear when the LLM emits Windows-1252
-  // bytes that are then mis-decoded as UTF-8.
+  let cleaned = tei.replace(/ /g, ' ');
+  cleaned = cleaned.replace(/&(?!(?:amp|lt|gt|quot|apos|#\d+);)/g, '&');
   cleaned = cleaned.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]/g, '');
-
   return cleaned;
 }
 
-// Define schema for structured transcription output
-const TranscriptionResult = z.object({
-  tei: z.string()          // TEI XML fragment
-});
+// Helper to repair unclosed tags using a stack-based approach
+function repairUnclosedTags(tei) {
+  const stack = [];
+  const selfClosingTags = new Set(['lb', 'pb', 'milestone', 'br']); // Add known self-closing TEI tags
+  const tagRegex = /<([\/!]?)([a-zA-Z][a-zA-Z0-9]*)[^>]*?(\/?)>/g;
+  let match;
+  while ((match = tagRegex.exec(tei)) !== null) {
+    const [fullTag, prefix, tagName, selfClose] = match;
+    if (prefix === '!' || prefix === '?') continue; // Skip comments, processing instructions
+    if (prefix === '/') {
+      // Closing tag
+      if (stack.length && stack[stack.length - 1] === tagName) {
+        stack.pop();
+      }
+      // Ignore mismatches for repair purposes
+    } else {
+      // Opening tag
+      if (selfClose === '/' || selfClosingTags.has(tagName)) {
+        // Self-closing, do nothing
+      } else {
+        stack.push(tagName);
+      }
+    }
+  }
+  let closingTags = '';
+  while (stack.length) {
+    closingTags += `</${stack.pop()}>`;
+  }
+  return tei + closingTags;
+}
+
+// Helper to validate and repair XML
+function validateAndRepairTei(tei, attempt) {
+  let repairedTei = tei;
+  // First, attempt to repair any unclosed tags
+  repairedTei = repairUnclosedTags(repairedTei);
+
+  const parser = new DOMParser({
+    errorHandler: {
+      warning: () => {},
+      error: () => {},
+      fatalError: () => {}
+    }
+  });
+  const serializer = new XMLSerializer();
+  const doc = parser.parseFromString(repairedTei, 'text/xml');
+  const errors = doc.getElementsByTagName('parsererror');
+
+  if (errors.length > 0) {
+    console.warn(`XML validation failed on attempt ${attempt} even after repair`);
+    return { isValid: false, repairedTei, issues: ['Failed to repair XML'] };
+  }
+  return { isValid: true, repairedTei: serializer.serializeToString(doc), issues: [] };
+}
 
 // Helper function to audit transcription
 async function auditTranscription(pdfData, teiXml, pageNumber, openai) {
   console.log(`Starting audit for page ${pageNumber}...`);
-  // Validate well-formed XML
   try {
     const parser = new XMLParser();
     parser.parse(teiXml);
@@ -44,7 +86,6 @@ async function auditTranscription(pdfData, teiXml, pageNumber, openai) {
     console.error('XML validation failed');
     return { auditPassed: false, issues: ['Malformed XML'] };
   }
-  // Extract plain text from PDF JSON
   console.log('Extracting text from PDF JSON');
   const pages = (pdfData.formImage?.Pages || pdfData.Pages) || [];
   let pdfText = '';
@@ -56,53 +97,26 @@ async function auditTranscription(pdfData, teiXml, pageNumber, openai) {
       pdfText += '\n';
     }
   }
-  // Extract plain text from TEI XML
   console.log('Extracting text from TEI XML');
   const teiText = teiXml.replace(/<[^>]+>/g, '');
-
-  // ------------------------------------------------------------------
-  // Guard-rail: ensure the TEI transcription does not invent new words
-  // ------------------------------------------------------------------
-  // The TEI is allowed to omit content (headers, footers, artefacts) but it
-  // must never introduce text that is absent from the source PDF.  We enforce
-  // this by tokenising both the PDF text and the TEI text into case-
-  // insensitive “words” (sequences of letters or digits).  If we find any
-  // token present in the TEI that cannot be found in the PDF we fail the
-  // audit immediately.
-
   const wordRegex = /[\p{L}\p{N}]+/gu;
-
-  // Build a set of distinct words that actually appear on the PDF page. We
-  // will use this both for direct membership checks and for word–break
-  // segmentation of concatenated tokens such as "printedby".
   const pdfWordSet = new Set((pdfText.match(wordRegex) || []).map(w => w.toLowerCase()));
-
-  // Helper : decide if a TEI token should be ignored in the invented-word check
   const shouldIgnoreToken = (tok) => {
-    // Common XML entity fragments or numeric codes
     const ignoreSet = new Set(['amp', 'lt', 'gt', 'quot', 'apos', 'nbsp']);
     if (ignoreSet.has(tok)) return true;
-    if (/^\d+$/.test(tok)) return true; // pure numbers (e.g. character refs like 160)
+    if (/^\d+$/.test(tok)) return true;
     return false;
   };
-
   const teiTokens = (teiText.match(wordRegex) || []).map((w) => w.toLowerCase());
   const inventedWords = [];
   for (const tok of teiTokens) {
     if (shouldIgnoreToken(tok)) continue;
-    // Quick acceptance path – exact word match
     if (pdfWordSet.has(tok)) continue;
-
-    // If the TEI token is a concatenation of multiple PDF words (e.g.
-    // "printedby" -> "printed" + "by"), attempt to segment it.  We use a
-    // simple recursive DFS with memoisation because tokens are short.
-
     const lowerTok = tok.toLowerCase();
     const memo = {};
     const canSegment = (start) => {
       if (start === lowerTok.length) return true;
       if (memo[start] !== undefined) return memo[start];
-      // limit segment length to reasonable to keep runtime low
       for (let end = start + 1; end <= lowerTok.length; end++) {
         const piece = lowerTok.slice(start, end);
         if (pdfWordSet.has(piece) && canSegment(end)) {
@@ -111,14 +125,11 @@ async function auditTranscription(pdfData, teiXml, pageNumber, openai) {
       }
       return (memo[start] = false);
     };
-
     if (!canSegment(0)) {
       inventedWords.push(tok);
-      // Early exit if too many to keep audit quick
       if (inventedWords.length > 50) break;
     }
   }
-
   if (inventedWords.length > 0) {
     console.warn('Audit failed – TEI introduces new words:', inventedWords.slice(0, 20));
     return {
@@ -128,12 +139,10 @@ async function auditTranscription(pdfData, teiXml, pageNumber, openai) {
       ],
     };
   }
-  // Compute diff
   console.log('Computing diff between PDF and TEI text');
   const diffs = diffLines(pdfText, teiText);
   const diffText = diffs.map(d => (d.added ? '+' : d.removed ? '-' : ' ') + d.value).join('');
   console.log('Diff preview:', diffText.slice(0, 200), '...');
-  // Prepare auditing prompt
   const systemPrompt = `You are an auditor checking if differences between extracted PDF text and TEI transcription are acceptable (only header/footer or formatting differences).`;
   const userPrompt = `Diff for page ${pageNumber}:\n${diffText}\n\nRespond with a JSON object: { \"auditPassed\": boolean, \"issues\": string[] }`;
   console.log('Sending audit prompt to LLM');
@@ -155,10 +164,14 @@ async function auditTranscription(pdfData, teiXml, pageNumber, openai) {
   }
 }
 
+// Define schema for structured transcription output
+const TranscriptionResult = z.object({
+  tei: z.string()
+});
+
 // Function to transcribe a single-page PDF into TEI XML
 export async function transcribePDF(input, pageNumber, output) {
   const inputPath = path.resolve(input);
-  // Parse PDF to JSON using pdf2json
   const pdfParser = new PDFParser();
   let pdfData;
   await new Promise((resolve, reject) => {
@@ -170,8 +183,6 @@ export async function transcribePDF(input, pageNumber, output) {
   if (!fs.existsSync(inputPath)) throw new Error(`Input PDF not found: ${inputPath}`);
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) throw new Error('Please set the OPENAI_API_KEY environment variable');
-
-  // Initialize OpenAI client
   const openai = new OpenAI({ apiKey });
   const maxAttempts = 5;
   let lastError;
@@ -179,66 +190,49 @@ export async function transcribePDF(input, pageNumber, output) {
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     console.log(`Attempt ${attempt}/${maxAttempts} for page ${pageNumber}`);
     try {
-      // Build the prompt
       let userPrompt = `You are a University Librarian and an expert at PDF to TEI transcription.
       It is critical that you faithfully transcribe every formatting detail from the original PDF (italics, bold, underline, smallcaps, superscript, dropcaps, etc.) using the correct TEI tags; do not omit or alter any styling.
 
 Given the attached PDF page, transcribe its content into TEI XML according to these rules:
 
 Use <pb n="${pageNumber}"/> at the start, where ${pageNumber} is the page number.
-
 Mark every line break as <lb/>.
-
 Mark all small caps text with <hi rend="smallcaps">.
-
 Mark all italic text with <hi rend="italic">.
-
 Mark all bold text with <hi rend="bold">.
-
 Mark all underlined text with <hi rend="underline">.
-
 Mark all superscript text with <hi rend="sup">.
-
-Mark all small caps text with <hi rend="smallcaps">.
-
 Omit headers, footers, page numbers, running heads, and decorative/duplicative content.
-
 Mark up all images and figures:
 Use <figure>, include <head> if present, and always provide a <figDesc> describing the image and/or its caption.
 Place a comment: <!-- Image link to be added during image export workflow -->
 Place each <figure> where the image appears in reading order.
 Use <milestone unit="horizontalRule" rend="hr"/> to represent horizontal rules in the text.
 For dropcap characters at the start of paragraphs, wrap the initial letter in <hi rend="dropcap">X</hi> before the rest of the text.
-
 If the page contains only an image/figure, only output <pb n="${pageNumber}"/> and <figure>.
-
 If the previous page ended with an open tag (e.g., <p>, <div>), continue inside that tag. Only open or close tags if needed by the text.
-
 Only generate a TEI fragment for inclusion inside the <body> element (do not include document-level containers like <TEI>, <text>, or <body>).
 For article titles and headings, wrap the title text in a <head> element (preserving line breaks as <lb/>), and for author bylines, use a <byline> element containing <hi rend="italic">by</hi> followed by a <name type="pname">Author Name</name>.
 Escape special characters in text content—&, <, >, ' and "—using XML entities (numeric character reference), and use proper self-closing syntax for empty elements (e.g., <lb/>).
-Ensure all open tags are closed at the end of the page so the fragment is well-formed XML.
+Ensure all open tags are closed at the end of the page so the fragment is well-formed XML. Every element you open must be closed by the end of the fragment; do not leave any tags unclosed.
 Ensure the output uses only UTF-8 characters; do not emit characters outside the UTF-8 range.
 Read both the attached PDF page and the parsed JSON data to inform your transcription.
 Be sure to mark up every line break, bold, and italic text accurately by comparing both the pdf and the json representations of the document.
 Be sure to format the TEI XML correctly, with all tags properly opened and closed.
+${attempt > 1 ? 'Previous attempt failed due to invalid XML, likely from unclosed tags like <p> or <div>. Ensure every opened tag (e.g., <div>, <p>, <head>, <hi>) is properly closed in the correct nesting order before the end of the fragment.' : ''}
 
 INPUTS:
 - Page number: ${pageNumber}
 `;
-      // No cross-page tag tracking needed, each fragment is self-contained
-
-      // Upload the PDF page
       const fileResp = await openai.files.create({
         file: fs.createReadStream(inputPath),
         purpose: 'user_data'
       });
-      // Parse transcription into structured JSON
       const parsed = await openai.responses.parse({
         model: 'o3',
         input: [
           { role: 'user', content: [
-//              { type: 'input_file', file_id: fileResp.id },
+              { type: 'input_file', file_id: fileResp.id },
               { type: 'input_text', text: userPrompt },
               { type: 'input_text', text: `PDF JSON parse result:\n${pdfJsonString}` }
             ]
@@ -249,12 +243,17 @@ INPUTS:
       result = parsed.output_parsed;
       console.log('Cleaning up TEI XML entities');
       result.tei = sanitizeTei(result.tei);
-      const teiXml = result.tei;
-      // Audit the transcription
+      const validationResult = validateAndRepairTei(result.tei, attempt);
+      if (!validationResult.isValid) {
+        console.warn(`XML validation failed: ${validationResult.issues.join(', ')}`);
+        lastError = new Error(`XML validation failed: ${validationResult.issues.join(', ')}`);
+        continue;
+      }
+      const teiXml = validationResult.repairedTei;
       const auditResult = await auditTranscription(pdfData, teiXml, pageNumber, openai);
       console.log(`Audit passed: ${auditResult.auditPassed}`);
       if (auditResult.auditPassed) {
-        // attach audit to result
+        result.tei = teiXml; // Use the repaired/validated TEI
         result.audit = auditResult;
         const outputData = JSON.stringify(result, null, 2);
         if (output) fs.writeFileSync(path.resolve(output), outputData);
@@ -296,7 +295,6 @@ program
     }
   });
 
-// Only start CLI when this module is run directly
 const __filename = fileURLToPath(import.meta.url);
 if (path.resolve(process.argv[1]) === __filename) {
   program.parse(process.argv);

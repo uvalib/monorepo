@@ -14,8 +14,8 @@
     "body": "node bodySectionTranscribe.js",
     "back": "node backBuilder.js",
     "assemble": "node assembleTei.js",
-    "build": "pnpm outline book.pdf && pnpm front -p book.pdf -o book.outline.json && pnpm split book.pdf -o book-pages && pnpm body -d book-pages -o book.outline.json -b book.body.xml && pnpm back -p book.pdf -o book.outline.json && pnpm assemble --header book.teiHeader.xml --front book.front.xml --body book.body.xml --back book.back.xml -o final-transcription.tei.xml",
-    "build-test": "pnpm outline book.pdf && pnpm front -p book.pdf -o book.outline.json && pnpm split book.pdf -o book-pages && pnpm body -d book-pages -o book.outline.json --max-pages 10 -b book.body.test.xml && pnpm back -p book.pdf -o book.outline.json --max-pages 5 && pnpm assemble --header book.teiHeader.xml --front book.front.xml --body book.body.test.xml --back book.back.xml -o final-transcription.test.tei.xml"
+    "hold-build": "pnpm outline book.pdf && pnpm front -p book.pdf -o book.outline.json && pnpm split book.pdf -o book-pages && pnpm body -d book-pages -o book.outline.json -b book.body.xml && pnpm back -p book.pdf -o book.outline.json && pnpm assemble --header book.teiHeader.xml --front book.front.xml --body book.body.xml --back book.back.xml -o final-transcription.tei.xml",
+    "hold-build-test": "pnpm front -p book.pdf -o book.outline.json && pnpm split book.pdf -o book-pages && pnpm body -d book-pages -o book.outline.json --max-pages 10 -b book.body.test.xml && pnpm back -p book.pdf -o book.outline.json --max-pages 5 && pnpm assemble --header book.teiHeader.xml --front book.front.xml --body book.body.test.xml --back book.back.xml -o final-transcription.test.tei.xml"
   },
   "keywords": [],
   "author": "",
@@ -26,9 +26,13 @@
     "diff": "^8.0.2",
     "dotenv": "^16.5.0",
     "fast-xml-parser": "^5.2.5",
+    "libxmljs": "^1.0.11",
+    "ollama": "^0.5.2",
     "openai": "^5.0.1",
+    "p-retry": "^6.2.1",
     "pdf-lib": "^1.17.1",
     "pdf2json": "^3.1.6",
+    "xmldom": "^0.6.0",
     "zod": "^3.22.4"
   },
   "bin": {

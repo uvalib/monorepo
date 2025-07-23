@@ -1,38 +1,171 @@
-<back>
-  <div type="appendix" xml:id="figures">
-    <head>Appendix A. Figures Referenced</head>
-    <list>
-      <item n="6">From final page of the manuscript, <title>If I Forget Thee, Jerusalem</title>. Papers of William Faulkner, Albert and Shirley Small Special Collections Library, University of Virginia.</item>
-      <item n="7">From final page of the setting copy, <title>If I Forget Thee, Jerusalem</title>. Papers of William Faulkner, Albert and Shirley Small Special Collections Library, University of Virginia.</item>
-      <item n="8">From final page of the first edition, <title>The Wild Palms</title>. Random House, 1939.</item>
-    </list>
-  </div>
+<back xmlns="http://www.tei-c.org/ns/1.0">
+   <!-- ------------------------------------------------------------------ -->
+   <!-- 1. Contributors ---------------------------------------------------- -->
+   <div type="contributors">
+      <head>Contributors</head>
+      <listPerson>
+         <person xml:id="chandler_david">
+            <persName>
+               <forename>David</forename>
+               <surname>Chandler</surname>
+            </persName>
+            <affiliation>Doshisha University, English Department, Kyoto</affiliation>
+            <note>Widely published on the literature and culture of the British Romantic period; specialist in the works of Charles Dibdin and founding director of Retrospect Opera, leading three projects to revive and record Dibdin’s music.</note>
+         </person>
+         <person xml:id="heritage_barbara">
+            <persName>
+               <forename>Barbara</forename>
+               <surname>Heritage</surname>
+            </persName>
+            <affiliation>Rare Book School, University of Virginia (Miranker Family Director of Collections, Exhibitions &amp; Scholarly Initiatives)</affiliation>
+            <note>Scholar of Charlotte Brontë’s manuscripts and publication history; co-author (with Ruth-Ellen St Onge) of “Building the Book from the Ancient World to the Present Day” (2022) and co-editor (with Donna A. C. Sy) of “Teaching Text Technologies and Critical Bibliography among the Disciplines: Objects of Study” (Routledge, 2025). Secretary of the Antiquarian Book School Foundation; member of the American Antiquarian Society and the Grolier Club.</note>
+         </person>
+         <person xml:id="godwin_joscelyn">
+            <persName>
+               <forename>Joscelyn</forename>
+               <surname>Godwin</surname>
+            </persName>
+            <affiliation>Colgate University, Professor of Music Emeritus</affiliation>
+            <note>Honorary Fellow of the Society of Antiquaries of London. Author, editor, or translator of c. 40 books on Western esoteric traditions and speculative music; translator of the <title>Hypernerotomachia Poliphili</title> (1499), works of Hans Kayser, and the papers of the Gruppo di UR.</note>
+         </person>
+         <person xml:id="west_james_lw3">
+            <persName>
+               <forename>James</forename>
+               <forename type="middle">L.</forename>
+               <forename type="middle">W.</forename>
+               <addName type="generation">III</addName>
+               <surname>West</surname>
+            </persName>
+            <affiliation>Pennsylvania State University, E. E. Sparks Professor of English Emeritus</affiliation>
+            <note>General editor of <title>The Cambridge Edition of the Works of F. Scott Fitzgerald</title>; most recent publication: <title>The Cambridge Centennial Edition of The Great Gatsby</title> (2025).</note>
+         </person>
+      </listPerson>
+   </div>
 
-  <div type="notes" xml:id="notes">
-    <head>Notes</head>
-    <note n="17">Hemingway, <title>The Sun Also Rises: The Library of America Corrected Text</title>, ed. Robert W. Trogdon (New York: Library of America, 2022).</note>
-    <note n="18">The title is an allusion to Psalms 137: “By the rivers of Babylon, there we sat down, yea, we wept, when we remembered Zion.” Images and wording from this psalm, which concerns captivity and freedom, appear throughout Faulkner’s novel.</note>
-    <note n="19"><title>The Wild Palms</title> (New York: New American Library, 1948); <title>The Old Man</title> (New York: New American Library, 1948). For these and later editions, the word “<quote>The</quote>” was added to the title of “Old Man.”</note>
-    <note n="20"><title>The Wild Palms and The Old Man</title> (New York: New American Library, 1954).</note>
-    <note n="21">Faulkner had little leverage with his publisher in 1939. Random House was the fifth imprint to publish his work and was carrying him as a <foreign xml:lang="fr">succès d’estime</foreign>. His first book with Random House, <title>Absalom, Absalom!</title>, had not sold well; <title>If I Forget Thee, Jerusalem</title>, with another biblical title, was not likely to do better—hence, presumably, the change in title. In 1939 Faulkner was best known as the author of <title>Sanctuary</title> (1931), a scandalous novel about a young woman who is raped with a corn cob. It is not surprising that the publisher bowdlerized <title>The Wild Palms</title>. The sanitizing, however, was incomplete: the words “pricks” and “cunts” appear on p. 52 of the first edition, and “Shit!” appears on p. 101. Later, after he had won the Nobel Prize in 1949, Faulkner wielded more authority at Random House, and the heavy editing of his texts ceased.</note>
-    <note n="22">Both the manuscript and the setting-copy typescript of the novel have been published in facsimile in <title>William Faulkner Manuscripts</title>, vol. 14, parts 1 and 2, ed. Thomas L. McHaney (New York &amp; London: Garland Publishing, 1986).</note>
-    <note n="23"><title>Les Palmiers sauvages</title> (Paris: Gallimard, 1952).</note>
-    <note n="24">McHaney, “William Faulkner’s <title>The Wild Palms</title>: A Textual and Critical Study.” Diss. University of South Carolina, 1968. See especially Appendix I, “The Text,” pp. 252–65.</note>
-    <note n="25">In the volume William Faulkner, <title>Novels 1936–1940</title> (1990): 493–726.</note>
-  </div>
+   <!-- ------------------------------------------------------------------ -->
+   <!-- 2. Society information -------------------------------------------- -->
+   <div type="societyInformation">
+      <head>Bibliographical Society of the University of Virginia</head>
 
-  <div type="bibliography" xml:id="bibliography">
-    <head>Selected Bibliography</head>
-    <listBibl>
-      <bibl xml:id="b17">Hemingway, Ernest. <title level="m">The Sun Also Rises: The Library of America Corrected Text</title>. Edited by Robert W. Trogdon. New York: Library of America, 2022.</bibl>
-      <bibl xml:id="b19a">Faulkner, William. <title level="m">The Wild Palms</title>. New York: New American Library, 1948.</bibl>
-      <bibl xml:id="b19b">Faulkner, William. <title level="m">The Old Man</title>. New York: New American Library, 1948.</bibl>
-      <bibl xml:id="b20">Faulkner, William. <title level="m">The Wild Palms and The Old Man</title>. New York: New American Library, 1954.</bibl>
-      <bibl xml:id="b22">McHaney, Thomas L., ed. <title level="m">William Faulkner Manuscripts</title>. Vol. 14, Parts 1–2. New York &amp; London: Garland Publishing, 1986.</bibl>
-      <bibl xml:id="b23">Faulkner, William. <title level="m">Les Palmiers sauvages</title>. Paris: Gallimard, 1952.</bibl>
-      <bibl xml:id="b24">McHaney, Thomas L. “William Faulkner’s <title level="a">The Wild Palms</title>: A Textual and Critical Study.” PhD diss., University of South Carolina, 1968.</bibl>
-      <bibl xml:id="b25">Faulkner, William. <title level="m">Novels 1936–1940</title>. New York: Library of America, 1990.</bibl>
-      <bibl xml:id="bBible"><title level="m">The Holy Bible</title>. King James Version. Book of Psalms 137.</bibl>
-    </listBibl>
-  </div>
+      <!-- 2.1 Officers -->
+      <list>
+         <head>Officers</head>
+         <item><roleName>President</roleName>: David L. Vander Meulen (University of Virginia, English Department, 219 Bryan Hall, PO Box 400121, Charlottesville, VA 22904-4121)</item>
+         <item><roleName>Secretary-Treasurer</roleName>: Anne G. Ribble (Bibliographical Society, University of Virginia Library, PO Box 400152, Charlottesville, VA 22904-4152)</item>
+         <item><roleName>Editor</roleName>: David L. Vander Meulen (address as above)</item>
+         <item><roleName>Executive Secretary</roleName>: Anne G. Ribble (address as above)</item>
+      </list>
+
+      <!-- 2.2 Council -->
+      <list>
+         <head>Council</head>
+         <item>David Seaman (2026)</item>
+         <item>John Unsworth (2026)</item>
+         <item>David L. Vander Meulen (2027)</item>
+         <item>David Whitesell (2031)</item>
+         <item>Terry Belanger (2028)</item>
+         <item>Karen Parshall (2028)</item>
+         <item>John T. Casteen III (2029)</item>
+         <item><hi rend="italic">Ex officio</hi>: University Librarian</item>
+         <item>Honorary Councilors: Ruthe R. Battestin; G. Thomas Tanselle</item>
+      </list>
+
+      <!-- 2.3 Past Presidents -->
+      <list>
+         <head>Presidents (chronological)</head>
+         <item>Chalmers L. Gemmill (1947)</item>
+         <item>Linton R. Massey (1948–49)</item>
+         <item>Atcheson L. Hench (1950)</item>
+         <item>Linton R. Massey (1951–74)</item>
+         <item>Kendon L. Stubbs (1974–78)</item>
+         <item>Irby B. Cauthen Jr. (1978–93)</item>
+         <item>G. Thomas Tanselle (1993–2021)</item>
+         <item>John T. Casteen III (2021–24)</item>
+         <item>David L. Vander Meulen (2024– )</item>
+      </list>
+
+      <!-- 2.4 Membership Information -->
+      <note type="membership-categories">
+         Membership is solicited per payment period in the following categories: Subscribing Members ($55); Student Members ($27.50); Contributing Members ($150 or more); Patrons ($250 or more); Benefactors ($500 or more). Contributing Members, Patrons, and Benefactors receive all publications of the Society and by their contributions assist in furthering the Society’s work. The names of individual and institutional members are listed below.
+      </note>
+   </div>
+
+   <!-- ------------------------------------------------------------------ -->
+   <!-- 3. Membership lists ------------------------------------------------- -->
+   <div type="membershipLists">
+      <head>Membership Lists</head>
+
+      <!-- 3.1 Benefactors -->
+      <list type="benefactors">
+         <head>Benefactors</head>
+         <item>Ruthe R. Battestin (Charlottesville, VA)</item>
+         <item>Terry Belanger (Charlottesville, VA)</item>
+         <item>Richard H. W. Dillard (Roanoke, VA)</item>
+         <item>Mrs Frances Massey Dulaney (Somerset, VA)</item>
+         <item>Paul Needham (Summit, NJ)</item>
+         <item>Carole Hamner Schmidt (Stanardsville, VA)</item>
+         <item>G. Thomas Tanselle (New York, NY)</item>
+         <item>David Whitesell (Charlottesville, VA)</item>
+      </list>
+
+      <!-- 3.2 Patrons -->
+      <list type="patrons">
+         <head>Patrons</head>
+         <item>Robert F. Beasecker (Grand Rapids, MI)</item>
+         <item>G. Scott Clemons (New York, NY)</item>
+         <item>Patricia Fleming (Toronto, Canada)</item>
+         <item>Corey B. French (Carmel, IN)</item>
+         <item>Charles Kelly and Allison Sugiyama (Ann Arbor, MI)</item>
+         <item>Wallace Kirsop (Victoria, Australia)</item>
+         <item>Elizabeth K. Lynch (Charlottesville, VA)</item>
+         <item>Russell L. Martin III (Plano, TX)</item>
+         <item>Michael F. Suarez, S. J. (Charlottesville, VA)</item>
+         <item>Calhoun Winton (Sewanee, TN)</item>
+      </list>
+
+      <!-- 3.3 Contributing members (selection shown) -->
+      <list type="contributingMembers">
+         <head>Contributing Members</head>
+         <item>Willard Agee (Charlottesville, VA)</item>
+         <item>Susan Allen (Claremont, CA)</item>
+         <item>William P. Barlow (Oakland, CA)</item>
+         <item>John Bidwell (Princeton, NJ)</item>
+         <item>John R. Block (Pittsburgh, PA)</item>
+         <item>Bodleian Libraries (Oxford, England)</item>
+         <!-- Additional names omitted for brevity; see printed list for full roster. -->
+      </list>
+
+      <!-- 3.4 Subscribing members – individuals (selection) -->
+      <list type="subscribingMembersIndividuals">
+         <head>Subscribing Members – Individuals</head>
+         <item>Craig S. Abbott</item>
+         <item>Leslie Arthur</item>
+         <item>James P. Ascher</item>
+         <item>Joseph C. Baillargeon</item>
+         <item>Carlo M. Bajetta</item>
+         <!-- List continues; truncated here to preserve space. -->
+      </list>
+
+      <!-- 3.5 Subscribing members – institutions (selection) -->
+      <list type="subscribingMembersInstitutions">
+         <head>Subscribing Members – Institutions</head>
+         <item>American Antiquarian Society</item>
+         <item>American Philosophical Society</item>
+         <item>American University</item>
+         <item>Amherst College</item>
+         <item>Baylor University</item>
+         <item>Beasley Books</item>
+         <item>Bibliothèque cantonale et universitaire, Fribourg</item>
+         <item>Bibliothèque Sainte-Geneviève, Paris</item>
+         <!-- List continues; truncated here to preserve space. -->
+      </list>
+   </div>
+
+   <!-- ------------------------------------------------------------------ -->
+   <!-- 4. Submission and contact notes ----------------------------------- -->
+   <div type="submissionInformation">
+      <head>Submissions and Correspondence</head>
+      <p>The editor invites articles and notes on analytical bibliography, textual criticism, manuscript study, and the history of printing and publishing, as well as related matters of method and evidence. Submissions following any widely used style-sheet are acceptable, although <title>The Chicago Manual of Style</title> is preferred. All copy, including quotations and notes, should be double-spaced. Manuscripts or electronic files should be sent to David Vander Meulen (dlv8g@virginia.edu), University of Virginia, English Department, 219 Bryan Hall, PO Box 400121, Charlottesville, VA 22904-4121.</p>
+      <p>All correspondence concerning business affairs, subscriptions, and memberships should be directed to the Executive Secretary, Anne G. Ribble, Bibliographical Society, University of Virginia Library, PO Box 400152, Charlottesville, VA 22904-4152; e-mail: bibsoc@virginia.edu.</p>
+   </div>
 </back>
