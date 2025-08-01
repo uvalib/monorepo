@@ -1,0 +1,7 @@
+{
+  "tei": "<pb n=\"308\"/>\n<figure>\n<head>figures 4 and 5.</head>\n<figDesc>Partially excised laid leaves flanking the one-and-a-half-leaf wove insertion in <hi rend=\"italic\">“Which the Genteel Reader is Recommended to Skip. . . .”</hi><lb/>\nThe asterisk on f. [A438].[B438].C444.E160 corresponds to an asterisk present on f. [A lacking].B438.C443.E159, a half-leaf wove insertion counted as a partial-leaf “excision” but that likely entailed no loss of text.<lb/>\n© British Library Board, ff. 157 and 160, Add MS 43478.</figDesc>\n<!-- Image link to be added during image export workflow -->\n</figure>",
+  "audit": {
+    "auditPassed": true,
+    "issues": []
+  }
+}

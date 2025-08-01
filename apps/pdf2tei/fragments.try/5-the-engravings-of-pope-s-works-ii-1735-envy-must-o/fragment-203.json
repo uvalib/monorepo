@@ -1,0 +1,7 @@
+{
+  "tei": "<pb n=\"203\"/>\n<figure xml:id=\"fig6\">\n  <head>figure&amp;nbsp;6.</head>\n  <figDesc>Headpiece to Essay on Man&amp;nbsp;I, Works&amp;nbsp;II folio; adapted from the ‘General&amp;nbsp;View’ of the Odyssey.</figDesc>\n  <!-- Image link to be added during image export workflow -->\n</figure>\n<figure xml:id=\"fig7\">\n  <head>figure&amp;nbsp;7.</head>\n  <figDesc>New headpiece to Essay on Man&amp;nbsp;I, Works&amp;nbsp;II quarto.</figDesc>\n  <!-- Image link to be added during image export workflow -->\n</figure>",
+  "audit": {
+    "auditPassed": true,
+    "issues": []
+  }
+}

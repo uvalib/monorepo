@@ -1,0 +1,7 @@
+{
+  "tei": "<pb n=\"131\"/>\n<figure>\n<!-- Image link to be added during image export workflow -->\n<figDesc>figure 1.<lb/>Jefferson’s revisions to his system of classification, introduced in the 1812 fair copy.<lb/>George Watterston followed this revised schema in the 1815 printed catalog.</figDesc>\n</figure>",
+  "audit": {
+    "auditPassed": true,
+    "issues": []
+  }
+}

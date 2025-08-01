@@ -1,0 +1,7 @@
+{
+  "tei": "<pb n=\"331\"/>\n<figure>\n  <figDesc>figure 2. <hi rend=\"italic\">Comte de Gabalis</hi> (1913), p. 115.</figDesc>\n  <!-- Image link to be added during image export workflow -->\n</figure>\n<figure>\n  <figDesc>figure 3. <hi rend=\"italic\">Comte de Gabalis</hi> (1913), p. 274.</figDesc>\n  <!-- Image link to be added during image export workflow -->\n</figure>\n<p>variant is identical to the 1913 edition in every respect except that there is no<lb/>\ncopyright line.<lb/>\nThe true second edition appeared in New York, 1914, identical to the first in<lb/>\nbinding, format, font, and design. However, the text has been reset, so that the<lb/>\npagination differs by a few lines, and the italics and capitals are different. The<lb/>\ncommentaries lack the London edition’s identifying letters, from A to HHH. A<lb/>\nfew footnotes are added. If there was a dust jacket, I have not seen it. The obverse<lb/>\nof the half-title names “New York / Harry B. Haines, 527 West 110th Street / London<lb/>\n</p>",
+  "audit": {
+    "auditPassed": true,
+    "issues": []
+  }
+}

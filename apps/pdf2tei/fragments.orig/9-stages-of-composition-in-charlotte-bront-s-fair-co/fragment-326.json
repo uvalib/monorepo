@@ -1,0 +1,10 @@
+{
+  "tei": "<pb n=\"326\"/>\n<figure>\n  <head>figures<lb/>7<lb/>and<lb/>8</head>\n  <figDesc>Ff. A126.B126 and A127.B127. Note the repair and new text appended to the lower portion of f. A126.B126. © British Library Board, ff. 126 and 127, Add MS 43477.</figDesc>\n  <!-- Image link to be added during image export workflow -->\n</figure>",
+  "audit": {
+    "auditPassed": true,
+    "issues": [
+      "Differences are limited to formatting variations (e.g., spacing differences in 'figures 7 and 8' vs 'figures7and8', duplicate header/footer markers, and minor line break adjustments) and do not affect the substantive content.",
+      "The repeated parts and slight rearrangements (such as the location of the copyright notice and repair note) appear to be editorial or formatting differences rather than transcription errors."
+    ]
+  }
+}

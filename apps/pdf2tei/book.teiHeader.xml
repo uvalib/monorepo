@@ -1,51 +1,39 @@
-<teiHeader xmlns="http://www.tei-c.org/ns/1.0">
+<teiHeader>
   <fileDesc>
     <titleStmt>
-      <title type="main" xml:lang="en">Studies in Bibliography</title>
-      <editor role="editor" key="vandermeulen">
-        <persName>David L. Vander Meulen</persName>
-      </editor>
+      <title level="s">Studies in Bibliography, Volume 61 (2025)</title>
+      <editor key="dlvandermeulen">David L. Vander&#160;Meulen</editor>
     </titleStmt>
     <publicationStmt>
-      <publisher>University of Virginia Press</publisher>
-      <distributor>The Bibliographical Society of the University of Virginia</distributor>
-      <pubPlace>Charlottesville</pubPlace>
+      <publisher>The University of Virginia Press</publisher>
+      <address>
+        <addrLine>Charlottesville</addrLine>
+      </address>
       <date when="2025">2025</date>
       <availability>
-        <p>Copyright © 2025 by the Rector and Visitors of the University of Virginia. All rights reserved.</p>
+        <p>Copyright © 2025 by the Rector and Visitors of the University of Virginia</p>
       </availability>
-      <idno type="ISBN">978-0-8139-4261-2</idno>
     </publicationStmt>
-    <seriesStmt>
-      <title>Studies in Bibliography</title>
-      <idno type="volume">61</idno>
-      <respStmt>
-        <resp>Founding editor</resp>
-        <name>Fredson Bowers (1905–1991)</name>
-      </respStmt>
-      <respStmt>
-        <resp>Assistant to the editor</resp>
-        <name>Elizabeth K. Lynch</name>
-      </respStmt>
-    </seriesStmt>
     <sourceDesc>
-      <biblStruct>
-        <monogr>
-          <title level="m">Studies in Bibliography, Volume Sixty-One</title>
-          <imprint>
-            <publisher>University of Virginia Press</publisher>
-            <pubPlace>Charlottesville</pubPlace>
-            <date when="2025">2025</date>
-            <idno type="ISBN">978-0-8139-4261-2</idno>
-          </imprint>
-        </monogr>
-      </biblStruct>
+      <bibl>
+        <title level="s">Studies in Bibliography</title>
+        <idno type="ISBN">978-0-8139-4261-2</idno>
+        <imprint>
+          <pubPlace>Charlottesville</pubPlace>
+          <publisher>The University of Virginia Press</publisher>
+          <date when="2025">2025</date>
+        </imprint>
+        <extent>vol.&#160;61, annual</extent>
+      </bibl>
     </sourceDesc>
   </fileDesc>
   <encodingDesc>
     <projectDesc>
-      <p>TEI transcription of the front matter of Studies in Bibliography, Volume 61 (2025).</p>
+      <p>Encoded in TEI&#160;P5 from OCR-derived front matter.</p>
     </projectDesc>
+    <editorialDecl>
+      <p>Duplicate lines, stray letters, and scanning artifacts removed; basic structure retained. Italics indicated with &lt;hi rend="italic"/&gt; and small caps with rend="smallcaps".</p>
+    </editorialDecl>
   </encodingDesc>
   <profileDesc>
     <langUsage>
@@ -53,6 +41,6 @@
     </langUsage>
   </profileDesc>
   <revisionDesc>
-    <change who="#ai" when="2025-07-21">Initial TEI header and front matter encoded.</change>
+    <change when="2025-07-30" who="#assistant">Initial TEI header and front matter encoded.</change>
   </revisionDesc>
 </teiHeader>

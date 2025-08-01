@@ -1,0 +1,9 @@
+{
+  "tei": "<pb n=\"337\"/>\n<figure>\n<!-- Image link to be added during image export workflow -->\n<figDesc>figure 3. From final page of the manuscript, <hi rend=\"italic\">The Sun Also Rises</hi>.<lb/>Ernest Hemingway Collection, John F. Kennedy Presidential Library and Museum.</figDesc>\n</figure>\n<figure>\n<!-- Image link to be added during image export workflow -->\n<figDesc>figure 4. From final page of the setting copy, <hi rend=\"italic\">The Sun Also Rises</hi>. Papers of Ernest Heming-<lb/>way, Albert and Shirley Small Special Collections Library, University of Virginia.</figDesc>\n</figure>\n<figure>\n<!-- Image link to be added during image export workflow -->\n<figDesc>figure 5. From final page of the first edition, <hi rend=\"italic\">The Sun Also Rises</hi>. Charles Scribner’s Sons, 1926.</figDesc>\n</figure>",
+  "audit": {
+    "auditPassed": true,
+    "issues": [
+      "The differences observed are primarily header/footer repetitions and formatting variations (including line breaks, punctuation, and hyphenation differences) that do not affect the substantive content. These are acceptable based on the audit criteria."
+    ]
+  }
+}

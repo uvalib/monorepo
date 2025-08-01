@@ -1,0 +1,7 @@
+{
+  "tei": "<pb n=\"313\"/>\n<head>Table 4.<lb/>Leaf numbering in “Levitical” (vol. 1, chap. 1)</head>\n<p>BM foliation (E state)   CB pencil (A state)   CB brown ink (1) (B state)   CB red ink (C state)   CB brown ink (2) (D state)<lb/>\nN/A   [Not visible]   1   N/A   N/A<lb/>\nN/A   2   2   N/A   N/A<lb/>\nN/A   3   3   N/A   N/A<lb/>\nN/A   4   4   N/A   N/A<lb/>\nN/A   5   5   N/A   N/A<lb/>\nN/A   6   6   N/A   N/A<lb/>\nN/A   7   7   N/A   N/A<lb/>\nN/A   [8]   8   N/A   N/A<lb/>\nN/A   [9]   9   N/A   N/A<lb/>\nN/A   10   10   N/A   N/A<lb/>\nN/A   13   11   N/A   N/A<lb/>\nN/A   14   12   N/A   N/A<lb/>\nN/A   15   13   N/A   N/A<lb/>\nN/A   16   14   N/A   N/A<lb/>\nN/A   17   15   N/A   N/A<lb/>\nN/A   18   16   N/A   N/A<lb/>\nN/A   19   17   N/A   N/A<lb/>\nN/A   20   18   N/A   N/A<lb/>\nN/A   21   19   N/A   N/A<lb/>\nN/A   22   20   N/A   N/A<lb/>\nN/A   N/A   [t.p. verso]   21   N/A   N/A<lb/>\nN/A   N/A   [22]   N/A   N/A<lb/>\nN/A   23   23   N/A   N/A</p>\n<p>Paper stock: London Superfine wove, except for (1) leaf [22] (C20 wove [BL conserved]) in B state and (2) leaf 23 (Cream Laid) in A and B states. Leaf 23 is from chapter 2.</p>",
+  "audit": {
+    "auditPassed": true,
+    "issues": []
+  }
+}

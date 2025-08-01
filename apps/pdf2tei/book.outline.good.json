@@ -1,0 +1,172 @@
+{
+  "outline": [
+    {
+      "section": "front",
+      "description": "Half-title page “Studies in Bibliography”",
+      "startPage": 1,
+      "endPage": 1,
+      "startLabel": "I",
+      "endLabel": "I"
+    },
+    {
+      "section": "front",
+      "description": "Series initials / blank verso",
+      "startPage": 2,
+      "endPage": 2,
+      "startLabel": "II",
+      "endLabel": "II"
+    },
+    {
+      "section": "front",
+      "description": "Full title-page and publication data",
+      "startPage": 3,
+      "endPage": 3,
+      "startLabel": "III",
+      "endLabel": "III"
+    },
+    {
+      "section": "front",
+      "description": "Editorial credits, founding editor, copyright notice",
+      "startPage": 4,
+      "endPage": 4,
+      "startLabel": "IV",
+      "endLabel": "IV"
+    },
+    {
+      "section": "front",
+      "description": "Contents (first page) listing first articles",
+      "startPage": 5,
+      "endPage": 5,
+      "startLabel": "V",
+      "endLabel": "V"
+    },
+    {
+      "section": "front",
+      "description": "Contents (second page) continues list of articles",
+      "startPage": 6,
+      "endPage": 6,
+      "startLabel": "VI",
+      "endLabel": "VI"
+    },
+    {
+      "section": "article",
+      "description": "John Carter: An Assessment and a Handlist — G. Thomas Tanselle",
+      "startPage": 7,
+      "endPage": 111,
+      "startLabel": "1",
+      "endLabel": "105"
+    },
+    {
+      "section": "article",
+      "description": "The Sources of the Sussex Declaration: A Reconsideration",
+      "startPage": 112,
+      "endPage": 133,
+      "startLabel": "105",
+      "endLabel": "126"
+    },
+    {
+      "section": "article",
+      "description": "A Documentary History of the University of Virginia’s First Library and Its Jeffersonian Catalogs",
+      "startPage": 134,
+      "endPage": 173,
+      "startLabel": "127",
+      "endLabel": "166"
+    },
+    {
+      "section": "article",
+      "description": "“Capítulo de una Novela en Prensa”: Teaser Chapters and Marketing Strategies in Victoria Ocampo’s Sur",
+      "startPage": 174,
+      "endPage": 193,
+      "startLabel": "167",
+      "endLabel": "186"
+    },
+    {
+      "section": "article",
+      "description": "The Engravings of Pope’s Works II (1735): “Envy Must Own, I Live Among the Great”",
+      "startPage": 194,
+      "endPage": 227,
+      "startLabel": "187",
+      "endLabel": "220"
+    },
+    {
+      "section": "article",
+      "description": "Jonathan Richardson, Charles Chauncy, and the Manuscripts of Pope",
+      "startPage": 228,
+      "endPage": 239,
+      "startLabel": "221",
+      "endLabel": "232"
+    },
+    {
+      "section": "article",
+      "description": "Extra-Illustrating Horace Walpole’s Description of Strawberry Hill: Three Case Studies",
+      "startPage": 240,
+      "endPage": 261,
+      "startLabel": "233",
+      "endLabel": "254"
+    },
+    {
+      "section": "article",
+      "description": "Charles Dibdin and the Making of The Musical Tour of Mr. Dibdin (1788): A New “Compact with the Public”",
+      "startPage": 262,
+      "endPage": 277,
+      "startLabel": "255",
+      "endLabel": "270"
+    },
+    {
+      "section": "article",
+      "description": "Stages of Composition in Charlotte Brontë’s Fair-Copy Manuscript of Shirley",
+      "startPage": 271,
+      "endPage": 329,
+      "startLabel": "271",
+      "endLabel": "322"
+    },
+    {
+      "section": "article",
+      "description": "“The Brothers” &amp; the English Comte de Gabalis",
+      "startPage": 330,
+      "endPage": 337,
+      "startLabel": "323",
+      "endLabel": "330"
+    },
+    {
+      "section": "article",
+      "description": "Three Endings: Fitzgerald, Hemingway, Faulkner",
+      "startPage": 337,
+      "endPage": 351,
+      "startLabel": "331",
+      "endLabel": "344"
+    },
+    {
+      "section": "back",
+      "description": "Decorative divider page “S S N N” and blank verso",
+      "startPage": 352,
+      "endPage": 353,
+      "startLabel": "345",
+      "endLabel": "346"
+    },
+    {
+      "section": "back",
+      "description": "Notes on Contributors — biographical sketches",
+      "startPage": 354,
+      "endPage": 359,
+      "startLabel": "347",
+      "endLabel": "352"
+    },
+    {
+      "section": "back",
+      "description": "Bibliographical Society information: officers, benefactors, subscribing members, available publications",
+      "startPage": 360,
+      "endPage": 361,
+      "startLabel": "353",
+      "endLabel": "354"
+    },
+    {
+      "section": "back",
+      "description": "Programs 2019 and student awards &amp; fellowships announcements",
+      "startPage": 362,
+      "endPage": 365,
+      "startLabel": "355",
+      "endLabel": "358"
+    }
+  ]
+}

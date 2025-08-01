@@ -1,7 +1,9 @@
 {
-  "tei": "<pb n=\"112\"/>\n<figure>\n  <head>figure 1.</head>\n  <!-- Image link to be added during image export workflow -->\n  <figDesc>The Sussex Declaration. West Sussex Record Office, Add Mss 8981. 24 × 30½ inches.</figDesc>\n</figure>",
+  "tei": "<pb n=\"106\"/>\n<figure>\n  <head>figure 1. The Sussex Declaration.</head>\n  <figDesc>West Sussex Record Office, Add Mss 8981. 24 × 30½ inches.</figDesc>\n  <!-- Image link to be added during image export workflow -->\n</figure>",
   "audit": {
     "auditPassed": true,
-    "issues": []
+    "issues": [
+      "The differences are limited to header/footer repeats and formatting variations (e.g., spacing and line breaks) between the extracted PDF text and the TEI transcription. No significant content discrepancies were identified."
+    ]
   }
 }

@@ -1,0 +1,9 @@
+{
+  "tei": "<pb n=\"340\"/>\n<figure>\n  <figDesc>figure 6. From final page of the manuscript, <hi rend=\"italic\">If I Forget Thee, Jerusalem</hi>.<lb/>Papers of William Faulkner, Albert and Shirley Small Special Collections Library, University of Virginia.</figDesc>\n  <!-- Image link to be added during image export workflow -->\n</figure>\n<figure>\n  <figDesc>figure 7. From final page of the setting copy, <hi rend=\"italic\">If I Forget Thee, Jerusalem</hi>.<lb/>Papers of William Faulkner, Albert and Shirley Small Special Collections Library, University of Virginia.</figDesc>\n  <!-- Image link to be added during image export workflow -->\n</figure>\n<p>with the convict back in prison (see figures 6 and 7). Another ten years have been <lb/>added to his sentence. He seems content, even pleased, with his fate. When asked <lb/>by another inmate whether he will miss the company of women, his reply (the <lb/>last line of the novel) is quite different from Harry’s last line:<lb/>“Women, shit,” the tall convict said.<lb/>Faulkner began composing “The Wild Palms” and “Old Man” as two sepa-<lb/>rate stories but soon realized that the narratives were related to each other, not <lb/>by plot and character but by theme and image. Both stories are about freedom <lb/>versus imprisonment, the disorder of life versus the security of incarceration. <lb/>Faulkner now began writing the novel in alternating stints, bringing “The Wild <lb/>Palms” to a point of high intensity, then shifting to the comedy of “Old Man,” <lb/>then returning to the drama of “The Wild Palms,” and onward until the end of <lb/></p>",
+  "audit": {
+    "auditPassed": true,
+    "issues": [
+      "Differences are limited to header/footer content (e.g. stray 'S', 'N', '340' lines), line breaks, hyphenation and minor formatting variations in figure captions. No substantive text differences were found."
+    ]
+  }
+}

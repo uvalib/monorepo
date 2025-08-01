@@ -1,0 +1,7 @@
+{
+  "tei": "<pb n=\"250\"/>\n<figure>\n  <head>figure 2.</head>\n  <figDesc>Chimney piece of the little parlour at Strawberry hill, taken from a tomb in Westminster Abbey.<lb/>\n  Richard Bentley attrib., the inscription in the hand of Horace Walpole. Wash drawing on paper, 21 × 17.3 cm. Facing p. 15 of Probasco’s copy of the <hi rend=\"italic\">Description of Strawberry Hill</hi>,<lb/>\n  Newberry Library Folio Case W 3945 95. Photo courtesy of Newberry Library, Chicago.</figDesc>\n  <!-- Image link to be added during image export workflow -->\n</figure>",
+  "audit": {
+    "auditPassed": true,
+    "issues": []
+  }
+}

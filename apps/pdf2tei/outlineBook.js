@@ -3,6 +3,7 @@
  * outlineBook.js (Improved)
  * ----------------
  * Enhanced for accuracy, styles, validation, chunking, and improved page labels.
+ * Now incorporates the table of contents to guide section divisions and page numbering.
  */
 
 import 'dotenv/config';
@@ -146,6 +147,11 @@ async function generateBookOutline({ inputPdf, outputFile, teiOutput }) {
     }
   });
 
+  // Extract table of contents from pages 5 and 6
+  const tocPage5 = pageSummaries[4] ? pageSummaries[4].text : '';
+  const tocPage6 = pageSummaries[5] ? pageSummaries[5].text : '';
+  const tocText = (tocPage5 + '\n' + tocPage6).replace(/\s+/g, ' ').trim();
+
   const stylesFile = outputFile.replace('.json', '.styles.json');
   fs.writeFileSync(stylesFile, JSON.stringify(pageSummaries, null, 2));
 
@@ -174,6 +180,8 @@ Key rules:
 - Cover all provided pages without gaps/overlaps.
 - Aim for 10-25 elements; prioritize articles/chapters.
 - Use 'label' (roman or arabic page number from footer) for 'startLabel' and 'endLabel' if applicable. Infer missing labels sequentially (roman for front, arabic starting at 1 for body).
+- Use the book's table of contents to guide the outline, especially for article divisions, descriptions, and starting labeled pages. Match the TOC entries closely for body sections. Treat each TOC entry as a single 'article' even if it includes handlists or appendices.
+- startPage and endPage refer to physical PDF page numbers (1-based, starting from half-title as 1). startLabel and endLabel are the printed page labels (roman for front matter, arabic starting at 1 for body on physical page 7).
 
 Return ONLY raw JSON: { outline: [array] }.`;
 
@@ -193,7 +201,7 @@ Return ONLY raw JSON: { outline: [array] }.`;
     const partialOutlines = await Promise.all(chunks.map(async (chunk, chunkIdx) => {
       const firstPage = chunk[0].page;
       const lastPage = chunk[chunk.length - 1].page;
-      const chunkPrompt = `Page summaries for physical pages ${firstPage}-${lastPage} (with styles and labels): ${JSON.stringify(chunk)}\nCreate partial outline for this chunk only, matching schema. Use physical start/end, include/infer logical labels. Cover exactly physical ${firstPage} to ${lastPage}.`;
+      const chunkPrompt = `Table of contents from the book: ${tocText}\nPage summaries for physical pages ${firstPage}-${lastPage} (with styles and labels): ${JSON.stringify(chunk)}\nCreate partial outline for this chunk only, matching schema. Use physical start/end, include/infer logical labels. Cover exactly physical ${firstPage} to ${lastPage}. Align with TOC where applicable.`;
       const getPartial = async () => {
         const parsedResp = await openai.responses.parse({
           model: 'o3',
@@ -209,7 +217,7 @@ Return ONLY raw JSON: { outline: [array] }.`;
     }));
 
     // Merge
-    const mergePrompt = `Merge these partial outlines into one cohesive full outline: ${JSON.stringify(partialOutlines.map(po => po.outline))}\nEnsure no gaps/overlaps in physical pages, consistent sections/descriptions. Full must cover physical 1 to ${totalPages}. Preserve/infer logical labels sequentially (roman for front, arabic starting at 1 for body on physical 7). Adjust boundaries to match content (e.g., first article ends physical 34 with label 28). Return full { outline: [array] }.`;
+    const mergePrompt = `Table of contents from the book: ${tocText}\nMerge these partial outlines into one cohesive full outline: ${JSON.stringify(partialOutlines.map(po => po.outline))}\nEnsure no gaps/overlaps in physical pages, consistent sections/descriptions. Full must cover physical 1 to ${totalPages}. Preserve/infer logical labels sequentially (roman for front, arabic starting at 1 for body on physical 7). Adjust boundaries to match content and TOC (e.g., first article ends physical ~111 with label 105). Return full { outline: [array] }.`;
     const getMerged = async () => {
       const parsedResp = await openai.responses.parse({
         model: 'o3',
@@ -223,7 +231,7 @@ Return ONLY raw JSON: { outline: [array] }.`;
     };
     outlineObj = await pRetry(getMerged, { retries: 3 });
   } else {
-    const userPrompt = `Page summaries (with styles and labels): ${JSON.stringify(pageSummaries)}\nCreate outline matching schema. Use physical start/end, include/infer logical labels (roman for front, arabic starting at 1 for body on physical 7). Ensure accurate ranges (e.g., first article ends physical 34 with label 28).`;
+    const userPrompt = `Table of contents from the book: ${tocText}\nPage summaries (with styles and labels): ${JSON.stringify(pageSummaries)}\nCreate outline matching schema. Use physical start/end, include/infer logical labels (roman for front, arabic starting at 1 for body on physical 7). Ensure accurate ranges (e.g., first article ends physical ~111 with label 105). Align with TOC.`;
     const getOutline = async () => {
       const parsedResp = await openai.responses.parse({
         model: 'o3',

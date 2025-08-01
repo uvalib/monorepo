@@ -1,0 +1,7 @@
+{
+  "tei": "<pb n=\"129\"/>\n<figure>\n  <head>figure 3.</head>\n  <figDesc>Progressive degradation of signatures in Declaration facsimiles. The signatures are reproduced the same size as each other to show changes in letterforms.</figDesc>\n  <!-- Image link to be added during image export workflow -->\n</figure>",
+  "audit": {
+    "auditPassed": true,
+    "issues": []
+  }
+}

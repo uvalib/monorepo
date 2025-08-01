@@ -1,7 +1,10 @@
 {
-  "tei": "<pb n=\"156\"/>\n<figure>\n  <figDesc>figure 9. John Vaughn Kean's methodical copy of the subject schema drawn out by Jef-<lb/>ferson on the rediscovered leaf at the Library of Congress (fig. 8). Image courtesy of the Albert <lb/>and Shirley Small Special Collections Library, University of Virginia. RG.12/12/1.161.</figDesc>\n  <!-- Image link to be added during image export workflow -->\n</figure>",
+  "tei": "<pb n=\"150\"/>\n<figure>\n  <figDesc><hi rend=\"smallcaps\">figure 9.</hi> John Vaughn Kean’s methodical copy of the subject schema drawn out by Jef-<lb/>\n  ferson on the rediscovered leaf at the Library of Congress (fig. 8). Image courtesy of the Albert <lb/>\n  and Shirley Small Special Collections Library, University of Virginia. RG.12/12/1.161.</figDesc>\n  <!-- Image link to be added during image export workflow -->\n</figure>",
   "audit": {
     "auditPassed": true,
-    "issues": []
+    "issues": [
+      "The differences are limited to header/footer elements (e.g. the 'S' versus 'N' and page numbers) and formatting details.",
+      "The main body text (including the figure caption) is intact, with only minor variations in line breaks, hyphenation, and spacing."
+    ]
   }
 }

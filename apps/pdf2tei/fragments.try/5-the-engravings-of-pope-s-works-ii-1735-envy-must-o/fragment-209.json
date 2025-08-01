@@ -1,0 +1,9 @@
+{
+  "tei": "<pb n=\"209\"/>\n<figure>\n  <head>figure 12.</head>\n  <figDesc>New tailpiece to <hi rend=\"italic\">To Arbuthnot</hi>, <hi rend=\"italic\">Works II quarto</hi></figDesc>\n  <!-- Image link to be added during image export workflow -->\n</figure>\n<lb/>include a crest (in Oxford’s case it would have been, rather excessively, a castle,<lb/>\ntriple-towered, with a lion emerging from the middle tower) but he does keep<lb/>\nboth the Garter motto, encircling the shield, as in Burlington’s arms, and Ox-<lb/>\nford’s own motto. In the most striking adjustment, however, he has replaced<lb/>\nthe tall, adult angels who are formally supporters with the two putti that have<lb/>\nbecome customary for the volume. Oxford too is embraced as a friend.<hi rend=\"sup\">50</hi><lb/>\nThe final poem in the second book of epistles, <hi rend=\"italic\">To Arbuthnot</hi>, brings the serious<lb/>\nheraldry of the volume to a close with a large engraving of Pope’s father’s arms,<lb/>\nor Pope’s idea of them (figure 12). This heraldic engraving reveals the purpose of<lb/>\nthe others by including Pope himself in the distinguished group of friends. The<lb/>\n<note place=\"foot\">\n  <lb/><hi rend=\"sup\">50</hi>. Oxford’s arms are illustrated by Guillim, <hi rend=\"italic\">A Display of Heraldry</hi>, after p. 2104, no. 62. In<lb/>\n  this image he has only the bend cotised and not the lions passants, but they appear in a gold<lb/>\n  seal ring, the image of which (accessed 22 March 2024) is to be found here:<lb/>\n  https://www.pinterest.com/pin/458874649513741270/?from_navigate=true. The Mor-<lb/>\n  timer arms, which consisted of fesses, or horizontal stripes, seem not to be present.<lb/>\n</note>",
+  "audit": {
+    "auditPassed": true,
+    "issues": [
+      "The differences noted are limited to headers/footers, minor formatting variations, line breaks, and pagination details. There are no substantive textual discrepancies."
+    ]
+  }
+}

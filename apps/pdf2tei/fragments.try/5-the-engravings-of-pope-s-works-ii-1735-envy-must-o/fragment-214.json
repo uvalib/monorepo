@@ -1,0 +1,10 @@
+{
+  "tei": "<pb n=\"214\"/>\n<figure>\n  <head>figure 13.</head>\n  <figDesc>Mercury engraving (no ribbon); headpiece (p. 1) to The Works of Mr. Alexander<lb/>Pope in Prose, Volume II, quarto (1741).</figDesc>\n  <!-- Image link to be added during image export workflow -->\n</figure>\n<figure>\n  <head>figure 14.</head>\n  <figDesc>Mercury engraving (ribbon with inscription); headpiece (Preface) to Letters of<lb/>Mr. Alexander Pope and Several of His Friends, quarto (1737).</figDesc>\n  <!-- Image link to be added during image export workflow -->\n</figure>\n<figure>\n  <head>figure 15.</head>\n  <figDesc>Mercury engraving (blank ribbon); tailpiece to Key to the Lock in The Works of<lb/>Mr. Alexander Pope in Prose, Volume II, quarto (1741).</figDesc>\n  <!-- Image link to be added during image export workflow -->\n</figure>",
+  "audit": {
+    "auditPassed": true,
+    "issues": [
+      "The differences found are confined to minor formatting changes, such as header/footer markers, whitespace adjustments, and slight variations in figure numbering punctuation or order.",
+      "No substantive textual content differences were detected between the extracted PDF text and the TEI transcription."
+    ]
+  }
+}

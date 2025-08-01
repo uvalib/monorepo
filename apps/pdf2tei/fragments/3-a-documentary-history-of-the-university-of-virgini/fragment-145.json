@@ -1,7 +1,9 @@
 {
-  "tei": "<pb n=\"145\"/>\n<figure>\n  <head>figure 4a.</head>\n  <figDesc>1783 catalog, page 128, showing the first entries in Chapter 20, “Law Merchant.”<lb/>\n  Jefferson’s added ordinal numbers, intended to guide Trist, appear in the left margin<lb/>\n  (here 1–9 and 11). Image courtesy of the Massachusetts Historical Society.</figDesc>\n  <!-- Image link to be added during image export workflow -->\n</figure>\n<figure>\n  <head>figure 4b.</head>\n  <figDesc>1783 catalog, page 129, showing more entries in Chapter 20, “Law Merchant.”<lb/>\n  Jefferson’s added ordinal numbers, possibly intended to guide Trist, appear in the left margin<lb/>\n  (here 10, with “Cuningham’s Law of bills” unnumbered). Image courtesy of the Massachusetts Historical Society.</figDesc>\n  <!-- Image link to be added during image export workflow -->\n</figure>",
+  "tei": "<pb n=\"139\"/>\n<milestone unit=\"horizontalRule\" rend=\"hr\"/>\n<figure>\n  <head>figure 4a.</head>\n  <figDesc>1783 catalog, page 128, showing the first entries in Chapter 20, “Law<lb/>\n  Merchant.” Jefferson’s added ordinal numbers, intended to guide Trist, appear in the left<lb/>\n  margin (here 1-9 and 11). Image courtesy of the Massachusetts Historical Society.</figDesc>\n  <!-- Image link to be added during image export workflow -->\n</figure>\n<figure>\n  <head>figure 4b.</head>\n  <figDesc>1783 catalog, page 129, showing more entries in Chapter 20, “Law Merchant.”<lb/>\n  Jefferson’s added ordinal numbers, possibly intended to guide Trist, appear in the left margin<lb/>\n  (here 10, with “Cuningham’s Law of bills” unnumbered). Image courtesy of the Massachu-<lb/>\n  setts Historical Society.</figDesc>\n  <!-- Image link to be added during image export workflow -->\n</figure>",
   "audit": {
     "auditPassed": true,
-    "issues": []
+    "issues": [
+      "The differences observed are limited to header/footer markers (e.g. 'S', 'N', page numbers) and formatting/line-break variations in the figure captions. In one instance the figure label changes from 'figure 4b' to 'figure 4a.' due to the reordering of content across pages. These changes do not alter the informational content and are acceptable as minor transcription formatting differences."
+    ]
   }
 }

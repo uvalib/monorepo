@@ -1,0 +1,9 @@
+{
+  "tei": "<pb n=\"330\"/>\n<figure>\n  <head>figure 4.</head>\n  <figDesc>Patent granted to Charles W. Thurston and Sarah Emery Dudley (July 14, 1914).</figDesc>\n  <!-- Image link to be added during image export workflow -->\n</figure>\n<p>\n  she arranged for its new publication by a commercial publisher. This required<lb/>\n  copyrighting under an individual’s legal name, so she gave her own. Since The Brothers<lb/>\n  no longer existed as a working group, there was no reason to perpetu-<lb/>\n  ate their mystery. If this is correct, the joint patent of a “book cover” in which<lb/>\n  names can be inserted and removed was appropriately symbolic, even prophetic.<lb/>\n</p>",
+  "audit": {
+    "auditPassed": true,
+    "issues": [
+      "Differences are limited to formatting issues such as extra header/footer text, line breaks, or indentation (e.g., the extra header markers, spacing variations, and a reformatted figure caption). No substantive content differences were detected."
+    ]
+  }
+}

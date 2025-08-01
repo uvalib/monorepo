@@ -1,0 +1,7 @@
+{
+  "tei": "<pb n=\"108\"/>\n<figure>\n  <head>figure 2.<lb/></head>\n  <figDesc>The Lewis H. Bridgham miniature Declaration. Author’s collection. Reproduced<lb/>slightly enlarged, 5¾ × 4½ inches.</figDesc>\n  <!-- Image link to be added during image export workflow -->\n</figure>",
+  "audit": {
+    "auditPassed": true,
+    "issues": []
+  }
+}

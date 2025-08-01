@@ -2,169 +2,169 @@
   "outline": [
     {
       "section": "front",
-      "description": "Half-title page “Studies in Bibliography”",
+      "description": "Half-title: \"Studies in Bibliography\"",
       "startPage": 1,
       "endPage": 1,
-      "startLabel": "I",
-      "endLabel": "I"
+      "startLabel": "i",
+      "endLabel": "i"
     },
     {
       "section": "front",
-      "description": "Series initials / blank verso",
+      "description": "Series imprint verso (blank/series information)",
       "startPage": 2,
       "endPage": 2,
-      "startLabel": "II",
-      "endLabel": "II"
+      "startLabel": "ii",
+      "endLabel": "ii"
     },
     {
       "section": "front",
-      "description": "Full title-page and publication data",
+      "description": "Title page with volume, editor, & year",
       "startPage": 3,
       "endPage": 3,
-      "startLabel": "III",
-      "endLabel": "III"
+      "startLabel": "iii",
+      "endLabel": "iii"
     },
     {
       "section": "front",
-      "description": "Editorial credits, founding editor, copyright notice",
+      "description": "Copyright page; founding editor & staff credits",
       "startPage": 4,
       "endPage": 4,
-      "startLabel": "IV",
-      "endLabel": "IV"
+      "startLabel": "iv",
+      "endLabel": "iv"
     },
     {
       "section": "front",
-      "description": "Contents (first page) listing first articles",
+      "description": "Contents—page 1 (listing first two articles)",
       "startPage": 5,
       "endPage": 5,
-      "startLabel": "V",
-      "endLabel": "V"
+      "startLabel": "v",
+      "endLabel": "v"
     },
     {
       "section": "front",
-      "description": "Contents (second page) continues list of articles",
+      "description": "Contents—page 2 (remaining articles)",
       "startPage": 6,
       "endPage": 6,
-      "startLabel": "VI",
-      "endLabel": "VI"
+      "startLabel": "vi",
+      "endLabel": "vi"
     },
     {
       "section": "article",
-      "description": "John Carter: An Assessment and a Handlist — G. Thomas Tanselle",
+      "description": "John Carter: An Assessment by G. Thomas Tanselle",
       "startPage": 7,
-      "endPage": 111,
+      "endPage": 34,
       "startLabel": "1",
-      "endLabel": "105"
+      "endLabel": "28"
+    },
+    {
+      "section": "appendix",
+      "description": "Handlist of John Carter&rsquo;s Published Writings (continues preceding article)",
+      "startPage": 35,
+      "endPage": 110,
+      "startLabel": "29",
+      "endLabel": "104"
     },
     {
       "section": "article",
-      "description": "The Sources of the Sussex Declaration: A Reconsideration",
-      "startPage": 112,
-      "endPage": 133,
+      "description": "The Sources of the Sussex Declaration: A Reconsideration by John Bidwell",
+      "startPage": 111,
+      "endPage": 132,
       "startLabel": "105",
       "endLabel": "126"
     },
     {
       "section": "article",
-      "description": "A Documentary History of the University of Virginia’s First Library and Its Jeffersonian Catalogs",
-      "startPage": 134,
-      "endPage": 173,
+      "description": "A Documentary History of the University of Virginia&rsquo;s First Library & Its Jeffersonian Catalogs by Samuel V. Lemley & Neal D. ...",
+      "startPage": 133,
+      "endPage": 172,
       "startLabel": "127",
       "endLabel": "166"
     },
     {
       "section": "article",
-      "description": "“Capítulo de una Novela en Prensa”: Teaser Chapters and Marketing Strategies in Victoria Ocampo’s Sur",
-      "startPage": 174,
-      "endPage": 193,
+      "description": "“CAPÍTULO DE UNA NOVELA EN PRENSA”: Teaser Chapters & Marketing Strategies in Victoria Ocampo&rsquo;s Sur by Nora C. Benedict",
+      "startPage": 173,
+      "endPage": 192,
       "startLabel": "167",
       "endLabel": "186"
     },
     {
       "section": "article",
-      "description": "The Engravings of Pope’s Works II (1735): “Envy Must Own, I Live Among the Great”",
-      "startPage": 194,
-      "endPage": 227,
+      "description": "The Engravings of Pope&rsquo;s Works II (1735): “Envy Must Own, I Live among the Great” by James McLaverty",
+      "startPage": 193,
+      "endPage": 226,
       "startLabel": "187",
       "endLabel": "220"
     },
     {
       "section": "article",
-      "description": "Jonathan Richardson, Charles Chauncy, and the Manuscripts of Pope",
-      "startPage": 228,
-      "endPage": 239,
+      "description": "Jonathan Richardson, Charles Chauncy, & the Manuscripts of Pope by John Considine",
+      "startPage": 227,
+      "endPage": 232,
       "startLabel": "221",
-      "endLabel": "232"
+      "endLabel": "226"
     },
     {
       "section": "article",
-      "description": "Extra-Illustrating Horace Walpole’s Description of Strawberry Hill: Three Case Studies",
-      "startPage": 240,
-      "endPage": 261,
-      "startLabel": "233",
-      "endLabel": "254"
+      "description": "Extra-Illustrating Horace Walpole&rsquo;s Description of Strawberry Hill: Three Case Studies by Stephen Clarke",
+      "startPage": 233,
+      "endPage": 254,
+      "startLabel": "227",
+      "endLabel": "248"
     },
     {
       "section": "article",
-      "description": "Charles Dibdin and the Making of The Musical Tour of Mr. Dibdin (1788): A New “Compact with the Public”",
-      "startPage": 262,
-      "endPage": 277,
-      "startLabel": "255",
-      "endLabel": "270"
+      "description": "Charles Dibdin & the Making of The Musical Tour of Mr. Dibdin (1788): A New “Compact with the Public”",
+      "startPage": 255,
+      "endPage": 270,
+      "startLabel": "249",
+      "endLabel": "264"
     },
     {
       "section": "article",
-      "description": "Stages of Composition in Charlotte Brontë’s Fair-Copy Manuscript of Shirley",
+      "description": "Stages of Composition in Charlotte Brontë&rsquo;s Fair-Copy Manuscript of Shirley by Barbara Heritage",
       "startPage": 271,
-      "endPage": 329,
-      "startLabel": "271",
+      "endPage": 328,
+      "startLabel": "265",
       "endLabel": "322"
     },
     {
       "section": "article",
-      "description": "“The Brothers” &amp; the English Comte de Gabalis",
-      "startPage": 330,
-      "endPage": 337,
+      "description": "“The Brothers” and the English Comte de Gabalis by Joscelyn Godwin",
+      "startPage": 329,
+      "endPage": 336,
       "startLabel": "323",
       "endLabel": "330"
     },
     {
       "section": "article",
-      "description": "Three Endings: Fitzgerald, Hemingway, Faulkner",
+      "description": "Three Endings: Fitzgerald, Hemingway, Faulkner by James L. W. West",
       "startPage": 337,
-      "endPage": 351,
+      "endPage": 350,
       "startLabel": "331",
       "endLabel": "344"
     },
     {
       "section": "back",
-      "description": "Decorative divider page “S S N N” and blank verso",
-      "startPage": 352,
-      "endPage": 353,
+      "description": "Notes on Contributors",
+      "startPage": 351,
+      "endPage": 352,
       "startLabel": "345",
       "endLabel": "346"
     },
     {
       "section": "back",
-      "description": "Notes on Contributors — biographical sketches",
-      "startPage": 354,
-      "endPage": 359,
+      "description": "Society Officers, Benefactors, Supporters, & Available Publications",
+      "startPage": 353,
+      "endPage": 360,
       "startLabel": "347",
-      "endLabel": "352"
-    },
-    {
-      "section": "back",
-      "description": "Bibliographical Society information: officers, benefactors, subscribing members, available publications",
-      "startPage": 360,
-      "endPage": 361,
-      "startLabel": "353",
       "endLabel": "354"
     },
     {
       "section": "back",
-      "description": "Programs 2019 and student awards &amp; fellowships announcements",
-      "startPage": 362,
-      "endPage": 365,
+      "description": "Programs, Student Awards in Book Collecting, & Battestin Fellowships announcements",
+      "startPage": 361,
+      "endPage": 364,
       "startLabel": "355",
       "endLabel": "358"
     }

@@ -18,6 +18,48 @@ import { Command } from 'commander';
 import { transcribePDF } from './transcribe.js';
 import { fileURLToPath } from 'url';
 
+// Helper functions for roman numeral conversion
+function romanToInt(roman) {
+  const romanMap = { 'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000 };
+  let num = 0;
+  for (let i = 0; i < roman.length; i++) {
+    const curr = romanMap[roman[i]?.toUpperCase()] || 0;
+    const next = romanMap[roman[i+1]?.toUpperCase()] || 0;
+    if (curr < next) {
+      num -= curr;
+    } else {
+      num += curr;
+    }
+  }
+  return num;
+}
+
+function intToRoman(num) {
+  const romanMap = [
+    { value: 1000, symbol: 'M' },
+    { value: 900, symbol: 'CM' },
+    { value: 500, symbol: 'D' },
+    { value: 400, symbol: 'CD' },
+    { value: 100, symbol: 'C' },
+    { value: 90, symbol: 'XC' },
+    { value: 50, symbol: 'L' },
+    { value: 40, symbol: 'XL' },
+    { value: 10, symbol: 'X' },
+    { value: 9, symbol: 'IX' },
+    { value: 5, symbol: 'V' },
+    { value: 4, symbol: 'IV' },
+    { value: 1, symbol: 'I' }
+  ];
+  let result = '';
+  for (const { value, symbol } of romanMap) {
+    while (num >= value) {
+      result += symbol;
+      num -= value;
+    }
+  }
+  return result;
+}
+
 function readOutline(outlinePath) {
   const raw = fs.readFileSync(outlinePath, 'utf8');
   const obj = JSON.parse(raw);
@@ -88,7 +130,17 @@ async function processBody({ pdfDir, outlinePath, fragmentsRoot, maxPages, bodyO
       }
 
       try {
-        await transcribePDF(pdfPath, page, fragmentPath);
+        // Compute logical page label for transcription
+        let pageLabel;
+        const startLabel = sec.startLabel;
+        const offset = page - sec.startPage;
+        if (/^\d+$/.test(startLabel)) {
+          pageLabel = String(parseInt(startLabel, 10) + offset);
+        } else {
+          const startNum = romanToInt(startLabel);
+          pageLabel = intToRoman(startNum + offset);
+        }
+        await transcribePDF(pdfPath, pageLabel, fragmentPath);
         processedPages++;
       } catch (e) {
         console.error(`Error transcribing page ${page}:`, e.message);

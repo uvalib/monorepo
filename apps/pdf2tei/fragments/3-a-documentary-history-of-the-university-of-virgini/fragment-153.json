@@ -1,5 +1,5 @@
 {
-  "tei": "<pb n=\"153\"/>\n<figure>\n<!-- Image link to be added during image export workflow -->\n<figDesc>figure 8.<lb/>The rediscovered leaf, presumably excised from Jefferson’s 1824 catalog. The<lb/>manuscript has not yet been cataloged. Image courtesy of the Rare Book and Special<lb/>Collections Division, Library of Congress.</figDesc>\n</figure>",
+  "tei": "<pb n=\"147\"/>\n<figure>\n  <head>figure 8.</head>\n  <figDesc>The rediscovered leaf, presumably excised from Jefferson’s 1824 catalog. The<lb/>\n  manuscript has not yet been cataloged. Image courtesy of the Rare Book and Special<lb/>\n  Collections Division, Library of Congress.</figDesc>\n  <!-- Image link to be added during image export workflow -->\n</figure>",
   "audit": {
     "auditPassed": true,
     "issues": []

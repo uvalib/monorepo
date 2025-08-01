@@ -1,0 +1,7 @@
+{
+  "tei": "<pb n=\"139\"/>\n<figure>\n  <head>figure 4a.</head>\n  <figDesc>1783 catalog, page 128, showing the first entries in Chapter 20, “Law Merchant.”<lb/>\n  Jefferson’s added ordinal numbers, intended to guide Trist, appear in the left margin<lb/>\n  (here 1–9 and 11). Image courtesy of the Massachusetts Historical Society.</figDesc>\n  <!-- Image link to be added during image export workflow -->\n</figure>\n<figure>\n  <head>figure 4b.</head>\n  <figDesc>1783 catalog, page 129, showing more entries in Chapter 20, “Law Merchant.”<lb/>\n  Jefferson’s added ordinal numbers, possibly intended to guide Trist, appear in the left margin<lb/>\n  (here 10, with “Cuningham’s Law of bills” unnumbered). Image courtesy of the Massachusetts Historical Society.</figDesc>\n  <!-- Image link to be added during image export workflow -->\n</figure>",
+  "audit": {
+    "auditPassed": true,
+    "issues": []
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "tei": "<pb n=\"180\"/>\n<head>Table 1.<lb/>(Continued)</head>\n<p>Author\tWork\tPublication date\tPre-publication in Sur<lb/>\nSamuel Beckett\tMalone muere\t1958\t#255 (1958; pp. 4–13)<lb/>\nSilvina Ocampo\tLa furia\t1959\t#217–218 (1952; pp. 27–34); #255 (1958; pp. 25–28)<lb/>\nT.&amp;nbsp;S.&amp;nbsp;Eliot\tSobre la poesía y los poetas\t1959\t#153–156 (1947; pp. 129–150)<lb/>\nGraham Greene\tUn caso acabado\t1961\t#268 (1961; pp. 29–36)<lb/>\nVictoria Ocampo\tTagore en las barrancas de San Isidro\t1961\t#270 (1961; pp. 62–83)<lb/>\nC.&amp;nbsp;P.&amp;nbsp;Snow\tLas dos culturas y la revolución científica\t1963\t#274 (1962; pp. 9–23)<lb/>\nVita Sackville-West\tToda pasión concluida\t1963\t#284 (1963; pp. 1–12)<lb/>\nH.&amp;nbsp;A.&amp;nbsp;Murena\tLos herederos de la promesa\t1965\t#296 (1965; pp. 23–34)<lb/>\nMax Horkheimer &amp; Theodor W.&amp;nbsp;Adorno\tDialéctica del iluminismo\t1971\t#315 (1968; pp. 22–38)</p>",
+  "audit": {
+    "auditPassed": true,
+    "issues": [
+      "The differences are limited to formatting: variations in whitespace, line breaks, and header/footer repetitions. There are no substantive textual content differences."
+    ]
+  }
+}

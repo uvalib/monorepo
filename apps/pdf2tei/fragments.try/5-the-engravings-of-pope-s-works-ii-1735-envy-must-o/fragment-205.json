@@ -1,0 +1,7 @@
+{
+  "tei": "<pb n=\"205\"/>\n<figure>\n  <figDesc>figure 8. Headpiece to <hi rend=\"italic\">To Cobham</hi>, <hi rend=\"italic\">Works</hi> II quarto; adapted from <hi rend=\"italic\">Odyssey V.</hi></figDesc>\n  <!-- Image link to be added during image export workflow -->\n</figure>\n<figure>\n  <figDesc>figure 9. New headpiece to <hi rend=\"italic\">To Cobham</hi>, <hi rend=\"italic\">Works</hi> II folio.</figDesc>\n  <!-- Image link to be added during image export workflow -->\n</figure>",
+  "audit": {
+    "auditPassed": true,
+    "issues": []
+  }
+}

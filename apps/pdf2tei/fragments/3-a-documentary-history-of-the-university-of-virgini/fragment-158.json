@@ -1,7 +1,9 @@
 {
-  "tei": "<pb n=\"158\"/>\n<figure>\n  <head>figure 10.</head>\n  <!-- Image link to be added during image export workflow -->\n  <figDesc>An example of Jefferson’s dendriform classification table from the 1783 catalog<lb/>(page 10), with each “branch” terminating in an individual subject chapter (see figs. 8 and 9).<lb/>Image courtesy of the Massachusetts Historical Society.</figDesc>\n</figure>",
+  "tei": "<pb n=\"152\"/>\n<figure>\n  <head>figure 10.</head>\n  <figDesc>An example of Jefferson’s dendriform classification table from the 1783 catalog<lb/>(page 10), with each “branch” terminating in an individual subject chapter (see figs. 8 and 9).<lb/>Image courtesy of the Massachusetts Historical Society.</figDesc>\n  <!-- Image link to be added during image export workflow -->\n</figure>",
   "audit": {
     "auditPassed": true,
-    "issues": []
+    "issues": [
+      "Differences are limited to header/footer changes (page number/letters) and minor formatting differences in the caption text. No substantive content differences were found."
+    ]
   }
 }

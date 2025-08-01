@@ -1,0 +1,7 @@
+{
+  "tei": "<pb n=\"252\"/>\n<lb/>previously unknown, shows the applied wooden moldings that line the passage,<lb/>\nthe rounded ceiling, and at the end of the passage the arched window that was<lb/>\nsubsequently removed when the passage was extended in the nineteenth century<lb/>\nto connect through to the Great North Bedchamber. It appears to be a design<lb/>\ndrawing, perhaps associated with Chute, but it is Harding who has inscribed it.<lb/>\n\n<p>The final drawing is inscribed by Kirgate “Plan for a Gothic Mirror at Straw-<lb/>\nberry hill” (<hi rend=\"smallcaps\">figure&amp;nbsp;4</hi>). It has measurements in ink in feet and inches, a sketch plan<lb/>\n</p>\n<figure>\n<head><hi rend=\"smallcaps\">figure&amp;nbsp;4.</hi></head>\n<!-- Image link to be added during image export workflow -->\n<figDesc>Plan for A Gothic Mirror at Strawberry hill. Unsigned pencil drawing on paper,<lb/>\n27.4 × 19&amp;nbsp;cm. Facing p.&amp;nbsp;13 of Probasco’s copy of the <hi rend=\"italic\">Description of Strawberry Hill</hi>, Newberry<lb/>\nLibrary Folio Case W&amp;nbsp;3945&amp;nbsp;95. Photo courtesy of Newberry Library, Chicago.</figDesc>\n</figure>",
+  "audit": {
+    "auditPassed": true,
+    "issues": []
+  }
+}

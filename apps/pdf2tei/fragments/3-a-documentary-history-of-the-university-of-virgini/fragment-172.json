@@ -1,9 +1,7 @@
 {
-  "tei": "<pb n=\"172\"/>\nnot provide undiscovered material.”<hi rend=\"sup\">73</hi> Her remarks have proved prescient. If we<lb/>\nhave succeeded in expanding Gilreath and Wilson’s reading of the catalogs, it is<lb/>\nin part because we have adduced additional information from manuscripts in the<lb/>\nAlbert and Shirley Small Special Collections Library at the University of Virginia<lb/>\nand the Rare Books Division at the Library of Congress as well as in newly pub-<lb/>\nlished Jefferson correspondence made available through Early Access documents<lb/>\nand the Jefferson Papers project. As future bibliographers make additional dis-<lb/>\ncoveries about the University of Virginia’s library and develop new methodolo-<lb/>\ngies—particularly around the interpretation of provenance evidence—we look<lb/>\nforward to reading the yet unknown stories they have to tell.<lb/>\n73. Sowerby, Catalogue of the Library of Thomas Jefferson, xiv.<lb/>",
+  "tei": "<pb n=\"166\"/>\n<p>\n<lb/>not provide undiscovered material.”<hi rend=\"sup\">73</hi> Her remarks have proved prescient. If we<lb/>have succeeded in expanding Gilreath and Wilson’s reading of the catalogs, it is<lb/>in part because we have adduced additional information from manuscripts in the<lb/>Albert and Shirley Small Special Collections Library at the University of Virginia <lb/>and the Rare Books Division at the Library of Congress as well as in newly pub-<lb/>lished Jefferson correspondence made available through Early Access documents <lb/>and the Jefferson Papers project. As future bibliographers make additional dis-<lb/>coveries about the University of Virginia’s library and develop new methodolo-<lb/>gies—particularly around the interpretation of provenance evidence—we look <lb/>forward to reading the yet unknown stories they have to tell.<lb/>\n</p>\n<note place=\"bottom\" n=\"73\">\n<lb/>Sowerby, <hi rend=\"italic\">Catalogue of the Library of Thomas Jefferson</hi>, xiv.<lb/>\n</note>",
   "audit": {
     "auditPassed": true,
-    "issues": [
-      "The differences are limited to formatting and line break adjustments, header/footer repetitions, and citation reflow (merging multiple lines into one). There are no substantive text changes."
-    ]
+    "issues": []
   }
 }

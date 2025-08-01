@@ -1,0 +1,7 @@
+{
+  "tei": "<pb n=\"202\"/>\n<figure>\n  <head>figure 3.<lb/>Tailpiece to Dunciad II, Works II quarto; from headpiece to Dunciad Variorum I.</head>\n  <figDesc>Tailpiece to Dunciad II, Works II quarto; from headpiece to Dunciad Variorum I.</figDesc>\n  <!-- Image link to be added during image export workflow -->\n</figure>",
+  "audit": {
+    "auditPassed": true,
+    "issues": []
+  }
+}

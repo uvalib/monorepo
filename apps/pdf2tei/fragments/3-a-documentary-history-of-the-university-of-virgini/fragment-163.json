@@ -1,9 +1,7 @@
 {
-  "tei": "<pb n=\"163\"/>\n<figure>\n  <head>figure 13.</head>\n  <!-- Image link to be added during image export workflow -->\n  <figDesc>1823 Trist catalog, page 11, showing the first eight entries of chapter 3, “Modern<lb/>\n  History, British.” Image courtesy of the Thomas Jefferson Collection, Rare Book and Special<lb/>\n  Collections Division, The Library of Congress.</figDesc>\n</figure>\n<figure>\n  <head>figure 14.</head>\n  <!-- Image link to be added during image export workflow -->\n  <figDesc>1825 Trist catalog, page 7, showing the first seven entries of chapter 3, “Modern<lb/>\n  History, British,” identical to those listed in fig. 13, apart from the omission of “24.<lb/>\n  Verstegan’s antiquities, 8°.” Image courtesy of the Albert and Shirley Small Special<lb/>\n  Collections Library, University of Virginia. MSS 38-747.</figDesc>\n</figure>",
+  "tei": "<pb n=\"157\"/>\n<milestone unit=\"horizontalRule\" rend=\"hr\"/>\n<figure>\n  <head>figure&amp;nbsp;13.</head>\n  <figDesc>1823 Trist catalog, page&amp;nbsp;11, showing the first eight entries of chapter&amp;nbsp;3, “Modern <lb/>History, British.” Image courtesy of the Thomas Jefferson Collection, Rare Book and Special <lb/>Collections Division, The Library of Congress.</figDesc>\n  <!-- Image link to be added during image export workflow -->\n</figure>\n<figure>\n  <head>figure&amp;nbsp;14.</head>\n  <figDesc>1825 Trist catalog, page&amp;nbsp;7, showing the first seven entries of chapter&amp;nbsp;3, “Modern <lb/>History, British,” identical to those listed in fig.&amp;nbsp;13, apart from the omission of “24. Verstegan’s <lb/>antiquities, 8°.” Image courtesy of the Albert and Shirley Small Special Collections Library, <lb/>University of Virginia. MSS&amp;nbsp;38-747.</figDesc>\n  <!-- Image link to be added during image export workflow -->\n</figure>",
   "audit": {
     "auditPassed": true,
-    "issues": [
-      "The differences appear to be limited to header/footer text and minor formatting variations (e.g., spacing, punctuation and line breaks). The essential catalogue text remains unchanged. Therefore, these discrepancies are acceptable."
-    ]
+    "issues": []
   }
 }

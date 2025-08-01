@@ -1,171 +1,69 @@
-<back xmlns="http://www.tei-c.org/ns/1.0">
-   <!-- ------------------------------------------------------------------ -->
-   <!-- 1. Contributors ---------------------------------------------------- -->
-   <div type="contributors">
-      <head>Contributors</head>
-      <listPerson>
-         <person xml:id="chandler_david">
-            <persName>
-               <forename>David</forename>
-               <surname>Chandler</surname>
-            </persName>
-            <affiliation>Doshisha University, English Department, Kyoto</affiliation>
-            <note>Widely published on the literature and culture of the British Romantic period; specialist in the works of Charles Dibdin and founding director of Retrospect Opera, leading three projects to revive and record Dibdin’s music.</note>
-         </person>
-         <person xml:id="heritage_barbara">
-            <persName>
-               <forename>Barbara</forename>
-               <surname>Heritage</surname>
-            </persName>
-            <affiliation>Rare Book School, University of Virginia (Miranker Family Director of Collections, Exhibitions &amp; Scholarly Initiatives)</affiliation>
-            <note>Scholar of Charlotte Brontë’s manuscripts and publication history; co-author (with Ruth-Ellen St Onge) of “Building the Book from the Ancient World to the Present Day” (2022) and co-editor (with Donna A. C. Sy) of “Teaching Text Technologies and Critical Bibliography among the Disciplines: Objects of Study” (Routledge, 2025). Secretary of the Antiquarian Book School Foundation; member of the American Antiquarian Society and the Grolier Club.</note>
-         </person>
-         <person xml:id="godwin_joscelyn">
-            <persName>
-               <forename>Joscelyn</forename>
-               <surname>Godwin</surname>
-            </persName>
-            <affiliation>Colgate University, Professor of Music Emeritus</affiliation>
-            <note>Honorary Fellow of the Society of Antiquaries of London. Author, editor, or translator of c. 40 books on Western esoteric traditions and speculative music; translator of the <title>Hypernerotomachia Poliphili</title> (1499), works of Hans Kayser, and the papers of the Gruppo di UR.</note>
-         </person>
-         <person xml:id="west_james_lw3">
-            <persName>
-               <forename>James</forename>
-               <forename type="middle">L.</forename>
-               <forename type="middle">W.</forename>
-               <addName type="generation">III</addName>
-               <surname>West</surname>
-            </persName>
-            <affiliation>Pennsylvania State University, E. E. Sparks Professor of English Emeritus</affiliation>
-            <note>General editor of <title>The Cambridge Edition of the Works of F. Scott Fitzgerald</title>; most recent publication: <title>The Cambridge Centennial Edition of The Great Gatsby</title> (2025).</note>
-         </person>
-      </listPerson>
-   </div>
+<back>
+  <div type="handlist" xml:id="handlist-john-carter">
+    <head>Handlist</head>
+    <p>This handlist of John Carter’s published writings is divided into five sections: (A) Books and Pamphlets; (B) Books and Pamphlets Edited; (C) Contributions to Books and Pamphlets; (D) Contributions to Periodicals, except the <title level="j">Times Literary Supplement</title>; and (E) Contributions to the <title level="j">Times Literary Supplement</title>. In sections D and E a letter preceding each entry indicates whether it is an article (A), an editorial (E), a letter to an editor (L), a note or query (N), an obituary (O), or a book or journal review (R). (Articles and notes can be long or short, and the distinction between them can sometimes be subjective.) Off-prints of articles, often issued with printed wrappers (and sometimes with changed pagination), are not normally noted, but a few inscribed by Carter are cited. Cross-references consist of a section letter followed by a year (and sometimes, for ease of reference, a month also). All items are signed “John Carter” except where otherwise indicated.</p>
 
-   <!-- ------------------------------------------------------------------ -->
-   <!-- 2. Society information -------------------------------------------- -->
-   <div type="societyInformation">
-      <head>Bibliographical Society of the University of Virginia</head>
-
-      <!-- 2.1 Officers -->
+    <div type="note" xml:id="handlist-special-problems">
+      <head>Categories requiring special comment</head>
       <list>
-         <head>Officers</head>
-         <item><roleName>President</roleName>: David L. Vander Meulen (University of Virginia, English Department, 219 Bryan Hall, PO Box 400121, Charlottesville, VA 22904-4121)</item>
-         <item><roleName>Secretary-Treasurer</roleName>: Anne G. Ribble (Bibliographical Society, University of Virginia Library, PO Box 400152, Charlottesville, VA 22904-4152)</item>
-         <item><roleName>Editor</roleName>: David L. Vander Meulen (address as above)</item>
-         <item><roleName>Executive Secretary</roleName>: Anne G. Ribble (address as above)</item>
+        <item xml:id="letters-editors"><head>Letters to Editors, 1927–75</head>
+          <p>Letters to editors formed an important genre of writing for Carter, and he was a prolific writer of them. They appeared in a wide range of journals, and many are recorded here, offering a good sample of his epistolary style. For Carter’s many letters to the <title level="j">Times Literary Supplement</title>, see section E.</p></item>
+        <item xml:id="scribner-catalogues"><head>Scribner Catalogues, 1927–53</head>
+          <p>Carter’s employment by Charles Scribner’s Sons (1927–53) resulted in numerous catalogue entries and introductions. Sixteen catalogues and one Rare Book Bulletin have been identified as edited by him; a blanket entry appears in section C.</p></item>
+        <item xml:id="double-crown-menus"><head>Double Crown Club Menus, 1933–36</head>
+          <p>As secretary of the club, Carter can be viewed as the editor of the menus during these years. Forty-eight examples from his collection are listed in Potter Books catalogue 7 (May 1977).</p></item>
+        <item xml:id="bnq-pseudonymous"><head>Pseudonymous and Unsigned Contributions to <title level="j">Bibliographical Notes &amp; Queries</title>, 1935–39</head>
+          <p>Carter contributed under at least seven pseudonyms, accounting for 42 items. Unsigned pieces possibly by him are covered by a blanket entry in section D.</p></item>
+        <item xml:id="bis-pamphlets"><head>British Information Services Pamphlets, 1943–45</head>
+          <p>While director of the General Division of BIS in New York, Carter oversaw many pamphlets; a blanket entry appears in section B. One, <title>Victory in Burma</title> (1945), was entirely his and is listed in section A.</p></item>
+        <item xml:id="book-collector-commentary"><head>Unsigned Commentary in <title level="j">The Book Collector</title>, 1952–75</head>
+          <p>Carter annotated his own set of the journal, identifying fourteen unsigned paragraphs as his. These are individually entered in section D; other possible contributions are covered by a blanket entry.</p></item>
+        <item xml:id="sotheby-catalogues"><head>Sotheby Catalogues, 1955–72</head>
+          <p>From 1955 to 1972 Carter occasionally wrote entries for Sotheby auction catalogues. A blanket entry in section C represents this activity; two catalogues wholly by him (Pariser sale, 1967; Ewing sale, 1970) are listed in section B.</p></item>
       </list>
+    </div>
 
-      <!-- 2.2 Council -->
-      <list>
-         <head>Council</head>
-         <item>David Seaman (2026)</item>
-         <item>John Unsworth (2026)</item>
-         <item>David L. Vander Meulen (2027)</item>
-         <item>David Whitesell (2031)</item>
-         <item>Terry Belanger (2028)</item>
-         <item>Karen Parshall (2028)</item>
-         <item>John T. Casteen III (2029)</item>
-         <item><hi rend="italic">Ex officio</hi>: University Librarian</item>
-         <item>Honorary Councilors: Ruthe R. Battestin; G. Thomas Tanselle</item>
-      </list>
+    <div type="bibliography" n="A" xml:id="handlist-section-A">
+      <head>Section A. Books and Pamphlets</head>
+      <listBibl>
+        <biblStruct xml:id="A1932-binding-variants">
+          <monogr>
+            <title level="m">Binding Variants in English Publishing, 1820–1900</title>
+            <respStmt>
+              <resp>edited by</resp>
+              <name>Michael Sadleir</name>
+            </respStmt>
+            <imprint>
+              <pubPlace>London</pubPlace>
+              <publisher>Constable</publisher>
+              <pubPlace>New York</pubPlace>
+              <publisher>Ray Long &amp; Richard R. Smith</publisher>
+              <date when="1932">1932</date>
+            </imprint>
+            <extent>xviii + 172 pp.</extent>
+          </monogr>
+          <series>
+            <title level="s">Bibliographia</title>
+            <biblScope unit="number">6</biblScope>
+          </series>
+          <note>Marbled-paper-covered boards; edition of 500 copies priced at 24 s. Chapter 2 (“Historical”) incorporates earlier material by Carter.</note>
+        </biblStruct>
+      </listBibl>
+    </div>
+  </div>
 
-      <!-- 2.3 Past Presidents -->
-      <list>
-         <head>Presidents (chronological)</head>
-         <item>Chalmers L. Gemmill (1947)</item>
-         <item>Linton R. Massey (1948–49)</item>
-         <item>Atcheson L. Hench (1950)</item>
-         <item>Linton R. Massey (1951–74)</item>
-         <item>Kendon L. Stubbs (1974–78)</item>
-         <item>Irby B. Cauthen Jr. (1978–93)</item>
-         <item>G. Thomas Tanselle (1993–2021)</item>
-         <item>John T. Casteen III (2021–24)</item>
-         <item>David L. Vander Meulen (2024– )</item>
-      </list>
+  <div type="acknowledgements" xml:id="handlist-acknowledgements">
+    <head>Acknowledgements</head>
+    <p>I have collected Carter’s publications for many years, drawing on holdings at Eton College, King’s College Cambridge, Cambridge University Library, the Bodleian Library, the Library of Congress, the Lilly Library, the Grolier Club, the Harry Ransom Center, and the R. R. Bowker Company. My particular thanks are due to A. S. G. Edwards, Nicolas Barker, Michael Meredith, and many others, including Richard Bucci, Ernestine Carter, Sebastian Carter, P. J. Croft, Arthur Crook, Brooke Crutchley, Basie Bales Gitlin, Harrison Hayford, and David Whitesell, among numerous friends and colleagues who supplied information, copies, or encouragement. Permission to quote from Carter’s unpublished annotations has been kindly granted by Eton College Library.</p>
+  </div>
 
-      <!-- 2.4 Membership Information -->
-      <note type="membership-categories">
-         Membership is solicited per payment period in the following categories: Subscribing Members ($55); Student Members ($27.50); Contributing Members ($150 or more); Patrons ($250 or more); Benefactors ($500 or more). Contributing Members, Patrons, and Benefactors receive all publications of the Society and by their contributions assist in furthering the Society’s work. The names of individual and institutional members are listed below.
-      </note>
-   </div>
+  <div type="appendix" xml:id="appendix-titan">
+    <head>Appendix 1. <title>The Fall of the Titan</title></head>
+    <p>The novel <title>The Fall of the Titan</title> (London: Lincoln Williams, 1934), attributed on the title-page to “John Waynflete,” has often been ascribed to John Carter because Waynflete was his middle name and a pseudonym he later used. Stylistic evidence suggests otherwise, and the attribution remains unproven; the book is therefore mentioned here rather than listed in the handlist proper.</p>
+  </div>
 
-   <!-- ------------------------------------------------------------------ -->
-   <!-- 3. Membership lists ------------------------------------------------- -->
-   <div type="membershipLists">
-      <head>Membership Lists</head>
-
-      <!-- 3.1 Benefactors -->
-      <list type="benefactors">
-         <head>Benefactors</head>
-         <item>Ruthe R. Battestin (Charlottesville, VA)</item>
-         <item>Terry Belanger (Charlottesville, VA)</item>
-         <item>Richard H. W. Dillard (Roanoke, VA)</item>
-         <item>Mrs Frances Massey Dulaney (Somerset, VA)</item>
-         <item>Paul Needham (Summit, NJ)</item>
-         <item>Carole Hamner Schmidt (Stanardsville, VA)</item>
-         <item>G. Thomas Tanselle (New York, NY)</item>
-         <item>David Whitesell (Charlottesville, VA)</item>
-      </list>
-
-      <!-- 3.2 Patrons -->
-      <list type="patrons">
-         <head>Patrons</head>
-         <item>Robert F. Beasecker (Grand Rapids, MI)</item>
-         <item>G. Scott Clemons (New York, NY)</item>
-         <item>Patricia Fleming (Toronto, Canada)</item>
-         <item>Corey B. French (Carmel, IN)</item>
-         <item>Charles Kelly and Allison Sugiyama (Ann Arbor, MI)</item>
-         <item>Wallace Kirsop (Victoria, Australia)</item>
-         <item>Elizabeth K. Lynch (Charlottesville, VA)</item>
-         <item>Russell L. Martin III (Plano, TX)</item>
-         <item>Michael F. Suarez, S. J. (Charlottesville, VA)</item>
-         <item>Calhoun Winton (Sewanee, TN)</item>
-      </list>
-
-      <!-- 3.3 Contributing members (selection shown) -->
-      <list type="contributingMembers">
-         <head>Contributing Members</head>
-         <item>Willard Agee (Charlottesville, VA)</item>
-         <item>Susan Allen (Claremont, CA)</item>
-         <item>William P. Barlow (Oakland, CA)</item>
-         <item>John Bidwell (Princeton, NJ)</item>
-         <item>John R. Block (Pittsburgh, PA)</item>
-         <item>Bodleian Libraries (Oxford, England)</item>
-         <!-- Additional names omitted for brevity; see printed list for full roster. -->
-      </list>
-
-      <!-- 3.4 Subscribing members – individuals (selection) -->
-      <list type="subscribingMembersIndividuals">
-         <head>Subscribing Members – Individuals</head>
-         <item>Craig S. Abbott</item>
-         <item>Leslie Arthur</item>
-         <item>James P. Ascher</item>
-         <item>Joseph C. Baillargeon</item>
-         <item>Carlo M. Bajetta</item>
-         <!-- List continues; truncated here to preserve space. -->
-      </list>
-
-      <!-- 3.5 Subscribing members – institutions (selection) -->
-      <list type="subscribingMembersInstitutions">
-         <head>Subscribing Members – Institutions</head>
-         <item>American Antiquarian Society</item>
-         <item>American Philosophical Society</item>
-         <item>American University</item>
-         <item>Amherst College</item>
-         <item>Baylor University</item>
-         <item>Beasley Books</item>
-         <item>Bibliothèque cantonale et universitaire, Fribourg</item>
-         <item>Bibliothèque Sainte-Geneviève, Paris</item>
-         <!-- List continues; truncated here to preserve space. -->
-      </list>
-   </div>
-
-   <!-- ------------------------------------------------------------------ -->
-   <!-- 4. Submission and contact notes ----------------------------------- -->
-   <div type="submissionInformation">
-      <head>Submissions and Correspondence</head>
-      <p>The editor invites articles and notes on analytical bibliography, textual criticism, manuscript study, and the history of printing and publishing, as well as related matters of method and evidence. Submissions following any widely used style-sheet are acceptable, although <title>The Chicago Manual of Style</title> is preferred. All copy, including quotations and notes, should be double-spaced. Manuscripts or electronic files should be sent to David Vander Meulen (dlv8g@virginia.edu), University of Virginia, English Department, 219 Bryan Hall, PO Box 400121, Charlottesville, VA 22904-4121.</p>
-      <p>All correspondence concerning business affairs, subscriptions, and memberships should be directed to the Executive Secretary, Anne G. Ribble, Bibliographical Society, University of Virginia Library, PO Box 400152, Charlottesville, VA 22904-4152; e-mail: bibsoc@virginia.edu.</p>
-   </div>
+  <div type="appendix" xml:id="appendix-makins">
+    <head>Appendix 2. Speeches and Articles for Sir Roger Makins</head>
+    <p>Between April 1953 and October 1955 Carter served as personal assistant to Sir Roger Makins, British ambassador to the United States, and drafted a number of speeches and articles for him. Surviving typescripts and published versions in the Carter papers at Eton show varying degrees of revision by Makins himself. Because Carter’s authorship cannot be precisely determined, these items are not included in the handlist.</p>
+  </div>
 </back>

@@ -1,0 +1,7 @@
+{
+  "tei": "<pb n=\"199\"/>\n<figure>\n  <head>figure 2.</head>\n  <figDesc>Tailpiece to <hi rend=\"italic\">To a Lady</hi>, <hi rend=\"italic\">Works</hi> II quarto; from <hi rend=\"italic\">Odyssey</hi> VII.</figDesc>\n  <!-- Image link to be added during image export workflow -->\n</figure>\n<p>example from <hi rend=\"italic\">Odyssey</hi>, Book&amp;nbsp;I, reused for the <hi rend=\"italic\">Works</hi> II Epitaphs. These headpieces<lb/>\nhave a central circle (3.5&amp;nbsp;cm in diameter), which usually depicts a figure from the ac-<lb/>\naction of the poem. To either side of the circle are placed objects that evoke the world<lb/>\nof the epic, either symbols of war (spears, shields, helmets) or of peace (lyres, goblets,<lb/>\nbowls), often enwrapped by fertile vegetation. The whole is contained in a decorative<lb/>\nframe. Usually the initials ‘W.K.&amp;nbsp;inv.’ and ‘P.F.&amp;nbsp;sc.’ appear on opposite sides of the foot<lb/>\nof the plate. Savage argues persuasively for the close relation between the headpieces<lb/>\n</p>",
+  "audit": {
+    "auditPassed": true,
+    "issues": []
+  }
+}
