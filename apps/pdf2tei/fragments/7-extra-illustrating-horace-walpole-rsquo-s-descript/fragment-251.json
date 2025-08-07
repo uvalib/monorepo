@@ -1,0 +1,7 @@
+{
+  "tei": "<pb n=\"245\"/>\n<figure>\n  \n  <figDesc>\n    figure 3. Richard Bentley, unexecuted chimney piece for Strawberry Hill. Wash drawing on<lb/>\n    paper, 14.3 × 11.9 cm. Facing p. 23 of Probasco’s copy of the Description of Strawberry Hill,<lb/>\n    Newberry Library Folio Case W 3945 95. Photo courtesy of Newberry Library, Chicago.\n  </figDesc>\n</figure>",
+  "audit": {
+    "auditPassed": true,
+    "issues": []
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "tei": "<pb n=\"246\"/>\n<figure>\n  <figDesc>figure 4.<lb/>Plan for A Gothic Mirror at Strawberry hill.<lb/>Unsigned pencil drawing on paper, 27.4 × 19 cm.<lb/>Facing p. 13 of Probasco’s copy of the Description of Strawberry Hill, Newberry Library Folio Case W 3945 95.<lb/>Photo courtesy of Newberry Library, Chicago.</figDesc>\n  \n</figure>\n<p>previously unknown, shows the applied wooden moldings that line the passage,<lb/>\n the rounded ceiling, and at the end of the passage the arched window that was<lb/>\n subsequently removed when the passage was extended in the nineteenth century<lb/>\n to connect through to the Great North Bedchamber. It appears to be a design<lb/>\n drawing, perhaps associated with Chute, but it is Harding who has inscribed it.<lb/>\n The final drawing is inscribed by Kirgate “Plan for a Gothic Mirror at Straw-<lb/>\n berry hill” (figure 4). It has measurements in ink in feet and inches, a sketch plan<lb/>\n</p>",
+  "audit": {
+    "auditPassed": true,
+    "issues": [
+      "Differences are limited to header/footer markers (e.g., 'S', 'N', repeated page numbers) and minor formatting/line-break variations.",
+      "There are no material content discrepancies between the extracted PDF text and the TEI transcription."
+    ]
+  }
+}

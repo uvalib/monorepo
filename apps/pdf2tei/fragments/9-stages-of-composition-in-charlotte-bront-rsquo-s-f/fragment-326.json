@@ -1,0 +1,7 @@
+{
+  "tei": "<pb n=\"320\"/>\n<figure>\n  <head>figures 7 and 8.<lb/></head>\n  <figDesc>Ff. A126.B126 and A127.B127. Note the repair and new text appended to the lower portion of f. A126.B126. 9 British Library Board, ff. 126 and 127, Add MS 43477.</figDesc>\n  \n</figure>",
+  "audit": {
+    "auditPassed": true,
+    "issues": []
+  }
+}

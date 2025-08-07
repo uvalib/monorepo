@@ -1,0 +1,7 @@
+{
+  "tei": "<pb n=\"203\"/>\n<figure>\n  \n  <figDesc>\n    <hi rend=\"smallcaps\">figure</hi> 6. Headpiece to Essay on Man I, Works II folio; adapted from the ‘General View’ of<lb/>\n    the Odyssey.<lb/>\n  </figDesc>\n</figure>\n<figure>\n  \n  <figDesc>\n    <hi rend=\"smallcaps\">figure</hi> 7. New headpiece to Essay on Man I, Works II quarto.<lb/>\n  </figDesc>\n</figure>",
+  "audit": {
+    "auditPassed": true,
+    "issues": []
+  }
+}

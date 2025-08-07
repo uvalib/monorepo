@@ -1,0 +1,9 @@
+{
+  "tei": "<pb n=\"308\"/>\n<figure>\n  <head>figures 4 and 5.<lb/></head>\n  <figDesc>Partially excised laid leaves flanking the one-and-a-half-leaf wove insertion in “Which the Genteel Reader is Recommended to Skip. . . .”<lb/>The asterisk on f. [A438].[B438].C444.E160 corresponds to an asterisk present on f. [A lacking].B438.C443.E159, a half-leaf wove insertion counted as a partial-leaf “excision” but that likely entailed no loss of text.<lb/>© British Library Board, ff. 157 and 160, Add MS 43478.</figDesc>\n  \n  \n</figure>",
+  "audit": {
+    "auditPassed": true,
+    "issues": [
+      "The differences observed (such as header/footer elements like 'S', 'N', page numbers, and minor punctuation or spacing differences in lines such as 'figures 4 and 5' with or without a period) are only header/footer or formatting variations. No substantive text differences were found."
+    ]
+  }
+}

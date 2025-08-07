@@ -1,0 +1,7 @@
+{
+  "tei": "<pb n=\"303\"/>\n<figure>\n  <head>figure 1.<lb/></head>\n  <figDesc>Partial-leaf excision made by Charlotte Brontë likely repaired by the binder<lb/>George Smith hired in the late nineteenth century: f. A294.B294.E10. © British Library<lb/>Board, f. 10, Add MS 43478.</figDesc>\n  \n</figure>\n<p>affection convey to the careful observer that Louis is probably not only beloved<lb/>by Tartar, but also by Shirley. While it is impossible to know whether the prior<lb/>text extracted from volume 2 of the manuscript contained a similar description,<lb/>the parallels between the two volumes seem meaningful, and it is possible that<lb/>this detail was added in as a late revision to strengthen the tie.</p>",
+  "audit": {
+    "auditPassed": true,
+    "issues": []
+  }
+}

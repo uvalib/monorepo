@@ -1,0 +1,7 @@
+{
+  "tei": "<pb n=\"310\"/>\n<figure>\n  <head>Table 3.<lb/>Leaf numbering in “The First Blue-Stocking” (vol. 3)</head>\n  <figDesc>Tabular figure listing the leaf numbering in “The First Blue-Stocking” (volume 3) across five numbering states—BM foliation, CB pencil, CB brown ink (1), CB red ink, and CB brown ink (2) with underlying pencil—for leaves 89–106.</figDesc>\n  \n</figure>\n<p>extended beyond the scope of the original paragraph, given the substantial<lb/>\nincrease in length. (The original passage in French would likely have run about<lb/>\ntwo pages, and would have been introduced by dialogue.) The newly inserted<lb/>\nleaves, which are numbered in pencil and brown ink, initiate the final “D” se-<lb/>\nquence of the manuscript’s numbering, which was discontinued at A664.B664.<lb/>\nC670.E103. Between the expansion and the discontinuation of the sequence,<lb/>\nthree leaves of the existing manuscript were renumbered (A661.B661.C667.<lb/>\nD673.E100 –A663.B663.C669.D664 [665].E102)— probably simply to clarify<lb/>\nthe positioning of the new leaves within the chapter’s original sequence. Fur-<lb/>\nthermore, Brontë was unable to re-number the succeeding leaves following the<lb/>\nchapter, as she had previously done when introducing the red-ink sequence<lb/></p>",
+  "audit": {
+    "auditPassed": true,
+    "issues": []
+  }
+}

@@ -41,7 +41,7 @@ const fragments = files.map(f => {
 // Build TEI document
 const xmlParts = [
   '<?xml version="1.0" encoding="UTF-8"?>',
-  '<TEI xmlns="http://www.tei-c.org/ns/1.0">',
+  '<TEI>',
   '<text>',
   '<body>'
 ];
@@ -49,5 +49,13 @@ xmlParts.push(...fragments);
 xmlParts.push('</body>', '</text>', '</TEI>');
 
 // Write output file
-fs.writeFileSync(outputPath, xmlParts.join('\n'), 'utf8');
+// Join XML parts and escape unescaped ampersands before writing
+const rawXml = xmlParts.join('\n');
+// Escape unescaped ampersands and convert &rsquo; to apostrophe
+const safeXml = rawXml
+  .replace(/& /g, '&amp; ')
+  .replace(/&rsquo;/g, "'")
+  // Strip TEI namespace declarations
+  .replace(/xmlns="http:\/\/www\.tei-c\.org\/ns\/1\.0"/g, '');
+fs.writeFileSync(outputPath, safeXml, 'utf8');
 console.log(`Written TEI document to ${outputPath}`);

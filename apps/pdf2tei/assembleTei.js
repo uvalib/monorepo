@@ -45,7 +45,13 @@ function assemble({ header, front, body, back, output }) {
   parts.push('</text>');
   parts.push('</TEI>');
 
-  fs.writeFileSync(output, parts.join('\n'), 'utf8');
+  // Join parts and perform XML cleanup before writing
+  const rawXml = parts.join('\n');
+  const safeXml = rawXml
+    .replace(/& /g, '&amp; ')
+    .replace(/&rsquo;/g, "'")
+    .replace(/xmlns="http:\/\/www\.tei-c\.org\/ns\/1\.0"/g, '');
+  fs.writeFileSync(output, safeXml, 'utf8');
   console.log(`Written complete TEI to ${output}`);
 }
 

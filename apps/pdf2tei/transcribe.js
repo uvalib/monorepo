@@ -11,6 +11,11 @@ import PDFParser from 'pdf2json';
 import { XMLParser } from 'fast-xml-parser';
 import { diffLines } from 'diff';
 import { DOMParser, XMLSerializer } from 'xmldom';
+import * as pdfjsLib from 'pdfjs-dist/legacy/build/pdf.mjs';
+import sharp from 'sharp';
+
+// Set workerSrc for pdfjs-dist (adjust path if necessary based on installation)
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'pdfjs-dist/legacy/build/pdf.worker.mjs';
 
 // Helper to sanitize XML entities in TEI output
 function sanitizeTei(tei) {
@@ -98,7 +103,16 @@ async function auditTranscription(pdfData, teiXml, pageNumber, openai) {
     }
   }
   console.log('Extracting text from TEI XML');
-  const teiText = teiXml.replace(/<[^>]+>/g, '');
+  const xmlParser = new DOMParser();
+  const doc = xmlParser.parseFromString(teiXml, 'text/xml');
+  const figDescs = doc.getElementsByTagName('figDesc');
+  for (let i = figDescs.length - 1; i >= 0; i--) {
+    const figDesc = figDescs[i];
+    figDesc.parentNode.removeChild(figDesc);
+  }
+  const serializer = new XMLSerializer();
+  const cleanedTeiXml = serializer.serializeToString(doc);
+  const teiText = cleanedTeiXml.replace(/<[^>]+>/g, '');
   const wordRegex = /[\p{L}\p{N}]+/gu;
   const pdfWordSet = new Set((pdfText.match(wordRegex) || []).map(w => w.toLowerCase()));
   const shouldIgnoreToken = (tok) => {
@@ -169,6 +183,64 @@ const TranscriptionResult = z.object({
   tei: z.string()
 });
 
+// Function to extract embedded images as base64 data URIs in order
+async function extractImages(inputPath) {
+  const pdfBuffer = fs.readFileSync(inputPath);
+  const pdfDataArray = new Uint8Array(pdfBuffer);
+  const loadingTask = pdfjsLib.getDocument({ data: pdfDataArray });
+  const pdf = await loadingTask.promise;
+  const page = await pdf.getPage(1); // Assuming single-page PDF
+  const ops = await page.getOperatorList();
+  const uriPromises = [];
+  for (let i = 0; i < ops.fnArray.length; i++) {
+    const fn = ops.fnArray[i];
+    if (fn === pdfjsLib.OPS.paintJpegXObject || fn === pdfjsLib.OPS.paintImageXObject) {
+      const args = ops.argsArray[i];
+      const imgKey = args[0];
+      const img = page.objs.get(imgKey);
+      if (fn === pdfjsLib.OPS.paintJpegXObject) {
+        // Raw JPEG data
+        uriPromises.push(sharp(Buffer.from(img)).webp({ quality: 80 }).toBuffer().then(buf => 'data:image/webp;base64,' + buf.toString('base64')));
+      } else {
+        // Other image formats, convert from raw to WebP
+        if (!img.kind || !img.width || !img.height || !img.data) {
+          console.warn(`Skipping unsupported image: ${imgKey}`);
+          continue;
+        }
+        let channels;
+        switch (img.kind) {
+          case 1: // GRAYSCALE_8BPP (assuming 8bit)
+            channels = 1;
+            break;
+          case 2: // RGB_24BPP
+            channels = 3;
+            break;
+          case 3: // RGBA_32BPP
+            channels = 4;
+            break;
+          default:
+            console.warn(`Unsupported image kind: ${img.kind} for ${imgKey}`);
+            continue;
+        }
+        // Verify data length
+        if (img.data.length !== img.width * img.height * channels) {
+          console.warn(`Data length mismatch for ${imgKey}`);
+          continue;
+        }
+        uriPromises.push(sharp(img.data, {
+          raw: {
+            width: img.width,
+            height: img.height,
+            channels: channels
+          }
+        }).webp({ quality: 80 }).toBuffer().then(buf => 'data:image/webp;base64,' + buf.toString('base64')));
+      }
+    }
+  }
+  const uris = await Promise.all(uriPromises);
+  return uris;
+}
+
 // Function to transcribe a single-page PDF into TEI XML
 export async function transcribePDF(input, pageNumber, output) {
   const inputPath = path.resolve(input);
@@ -187,6 +259,8 @@ export async function transcribePDF(input, pageNumber, output) {
   const maxAttempts = 5;
   let lastError;
   let result;
+  const imageUris = await extractImages(inputPath);
+  console.log(`Extracted ${imageUris.length} images as base64 URIs`);
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     console.log(`Attempt ${attempt}/${maxAttempts} for page ${pageNumber}`);
     try {
@@ -201,11 +275,11 @@ Mark all small caps text with <hi rend="smallcaps">.
 Mark all italic text with <hi rend="italic">.
 Mark all bold text with <hi rend="bold">.
 Mark all underlined text with <hi rend="underline">.
-Mark all superscript text with <hi rend="sup">.
+Mark all superscript text with <hi rend="sup">, except for footnote markers which are handled separately.
 Omit headers, footers, page numbers, running heads, and decorative/duplicative content.
 Mark up all images and figures:
 Use <figure>, include <head> if present, and always provide a <figDesc> describing the image and/or its caption.
-Place a comment: <!-- Image link to be added during image export workflow -->
+Include <graphic url=""/> inside the <figure>.
 Place each <figure> where the image appears in reading order.
 Use <milestone unit="horizontalRule" rend="hr"/> to represent horizontal rules in the text.
 For dropcap characters at the start of paragraphs, wrap the initial letter in <hi rend="dropcap">X</hi> before the rest of the text.
@@ -219,6 +293,16 @@ Ensure the output uses only UTF-8 characters; do not emit characters outside the
 Read both the attached PDF page and the parsed JSON data to inform your transcription.
 Be sure to mark up every line break, bold, and italic text accurately by comparing both the pdf and the json representations of the document.
 Be sure to format the TEI XML correctly, with all tags properly opened and closed.
+
+To accurately detect bold and italic styles from the PDF JSON:
+- For each text run in Pages[0].Texts[].R[], examine the TS array:
+  - TS[2] === -1 indicates bold; use <hi rend="bold"> for that text.
+  - TS[3] === -1 indicates italic; use <hi rend="italic"> for that text.
+- Merge consecutive text runs that share the same style flags (bold/italic) into a single <hi> span, even if they are split across words or lines. For example, if multiple runs form a phrase like "Urne Buriall and" and all have TS[3] === -1, wrap the entire phrase in <hi rend="italic">.
+- Pay special attention to styles at the start of the page or where text runs are fragmented; ensure no italic or bold is missed due to run boundaries.
+
+For footnotes indicated by superscript numbers in the text linking to notes at the bottom of the page, place a <note n="number">footnote text</note> immediately after the referenced word or phrase, where "number" is the superscript number, and "footnote text" is the corresponding text from the bottom of the page (including any formatting within the note). Do not transcribe the footnotes separately at the bottom; integrate them inline. Do not mark the footnote markers with <hi rend="sup">; use the @n attribute instead.
+
 ${attempt > 1 ? 'Previous attempt failed due to invalid XML, likely from unclosed tags like <p> or <div>. Ensure every opened tag (e.g., <div>, <p>, <head>, <hi>) is properly closed in the correct nesting order before the end of the fragment.' : ''}
 
 INPUTS:
@@ -249,11 +333,33 @@ INPUTS:
         lastError = new Error(`XML validation failed: ${validationResult.issues.join(', ')}`);
         continue;
       }
-      const teiXml = validationResult.repairedTei;
+      let teiXml = validationResult.repairedTei;
       const auditResult = await auditTranscription(pdfData, teiXml, pageNumber, openai);
       console.log(`Audit passed: ${auditResult.auditPassed}`);
       if (auditResult.auditPassed) {
-        result.tei = teiXml; // Use the repaired/validated TEI
+        // Insert base64 URIs into <graphic> elements
+        const parser = new DOMParser();
+        const serializer = new XMLSerializer();
+        const doc = parser.parseFromString(teiXml, 'text/xml');
+        const figures = doc.getElementsByTagName('figure');
+        if (figures.length > 0 && imageUris.length > 0) {
+          if (figures.length !== imageUris.length) {
+            console.warn(`Mismatch: ${figures.length} figures vs ${imageUris.length} images extracted. Proceeding with available URIs.`);
+          }
+          for (let i = 0; i < figures.length; i++) {
+            const figure = figures[i];
+            let graphic = figure.getElementsByTagName('graphic')[0];
+            if (!graphic) {
+              graphic = doc.createElement('graphic');
+              figure.insertBefore(graphic, figure.firstChild); // Insert at the beginning of <figure>
+            }
+            if (i < imageUris.length) {
+              graphic.setAttribute('url', imageUris[i]);
+            }
+          }
+          teiXml = serializer.serializeToString(doc);
+        }
+        result.tei = teiXml; // Use the updated TEI with image URIs
         result.audit = auditResult;
         const outputData = JSON.stringify(result, null, 2);
         if (output) fs.writeFileSync(path.resolve(output), outputData);
@@ -298,4 +404,4 @@ program
 const __filename = fileURLToPath(import.meta.url);
 if (path.resolve(process.argv[1]) === __filename) {
   program.parse(process.argv);
-}
+} 

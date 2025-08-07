@@ -1,69 +1,384 @@
 <back>
-  <div type="handlist" xml:id="handlist-john-carter">
-    <head>Handlist</head>
-    <p>This handlist of John Carter’s published writings is divided into five sections: (A) Books and Pamphlets; (B) Books and Pamphlets Edited; (C) Contributions to Books and Pamphlets; (D) Contributions to Periodicals, except the <title level="j">Times Literary Supplement</title>; and (E) Contributions to the <title level="j">Times Literary Supplement</title>. In sections D and E a letter preceding each entry indicates whether it is an article (A), an editorial (E), a letter to an editor (L), a note or query (N), an obituary (O), or a book or journal review (R). (Articles and notes can be long or short, and the distinction between them can sometimes be subjective.) Off-prints of articles, often issued with printed wrappers (and sometimes with changed pagination), are not normally noted, but a few inscribed by Carter are cited. Cross-references consist of a section letter followed by a year (and sometimes, for ease of reference, a month also). All items are signed “John Carter” except where otherwise indicated.</p>
+  <div type="membershipLists">
+    <head>Membership of the Bibliographical Society of the University of Virginia</head>
 
-    <div type="note" xml:id="handlist-special-problems">
-      <head>Categories requiring special comment</head>
+    <div type="benefactors">
+      <head>Benefactors</head>
       <list>
-        <item xml:id="letters-editors"><head>Letters to Editors, 1927–75</head>
-          <p>Letters to editors formed an important genre of writing for Carter, and he was a prolific writer of them. They appeared in a wide range of journals, and many are recorded here, offering a good sample of his epistolary style. For Carter’s many letters to the <title level="j">Times Literary Supplement</title>, see section E.</p></item>
-        <item xml:id="scribner-catalogues"><head>Scribner Catalogues, 1927–53</head>
-          <p>Carter’s employment by Charles Scribner’s Sons (1927–53) resulted in numerous catalogue entries and introductions. Sixteen catalogues and one Rare Book Bulletin have been identified as edited by him; a blanket entry appears in section C.</p></item>
-        <item xml:id="double-crown-menus"><head>Double Crown Club Menus, 1933–36</head>
-          <p>As secretary of the club, Carter can be viewed as the editor of the menus during these years. Forty-eight examples from his collection are listed in Potter Books catalogue 7 (May 1977).</p></item>
-        <item xml:id="bnq-pseudonymous"><head>Pseudonymous and Unsigned Contributions to <title level="j">Bibliographical Notes &amp; Queries</title>, 1935–39</head>
-          <p>Carter contributed under at least seven pseudonyms, accounting for 42 items. Unsigned pieces possibly by him are covered by a blanket entry in section D.</p></item>
-        <item xml:id="bis-pamphlets"><head>British Information Services Pamphlets, 1943–45</head>
-          <p>While director of the General Division of BIS in New York, Carter oversaw many pamphlets; a blanket entry appears in section B. One, <title>Victory in Burma</title> (1945), was entirely his and is listed in section A.</p></item>
-        <item xml:id="book-collector-commentary"><head>Unsigned Commentary in <title level="j">The Book Collector</title>, 1952–75</head>
-          <p>Carter annotated his own set of the journal, identifying fourteen unsigned paragraphs as his. These are individually entered in section D; other possible contributions are covered by a blanket entry.</p></item>
-        <item xml:id="sotheby-catalogues"><head>Sotheby Catalogues, 1955–72</head>
-          <p>From 1955 to 1972 Carter occasionally wrote entries for Sotheby auction catalogues. A blanket entry in section C represents this activity; two catalogues wholly by him (Pariser sale, 1967; Ewing sale, 1970) are listed in section B.</p></item>
+        <item>Ruthe R. Battestin, Charlottesville, Virginia</item>
+        <item>Terry Belanger, Charlottesville, Virginia</item>
+        <item>Richard H. W. Dillard, Roanoke, Virginia</item>
+        <item>Mrs Frances Massey Dulaney, Somerset, Virginia</item>
+        <item>Paul Needham, Summit, New Jersey</item>
+        <item>Carole Hamner Schmidt, Stanardsville, Virginia</item>
+        <item>G. Thomas Tanselle, New York, New York</item>
+        <item>David Whitesell, Charlottesville, Virginia</item>
       </list>
     </div>
 
-    <div type="bibliography" n="A" xml:id="handlist-section-A">
-      <head>Section A. Books and Pamphlets</head>
-      <listBibl>
-        <biblStruct xml:id="A1932-binding-variants">
-          <monogr>
-            <title level="m">Binding Variants in English Publishing, 1820–1900</title>
-            <respStmt>
-              <resp>edited by</resp>
-              <name>Michael Sadleir</name>
-            </respStmt>
-            <imprint>
-              <pubPlace>London</pubPlace>
-              <publisher>Constable</publisher>
-              <pubPlace>New York</pubPlace>
-              <publisher>Ray Long &amp; Richard R. Smith</publisher>
-              <date when="1932">1932</date>
-            </imprint>
-            <extent>xviii + 172 pp.</extent>
-          </monogr>
-          <series>
-            <title level="s">Bibliographia</title>
-            <biblScope unit="number">6</biblScope>
-          </series>
-          <note>Marbled-paper-covered boards; edition of 500 copies priced at 24 s. Chapter 2 (“Historical”) incorporates earlier material by Carter.</note>
-        </biblStruct>
-      </listBibl>
+    <div type="patrons">
+      <head>Patrons</head>
+      <list>
+        <item>Robert F. Beasecker, Grand Rapids, Michigan</item>
+        <item>G. Scott Clemons, New York, New York</item>
+        <item>Patricia Fleming, Toronto, Canada</item>
+        <item>Corey B. French, Carmel, Indiana</item>
+        <item>Charles Kelly and Allison Sugiyama, Ann Arbor, Michigan</item>
+        <item>Wallace Kirsop, Victoria, Australia</item>
+        <item>Elizabeth K. Lynch, Charlottesville, Virginia</item>
+        <item>Russell L. Martin III, Plano, Texas</item>
+        <item>Michael F. Suarez, SJ, Charlottesville, Virginia</item>
+        <item>Calhoun Winton, Sewanee, Tennessee</item>
+      </list>
+    </div>
+
+    <div type="contributingMembers">
+      <head>Contributing Members</head>
+      <list>
+        <item>Willard Agee, Charlottesville, Virginia</item>
+        <item>Susan Allen, Claremont, California</item>
+        <item>William P. Barlow, Oakland, California</item>
+        <item>John Bidwell, Princeton, New Jersey</item>
+        <item>John R. Block, Pittsburgh, Pennsylvania</item>
+        <item>Bodleian Libraries, Oxford, England</item>
+        <item>Thomas Bonnell, Granger, Indiana</item>
+        <item>Richard Bucci, Brooklyn, New York</item>
+        <item>Dr Paolo Dessy, Rome, Italy</item>
+        <item>Rolf E. Du Rietz, Uppsala, Sweden</item>
+        <item>Scott Elwood, Brooklyn, New York</item>
+        <item>John Fish, Victoria, Australia</item>
+        <item>David L. Gants, Tallahassee, Florida</item>
+        <item>William Getchell Jr, Winchester, Virginia</item>
+        <item>Bradley H. Gunter, Charlottesville, Virginia</item>
+        <item>John N. Hoover, St Louis, Missouri</item>
+        <item>Lisa Maruca, Charlottesville, Virginia</item>
+        <item>Jay Moschella, Roslindale, Massachusetts</item>
+        <item>Richard Noble, Fairlee, Connecticut</item>
+        <item>Anne and Fred Ribble, Charlottesville, Virginia</item>
+        <item>Theresa Saliba, Waterford, Ireland</item>
+        <item>Mark Samuels-Lasner, Washington DC</item>
+        <item>David Seaman, Syracuse, New York</item>
+        <item>Andrew M. Stauffer, Charlottesville, Virginia</item>
+        <item>Kelly Tetterton and Peter Byrnes, Evanston, Illinois</item>
+        <item>John Thorne, Houston, Texas</item>
+        <item>University of Hawai’i at Mānoa, Honolulu, Hawaii</item>
+        <item>David Vander Meulen, Charlottesville, Virginia</item>
+        <item>Edward Vanhoutte, Deurne, Belgium</item>
+        <item>Lenora Wannier, La Canada, California</item>
+        <item>Adrian Weiss, Green Valley, Arizona</item>
+      </list>
+    </div>
+
+    <div type="subscribingMembers">
+      <head>Subscribing Members</head>
+      <div type="individuals">
+        <head>Individuals</head>
+        <list>
+          <item>Craig S. Abbott</item>
+          <item>Leslie Arthur</item>
+          <item>James P. Ascher</item>
+          <item>Joseph C. Baillargeon</item>
+          <item>Carlo M. Bajetta</item>
+          <item>Pat Riles Bart</item>
+          <item>Paul F. Betz</item>
+          <item>Tad Boehmer</item>
+          <item>Ronald Broude</item>
+          <item>Richard Calahan</item>
+          <item>John P. Chalmers</item>
+          <item>Lorna Clymer</item>
+          <item>Chris Cullnane</item>
+          <item>Evan Davis</item>
+          <item>Diane De Fazio</item>
+          <item>Emily Lorraine de Montluzin</item>
+          <item>Jeremy Dibbell</item>
+          <item>Thorne Donnelley</item>
+          <item>Michael Duane</item>
+          <item>Christian Dupont</item>
+          <item>Matthew H. Edney</item>
+          <item>Christopher Edwards</item>
+          <item>Paul Eggert</item>
+          <item>Donald L. Farren</item>
+          <item>Joe Fay</item>
+          <item>John P. Feather</item>
+          <item>Devin Fitzgerald</item>
+          <item>Barbara L. Fitzpatrick</item>
+          <item>Janet Freeman</item>
+          <item>Jonathan Furner</item>
+          <item>Ian A. Gadd</item>
+          <item>Roger Gaskell</item>
+          <item>Theresa Goodman</item>
+          <item>Richard J. Goulden</item>
+          <item>Benjamin Griffin</item>
+          <item>Joseph J. Gwara</item>
+          <item>J. W. C. Hagstrom</item>
+          <item>Ann Haley</item>
+          <item>Christopher Hammer</item>
+          <item>Chiaki Hanabusa</item>
+          <item>George T. Harris</item>
+          <item>Barbara Heritage</item>
+          <item>Grace Ioppolo</item>
+          <item>F. A. Janssen</item>
+          <item>John R. Jenson</item>
+          <item>Kenneth Karmiole</item>
+          <item>Farley Katz</item>
+          <item>James Kayes</item>
+          <item>John Lancaster</item>
+          <item>Benjamin Lee</item>
+          <item>Kyungshik Lee</item>
+          <item>Samuel Lemley</item>
+          <item>Deborah J. Leslie</item>
+          <item>J. C. Levenson</item>
+          <item>David Levy</item>
+          <item>Geoffrey Little</item>
+          <item>James E. May</item>
+          <item>James McLaverty</item>
+          <item>Howard S. Mott</item>
+          <item>Ambrose Murphy</item>
+          <item>Nicholas Noyes</item>
+          <item>Jackie Parascandola</item>
+          <item>Catherine M. Parisian</item>
+          <item>Larry Paschelke</item>
+          <item>Kenneth D. Rapoport</item>
+          <item>Mark Reed</item>
+          <item>Patricia Richmond</item>
+          <item>Robert Barnet Riter</item>
+          <item>Shef Rogers</item>
+          <item>Zach Rosalinsky</item>
+          <item>Ellen Saito</item>
+          <item>Lance Schachterle</item>
+          <item>Mark Seidl</item>
+          <item>Terry Seymour</item>
+          <item>Peter Shillingsburg</item>
+          <item>Joel Silver</item>
+          <item>Ruth E. St Onge</item>
+          <item>Laura Stalker</item>
+          <item>Robert Steele</item>
+          <item>Stephen Tabor</item>
+          <item>Akira Takano</item>
+          <item>Hans E. Tausig</item>
+          <item>Kenneth C. Thompson</item>
+          <item>James L. W. West III</item>
+          <item>Michael Winship</item>
+          <item>James Wooley</item>
+          <item>William Zachs</item>
+        </list>
+      </div>
+
+      <div type="institutions">
+        <head>Institutions</head>
+        <list>
+          <item>American Antiquarian Society</item>
+          <item>American Philosophical Society</item>
+          <item>American University</item>
+          <item>Amherst College</item>
+          <item>Baylor University</item>
+          <item>Beasley Books</item>
+          <item>Bibliothèque cantonale et universitaire, Fribourg</item>
+          <item>Bibliothèque Sainte-Geneviève, Paris</item>
+          <item>Birkbeck College, London</item>
+          <item>Blue Whale Books</item>
+          <item>Boston Athenaeum</item>
+          <item>Boston Public Library</item>
+          <item>Cambridge University Library</item>
+          <item>Cardiff University</item>
+          <item>Catholic University of America</item>
+          <item>Clark Library</item>
+          <item>Colonial Williamsburg Foundation</item>
+          <item>Dartmouth College</item>
+          <item>Duke University</item>
+          <item>École nationale des chartes</item>
+          <item>Emory University</item>
+          <item>English Faculty Library, Oxford</item>
+          <item>Furman University</item>
+          <item>Grolier Club</item>
+          <item>Guildhall Library</item>
+          <item>Huntington Library</item>
+          <item>Indiana University–Purdue University at Indianapolis</item>
+          <item>Institut für Anglistik, Amerikanistik und Keltologie der Universität Bonn</item>
+          <item>James Madison University</item>
+          <item>John Carter Brown Library</item>
+          <item>Katholieke Universiteit, Leuven</item>
+          <item>Kent State University</item>
+          <item>Kongelige Bibliotek, Copenhagen</item>
+          <item>Koninklijke Bibliotheek, Brussels</item>
+          <item>Koninklijke Bibliotheek, The Hague</item>
+          <item>L &amp; T Respess Books</item>
+          <item>Library Company of Philadelphia</item>
+          <item>Library of Congress</item>
+          <item>Library of Virginia</item>
+          <item>Libreria Lodi, Milan</item>
+          <item>Lithuanian Academy of Science</item>
+          <item>Massey College, Toronto</item>
+          <item>Morgan Library and Museum</item>
+          <item>National Library of Israel</item>
+          <item>National Library of Scotland</item>
+          <item>National Library of Wales</item>
+          <item>Newberry Library</item>
+          <item>Northern Kentucky University</item>
+          <item>Oak Spring Garden Library</item>
+          <item>Osaka Orvis, Inc.</item>
+          <item>Rare Book School</item>
+          <item>Sheffield University</item>
+          <item>Staatsbibliothek zu Berlin</item>
+          <item>Swansea University</item>
+          <item>Tavistock Books</item>
+          <item>Temple University</item>
+          <item>Texas A&amp;M University</item>
+          <item>Texas Woman’s University</item>
+          <item>Trinity College, Cambridge</item>
+          <item>Università Studi Firenze</item>
+          <item>Universitätsbibliothek Augsburg</item>
+          <item>Universitätsbibliothek Erlangen</item>
+          <item>Universitätsbibliothek Kiel</item>
+          <item>Universitätsbibliothek Passau</item>
+          <item>Université de Paris</item>
+          <item>Université Moretus-Plantin</item>
+          <item>University of Aberdeen</item>
+          <item>University of Auckland</item>
+          <item>University of Birmingham</item>
+          <item>University of Chicago</item>
+          <item>University of Colorado</item>
+          <item>University of Dublin</item>
+          <item>University of Edinburgh</item>
+          <item>University of Kansas</item>
+          <item>University of Keele</item>
+          <item>University of Kent at Canterbury</item>
+          <item>University of Konstanz</item>
+          <item>University of Leicester</item>
+          <item>University of Manchester</item>
+          <item>University of Maryland, Baltimore County</item>
+          <item>University of Mississippi</item>
+          <item>University of New Brunswick</item>
+          <item>University of Nottingham</item>
+          <item>University of Oklahoma</item>
+          <item>University of Otago</item>
+          <item>University of Queensland</item>
+          <item>University of Richmond</item>
+          <item>University of Rochester</item>
+          <item>University of Southern California</item>
+          <item>University of St Andrews</item>
+          <item>University of Stirling</item>
+          <item>University of Toronto</item>
+          <item>University of Victoria, British Columbia</item>
+          <item>University of Virginia College at Wise</item>
+          <item>University of Warwick</item>
+          <item>Utah State University</item>
+          <item>Victoria University, Toronto</item>
+          <item>Wellcome Library</item>
+          <item>Wellesley College</item>
+          <item>Western Kentucky University</item>
+          <item>Williams College</item>
+          <item>Yale University</item>
+          <item>Zentralbibliothek Zürich</item>
+        </list>
+      </div>
+
+      <div type="students">
+        <head>Student Members</head>
+        <list>
+          <item>De Van Ard</item>
+          <item>Isabel Bielat</item>
+          <item>Kelsey Cashman</item>
+          <item>Piper Farmer</item>
+          <item>Eliza Feero</item>
+          <item>Timothy Gress</item>
+          <item>Eileen Horansky</item>
+          <item>Robin Jensen</item>
+          <item>Jessica Lahd</item>
+          <item>Rafaela Linares Blasini</item>
+          <item>Loren Lee</item>
+          <item>Annika Rockenberger</item>
+          <item>Choi Si</item>
+          <item>Kamil Stelmach</item>
+          <item>Heather Whitney</item>
+          <item>Yuqi Zhao</item>
+        </list>
+      </div>
     </div>
   </div>
 
-  <div type="acknowledgements" xml:id="handlist-acknowledgements">
-    <head>Acknowledgements</head>
-    <p>I have collected Carter’s publications for many years, drawing on holdings at Eton College, King’s College Cambridge, Cambridge University Library, the Bodleian Library, the Library of Congress, the Lilly Library, the Grolier Club, the Harry Ransom Center, and the R. R. Bowker Company. My particular thanks are due to A. S. G. Edwards, Nicolas Barker, Michael Meredith, and many others, including Richard Bucci, Ernestine Carter, Sebastian Carter, P. J. Croft, Arthur Crook, Brooke Crutchley, Basie Bales Gitlin, Harrison Hayford, and David Whitesell, among numerous friends and colleagues who supplied information, copies, or encouragement. Permission to quote from Carter’s unpublished annotations has been kindly granted by Eton College Library.</p>
+  <div type="bibliography">
+    <head>Available Publications</head>
+
+    <div type="digital">
+      <head>Digital Publications (free online via http://www.bsuva.org)</head>
+      <listBibl>
+        <bibl>Studies in Bibliography, vols. 1–60 (with Cumulative Table of Contents)</bibl>
+        <bibl>de Montluzin, Emily Lorraine, <title level="m">Attributions of Authorship in the <hi rendition="italic">European Magazine</hi>, 1782–1826</title></bibl>
+        <bibl>de Montluzin, Emily Lorraine, <title level="m">Attributions of Authorship in the <hi rendition="italic">Gentleman’s Magazine</hi>, 1731–1868: An Electronic Union List</title></bibl>
+        <bibl>Evans, G. Blakemore (ed.), <title level="m">Shakespearean Prompt-Books of the Seventeenth Century</title>, vols. 1–8</bibl>
+        <bibl>Hailey, J. Carter, <title level="m">A Catalog of Paperstocks in the Shakespearian Pavier Quartos (1619)</title></bibl>
+        <bibl>Neavill, Gordon B., <title level="m">A Bibliography of <hi rendition="italic">The Modern Library</hi>: 1925–1959</title></bibl>
+        <bibl>Ray, Gordon N., <title level="m">Illustrations for <hi rendition="italic">The Art Deco Book in France</hi></title></bibl>
+      </listBibl>
+    </div>
+
+    <div type="print">
+      <head>Print Publications</head>
+      <p>The latest volume of <hi rendition="italic">Studies in Bibliography</hi> is available for $70.00 from the University of Virginia Press. Many back issues may be ordered from the Executive Secretary of the Society.</p>
+      <div type="otherPrint">
+        <head>Other Society Publications (distributed by Oak Knoll Books)</head>
+        <listBibl>
+          <bibl>Bidwell, John. <title level="m">Paper and Type: Bibliographical Essays</title> (2019). $55.00</bibl>
+          <bibl>Boughn, Michael. <title level="m">H. D.: A Bibliography, 1905–1990</title> (1993). $39.50</bibl>
+          <bibl>Bowers, Fredson. <title level="m">Essays in Bibliography, Text, and Editing</title> (2nd printing, 2003). $70.00</bibl>
+          <bibl>Bowers, Fredson. <title level="m">Principles of Bibliographical Description</title> (reprint, 2023). $39.95</bibl>
+          <bibl>Bristol, Roger P. <title level="m">Supplement to Charles Evans’ American Bibliography</title> and <title level="m">Index to Supplement to Evans’ American Bibliography</title> (1970; 1971). $70.00</bibl>
+          <bibl>Eddy, Donald D., &amp; J. D. Fleeman. <title level="m">A Preliminary Handlist of Books to which Dr Samuel Johnson Subscribed</title> (1993). $10.00</bibl>
+          <bibl>Evans, G. Blakemore (ed.). <title level="m">Shakespearean Prompt-Books of the Seventeenth Century</title>, Vols V–VII (1970–1989). $50.00 each</bibl>
+          <bibl>Fry, Donald. <title level="m">Beowulf and The Fight at Finnsburh: A Bibliography</title> (1969). $25.00</bibl>
+          <bibl>Graves, Joseph. <title level="m">Victor Hammer: Calligrapher, Punch-Cutter &amp; Printer</title> (1954). $7.50</bibl>
+          <bibl>Ray, Gordon N. <title level="m">The Art Deco Book in France</title> (2005). $50.00</bibl>
+          <bibl>Ray, Gordon N. <title level="m">Books as a Way of Life</title> (2017). $50.00</bibl>
+          <bibl>Tanselle, G. Thomas. <title level="m">Book-Jackets: Their History, Forms, and Use</title> (2nd printing, 2012). $60.00</bibl>
+          <bibl>Tanselle, G. Thomas. <title level="m">Books in My Life</title> (2021). $60.00</bibl>
+          <bibl>Tanselle, G. Thomas. <title level="m">Descriptive Bibliography</title> (2020). $60.00</bibl>
+          <bibl>Tanselle, G. Thomas. <title level="m">Essays in Bibliographical History</title> (2013). $40.00</bibl>
+          <bibl>Tanselle, G. Thomas. <title level="m">The Life and Work of Fredson Bowers</title> (2003 printing). $50.00</bibl>
+          <bibl>Tanselle, G. Thomas. <title level="m">Literature and Artifacts</title> (1998). $60.00</bibl>
+          <bibl>Tanselle, G. Thomas. <title level="m">Portraits &amp; Reviews</title> (2015). $55.00</bibl>
+          <bibl>Tanselle, G. Thomas. <title level="m">A Sample Bibliographical Description with Commentary</title> (2020). $10.00</bibl>
+          <bibl>Tanselle, G. Thomas. <title level="m">Textual Criticism and Scholarly Editing</title> (3rd printing, 2003). $60.00</bibl>
+          <bibl>Tanselle, G. Thomas. <title level="m">Textual Criticism since Greg: A Chronicle 1950–2000</title> (2005). $60.00</bibl>
+          <bibl>Vander Meulen, David L. (ed.). <title level="m">The Bibliographical Society of the University of Virginia: The First Fifty Years</title> (1998). $60.00</bibl>
+          <bibl>Vander Meulen, David L. <title level="m">Pope’s <hi rendition="italic">Dunciad</hi> of 1728: A History and Facsimile</title> (1991). $40.00</bibl>
+          <bibl>Vander Meulen, David L., &amp; G. Thomas Tanselle (eds.). <title level="m">Samuel Johnson’s Translation of Sallust: A Facsimile and Transcription of the Hyde Manuscript</title> (1993). $25.00</bibl>
+          <bibl>Vander Meulen, David L. <title level="m">Where Angels Fear to Tread: Descriptive Bibliography and Alexander Pope</title> (2014). $10.00</bibl>
+          <bibl>Wright, Stuart. <title level="m">Peter Taylor: A Descriptive Bibliography, 1934–87</title> (1988). $40.00</bibl>
+        </listBibl>
+      </div>
+    </div>
   </div>
 
-  <div type="appendix" xml:id="appendix-titan">
-    <head>Appendix 1. <title>The Fall of the Titan</title></head>
-    <p>The novel <title>The Fall of the Titan</title> (London: Lincoln Williams, 1934), attributed on the title-page to “John Waynflete,” has often been ascribed to John Carter because Waynflete was his middle name and a pseudonym he later used. Stylistic evidence suggests otherwise, and the attribution remains unproven; the book is therefore mentioned here rather than listed in the handlist proper.</p>
+  <div type="programs">
+    <head>Annual Meetings &amp; Programs (2019–2024)</head>
+    <list>
+      <item n="2019">22 March 2019: John Unsworth, “The Renovation of Alderman Library, 2007 to 2023”</item>
+      <item n="2020">20 March 2020: Annual meeting cancelled (COVID-19). Papers accepted: Shalmi Barman; Michael VanHoose; Catherine Walshak; Julie Wilson</item>
+      <item n="2022">18 March 2022: Louis Mainwaring Foster; John Shimazaki; Samantha Stephens</item>
+      <item n="2023">23 March 2023: David L. Vander Meulen, “Handsome, Durable, and Inexpensive: The ‘Modern Library,’ 1925–1959”</item>
+      <item n="2024">22 March 2024: Spencer Grayson; Regan Schadl; Hyeona Park</item>
+    </list>
   </div>
 
-  <div type="appendix" xml:id="appendix-makins">
-    <head>Appendix 2. Speeches and Articles for Sir Roger Makins</head>
-    <p>Between April 1953 and October 1955 Carter served as personal assistant to Sir Roger Makins, British ambassador to the United States, and drafted a number of speeches and articles for him. Surviving typescripts and published versions in the Carter papers at Eton show varying degrees of revision by Makins himself. Because Carter’s authorship cannot be precisely determined, these items are not included in the handlist.</p>
+  <div type="awards">
+    <head>Student Awards in Book Collecting</head>
+    <list>
+      <item n="2020">Katherine Churchill; Hannah Barker</item>
+      <item n="2022">Austin Benson; Cherrie Kwok; Rebecca Barry</item>
+      <item n="2024">Christian Daichi Carlson; Lewis Kothmann; Joseph Johns</item>
+    </list>
+  </div>
+
+  <div type="fellowships">
+    <head>Battestin Fellowships (Selected)</head>
+    <list>
+      <item n="2019">Samuel Maxwell Grimes; Lloyd Sy; Michael J. Van Hoose; Madeline Lee Zehnder</item>
+      <item n="2020">Lucia Alden; Emmalee Dove; Bridget Reilly; Anne Marie Thompson</item>
+      <item n="2021">Austin J. Benson; Rebecca Elise Foote; Kelsey Eren Jaye; Meaghan M. Walsh; Chloe Downe Wells</item>
+      <item n="2022">Molly Kathryn Kluever; Lucas Martinez; William M. Nichols; Samantha L. Stephens</item>
+      <item n="2023">Kaitlyn Airy Johnson; Isabel Rose Bielat; Heather Alison Moody; Anne Laura Persons; Jared Willden; Sophia Sonam Zaklikowski</item>
+      <item n="2024">Matthew Blake Farwell; Spencer Grayson; Marissa J. Kessenich; Cy F. March; Annyston H. Pennington</item>
+    </list>
   </div>
 </back>

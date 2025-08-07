@@ -1,0 +1,7 @@
+{
+  "tei": "<pb n=\"192\"/>\n<figure>\n  <head>figure 1.</head>\n  <figDesc>Headpiece to Epitaphs, Works II quarto; adopted from Odyssey I.</figDesc>\n  \n</figure>",
+  "audit": {
+    "auditPassed": true,
+    "issues": []
+  }
+}

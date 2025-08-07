@@ -52,16 +52,8 @@
       "section": "article",
       "description": "John Carter: An Assessment by G. Thomas Tanselle",
       "startPage": 7,
-      "endPage": 34,
-      "startLabel": "1",
-      "endLabel": "28"
-    },
-    {
-      "section": "appendix",
-      "description": "Handlist of John Carter&rsquo;s Published Writings (continues preceding article)",
-      "startPage": 35,
       "endPage": 110,
-      "startLabel": "29",
+      "startLabel": "1",
       "endLabel": "104"
     },
     {

@@ -1,0 +1,9 @@
+{
+  "tei": "<pb n=\"232\"/>\n<list>\n<item>16. ‘Alterations to the Pastoralls’, partly holograph: part of Lot 3172 in 1776; Roy<lb/>Davids sale, 2013 (PoA 274).</item>\n<item>17. ‘Mr. Pope’s original Letters to Mr. Richardson, sen.’, holograph: part of Lot 3173 in 1776; now probably dispersed.</item>\n<item>18. ‘Dedication to all his Works’, perhaps holograph: part of Lot 3173 in 1776; now unlocated, unless it is to be identified with the draft of the ‘Preface’ to<lb/>the 1717 Works now in the John Murray album at Yale (PoA 400).</item>\n<item>19. ‘Transcript of what he dedicated [sc. dictated] to Mr. Richardson of his Birth<lb/>and Publications’: part of Lot 3173 in 1776; now unlocated, but transcribed<lb/>in 1775 as Bodleian, MS Eng. lett. d. 59, fols. 80–8 1.</item>\n<item>20. Works (1717), presented by Pope to Jonathan Richardson the elder, and<lb/>marked up with collations by Jonathan Richardson the younger: not in the<lb/>1776 sale; now in the Berg Collection.</item>\n</list>",
+  "audit": {
+    "auditPassed": true,
+    "issues": [
+      "The differences are limited to header/footer elements and formatting variations (such as line breaks and whitespace), with no substantive alterations to the content."
+    ]
+  }
+}

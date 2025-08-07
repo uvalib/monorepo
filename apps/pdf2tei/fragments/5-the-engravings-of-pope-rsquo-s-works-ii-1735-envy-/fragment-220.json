@@ -1,0 +1,7 @@
+{
+  "tei": "<pb n=\"214\"/>\n<figure>\n <figDesc>figure 13. Mercury engraving (no ribbon); headpiece (p. 1) to The Works of Mr. Alexander<lb/>Pope in Prose, Volume II, quarto (1741).</figDesc>\n \n</figure>\n<figure>\n <figDesc>figure 14. Mercury engraving (ribbon with inscription); headpiece (Preface) to<lb/>Letters of Mr. Alexander Pope and Several of His Friends, quarto (1737).</figDesc>\n \n</figure>\n<figure>\n <figDesc>figure 15. Mercury engraving (blank ribbon); tailpiece to Key to the Lock in The Works of<lb/>Mr. Alexander Pope in Prose, Volume II, quarto (1741).</figDesc>\n \n</figure>",
+  "audit": {
+    "auditPassed": true,
+    "issues": []
+  }
+}

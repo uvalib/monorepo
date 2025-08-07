@@ -1,0 +1,7 @@
+{
+  "tei": "<pb n=\"337\"/>\n<figure>\n  <figDesc>figure 3. From final page of the manuscript, The Sun Also Rises. Ernest Hemingway<lb/>Collection, John F. Kennedy Presidential Library and Museum.</figDesc>\n  \n</figure>\n<figure>\n  <figDesc>figure 4. From final page of the setting copy, The Sun Also Rises. Papers of Ernest Heming-<lb/>way, Albert and Shirley Small Special Collections Library, University of Virginia.</figDesc>\n  \n</figure>\n<figure>\n  <figDesc>figure 5. From final page of the first edition, The Sun Also Rises. Charles Scribner’s Sons, 1926.</figDesc>\n  \n</figure>",
+  "audit": {
+    "auditPassed": true,
+    "issues": []
+  }
+}
