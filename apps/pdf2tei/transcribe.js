@@ -114,25 +114,24 @@ async function auditTranscription(pdfData, teiXml, pageNumber, openai) {
   const cleanedTeiXml = serializer.serializeToString(doc);
   const teiText = cleanedTeiXml.replace(/<[^>]+>/g, '');
   const wordRegex = /[\p{L}\p{N}]+/gu;
-  const pdfWordSet = new Set((pdfText.match(wordRegex) || []).map(w => w.toLowerCase()));
+  const pdfWordSet = new Set((pdfText.match(wordRegex) || []));
   const shouldIgnoreToken = (tok) => {
     const ignoreSet = new Set(['amp', 'lt', 'gt', 'quot', 'apos', 'nbsp']);
     if (ignoreSet.has(tok)) return true;
     if (/^\d+$/.test(tok)) return true;
     return false;
   };
-  const teiTokens = (teiText.match(wordRegex) || []).map((w) => w.toLowerCase());
+  const teiTokens = (teiText.match(wordRegex) || []);
   const inventedWords = [];
   for (const tok of teiTokens) {
     if (shouldIgnoreToken(tok)) continue;
     if (pdfWordSet.has(tok)) continue;
-    const lowerTok = tok.toLowerCase();
     const memo = {};
     const canSegment = (start) => {
-      if (start === lowerTok.length) return true;
+      if (start === tok.length) return true;
       if (memo[start] !== undefined) return memo[start];
-      for (let end = start + 1; end <= lowerTok.length; end++) {
-        const piece = lowerTok.slice(start, end);
+      for (let end = start + 1; end <= tok.length; end++) {
+        const piece = tok.slice(start, end);
         if (pdfWordSet.has(piece) && canSegment(end)) {
           return (memo[start] = true);
         }
@@ -157,7 +156,7 @@ async function auditTranscription(pdfData, teiXml, pageNumber, openai) {
   const diffs = diffLines(pdfText, teiText);
   const diffText = diffs.map(d => (d.added ? '+' : d.removed ? '-' : ' ') + d.value).join('');
   console.log('Diff preview:', diffText.slice(0, 200), '...');
-  const systemPrompt = `You are an auditor checking if differences between extracted PDF text and TEI transcription are acceptable (only header/footer or formatting differences).`;
+  const systemPrompt = `You are an auditor checking if differences between extracted PDF text and TEI transcription are acceptable (only header/footer or formatting differences). Flag any significant case mismatches or other textual discrepancies as unacceptable.`;
   const userPrompt = `Diff for page ${pageNumber}:\n${diffText}\n\nRespond with a JSON object: { \"auditPassed\": boolean, \"issues\": string[] }`;
   console.log('Sending audit prompt to LLM');
   const auditResp = await openai.chat.completions.create({
@@ -252,6 +251,7 @@ export async function transcribePDF(input, pageNumber, output) {
     pdfParser.loadPDF(inputPath);
   });
   const pdfJsonString = JSON.stringify(pdfData, null, 2);
+  console.log(pdfJsonString);
   if (!fs.existsSync(inputPath)) throw new Error(`Input PDF not found: ${inputPath}`);
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) throw new Error('Please set the OPENAI_API_KEY environment variable');
@@ -266,12 +266,13 @@ export async function transcribePDF(input, pageNumber, output) {
     try {
       let userPrompt = `You are a University Librarian and an expert at PDF to TEI transcription.
       It is critical that you faithfully transcribe every formatting detail from the original PDF (italics, bold, underline, smallcaps, superscript, dropcaps, etc.) using the correct TEI tags; do not omit or alter any styling.
+      Preserve the original casing of all text; do not alter uppercase/lowercase letters. This includes maintaining exact capitalization as it appears in the PDF for all words, names, titles, and sentences. Use the PDF image to determine the exact text and capitalization, as the JSON parse may have OCR errors.
 
 Given the attached PDF page, transcribe its content into TEI XML according to these rules:
 
 Use <pb n="${pageNumber}"/> at the start, where ${pageNumber} is the page number.
 Mark every line break as <lb/>.
-Mark all small caps text with <hi rend="smallcaps">.
+Mark all small caps text with <hi rend="smallcaps">, transcribing the text in uppercase letters as it appears visually.
 Mark all italic text with <hi rend="italic">.
 Mark all bold text with <hi rend="bold">.
 Mark all underlined text with <hi rend="underline">.
@@ -282,7 +283,7 @@ Use <figure>, include <head> if present, and always provide a <figDesc> describi
 Include <graphic url=""/> inside the <figure>.
 Place each <figure> where the image appears in reading order.
 Use <milestone unit="horizontalRule" rend="hr"/> to represent horizontal rules in the text.
-For dropcap characters at the start of paragraphs, wrap the initial letter in <hi rend="dropcap">X</hi> before the rest of the text.
+For dropcap characters at the start of paragraphs, wrap the initial letter (preserving its case) in <hi rend="dropcap">X</hi> before the rest of the text, ensuring the following text maintains its original capitalization.
 If the page contains only an image/figure, only output <pb n="${pageNumber}"/> and <figure>.
 If the previous page ended with an open tag (e.g., <p>, <div>), continue inside that tag. Only open or close tags if needed by the text.
 Only generate a TEI fragment for inclusion inside the <body> element (do not include document-level containers like <TEI>, <text>, or <body>).
