@@ -18,7 +18,10 @@ const proxyUrl = process.env.PROXY_URL || `http://localhost:${PORT}`;
 const verbosity = Number(process.env.VERBOSITY) || 0;
 const username = process.env.USERNAME;
 const password = process.env.PASSWORD;
-const tenantPathSegment = '/cspace/virginia'; // Adjust as needed
+const tenantPathSegment = process.env.TENANT_PATH || '/cspace/virginia'; // Adjust via env
+// Silent re-auth / session keep-alive configuration
+const sessionRefreshEnabled = process.env.SESSION_REFRESH_ENABLED !== 'false'; // default true
+const sessionRefreshIntervalMs = Number(process.env.SESSION_REFRESH_INTERVAL_MS) || (8 * 60 * 1000); // default 8 min
 
 // Parse allowed user IDs from environment and enforce REMOTE_USER authorization
 const authIds = (process.env.AUTH_IDS || 'dhc4z,smh2ne,akr5gz,hmh5xj,arm8h,kod9dx')
@@ -37,17 +40,48 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const injectSource = fs.readFileSync(path.join(__dirname, 'inject.js'), 'utf8');
 function createInjectionScript(tenantPath, proxyUsername) {
-  // Inject tenantPath and proxyUsername then include client script in one <script> tag
+  // Inject variables + existing client customizations + keep-alive logic in one <script> tag
   const safeSource = injectSource.replace(/<\/script>/g, '<\\/script>');
+  const verbosityLevel = verbosity; // capture for closure
   return `<script>
-    const tenantPath = '${tenantPath}';
-    const proxyUsername = '${proxyUsername}';
+    // ==== Proxy Injected Variables ====
+    const tenantPath = ${JSON.stringify(tenantPath)};
+    const proxyUsername = ${JSON.stringify(proxyUsername || '')};
+    const __proxyRefreshEnabled = ${JSON.stringify(sessionRefreshEnabled)};
+    const __proxyRefreshInterval = ${sessionRefreshIntervalMs};
+    const __proxyLoginPath = '/cspace-services/login?silent=1';
+    const __proxyVerbosity = ${verbosityLevel};
+    // ==== Existing UI Mutation / Field Control Script ====
     ${safeSource}
+    // ==== Silent Session Keep-Alive ====
+    (function(){
+      if(!__proxyRefreshEnabled){ if(__proxyVerbosity>=1) console.log('[Proxy] Silent refresh disabled'); return; }
+      let lastRefresh = Date.now();
+      let refreshing = false;
+      function log(...a){ if(__proxyVerbosity>=1) console.log('[Proxy]', ...a); }
+      function doRefresh(force){
+        if(!__proxyRefreshEnabled) return;
+        const now = Date.now();
+        if(!force && (now - lastRefresh) < __proxyRefreshInterval) return;
+        if(refreshing) return;
+        refreshing = true;
+        fetch(__proxyLoginPath, { method: 'GET', credentials: 'same-origin' })
+          .then(r => { lastRefresh = Date.now(); if(!r.ok) log('Silent refresh failed status', r.status); else log('Silent refresh success'); })
+          .catch(err => log('Silent refresh error', err))
+          .finally(()=> { refreshing = false; });
+      }
+      // Poll minutely (or smaller interval if refresh interval < 60s) and refresh on events
+      const pollMs = Math.min(__proxyRefreshInterval, 60*1000);
+      setInterval(()=>doRefresh(false), pollMs);
+      window.addEventListener('focus', () => doRefresh(true));
+      document.addEventListener('visibilitychange', () => { if(!document.hidden) doRefresh(true); });
+      // Expose manual controls for debugging
+      window.__CSProxyForceRefresh = () => doRefresh(true);
+      window.__CSProxyGetLastRefresh = () => lastRefresh;
+      log('Silent refresh initialized: interval=' + __proxyRefreshInterval + 'ms (poll every ' + pollMs + 'ms)');
+    })();
   </script>`;
 }
-
-// --- Routes ---
-
 // 1. Welcome Redirect
 app.get(`${tenantPathSegment}/welcome`, (req, res) => {
   if (verbosity >= 1) {
@@ -56,7 +90,7 @@ app.get(`${tenantPathSegment}/welcome`, (req, res) => {
   return res.redirect('/cspace-services/login');
 });
 
-// 2. Auto-Login Handler
+// 2. Auto-Login Handler (supports silent refresh via ?silent=1)
 app.get('/cspace-services/login', async (req, res, next) => {
   if (!username || !password) {
     console.error('Missing USERNAME or PASSWORD in environment variables for auto-login.');
@@ -95,20 +129,17 @@ app.get('/cspace-services/login', async (req, res, next) => {
       body: formData.toString(),
       redirect: 'manual',
     });
-    if (verbosity >= 1) {
-      console.log(`Login POST Response Status: ${loginPostResponse.status}`);
-      for (const [key, value] of loginPostResponse.headers.entries()) {
-        if (verbosity >= 2 || key.toLowerCase() === 'location' || key.toLowerCase() === 'set-cookie') {
-          console.log(` <- Header: ${key}: ${value}`);
-        }
-      }
-    }
+    const silent = 'silent' in req.query; // presence of param triggers silent refresh behavior
     if (loginPostResponse.status === 302) {
       const locationHeader = loginPostResponse.headers.get('location');
-      const postSetCookies = loginPostResponse.headers.getSetCookie();
+      const postSetCookies = loginPostResponse.headers.getSetCookie?.();
       if (postSetCookies && postSetCookies.length > 0) {
         res.setHeader('Set-Cookie', postSetCookies);
         if (verbosity >= 1) console.log(`Forwarding ${postSetCookies.length} cookie(s) to client.`);
+      }
+      if (silent) {
+        if (verbosity >= 1) console.log('Silent login refresh succeeded. Returning 200 JSON.');
+        return res.status(200).json({ refreshed: true, at: Date.now() });
       }
       let redirectTarget = locationHeader || '/';
       if (redirectTarget.startsWith(destination)) {
@@ -121,8 +152,10 @@ app.get('/cspace-services/login', async (req, res, next) => {
       console.error(`Auto-login failed with status: ${loginPostResponse.status}`);
       const errorBody = await loginPostResponse.text();
       console.error('Auto-login error snippet:', errorBody.slice(0, 500));
+      const payload = { success: false, status: loginPostResponse.status };
+      if (silent) return res.status(500).json(payload);
       res.status(500).send(`Auto-login failed (Status: ${loginPostResponse.status}).`);
-    }
+  }
   } catch (error) {
     console.error('Error during auto-login:', error);
     next(error);
@@ -195,6 +228,7 @@ app.listen(PORT, () => {
   console.log(`Auto-login: ${username ? "Enabled (user: " + username + ")" : "DISABLED (set USERNAME/PASSWORD env vars)"}`);
   console.log(`Verbosity Level: ${verbosity}`);
   console.log(`Node.js Version: ${process.version}`);
+  console.log(`Silent Refresh: ${sessionRefreshEnabled ? 'ENABLED' : 'disabled'} (interval ${sessionRefreshIntervalMs} ms)`);
   if (!globalThis.fetch) {
       console.warn("Warning: globalThis.fetch is not detected. Ensure Node.js v18+ is used.");
   }
