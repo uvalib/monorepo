@@ -1,0 +1,1 @@
+mysql -h rds-mysql8-production.internal.lib.virginia.edu -u occupancy_ro -p occupancy --batch --raw -e "SELECT serial_no, count_in, count_out, created_at FROM rawmetrics WHERE source='sum'  ORDER BY created_at ASC" > ~/Downloads/counts.csv
