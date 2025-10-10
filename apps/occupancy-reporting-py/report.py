@@ -16,6 +16,7 @@ serial_nos = [s.strip() for s in serial_input.split(',') if s.strip()]
 parser = argparse.ArgumentParser(description='Process occupancy counts.')
 parser.add_argument('--debug', action='store_true', help='Enable debug mode to print log lines.')
 parser.add_argument('--daily', action='store_true', help='Enable printing daily and hourly details.')
+parser.add_argument('--test', action='store_true', help='Use test occupancy data file instead of production.')
 args = parser.parse_args()
 
 if args.debug:
@@ -40,7 +41,7 @@ else:
 open_intervals = get_hours(start_date_str, end_date_str)
 
 # Load the TSV file
-file_path = 'counts_with_occupancy.tsv'
+file_path = 'counts_with_occupancy_test.tsv' if args.test else 'counts_with_occupancy.tsv'
 df = pd.read_csv(file_path, sep='\t')
 
 # Convert created_at to datetime with UTC
@@ -54,43 +55,35 @@ df['date'] = df['created_at_nyc'].dt.date
 df['time'] = df['created_at_nyc'].dt.time
 df['hour'] = df['created_at_nyc'].dt.hour
 
-# Filter by serial_no
-df = df[df['serial_no'].isin(serial_nos)]
-
 # Filter by date range (NYC)
 df = df[(df['date'] >= start_date) & (df['date'] <= end_date)]
 
 # Filter by time range (NYC)
-df = df[(df['time'] >= start_time) & (df['time'] <= end_time)]
+df = df[df['time'] >= start_time]
+if end_time.minute == 0 and end_time.second == 0 and end_time.microsecond == 0:
+    df = df[df['time'] < end_time]
+else:
+    df = df[df['time'] <= end_time]
 
 # Sort the dataframe
 df = df.sort_values('created_at_nyc')
 
-# Aggregate to building level
-building_df = df.groupby('created_at_nyc').agg({
-    'delta_in': 'sum',
-    'delta_out': 'sum',
-    'occupancy': 'sum',
-    'date': 'first',
-    'hour': 'first',
-    'time': 'first'
-}).reset_index()
+# Compute deltas within each day to avoid cross-day resets
+df['delta_in'] = df.groupby('date')['count_in'].diff().fillna(0)
+df['delta_out'] = df.groupby('date')['count_out'].diff().fillna(0)
 
-# Fold exact end_time entries into previous hour if end_time is on the hour
-if end_time.minute == 0 and end_time.second == 0 and end_time.microsecond == 0:
-    condition = (building_df['time'] == end_time)
-    if end_time.hour > 0:
-        building_df.loc[condition, 'hour'] = end_time.hour - 1
-    else:
-        building_df.loc[condition, 'hour'] = 23
-        building_df.loc[condition, 'date'] = building_df.loc[condition, 'date'] - timedelta(days=1)
+# Handle counter resets and negative diffs by falling back to the current count
+neg_in_mask = df['delta_in'] < 0
+neg_out_mask = df['delta_out'] < 0
+df.loc[neg_in_mask, 'delta_in'] = df.loc[neg_in_mask, 'count_in']
+df.loc[neg_out_mask, 'delta_out'] = df.loc[neg_out_mask, 'count_out']
 
 # Compute is_open
-building_df['is_open'] = building_df.apply(lambda row: is_open(row['date'], row['time'], open_intervals), axis=1)
+df['is_open'] = df.apply(lambda row: is_open(row['date'], row['time'], open_intervals), axis=1)
 
 # If debug, list skipped
 if args.debug:
-    skipped = building_df[~building_df['is_open']].copy()
+    skipped = df[~df['is_open']].copy()
     if not skipped.empty:
         print("Skipped due to closed hours:")
         unique_date_hours = skipped[['date', 'hour']].drop_duplicates().sort_values(['date', 'hour'])
@@ -107,26 +100,28 @@ if args.debug:
         print(f"Total skipped: in {total_skipped_in}, out {total_skipped_out}")
 
 # Filter to open hours
-building_df = building_df[building_df['is_open']]
+df = df[df['is_open']]
 
 # Drop is_open
-building_df = building_df.drop('is_open', axis=1)
+df = df.drop('is_open', axis=1)
 
 # If debug, print the groups
 if args.debug:
     print("Debug building data:")
-    print(building_df[['created_at_nyc', 'delta_in', 'delta_out', 'occupancy']])
+    print(df[['created_at_nyc', 'delta_in', 'delta_out', 'occupancy']])
     print("\n")
 
 # Compute daily totals
-daily_totals = building_df.groupby('date').agg({'delta_in': 'sum', 'delta_out': 'sum', 'occupancy': 'mean'}).reset_index()
+daily_totals = df.groupby('date').agg({'delta_in': 'sum', 'delta_out': 'sum', 'occupancy': 'mean'}).reset_index()
+daily_totals['combined'] = daily_totals['delta_in'] + daily_totals['delta_out']
 
 # Compute hourly totals per day
-hourly_per_day = building_df.groupby(['date', 'hour']).agg({'delta_in': 'sum', 'delta_out': 'sum', 'occupancy': 'mean'}).reset_index()
+hourly_per_day = df.groupby(['date', 'hour']).agg({'delta_in': 'sum', 'delta_out': 'sum', 'occupancy': 'mean'}).reset_index()
+hourly_per_day['combined'] = hourly_per_day['delta_in'] + hourly_per_day['delta_out']
 
 # Compute total over period
-total_in = building_df['delta_in'].sum()
-total_out = building_df['delta_out'].sum()
+total_in = df['delta_in'].sum()
+total_out = df['delta_out'].sum()
 
 # Number of days
 num_days = len(daily_totals)
@@ -155,16 +150,61 @@ avg_daily_out = total_out / num_days if num_days > 0 else 0
 avg_daily_occ = daily_totals['occupancy'].mean() if num_days > 0 else 0
 print(f"Average daily: in {avg_daily_in:.2f}, out {avg_daily_out:.2f}, combined {(avg_daily_in + avg_daily_out):.2f}, avg occupancy {avg_daily_occ:.2f}")
 
-# Average hourly
+# Coverage and distribution details
+total_days_in_range = (end_date - start_date).days + 1
+unique_open_hours = df[['date', 'hour']].drop_duplicates()
+open_hour_count = len(unique_open_hours)
+avg_in_per_open_hour = total_in / open_hour_count if open_hour_count > 0 else 0
+avg_out_per_open_hour = total_out / open_hour_count if open_hour_count > 0 else 0
+
+print("Coverage summary:")
+print(f"  Open days included: {num_days} out of {total_days_in_range} days in range")
+print(f"  Unique open hours sampled: {open_hour_count}")
+
 if num_days > 0:
-    hourly_avg = building_df.groupby('hour').agg({'delta_in': 'sum', 'delta_out': 'sum', 'occupancy': 'mean'}).reset_index()
-    hourly_avg['avg_in'] = hourly_avg['delta_in'] / num_days
-    hourly_avg['avg_out'] = hourly_avg['delta_out'] / num_days
+    median_daily_in = daily_totals['delta_in'].median()
+    median_daily_out = daily_totals['delta_out'].median()
+    median_daily_occ = daily_totals['occupancy'].median()
+    occ_95 = df['occupancy'].quantile(0.95) if not df.empty else 0
+    print("Daily distribution:")
+    print(f"  Median daily in/out: {median_daily_in:.0f} / {median_daily_out:.0f}")
+    print(f"  Median daily avg occupancy: {median_daily_occ:.2f}")
+    if open_hour_count > 0:
+        print(f"  Avg in/out per open hour: {avg_in_per_open_hour:.2f} / {avg_out_per_open_hour:.2f}")
+    print(f"  95th percentile occupancy across open minutes: {occ_95:.2f}")
+
+    peak_day_idx = daily_totals['combined'].idxmax()
+    peak_day = daily_totals.loc[peak_day_idx]
+    print("Peak day:")
+    print(
+        f"  {peak_day['date']}: in {int(peak_day['delta_in'])}, out {int(peak_day['delta_out'])}, avg occupancy {peak_day['occupancy']:.2f}"
+    )
+
+if not hourly_per_day.empty:
+    peak_hour_idx = hourly_per_day['combined'].idxmax()
+    peak_hour = hourly_per_day.loc[peak_hour_idx]
+    print("Peak hour (single day/hour segment):")
+    print(
+        f"  {peak_hour['date']} hour {int(peak_hour['hour']):02d}: in {int(peak_hour['delta_in'])}, out {int(peak_hour['delta_out'])}, avg occupancy {peak_hour['occupancy']:.2f}"
+    )
+
+# Average hourly
+if not hourly_per_day.empty:
+    hourly_stats = hourly_per_day.groupby('hour').agg({
+        'delta_in': 'sum',
+        'delta_out': 'sum',
+        'occupancy': 'mean',
+        'date': 'nunique'
+    }).rename(columns={'delta_in': 'total_in', 'delta_out': 'total_out', 'occupancy': 'avg_occupancy', 'date': 'day_count'}).reset_index()
+
+    hourly_stats['avg_in'] = hourly_stats['total_in'] / hourly_stats['day_count']
+    hourly_stats['avg_out'] = hourly_stats['total_out'] / hourly_stats['day_count']
+
     print("Average hourly:")
-    for _, row in hourly_avg.sort_values('hour').iterrows():
-        print(f"  Hour {int(row['hour']):02d}: in {row['avg_in']:.2f}, out {row['avg_out']:.2f}, avg occupancy {row['occupancy']:.2f}")
+    for _, row in hourly_stats.sort_values('hour').iterrows():
+        print(f"  Hour {int(row['hour']):02d}: in {row['avg_in']:.2f}, out {row['avg_out']:.2f}, avg occupancy {row['avg_occupancy']:.2f}")
 
 # Average occupancy
-if not building_df.empty:
-    avg_occupancy = building_df['occupancy'].mean()
+if not df.empty:
+    avg_occupancy = df['occupancy'].mean()
     print(f"Average occupancy over the period: {avg_occupancy:.2f}")

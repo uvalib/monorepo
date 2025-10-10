@@ -5,7 +5,10 @@ from datetime import datetime, timedelta, time
 def parse_time(s):
     s = s.lower().replace(' ', '')
     if ':' in s:
-        fmt = "%I:%M%p"
+        if 'am' in s or 'pm' in s:
+            fmt = "%I:%M%p"
+        else:
+            fmt = "%H:%M"
     else:
         fmt = "%I%p"
     return datetime.strptime(s, fmt).time()
