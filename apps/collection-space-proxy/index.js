@@ -96,9 +96,23 @@ app.get('/cspace-services/login', async (req, res, next) => {
     console.error('Missing USERNAME or PASSWORD in environment variables for auto-login.');
     return res.status(500).send('Proxy configuration error: Missing credentials for auto-login.');
   }
+  
+  // Clear any existing CollectionSpace session cookies to prevent state conflicts
+  // This fixes the "authorization code does not belong to an active sign in request" error
+  // that occurs when users have stale session cookies from previous login attempts
+  const cookiesToClear = ['JSESSIONID', 'spring-security-remember-me', 'SESSION'];
+  const clearCookies = cookiesToClear.map(name => 
+    `${name}=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly`
+  );
+  res.setHeader('Set-Cookie', clearCookies);
+  if (verbosity >= 1) console.log('Cleared stale session cookies before login');
+  
   const loginUrl = `${destination}/cspace-services/login`;
   try {
     if (verbosity >= 1) console.log(`Auto-login Step 1: GET ${loginUrl}`);
+    if (verbosity >= 2 && req.headers.cookie) {
+      console.log(`Client sent cookies: ${req.headers.cookie.slice(0, 200)}`);
+    }
     const loginPageResponse = await fetch(loginUrl, {
       headers: { 'User-Agent': req.headers['user-agent'] || 'NodeProxy/1.0' },
       redirect: 'manual',
@@ -137,6 +151,10 @@ app.get('/cspace-services/login', async (req, res, next) => {
         res.setHeader('Set-Cookie', postSetCookies);
         if (verbosity >= 1) console.log(`Forwarding ${postSetCookies.length} cookie(s) to client.`);
       }
+      // Prevent caching of auth responses to avoid stale state issues
+      res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+      res.setHeader('Pragma', 'no-cache');
+      res.setHeader('Expires', '0');
       if (silent) {
         if (verbosity >= 1) console.log('Silent login refresh succeeded. Returning 200 JSON.');
         return res.status(200).json({ refreshed: true, at: Date.now() });
@@ -152,6 +170,9 @@ app.get('/cspace-services/login', async (req, res, next) => {
       console.error(`Auto-login failed with status: ${loginPostResponse.status}`);
       const errorBody = await loginPostResponse.text();
       console.error('Auto-login error snippet:', errorBody.slice(0, 500));
+      if (verbosity >= 2) {
+        console.error('Request cookies that were sent:', cookieHeader.slice(0, 200));
+      }
       const payload = { success: false, status: loginPostResponse.status };
       if (silent) return res.status(500).json(payload);
       res.status(500).send(`Auto-login failed (Status: ${loginPostResponse.status}).`);
