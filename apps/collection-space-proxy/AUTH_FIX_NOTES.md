@@ -6,6 +6,7 @@ Users were experiencing authentication errors when signing into CollectionSpace 
 
 - **Error 1**: "Sign in failed. The CollectionSpace server received a bad request"
 - **Error 2**: "Sign in failed. The authorization code does not belong to an active sign in request."
+- **Error 3** (NEW): "Error: ERR_API" when performing searches after login
 
 **Key Symptom**: Users could work around the issue by using an incognito/private browsing window, indicating a problem with cached state (cookies, localStorage, or browser cache).
 
@@ -19,25 +20,47 @@ The authentication flow uses CSRF tokens and session cookies managed by Spring S
 
 **Why Incognito Worked**: Incognito/private windows have no cached cookies, so there's no conflict—creating a clean authentication flow.
 
+### Second Issue: Cookie Clearing Broke Authenticated API Calls
+
+The initial fix cleared cookies too early (before login), which caused a new problem:
+- Cookie clearing headers were sent at the start of the response
+- New session cookies from successful login were added after
+- Browsers sometimes processed them out of order or the clearing cookies persisted
+- Result: Users had no valid session cookies for authenticated API calls (searches)
+
 ## Solution Implemented
 
-### 1. Clear Stale Cookies Before Login (Lines 101-108)
+### 1. Cookie Clearing ONLY After Successful Login (Lines 145-165)
 
 ```javascript
-// Clear any existing CollectionSpace session cookies to prevent state conflicts
-const cookiesToClear = ['JSESSIONID', 'spring-security-remember-me', 'SESSION'];
-const clearCookies = cookiesToClear.map(name => 
-  `${name}=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly`
-);
-res.setHeader('Set-Cookie', clearCookies);
+const silent = 'silent' in req.query;
+if (loginPostResponse.status === 302) {
+  const locationHeader = loginPostResponse.headers.get('location');
+  const postSetCookies = loginPostResponse.headers.getSetCookie?.();
+  
+  // Clear any existing CollectionSpace session cookies before setting new ones
+  const cookiesToClear = ['JSESSIONID', 'spring-security-remember-me', 'SESSION'];
+  const clearCookies = cookiesToClear.map(name => 
+    `${name}=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly`
+  );
+  
+  // Combine clearing cookies with new cookies from successful login
+  const allCookies = [...clearCookies];
+  if (postSetCookies && postSetCookies.length > 0) {
+    allCookies.push(...postSetCookies);
+  }
+  res.setHeader('Set-Cookie', allCookies);
+}
 ```
 
-**What this does**: 
-- Explicitly clears common Spring Security session cookies before initiating the login flow
-- Ensures a clean slate, similar to incognito mode
-- Prevents cookie conflicts between old and new session states
+**What this does**:
 
-### 2. Add Cache-Control Headers (Lines 149-151)
+- Clears stale session cookies atomically with setting new ones
+- Ensures the browser receives both clearing and new cookies in a single response
+- New cookies from successful login immediately replace the old ones
+- Prevents the "ERR_API" error that occurred when users had no valid session cookies
+
+### 2. Add Cache-Control Headers (Lines 167-169)
 
 ```javascript
 // Prevent caching of auth responses to avoid stale state issues
@@ -47,6 +70,7 @@ res.setHeader('Expires', '0');
 ```
 
 **What this does**:
+
 - Prevents browsers from caching authentication responses
 - Ensures each login attempt fetches fresh CSRF tokens and session state
 - Reduces risk of replay attacks or stale auth state
@@ -93,8 +117,8 @@ if (verbosity >= 2) {
 ### After Deployment
 
 Monitor logs for:
-- "Cleared stale session cookies before login" (confirms cookie clearing is working)
-- Any decrease in authentication errors
+- "Cleared stale cookies and forwarding X new cookie(s) to client" (confirms fix is working)
+- Any decrease in authentication and search errors
 - Cookie state in verbose logs (VERBOSITY=2)
 
 ## Environment Variables
@@ -112,9 +136,9 @@ VERBOSITY=1
 ## Rollback Plan
 
 If issues persist, the changes can be easily reverted:
-1. Remove the cookie-clearing logic (lines 101-108)
-2. Remove cache-control headers (lines 149-151)
-3. Remove enhanced logging (lines 115-117, 161-163)
+1. Remove the cookie-clearing logic from the success block (lines 147-165)
+2. Remove cache-control headers (lines 167-169)
+3. Remove enhanced logging (lines 103-105, 161-163)
 
 ## Additional Notes
 

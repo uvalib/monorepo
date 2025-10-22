@@ -97,16 +97,6 @@ app.get('/cspace-services/login', async (req, res, next) => {
     return res.status(500).send('Proxy configuration error: Missing credentials for auto-login.');
   }
   
-  // Clear any existing CollectionSpace session cookies to prevent state conflicts
-  // This fixes the "authorization code does not belong to an active sign in request" error
-  // that occurs when users have stale session cookies from previous login attempts
-  const cookiesToClear = ['JSESSIONID', 'spring-security-remember-me', 'SESSION'];
-  const clearCookies = cookiesToClear.map(name => 
-    `${name}=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly`
-  );
-  res.setHeader('Set-Cookie', clearCookies);
-  if (verbosity >= 1) console.log('Cleared stale session cookies before login');
-  
   const loginUrl = `${destination}/cspace-services/login`;
   try {
     if (verbosity >= 1) console.log(`Auto-login Step 1: GET ${loginUrl}`);
@@ -147,10 +137,25 @@ app.get('/cspace-services/login', async (req, res, next) => {
     if (loginPostResponse.status === 302) {
       const locationHeader = loginPostResponse.headers.get('location');
       const postSetCookies = loginPostResponse.headers.getSetCookie?.();
+      
+      // Clear any existing CollectionSpace session cookies before setting new ones
+      // This fixes the "authorization code does not belong to an active sign in request" error
+      // that occurs when users have stale session cookies from previous login attempts
+      const cookiesToClear = ['JSESSIONID', 'spring-security-remember-me', 'SESSION'];
+      const clearCookies = cookiesToClear.map(name => 
+        `${name}=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly`
+      );
+      
+      // Combine clearing cookies with new cookies from successful login
+      const allCookies = [...clearCookies];
       if (postSetCookies && postSetCookies.length > 0) {
-        res.setHeader('Set-Cookie', postSetCookies);
-        if (verbosity >= 1) console.log(`Forwarding ${postSetCookies.length} cookie(s) to client.`);
+        allCookies.push(...postSetCookies);
+        if (verbosity >= 1) console.log(`Cleared stale cookies and forwarding ${postSetCookies.length} new cookie(s) to client.`);
+      } else if (verbosity >= 1) {
+        console.log('Cleared stale session cookies');
       }
+      res.setHeader('Set-Cookie', allCookies);
+      
       // Prevent caching of auth responses to avoid stale state issues
       res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
       res.setHeader('Pragma', 'no-cache');
