@@ -29,11 +29,11 @@ SERIAL_NO=abc123,def456
 | --- | --- |
 | `.env`, `.env.limited` | Sample environment files listing `SERIAL_NO` filters used during processing and reporting. |
 | `counts.tsv`, `counts-test.tsv` | Raw export from the door counter system (full dataset and recent 30-day slice). |
-| `counts_with_occupancy.tsv`, `counts_with_occupancy_test.tsv` | Output from `process-occupancy.py` that layers occupancy onto the raw counts. |
+| `counts_with_occupancy.tsv`, `counts_with_occupancy_test.tsv` | Output from `process-occupancy.py` with occupancy plus per-minute deltas, adjustment tallies, and off-hours suppression columns for data quality analysis. |
 | `getCounts.sh` | Convenience script that runs the MySQL export for production and 30-day test datasets. |
 | `hours.py` | Fetches building hours from LibCal and exposes helpers to reason about open/closed windows. |
-| `process-occupancy.py` | Converts raw counts into consistent in/out deltas, injects daily resets, zeroes activity outside open buffers, and emits the enriched TSV. |
-| `report.py` | Command-line report that filters by date/time, restricts to open hours, and prints totals, coverage, peaks, and distributions. |
+| `process-occupancy.py` | Converts raw counts into consistent in/out deltas, injects daily resets, tracks adjustment/suppression metadata, zeroes activity outside open buffers, and emits the enriched TSV. |
+| `report.py` | Command-line report that filters by date/time, restricts to open hours, and prints totals, coverage, peaks, distributions, plus a confidence rating based on the tracked metadata. |
 | `testhours.py` | Developer sandbox for validating the `hours.py` helpers. |
 
 ## Typical Workflow
@@ -66,4 +66,5 @@ SERIAL_NO=abc123,def456
 
 - `process-occupancy.py` uses LibCal hours to anchor zeroed segments an hour before opening and silence activity outside a one-hour buffer on either side of published open intervals.
 - Reports only consider minutes when the building is open according to LibCal (with the same buffer), ensuring totals align with staffed hours.
+- The enriched TSV includes `adjustment_*`, `suppressed_*`, `reset_flag_*`, `segment_anchor`, and `outside_buffer` columns that drive the confidence scoring shown in the report output.
 - Keep local copies of the TSVs out of version control—`.gitignore` excludes them by default.

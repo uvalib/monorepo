@@ -1,5 +1,5 @@
 import pandas as pd
-from datetime import datetime, timedelta, time
+from datetime import datetime, timedelta
 import os
 from dotenv import load_dotenv
 import argparse
@@ -34,10 +34,8 @@ end_date = datetime.strptime(end_date_str, "%Y-%m-%d").date()
 start_time = datetime.strptime(start_time_str, "%H:%M").time()
 if end_time_str == "24:00":
     end_time = datetime.strptime("23:59", "%H:%M").time()
-    end_exclusive = False
 else:
     end_time = datetime.strptime(end_time_str, "%H:%M").time()
-    end_exclusive = end_time.minute == 0 and end_time.second == 0 and end_time.microsecond == 0
 
 # Get open hours
 open_intervals = get_hours(start_date_str, end_date_str)
@@ -45,16 +43,6 @@ open_intervals = get_hours(start_date_str, end_date_str)
 # Load the TSV file
 file_path = 'counts_with_occupancy_test.tsv' if args.test else 'counts_with_occupancy.tsv'
 df = pd.read_csv(file_path, sep='\t')
-
-for col in ['adjustment_in', 'adjustment_out', 'suppressed_in', 'suppressed_out', 'reset_flag_in', 'reset_flag_out']:
-    if col not in df.columns:
-        df[col] = 0
-
-if 'outside_buffer' not in df.columns:
-    df['outside_buffer'] = False
-
-if 'segment_anchor' not in df.columns:
-    df['segment_anchor'] = False
 
 # Convert created_at to datetime with UTC
 df['created_at'] = pd.to_datetime(df['created_at'], utc=True)
@@ -72,31 +60,10 @@ df = df[(df['date'] >= start_date) & (df['date'] <= end_date)]
 
 # Filter by time range (NYC)
 df = df[df['time'] >= start_time]
-if end_exclusive:
+if end_time.minute == 0 and end_time.second == 0 and end_time.microsecond == 0:
     df = df[df['time'] < end_time]
 else:
     df = df[df['time'] <= end_time]
-
-def time_in_window(local_time: time) -> bool:
-    if start_time <= end_time or (start_time == end_time and not end_exclusive):
-        if end_exclusive:
-            return start_time <= local_time < end_time
-        return start_time <= local_time <= end_time
-    else:
-        if end_exclusive:
-            return local_time >= start_time or local_time < end_time
-        return local_time >= start_time or local_time <= end_time
-
-expected_open_minutes = 0
-current_date = start_date
-while current_date <= end_date:
-    for minute_index in range(24 * 60):
-        local_time_candidate = time(minute_index // 60, minute_index % 60)
-        if not time_in_window(local_time_candidate):
-            continue
-        if is_open(current_date, local_time_candidate, open_intervals):
-            expected_open_minutes += 1
-    current_date += timedelta(days=1)
 
 # Sort the dataframe
 df = df.sort_values('created_at_nyc')
@@ -112,16 +79,7 @@ df.loc[neg_in_mask, 'delta_in'] = df.loc[neg_in_mask, 'count_in']
 df.loc[neg_out_mask, 'delta_out'] = df.loc[neg_out_mask, 'count_out']
 
 # Compute is_open
-if df.empty:
-    df['is_open'] = pd.Series(dtype=bool)
-else:
-    df['is_open'] = df.apply(lambda row: is_open(row['date'], row['time'], open_intervals), axis=1)
-
-observed_open_minutes = int(df['is_open'].sum())
-off_hours_mask = ~df['is_open']
-off_hours_in = df.loc[off_hours_mask, 'suppressed_in'].sum()
-off_hours_out = df.loc[off_hours_mask, 'suppressed_out'].sum()
-off_hours_minutes = int((off_hours_mask & df['outside_buffer']).sum())
+df['is_open'] = df.apply(lambda row: is_open(row['date'], row['time'], open_intervals), axis=1)
 
 # If debug, list skipped
 if args.debug:
@@ -199,100 +157,9 @@ open_hour_count = len(unique_open_hours)
 avg_in_per_open_hour = total_in / open_hour_count if open_hour_count > 0 else 0
 avg_out_per_open_hour = total_out / open_hour_count if open_hour_count > 0 else 0
 
-traffic_total = total_in + total_out
-suppression_total = off_hours_in + off_hours_out
-total_with_suppression = traffic_total + suppression_total
-coverage_ratio = (observed_open_minutes / expected_open_minutes) if expected_open_minutes > 0 else None
-missing_minutes = max(expected_open_minutes - observed_open_minutes, 0) if expected_open_minutes > 0 else 0
-adjustment_total = float(df['adjustment_in'].abs().sum() + df['adjustment_out'].abs().sum())
-adjustment_ratio = adjustment_total / traffic_total if traffic_total > 0 else 0
-adjustment_events = int(df['reset_flag_in'].sum() + df['reset_flag_out'].sum())
-median_occ = df['occupancy'].median() if not df.empty else 0
-baseline_occ = max(1.0, median_occ)
-if not df.empty:
-    start_occ = df['occupancy'].iloc[0]
-    end_occ = df['occupancy'].iloc[-1]
-else:
-    start_occ = 0
-    end_occ = 0
-net_flow = total_in - total_out
-occupancy_change = end_occ - start_occ
-flow_drift = net_flow - occupancy_change
-drift_ratio = abs(flow_drift) / baseline_occ if baseline_occ > 0 else 0
-reset_threshold = 5
-daily_first_occ = df.groupby('date')['occupancy'].first() if not df.empty else pd.Series(dtype=float)
-reset_issues = int((daily_first_occ > reset_threshold).sum())
-suppression_ratio = suppression_total / total_with_suppression if total_with_suppression > 0 else 0
-
-severity = 0
-quality_notes = []
-
-if expected_open_minutes > 0:
-    if coverage_ratio < 0.7:
-        severity = 2
-        quality_notes.append(f"Coverage {coverage_ratio:.1%} (target ≥90%)")
-    elif coverage_ratio < 0.9:
-        severity = max(severity, 1)
-        quality_notes.append(f"Coverage {coverage_ratio:.1%} (target ≥90%)")
-else:
-    coverage_ratio = None
-
-if traffic_total > 0:
-    if adjustment_ratio > 0.05:
-        severity = 2
-        quality_notes.append(f"Resets adjusted {adjustment_ratio:.1%} of open traffic")
-    elif adjustment_ratio > 0.01:
-        severity = max(severity, 1)
-        quality_notes.append(f"Resets adjusted {adjustment_ratio:.1%} of open traffic")
-
-if total_with_suppression > 0:
-    if suppression_ratio > 0.05:
-        severity = 2
-        quality_notes.append(f"Suppressed off-hours traffic {suppression_ratio:.1%}")
-    elif suppression_ratio > 0.02:
-        severity = max(severity, 1)
-        quality_notes.append(f"Suppressed off-hours traffic {suppression_ratio:.1%}")
-
-if drift_ratio > 5:
-    severity = 2
-    quality_notes.append(f"Net flow drift {flow_drift:.0f} ({drift_ratio:.1f}× median occupancy)")
-elif drift_ratio > 2:
-    severity = max(severity, 1)
-    quality_notes.append(f"Net flow drift {flow_drift:.0f} ({drift_ratio:.1f}× median occupancy)")
-
-if reset_issues > 3:
-    severity = 2
-    quality_notes.append(f"{reset_issues} days started above reset threshold")
-elif reset_issues > 1:
-    severity = max(severity, 1)
-    quality_notes.append(f"{reset_issues} days started above reset threshold")
-
-if df.empty and expected_open_minutes > 0:
-    severity = 2
-    quality_notes.append("No open-minute samples captured in range")
-
-confidence_label = ["High", "Medium", "Low"][severity]
-
 print("Coverage summary:")
 print(f"  Open days included: {num_days} out of {total_days_in_range} days in range")
 print(f"  Unique open hours sampled: {open_hour_count}")
-if coverage_ratio is not None:
-    print(f"  Open minutes captured: {observed_open_minutes} of {expected_open_minutes} ({coverage_ratio:.1%})")
-    print(f"  Minutes missing during open hours: {missing_minutes}")
-else:
-    print("  Open minutes captured: n/a (no published open minutes during this window)")
-    print(f"  Minutes observed during closed hours: {observed_open_minutes}")
-
-print("Data quality summary:")
-print(f"  Confidence rating: {confidence_label}")
-print(f"  Resets/adjustments applied: {int(round(adjustment_total))} patrons across {adjustment_events} minutes ({adjustment_ratio:.2%} of open traffic)")
-print(f"  Off-hours suppressed traffic: {int(round(suppression_total))} patrons across {off_hours_minutes} minutes ({suppression_ratio:.2%} of total traffic)")
-print(f"  Net flow drift vs occupancy change: {int(round(flow_drift))} ({drift_ratio:.2f}× median occupancy {median_occ:.2f})")
-print(f"  Days starting above {reset_threshold} occupants: {reset_issues}")
-if quality_notes:
-    print("  Notes:")
-    for note in quality_notes:
-        print(f"    - {note}")
 
 if num_days > 0:
     median_daily_in = daily_totals['delta_in'].median()

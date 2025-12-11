@@ -21,6 +21,8 @@ Optional flags:
 
 All calculations discard minutes when the building is closed. Building hours are fetched from LibCal and expanded with a small buffer (15 minutes before / 30 minutes after) to capture arrival and exit spikes.
 
+The processed TSV bundles metadata columns (`adjustment_*`, `suppressed_*`, `reset_flag_*`, `outside_buffer`, and `segment_anchor`) that the report script reads automatically to score data quality and confidence.
+
 ## Summary blocks
 
 Each heading in the standard output means:
@@ -39,6 +41,17 @@ Each heading in the standard output means:
 
 - **Open days included** – Number of building-open days that contributed data vs. total calendar days in the requested range.
 - **Unique open hours sampled** – Count of day/hour combinations captured after filtering. Low numbers hint at sparse coverage.
+- **Open minutes captured** – Observed minute-level samples during open hours versus the minutes we expected based on LibCal. The delta surfaces data gaps.
+- **Minutes missing during open hours** – How many open minutes lacked any sensor readings.
+
+### Data quality summary
+
+- **Confidence rating** – High/Medium/Low classification driven by coverage, reset adjustments, off-hours suppression, flow drift, and unexpected non-zero starts after resets.
+- **Resets/adjustments applied** – Number of patrons re-attributed because counters rolled back, plus the percentage of open traffic affected.
+- **Off-hours suppressed traffic** – Patrons counted outside the buffered open window that were zeroed out, with the share relative to total traffic (open + suppressed).
+- **Net flow drift vs occupancy change** – Difference between (in − out) and the observed change in occupancy. Large drift can hint at blind spots where people enter or exit untracked.
+- **Days starting above reset threshold** – Counts days whose first open-minute occupancy exceeds the expected empty baseline (default threshold: 5 patrons). This helps flag missed zeroing events or late resets.
+- **Notes** – Bullet list that appears when any metric drops the confidence rating, explaining the driving factors.
 
 ### Daily distribution
 
