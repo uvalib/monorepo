@@ -1,0 +1,25 @@
+{
+    "name": "docbook2tei",
+    "version": "1.0.0",
+    "description": "Convert DocBook 5.0 XML to TEI P5 XML",
+    "main": "src/index.js",
+    "type": "module",
+    "scripts": {
+        "start": "node src/index.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "dependencies": {
+        "commander": "^11.1.0",
+        "jsdom": "^23.0.0",
+        "glob": "^10.3.10",
+        "fs-extra": "^11.2.0"
+    },
+    "keywords": [
+        "docbook",
+        "tei",
+        "xml",
+        "conversion"
+    ],
+    "author": "",
+    "license": "ISC"
+}
