@@ -15,7 +15,7 @@
     "./UVALibBreadcrumb.js": "./dist/UVALibBreadcrumb.js",
     "./UVALibButton.js": "./dist/UVALibButton.js",
     "./UVALibPagination.js": "./dist/UVALibPagination.js"
-  }
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
