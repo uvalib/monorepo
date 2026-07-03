@@ -1,0 +1,54 @@
+Enter start date (YYYY-MM-DD): Enter end date (YYYY-MM-DD): Enter start time (HH:MM): Enter end time (HH:MM): Warning: SERIAL_NO filter ['b8:a4:4f:5d:31:21', 'b8:a4:4f:5d:31:75', 'b8:a4:4f:5d:32:c6', 'b8:a4:4f:5d:59:61', 'b8:a4:4f:5d:59:76', 'b8:a4:4f:5d:59:79', 'b8:a4:4f:5d:59:7b', 'b8:a4:4f:5d:59:8c', 'b8:a4:4f:5d:59:90', 'b8:a4:4f:5d:59:94', 'b8:a4:4f:5d:59:9e', 'b8:a4:4f:5d:59:d4', 'b8:a4:4f:5d:5a:00'] provided but 'serial_no' column missing in dataset.
+Total for building over the period: in 485386, out 381987, combined 867373
+Average daily: in 1398.81, out 1100.83, combined 2499.63, avg occupancy 409.32
+Coverage summary:
+  Open days included: 347 out of 365 days in range
+  Unique open hours sampled: 5333
+  Open minutes captured: 296161 of 296272 (100.0%)
+  Minutes missing during open hours: 111
+Data quality summary:
+  Confidence rating: Low
+  Resets/adjustments applied: 748088 patrons across 3112 minutes (86.25% of open traffic)
+  Off-hours suppressed traffic: 22688 patrons across 205121 minutes (2.55% of total traffic)
+  Net flow drift vs occupancy change: 103393 (527.52× median occupancy 196.00)
+  Days starting above 5 occupants: 225
+  Notes:
+    - Resets adjusted 86.2% of open traffic
+    - Suppressed off-hours traffic 2.5%
+    - Net flow drift 103393 (527.5× median occupancy)
+    - 225 days started above reset threshold
+Daily distribution:
+  Median daily in/out: 1323 / 1110
+  Median daily avg occupancy: 169.75
+  Avg in/out per open hour: 91.02 / 71.63
+  95th percentile occupancy across open minutes: 2741.00
+Peak day:
+  2025-10-20: in 22926, out 15330, avg occupancy 4752.38
+Peak hour (single day/hour segment):
+  2025-10-20 hour 14: in 20567, out 13744, avg occupancy 7077.88
+Average hourly:
+  Hour 00: in 20.70, out 28.31, avg occupancy 737.74
+  Hour 01: in 23.72, out 49.83, avg occupancy 2430.24
+  Hour 02: in 6.62, out 6.41, avg occupancy 2415.89
+  Hour 03: in 1.52, out 0.78, avg occupancy 2293.23
+  Hour 04: in 0.81, out 0.67, avg occupancy 2293.71
+  Hour 05: in 1.59, out 1.22, avg occupancy 2293.86
+  Hour 06: in 1.70, out 1.44, avg occupancy 2294.26
+  Hour 07: in 2.82, out 4.70, avg occupancy 375.87
+  Hour 08: in 34.17, out 19.41, avg occupancy 229.28
+  Hour 09: in 67.60, out 34.47, avg occupancy 228.36
+  Hour 10: in 135.60, out 94.43, avg occupancy 264.88
+  Hour 11: in 143.90, out 98.25, avg occupancy 313.72
+  Hour 12: in 154.66, out 112.12, avg occupancy 321.71
+  Hour 13: in 165.18, out 123.69, avg occupancy 362.26
+  Hour 14: in 220.21, out 179.10, avg occupancy 415.38
+  Hour 15: in 161.16, out 132.16, avg occupancy 442.56
+  Hour 16: in 127.48, out 113.68, avg occupancy 461.03
+  Hour 17: in 101.01, out 97.83, avg occupancy 471.60
+  Hour 18: in 86.50, out 76.47, avg occupancy 508.77
+  Hour 19: in 49.68, out 40.90, avg occupancy 581.15
+  Hour 20: in 0.50, out 0.39, avg occupancy 585.09
+  Hour 21: in 0.00, out 0.00, avg occupancy 750.33
+  Hour 22: in 0.00, out 0.00, avg occupancy 750.33
+  Hour 23: in 0.00, out 0.00, avg occupancy 770.93
+Average occupancy over the period: 545.09

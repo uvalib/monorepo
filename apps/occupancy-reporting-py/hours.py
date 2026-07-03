@@ -13,7 +13,26 @@ def parse_time(s):
         fmt = "%I%p"
     return datetime.strptime(s, fmt).time()
 
+_hours_cache = {}
+
 def fetch_hours(start_date, end_date):
+    # Check if all dates in range are already cached
+    all_cached = True
+    curr = start_date
+    while curr <= end_date:
+        if curr.isoformat() not in _hours_cache:
+            all_cached = False
+            break
+        curr += timedelta(days=1)
+        
+    if all_cached:
+        res = {}
+        curr = start_date
+        while curr <= end_date:
+            res[curr.isoformat()] = _hours_cache[curr.isoformat()]
+            curr += timedelta(days=1)
+        return res
+
     open_intervals = {}
     current_start = start_date
     max_chunk_days = 31
@@ -34,9 +53,11 @@ def fetch_hours(start_date, end_date):
             date = datetime.strptime(date_str, "%Y-%m-%d").date()
             if status == "closed":
                 open_intervals[date_str] = []
+                _hours_cache[date_str] = []
                 continue
             if status == "24hours":
                 open_intervals[date_str] = [(time(0,0), time(23,59,59))]
+                _hours_cache[date_str] = [(time(0,0), time(23,59,59))]
                 continue
             intervals = []
             for period in date_info.get('hours', []):
@@ -63,8 +84,10 @@ def fetch_hours(start_date, end_date):
                         open_intervals[next_date_str] = []
                     open_intervals[next_date_str].append((time(0,0), to_time))
             open_intervals[date_str] = intervals
+            _hours_cache[date_str] = intervals
         current_start = current_end + timedelta(days=1)
     return open_intervals
+
 
 def get_day_open_times(date_str):
     date = datetime.strptime(date_str, "%Y-%m-%d").date()

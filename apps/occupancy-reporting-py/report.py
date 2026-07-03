@@ -1,6 +1,7 @@
 import pandas as pd
 from datetime import datetime, timedelta, time
 import os
+import sys
 from dotenv import load_dotenv
 import argparse
 from hours import get_hours, is_open
@@ -16,6 +17,7 @@ serial_nos = [s.strip() for s in serial_input.split(',') if s.strip()]
 parser = argparse.ArgumentParser(description='Process occupancy counts.')
 parser.add_argument('--debug', action='store_true', help='Enable debug mode to print log lines.')
 parser.add_argument('--daily', action='store_true', help='Enable printing daily and hourly details.')
+parser.add_argument('--csvDump', action='store_true', help='Output a CSV of in/out counts with estimated occupancy for each day/hour instead of creating a report.')
 parser.add_argument('--test', action='store_true', help='Use test occupancy data file instead of production.')
 args = parser.parse_args()
 
@@ -45,6 +47,13 @@ open_intervals = get_hours(start_date_str, end_date_str)
 # Load the TSV file
 file_path = 'counts_with_occupancy_test.tsv' if args.test else 'counts_with_occupancy.tsv'
 df = pd.read_csv(file_path, sep='\t')
+
+# Filter by serial number if provided
+if serial_nos:
+    if 'serial_no' in df.columns:
+        df = df[df['serial_no'].astype(str).isin(serial_nos)]
+    else:
+        print(f"Warning: SERIAL_NO filter {serial_nos} provided but 'serial_no' column missing in dataset.")
 
 for col in ['adjustment_in', 'adjustment_out', 'suppressed_in', 'suppressed_out', 'reset_flag_in', 'reset_flag_out']:
     if col not in df.columns:
@@ -160,6 +169,12 @@ daily_totals['combined'] = daily_totals['delta_in'] + daily_totals['delta_out']
 # Compute hourly totals per day
 hourly_per_day = df.groupby(['date', 'hour']).agg({'delta_in': 'sum', 'delta_out': 'sum', 'occupancy': 'mean'}).reset_index()
 hourly_per_day['combined'] = hourly_per_day['delta_in'] + hourly_per_day['delta_out']
+
+if args.csvDump:
+    print("date,hour,in,out,occupancy")
+    for _, row in hourly_per_day.sort_values(['date', 'hour']).iterrows():
+        print(f"{row['date']},{int(row['hour']):02d},{int(row['delta_in'])},{int(row['delta_out'])},{row['occupancy']:.2f}")
+    sys.exit(0)
 
 # Compute total over period
 total_in = df['delta_in'].sum()

@@ -29,6 +29,10 @@ if args.debug:
 file_path = "./counts-test.tsv" if args.test else "./counts.tsv"
 df = pd.read_csv(file_path, sep='\t')
 
+# Swap count_in and count_out for b8:a4:4f:5d:59:9e (401 east entrance) due to direction inversion
+swap_mask = df['serial_no'] == 'b8:a4:4f:5d:59:9e'
+df.loc[swap_mask, ['count_in', 'count_out']] = df.loc[swap_mask, ['count_out', 'count_in']].values
+
 if serial_nos:
     df = df[df['serial_no'].isin(serial_nos)]
 
@@ -109,6 +113,9 @@ start_date = building_df['date'].min()
 end_date = building_df['date'].max()
 
 building_df = building_df.sort_values('created_at_utc').reset_index(drop=True)
+
+# Warm the hours cache for the entire range to avoid making individual day-by-day API calls
+fetch_hours(start_date - timedelta(days=1), end_date + timedelta(days=1))
 
 # Compute reset times (1 hour before opening) in NYC timezone
 reset_times_nyc = []
