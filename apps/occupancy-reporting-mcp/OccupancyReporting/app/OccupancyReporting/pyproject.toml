@@ -1,0 +1,23 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "OccupancyReporting"
+version = "0.1.0"
+description = "AgentCore MCP Server — UVA Library Occupancy Reporting"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "mcp >= 1.19.0",
+    "pandas",
+    "numpy",
+    "sqlalchemy",
+    "pymysql",
+    "requests",
+    "python-dotenv",
+    "cryptography",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["."]

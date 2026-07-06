@@ -1,0 +1,24 @@
+{
+  "targets": {
+    "production": {
+      "resources": {
+        "runtimes": {
+          "OccupancyReportingMCP": {
+            "runtimeId": "OccupancyReporting_OccupancyReportingMCP-89mI4QDaYX",
+            "runtimeArn": "arn:aws:bedrock-agentcore:us-east-1:115119339709:runtime/OccupancyReporting_OccupancyReportingMCP-89mI4QDaYX",
+            "roleArn": "arn:aws:iam::115119339709:role/AgentCore-OccupancyReport-ApplicationAgentOccupancy-LIDZcUyeqqmd"
+          }
+        },
+        "credentials": {
+          "occupancy-reporting-inbound-auth": {
+            "credentialProviderArn": "arn:aws:bedrock-agentcore:us-east-1:115119339709:token-vault/default/oauth2credentialprovider/occupancy-reporting-inbound-auth",
+            "clientSecretArn": "arn:aws:secretsmanager:us-east-1:115119339709:secret:bedrock-agentcore-identity!default/oauth2/occupancy-reporting-inbound-auth-8d584654-lJtbyq",
+            "callbackUrl": "https://bedrock-agentcore.us-east-1.amazonaws.com/identities/oauth2/callback/14f12f00-cd31-44fc-9295-2a0a7a84ad2f"
+          }
+        },
+        "stackName": "AgentCore-OccupancyReporting-production",
+        "deployHash": "f2ae6ba2f48f06f4"
+      }
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "name": "OccupancyReporting",
+  "version": 1,
+  "managedBy": "CDK",
+  "runtimes": [
+    {
+      "name": "OccupancyReportingMCP",
+      "build": "Container",
+      "entrypoint": "main.py",
+      "codeLocation": "app/OccupancyReporting",
+      "dockerfile": "Dockerfile",
+      "protocol": "MCP",
+      "networkMode": "VPC",
+      "networkConfig": {
+        "vpcId": "vpc-0594e60702f56de05",
+        "subnets": [
+          "subnet-0e8f5980f64cda541",
+          "subnet-0f58e560252a24374",
+          "subnet-0f63f84f18f2e1ad8"
+        ],
+        "securityGroups": [
+          "sg-0608e31e491d39a56",
+          "sg-00a4864fe3696ff05"
+        ]
+      },
+      "envVars": [
+        { "name": "DB_HOST", "value": "rds-mysql8-production.internal.lib.virginia.edu" },
+        { "name": "DB_USER", "value": "occupancy_ro" },
+        { "name": "DB_NAME", "value": "occupancy" }
+      ]
+    }
+  ],
+  "memories": [],
+  "credentials": [
+    {
+      "authorizerType": "OAuthCredentialProvider",
+      "name": "occupancy-reporting-inbound-auth",
+      "discoveryUrl": "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_mrkVZwdeA/.well-known/openid-configuration",
+      "scopes": ["occupancy-reporting-mcp/invoke"],
+      "usage": "inbound"
+    }
+  ],
+  "evaluators": [],
+  "onlineEvalConfigs": [],
+  "agentCoreGateways": [],
+  "policyEngines": [],
+  "configBundles": [],
+  "abTests": [],
+  "datasets": []
+}
