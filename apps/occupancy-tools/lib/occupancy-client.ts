@@ -28,7 +28,11 @@ export interface Camera3DData {
 export const occupancyEstimators: OccupancyEstimator[] = [
     { loc: 'SEL', gateID: 3, url: 'http://172.29.12.101/local/occupancy-estimator/.api?occupancy-export-json&res=24h&date=' },
     { loc: 'Clemons', slug: 'clemons', gateID: 5, resetURL: 'http://172.29.5.87/local/people-counter/.api?occupancy-reset&occ=0', url: 'http://172.29.5.87/local/occupancy-estimator/.api?occupancy-export-json&res=24h&date=' },
-    { loc: 'FAL', gateID: 7, url: 'http://172.29.8.29/local/people-counter/.api?export-json&res=24h&date=' },
+    {
+        loc: 'FAL',
+        gateID: 7,
+        urls: ['http://172.29.8.29/a3dpc/api/export/json?start=yesterday&end=today&resolution=day']
+    },
     { loc: 'Music', gateID: 6, url: 'http://172.29.72.19/local/people-counter/.api?export-json&res=24h&date=' },
     {
         loc: 'Shannon',
@@ -45,7 +49,6 @@ export const occupancyEstimators: OccupancyEstimator[] = [
             'http://172.29.3.54',
             'http://172.29.3.55',
             'http://172.29.3.56',
-            'http://172.29.3.57',
             'http://172.29.3.58',
             'http://172.29.3.59',
             'http://172.29.3.60'
