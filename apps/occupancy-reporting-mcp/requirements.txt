@@ -1,8 +1,0 @@
-mcp>=0.1.0
-pandas
-numpy
-sqlalchemy
-pymysql
-requests
-python-dotenv
-cryptography

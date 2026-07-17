@@ -1,19 +1,57 @@
 # main.py — AgentCore entrypoint for the Occupancy Reporting MCP server
-# FastMCP is configured for streamable-http as required by AgentCore Runtime.
+# FastMCP streamable-http on 0.0.0.0:8000/mcp as required by AgentCore Runtime.
 
+import logging
 import os
 import sys
 
-# Allow imports from the project root (where db_helper, processing, etc. live)
 sys.path.insert(0, os.path.dirname(__file__))
 
 from mcp.server.fastmcp import FastMCP
-from starlette.middleware.cors import CORSMiddleware
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.requests import Request
+from starlette.responses import JSONResponse
 import db_helper as db
 import processing as proc
 import report_generator as rep
 
-mcp = FastMCP("OccupancyReporting", host="0.0.0.0", stateless_http=True)
+# json_response=True returns application/json instead of SSE, which is more
+# reliable behind AgentCore's InvokeAgentRuntime / Gateway proxies.
+mcp = FastMCP(
+    "OccupancyReporting",
+    host="0.0.0.0",
+    stateless_http=True,
+    json_response=True,
+)
+
+
+async def agentcore_sidecar_probe(request: Request, call_next):
+    """
+    AgentCore's sidecar probes POST /mcp/ (trailing slash) from 127.0.0.1
+    without Authorization. Plain FastMCP only mounts /mcp, so /mcp/ becomes a
+    307 redirect (or 405), the probe fails, and the microVM is marked unhealthy
+    — real InvokeAgentRuntime traffic then 502s without ever hitting the app.
+
+    Only short-circuit that local probe. Never intercept real MCP JSON-RPC
+    (which has Authorization / non-loopback client / a jsonrpc body).
+    """
+    client_host = request.client.host if request.client else None
+    if (
+        request.method == "POST"
+        and request.url.path == "/mcp/"
+        and client_host in ("127.0.0.1", "::1")
+        and not request.headers.get("authorization")
+    ):
+        return JSONResponse({"status": "ok"}, status_code=200)
+    return await call_next(request)
+
+
+async def ping_handler(request: Request):
+    """Optional HTTP health endpoint used by some AgentCore health checks."""
+    return JSONResponse({"status": "Healthy"}, status_code=200)
+
+
+mcp.custom_route("/ping", methods=["GET", "POST"])(ping_handler)
 
 
 @mcp.tool()
@@ -37,7 +75,7 @@ def get_foot_traffic(start_date: str, end_date: str, library: str) -> str:
     engine = db.get_db_engine()
     mapping, lookup = db.get_libraries_mapping(engine)
 
-    norm_lib = library.lower().replace('&', 'and').replace(' ', '')
+    norm_lib = library.lower().replace("&", "and").replace(" ", "")
     if norm_lib not in lookup:
         return f"Error: Library '{library}' not found. Available libraries: {', '.join(mapping.keys())}"
     resolved_lib = lookup[norm_lib]
@@ -61,7 +99,13 @@ def get_foot_traffic(start_date: str, end_date: str, library: str) -> str:
 
 
 @mcp.tool()
-def get_occupancy_report(start_date: str, end_date: str, library: str, start_time: str = "00:00", end_time: str = "24:00") -> str:
+def get_occupancy_report(
+    start_date: str,
+    end_date: str,
+    library: str,
+    start_time: str = "00:00",
+    end_time: str = "24:00",
+) -> str:
     """
     Get a full executive occupancy and quality report for a library in a date range.
     :param start_date: Start date (YYYY-MM-DD)
@@ -73,7 +117,7 @@ def get_occupancy_report(start_date: str, end_date: str, library: str, start_tim
     engine = db.get_db_engine()
     mapping, lookup = db.get_libraries_mapping(engine)
 
-    norm_lib = library.lower().replace('&', 'and').replace(' ', '')
+    norm_lib = library.lower().replace("&", "and").replace(" ", "")
     if norm_lib not in lookup:
         return f"Error: Library '{library}' not found. Available libraries: {', '.join(mapping.keys())}"
     resolved_lib = lookup[norm_lib]
@@ -93,4 +137,11 @@ def get_occupancy_report(start_date: str, end_date: str, library: str, start_tim
 
 
 if __name__ == "__main__":
-    mcp.run(transport="streamable-http")
+    import uvicorn
+
+    logging.basicConfig(level=logging.INFO)
+    app = mcp.streamable_http_app()
+    # Disable slash redirects so /mcp vs /mcp/ is explicit (probe middleware handles /mcp/).
+    app.router.redirect_slashes = False
+    app.add_middleware(BaseHTTPMiddleware, dispatch=agentcore_sidecar_probe)
+    uvicorn.run(app, host="0.0.0.0", port=8000)

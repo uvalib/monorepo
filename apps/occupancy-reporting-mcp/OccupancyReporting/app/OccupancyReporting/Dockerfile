@@ -1,4 +1,4 @@
-FROM python:3.10-slim
+FROM --platform=linux/arm64 python:3.10-slim
 
 WORKDIR /app
 
@@ -11,7 +11,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Install dependencies from pyproject.toml
 COPY pyproject.toml .
 RUN pip install --no-cache-dir \
-    mcp \
+    "mcp>=1.19.0" \
+    uvicorn \
     pandas \
     numpy \
     sqlalchemy \

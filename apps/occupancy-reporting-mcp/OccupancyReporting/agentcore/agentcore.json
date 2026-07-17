@@ -31,15 +31,7 @@
     }
   ],
   "memories": [],
-  "credentials": [
-    {
-      "authorizerType": "OAuthCredentialProvider",
-      "name": "occupancy-reporting-inbound-auth",
-      "discoveryUrl": "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_mrkVZwdeA/.well-known/openid-configuration",
-      "scopes": ["occupancy-reporting-mcp/invoke"],
-      "usage": "inbound"
-    }
-  ],
+  "credentials": [],
   "evaluators": [],
   "onlineEvalConfigs": [],
   "agentCoreGateways": [],
