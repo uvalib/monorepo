@@ -21,12 +21,13 @@ RUN pip install --no-cache-dir \
     python-dotenv \
     cryptography
 
-# Copy application source
+# Copy application source (explicit list so tests / local artifacts stay out of the image)
 COPY main.py .
 COPY db_helper.py .
 COPY hours_helper.py .
 COPY processing.py .
 COPY report_generator.py .
+COPY camera_quirks.py .
 
 # AgentCore expects the MCP server on 0.0.0.0:8000/mcp
 EXPOSE 8000

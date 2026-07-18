@@ -4,6 +4,7 @@ from datetime import date, datetime, timedelta
 import pandas as pd
 from sqlalchemy import create_engine, text
 from dotenv import load_dotenv
+import camera_quirks
 
 load_dotenv()
 
@@ -26,20 +27,28 @@ def get_libraries_mapping(engine):
     Queries the cameras table to build a mapping of:
     location_short -> list of serial numbers.
     Also returns a normalized name lookup dictionary.
+
+    Applies temporary location overrides from camera_quirks (e.g. Clemons-side
+    connector stored under Shannon). Hardware-swap date logic is applied later
+    when resolving serials for a date range / filtering raw rows.
     """
     query = "SELECT serial_no, location_short FROM cameras"
     with engine.connect() as conn:
         df = pd.read_sql(query, conn)
     
     mapping = {}
-    normalized_lookup = {}
     for _, row in df.iterrows():
         loc = row['location_short'].strip()
         serial = row['serial_no'].strip()
         if loc not in mapping:
             mapping[loc] = []
         mapping[loc].append(serial)
-        
+
+    # Temporary: reassign serials whose DB location_short is wrong
+    mapping = camera_quirks.apply_location_overrides(mapping)
+
+    normalized_lookup = {}
+    for loc in mapping:
         # Build normalized keys for matching (e.g. 'clemons', 'shannon', 'music', 'fine arts', 'science & engineering')
         norm_key = loc.lower().replace('&', 'and').replace(' ', '')
         normalized_lookup[norm_key] = loc
@@ -50,8 +59,21 @@ def get_libraries_mapping(engine):
             normalized_lookup["sel"] = loc
             normalized_lookup["scienceandengineering"] = loc
             normalized_lookup["scienceengineering"] = loc
+        if "fine" in norm_key and "art" in norm_key:
+            normalized_lookup["finearts"] = loc
+            normalized_lookup["fal"] = loc
+            normalized_lookup["fiske"] = loc
             
     return mapping, normalized_lookup
+
+
+def resolve_library_serials(mapping, library, start_date_str, end_date_str):
+    """
+    Serials to query for a library over a date range, accounting for hardware swaps.
+    """
+    start = datetime.strptime(start_date_str, "%Y-%m-%d").date()
+    end = datetime.strptime(end_date_str, "%Y-%m-%d").date()
+    return camera_quirks.serials_for_library(library, mapping, start, end)
 
 def get_start_id(engine, start_date_str):
     """

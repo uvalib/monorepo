@@ -14,6 +14,7 @@ from starlette.responses import JSONResponse
 import db_helper as db
 import processing as proc
 import report_generator as rep
+import camera_quirks
 
 # json_response=True returns application/json instead of SSE, which is more
 # reliable behind AgentCore's InvokeAgentRuntime / Gateway proxies.
@@ -54,6 +55,30 @@ async def ping_handler(request: Request):
 mcp.custom_route("/ping", methods=["GET", "POST"])(ping_handler)
 
 
+def _resolve_library(mapping, lookup, library: str):
+    norm_lib = library.lower().replace("&", "and").replace(" ", "")
+    if norm_lib not in lookup:
+        return None, (
+            f"Error: Library '{library}' not found. "
+            f"Available libraries: {', '.join(mapping.keys())}"
+        )
+    return lookup[norm_lib], None
+
+
+def _load_processed_for_library(engine, mapping, resolved_lib: str, start_date: str, end_date: str):
+    """
+    Fetch and process occupancy for one library, applying camera quirks:
+    location overrides, date-aware hardware-swap attribution, direction inversion.
+    """
+    serials = db.resolve_library_serials(mapping, resolved_lib, start_date, end_date)
+    start_id = db.get_start_id(engine, start_date)
+    raw_df = db.query_raw_metrics(engine, start_id, end_date, serials)
+    # Drop rows whose serial belongs to another building on that day (post-swap)
+    raw_df = camera_quirks.filter_metrics_for_library(raw_df, resolved_lib, mapping)
+    active_serials = raw_df["serial_no"].unique().tolist() if not raw_df.empty else serials
+    return proc.process_occupancy_data(raw_df, active_serials)
+
+
 @mcp.tool()
 def get_libraries() -> list[str]:
     """
@@ -75,15 +100,11 @@ def get_foot_traffic(start_date: str, end_date: str, library: str) -> str:
     engine = db.get_db_engine()
     mapping, lookup = db.get_libraries_mapping(engine)
 
-    norm_lib = library.lower().replace("&", "and").replace(" ", "")
-    if norm_lib not in lookup:
-        return f"Error: Library '{library}' not found. Available libraries: {', '.join(mapping.keys())}"
-    resolved_lib = lookup[norm_lib]
-    serials = mapping[resolved_lib]
+    resolved_lib, err = _resolve_library(mapping, lookup, library)
+    if err:
+        return err
 
-    start_id = db.get_start_id(engine, start_date)
-    raw_df = db.query_raw_metrics(engine, start_id, end_date, serials)
-    processed_df = proc.process_occupancy_data(raw_df, serials)
+    processed_df = _load_processed_for_library(engine, mapping, resolved_lib, start_date, end_date)
     metrics = rep.generate_report_metrics(processed_df, start_date, end_date)
 
     if "error" in metrics:
@@ -117,15 +138,11 @@ def get_occupancy_report(
     engine = db.get_db_engine()
     mapping, lookup = db.get_libraries_mapping(engine)
 
-    norm_lib = library.lower().replace("&", "and").replace(" ", "")
-    if norm_lib not in lookup:
-        return f"Error: Library '{library}' not found. Available libraries: {', '.join(mapping.keys())}"
-    resolved_lib = lookup[norm_lib]
-    serials = mapping[resolved_lib]
+    resolved_lib, err = _resolve_library(mapping, lookup, library)
+    if err:
+        return err
 
-    start_id = db.get_start_id(engine, start_date)
-    raw_df = db.query_raw_metrics(engine, start_id, end_date, serials)
-    processed_df = proc.process_occupancy_data(raw_df, serials)
+    processed_df = _load_processed_for_library(engine, mapping, resolved_lib, start_date, end_date)
     metrics = rep.generate_report_metrics(processed_df, start_date, end_date, start_time, end_time)
 
     if "error" in metrics:

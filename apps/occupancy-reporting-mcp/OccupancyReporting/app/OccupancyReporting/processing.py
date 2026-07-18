@@ -4,6 +4,7 @@ import numpy as np
 from datetime import datetime, timedelta, timezone, time
 from zoneinfo import ZoneInfo
 from hours_helper import fetch_hours, parse_time, get_day_open_times
+import camera_quirks
 
 NY_TZ = ZoneInfo('America/New_York')
 
@@ -29,10 +30,17 @@ def compute_reset_delta(series: pd.Series) -> pd.Series:
 def process_occupancy_data(df: pd.DataFrame, serial_nos) -> pd.DataFrame:
     """
     Transforms raw counts from the DB into building-level minute metrics with occupancy.
+
+    Applies temporary camera quirks (direction inversion) before delta computation.
+    Callers should already have filtered rows to the target library (including
+    date-aware hardware-swap attribution via camera_quirks.filter_metrics_for_library).
     """
     if df.empty:
         raise ValueError("No metrics data found in database for the selected range.")
-        
+
+    # Temporary: invert in/out for misconfigured cameras (Shannon 401 east)
+    df = camera_quirks.apply_direction_inversions(df)
+
     df = df[df['serial_no'].isin(serial_nos)].copy()
     if df.empty:
         raise ValueError("No metrics data matches selected library serial numbers.")

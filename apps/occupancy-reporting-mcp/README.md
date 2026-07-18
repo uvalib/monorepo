@@ -56,6 +56,23 @@ RDS MySQL  (rds-mysql8-production.internal.lib.virginia.edu)
 
 ---
 
+## Camera data quirks (temporary)
+
+The DB still has a few known hardware/config issues. The MCP applies corrections in
+`OccupancyReporting/app/OccupancyReporting/camera_quirks.py` without mutating RDS.
+Remove each hack once the corresponding records/configs are cleaned up.
+
+| Quirk | What we do |
+| :--- | :--- |
+| Shannon 401 east entrance (`b8:a4:4f:5d:59:9e`) reports in/out reversed | Swap `count_in`/`count_out` before deltas |
+| Staff Clemons-side connector (`b8:a4:4f:5d:31:54`) stored under Shannon | Always count as Clemons |
+| `b8:a4:4f:5d:59:90` (`B8A44F5D5990`) stored under Shannon | Base/historical = Clemons; after **2026-06-17** swap = Fine Arts |
+| Fine Arts (`B8A44F4F195D`) ↔ that Clemons camera physical swap on **2026-06-17** | Date-aware attribution: pre-swap FA↔Clemons homes; post-swap `B8A44F5D5990` is Fine Arts and `B8A44F4F195D` is Clemons |
+
+Unit tests: `uv run python test_camera_quirks.py` from the app directory.
+
+---
+
 ## Local development
 
 ### Requirements
