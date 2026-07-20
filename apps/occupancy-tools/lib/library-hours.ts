@@ -1,4 +1,4 @@
-import { LibrariesData } from '@uvalib/data-wrap';
+import { LibrariesData } from '@uvalib/data-wrap/LibrariesData.js';
 import { resetCounterBySlug } from './occupancy-client.js';
 
 export default class LibraryHours {
