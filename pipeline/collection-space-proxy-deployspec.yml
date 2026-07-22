@@ -6,7 +6,7 @@ version: 0.2
 
 env:
   variables:
-    terraform_version: 1.11.3
+    terraform_version: 1.15.8
 
 phases:
   install:
@@ -20,7 +20,7 @@ phases:
   pre_build:
     commands:
       - latest_build=$(aws --region=$AWS_REGION ssm get-parameter --name /containers/$CONTAINER_IMAGE/latest | grep "Value" | awk -F\" '{print $4}')
-      - git clone https://$GITLAB_USER:$GITLAB_TOKEN@gitlab.com/uvalib/terraform-infrastructure.git
+      - git clone https://${GITHUB_USER}:${GITHUB_TOKEN}@github.com/uvalib/terraform-infrastructure.git
 
   build:
     commands:
