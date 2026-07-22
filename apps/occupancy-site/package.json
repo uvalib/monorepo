@@ -1,0 +1,27 @@
+{
+  "name": "occupancy-site",
+  "type": "module",
+  "version": "0.0.1",
+  "private": true,
+  "description": "UVA Library monthly occupancy and foot-traffic reports",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "fetch-data": "node scripts/fetch-data.mjs",
+    "build:full": "node scripts/fetch-data.mjs && astro build",
+    "deploy": "bash scripts/deploy.sh",
+    "deploy:skip-build": "bash scripts/deploy.sh --skip-build",
+    "deploy:dry-run": "bash scripts/deploy.sh --dry-run",
+    "deploy:full": "bash scripts/deploy.sh --full",
+    "a11y": "node scripts/a11y-check.mjs",
+    "a11y:local": "node scripts/a11y-check.mjs --base http://127.0.0.1:4321"
+  },
+  "dependencies": {
+    "astro": "^7.1.3"
+  }
+}

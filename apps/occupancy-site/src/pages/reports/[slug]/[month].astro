@@ -1,0 +1,192 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getLibraryMeta } from '../../../lib/libraries';
+import { getAllReportPaths, getReport } from '../../../lib/data';
+import {
+  formatInt,
+  formatDecimal,
+  formatPct,
+} from '../../../lib/parse-report';
+import { monthLabel } from '../../../lib/months';
+
+export function getStaticPaths() {
+  const paths = getAllReportPaths();
+  if (paths.length === 0) {
+    // Ensure build succeeds before first data fetch
+    return [
+      {
+        params: { slug: 'clemons', month: '2025-01' },
+        props: { placeholder: true },
+      },
+    ];
+  }
+  return paths.map(({ slug, monthKey }) => ({
+    params: { slug, month: monthKey },
+    props: { placeholder: false },
+  }));
+}
+
+interface Props {
+  placeholder?: boolean;
+}
+
+const { slug, month } = Astro.params;
+const { placeholder = false } = Astro.props as Props;
+const lib = getLibraryMeta(slug!);
+const report = placeholder ? undefined : getReport(slug!, month!);
+const titleMonth = report
+  ? monthLabel({ year: report.year, month: report.month })
+  : month;
+
+const pageTitle = lib
+  ? `${lib.name} — ${titleMonth}`
+  : `Report — ${titleMonth}`;
+---
+
+<BaseLayout
+  title={pageTitle}
+  currentPath={`/libraries/${slug}/`}
+  description={`Monthly occupancy report for ${lib?.name ?? slug}, ${titleMonth}. University of Virginia Library.`}
+>
+  <nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/">Overview</a>
+    <span aria-hidden="true">/</span>
+    {
+      lib ? (
+        <a href={`/libraries/${lib.slug}/`}>{lib.name}</a>
+      ) : (
+        <span>{slug}</span>
+      )
+    }
+    <span aria-hidden="true">/</span>
+    <span>{titleMonth}</span>
+  </nav>
+
+  {
+    !report || !report.metrics ? (
+      <section class="hero">
+        <h1>
+          {lib?.name ?? slug} — {titleMonth}
+        </h1>
+        <p class="empty">
+          {report?.error ??
+            'This monthly report is not available. It may predate camera coverage or failed to generate.'}
+        </p>
+        {lib && (
+          <p>
+            <a href={`/libraries/${lib.slug}/`}>← Back to {lib.name} monthly table</a>
+          </p>
+        )}
+      </section>
+    ) : (
+      <>
+        <section class="hero">
+          <h1>
+            {lib?.name} Library
+            <br />
+            <span style="font-size:0.7em;font-weight:600">Monthly occupancy report · {titleMonth}</span>
+          </h1>
+          <p>
+            Open-hours foot traffic and occupancy summary for facility assessment. Period:{' '}
+            <strong>{report.startDate}</strong> through <strong>{report.endDate}</strong>.
+          </p>
+          <div class="meta-row">
+            <span>
+              Coverage {formatPct(report.metrics.coverage)} · Open days{' '}
+              {report.metrics.openDays}/{report.metrics.totalDays}
+            </span>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2 class="section-title">Key figures</h2>
+          <div class="metrics-grid">
+            <div class="metric-tile">
+              <div class="metric-tile__label">Total entries</div>
+              <div class="metric-tile__value">{formatInt(report.metrics.totalIn)}</div>
+            </div>
+            <div class="metric-tile">
+              <div class="metric-tile__label">Total exits</div>
+              <div class="metric-tile__value">{formatInt(report.metrics.totalOut)}</div>
+            </div>
+            <div class="metric-tile">
+              <div class="metric-tile__label">Combined activity</div>
+              <div class="metric-tile__value">{formatInt(report.metrics.combined)}</div>
+            </div>
+            <div class="metric-tile">
+              <div class="metric-tile__label">Avg daily entries</div>
+              <div class="metric-tile__value">{formatDecimal(report.metrics.avgDailyIn, 1)}</div>
+            </div>
+            <div class="metric-tile">
+              <div class="metric-tile__label">Avg occupancy</div>
+              <div class="metric-tile__value">{formatDecimal(report.metrics.avgOccupancy, 1)}</div>
+            </div>
+            <div class="metric-tile">
+              <div class="metric-tile__label">Open days</div>
+              <div class="metric-tile__value">
+                {report.metrics.openDays}
+                <span style="font-size:0.7em;font-weight:500;color:var(--gray-500)">
+                  {' '}
+                  / {report.metrics.totalDays}
+                </span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2 class="section-title">Peaks & coverage</h2>
+          <div class="prose">
+            <p>
+              <strong>Peak day:</strong>{' '}
+              {report.metrics.peakDay ?? 'n/a'}
+            </p>
+            <p>
+              <strong>Peak hour:</strong>{' '}
+              {report.metrics.peakHour ?? 'n/a'}
+            </p>
+            <p>
+              <strong>Open minutes captured:</strong>{' '}
+              {formatInt(report.metrics.observedMinutes)} of{' '}
+              {formatInt(report.metrics.expectedMinutes)} ({formatPct(report.metrics.coverage)})
+            </p>
+            <p>
+              <strong>Minutes missing during open hours:</strong>{' '}
+              {formatInt(report.metrics.missingMinutes)}
+            </p>
+          </div>
+        </section>
+
+        {
+          report.metrics.qualityNotes.length > 0 && (
+            <section class="panel">
+              <h2 class="section-title">Data quality notes</h2>
+              <ul>
+                {report.metrics.qualityNotes.map((n) => (
+                  <li>{n}</li>
+                ))}
+              </ul>
+            </section>
+          )
+        }
+
+        {
+          report.markdown && (
+            <section class="panel">
+              <h2 class="section-title">Full executive report</h2>
+              <p style="font-size:0.9rem;color:var(--gray-500);margin-top:0">
+                Complete text as returned by the occupancy reporting service (suitable for archival
+                evidence files).
+              </p>
+              <pre class="report-raw">{report.markdown}</pre>
+            </section>
+          )
+        }
+
+        <p>
+          <a href={`/libraries/${lib?.slug}/`}>← Back to {lib?.name} monthly table</a>
+        </p>
+      </>
+    )
+  }
+</BaseLayout>

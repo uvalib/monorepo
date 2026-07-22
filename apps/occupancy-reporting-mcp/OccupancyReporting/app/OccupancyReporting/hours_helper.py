@@ -1,14 +1,68 @@
 # hours_helper.py
-import requests
+"""
+LibCal hours integration — per-library calendars.
+
+Each occupancy location has its own LibCal location id (from Drupal
+field_libcal_id). Using a single calendar for all buildings was wrong:
+e.g. Music/Fine Arts close Saturdays while Clemons stays open late.
+"""
+
+from __future__ import annotations
+
+import os
 from datetime import datetime, timedelta, time
 
-# Global cache of date string -> intervals list
-_hours_cache = {}
+import requests
 
-def parse_time(s):
-    s = s.lower().replace(' ', '')
-    if ':' in s:
-        if 'am' in s or 'pm' in s:
+# Global cache: (libcal_lid, date_str) -> list[(start, end)]
+_hours_cache: dict[tuple[int, str], list[tuple[time, time]]] = {}
+
+# Drupal / LibCal mapping for occupancy camera locations.
+# Source: https://www.library.virginia.edu/jsonapi/node/library
+# field_libcal_id + title/slug, cross-checked against cal.lib.virginia.edu.
+LIBRARY_LIBCAL_IDS: dict[str, int] = {
+    "Clemons": 3638,
+    "Shannon": 2090,  # "The Edgar Shannon Library" (slug: main)
+    "Science & Engineering": 3727,  # Charles L. Brown SEL
+    "Music": 3804,
+    "Fine Arts": 3805,
+}
+
+# Normalized aliases → canonical location_short used in cameras / mapping
+_LIBRARY_ALIASES: dict[str, str] = {
+    "clemons": "Clemons",
+    "shannon": "Shannon",
+    "edgarshannon": "Shannon",
+    "main": "Shannon",
+    "alderman": "Shannon",
+    "science": "Science & Engineering",
+    "scienceandengineering": "Science & Engineering",
+    "scienceengineering": "Science & Engineering",
+    "sel": "Science & Engineering",
+    "brown": "Science & Engineering",
+    "music": "Music",
+    "finearts": "Fine Arts",
+    "fal": "Fine Arts",
+    "fiske": "Fine Arts",
+}
+
+LIBCAL_IID = os.getenv("LIBCAL_IID", "863")
+LIBCAL_KEY = os.getenv(
+    "LIBCAL_KEY", "e4b27d40b7099e8e392113da2f8bf30a"
+)
+LIBCAL_HOURS_URL = os.getenv(
+    "LIBCAL_HOURS_URL",
+    "https://cal.lib.virginia.edu/api/1.0/hours/{lids}?iid={iid}&key={key}&from={start}&to={end}",
+)
+
+# Default when library is unknown: Clemons (legacy behavior)
+_DEFAULT_LIBRARY = "Clemons"
+
+
+def parse_time(s: str) -> time:
+    s = s.lower().replace(" ", "")
+    if ":" in s:
+        if "am" in s or "pm" in s:
             fmt = "%I:%M%p"
         else:
             fmt = "%H:%M"
@@ -16,140 +70,211 @@ def parse_time(s):
         fmt = "%I%p"
     return datetime.strptime(s, fmt).time()
 
-def fetch_hours(start_date, end_date):
-    # Check if all dates in range are already cached
+
+def normalize_library_name(library: str | None) -> str:
+    """Map free-text library name to a canonical cameras.location_short."""
+    if not library:
+        return _DEFAULT_LIBRARY
+    raw = library.strip()
+    if raw in LIBRARY_LIBCAL_IDS:
+        return raw
+    key = raw.lower().replace("&", "and").replace(" ", "")
+    if key in _LIBRARY_ALIASES:
+        return _LIBRARY_ALIASES[key]
+    # Partial contains match
+    for alias, canon in _LIBRARY_ALIASES.items():
+        if alias in key or key in alias:
+            return canon
+    return raw  # may still work if caller used exact cameras name
+
+
+def libcal_id_for_library(library: str | None) -> int:
+    canon = normalize_library_name(library)
+    if canon in LIBRARY_LIBCAL_IDS:
+        return LIBRARY_LIBCAL_IDS[canon]
+    # Fall back to Clemons with a clear default (legacy)
+    return LIBRARY_LIBCAL_IDS[_DEFAULT_LIBRARY]
+
+
+def fetch_hours(start_date, end_date, library: str | None = None):
+    """
+    Fetch open intervals for [start_date, end_date] for a specific library.
+
+    Returns dict: date_str -> list[(start_time, end_time)].
+    Cached per (libcal_lid, date).
+    """
+    lid = libcal_id_for_library(library)
+
+    # Check if all dates for this lid are cached
     all_cached = True
     curr = start_date
     while curr <= end_date:
-        if curr.isoformat() not in _hours_cache:
+        if (lid, curr.isoformat()) not in _hours_cache:
             all_cached = False
             break
         curr += timedelta(days=1)
-        
+
     if all_cached:
         res = {}
         curr = start_date
         while curr <= end_date:
-            res[curr.isoformat()] = _hours_cache[curr.isoformat()]
+            res[curr.isoformat()] = list(_hours_cache[(lid, curr.isoformat())])
             curr += timedelta(days=1)
         return res
 
-    open_intervals = {}
+    open_intervals: dict[str, list[tuple[time, time]]] = {}
     current_start = start_date
     max_chunk_days = 31
     while current_start <= end_date:
         current_end = min(end_date, current_start + timedelta(days=max_chunk_days - 1))
         current_start_str = current_start.isoformat()
         current_end_str = current_end.isoformat()
-        url = f"https://cal.lib.virginia.edu/api/1.0/hours/3638,17367,4170?iid=863&key=e4b27d40b7099e8e392113da2f8bf30a&from={current_start_str}&to={current_end_str}"
-        response = requests.get(url)
+        url = LIBCAL_HOURS_URL.format(
+            lids=lid,
+            iid=LIBCAL_IID,
+            key=LIBCAL_KEY,
+            start=current_start_str,
+            end=current_end_str,
+        )
+        response = requests.get(url, timeout=30)
         if response.status_code != 200:
-            raise ValueError(f"Failed to fetch hours for {current_start_str} to {current_end_str}: {response.status_code}")
+            raise ValueError(
+                f"Failed to fetch hours for {library or lid} "
+                f"{current_start_str} to {current_end_str}: {response.status_code}"
+            )
         data = response.json()
-        # Take first location's dates
-        dates_hours = data[0]['dates']
-        for date_str in dates_hours:
-            date_info = dates_hours[date_str]
-            status = date_info['status']
+        if not data:
+            raise ValueError(
+                f"No LibCal hours payload for lid={lid} ({library})"
+            )
+
+        # Match our lid in case API returns a list with parents/children
+        loc = None
+        for entry in data if isinstance(data, list) else [data]:
+            if int(entry.get("lid", -1)) == int(lid):
+                loc = entry
+                break
+        if loc is None:
+            loc = data[0] if isinstance(data, list) else data
+
+        dates_hours = loc.get("dates") or {}
+        for date_str, date_info in dates_hours.items():
+            status = date_info.get("status")
             date = datetime.strptime(date_str, "%Y-%m-%d").date()
             if status == "closed":
                 open_intervals[date_str] = []
-                _hours_cache[date_str] = []
+                _hours_cache[(lid, date_str)] = []
                 continue
             if status == "24hours":
-                open_intervals[date_str] = [(time(0,0), time(23,59,59))]
-                _hours_cache[date_str] = [(time(0,0), time(23,59,59))]
+                iv = [(time(0, 0), time(23, 59, 59))]
+                open_intervals[date_str] = iv
+                _hours_cache[(lid, date_str)] = iv
                 continue
-            intervals = []
-            for period in date_info.get('hours', []):
-                from_str = period['from']
-                to_str = period['to']
+
+            intervals: list[tuple[time, time]] = []
+            for period in date_info.get("hours") or []:
+                from_str = period.get("from", "")
+                to_str = period.get("to", "")
                 try:
                     from_time = parse_time(from_str)
                     to_time = parse_time(to_str)
-                except:
+                except Exception:
                     continue
-                if from_time == time(0,0) and to_time == time(0,0):
-                    intervals.append((time(0,0), time(23,59,59)))
+                if from_time == time(0, 0) and to_time == time(0, 0):
+                    intervals.append((time(0, 0), time(23, 59, 59)))
                     continue
                 adjusted_to_time = to_time
-                if to_time == time(0,0):
-                    adjusted_to_time = time(23,59,59)
+                if to_time == time(0, 0):
+                    adjusted_to_time = time(23, 59, 59)
                 if adjusted_to_time >= from_time:
                     intervals.append((from_time, adjusted_to_time))
                 else:
-                    intervals.append((from_time, time(23,59,59)))
+                    intervals.append((from_time, time(23, 59, 59)))
                     next_date = date + timedelta(days=1)
                     next_date_str = next_date.isoformat()
                     if next_date_str not in open_intervals:
                         open_intervals[next_date_str] = []
-                    open_intervals[next_date_str].append((time(0,0), to_time))
+                    open_intervals[next_date_str].append((time(0, 0), to_time))
             open_intervals[date_str] = intervals
-            _hours_cache[date_str] = intervals
+            _hours_cache[(lid, date_str)] = list(intervals)
+
         current_start = current_end + timedelta(days=1)
+
+    # Ensure spillover keys are cached too
+    for date_str, intervals in open_intervals.items():
+        _hours_cache[(lid, date_str)] = list(intervals)
+
     return open_intervals
 
-def get_day_open_times(date_str):
+
+def get_day_open_times(date_str: str, library: str | None = None):
     date = datetime.strptime(date_str, "%Y-%m-%d").date()
     prev_date = date - timedelta(days=1)
     next_date = date + timedelta(days=1)
-    intervals = fetch_hours(prev_date, next_date)
-    
+    intervals = fetch_hours(prev_date, next_date, library=library)
+
     day_intervals = sorted(intervals.get(date_str, []), key=lambda x: x[0])
-    prev_intervals = sorted(intervals.get(prev_date.isoformat(), []), key=lambda x: x[0])
-    next_intervals = sorted(intervals.get(next_date.isoformat(), []), key=lambda x: x[0])
-    
+    prev_intervals = sorted(
+        intervals.get(prev_date.isoformat(), []), key=lambda x: x[0]
+    )
+    next_intervals = sorted(
+        intervals.get(next_date.isoformat(), []), key=lambda x: x[0]
+    )
+
     if not day_intervals:
         open_times = "Closed"
     else:
-        open_times = []
+        open_times_list = []
         for start, end in day_intervals:
             start_str = start.strftime("%H:%M")
-            end_str = end.strftime("%H:%M") if end != time(23,59,59) else "24:00"
-            open_times.append(f"{start_str}-{end_str}")
-        if len(open_times) == 1 and open_times[0] == "00:00-24:00":
+            end_str = end.strftime("%H:%M") if end != time(23, 59, 59) else "24:00"
+            open_times_list.append(f"{start_str}-{end_str}")
+        if len(open_times_list) == 1 and open_times_list[0] == "00:00-24:00":
             open_times = "00:00-24:00"
         else:
-            open_times = ", ".join(open_times)
-    
-    # Determine if opened
+            open_times = ", ".join(open_times_list)
+
+    # Determine if opened (first open of a non-overnight stretch)
     opened = False
-    if day_intervals and day_intervals[0][0] > time(0,0):
+    if day_intervals and day_intervals[0][0] > time(0, 0):
         opened = True
-    elif day_intervals and day_intervals[0][0] == time(0,0):
-        # Check if previous day ends at 23:59
-        if prev_intervals and prev_intervals[-1][1] == time(23,59,59):
+    elif day_intervals and day_intervals[0][0] == time(0, 0):
+        if prev_intervals and prev_intervals[-1][1] == time(23, 59, 59):
             opened = False
         else:
             opened = True
     else:
-        opened = False  # Closed all day
-    
-    # Determine if closed
+        opened = False
+
     closed = False
-    if day_intervals and day_intervals[-1][1] < time(23,59,59):
+    if day_intervals and day_intervals[-1][1] < time(23, 59, 59):
         closed = True
-    elif day_intervals and day_intervals[-1][1] == time(23,59,59):
-        # Check if next day starts at 0:00
-        if next_intervals and next_intervals[0][0] == time(0,0):
+    elif day_intervals and day_intervals[-1][1] == time(23, 59, 59):
+        if next_intervals and next_intervals[0][0] == time(0, 0):
             closed = False
         else:
             closed = True
     else:
-        closed = False  # Closed all day
-    
+        closed = False
+
     return {
         "open_times": open_times,
         "opened": "Yes" if opened else "No",
-        "closed": "Yes" if closed else "No"
+        "closed": "Yes" if closed else "No",
+        "library": normalize_library_name(library),
+        "libcal_lid": libcal_id_for_library(library),
     }
 
-def get_hours(start_date_str, end_date_str):
+
+def get_hours(start_date_str: str, end_date_str: str, library: str | None = None):
+    """
+    Open intervals with reporting buffers (−15 min start, +30 min end).
+    """
     start_date = datetime.strptime(start_date_str, "%Y-%m-%d").date()
     end_date = datetime.strptime(end_date_str, "%Y-%m-%d").date()
-    raw_intervals = fetch_hours(start_date, end_date)
-    # Extend intervals with buffers
-    extended_intervals = {k: [] for k in raw_intervals}
+    raw_intervals = fetch_hours(start_date, end_date, library=library)
+
+    extended_intervals: dict[str, list] = {k: [] for k in raw_intervals}
     for date_str in list(raw_intervals.keys()):
         date = datetime.strptime(date_str, "%Y-%m-%d").date()
         for s, e in raw_intervals[date_str]:
@@ -157,20 +282,20 @@ def get_hours(start_date_str, end_date_str):
             dt_e = datetime.combine(date, e)
             dt_new_s = dt_s - timedelta(minutes=15)
             dt_new_e = dt_e + timedelta(minutes=30)
-            # Add the extended interval, handling day spans
             current_dt = dt_new_s
             while current_dt < dt_new_e:
                 current_date_str = current_dt.date().isoformat()
                 if current_date_str not in extended_intervals:
                     extended_intervals[current_date_str] = []
-                day_end = datetime.combine(current_dt.date(), time(23,59,59,999999))
+                day_end = datetime.combine(
+                    current_dt.date(), time(23, 59, 59, 999999)
+                )
                 segment_end = min(day_end, dt_new_e)
-                segment_start_time = current_dt.time()
-                segment_end_time = segment_end.time()
-                extended_intervals[current_date_str].append((segment_start_time, segment_end_time))
+                extended_intervals[current_date_str].append(
+                    (current_dt.time(), segment_end.time())
+                )
                 current_dt = day_end + timedelta(microseconds=1)
-    
-    # Merge overlapping intervals per day
+
     def merge_intervals(intervals):
         if not intervals:
             return []
@@ -183,17 +308,100 @@ def get_hours(start_date_str, end_date_str):
             else:
                 merged.append(current)
         return merged
-    
+
     for date_str in extended_intervals:
         extended_intervals[date_str] = merge_intervals(extended_intervals[date_str])
-    
+
     return extended_intervals
 
-def is_open(date, time, open_intervals):
+
+def is_open(date, t, open_intervals) -> bool:
     date_str = date.isoformat()
     if date_str not in open_intervals:
         return False
     for start, end in open_intervals[date_str]:
-        if start <= time <= end:
+        if start <= t <= end:
             return True
     return False
+
+
+def format_hours_schedule(
+    library: str,
+    start_date_str: str,
+    end_date_str: str | None = None,
+) -> str:
+    """
+    Human-readable markdown schedule for a library over a date range.
+
+    Uses published LibCal hours (no reporting buffer). Defaults to a single day
+    when end_date_str is omitted.
+    """
+    canon = normalize_library_name(library)
+    if canon not in LIBRARY_LIBCAL_IDS:
+        known = ", ".join(sorted(LIBRARY_LIBCAL_IDS.keys()))
+        return f"Error: Library '{library}' has no LibCal calendar mapping. Known: {known}"
+
+    if end_date_str is None or not str(end_date_str).strip():
+        end_date_str = start_date_str
+
+    try:
+        start_date = datetime.strptime(start_date_str, "%Y-%m-%d").date()
+        end_date = datetime.strptime(end_date_str, "%Y-%m-%d").date()
+    except ValueError:
+        return "Error: Dates must be YYYY-MM-DD."
+
+    if end_date < start_date:
+        return "Error: end_date must be on or after start_date."
+
+    # Cap very long requests so agents don't pull years of calendars by accident
+    max_days = 120
+    if (end_date - start_date).days + 1 > max_days:
+        return (
+            f"Error: Date range too long (max {max_days} days for get_library_hours). "
+            f"Requested {(end_date - start_date).days + 1} days."
+        )
+
+    lid = libcal_id_for_library(canon)
+    try:
+        raw = fetch_hours(start_date, end_date, library=canon)
+    except Exception as e:
+        return f"Error: Failed to fetch LibCal hours for {canon}: {e}"
+
+    lines = [
+        f"### Library Hours: {canon}",
+        f"* **LibCal location id**: {lid}",
+        f"* **Date range**: {start_date_str} to {end_date_str}",
+        f"* **Source**: LibCal (published building hours; no open/close buffer)",
+        "",
+        "| Date | Day | Hours |",
+        "| :--- | :--- | :--- |",
+    ]
+
+    open_days = 0
+    closed_days = 0
+    current = start_date
+    while current <= end_date:
+        date_str = current.isoformat()
+        intervals = raw.get(date_str, [])
+        day_name = current.strftime("%a")
+        if not intervals:
+            hours_str = "Closed"
+            closed_days += 1
+        else:
+            open_days += 1
+            parts = []
+            for s, e in sorted(intervals, key=lambda x: x[0]):
+                s_str = s.strftime("%H:%M")
+                e_str = "24:00" if e == time(23, 59, 59) else e.strftime("%H:%M")
+                parts.append(f"{s_str}–{e_str}")
+            hours_str = ", ".join(parts)
+        lines.append(f"| {date_str} | {day_name} | {hours_str} |")
+        current += timedelta(days=1)
+
+    lines.extend(
+        [
+            "",
+            f"**Summary**: {open_days} open day(s), {closed_days} closed day(s).",
+        ]
+    )
+    return "\n".join(lines)

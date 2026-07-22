@@ -21,6 +21,12 @@ Lists all library locations available in the database.
 - **Parameters**: none
 - **Returns**: `list[str]`
 
+### `get_library_hours`
+Published open/closed hours for a library from its own LibCal calendar (markdown table).
+- **Parameters**: `library` (e.g. `Clemons`, `Shannon`, `Music`, `Fine Arts`, `Science & Engineering`), `start_date` (YYYY-MM-DD), `end_date` (YYYY-MM-DD, optional — defaults to `start_date`)
+- **Returns**: `str` (Markdown schedule)
+- **Notes**: Max 120-day range. Hours are published LibCal times (no ± open-hours buffer used in reports). Gateway name after deploy: `OccupancyReportingRuntime___get_library_hours`.
+
 ### `get_foot_traffic`
 Returns total entries, exits, and daily averages for a library over a date range.
 - **Parameters**: `start_date` (YYYY-MM-DD), `end_date` (YYYY-MM-DD), `library` (e.g. `Clemons`, `Shannon`, `Science & Engineering`)
@@ -56,6 +62,25 @@ RDS MySQL  (rds-mysql8-production.internal.lib.virginia.edu)
 
 ---
 
+## Per-library hours (LibCal)
+
+Open/closed filtering and daily occupancy resets use each building’s own LibCal
+calendar (Drupal `field_libcal_id`), not a single shared schedule:
+
+| Occupancy location | LibCal lid | LibCal name |
+| :--- | ---: | :--- |
+| Clemons | 3638 | Clemons Library |
+| Shannon | 2090 | The Edgar Shannon Library |
+| Science & Engineering | 3727 | Brown Science & Engineering Library |
+| Music | 3804 | Music Library |
+| Fine Arts | 3805 | Fine Arts Library |
+
+Configured in `hours_helper.LIBRARY_LIBCAL_IDS`. Hours differ meaningfully
+(e.g. Music/Fine Arts closed Saturdays; Clemons open late Fridays) — using
+Clemons hours for every building previously skewed open-hours totals.
+
+---
+
 ## Camera data quirks (temporary)
 
 The DB still has a few known hardware/config issues. The MCP applies corrections in
@@ -65,11 +90,33 @@ Remove each hack once the corresponding records/configs are cleaned up.
 | Quirk | What we do |
 | :--- | :--- |
 | Shannon 401 east entrance (`b8:a4:4f:5d:59:9e`) reports in/out reversed | Swap `count_in`/`count_out` before deltas |
-| Staff Clemons-side connector (`b8:a4:4f:5d:31:54`) stored under Shannon | Always count as Clemons |
-| `b8:a4:4f:5d:59:90` (`B8A44F5D5990`) stored under Shannon | Base/historical = Clemons; after **2026-06-17** swap = Fine Arts |
-| Fine Arts (`B8A44F4F195D`) ↔ that Clemons camera physical swap on **2026-06-17** | Date-aware attribution: pre-swap FA↔Clemons homes; post-swap `B8A44F5D5990` is Fine Arts and `B8A44F4F195D` is Clemons |
+| Staff Clemons-side connector (`b8:a4:4f:5d:31:54` / `B8A44F5D3154`) stored under Shannon | Always count as Clemons (**not** part of the FA hardware swap; not 172.29.3.57) |
+| `b8:a4:4f:5d:59:90` (`B8A44F5D5990`) stored under Shannon | Base/historical = Clemons at **172.29.3.57**; after **2026-06-17** swap = Fine Arts (172.29.8.29) |
+| Fine Arts (`B8A44F4F195D` @ 172.29.8.29) ↔ Clemons-system camera at **172.29.3.57** physical swap on **2026-06-17** | Date-aware attribution: post-swap `B8A44F4F195D` is at 172.29.3.57 / Clemons and `B8A44F5D5990` is Fine Arts |
 
 Unit tests: `uv run python test_camera_quirks.py` from the app directory.
+
+### Long date ranges
+
+Reports over multi-month windows pull a lot of minute-level camera data (~50k+
+rows/day/library). The server:
+
+1. **Chunks** the range into ~14-day windows and fetches them **in parallel**
+2. Bounds each query with primary-key id ranges (no full-table scans / filesorts)
+3. **Downsamples** longer windows so multi-month and **annual** reports finish
+   under gateway timeouts. Counters are cumulative, so foot-traffic **totals stay
+   correct**; occupancy curves are coarser on long windows.
+
+| Range | Sample interval |
+| :--- | :--- |
+| ≤ 45 days | 1 minute (full resolution) |
+| 46–120 days | 3 minutes |
+| 121–200 days | 5 minutes |
+| 201–400 days (annual) | 10 minutes |
+| > 400 days | 15 minutes |
+
+Typical local timings against production RDS (Clemons): ~4s (7d), ~14s (30d),
+~10s (60d), ~15s (90d), ~25–35s (365d / annual).
 
 ---
 

@@ -1,0 +1,24 @@
+---
+import { libraryDisplayOrder } from '../lib/libraries';
+
+interface Props {
+  currentSlug?: string;
+}
+
+const { currentSlug } = Astro.props;
+const libraries = libraryDisplayOrder();
+---
+
+<nav class="year-tabs" aria-label="Libraries">
+  {
+    libraries.map((lib) =>
+      lib.slug === currentSlug ? (
+        <span class="is-active" aria-current="page">
+          {lib.name}
+        </span>
+      ) : (
+        <a href={`/libraries/${lib.slug}/`}>{lib.name}</a>
+      ),
+    )
+  }
+</nav>

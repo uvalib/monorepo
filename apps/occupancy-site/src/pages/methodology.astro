@@ -1,0 +1,99 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Methodology"
+  currentPath="/methodology/"
+  description="How UVA Library occupancy and foot-traffic counts are produced for monthly reporting."
+>
+  <nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/">Overview</a>
+    <span aria-hidden="true">/</span>
+    <span>Methodology</span>
+  </nav>
+
+  <section class="hero">
+    <h1>Methodology & data quality</h1>
+    <p>
+      This page documents how monthly occupancy reports are generated so reviewers can understand
+      what the numbers represent—and where they should be treated as estimates.
+    </p>
+  </section>
+
+  <section class="panel prose">
+    <h2>Purpose</h2>
+    <p>
+      The University of Virginia Library maintains monthly visit and occupancy summaries for its
+      public facilities. These reports support internal assessment and operational planning.
+    </p>
+
+    <h2>Data source</h2>
+    <p>
+      Raw counts come from entrance and portal cameras that track people moving into and out of each
+      building. Counts are stored centrally and processed by the Library’s occupancy reporting
+      service (MCP gateway), which:
+    </p>
+    <ul>
+      <li>Aggregates camera serials belonging to each library building</li>
+      <li>Derives per-minute entries, exits, and estimated occupancy</li>
+      <li>Aligns analysis windows to published LibCal open hours for that building</li>
+      <li>Applies daily reset and off-hours suppression logic to reduce counter drift</li>
+    </ul>
+
+    <h2>What “entries” means</h2>
+    <p>
+      <strong>Total entries</strong> (in traffic) is the best single figure for “how many visits
+      occurred during open hours in this month.” Exits, combined activity, and average occupancy
+      provide additional operational context. Reports intentionally exclude activity outside open
+      hours (with a short buffer around opening and closing).
+    </p>
+
+    <h2>Estimates — especially Shannon and Clemons</h2>
+    <div class="note">
+      <strong>Important:</strong> Counts for all buildings are estimates. Shannon and Clemons are
+      particularly imperfect because of complex multi-entrance layouts, high concurrent traffic, and
+      camera geometry. Even so, the current camera-based system is <em>more reliable and more
+      complete</em> than the Library’s previous gate-counter approach, which frequently under-counted
+      or missed side entrances entirely.
+    </div>
+    <p>
+      Branch libraries (Fine Arts, Music, Science &amp; Engineering) generally have simpler entry
+      patterns, but they remain estimates of true headcount as well.
+    </p>
+
+    <h2>Reporting window</h2>
+    <p>
+      The site publishes the last 24 complete calendar months for every library that appears in the
+      occupancy database: Clemons, Fine Arts, Music, Science &amp; Engineering, and Shannon. Camera
+      history in the production database begins around mid-October 2023; months before reliable
+      coverage may show gaps or errors.
+    </p>
+
+    <h2>How reports are built for this site</h2>
+    <p>
+      Static pages are generated with <a href="https://astro.build/">Astro</a>. At data-refresh time,
+      a build script calls the public occupancy MCP gateway:
+    </p>
+    <p>
+      <code style="font-size:0.85rem;word-break:break-all">
+        https://occupancy-reporting-gateway-mohw8c1jug.gateway.bedrock-agentcore.us-east-1.amazonaws.com/mcp
+      </code>
+    </p>
+    <p>
+      using the <code>get_occupancy_report</code> tool for each library and month. Parsed metrics
+      power summary tables; the full executive report text is retained on each monthly page for
+      archival use.
+    </p>
+
+    <h2>Recommended citation</h2>
+    <p>A typical citation might read:</p>
+    <p>
+      <em
+        >University of Virginia Library. Monthly Occupancy Report: [Library], [Month Year]. Derived
+        from entrance camera counts during published open hours. Figures are estimates of facility
+        use.</em
+      >
+    </p>
+  </section>
+</BaseLayout>

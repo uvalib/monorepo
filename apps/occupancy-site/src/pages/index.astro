@@ -1,0 +1,119 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { libraryDisplayOrder } from '../lib/libraries';
+import { loadReports, latestReport, libraryTotals } from '../lib/data';
+import { formatInt, formatDecimal } from '../lib/parse-report';
+import { monthLabel } from '../lib/months';
+
+const data = loadReports();
+const libraries = libraryDisplayOrder();
+const hasData = data.reports.length > 0;
+
+const cards = libraries.map((lib) => {
+  const latest = latestReport(lib.slug);
+  const totals = libraryTotals(lib.slug);
+  return { lib, latest, totals };
+});
+---
+
+<BaseLayout title="Home" currentPath="/">
+  <section class="hero">
+    <h1>Monthly Library Occupancy Reports</h1>
+    <p>
+      This site publishes monthly foot-traffic and occupancy summaries for University of Virginia
+      Library buildings, for operational reporting and assessment of library facility use.
+    </p>
+    <p>
+      Figures cover open hours only and are produced from entrance camera counts via the Library’s
+      occupancy reporting service.
+    </p>
+    {
+      hasData ? (
+        <div class="meta-row">
+          <span>
+            Reporting window: <strong>{data.range.start}</strong> through{' '}
+            <strong>{data.range.end}</strong>
+          </span>
+          <span>
+            Last refreshed:{' '}
+            <strong>
+              {data.fetchedAt
+                ? new Date(data.fetchedAt).toLocaleString('en-US', {
+                    dateStyle: 'medium',
+                    timeStyle: 'short',
+                  })
+                : '—'}
+            </strong>
+          </span>
+          <span>
+            Libraries: <strong>{libraries.length}</strong>
+          </span>
+        </div>
+      ) : (
+        <div class="note">
+          <strong>No report data yet.</strong> Run <code>npm run fetch-data</code> to pull two years
+          of monthly reports from the occupancy MCP gateway, then rebuild the site.
+        </div>
+      )
+    }
+  </section>
+
+  <h2 class="section-title">Libraries</h2>
+  <div class="card-grid">
+    {
+      cards.map(({ lib, latest, totals }) => (
+        <a class="card" href={`/libraries/${lib.slug}/`}>
+          <h2>{lib.name}</h2>
+          <p>{lib.description}</p>
+          <div class="card__stats">
+            <div class="stat">
+              <span class="stat__label">2-year entries</span>
+              <span class="stat__value">{formatInt(totals.totalIn)}</span>
+            </div>
+            <div class="stat">
+              <span class="stat__label">Months reported</span>
+              <span class="stat__value">{totals.monthsWithData}</span>
+            </div>
+            <div class="stat">
+              <span class="stat__label">Latest month</span>
+              <span class="stat__value">
+                {latest
+                  ? monthLabel({ year: latest.year, month: latest.month }, 'short')
+                  : '—'}
+              </span>
+            </div>
+            <div class="stat">
+              <span class="stat__label">Latest entries</span>
+              <span class="stat__value">
+                {latest?.metrics ? formatInt(latest.metrics.totalIn) : '—'}
+              </span>
+            </div>
+          </div>
+          {latest?.metrics && (
+            <div style="margin-top:0.5rem;font-size:0.85rem;color:var(--gray-500)">
+              Avg occupancy {formatDecimal(latest.metrics.avgOccupancy, 1)}
+            </div>
+          )}
+        </a>
+      ))
+    }
+  </div>
+
+  <section class="panel" style="margin-top:1.5rem">
+    <h2 class="section-title">How to use these reports</h2>
+    <div class="prose">
+      <ul>
+        <li>
+          Open a library to view the full 24-month table of entries, exits, and average occupancy.
+        </li>
+        <li>
+          Each month links to an executive occupancy report suitable for archival or shared
+          reporting.
+        </li>
+        <li>
+          Print any monthly report from the browser for PDF archival (File → Print → Save as PDF).
+        </li>
+      </ul>
+    </div>
+  </section>
+</BaseLayout>

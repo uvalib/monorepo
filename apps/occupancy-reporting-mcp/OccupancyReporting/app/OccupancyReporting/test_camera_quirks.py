@@ -12,11 +12,11 @@ def _sample_mapping():
     return {
         "Clemons": ["B8A44F59727B", "ACCC8EF00E27"],
         "Shannon": [
-            "b8:a4:4f:5d:31:54",  # override → Clemons (always)
-            "b8:a4:4f:5d:59:90",  # override → Clemons base; post-swap → Fine Arts
+            "b8:a4:4f:5d:31:54",  # B8A44F5D3154 — override → Clemons (always; not FA swap)
+            "b8:a4:4f:5d:59:90",  # B8A44F5D5990 — Clemons @ 172.29.3.57 pre-swap; FA post-swap
             "b8:a4:4f:5d:59:9e",  # direction invert
         ],
-        "Fine Arts": ["B8A44F4F195D"],  # post-swap → Clemons
+        "Fine Arts": ["B8A44F4F195D"],  # @ 172.29.8.29 pre-swap; @ 172.29.3.57 / Clemons post-swap
     }
 
 
@@ -49,17 +49,19 @@ def test_effective_location_pre_and_post_swap():
     pre = date(2026, 6, 16)
     post = date(2026, 6, 17)
 
-    # Pre-swap: FA serial at Fine Arts; 59:90 (B8A44F5D5990) at Clemons
+    # Pre-swap: FA serial at Fine Arts; 59:90 (B8A44F5D5990) at Clemons (172.29.3.57)
     assert cq.effective_location_for_serial("B8A44F4F195D", pre, mapping) == "Fine Arts"
     assert cq.effective_location_for_serial("b8:a4:4f:5d:59:90", pre, mapping) == "Clemons"
 
-    # Post-swap: FA serial moved to Clemons; 59:90 is now Fine Arts
+    # Post-swap: FA MAC B8A44F4F195D is now at 172.29.3.57 / Clemons; 59:90 is Fine Arts
     assert cq.effective_location_for_serial("B8A44F4F195D", post, mapping) == "Clemons"
     assert cq.effective_location_for_serial("b8:a4:4f:5d:59:90", post, mapping) == "Fine Arts"
 
-    # 31:54 override is independent of swap
+    # 31:54 (B8A44F5D3154) was never the FA swap partner — static Clemons only
     assert cq.effective_location_for_serial("b8:a4:4f:5d:31:54", pre, mapping) == "Clemons"
     assert cq.effective_location_for_serial("b8:a4:4f:5d:31:54", post, mapping) == "Clemons"
+    assert cq._swap_partner("b8:a4:4f:5d:31:54") is None
+    assert cq._swap_partner("B8A44F5D3154") is None
 
 
 def test_serials_for_library_includes_swap_partner_post_range():

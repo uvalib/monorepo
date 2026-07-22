@@ -1,0 +1,145 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import LibraryNav from '../../components/LibraryNav.astro';
+import { libraryDisplayOrder, getLibraryMeta } from '../../lib/libraries';
+import { getReportsForLibrary, libraryTotals, loadReports } from '../../lib/data';
+import { formatInt, formatDecimal, formatPct } from '../../lib/parse-report';
+import { monthLabel } from '../../lib/months';
+
+export function getStaticPaths() {
+  return libraryDisplayOrder().map((lib) => ({
+    params: { slug: lib.slug },
+  }));
+}
+
+const { slug } = Astro.params;
+const lib = getLibraryMeta(slug!);
+if (!lib) {
+  throw new Error(`Unknown library slug: ${slug}`);
+}
+
+const data = loadReports();
+const reports = getReportsForLibrary(lib.slug);
+const totals = libraryTotals(lib.slug);
+const years = [...new Set(reports.map((r) => r.year))].sort((a, b) => b - a);
+
+// Group for year sections
+const byYear = new Map<number, typeof reports>();
+for (const r of reports) {
+  const list = byYear.get(r.year) ?? [];
+  list.push(r);
+  byYear.set(r.year, list);
+}
+---
+
+<BaseLayout
+  title={lib.name}
+  currentPath={`/libraries/${lib.slug}/`}
+  description={`Monthly occupancy and foot-traffic reports for ${lib.name} Library — University of Virginia Library.`}
+>
+  <nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="/">Overview</a>
+    <span aria-hidden="true">/</span>
+    <span>{lib.name}</span>
+  </nav>
+
+  <LibraryNav currentSlug={lib.slug} />
+
+  <section class="hero">
+    <h1>{lib.name} Library</h1>
+    <p>{lib.description}</p>
+    <div class="meta-row">
+      <span>
+        Window: <strong>{data.range.start || '—'}</strong> – <strong>{data.range.end || '—'}</strong>
+      </span>
+      <span>
+        Months with data: <strong>{totals.monthsWithData}</strong>
+      </span>
+      <span>
+        Total entries (period): <strong>{formatInt(totals.totalIn)}</strong>
+      </span>
+      <span>
+        Total exits (period): <strong>{formatInt(totals.totalOut)}</strong>
+      </span>
+    </div>
+  </section>
+
+  {
+    reports.length === 0 ? (
+      <section class="panel">
+        <p class="empty">
+          No monthly reports are available yet. Run <code>npm run fetch-data</code> to populate this
+          library.
+        </p>
+      </section>
+    ) : (
+      years.map((year) => {
+        const rows = (byYear.get(year) ?? []).slice().sort((a, b) => b.month - a.month);
+        return (
+          <section class="panel" id={`year-${year}`}>
+            <h2 class="section-title">{year}</h2>
+            <div class="table-wrap">
+              <table class="data">
+                <caption>
+                  {lib.name} Library monthly occupancy, {year}
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Month</th>
+                    <th scope="col" class="num">Entries</th>
+                    <th scope="col" class="num">Exits</th>
+                    <th scope="col" class="num">Avg daily entries</th>
+                    <th scope="col" class="num">Avg occupancy</th>
+                    <th scope="col" class="num">Open days</th>
+                    <th scope="col" class="num">Coverage</th>
+                    <th scope="col">Report</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {rows.map((r) => {
+                    const label = monthLabel({ year: r.year, month: r.month });
+                    return (
+                      <tr>
+                        <th scope="row">
+                          {label}
+                        </th>
+                        {r.metrics ? (
+                          <>
+                            <td class="num">{formatInt(r.metrics.totalIn)}</td>
+                            <td class="num">{formatInt(r.metrics.totalOut)}</td>
+                            <td class="num">{formatDecimal(r.metrics.avgDailyIn, 1)}</td>
+                            <td class="num">{formatDecimal(r.metrics.avgOccupancy, 1)}</td>
+                            <td class="num">
+                              {r.metrics.openDays}/{r.metrics.totalDays}
+                            </td>
+                            <td class="num">{formatPct(r.metrics.coverage)}</td>
+                            <td>
+                              <a href={`/reports/${r.slug}/${r.monthKey}/`}>
+                                View<span class="visually-hidden"> {label} report for {lib.name}</span>
+                              </a>
+                            </td>
+                          </>
+                        ) : (
+                          <>
+                            <td colspan="6">
+                              <span class="empty">{r.error ?? 'No data'}</span>
+                            </td>
+                            <td>
+                              <a href={`/reports/${r.slug}/${r.monthKey}/`}>
+                                View<span class="visually-hidden"> {label} report for {lib.name}</span>
+                              </a>
+                            </td>
+                          </>
+                        )}
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        );
+      })
+    )
+  }
+</BaseLayout>

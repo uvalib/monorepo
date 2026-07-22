@@ -9,12 +9,16 @@ Quirks:
 2. Location overrides — cameras stored under Shannon in `cameras` that should
    count toward Clemons as their base (pre-swap / non-swapped) location.
 3. Hardware swap — on 2026-06-17 Fine Arts (172.29.8.29) and the Clemons-system
-   camera at Shannon IP 172.29.3.52 were physically swapped; IPs stayed with
+   camera at Shannon IP **172.29.3.57** were physically swapped; IPs stayed with
    buildings, MACs moved. Date-aware attribution is required because `cameras`
    still maps serials to pre-cleanup locations.
 
+   Not the swap: 172.29.3.52 / B8A44F5D3154 (`b8:a4:4f:5d:31:54`) — that unit is
+   the C113A staff connector (static Clemons override only).
+
 Evidence for (3): both serials went offline ~2026-06-16 evening and returned
-2026-06-23 with exchanged traffic-volume patterns.
+2026-06-23 with exchanged traffic-volume patterns. Post-swap, 172.29.3.57 reports
+as serial B8A44F4F195D (the former Fine Arts MAC).
 """
 
 from __future__ import annotations
@@ -25,11 +29,32 @@ from typing import Iterable
 import pandas as pd
 
 # ---------------------------------------------------------------------------
-# 1. Direction inversion (Shannon 401 east entrance)
+# 1. Direction inversion (in/out swapped at the camera)
 # ---------------------------------------------------------------------------
 # process-occupancy.py: "Swap count_in and count_out for b8:a4:4f:5d:59:9e
 # (401 east entrance) due to direction inversion"
-INVERT_DIRECTION_SERIALS = frozenset({"b8:a4:4f:5d:59:9e"})
+#
+# March 2026 audit (keep this invert — without it Shannon net is ~-15k; with
+# it ~+11k; both biased, invert is closer to balanced). Residual Shannon
+# in/out imbalance is likely hardware miscounts at 401 east (people counted
+# preferentially as one direction), not fixed by more software swaps.
+#
+# Clemons main-entrance cameras are individually skewed (e.g. ACCC8EF00DA0
+# ~7.6:1 in/out, ACCC8EF00E27 ~0.5:1) but CANCEL at building level (~1% net).
+# Do not invert individual Clemons lanes without on-site verification.
+INVERT_DIRECTION_SERIALS = frozenset({
+    "b8:a4:4f:5d:59:9e",  # Shannon 401 east entrance
+})
+
+# Cameras that report nothing (dead / not counting). Excluded from serial
+# lists so they don't inflate "camera count" or waste query work. Re-check
+# periodically — they may come back after maintenance.
+EXCLUDE_SERIALS = frozenset({
+    "b8:a4:4f:5d:59:76",  # Shannon 401 central (Lead camera) — zero March 2026
+    "b8:a4:4f:5d:59:94",  # Shannon C215 public connector Shannon side — zero
+    "b8:a4:4f:5d:32:c6",  # Shannon 129 door to dock — zero
+    "b8:a4:4f:5d:5a:00",  # Shannon C172A fire exit — zero
+})
 
 # ---------------------------------------------------------------------------
 # 2. Static location overrides (serial → base location_short)
@@ -37,10 +62,12 @@ INVERT_DIRECTION_SERIALS = frozenset({"b8:a4:4f:5d:59:9e"})
 # Base = location ignoring the hardware swap below. Swap logic then reassigns
 # post-swap rows to the partner's base location.
 #
-# b8:a4:4f:5d:31:54 — C113A staff Clemons connector, Clemons side
-#   (run_annual_report.py lists under Clemons; DB has Shannon)
-# b8:a4:4f:5d:59:90 — B8A44F5D5990; base/historical home is Clemons (DB has
-#   Shannon). After the Fine Arts swap it lives at Fine Arts (see below).
+# b8:a4:4f:5d:31:54 (B8A44F5D3154) — C113A staff Clemons connector, Clemons side
+#   (DB has Shannon). NOT involved in the Fine Arts hardware swap; was never at
+#   the swap IP 172.29.3.57 (nor the previously mis-documented 172.29.3.52).
+# b8:a4:4f:5d:59:90 (B8A44F5D5990) — base/historical home is Clemons (DB has
+#   Shannon). Pre-swap lived at 172.29.3.57; after the Fine Arts swap it lives
+#   at Fine Arts (172.29.8.29).
 LOCATION_OVERRIDES = {
     "b8:a4:4f:5d:31:54": "Clemons",
     "b8:a4:4f:5d:59:90": "Clemons",
@@ -49,12 +76,15 @@ LOCATION_OVERRIDES = {
 # ---------------------------------------------------------------------------
 # 3. Hardware swap (date-aware location reassignment)
 # ---------------------------------------------------------------------------
-# Pre-swap:
+# Physical units exchanged on CAMERA_SWAP_DATE; building IPs kept their place:
+#   Fine Arts IP 172.29.8.29  ↔  Clemons-system IP 172.29.3.57
+#
+# Pre-swap (serial → building, IP):
 #   B8A44F4F195D          → Fine Arts  (172.29.8.29)
-#   b8:a4:4f:5d:59:90     → Clemons    (was at 172.29.3.52 / Clemons system)
+#   b8:a4:4f:5d:59:90     → Clemons    (172.29.3.57)
 # Post-swap (effective from CAMERA_SWAP_DATE inclusive):
-#   B8A44F4F195D          → Clemons
-#   b8:a4:4f:5d:59:90     → Fine Arts  (B8A44F5D5990 is now Fine Arts)
+#   B8A44F4F195D          → Clemons    (now at 172.29.3.57)
+#   b8:a4:4f:5d:59:90     → Fine Arts  (B8A44F5D5990 now at 172.29.8.29)
 CAMERA_SWAP_DATE = date(2026, 6, 17)
 CAMERA_SWAP_PAIRS = (
     ("B8A44F4F195D", "b8:a4:4f:5d:59:90"),
@@ -69,6 +99,7 @@ def normalize_serial(serial: str) -> str:
 def apply_location_overrides(mapping: dict[str, list[str]]) -> dict[str, list[str]]:
     """
     Reassign serials in a location_short → [serials] mapping per LOCATION_OVERRIDES.
+    Also drops EXCLUDE_SERIALS (known-dead cameras).
     Returns a new mapping; does not mutate the input.
     """
     # Build serial → original location, preserving first-seen casing
@@ -76,6 +107,8 @@ def apply_location_overrides(mapping: dict[str, list[str]]) -> dict[str, list[st
     for loc, serials in mapping.items():
         for s in serials:
             ns = normalize_serial(s)
+            if ns in EXCLUDE_SERIALS:
+                continue
             if ns not in serial_meta:
                 serial_meta[ns] = (s, loc)
 
@@ -233,12 +266,31 @@ def filter_metrics_for_library(
     created = pd.to_datetime(df["created_at"], utc=True)
     # Use America/New_York calendar date for swap boundary (cameras live in ET)
     dates = created.dt.tz_convert("America/New_York").dt.date
+    serials = df["serial_no"].astype(str)
 
-    effective = [
-        effective_location_for_serial(serial, d, mapping)
-        for serial, d in zip(df["serial_no"].astype(str), dates)
-    ]
-    keep = pd.Series(effective, index=df.index) == library
+    # Fast path: serials not involved in date-aware swaps use a static location
+    swap_serials = set()
+    for a, b in CAMERA_SWAP_PAIRS:
+        swap_serials.add(normalize_serial(a))
+        swap_serials.add(normalize_serial(b))
+
+    base_locs = {s: base_location_for_serial(s, mapping) for s in serials.unique()}
+    is_swap = serials.map(lambda s: normalize_serial(s) in swap_serials)
+
+    # Non-swap rows: base location only
+    keep = pd.Series(False, index=df.index)
+    non_swap = ~is_swap
+    if non_swap.any():
+        keep.loc[non_swap] = serials.loc[non_swap].map(base_locs) == library
+
+    # Swap rows: resolve per date (small subset)
+    if is_swap.any():
+        swap_idx = df.index[is_swap]
+        for i in swap_idx:
+            keep.at[i] = (
+                effective_location_for_serial(serials.at[i], dates.at[i], mapping) == library
+            )
+
     return df.loc[keep].reset_index(drop=True)
 
 

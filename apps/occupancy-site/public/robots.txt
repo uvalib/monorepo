@@ -1,0 +1,3 @@
+# UVA Library Occupancy Reports
+User-agent: *
+Allow: /
