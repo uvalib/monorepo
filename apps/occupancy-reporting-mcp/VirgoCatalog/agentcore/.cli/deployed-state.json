@@ -1,0 +1,17 @@
+{
+  "targets": {
+    "production": {
+      "resources": {
+        "runtimes": {
+          "VirgoCatalogMCP": {
+            "runtimeId": "VirgoCatalog_VirgoCatalogMCP-HJUg01GGrf",
+            "runtimeArn": "arn:aws:bedrock-agentcore:us-east-1:115119339709:runtime/VirgoCatalog_VirgoCatalogMCP-HJUg01GGrf",
+            "roleArn": "arn:aws:iam::115119339709:role/AgentCore-VirgoCatalog-pr-ApplicationAgentVirgoCata-tZAirTThdE1g"
+          }
+        },
+        "stackName": "AgentCore-VirgoCatalog-production",
+        "deployHash": "abb01910047aa909"
+      }
+    }
+  }
+}
