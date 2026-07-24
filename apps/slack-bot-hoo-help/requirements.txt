@@ -1,0 +1,4 @@
+# Runtime dependencies for the HooHelp Lambda package.
+# boto3 is provided by the Lambda Python runtime — do not pin it here.
+slack-bolt>=1.21.0,<2
+requests>=2.32.0,<3

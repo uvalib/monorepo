@@ -1,0 +1,150 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+
+Description: >
+  HooHelp Slack Bot — Slack Events API via Lambda + HTTP API.
+  Slack secrets are loaded at runtime from SSM SecureString so plain
+  `sam deploy` cannot wipe tokens (CFN cannot inject ssm-secure into Lambda env).
+
+Globals:
+  Function:
+    Runtime: python3.12
+    Architectures:
+      - arm64
+    MemorySize: 1024
+    Timeout: 120
+    Environment:
+      Variables:
+        LOG_LEVEL: INFO
+        # Required by slack-bolt AWS Lambda adapter for lazy (async) listeners
+        AWS_LAMBDA_LOG_LEVEL: INFO
+
+Parameters:
+  StageName:
+    Type: String
+    Default: prod
+    Description: API Gateway stage name / resource name suffix.
+
+  SlackBotTokenSsmPath:
+    Type: String
+    Default: /hoohelp/slack/bot-token
+    Description: >
+      SSM SecureString path for the Slack bot token (xoxb-...).
+        aws ssm put-parameter --name /hoohelp/slack/bot-token --type SecureString --value "xoxb-..." --overwrite
+
+  SlackSigningSecretSsmPath:
+    Type: String
+    Default: /hoohelp/slack/signing-secret
+    Description: >
+      SSM SecureString path for the Slack signing secret.
+        aws ssm put-parameter --name /hoohelp/slack/signing-secret --type SecureString --value "..." --overwrite
+
+  GatewayUrl:
+    Type: String
+    Default: "https://occupancy-reporting-gateway-mohw8c1jug.gateway.bedrock-agentcore.us-east-1.amazonaws.com/mcp"
+    Description: Public AgentCore MCP Gateway URL (tools backends stay on AgentCore).
+
+  BedrockModelId:
+    Type: String
+    Default: "us.amazon.nova-pro-v1:0"
+    Description: Bedrock model / inference profile id for HooHelp.
+
+  ShowModelReasoning:
+    Type: String
+    Default: "false"
+    AllowedValues: ["true", "false"]
+    Description: >
+      If true, model <thinking> blocks are shown under the answer as muted
+      Slack context. Default false strips them (recommended for library help).
+
+Resources:
+  HooHelpFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub "hoohelp-slack-bot-${StageName}"
+      Description: HooHelp Slack Events API handler (Bolt + Bedrock + MCP Gateway)
+      CodeUri: src/
+      Handler: app.handler
+      Environment:
+        Variables:
+          SLACK_BOT_TOKEN_SSM_PATH: !Ref SlackBotTokenSsmPath
+          SLACK_SIGNING_SECRET_SSM_PATH: !Ref SlackSigningSecretSsmPath
+          GATEWAY_URL: !Ref GatewayUrl
+          BEDROCK_MODEL_ID: !Ref BedrockModelId
+          SHOW_MODEL_REASONING: !Ref ShowModelReasoning
+          # Second Bedrock call reformats the draft as Slack mrkdwn (avoids brittle regex cards)
+          SLACK_LLM_FORMAT: "true"
+          # Optional cheaper/faster model for formatting only (defaults to BEDROCK_MODEL_ID)
+          # SLACK_FORMAT_MODEL_ID: "us.amazon.nova-lite-v1:0"
+      Policies:
+        # Read Slack secrets from SSM SecureString at cold start
+        - Statement:
+            - Effect: Allow
+              Action:
+                - ssm:GetParameter
+                - ssm:GetParameters
+              Resource:
+                - !Sub "arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter${SlackBotTokenSsmPath}"
+                - !Sub "arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter${SlackSigningSecretSsmPath}"
+            - Effect: Allow
+              Action:
+                - kms:Decrypt
+              Resource: "*"
+              Condition:
+                StringEquals:
+                  kms:ViaService: !Sub "ssm.${AWS::Region}.amazonaws.com"
+        # Bedrock Converse
+        - Statement:
+            - Effect: Allow
+              Action:
+                - bedrock:InvokeModel
+                - bedrock:InvokeModelWithResponseStream
+                - bedrock:Converse
+                - bedrock:ConverseStream
+              Resource: "*"
+        # slack-bolt lazy listeners re-invoke this function asynchronously
+        - Statement:
+            - Effect: Allow
+              Action:
+                - lambda:InvokeFunction
+              Resource: !Sub "arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:hoohelp-slack-bot-${StageName}"
+      Events:
+        SlackEvents:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HooHelpHttpApi
+            Method: POST
+            Path: /slack/events
+        Health:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HooHelpHttpApi
+            Method: GET
+            Path: /health
+
+  HooHelpHttpApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      StageName: !Ref StageName
+      Description: HTTP API for HooHelp Slack Events
+
+Outputs:
+  SlackEventsUrl:
+    Description: Paste into Slack App → Event Subscriptions → Request URL.
+    Value: !Sub "https://${HooHelpHttpApi}.execute-api.${AWS::Region}.amazonaws.com/${StageName}/slack/events"
+
+  HealthUrl:
+    Description: Health check endpoint.
+    Value: !Sub "https://${HooHelpHttpApi}.execute-api.${AWS::Region}.amazonaws.com/${StageName}/health"
+
+  FunctionName:
+    Description: Lambda function name.
+    Value: !Ref HooHelpFunction
+
+  FunctionArn:
+    Description: Lambda function ARN.
+    Value: !GetAtt HooHelpFunction.Arn
+
+  ApiId:
+    Description: HTTP API id.
+    Value: !Ref HooHelpHttpApi

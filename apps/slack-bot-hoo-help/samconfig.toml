@@ -1,0 +1,27 @@
+# samconfig.toml — SAM CLI deployment defaults for HooHelp Slack Bot.
+#
+# Slack secrets live in SSM (not here, not as stack parameters):
+#   /hoohelp/slack/bot-token
+#   /hoohelp/slack/signing-secret
+#
+# Safe to run plain `sam deploy` without wiping tokens.
+# After rotating SSM values, run `sam deploy` so CFN re-resolves them into Lambda env.
+
+version = 0.1
+
+[default.global.parameters]
+stack_name = "hoohelp-slack-bot"
+
+[default.build.parameters]
+cached   = true
+parallel = true
+
+[default.deploy.parameters]
+capabilities      = "CAPABILITY_IAM"
+confirm_changeset = true
+resolve_s3        = true
+region            = "us-east-1"
+parameter_overrides = "StageName=prod ShowModelReasoning=false GatewayUrl=https://occupancy-reporting-gateway-mohw8c1jug.gateway.bedrock-agentcore.us-east-1.amazonaws.com/mcp BedrockModelId=us.amazon.nova-pro-v1:0 SlackBotTokenSsmPath=/hoohelp/slack/bot-token SlackSigningSecretSsmPath=/hoohelp/slack/signing-secret"
+
+[default.local_start_api.parameters]
+warm_containers = "EAGER"
