@@ -47,9 +47,23 @@ def main():
         print(f"   Item details test failed: {e}")
 
     print("\n" + "=" * 60)
+    print("5. Testing VirgoCatalog MCP Prompt Templates...")
+    import asyncio
+    prompts = asyncio.run(app.mcp.list_prompts())
+    prompt_names = [p.name for p in prompts]
+    print(f"   Discovered prompt templates ({len(prompts)}): {prompt_names}")
+    assert "catalog_research_template" in prompt_names, "catalog_research_template missing"
+    assert "item_availability_lookup_template" in prompt_names, "item_availability_lookup_template missing"
+
+    res_prompt = asyncio.run(app.mcp.get_prompt("catalog_research_template", {"topic": "Virginia History"}))
+    assert res_prompt and res_prompt.messages, "get_prompt returned empty result"
+    print("   Successfully generated catalog_research_template prompt!")
+
+    print("\n" + "=" * 60)
     print("ALL LOCAL TESTS PASSED SUCCESSFULLY!")
     print("=" * 60)
 
 
 if __name__ == "__main__":
     main()
+

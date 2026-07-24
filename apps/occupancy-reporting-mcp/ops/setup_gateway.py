@@ -35,8 +35,14 @@ TARGET_DEFS = {
         "runtime_name": "VirgoCatalog_VirgoCatalogMCP",
         "default_id": None,  # Resolved dynamically from AWS list_agent_runtimes
         "description": "AgentCore Runtime hosting the UVA Library Virgo Catalog search MCP tools"
+    },
+    "BedrockKBRuntime": {
+        "runtime_name": "BedrockKB_BedrockKBMCP",
+        "default_id": None,  # Resolved dynamically from AWS list_agent_runtimes
+        "description": "AgentCore Runtime hosting the UVA Library & Virgo AWS Bedrock Knowledge Bases search MCP tools"
     }
 }
+
 
 iam = boto3.client("iam", region_name=REGION)
 control = boto3.client("bedrock-agentcore-control", region_name=REGION)

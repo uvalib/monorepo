@@ -17,6 +17,9 @@ import report_generator as rep
 import camera_quirks
 import hours_helper as hours
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("OccupancyReporting")
+
 # json_response=True returns application/json instead of SSE, which is more
 # reliable behind AgentCore's InvokeAgentRuntime / Gateway proxies.
 mcp = FastMCP(
@@ -193,13 +196,26 @@ def _load_processed_for_library(engine, mapping, resolved_lib: str, start_date: 
 
 
 @mcp.tool()
-def get_libraries() -> list[str]:
+def get_libraries() -> str:
     """
-    Returns a list of all libraries available in the database.
+    List UVA Library locations for directory / "how many libraries" questions.
+
+    Returns the six major UVA libraries (Shannon, Clemons, Science & Engineering,
+    Fine Arts, Music, Harrison/Small), not only buildings with occupancy cameras.
+    Notes which support live occupancy tools.
+
+    Use this tool whenever the user asks how many libraries there are, for a
+    list of libraries, or which buildings exist — do not answer from the
+    occupancy-only subset alone.
     """
-    engine = db.get_db_engine()
-    mapping, _ = db.get_libraries_mapping(engine)
-    return list(mapping.keys())
+    occupancy_names: list[str] = []
+    try:
+        engine = db.get_db_engine()
+        mapping, _ = db.get_libraries_mapping(engine)
+        occupancy_names = list(mapping.keys())
+    except Exception as e:
+        logger.warning("get_libraries: occupancy DB unavailable (%s); using static list", e)
+    return hours.format_library_directory(occupancy_from_db=occupancy_names)
 
 
 @mcp.tool()
@@ -209,14 +225,18 @@ def get_library_hours(
     end_date: str = "",
 ) -> str:
     """
-    Get published open/closed hours for a library from LibCal (per-building calendar).
+    Get published open/closed hours for a UVA library from LibCal (per-building calendar).
 
-    Useful to confirm which hours occupancy reports use for open-hours filtering
-    and daily resets. Returns a markdown table of daily hours.
+    ALWAYS use this tool for hours / open-closed / "this weekend" questions.
+    Pass absolute dates as YYYY-MM-DD (convert "this weekend" / "today" using the
+    current date — do not invent dates). Each building has its own calendar
+    (e.g. Fine Arts often closed weekends while Clemons is open).
+
+    Returns a markdown table of daily hours (or Closed) for the range.
 
     :param library: Library name (e.g. Clemons, Shannon, Music, Fine Arts,
                     Science & Engineering). Aliases like SEL, FAL also work.
-    :param start_date: Start date (YYYY-MM-DD)
+    :param start_date: Start date (YYYY-MM-DD) — required absolute date
     :param end_date: End date (YYYY-MM-DD). Omit or leave empty for a single day.
     """
     # Prefer canonical name from cameras mapping when available; fall back to
@@ -321,6 +341,51 @@ def get_occupancy_report(
     rep_text = rep.format_report_as_markdown(resolved_lib, metrics, start_date, end_date)
     return f"""# Occupancy Report: {resolved_lib} ({start_date} to {end_date})
 {rep_text}"""
+
+
+@mcp.prompt(
+    name="occupancy_analysis_template",
+    description="Template for conducting a complete foot traffic and peak occupancy analysis for a UVA library over a date range."
+)
+def occupancy_analysis_template(library: str, start_date: str, end_date: str) -> str:
+    return (
+        f"Please analyze occupancy and foot traffic data for {library} between {start_date} and {end_date}.\n\n"
+        "Follow these steps using the available tools:\n"
+        f"1. Call `get_library_hours(library='{library}', start_date='{start_date}', end_date='{end_date}')` to verify scheduled open/closed hours.\n"
+        f"2. Call `get_foot_traffic(library='{library}', start_date='{start_date}', end_date='{end_date}')` to retrieve total entries, exits, and daily averages.\n"
+        f"3. Call `get_occupancy_report(library='{library}', start_date='{start_date}', end_date='{end_date}')` for detailed peak occupancy, hour-by-hour distribution, and data confidence metrics.\n\n"
+        "Synthesize these findings into an executive summary highlighting peak utilization times and trends."
+    )
+
+
+@mcp.prompt(
+    name="library_comparison_template",
+    description="Template for comparing foot traffic, occupancy patterns, and utilization between two UVA library locations."
+)
+def library_comparison_template(library1: str, library2: str, start_date: str, end_date: str) -> str:
+    return (
+        f"Please compare occupancy and visitor activity between {library1} and {library2} for the period {start_date} to {end_date}.\n\n"
+        "Steps to perform:\n"
+        f"1. Retrieve foot traffic totals for {library1} using `get_foot_traffic(library='{library1}', start_date='{start_date}', end_date='{end_date}')`.\n"
+        f"2. Retrieve foot traffic totals for {library2} using `get_foot_traffic(library='{library2}', start_date='{start_date}', end_date='{end_date}')`.\n"
+        f"3. Obtain occupancy reports for both locations (`get_occupancy_report`).\n"
+        "4. Compare peak hours, average daily entry volumes, and relative utilization percentages."
+    )
+
+
+@mcp.prompt(
+    name="operating_hours_check_template",
+    description="Template for looking up library operating schedules and confirming LibCal calendar hours."
+)
+def operating_hours_check_template(start_date: str, end_date: str, library: str = "Clemons") -> str:
+    return (
+        f"Please check the published operating schedule for {library} from {start_date} to {end_date}.\n\n"
+        "Steps:\n"
+        "1. Optionally list all available library locations using `get_libraries()`.\n"
+        f"2. Fetch daily open/closed hours using `get_library_hours(library='{library}', start_date='{start_date}', end_date='{end_date}')`.\n"
+        "3. Highlight any holiday or weekend closures in the schedule."
+    )
+
 
 
 if __name__ == "__main__":

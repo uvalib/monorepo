@@ -1,229 +1,284 @@
-# Occupancy Reporting MCP Server
+# UVA Library MCP Gateway
 
-An MCP (Model Context Protocol) server that exposes occupancy reporting and foot traffic analysis tools for all UVA Library locations. Deployed on AWS AgentCore Runtime and accessible through a public AgentCore Gateway endpoint.
+**Audience:** Library staff, product owners, and engineers integrating AI assistants with UVA Library data.
 
----
-
-## Public endpoint
-
-```
-https://occupancy-reporting-gateway-mohw8c1jug.gateway.bedrock-agentcore.us-east-1.amazonaws.com/mcp
-```
-
-No authentication required. Connect any MCP-compatible agent or client directly to this URL.
+This project is the **shared Model Context Protocol (MCP) service** for the University of Virginia Library. It exposes tools for occupancy and hours, Virgo catalog search, and knowledge-base retrieval so AI agents (and apps built on them) can answer real questions with live Library data—not model guesswork.
 
 ---
 
-## Tools
+## At a glance
 
-### `get_libraries`
-Lists all library locations available in the database.
-- **Parameters**: none
-- **Returns**: `list[str]`
+| | |
+| :--- | :--- |
+| **Public MCP endpoint** | `https://occupancy-reporting-gateway-mohw8c1jug.gateway.bedrock-agentcore.us-east-1.amazonaws.com/mcp` |
+| **Auth to gateway** | None today (open HTTPS) |
+| **Region / account** | `us-east-1` / `115119339709` |
+| **Runtime platform** | AWS Bedrock AgentCore (container runtimes behind a single gateway) |
+| **Code location** | `apps/occupancy-reporting-mcp` in the monorepo |
 
-### `get_library_hours`
-Published open/closed hours for a library from its own LibCal calendar (markdown table).
-- **Parameters**: `library` (e.g. `Clemons`, `Shannon`, `Music`, `Fine Arts`, `Science & Engineering`), `start_date` (YYYY-MM-DD), `end_date` (YYYY-MM-DD, optional — defaults to `start_date`)
-- **Returns**: `str` (Markdown schedule)
-- **Notes**: Max 120-day range. Hours are published LibCal times (no ± open-hours buffer used in reports). Gateway name after deploy: `OccupancyReportingRuntime___get_library_hours`.
+### What staff can do with it
 
-### `get_foot_traffic`
-Returns total entries, exits, and daily averages for a library over a date range.
-- **Parameters**: `start_date` (YYYY-MM-DD), `end_date` (YYYY-MM-DD), `library` (e.g. `Clemons`, `Shannon`, `Science & Engineering`)
-- **Returns**: `str` (Markdown summary)
+| Need | Example questions | Primary tools |
+| :--- | :--- | :--- |
+| **Building hours** | “Is Fine Arts open this weekend?” | `get_library_hours`, `get_libraries` |
+| **Occupancy & traffic** | “How busy was Clemons last month?” | `get_occupancy_report`, `get_foot_traffic` |
+| **Catalog / checkout** | “Do we have *1984* available to check out?” | `search_catalog`, `search_by_field`, `get_item_details` |
+| **Digital images** | “Images of the Rotunda on fire?” | `search_virgo_image_suggestions` |
+| **Policies & website** | “What’s our ILL policy?” | `search_uvalib_web` |
+| **Catalog discovery aids** | Author or item suggestions | `search_virgo_suggestions`, `search_virgo_item_suggestions` |
 
-### `get_occupancy_report`
-Generates a full executive occupancy and data quality report including peak days/hours, hourly averages, and a data confidence rating.
-- **Parameters**: `start_date`, `end_date`, `library`, `start_time` (default `"00:00"`), `end_time` (default `"24:00"`)
-- **Returns**: `str` (Markdown report)
+### Consumer applications (today)
+
+| Application | Description |
+| :--- | :--- |
+| **HooHelp Slack bot** (`apps/slack-bot-hoo-help`) | Staff/patron Slack assistant. Events API → Lambda → Bedrock Nova Pro + this MCP gateway. |
+| **Direct MCP clients** | Any MCP-compatible agent (Claude Desktop, custom agents, etc.) pointed at the gateway URL. |
+
+*Future apps* (internal dashboards, website widgets, other agents) can reuse the same gateway without redeploying the tools.
+
+---
+
+## How it works (plain language)
+
+```
+Person or app (e.g. Slack HooHelp)
+        │
+        │  “What are Fine Arts hours this weekend?”
+        ▼
+AI model (e.g. Amazon Bedrock)
+        │
+        │  chooses a tool and calls it
+        ▼
+Public MCP Gateway  ──►  three backend services
+        │                      │
+        │                      ├─ Occupancy & Hours (cameras + LibCal)
+        │                      ├─ Virgo Catalog (search + item details)
+        │                      └─ Knowledge Bases (web, images, suggestions)
+        ▼
+Markdown-style answer returned to the model → polished reply to the user
+```
+
+Staff do not talk to the gateway directly for day-to-day use; they use **HooHelp in Slack** (or another connected app). The gateway is the integration surface for developers and AI platforms.
+
+---
+
+## MCP concepts (tools, prompts, resources)
+
+MCP defines three kinds of “things” a server can expose:
+
+| Concept | What it is | Status in this project |
+| :--- | :--- | :--- |
+| **Tools** | Callable functions (search, hours, reports) | **Primary** — fully implemented across three backends |
+| **Prompt templates** | Reusable multi-step recipes that tell an AI which tools to call | **Implemented** — occupancy, catalog, KB workflows |
+| **Resources** | Read-only documents/data at a URI | **Not used yet** — reserved for future (e.g. static methodology docs) |
+
+Gateway tool names may appear with a runtime prefix when listed through the public gateway, e.g. `OccupancyReportingRuntime___get_library_hours`. Agents and the HooHelp bot handle that automatically.
 
 ---
 
 ## Architecture
 
 ```
-Agent / Client
-    │  (no auth, HTTPS)
-    ▼
-AgentCore Gateway  (occupancy-reporting-gateway-mohw8c1jug)
-    │  (SigV4, GATEWAY_IAM_ROLE)
-    ▼
-AgentCore Runtime  (OccupancyReporting_OccupancyReportingMCP-89mI4QDaYX)
-    │  (VPC, private subnets, us-east-1)
-    ▼
-RDS MySQL  (rds-mysql8-production.internal.lib.virginia.edu)
+                    Public internet
+                          │
+                          │  HTTPS, no inbound auth
+                          ▼
+         ┌────────────────────────────────────┐
+         │  AgentCore Gateway                 │
+         │  occupancy-reporting-gateway-…     │
+         │  (aggregates all tools/prompts)    │
+         └───────────────┬────────────────────┘
+                         │ SigV4 invoke
+         ┌───────────────┼───────────────────┐
+         ▼               ▼                   ▼
+┌────────────────┐ ┌──────────────┐ ┌─────────────────┐
+│ Occupancy      │ │ Virgo        │ │ Bedrock KB      │
+│ Reporting MCP  │ │ Catalog MCP  │ │ MCP             │
+│ (AgentCore     │ │ (AgentCore   │ │ (AgentCore      │
+│  Runtime)      │ │  Runtime)    │ │  Runtime)       │
+└───────┬────────┘ └──────┬───────┘ └────────┬────────┘
+        │                 │                  │
+        ▼                 ▼                  ▼
+   RDS MySQL          Virgo 4 APIs      Bedrock Knowledge
+   occupancy DB       (search.lib…)     Bases (web, images,
+   + LibCal hours                       suggestions)
 ```
 
-- **Auth inbound to gateway**: none (`authorizerType: NONE`)
-- **Auth gateway → runtime**: SigV4 via gateway execution role (`occupancy-reporting-gateway-role`)
-- **Runtime auth**: SigV4 (default, no `authorizerConfiguration`)
-- **Runtime network**: `uva-vpc-production`, private subnets `us-east-1a/b/c`
-- **Security groups**: `ec2-rds-1` (MySQL outbound), `web-out-production` (HTTPS outbound for LibCal API)
+| Layer | Detail |
+| :--- | :--- |
+| **Gateway** | `occupancy-reporting-gateway-mohw8c1jug` — single public `/mcp` entry point |
+| **Gateway → runtimes** | IAM role `occupancy-reporting-gateway-role`, `bedrock-agentcore:InvokeAgentRuntime` |
+| **Runtimes** | VPC private subnets (`uva-vpc-production`), security groups for RDS + HTTPS egress |
+| **Occupancy data** | `rds-mysql8-production.internal.lib.virginia.edu`, database `occupancy` |
+| **Hours data** | LibCal API (`cal.lib.virginia.edu`), per-building calendars |
+
+Three AgentCore stacks (production):
+
+| Stack | Role |
+| :--- | :--- |
+| `AgentCore-OccupancyReporting-production` | Hours, libraries directory, occupancy, foot traffic |
+| `AgentCore-VirgoCatalog-production` | Catalog search & item details |
+| `AgentCore-BedrockKB-production` | Website + image + suggestion knowledge bases |
 
 ---
 
-## Per-library hours (LibCal)
+## Libraries covered
 
-Open/closed filtering and daily occupancy resets use each building’s own LibCal
-calendar (Drupal `field_libcal_id`), not a single shared schedule:
+### Major UVA libraries (directory & hours)
 
-| Occupancy location | LibCal lid | LibCal name |
-| :--- | ---: | :--- |
-| Clemons | 3638 | Clemons Library |
-| Shannon | 2090 | The Edgar Shannon Library |
-| Science & Engineering | 3727 | Brown Science & Engineering Library |
-| Music | 3804 | Music Library |
-| Fine Arts | 3805 | Fine Arts Library |
+Used by `get_libraries` and `get_library_hours`:
 
-Configured in `hours_helper.LIBRARY_LIBCAL_IDS`. Hours differ meaningfully
-(e.g. Music/Fine Arts closed Saturdays; Clemons open late Fridays) — using
-Clemons hours for every building previously skewed open-hours totals.
+| Canonical key | Display name | LibCal ID | Live occupancy? |
+| :--- | :--- | ---: | :--- |
+| `Shannon` | Edgar Shannon Library | 2090 | Yes |
+| `Clemons` | Clemons Library | 3638 | Yes |
+| `Science & Engineering` | Charles L. Brown SEL | 3727 | Yes |
+| `Fine Arts` | Fine Arts Library | 3805 | Yes |
+| `Music` | Music Library | 3804 | Yes |
+| `Harrison/Small` | Harrison Institute / Small Special Collections | 4114 | No |
 
----
+**Count for “how many libraries?” answers: 6** (not the camera-only subset of 5).
 
-## Camera data quirks (temporary)
+Aliases accepted in tool arguments include: SEL, FAL, Brown, Special Collections, Harrison, Alderman → Shannon, etc.
 
-The DB still has a few known hardware/config issues. The MCP applies corrections in
-`OccupancyReporting/app/OccupancyReporting/camera_quirks.py` without mutating RDS.
-Remove each hack once the corresponding records/configs are cleaned up.
+**Not listed as main libraries:** Ivy stacks service, Robertson Media Center, Scholars’ Lab Makerspace, and professional school libraries (Law, Darden, Health Sciences, JAG)—those are out of scope for this directory.
 
-| Quirk | What we do |
-| :--- | :--- |
-| Shannon 401 east entrance (`b8:a4:4f:5d:59:9e`) reports in/out reversed | Swap `count_in`/`count_out` before deltas |
-| Staff Clemons-side connector (`b8:a4:4f:5d:31:54` / `B8A44F5D3154`) stored under Shannon | Always count as Clemons (**not** part of the FA hardware swap; not 172.29.3.57) |
-| `b8:a4:4f:5d:59:90` (`B8A44F5D5990`) stored under Shannon | Base/historical = Clemons at **172.29.3.57**; after **2026-06-17** swap = Fine Arts (172.29.8.29) |
-| Fine Arts (`B8A44F4F195D` @ 172.29.8.29) ↔ Clemons-system camera at **172.29.3.57** physical swap on **2026-06-17** | Date-aware attribution: post-swap `B8A44F4F195D` is at 172.29.3.57 / Clemons and `B8A44F5D5990` is Fine Arts |
+### Occupancy / foot traffic only
 
-Unit tests: `uv run python test_camera_quirks.py` from the app directory.
+Camera-based tools (`get_foot_traffic`, `get_occupancy_report`) work only for:
 
-### Long date ranges
+**Clemons · Shannon · Science & Engineering · Music · Fine Arts**
 
-Reports over multi-month windows pull a lot of minute-level camera data (~50k+
-rows/day/library). The server:
-
-1. **Chunks** the range into ~14-day windows and fetches them **in parallel**
-2. Bounds each query with primary-key id ranges (no full-table scans / filesorts)
-3. **Downsamples** longer windows so multi-month and **annual** reports finish
-   under gateway timeouts. Counters are cumulative, so foot-traffic **totals stay
-   correct**; occupancy curves are coarser on long windows.
-
-| Range | Sample interval |
-| :--- | :--- |
-| ≤ 45 days | 1 minute (full resolution) |
-| 46–120 days | 3 minutes |
-| 121–200 days | 5 minutes |
-| 201–400 days (annual) | 10 minutes |
-| > 400 days | 15 minutes |
-
-Typical local timings against production RDS (Clemons): ~4s (7d), ~14s (30d),
-~10s (60d), ~15s (90d), ~25–35s (365d / annual).
+Harrison/Small has hours but no occupancy sensors.
 
 ---
 
-## Local development
+## Tools reference
 
-### Requirements
+### 1. Occupancy & Hours (`OccupancyReporting`)
 
-- Python 3.10+ (required for MCP SDK)
-- UVA VPN (`moresecure-vpn-pat-1.its.virginia.edu`) to reach the RDS database
+#### `get_libraries`
+- **Purpose:** Directory for “how many libraries?” / “list the libraries.”
+- **Parameters:** none  
+- **Returns:** Markdown directory of the six major libraries, plus which have occupancy sensors.
 
-### Setup
+#### `get_library_hours`
+- **Purpose:** Published open/closed schedule from each building’s LibCal calendar.
+- **Parameters:**
+  - `library` — e.g. `Fine Arts`, `Shannon`, `Harrison/Small`
+  - `start_date` — `YYYY-MM-DD` (required)
+  - `end_date` — `YYYY-MM-DD` (optional; defaults to `start_date`)
+- **Returns:** Markdown table with **12-hour** times (e.g. `1:00 PM–5:00 PM`) or `Closed`.
+- **Limits:** Max **120-day** range.
+- **Important:** Each building has its own calendar. Music/Fine Arts often close on weekends while Clemons stays open—never assume one building’s hours for another.
+
+#### `get_foot_traffic`
+- **Purpose:** Total entries, exits, combined activity, and average daily entries.
+- **Parameters:** `start_date`, `end_date`, `library` (occupancy buildings only)
+- **Returns:** Markdown summary
+
+#### `get_occupancy_report`
+- **Purpose:** Executive occupancy report: peaks, hourly patterns, data confidence.
+- **Parameters:** `start_date`, `end_date`, `library`, optional `start_time` / `end_time` (`HH:MM`)
+- **Returns:** Full Markdown report
+
+**Long date ranges:** Multi-month reports chunk and may downsample occupancy curves so they finish under gateway timeouts. Foot-traffic **totals remain accurate**; curves are coarser on long windows (see [Data quality & camera notes](#data-quality--camera-notes)).
+
+---
+
+### 2. Virgo Catalog (`VirgoCatalog`)
+
+#### `search_catalog`
+- **Purpose:** Keyword search of the catalog (and optional external pools).
+- **Parameters:**
+  - `query` — free text
+  - `pool` — `uva_library` (default), `all`, `articles`, `images`, `hathitrust`, `jmrl`, `worldcat`
+  - `start`, `rows` — pagination (default 20, max 100)
+- **Returns:** Markdown sorted for patron usefulness: **availability** (On shelf / Online / Request), **library**, **shelf location**, **call number**, **digital access URL**, Virgo links. Primary works ranked ahead of criticism when possible.
+
+#### `search_by_field`
+- **Purpose:** Fielded search (prefer `title` for known titles).
+- **Parameters:** `query`, `field` (`title` \| `author` \| `subject` \| `identifier` \| `journal_title` \| `series` \| `published`), `pool`, `start`, `rows`
+
+#### `get_item_details`
+- **Purpose:** Full record for one item ID (e.g. `u3515417`), leading with availability & access.
+- **Parameters:** `item_id`, `pool_id` (default `uva_library`)
+
+---
+
+### 3. Knowledge Bases (`BedrockKB`)
+
+| Tool | Knowledge base | Use for |
+| :--- | :--- | :--- |
+| `search_uvalib_web` | `uvalib-web-knowledge-base` (`N2B734PGWU`) | Website content, policies, research guides. **Not** for building hours (use `get_library_hours`). |
+| `search_virgo_image_suggestions` | `virgo-image-suggestions-knowledge-base` (`J34YBBVTGA`) | Historic/digital **images**; returns titles, collections, IIIF image URLs, Virgo image pages |
+| `search_virgo_item_suggestions` | `virgo-item-suggestions-knowledge-base` (`UMMEKLDTPR`) | Catalog item suggestions |
+| `search_virgo_suggestions` | `virgo-suggestions-knowledge-base` (`ANITQDQQXN`) | Author / creator suggestions |
+| `retrieve_knowledge_base` | any of the above by ID or alias | Generic retrieval |
+
+Image results include public IIIF JPEG URLs (`iiif.lib.virginia.edu`) suitable for display in Slack and other UIs.
+
+---
+
+## Prompt templates
+
+Prompt templates are **named workflows** MCP clients can load with `prompts/list` and `prompts/get`. They do not call tools by themselves—they instruct an AI which tools to use and in what order.
+
+### Occupancy Reporting
+
+| Template | Parameters | Workflow |
+| :--- | :--- | :--- |
+| `occupancy_analysis_template` | `library`, `start_date`, `end_date` | Hours → foot traffic → full occupancy report → executive summary |
+| `library_comparison_template` | `library1`, `library2`, `start_date`, `end_date` | Traffic + occupancy for two buildings → comparison |
+| `operating_hours_check_template` | `start_date`, `end_date`, optional `library` | Optional `get_libraries` → `get_library_hours` → highlight closures |
+
+### Virgo Catalog
+
+| Template | Parameters | Workflow |
+| :--- | :--- | :--- |
+| `catalog_research_template` | `topic`, `field`, `pool` | Field/keyword search → optional item details → location summary |
+| `item_availability_lookup_template` | `item_id_or_title` | Resolve title or ID → on-shelf / online / request / Special Collections guidance |
+
+### Bedrock Knowledge Bases
+
+| Template | Parameters | Workflow |
+| :--- | :--- | :--- |
+| `library_policy_faq_template` | `query` | `search_uvalib_web` → cite sources |
+| `visual_and_author_discovery_template` | `query` | Image KB + author suggestions + item suggestions |
+
+### Example: list prompts / get a template
 
 ```bash
-cd OccupancyReporting/app/OccupancyReporting
-uv sync
-```
+# List prompts
+curl -s -X POST \
+  "https://occupancy-reporting-gateway-mohw8c1jug.gateway.bedrock-agentcore.us-east-1.amazonaws.com/mcp" \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json, text/event-stream" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"prompts/list","params":{}}'
 
-### Environment variables
-
-| Variable | Description |
-| :--- | :--- |
-| `DB_HOST` | RDS MySQL hostname |
-| `DB_USER` | MySQL username |
-| `DB_PASSWORD` | MySQL password |
-| `DB_NAME` | MySQL database name (`occupancy`) |
-
-### Run the server locally
-
-```bash
-DB_HOST=rds-mysql8-production.internal.lib.virginia.edu \
-DB_USER=occupancy_ro \
-DB_PASSWORD=<password> \
-DB_NAME=occupancy \
-python OccupancyReporting/app/OccupancyReporting/main.py
-```
-
-Server starts on `http://0.0.0.0:8000`. Connect the MCP Inspector to `http://localhost:8000/mcp`.
-
-### Smoke test
-
-```bash
-python test_mcp_locally.py
-```
-
-Queries the database, lists libraries, and verifies occupancy metric computations for the last 7 days.
-
-### Claude Desktop (local)
-
-Add to `claude_desktop_config.json`:
-
-```json
-{
-  "mcpServers": {
-    "occupancy-reporting": {
-      "command": "/path/to/python3.10",
-      "args": ["/path/to/OccupancyReporting/app/OccupancyReporting/main.py"],
-      "env": {
-        "DB_HOST": "rds-mysql8-production.internal.lib.virginia.edu",
-        "DB_USER": "occupancy_ro",
-        "DB_PASSWORD": "<password>",
-        "DB_NAME": "occupancy"
+# Instantiate occupancy analysis for Clemons
+curl -s -X POST \
+  "https://occupancy-reporting-gateway-mohw8c1jug.gateway.bedrock-agentcore.us-east-1.amazonaws.com/mcp" \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json, text/event-stream" \
+  -d '{
+    "jsonrpc":"2.0",
+    "id":2,
+    "method":"prompts/get",
+    "params":{
+      "name":"occupancy_analysis_template",
+      "arguments":{
+        "library":"Clemons",
+        "start_date":"2026-01-01",
+        "end_date":"2026-01-07"
       }
     }
-  }
-}
+  }'
 ```
 
----
-
-## Deploying to AWS AgentCore
-
-### Prerequisites
-
-- AWS CLI configured (`115119339709`, `us-east-1`)
-- Node.js (for AgentCore CLI): `npm install -g @aws/agentcore`
-- Docker running
-
-### Deploy
+### Example: list tools
 
 ```bash
-cd OccupancyReporting
-agentcore validate
-agentcore deploy
-```
-
-The CLI builds the Docker image via CodeBuild, pushes to ECR, and updates the runtime. Takes ~5 minutes.
-
-**Important:** `agentcore deploy` resets `authorizerConfiguration` to empty (SigV4 default) — this is the correct state. Do not re-add the `credentials` array to `agentcore.json` as it injects a `CREDENTIAL_NAME` env var that breaks the AgentCore sidecar health probe.
-
-### After deploy — resync the gateway target
-
-The gateway target needs to re-sync its tool catalog after each deploy:
-
-```bash
-cd ..
-python ops/setup_gateway.py
-```
-
-Or use the AWS Console: AgentCore → Gateways → `occupancy-reporting-gateway-mohw8c1jug` → Targets → Synchronize.
-
-### Test the deployment
-
-```bash
-# Direct runtime invocation (SigV4 via your IAM credentials)
-python ops/test_invocation.py
-
-# Through the public gateway (no auth)
 curl -s -X POST \
   "https://occupancy-reporting-gateway-mohw8c1jug.gateway.bedrock-agentcore.us-east-1.amazonaws.com/mcp" \
   -H "Content-Type: application/json" \
@@ -233,50 +288,169 @@ curl -s -X POST \
 
 ---
 
-## Cognito / OAuth (future)
+## Applications using this service
 
-The Cognito pool `us-east-1_mrkVZwdeA` (hosted at `bestsellers.auth.us-east-1.amazoncognito.com`) has three app clients configured for future use:
+### HooHelp Slack bot (`apps/slack-bot-hoo-help`)
 
-| Client | Type | Use |
-| :--- | :--- | :--- |
-| `occupancy-reporting-mcp-human` (`2s7er4nlmm6fdgj6nbkeio24fv`) | Authorization Code, no secret | Claude / browser users (requires UVA ITS to register the Cognito SP with Shibboleth) |
-| `occupancy-reporting-mcp-hermes` (`3uuaqpphnu1vta1bap3n5uo6dk`) | Client Credentials | Hermes agent |
+| | |
+| :--- | :--- |
+| **What it is** | Slack assistant for library hours, occupancy, catalog, images, and policies |
+| **Delivery** | Slack Events API → API Gateway HTTP API → AWS Lambda (SAM) |
+| **Model** | Amazon Bedrock Nova Pro (`us.amazon.nova-pro-v1:0`) |
+| **Tools** | All tools on this MCP gateway |
+| **Secrets** | Slack bot token & signing secret in SSM (`/hoohelp/slack/...`); loaded at runtime |
+| **Stack** | CloudFormation `hoohelp-slack-bot` |
 
-A resource server `occupancy-reporting-mcp` with scope `occupancy-reporting-mcp/invoke` is configured in the pool.
+Design notes relevant to staff:
 
-To get a machine token (Hermes):
-```bash
-HERMES_CLIENT_SECRET=<secret> source ops/setup_cognito.sh hermes
-```
+- **Hours:** Uses absolute dates for “this weekend” / “today” and **must** call `get_library_hours` (does not invent schedules).
+- **Catalog:** Emphasizes on-shelf location, call number, and digital access links.
+- **Images:** Uses the image knowledge base and can show IIIF previews in Slack.
+- **Formatting:** A second Bedrock pass formats replies for Slack mrkdwn (not a separate source of facts).
 
-SP registration with UVA ITS is required before the human/Claude browser flow will work:
-- **SP Entity ID**: `urn:amazon:cognito:sp:us-east-1_mrkVZwdeA`
-- **ACS URL**: `https://bestsellers.auth.us-east-1.amazoncognito.com/saml2/idpresponse`
+### Other / future apps
+
+Anything that can speak MCP (or call the gateway HTTP JSON-RPC) can reuse the same tools—for example:
+
+- Website “ask a librarian” / help widgets  
+- Internal analytics copilots  
+- Claude Desktop or other MCP hosts for staff experimentation  
+
+No need to re-implement LibCal, Virgo, or occupancy queries per app.
 
 ---
 
-## Project structure
+## Data quality & camera notes
+
+Occupancy tools apply temporary corrections in `camera_quirks.py` **without changing** the RDS database. Remove each when the underlying hardware/config is fixed.
+
+| Issue | Correction applied in MCP |
+| :--- | :--- |
+| Shannon 401 east entrance reports in/out reversed | Swap in/out before deltas |
+| Staff Clemons-side connector stored under Shannon | Count toward Clemons |
+| Fine Arts ↔ Clemons-area camera hardware swap (2026-06-17) | Date-aware location attribution |
+
+### Occupancy sampling for long reports
+
+| Range | Sample interval |
+| :--- | :--- |
+| ≤ 45 days | 1 minute |
+| 46–120 days | 3 minutes |
+| 121–200 days | 5 minutes |
+| 201–400 days | 10 minutes |
+| > 400 days | 15 minutes |
+
+---
+
+## Security & access (staff-oriented)
+
+| Path | Auth |
+| :--- | :--- |
+| Public gateway URL | **No auth** today — treat as a production service; do not post secrets to it |
+| Gateway → AgentCore runtimes | AWS SigV4 via gateway IAM role |
+| Occupancy runtime → RDS | Credentials in runtime env / secrets; VPC only |
+| LibCal | API key in runtime configuration |
+| Virgo | Guest token flow against public/search services |
+| Bedrock KBs | Runtime IAM role |
+
+**Future (planned):** Cognito / Shibboleth for human OAuth clients, and client-credentials for machine agents. Cognito pool scaffolding exists under `ops/setup_cognito.sh`; UVA ITS SP registration is still required for campus SSO.
+
+---
+
+## Project layout
 
 ```
 occupancy-reporting-mcp/
-├── OccupancyReporting/              # AgentCore project
-│   ├── agentcore/                   # CLI config, CDK stack, credentials
-│   │   ├── agentcore.json           # Runtime spec (entrypoint, VPC, env vars)
-│   │   └── .env.local               # Secrets (not committed) — DB_PASSWORD
-│   └── app/OccupancyReporting/      # Python source
-│       ├── main.py                  # FastMCP server entrypoint
-│       ├── db_helper.py             # RDS connection and query helpers
-│       ├── processing.py            # Occupancy data processing pipeline
-│       ├── report_generator.py      # Report formatting and metrics
-│       ├── hours_helper.py          # LibCal API integration
-│       ├── Dockerfile               # ARM64 Python 3.10-slim container
-│       └── pyproject.toml           # Dependencies
-├── ops/                             # Operational scripts
-│   ├── setup_cognito.sh             # Cognito app client / token management
-│   ├── setup_gateway.py             # Create/recreate the AgentCore gateway target
-│   ├── update_runtime_auth.py       # Set OAuth auth on the runtime (advanced)
-│   ├── reset_runtime_auth.py        # Reset runtime to SigV4 (default/working state)
-│   └── test_invocation.py           # Test runtime directly via SigV4
-├── test_mcp_locally.py              # Local smoke test
-└── README.md
+├── README.md                          ← this document
+├── OccupancyReporting/                # Hours, directory, occupancy, foot traffic
+│   ├── agentcore/                     # AgentCore config + CDK
+│   └── app/OccupancyReporting/        # Python MCP server
+├── VirgoCatalog/                      # Catalog search + item details
+│   ├── agentcore/
+│   └── app/VirgoCatalog/
+├── BedrockKB/                         # Website + image + suggestion KBs
+│   ├── agentcore/
+│   └── app/BedrockKB/
+├── ops/                               # Gateway sync, Cognito, invocation tests
+│   ├── setup_gateway.py
+│   ├── setup_cognito.sh
+│   ├── test_invocation.py
+│   └── …
+├── test_mcp_locally.py
+├── test_catalog_mcp_locally.py
+└── test_kb_mcp_locally.py
 ```
+
+---
+
+## Operations (engineers)
+
+### Deploy a backend
+
+```bash
+cd OccupancyReporting   # or VirgoCatalog / BedrockKB
+agentcore validate
+agentcore deploy -y --target production
+```
+
+After any runtime deploy that changes tools/prompts:
+
+```bash
+python ops/setup_gateway.py
+# or Console: AgentCore → Gateways → … → Targets → Synchronize
+```
+
+### Local development
+
+- **Python 3.10+**, `uv` recommended for app deps  
+- **UVA VPN** required for occupancy RDS access  
+- Per-app README under `OccupancyReporting/`, `VirgoCatalog/`, `BedrockKB/` for env vars and smoke tests  
+
+```bash
+# Occupancy smoke test (VPN + DB env)
+python test_mcp_locally.py
+
+# Catalog / KB smoke tests (network as required)
+python test_catalog_mcp_locally.py
+python test_kb_mcp_locally.py
+```
+
+### HooHelp Slack bot deploy
+
+```bash
+cd ../slack-bot-hoo-help
+sam build && sam deploy
+```
+
+Secrets live in SSM (`/hoohelp/slack/bot-token`, `/hoohelp/slack/signing-secret`); plain `sam deploy` does not wipe them.
+
+---
+
+## Ownership & contacts
+
+| Area | Notes |
+| :--- | :--- |
+| **Code** | Monorepo `apps/occupancy-reporting-mcp`, `apps/slack-bot-hoo-help` |
+| **AWS** | Account `115119339709`, region `us-east-1` |
+| **Occupancy data** | Library systems / facilities camera pipeline → RDS `occupancy` |
+| **Hours** | LibCal (Drupal `field_libcal_id` per library node) |
+| **Catalog / images** | Virgo 4 / digital collections / Bedrock KBs |
+
+For questions about product behavior in Slack, start with **HooHelp** usage. For integration or new apps, use this gateway as the shared tool layer.
+
+---
+
+## Changelog highlights (2026)
+
+| Change | Why it matters to staff |
+| :--- | :--- |
+| Six-library directory (includes Harrison/Small) | “How many libraries?” is no longer limited to five camera buildings |
+| Per-building LibCal hours | Accurate weekend closures (e.g. Fine Arts vs Clemons) |
+| 12-hour time display in hours tool | `1:00 PM–5:00 PM` instead of `13:00–17:00` |
+| Catalog results with availability & location | Checkout-oriented answers, not just bibliographic hits |
+| Image KB with IIIF URLs | Real historic images in Slack, not invented catalog IDs |
+| HooHelp on Events API + Lambda | Always-on Slack delivery without AgentCore “sleep” issues |
+
+---
+
+*Last updated: 2026-07-24. Point Library staff here for the living description of the MCP service and related apps.*

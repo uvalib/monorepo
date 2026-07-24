@@ -8,10 +8,13 @@ Interacts with UVA Library's Virgo 4 services:
 - Resource Detail: https://pool-solr-ws-uva-library.internal.lib.virginia.edu/api/resource/{id}
 """
 
+from __future__ import annotations
+
 import logging
 import time
+from typing import Any, Dict, List, Optional, Tuple
+
 import requests
-from typing import Dict, Any, Optional, List, Tuple
 
 logger = logging.getLogger(__name__)
 
@@ -46,7 +49,7 @@ def get_guest_token() -> str:
         _token_expires_at = now + 1800  # Cache for 30 minutes
         return token
     except Exception as e:
-        logger.error(f"Failed to fetch Virgo guest authorization token: {e}")
+        logger.error("Failed to fetch Virgo guest authorization token: %s", e)
         if _token_cache:
             return _token_cache
         raise RuntimeError(f"Virgo auth failed: {e}")
@@ -63,8 +66,14 @@ def format_query(raw_query: str, field: str = "keyword") -> str:
         return query_str
 
     valid_fields = {
-        "keyword", "title", "author", "subject",
-        "identifier", "journal_title", "series", "published"
+        "keyword",
+        "title",
+        "author",
+        "subject",
+        "identifier",
+        "journal_title",
+        "series",
+        "published",
     }
     target_field = field.lower() if field.lower() in valid_fields else "keyword"
     return f"{target_field}: {{{query_str}}}"
@@ -80,48 +89,69 @@ def extract_record_fields(fields_list: List[Dict[str, Any]]) -> Dict[str, Any]:
         "published_date": None,
         "publisher": None,
         "call_number": None,
+        "library": None,
         "location": None,
         "identifier": None,
         "availability": None,
-        "other": []
+        "access_url": None,
+        "barcode": None,
+        "located_in": None,
+        "other": [],
     }
 
-    authors = []
-    formats = []
+    authors: List[str] = []
+    formats: List[str] = []
 
     for f in fields_list:
-        ftype = f.get("type", "")
-        fname = f.get("name", "")
+        ftype = f.get("type", "") or ""
+        fname = f.get("name", "") or ""
         val = f.get("value", "")
-        label = f.get("label", fname)
+        label = f.get("label", fname) or fname
 
         if not val:
             continue
 
-        if ftype == "title" or fname == "title":
+        fname_l = fname.lower()
+        ftype_l = ftype.lower()
+        label_l = str(label).lower()
+
+        if ftype_l == "title" or fname_l in ("title", "title_subtitle_edition"):
             rec["title"] = val
-        elif ftype == "subtitle" or fname == "subtitle":
+        elif ftype_l == "subtitle" or fname_l == "subtitle":
             rec["subtitle"] = val
-        elif ftype in ("author", "author-display") or "author" in fname:
+        elif ftype_l in ("author", "author-display") or "author" in fname_l:
             if val not in authors:
                 authors.append(val)
-        elif fname in ("format", "work_type", "medium"):
+        elif fname_l in ("format", "work_type", "medium"):
             if val not in formats:
                 formats.append(val)
-        elif fname in ("published_date", "publication_date", "year"):
+        elif fname_l in ("published_date", "publication_date", "year"):
             rec["published_date"] = val
-        elif fname in ("published", "publisher", "publication"):
+        elif fname_l in ("published", "publisher", "publisher_name", "publication"):
             rec["publisher"] = val
-        elif fname in ("call_number", "call_number_display"):
+        elif fname_l in ("call_number", "call_number_display"):
             rec["call_number"] = val
-        elif fname in ("location", "library_location", "library"):
+        elif fname_l == "library":
+            rec["library"] = val
+        elif fname_l in ("location", "library_location"):
             rec["location"] = val
-        elif ftype == "identifier" or fname == "identifier":
+        elif fname_l == "located_in":
+            rec["located_in"] = val
+        elif ftype_l == "identifier" or fname_l in ("identifier", "id"):
             rec["identifier"] = val
-        elif fname in ("availability", "availability_status"):
+        elif fname_l in ("availability", "availability_status") or ftype_l == "availability":
             rec["availability"] = val
+        elif fname_l in ("access_url",) or ftype_l in ("access-url", "access_url"):
+            rec["access_url"] = val
+        elif fname_l == "barcode":
+            rec["barcode"] = val
         else:
-            rec["other"].append((label, val))
+            # Catch alternate online-access labels
+            if "access" in label_l and ("url" in label_l or "online" in label_l):
+                if not rec["access_url"]:
+                    rec["access_url"] = val
+            else:
+                rec["other"].append((label, val))
 
     if authors:
         rec["author"] = "; ".join(authors)
@@ -131,12 +161,124 @@ def extract_record_fields(fields_list: List[Dict[str, Any]]) -> Dict[str, Any]:
     return rec
 
 
+_SECONDARY_TITLE_MARKERS = (
+    "essay",
+    "essays",
+    "critical",
+    "criticism",
+    "notes",
+    "companion",
+    "study guide",
+    "commentary",
+    "cultural history",
+    "quicklit",
+    "cliffs",
+    "innocence under pressure",
+    "new essays",
+    "a critical",
+    "responses of college",
+)
+
+
+def _is_likely_secondary(rec: Dict[str, Any]) -> bool:
+    """Heuristic: criticism / study guides vs the primary work."""
+    title = (rec.get("title") or "").lower()
+    if any(m in title for m in _SECONDARY_TITLE_MARKERS):
+        return True
+    # "J.D. Salinger's the Catcher in the Rye" is often an edited collection
+    if "salinger's the catcher" in title or "salinger's catcher" in title:
+        return True
+    if title.startswith("j.d. salinger's") or title.startswith("j. d. salinger's"):
+        return True
+    return False
+
+
+def _checkout_rank(rec: Dict[str, Any]) -> Tuple[int, int, str]:
+    """
+    Sort key for patron-useful ordering.
+    Lower is better for "can I get this now?" questions.
+    Tier 0 = availability usefulness; tier 1 = primary work before criticism.
+    """
+    avail = (rec.get("availability") or "").strip().lower()
+    library = (rec.get("library") or "").strip().lower()
+    location = (rec.get("location") or "").strip().lower()
+    fmt = (rec.get("format") or "").strip().lower()
+
+    special = "special collections" in library or "special collections" in location
+    checked_out = "checked out" in location
+    secondary = 1 if _is_likely_secondary(rec) else 0
+    title = rec.get("title") or ""
+
+    if avail == "on shelf" and not special:
+        return (0, secondary, title)
+    if avail == "online" or "online" in fmt or rec.get("access_url"):
+        return (1, secondary, title)
+    if avail == "on shelf" and special:
+        return (2, secondary, title)
+    if avail == "request" or checked_out:
+        return (3, secondary, title)
+    return (4, secondary, title)
+
+
+def _virgo_item_url(pool_id: str, item_id: str) -> str:
+    return f"{VIRGO_ITEM_BASE}/{pool_id}/items/{item_id}"
+
+
+def _format_record_block(idx: int, rec: Dict[str, Any], pool_id: str = "uva_library") -> List[str]:
+    """One result as a patron-friendly bullet block."""
+    title = rec.get("title") or "Untitled"
+    subtitle = rec.get("subtitle")
+    full_title = f"{title}: {subtitle}" if subtitle else title
+    item_id = rec.get("identifier") or ""
+    virgo_url = _virgo_item_url(pool_id, item_id) if item_id else ""
+
+    avail = rec.get("availability") or "Unknown"
+    library = rec.get("library") or "—"
+    location = rec.get("location") or "—"
+    call_no = rec.get("call_number") or "—"
+    fmt = rec.get("format") or "—"
+    author = rec.get("author") or "—"
+    access_url = rec.get("access_url")
+
+    # Human-friendly availability note
+    avail_l = avail.lower()
+    loc_l = location.lower()
+    if avail_l == "on shelf" and "special collections" in library.lower():
+        status_note = "On shelf (Special Collections — request for Reading Room use; not standard checkout)"
+    elif avail_l == "on shelf":
+        status_note = "On shelf — available now"
+    elif avail_l == "online":
+        status_note = "Available online"
+    elif avail_l == "request" or "checked out" in loc_l:
+        status_note = "Not currently on shelf (request / checked out)"
+    else:
+        status_note = avail
+
+    lines = [
+        f"### {idx}. {full_title}",
+        f"- **Availability**: {status_note}",
+        f"- **Library**: {library}",
+        f"- **Location / shelf**: {location}",
+        f"- **Call number**: `{call_no}`",
+        f"- **Format**: {fmt}",
+        f"- **Author**: {author}",
+    ]
+    if access_url:
+        lines.append(f"- **Access online**: {access_url}")
+    if virgo_url:
+        lines.append(f"- **Virgo record**: {virgo_url}")
+    if item_id:
+        lines.append(f"- **Item ID**: `{item_id}`")
+    lines.append("")
+    return lines
+
+
 def search_catalog(
     query: str,
     field: str = "keyword",
     pool: str = "uva_library",
     start: int = 0,
-    rows: int = 20
+    rows: int = 20,
 ) -> Dict[str, Any]:
     """
     Query Virgo search API.
@@ -147,24 +289,21 @@ def search_catalog(
 
     payload = {
         "query": formatted_q,
-        "pagination": {"start": start, "rows": rows}
+        "pagination": {"start": start, "rows": rows},
     }
     headers = {
         "Content-Type": "application/json",
-        "Authorization": f"Bearer {token}"
+        "Authorization": f"Bearer {token}",
     }
 
-    # Decide whether to query catalog pool solr endpoint or master search endpoint
     url = SOLR_POOL_URL if pool in ("uva_library", "solr", "catalog") else SEARCH_WS_URL
 
     try:
         resp = requests.post(url, json=payload, headers=headers, timeout=15)
         resp.raise_for_status()
-        data = resp.json()
-        return data
+        return resp.json()
     except Exception as e:
-        logger.error(f"Search request failed against {url}: {e}")
-        # Retry once with fresh token
+        logger.error("Search request failed against %s: %s", url, e)
         token = get_guest_token()
         headers["Authorization"] = f"Bearer {token}"
         resp = requests.post(url, json=payload, headers=headers, timeout=15)
@@ -175,63 +314,109 @@ def search_catalog(
 def get_item_details(pool_id: str, item_id: str) -> Dict[str, Any]:
     """Retrieve detailed item fields from Virgo resource API."""
     token = get_guest_token()
-    headers = {
-        "Authorization": f"Bearer {token}"
-    }
+    headers = {"Authorization": f"Bearer {token}"}
     url = f"{SOLR_RESOURCE_URL}/{item_id}"
     try:
         resp = requests.get(url, headers=headers, timeout=15)
         resp.raise_for_status()
         return resp.json()
     except Exception as e:
-        logger.error(f"Item details request failed for {url}: {e}")
+        logger.error("Item details request failed for %s: %s", url, e)
         raise RuntimeError(f"Failed to fetch item details for {item_id}: {e}")
+
+
+def _records_from_group_list(groups: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    records: List[Dict[str, Any]] = []
+    for grp in groups:
+        rec_list = grp.get("record_list") or []
+        if not rec_list:
+            continue
+        records.append(extract_record_fields(rec_list[0].get("fields", [])))
+    return records
 
 
 def format_search_results_markdown(
     query: str,
     data: Dict[str, Any],
-    pool_filter: str = "uva_library"
+    pool_filter: str = "uva_library",
 ) -> str:
-    """Format search API JSON response into markdown report."""
-    lines = [f"# Virgo Catalog Search Results"]
-    lines.append(f"**Query**: `{query}` | **Source/Pool**: `{pool_filter}`\n")
+    """
+    Format search API JSON into a patron-useful report.
 
-    # If direct pool result (from pool-solr-ws)
+    Emphasizes: availability, library, shelf location, call number, digital access,
+    and Virgo links. Sorts so circulating on-shelf and online copies surface first.
+    """
+    lines = [
+        "# Virgo Catalog Search Results",
+        f"**Query**: `{query}` | **Source/Pool**: `{pool_filter}`",
+        "",
+        "_Results sorted for usefulness: circulating on-shelf first, then online, "
+        "then special collections / request-only._",
+        "",
+    ]
+
+    # Direct pool result (pool-solr-ws)
     if "group_list" in data or "pagination" in data:
         total = data.get("pagination", {}).get("total", 0)
         groups = data.get("group_list", [])
-        lines.append(f"**Total Hits**: {total:,} item(s) found.\n")
+        lines.append(f"**Total Hits**: {total:,} item(s) found (showing {len(groups)}).\n")
 
         if not groups:
             lines.append("No records matched your search query.")
             return "\n".join(lines)
 
-        lines.append("| # | Title | Author / Publisher | Format | Date | Call Number | Details |")
-        lines.append("|---|---|---|---|---|---|---|")
+        records = _records_from_group_list(groups)
+        records.sort(key=_checkout_rank)
 
-        idx = 1
-        for grp in groups:
-            records = grp.get("record_list", [])
-            if not records:
-                continue
-            rec_data = extract_record_fields(records[0].get("fields", []))
-            title = rec_data["title"] or "Untitled"
-            subtitle = f": {rec_data['subtitle']}" if rec_data.get("subtitle") else ""
-            full_title = f"{title}{subtitle}".replace("|", "\\|")
-            author = (rec_data["author"] or "N/A").replace("|", "\\|")
-            fmt = rec_data["format"] or "N/A"
-            date = rec_data["published_date"] or "N/A"
-            call_no = rec_data["call_number"] or "N/A"
-            item_id = rec_data["identifier"] or ""
+        # Quick summary for the agent
+        on_shelf = [
+            r
+            for r in records
+            if (r.get("availability") or "").lower() == "on shelf"
+            and "special collections" not in (r.get("library") or "").lower()
+        ]
+        online = [r for r in records if (r.get("availability") or "").lower() == "online" or r.get("access_url")]
+        special = [
+            r
+            for r in records
+            if "special collections" in (r.get("library") or "").lower()
+            or "special collections" in (r.get("location") or "").lower()
+        ]
+        requestish = [
+            r
+            for r in records
+            if (r.get("availability") or "").lower() == "request"
+            or "checked out" in (r.get("location") or "").lower()
+        ]
 
-            item_link = f"[View Record]({VIRGO_ITEM_BASE}/uva_library/items/{item_id})" if item_id else "N/A"
-            lines.append(f"| {idx} | **{full_title}** | {author} | {fmt} | {date} | {call_no} | {item_link} |")
-            idx += 1
+        lines.append("## Quick summary")
+        lines.append(
+            f"- Circulating on shelf (open stacks): **{len(on_shelf)}**"
+        )
+        lines.append(f"- Available online: **{len(online)}**")
+        lines.append(f"- Special Collections (not standard checkout): **{len(special)}**")
+        lines.append(f"- Request / checked out: **{len(requestish)}**")
+        lines.append("")
 
+        if on_shelf:
+            libs = sorted({r.get("library") or "Unknown" for r in on_shelf})
+            lines.append(f"**Libraries with on-shelf copies in these results**: {', '.join(libs)}")
+            lines.append("")
+
+        lines.append("## Matching items\n")
+        pool_id = "uva_library" if pool_filter in ("uva_library", "solr", "catalog") else pool_filter
+        for idx, rec in enumerate(records, 1):
+            lines.extend(_format_record_block(idx, rec, pool_id=pool_id))
+
+        lines.append(
+            "\n_Tip for assistants: For checkout questions, prioritize items with "
+            "Availability **On shelf** at circulating libraries (Shannon, Clemons, "
+            "Science & Engineering, Fine Arts, Music, etc.). Mention Special Collections "
+            "separately as on-site use. Always include online Access links when present._"
+        )
         return "\n".join(lines)
 
-    # Master search service result (from search-ws)
+    # Master search service result (search-ws)
     total_hits = data.get("total_hits", 0)
     lines.append(f"**Total Hits Across Pools**: {total_hits:,}\n")
 
@@ -245,36 +430,21 @@ def format_search_results_markdown(
         ptotal = pr.get("pagination", {}).get("total", 0)
         groups = pr.get("group_list", [])
 
-        lines.append(f"### Pool: `{pid}` ({ptotal:,} items)")
+        lines.append(f"## Pool: `{pid}` ({ptotal:,} items)\n")
         if not groups:
             lines.append("_No items in this pool match._\n")
             continue
 
-        lines.append("| # | Title | Author | Format | Year | Link |")
-        lines.append("|---|---|---|---|---|---|")
-
-        idx = 1
-        for grp in groups:
-            records = grp.get("record_list", [])
-            if not records:
-                continue
-            rec_data = extract_record_fields(records[0].get("fields", []))
-            title = (rec_data["title"] or "Untitled").replace("|", "\\|")
-            author = (rec_data["author"] or "N/A").replace("|", "\\|")
-            fmt = rec_data["format"] or "N/A"
-            date = rec_data["published_date"] or "N/A"
-            item_id = rec_data["identifier"] or ""
-            link = f"[View]({VIRGO_ITEM_BASE}/{pid}/items/{item_id})" if item_id else "N/A"
-
-            lines.append(f"| {idx} | **{title}** | {author} | {fmt} | {date} | {link} |")
-            idx += 1
-        lines.append("")
+        records = _records_from_group_list(groups)
+        records.sort(key=_checkout_rank)
+        for idx, rec in enumerate(records, 1):
+            lines.extend(_format_record_block(idx, rec, pool_id=pid))
 
     return "\n".join(lines)
 
 
 def format_item_details_markdown(item_id: str, data: Dict[str, Any]) -> str:
-    """Format full item detail JSON into markdown."""
+    """Format full item detail JSON into markdown, leading with availability."""
     fields_list = data.get("fields", [])
     rec = extract_record_fields(fields_list)
 
@@ -284,6 +454,20 @@ def format_item_details_markdown(item_id: str, data: Dict[str, Any]) -> str:
         lines.append(f"*{rec['subtitle']}*")
     lines.append("")
 
+    # Patron-facing availability first
+    lines.append("## Availability & access")
+    lines.append(f"- **Availability**: {rec.get('availability') or 'Unknown'}")
+    lines.append(f"- **Library**: {rec.get('library') or '—'}")
+    lines.append(f"- **Location / shelf**: {rec.get('location') or '—'}")
+    if rec.get("located_in"):
+        lines.append(f"- **Located in / collection**: {rec['located_in']}")
+    lines.append(f"- **Call number**: `{rec.get('call_number') or '—'}`")
+    if rec.get("access_url"):
+        lines.append(f"- **Access online**: {rec['access_url']}")
+    lines.append(f"- **Virgo Catalog URL**: {_virgo_item_url('uva_library', item_id)}")
+    lines.append("")
+
+    lines.append("## Bibliographic details")
     if rec["author"]:
         lines.append(f"- **Author(s)**: {rec['author']}")
     if rec["format"]:
@@ -292,12 +476,34 @@ def format_item_details_markdown(item_id: str, data: Dict[str, Any]) -> str:
         lines.append(f"- **Publication Date**: {rec['published_date']}")
     if rec["publisher"]:
         lines.append(f"- **Publisher**: {rec['publisher']}")
-    if rec["call_number"]:
-        lines.append(f"- **Call Number**: {rec['call_number']}")
     if rec["identifier"]:
         lines.append(f"- **Identifier**: `{rec['identifier']}`")
+    if rec.get("barcode"):
+        lines.append(f"- **Barcode**: `{rec['barcode']}`")
+    lines.append("")
 
-    lines.append(f"- **Virgo Catalog URL**: {VIRGO_ITEM_BASE}/uva_library/items/{item_id}\n")
+    # Library notes that often explain special-collections policy
+    note_lines = []
+    for f in fields_list:
+        name = (f.get("name") or "").lower()
+        label = f.get("label") or f.get("name") or ""
+        val = f.get("value")
+        if not val:
+            continue
+        if name in ("library_availability_note", "local_note", "notes") or "availab" in name:
+            # strip simple HTML
+            text = (
+                str(val)
+                .replace("<p>", "")
+                .replace("</p>", " ")
+                .replace("<br>", " ")
+                .replace("<br/>", " ")
+            )
+            note_lines.append(f"- **{label}**: {text.strip()}")
+    if note_lines:
+        lines.append("## Notes")
+        lines.extend(note_lines)
+        lines.append("")
 
     lines.append("## Complete Record Fields\n")
     lines.append("| Field Label | Value |")
@@ -306,8 +512,11 @@ def format_item_details_markdown(item_id: str, data: Dict[str, Any]) -> str:
     for f in fields_list:
         lbl = f.get("label", f.get("name", ""))
         val = str(f.get("value", "")).replace("\n", " ").replace("|", "\\|")
+        # Skip huge MARC blob in the table body summary path is already enough
+        if (f.get("name") or "") == "full_record" or (f.get("type") or "") == "marc-xml":
+            continue
         if lbl and val:
-            lines.append(f"| **{lbl}** | {val} |")
+            lines.append(f"| **{lbl}** | {val[:500]} |")
 
     related = data.get("related", [])
     if related:
@@ -317,7 +526,13 @@ def format_item_details_markdown(item_id: str, data: Dict[str, Any]) -> str:
             rtitle = rel_rec["title"] or "Related item"
             rauthor = f" by {rel_rec['author']}" if rel_rec["author"] else ""
             rid = rel_rec["identifier"] or ""
-            rlink = f" ([View]({VIRGO_ITEM_BASE}/uva_library/items/{rid}))" if rid else ""
-            lines.append(f"- **{rtitle}**{rauthor}{rlink}")
+            rlink = f" ([View]({_virgo_item_url('uva_library', rid)}))" if rid else ""
+            ravail = f" — {rel_rec['availability']}" if rel_rec.get("availability") else ""
+            rloc = (
+                f" @ {rel_rec['library']}/{rel_rec['location']}"
+                if rel_rec.get("library") or rel_rec.get("location")
+                else ""
+            )
+            lines.append(f"- **{rtitle}**{rauthor}{ravail}{rloc}{rlink}")
 
     return "\n".join(lines)

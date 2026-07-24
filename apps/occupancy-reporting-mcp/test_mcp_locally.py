@@ -65,6 +65,21 @@ def main():
         print(f"Total In: {metrics['total_in']}")
         print(f"Total Out: {metrics['total_out']}")
         print(f"Avg Occupancy: {metrics['avg_occupancy']:.2f}")
+
+        print("\nTesting MCP Prompt Templates...")
+        import asyncio
+        import main as mcp_app
+        prompts = asyncio.run(mcp_app.mcp.list_prompts())
+        prompt_names = [p.name for p in prompts]
+        print(f"Discovered prompt templates ({len(prompts)}): {prompt_names}")
+        assert "occupancy_analysis_template" in prompt_names, "occupancy_analysis_template missing"
+        assert "library_comparison_template" in prompt_names, "library_comparison_template missing"
+        assert "operating_hours_check_template" in prompt_names, "operating_hours_check_template missing"
+
+        res_prompt = asyncio.run(mcp_app.mcp.get_prompt("occupancy_analysis_template", {"library": "Clemons", "start_date": "2026-01-01", "end_date": "2026-01-07"}))
+        assert res_prompt and res_prompt.messages, "get_prompt returned empty result"
+        print("Successfully generated occupancy_analysis_template prompt!")
+
         print("Test passed successfully!")
     except Exception as e:
         print(f"\nError during testing: {e}")
@@ -73,3 +88,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

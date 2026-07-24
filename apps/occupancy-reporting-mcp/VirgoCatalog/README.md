@@ -13,7 +13,7 @@ Searches the UVA Library catalog or external Virgo pools for books, journals, ma
   - `pool` (str, optional): Target search pool. `'uva_library'` (default), `'all'` (master search across all pools), `'articles'`, `'images'`, `'hathitrust'`, `'jmrl'`, `'worldcat'`.
   - `start` (int, default `0`): Pagination offset.
   - `rows` (int, default `20`): Number of search results to return.
-- **Returns**: Markdown formatted report with matching item titles, authors, formats, dates, call numbers, and direct Virgo links.
+- **Returns**: Markdown report sorted for checkout usefulness, including availability (On shelf / Online / Request), library building, shelf location, call number, digital access URLs, and Virgo record links.
 
 ### `search_by_field`
 Searches the catalog targeting a specific metadata field.

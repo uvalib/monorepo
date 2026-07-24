@@ -17,18 +17,40 @@ import requests
 # Global cache: (libcal_lid, date_str) -> list[(start, end)]
 _hours_cache: dict[tuple[int, str], list[tuple[time, time]]] = {}
 
-# Drupal / LibCal mapping for occupancy camera locations.
-# Source: https://www.library.virginia.edu/jsonapi/node/library
-# field_libcal_id + title/slug, cross-checked against cal.lib.virginia.edu.
+# Drupal / LibCal mapping for UVA Library locations with building hours.
+# Source: https://www.library.virginia.edu/jsonapi/node/library (field_libcal_id).
+# Occupancy cameras only exist for a subset (see OCCUPANCY_LIBRARIES).
 LIBRARY_LIBCAL_IDS: dict[str, int] = {
     "Clemons": 3638,
-    "Shannon": 2090,  # "The Edgar Shannon Library" (slug: main)
+    "Shannon": 2090,  # The Edgar Shannon Library
     "Science & Engineering": 3727,  # Charles L. Brown SEL
     "Music": 3804,
     "Fine Arts": 3805,
+    "Harrison/Small": 4114,  # Harrison Institute / Small Special Collections
 }
 
-# Normalized aliases → canonical location_short used in cameras / mapping
+# Buildings with live occupancy / foot-traffic cameras (subset of above).
+OCCUPANCY_LIBRARIES: frozenset[str] = frozenset(
+    {
+        "Clemons",
+        "Shannon",
+        "Science & Engineering",
+        "Music",
+        "Fine Arts",
+    }
+)
+
+# Display names for patrons (canonical key → preferred label)
+LIBRARY_DISPLAY_NAMES: dict[str, str] = {
+    "Clemons": "Clemons Library",
+    "Shannon": "Edgar Shannon Library",
+    "Science & Engineering": "Charles L. Brown Science & Engineering Library",
+    "Music": "Music Library",
+    "Fine Arts": "Fine Arts Library",
+    "Harrison/Small": "Harrison Institute / Small Special Collections Library",
+}
+
+# Normalized aliases → canonical key
 _LIBRARY_ALIASES: dict[str, str] = {
     "clemons": "Clemons",
     "shannon": "Shannon",
@@ -44,6 +66,12 @@ _LIBRARY_ALIASES: dict[str, str] = {
     "finearts": "Fine Arts",
     "fal": "Fine Arts",
     "fiske": "Fine Arts",
+    "harrison": "Harrison/Small",
+    "harrisonsmall": "Harrison/Small",
+    "harrisoninstitute": "Harrison/Small",
+    "small": "Harrison/Small",
+    "smallspecialcollections": "Harrison/Small",
+    "specialcollections": "Harrison/Small",
 }
 
 LIBCAL_IID = os.getenv("LIBCAL_IID", "863")
@@ -72,17 +100,30 @@ def parse_time(s: str) -> time:
 
 
 def normalize_library_name(library: str | None) -> str:
-    """Map free-text library name to a canonical cameras.location_short."""
+    """Map free-text library name to a canonical library key."""
     if not library:
         return _DEFAULT_LIBRARY
     raw = library.strip()
     if raw in LIBRARY_LIBCAL_IDS:
         return raw
-    key = raw.lower().replace("&", "and").replace(" ", "")
+    # Allow display names
+    for canon, display in LIBRARY_DISPLAY_NAMES.items():
+        if raw.lower() == display.lower():
+            return canon
+    key = (
+        raw.lower()
+        .replace("&", "and")
+        .replace("/", "")
+        .replace("–", "")
+        .replace("-", "")
+        .replace("'", "")
+        .replace("’", "")
+        .replace(" ", "")
+    )
     if key in _LIBRARY_ALIASES:
         return _LIBRARY_ALIASES[key]
-    # Partial contains match
-    for alias, canon in _LIBRARY_ALIASES.items():
+    # Partial contains match (prefer longer aliases)
+    for alias, canon in sorted(_LIBRARY_ALIASES.items(), key=lambda x: -len(x[0])):
         if alias in key or key in alias:
             return canon
     return raw  # may still work if caller used exact cameras name
@@ -92,8 +133,63 @@ def libcal_id_for_library(library: str | None) -> int:
     canon = normalize_library_name(library)
     if canon in LIBRARY_LIBCAL_IDS:
         return LIBRARY_LIBCAL_IDS[canon]
-    # Fall back to Clemons with a clear default (legacy)
+    # Fall back to Clemons with a clear default (legacy occupancy path)
     return LIBRARY_LIBCAL_IDS[_DEFAULT_LIBRARY]
+
+
+def format_library_directory(occupancy_from_db: list[str] | None = None) -> str:
+    """
+    Human-readable directory of UVA Library locations for agents.
+
+    Distinguishes the full library system from the occupancy-camera subset so
+    "how many libraries?" does not omit Harrison/Small, Ivy, etc.
+    """
+    occ = set(occupancy_from_db or []) | set(OCCUPANCY_LIBRARIES)
+
+    lines = [
+        "# UVA Library locations",
+        "",
+        "There are multiple UVA Library buildings and service points. "
+        "Do **not** answer “how many libraries?” with only the occupancy-camera list.",
+        "",
+        "## Major libraries & service points (with building hours in LibCal)",
+        "",
+    ]
+
+    # Stable, patron-friendly order (libraries only — not media centers / labs / service points)
+    order = [
+        "Shannon",
+        "Clemons",
+        "Science & Engineering",
+        "Fine Arts",
+        "Music",
+        "Harrison/Small",
+    ]
+    for i, key in enumerate(order, 1):
+        display = LIBRARY_DISPLAY_NAMES.get(key, key)
+        occ_note = " · live occupancy sensors" if key in occ else ""
+        lines.append(f"{i}. **{display}** (`{key}`){occ_note}")
+
+    lines.extend(
+        [
+            "",
+            f"**Count**: {len(order)} libraries",
+            "",
+            "## Live occupancy / foot traffic",
+            "Occupancy tools only cover buildings with cameras:",
+            ", ".join(f"**{n}**" for n in sorted(occ)),
+            "",
+            "**Harrison/Small** supports hours lookups via `get_library_hours` "
+            "but not occupancy counts.",
+            "",
+            "## Notes",
+            "- Professional school libraries (Law, Darden, Health Sciences, JAG) are "
+            "separate units and are not listed above.",
+            "- Prefer the display names when talking to patrons; use canonical keys "
+            "in tool arguments when needed.",
+        ]
+    )
+    return "\n".join(lines)
 
 
 def fetch_hours(start_date, end_date, library: str | None = None):
@@ -226,11 +322,16 @@ def get_day_open_times(date_str: str, library: str | None = None):
     else:
         open_times_list = []
         for start, end in day_intervals:
-            start_str = start.strftime("%H:%M")
-            end_str = end.strftime("%H:%M") if end != time(23, 59, 59) else "24:00"
-            open_times_list.append(f"{start_str}-{end_str}")
-        if len(open_times_list) == 1 and open_times_list[0] == "00:00-24:00":
-            open_times = "00:00-24:00"
+            start_str = format_time_12h(start)
+            end_str = format_time_12h(end, midnight_as_end=True)
+            open_times_list.append(f"{start_str}–{end_str}")
+        # All-day open (midnight to midnight)
+        if (
+            len(day_intervals) == 1
+            and day_intervals[0][0] == time(0, 0)
+            and day_intervals[0][1] in (time(23, 59, 59), time(23, 59))
+        ):
+            open_times = "Open 24 hours"
         else:
             open_times = ", ".join(open_times_list)
 
@@ -325,6 +426,22 @@ def is_open(date, t, open_intervals) -> bool:
     return False
 
 
+def format_time_12h(t: time, *, midnight_as_end: bool = False) -> str:
+    """
+    Format a time for human/agent-facing hours copy (U.S. 12-hour).
+
+    Examples: 09:00 → 9:00 AM, 13:00 → 1:00 PM, 17:00 → 5:00 PM
+    For interval ends at 23:59:59 (LibCal all-day-to-midnight), use midnight_as_end
+    to show 12:00 AM (next calendar day close).
+    """
+    if midnight_as_end and t == time(23, 59, 59):
+        return "12:00 AM"
+    # %-I is platform-specific; strip leading zero manually for portability
+    hour = t.hour % 12 or 12
+    am_pm = "AM" if t.hour < 12 else "PM"
+    return f"{hour}:{t.minute:02d} {am_pm}"
+
+
 def format_hours_schedule(
     library: str,
     start_date_str: str,
@@ -334,7 +451,7 @@ def format_hours_schedule(
     Human-readable markdown schedule for a library over a date range.
 
     Uses published LibCal hours (no reporting buffer). Defaults to a single day
-    when end_date_str is omitted.
+    when end_date_str is omitted. Times are 12-hour (e.g. 1:00 PM–5:00 PM).
     """
     canon = normalize_library_name(library)
     if canon not in LIBRARY_LIBCAL_IDS:
@@ -372,6 +489,7 @@ def format_hours_schedule(
         f"* **LibCal location id**: {lid}",
         f"* **Date range**: {start_date_str} to {end_date_str}",
         f"* **Source**: LibCal (published building hours; no open/close buffer)",
+        f"* **Time format**: 12-hour local (e.g. 1:00 PM–5:00 PM)",
         "",
         "| Date | Day | Hours |",
         "| :--- | :--- | :--- |",
@@ -391,8 +509,8 @@ def format_hours_schedule(
             open_days += 1
             parts = []
             for s, e in sorted(intervals, key=lambda x: x[0]):
-                s_str = s.strftime("%H:%M")
-                e_str = "24:00" if e == time(23, 59, 59) else e.strftime("%H:%M")
+                s_str = format_time_12h(s)
+                e_str = format_time_12h(e, midnight_as_end=True)
                 parts.append(f"{s_str}–{e_str}")
             hours_str = ", ".join(parts)
         lines.append(f"| {date_str} | {day_name} | {hours_str} |")

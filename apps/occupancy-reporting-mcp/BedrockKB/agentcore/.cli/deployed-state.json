@@ -1,0 +1,17 @@
+{
+  "targets": {
+    "production": {
+      "resources": {
+        "runtimes": {
+          "BedrockKBMCP": {
+            "runtimeId": "BedrockKB_BedrockKBMCP-2NjaFyFTb8",
+            "runtimeArn": "arn:aws:bedrock-agentcore:us-east-1:115119339709:runtime/BedrockKB_BedrockKBMCP-2NjaFyFTb8",
+            "roleArn": "arn:aws:iam::115119339709:role/AgentCore-BedrockKB-produ-ApplicationAgentBedrockKB-cqLiq5cXOacg"
+          }
+        },
+        "stackName": "AgentCore-BedrockKB-production",
+        "deployHash": "17673238b5672f55"
+      }
+    }
+  }
+}

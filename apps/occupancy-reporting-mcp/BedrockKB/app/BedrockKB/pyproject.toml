@@ -1,0 +1,21 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "BedrockKB"
+version = "0.1.0"
+description = "AgentCore MCP Server — AWS Bedrock Knowledge Bases"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "mcp >= 1.19.0",
+    "uvicorn",
+    "boto3",
+    "requests",
+    "python-dotenv",
+    "cryptography",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["."]
