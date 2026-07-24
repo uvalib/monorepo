@@ -152,8 +152,63 @@ def _image_urls_for_id(iiif_id: str) -> Tuple[str, str, str]:
     return thumb, large, page
 
 
+def _normalize_public_url(url: str) -> str:
+    """Clean harvested page URLs for user-facing citations."""
+    if not url:
+        return ""
+    u = url.strip()
+    # Never treat object-store paths as public links
+    if u.lower().startswith("s3://"):
+        return ""
+    # Prefer https for library.virginia.edu hosts
+    u = re.sub(
+        r"^http://(www\.)?library\.virginia\.edu",
+        r"https://\1library.virginia.edu",
+        u,
+        flags=re.IGNORECASE,
+    )
+    u = re.sub(r"^http://www\.library\.virginia\.edu", "https://www.library.virginia.edu", u, flags=re.I)
+    # Collapse accidental double www from prior replace
+    u = u.replace("https://www.library.virginia.edu", "https://www.library.virginia.edu")
+    # Ensure trailing-slash consistency is left as harvested; only strip whitespace
+    return u
+
+
+def _s3_uri_from_location(location: Dict[str, Any]) -> str:
+    if not location:
+        return ""
+    if location.get("type") == "S3":
+        return (location.get("s3Location") or {}).get("uri", "") or ""
+    return ""
+
+
+def _public_source_url(metadata: Dict[str, Any], location: Dict[str, Any]) -> str:
+    """
+    Prefer the harvested public page URL over the S3 vector-store object path.
+
+    Website KB chunks store the crawl target in metadata['url']; Bedrock location
+    is usually s3://… which must not be shown to patrons or agents as a link.
+    """
+    # Explicit crawl URL on the chunk (website KB)
+    for key in ("url", "source_url", "sourceUrl", "page_url", "pageUrl", "uri"):
+        candidate = _normalize_public_url(_meta_get(metadata, key, default=""))
+        if candidate.startswith("http"):
+            return candidate
+
+    # Bedrock web location (if data source is web crawler without S3 mirror)
+    if location.get("type") == "WEB":
+        candidate = _normalize_public_url(
+            (location.get("webLocation") or {}).get("url", "") or ""
+        )
+        if candidate.startswith("http"):
+            return candidate
+
+    # Do not fall back to s3:// — leave empty so we omit a bad Source line
+    return ""
+
+
 def _extract_image_fields(item: Dict[str, Any]) -> Dict[str, Any]:
-    """Pull title / ids / image URLs from a Bedrock retrieval result."""
+    """Pull title / ids / public URLs from a Bedrock retrieval result."""
     metadata = item.get("metadata") or {}
     if not isinstance(metadata, dict):
         metadata = {}
@@ -167,44 +222,54 @@ def _extract_image_fields(item: Dict[str, Any]) -> Dict[str, Any]:
     holding = _meta_get(metadata, "location", default="")
     notes = _meta_get(metadata, "notes", default="")
     subject = _meta_get(metadata, "subject", default="")
+    summary = _meta_get(metadata, "summary", default="")
     mime = _meta_get(metadata, "x-amz-bedrock-kb-source-file-mime-type", default="")
     modality = _meta_get(metadata, "x-amz-bedrock-kb-source-file-modality", default="")
+
+    s3_uri = _s3_uri_from_location(location)
 
     iiif_id = _normalize_iiif_id(
         _meta_get(metadata, "iiif_id", "id", default="")
     )
-    if not iiif_id:
-        # Fall back to S3 object key
-        s3_uri = ""
-        if location.get("type") == "S3":
-            s3_uri = (location.get("s3Location") or {}).get("uri", "")
-        iiif_id = _normalize_iiif_id(s3_uri)
+    if not iiif_id and s3_uri:
+        # Only derive IIIF ids from image-like S3 keys, not website .md objects
+        if re.search(r"\.(jpe?g|png|gif|tif{1,2}|webp)(\?|$)", s3_uri, re.I) or "virgo-images" in s3_uri:
+            iiif_id = _normalize_iiif_id(s3_uri)
 
-    thumb, large, virgo_page = _image_urls_for_id(iiif_id)
-    is_image = (
-        modality.upper() == "IMAGE"
-        or mime.startswith("image/")
-        or bool(iiif_id and (thumb or virgo_page))
-    )
+    thumb, large, virgo_page = _image_urls_for_id(iiif_id) if iiif_id else ("", "", "")
+
+    # Website markdown / TEXT modality is never treated as an image hit
+    is_image = False
+    if mime.startswith("image/") or modality.upper() == "IMAGE":
+        is_image = True
+    elif iiif_id and thumb and s3_uri and "virgo-images" in s3_uri:
+        is_image = True
+    if s3_uri.endswith(".md") or modality.upper() == "TEXT":
+        is_image = False
+
+    public_url = _public_source_url(metadata, location)
+    # Images: public page is Virgo/IIIF, not S3
+    if is_image and not public_url:
+        public_url = virgo_page or ""
 
     return {
-        "title": title or (content[:80] if content else iiif_id or "Untitled image"),
+        "title": title or (content[:80] if content else iiif_id or "Untitled"),
         "collection": collection,
         "holding_location": holding,
         "notes": notes,
         "subject": subject,
-        "iiif_id": iiif_id,
-        "image_url": thumb,
-        "image_url_large": large,
-        "virgo_url": virgo_page or (VIRGO_CATALOG_TMPL.format(ident=iiif_id) if iiif_id else ""),
+        "summary": summary,
+        "iiif_id": iiif_id if is_image else "",
+        "image_url": thumb if is_image else "",
+        "image_url_large": large if is_image else "",
+        "virgo_url": virgo_page if is_image else "",
         "score": score,
         "content": content.strip(),
         "is_image": is_image,
-        "source_uri": (
-            (location.get("s3Location") or {}).get("uri", "")
-            if location.get("type") == "S3"
-            else (location.get("webLocation") or {}).get("url", "")
-        ),
+        # User-facing citation only (never s3://)
+        "source_url": public_url,
+        # Internal only — do not print to agents as a link
+        "s3_uri": s3_uri,
     }
 
 
@@ -295,17 +360,40 @@ def format_retrieval_markdown(data: Dict[str, Any]) -> str:
         )
         return "\n".join(lines)
 
-    # Non-image / text KB formatting
+    # Non-image / text KB formatting (website policies, guides, etc.)
     lines.append(f"Found **{len(text_hits or enriched)}** relevant excerpt(s):\n")
+    lines.append(
+        "_Use **Source URL** below when citing. Cite only `http`/`https` page links — "
+        "never object-store paths or vector-store keys._\n"
+    )
     for idx, e in enumerate(text_hits or enriched, start=1):
         score = e.get("score")
-        score_str = f" (relevance: {score:.3f})" if isinstance(score, (int, float)) else ""
-        source = e.get("source_uri") or e.get("virgo_url") or ""
-        source_str = f" — Source: `{source}`" if source else ""
-        lines.append(f"### Excerpt {idx}{score_str}{source_str}")
-        if e.get("title") and e["title"] not in (e.get("content") or "")[:80]:
-            lines.append(f"**{e['title']}**")
-        body = e.get("content") or e.get("notes") or "(no text excerpt)"
-        lines.append(f"{body}\n")
+        score_str = f"{score:.3f}" if isinstance(score, (int, float)) else "n/a"
+        lines.append(f"### Excerpt {idx}")
+        if e.get("title"):
+            lines.append(f"- **Title**: {e['title']}")
+        lines.append(f"- **Relevance score**: {score_str}")
+        source = e.get("source_url") or ""
+        if source.startswith("http"):
+            lines.append(f"- **Source URL**: {source}")
+        # Intentionally omit s3_uri from agent-facing text
+        if e.get("summary"):
+            summary = re.sub(r"\s+", " ", e["summary"]).strip()
+            if len(summary) > 400:
+                summary = summary[:400].rstrip() + "…"
+            lines.append(f"- **Summary**: {summary}")
+        body = e.get("content") or e.get("notes") or ""
+        if body:
+            # Cap long chunks
+            excerpt = re.sub(r"\s+", " ", body).strip()
+            if len(excerpt) > 1200:
+                excerpt = excerpt[:1200].rstrip() + "…"
+            lines.append(f"- **Excerpt**: {excerpt}")
+        lines.append("")
 
+    lines.append(
+        "_Assistant instructions: When linking sources for the user, use only "
+        "**Source URL** values that start with `http`/`https`. Do not invent hybrid "
+        "links or mention internal storage paths._"
+    )
     return "\n".join(lines)
