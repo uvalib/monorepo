@@ -168,8 +168,12 @@ def finalize_building_occupancy(
     while current_day <= end_date:
         day_info = get_day_open_times(current_day.isoformat(), library=library)
         open_times = day_info["open_times"]
-        if day_info["opened"] == "Yes" and open_times != "Closed":
-            first_period = open_times.split(", ")[0]
+        # Normalize en/em dashes so "13:00–17:00" still splits (machine format is ASCII "-")
+        open_times_norm = (
+            open_times.replace("–", "-").replace("—", "-") if open_times else open_times
+        )
+        if day_info["opened"] == "Yes" and open_times_norm != "Closed":
+            first_period = open_times_norm.split(", ")[0]
             first_start_str = first_period.split("-")[0]
             first_start_time = parse_time(first_start_str)
             reset_dt = datetime.combine(current_day, first_start_time, tzinfo=NY_TZ) - timedelta(
@@ -178,12 +182,12 @@ def finalize_building_occupancy(
             reset_dt = reset_dt.replace(second=0, microsecond=0)
             reset_times_nyc.append(reset_dt)
 
-        if open_times != "Closed":
-            periods = open_times.split(", ")
+        if open_times_norm != "Closed":
+            periods = open_times_norm.split(", ")
             for period in periods:
                 if not period:
                     continue
-                start_str, end_str = period.split("-")
+                start_str, end_str = period.split("-", 1)
                 start_time = parse_time(start_str)
                 if end_str == "24:00":
                     end_dt_local = datetime.combine(

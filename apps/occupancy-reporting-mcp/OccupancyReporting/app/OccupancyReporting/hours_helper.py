@@ -317,21 +317,18 @@ def get_day_open_times(date_str: str, library: str | None = None):
         intervals.get(next_date.isoformat(), []), key=lambda x: x[0]
     )
 
+    # Machine-facing string for processing.py (must stay 24h + ASCII hyphen).
+    # Human-facing 12h lives only in format_hours_schedule().
     if not day_intervals:
         open_times = "Closed"
     else:
         open_times_list = []
         for start, end in day_intervals:
-            start_str = format_time_12h(start)
-            end_str = format_time_12h(end, midnight_as_end=True)
-            open_times_list.append(f"{start_str}–{end_str}")
-        # All-day open (midnight to midnight)
-        if (
-            len(day_intervals) == 1
-            and day_intervals[0][0] == time(0, 0)
-            and day_intervals[0][1] in (time(23, 59, 59), time(23, 59))
-        ):
-            open_times = "Open 24 hours"
+            start_str = start.strftime("%H:%M")
+            end_str = end.strftime("%H:%M") if end != time(23, 59, 59) else "24:00"
+            open_times_list.append(f"{start_str}-{end_str}")
+        if len(open_times_list) == 1 and open_times_list[0] == "00:00-24:00":
+            open_times = "00:00-24:00"
         else:
             open_times = ", ".join(open_times_list)
 
