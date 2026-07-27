@@ -198,15 +198,20 @@ def _load_processed_for_library(engine, mapping, resolved_lib: str, start_date: 
 @mcp.tool()
 def get_libraries() -> str:
     """
-    List UVA Library locations for directory / "how many libraries" questions.
+    List UVA Library locations and contact information (phone, email, address,
+    web page) from the public Drupal library directory.
 
     Returns the six major UVA libraries (Shannon, Clemons, Science & Engineering,
-    Fine Arts, Music, Harrison/Small), not only buildings with occupancy cameras.
-    Notes which support live occupancy tools.
+    Fine Arts, Music, Harrison/Small) plus named spaces with their own hours
+    calendars: RMC (Robertson Media Center) and Scholars' Lab. Spaces are not
+    counted as separate libraries and do not have occupancy sensors.
 
-    Use this tool whenever the user asks how many libraries there are, for a
-    list of libraries, or which buildings exist — do not answer from the
-    occupancy-only subset alone.
+    Use this tool for:
+    - "how many libraries?" / list of libraries
+    - phone number, email, address, or website for a library or space
+    - confirming whether RMC / Scholars' Lab have hours via get_library_hours
+    Do not invent contact details or use a generic Access Services page when a
+    library-specific phone is listed here.
     """
     occupancy_names: list[str] = []
     try:
@@ -225,17 +230,23 @@ def get_library_hours(
     end_date: str = "",
 ) -> str:
     """
-    Get published open/closed hours for a UVA library from LibCal (per-building calendar).
+    Get published open/closed hours for a UVA library or named space from LibCal.
 
-    ALWAYS use this tool for hours / open-closed / "this weekend" questions.
-    Pass absolute dates as YYYY-MM-DD (convert "this weekend" / "today" using the
-    current date — do not invent dates). Each building has its own calendar
-    (e.g. Fine Arts often closed weekends while Clemons is open).
+    ALWAYS use this tool for hours / open-closed / "this weekend" / "when is X open"
+    questions. Pass absolute dates as YYYY-MM-DD (convert "this weekend" / "today"
+    using the current date — do not invent dates). Each building or space has its
+    own calendar (e.g. Fine Arts often closed weekends while Clemons is open;
+    RMC hours are not the same as Clemons; Scholars' Lab hours are not Shannon).
+
+    Supported locations include major libraries and spaces: Clemons, Shannon,
+    Science & Engineering, Fine Arts, Music, Harrison/Small, RMC (Robertson Media
+    Center), Scholars' Lab (makerspace / SLAB).
 
     Returns a markdown table of daily hours (or Closed) for the range.
 
-    :param library: Library name (e.g. Clemons, Shannon, Music, Fine Arts,
-                    Science & Engineering). Aliases like SEL, FAL also work.
+    :param library: Library or space name (e.g. Clemons, Shannon, RMC,
+                    Scholars' Lab, Music, Fine Arts). Aliases: SEL, FAL, RMC,
+                    Robertson Media Center, SLAB, makerspace also work.
     :param start_date: Start date (YYYY-MM-DD) — required absolute date
     :param end_date: End date (YYYY-MM-DD). Omit or leave empty for a single day.
     """

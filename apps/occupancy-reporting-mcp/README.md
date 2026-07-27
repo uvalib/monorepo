@@ -139,9 +139,18 @@ Used by `get_libraries` and `get_library_hours`:
 
 **Count for “how many libraries?” answers: 6** (not the camera-only subset of 5).
 
-Aliases accepted in tool arguments include: SEL, FAL, Brown, Special Collections, Harrison, Alderman → Shannon, etc.
+### Spaces within libraries (hours only)
 
-**Not listed as main libraries:** Ivy stacks service, Robertson Media Center, Scholars’ Lab Makerspace, and professional school libraries (Law, Darden, Health Sciences, JAG)—those are out of scope for this directory.
+Named spaces with **their own** LibCal calendars — not counted as separate libraries, no occupancy:
+
+| Canonical key | Display name | LibCal ID | Notes |
+| :--- | :--- | ---: | :--- |
+| `RMC` | Robertson Media Center | 4170 | In Clemons; not Clemons hours |
+| `Scholars' Lab` | Scholars' Lab Makerspace | 2093 | Own hours; not Shannon hours |
+
+Aliases: RMC, Robertson Media Center → `RMC`; SLAB, Scholars Lab, makerspace → `Scholars' Lab`. Also: SEL, FAL, Brown, Special Collections, Harrison, Alderman → Shannon, etc. Official RMC name is **Robertson Media Center** (never invent other expansions).
+
+**Not listed:** Ivy stacks, 3D Printing Studio, professional school libraries (Law, Darden, Health Sciences, JAG).
 
 ### Occupancy / foot traffic only
 
@@ -149,7 +158,7 @@ Camera-based tools (`get_foot_traffic`, `get_occupancy_report`) work only for:
 
 **Clemons · Shannon · Science & Engineering · Music · Fine Arts**
 
-Harrison/Small has hours but no occupancy sensors.
+Harrison/Small, RMC, and Scholars' Lab support hours but not occupancy sensors.
 
 ---
 
@@ -160,17 +169,17 @@ Harrison/Small has hours but no occupancy sensors.
 #### `get_libraries`
 - **Purpose:** Directory for “how many libraries?” / “list the libraries.”
 - **Parameters:** none  
-- **Returns:** Markdown directory of the six major libraries, plus which have occupancy sensors.
+- **Returns:** Markdown directory of the six major libraries, plus RMC and Scholars' Lab spaces, and which have occupancy sensors.
 
 #### `get_library_hours`
-- **Purpose:** Published open/closed schedule from each building’s LibCal calendar.
+- **Purpose:** Published open/closed schedule from each building or space’s LibCal calendar.
 - **Parameters:**
-  - `library` — e.g. `Fine Arts`, `Shannon`, `Harrison/Small`
+  - `library` — e.g. `Fine Arts`, `Shannon`, `Harrison/Small`, `RMC`, `Scholars' Lab`
   - `start_date` — `YYYY-MM-DD` (required)
   - `end_date` — `YYYY-MM-DD` (optional; defaults to `start_date`)
 - **Returns:** Markdown table with **12-hour** times (e.g. `1:00 PM–5:00 PM`) or `Closed`.
 - **Limits:** Max **120-day** range.
-- **Important:** Each building has its own calendar. Music/Fine Arts often close on weekends while Clemons stays open—never assume one building’s hours for another.
+- **Important:** Each building/space has its own calendar. Music/Fine Arts often close on weekends while Clemons stays open; RMC ≠ Clemons; Scholars' Lab ≠ Shannon—never assume one location’s hours for another.
 
 #### `get_foot_traffic`
 - **Purpose:** Total entries, exits, combined activity, and average daily entries.

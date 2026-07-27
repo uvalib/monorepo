@@ -10,6 +10,8 @@ e.g. Music/Fine Arts close Saturdays while Clemons stays open late.
 from __future__ import annotations
 
 import os
+import re
+import time as time_module
 from datetime import datetime, timedelta, time
 
 import requests
@@ -17,7 +19,7 @@ import requests
 # Global cache: (libcal_lid, date_str) -> list[(start, end)]
 _hours_cache: dict[tuple[int, str], list[tuple[time, time]]] = {}
 
-# Drupal / LibCal mapping for UVA Library locations with building hours.
+# Drupal / LibCal mapping for UVA Library locations with building/space hours.
 # Source: https://www.library.virginia.edu/jsonapi/node/library (field_libcal_id).
 # Occupancy cameras only exist for a subset (see OCCUPANCY_LIBRARIES).
 LIBRARY_LIBCAL_IDS: dict[str, int] = {
@@ -27,9 +29,28 @@ LIBRARY_LIBCAL_IDS: dict[str, int] = {
     "Music": 3804,
     "Fine Arts": 3805,
     "Harrison/Small": 4114,  # Harrison Institute / Small Special Collections
+    # Spaces within libraries (own LibCal calendars; not full library buildings)
+    "RMC": 4170,  # Robertson Media Center
+    "Scholars' Lab": 2093,  # Scholars' Lab Makerspace
 }
 
-# Buildings with live occupancy / foot-traffic cameras (subset of above).
+# Six major library buildings (used for "how many libraries?" directory count).
+MAJOR_LIBRARIES: tuple[str, ...] = (
+    "Shannon",
+    "Clemons",
+    "Science & Engineering",
+    "Fine Arts",
+    "Music",
+    "Harrison/Small",
+)
+
+# Named spaces with their own hours calendars (not counted as separate libraries).
+LIBRARY_SPACES: tuple[str, ...] = (
+    "RMC",
+    "Scholars' Lab",
+)
+
+# Buildings with live occupancy / foot-traffic cameras (subset of major libraries).
 OCCUPANCY_LIBRARIES: frozenset[str] = frozenset(
     {
         "Clemons",
@@ -48,6 +69,17 @@ LIBRARY_DISPLAY_NAMES: dict[str, str] = {
     "Music": "Music Library",
     "Fine Arts": "Fine Arts Library",
     "Harrison/Small": "Harrison Institute / Small Special Collections Library",
+    "RMC": "Robertson Media Center (RMC)",
+    "Scholars' Lab": "Scholars' Lab Makerspace",
+}
+
+# Parent building notes for spaces (shown in directory / hours context)
+LIBRARY_SPACE_NOTES: dict[str, str] = {
+    "RMC": "Space in Clemons Library — has its own hours calendar (not the same as Clemons).",
+    "Scholars' Lab": (
+        "Digital scholarship / makerspace (often associated with Shannon) — "
+        "has its own hours calendar (not the same as Shannon)."
+    ),
 }
 
 # Normalized aliases → canonical key
@@ -72,6 +104,20 @@ _LIBRARY_ALIASES: dict[str, str] = {
     "small": "Harrison/Small",
     "smallspecialcollections": "Harrison/Small",
     "specialcollections": "Harrison/Small",
+    # Robertson Media Center (official name — not "Research Media Commons")
+    "rmc": "RMC",
+    "robertson": "RMC",
+    "robertsonmediacenter": "RMC",
+    "robertsonmedia": "RMC",
+    "mediacenter": "RMC",
+    # Scholars' Lab / makerspace
+    "scholarslab": "Scholars' Lab",
+    "scholarslabs": "Scholars' Lab",
+    "scholarslabmakerspace": "Scholars' Lab",
+    "scholars": "Scholars' Lab",
+    "slab": "Scholars' Lab",
+    "makerspace": "Scholars' Lab",
+    "scholarsmakerspace": "Scholars' Lab",
 }
 
 LIBCAL_IID = os.getenv("LIBCAL_IID", "863")
@@ -83,8 +129,33 @@ LIBCAL_HOURS_URL = os.getenv(
     "https://cal.lib.virginia.edu/api/1.0/hours/{lids}?iid={iid}&key={key}&from={start}&to={end}",
 )
 
+DRUPAL_LIBRARY_JSONAPI = os.getenv(
+    "DRUPAL_LIBRARY_JSONAPI",
+    "https://www.library.virginia.edu/jsonapi/node/library?page[limit]=50",
+)
+SITE_BASE = "https://www.library.virginia.edu"
+
 # Default when library is unknown: Clemons (legacy behavior)
 _DEFAULT_LIBRARY = "Clemons"
+
+# Drupal slug / short_title / libcal_id → our canonical key (for contact merge)
+_DRUPAL_TO_CANON: dict[str, str] = {
+    "main": "Shannon",
+    "shannon": "Shannon",
+    "clemons": "Clemons",
+    "fine-arts": "Fine Arts",
+    "finearts": "Fine Arts",
+    "music": "Music",
+    "science": "Science & Engineering",
+    "harrison": "Harrison/Small",
+    "harrison-building-exhibitions": "Harrison/Small",
+    "robertson-media-center": "RMC",
+    "scholars-lab": "Scholars' Lab",
+}
+
+# Cache: (expires_at, contacts_by_canon)
+_drupal_contacts_cache: tuple[float, dict[str, dict]] | None = None
+_DRUPAL_CACHE_TTL_SEC = 3600.0
 
 
 def parse_time(s: str) -> time:
@@ -99,18 +170,9 @@ def parse_time(s: str) -> time:
     return datetime.strptime(s, fmt).time()
 
 
-def normalize_library_name(library: str | None) -> str:
-    """Map free-text library name to a canonical library key."""
-    if not library:
-        return _DEFAULT_LIBRARY
-    raw = library.strip()
-    if raw in LIBRARY_LIBCAL_IDS:
-        return raw
-    # Allow display names
-    for canon, display in LIBRARY_DISPLAY_NAMES.items():
-        if raw.lower() == display.lower():
-            return canon
-    key = (
+def _normalize_key(raw: str) -> str:
+    """Collapse free text to a lowercase alphanumeric-ish alias key."""
+    return (
         raw.lower()
         .replace("&", "and")
         .replace("/", "")
@@ -120,11 +182,40 @@ def normalize_library_name(library: str | None) -> str:
         .replace("’", "")
         .replace(" ", "")
     )
+
+
+def normalize_library_name(library: str | None) -> str:
+    """Map free-text library/space name to a canonical key."""
+    if not library:
+        return _DEFAULT_LIBRARY
+    raw = library.strip()
+    if raw in LIBRARY_LIBCAL_IDS:
+        return raw
+    # Allow display names
+    for canon, display in LIBRARY_DISPLAY_NAMES.items():
+        if raw.lower() == display.lower():
+            return canon
+        if _normalize_key(raw) == _normalize_key(display):
+            return canon
+    # Canonical keys with punctuation (e.g. Scholars' Lab)
+    for canon in LIBRARY_LIBCAL_IDS:
+        if _normalize_key(raw) == _normalize_key(canon):
+            return canon
+    key = _normalize_key(raw)
+    # Strip common trailing words that do not change identity
+    for suffix in ("library", "hours", "open", "today", "makerspace"):
+        if key.endswith(suffix) and len(key) > len(suffix):
+            trimmed = key[: -len(suffix)]
+            if trimmed in _LIBRARY_ALIASES:
+                return _LIBRARY_ALIASES[trimmed]
     if key in _LIBRARY_ALIASES:
         return _LIBRARY_ALIASES[key]
-    # Partial contains match (prefer longer aliases)
+    # Partial contains match (prefer longer aliases; require alias len >= 3
+    # so short tokens like "lab" alone do not steal matches)
     for alias, canon in sorted(_LIBRARY_ALIASES.items(), key=lambda x: -len(x[0])):
-        if alias in key or key in alias:
+        if len(alias) < 3:
+            continue
+        if alias in key or (len(key) >= 3 and key in alias):
             return canon
     return raw  # may still work if caller used exact cameras name
 
@@ -137,56 +228,235 @@ def libcal_id_for_library(library: str | None) -> int:
     return LIBRARY_LIBCAL_IDS[_DEFAULT_LIBRARY]
 
 
+def _strip_html_address(raw: str | None) -> str:
+    if not raw:
+        return ""
+    text = re.sub(r"<br\s*/?>", ", ", raw, flags=re.I)
+    text = re.sub(r"<[^>]+>", "", text)
+    text = text.replace("\xa0", " ").replace("&nbsp;", " ")
+    text = re.sub(r"\s+", " ", text).strip(" ,")
+    return text
+
+
+def _canon_from_drupal_attrs(attrs: dict) -> str | None:
+    """Map a Drupal library node to our canonical key, if it is one of our six."""
+    slug = (attrs.get("field_slug") or "").strip().lower()
+    if slug in _DRUPAL_TO_CANON:
+        return _DRUPAL_TO_CANON[slug]
+
+    short = (attrs.get("field_short_title") or "").strip()
+    if short:
+        # Reuse name normalization (e.g. "Shannon", "Harrison/Small")
+        cand = normalize_library_name(short)
+        if cand in LIBRARY_LIBCAL_IDS:
+            return cand
+
+    lid = attrs.get("field_libcal_id")
+    if lid is not None:
+        for canon, cal_id in LIBRARY_LIBCAL_IDS.items():
+            if int(lid) == int(cal_id):
+                # Prefer main Harrison library node over exhibitions-only duplicate
+                if canon == "Harrison/Small" and slug == "harrison-building-exhibitions":
+                    continue
+                return canon
+
+    title = (attrs.get("title") or "").lower()
+    for canon, display in LIBRARY_DISPLAY_NAMES.items():
+        if display.lower() in title or title in display.lower():
+            return canon
+    return None
+
+
+def fetch_drupal_library_contacts(force_refresh: bool = False) -> dict[str, dict]:
+    """
+    Fetch contact fields from Drupal JSON:API for our major libraries.
+
+    Returns map: canonical key -> {phone, email, address, web_page, drupal_title, short_title}
+    Cached ~1 hour.
+    """
+    global _drupal_contacts_cache
+
+    now = time_module.time()
+    if (
+        not force_refresh
+        and _drupal_contacts_cache
+        and _drupal_contacts_cache[0] > now
+    ):
+        return _drupal_contacts_cache[1]
+
+    contacts: dict[str, dict] = {}
+    try:
+        resp = requests.get(
+            DRUPAL_LIBRARY_JSONAPI,
+            headers={"User-Agent": "UVA-Library-MCP/1.0 (hours_helper)"},
+            timeout=15,
+        )
+        resp.raise_for_status()
+        data = resp.json()
+    except Exception:
+        # Fail soft — directory still works without live contacts
+        contacts = {}
+        _drupal_contacts_cache = (now + 300, contacts)  # short TTL on failure
+        return contacts
+
+    for item in data.get("data") or []:
+        attrs = item.get("attributes") or {}
+        if attrs.get("status") is False:
+            continue
+        canon = _canon_from_drupal_attrs(attrs)
+        if not canon:
+            continue
+
+        # Prefer the primary Harrison library node over "Building & Exhibitions"
+        slug = (attrs.get("field_slug") or "").strip().lower()
+        if canon in contacts and slug == "harrison-building-exhibitions":
+            continue
+
+        loc_field = attrs.get("field_location") or {}
+        address_raw = ""
+        if isinstance(loc_field, dict):
+            address_raw = loc_field.get("processed") or loc_field.get("value") or ""
+        elif isinstance(loc_field, str):
+            address_raw = loc_field
+
+        path_alias = (attrs.get("path") or {}).get("alias") or ""
+        web_page = f"{SITE_BASE}{path_alias}" if path_alias else ""
+
+        phone = attrs.get("field_phone_number") or ""
+        if isinstance(phone, dict):
+            phone = phone.get("value") or ""
+        phone = str(phone).strip() if phone else ""
+
+        email = attrs.get("field_email_address") or ""
+        if isinstance(email, dict):
+            email = email.get("value") or ""
+        email = str(email).strip() if email else ""
+
+        contacts[canon] = {
+            "phone": phone,
+            "email": email,
+            "address": _strip_html_address(address_raw),
+            "web_page": web_page,
+            "drupal_title": attrs.get("title") or "",
+            "short_title": attrs.get("field_short_title") or "",
+            "slug": slug,
+            "libcal_id": attrs.get("field_libcal_id"),
+        }
+
+    _drupal_contacts_cache = (now + _DRUPAL_CACHE_TTL_SEC, contacts)
+    return contacts
+
+
+def _directory_entry_lines(
+    key: str,
+    *,
+    index: int | None,
+    contacts: dict[str, dict],
+    occ: set[str],
+    space_note: str | None = None,
+) -> list[str]:
+    display = LIBRARY_DISPLAY_NAMES.get(key, key)
+    c = contacts.get(key) or {}
+    occ_note = "yes" if key in occ else "no"
+    heading = f"### {index}. {display}" if index is not None else f"### {display}"
+    lines = [
+        heading,
+        f"- **Canonical key**: `{key}`",
+        f"- **Live occupancy sensors**: {occ_note}",
+    ]
+    if space_note:
+        lines.append(f"- **Note**: {space_note}")
+    if c.get("phone"):
+        lines.append(f"- **Phone**: {c['phone']}")
+    if c.get("email"):
+        lines.append(f"- **Email**: {c['email']}")
+    if c.get("address"):
+        lines.append(f"- **Address**: {c['address']}")
+    if c.get("web_page"):
+        lines.append(f"- **Web page**: {c['web_page']}")
+    lid = LIBRARY_LIBCAL_IDS.get(key)
+    if lid:
+        lines.append(f"- **LibCal location id**: {lid}")
+        lines.append("- **Hours**: use `get_library_hours` with this canonical key")
+    if not c:
+        lines.append(
+            "- **Contact**: (Drupal directory unavailable for this entry; "
+            "do not invent a phone number)"
+        )
+    lines.append("")
+    return lines
+
+
 def format_library_directory(occupancy_from_db: list[str] | None = None) -> str:
     """
     Human-readable directory of UVA Library locations for agents.
 
-    Distinguishes the full library system from the occupancy-camera subset so
-    "how many libraries?" does not omit Harrison/Small, Ivy, etc.
+    Includes contact info (phone, email, address, web page) from the public
+    Drupal library JSON:API when available. Major libraries and named spaces
+    (RMC, Scholars' Lab) with their own LibCal hours are both listed.
     """
     occ = set(occupancy_from_db or []) | set(OCCUPANCY_LIBRARIES)
+    contacts = fetch_drupal_library_contacts()
 
     lines = [
-        "# UVA Library locations",
+        "# UVA Library locations & contact information",
         "",
-        "There are multiple UVA Library buildings and service points. "
-        "Do **not** answer “how many libraries?” with only the occupancy-camera list.",
+        "Use this directory for phone numbers, emails, addresses, and location pages. "
+        "Do **not** invent contact details or pull a generic Access Services number "
+        "when a library-specific phone is listed below.",
         "",
-        "## Major libraries & service points (with building hours in LibCal)",
+        "## Major libraries",
         "",
     ]
 
-    # Stable, patron-friendly order (libraries only — not media centers / labs / service points)
-    order = [
-        "Shannon",
-        "Clemons",
-        "Science & Engineering",
-        "Fine Arts",
-        "Music",
-        "Harrison/Small",
-    ]
-    for i, key in enumerate(order, 1):
-        display = LIBRARY_DISPLAY_NAMES.get(key, key)
-        occ_note = " · live occupancy sensors" if key in occ else ""
-        lines.append(f"{i}. **{display}** (`{key}`){occ_note}")
+    for i, key in enumerate(MAJOR_LIBRARIES, 1):
+        lines.extend(
+            _directory_entry_lines(key, index=i, contacts=contacts, occ=occ)
+        )
 
     lines.extend(
         [
+            f"**Count**: {len(MAJOR_LIBRARIES)} major libraries "
+            "(do not count RMC or Scholars' Lab as separate libraries).",
             "",
-            f"**Count**: {len(order)} libraries",
+            "## Spaces within libraries (own hours calendars)",
             "",
+            "These are **not** separate libraries, but they have **their own** "
+            "LibCal hours. Always call `get_library_hours` with the space name "
+            "(RMC, Scholars' Lab) — do **not** substitute Clemons or Shannon hours.",
+            "",
+        ]
+    )
+    for key in LIBRARY_SPACES:
+        lines.extend(
+            _directory_entry_lines(
+                key,
+                index=None,
+                contacts=contacts,
+                occ=occ,
+                space_note=LIBRARY_SPACE_NOTES.get(key),
+            )
+        )
+
+    lines.extend(
+        [
             "## Live occupancy / foot traffic",
             "Occupancy tools only cover buildings with cameras:",
             ", ".join(f"**{n}**" for n in sorted(occ)),
             "",
-            "**Harrison/Small** supports hours lookups via `get_library_hours` "
-            "but not occupancy counts.",
+            "**Harrison/Small**, **RMC**, and **Scholars' Lab** support hours lookups "
+            "via `get_library_hours` but not occupancy counts.",
             "",
             "## Notes",
-            "- Professional school libraries (Law, Darden, Health Sciences, JAG) are "
-            "separate units and are not listed above.",
+            "- Contact fields are from the public Library website Drupal API "
+            f"(`{DRUPAL_LIBRARY_JSONAPI.split('?')[0]}`).",
+            "- Professional school libraries (Law, Darden, Health Sciences, JAG) and "
+            "Ivy stacks are separate units and are not listed above.",
             "- Prefer the display names when talking to patrons; use canonical keys "
             "in tool arguments when needed.",
+            "- Aliases: RMC / Robertson Media Center → `RMC`; "
+            "SLAB / Scholars Lab / makerspace → `Scholars' Lab`. "
+            "Always use the official display name from tools (RMC = Robertson Media Center).",
         ]
     )
     return "\n".join(lines)
@@ -481,16 +751,26 @@ def format_hours_schedule(
     except Exception as e:
         return f"Error: Failed to fetch LibCal hours for {canon}: {e}"
 
+    display = LIBRARY_DISPLAY_NAMES.get(canon, canon)
+    space_note = LIBRARY_SPACE_NOTES.get(canon)
     lines = [
-        f"### Library Hours: {canon}",
+        f"### Hours: {display}",
+        f"* **Official name** (use this exact name in answers — do not invent expansions): **{display}**",
+        f"* **Canonical key**: `{canon}`",
         f"* **LibCal location id**: {lid}",
         f"* **Date range**: {start_date_str} to {end_date_str}",
-        f"* **Source**: LibCal (published building hours; no open/close buffer)",
+        f"* **Source**: LibCal (published hours; no open/close buffer)",
         f"* **Time format**: 12-hour local (e.g. 1:00 PM–5:00 PM)",
-        "",
-        "| Date | Day | Hours |",
-        "| :--- | :--- | :--- |",
     ]
+    if space_note:
+        lines.append(f"* **Note**: {space_note}")
+    lines.extend(
+        [
+            "",
+            "| Date | Day | Hours |",
+            "| :--- | :--- | :--- |",
+        ]
+    )
 
     open_days = 0
     closed_days = 0
