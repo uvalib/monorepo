@@ -3,8 +3,12 @@
 test_bot_locally.py — End-to-end local test for HooHelp Agent and AgentCore Gateway
 
 Does not require Slack. Uses AWS credentials + GATEWAY_URL from the environment.
+
+Session traces default to CloudWatch-style JSON on stdout (CONVERSATION_TRACE=cloudwatch).
+Set CONVERSATION_TRACE=off to silence, or both/s3 if CONVERSATION_TRACE_BUCKET is set.
 """
 
+import json
 import os
 import sys
 
@@ -16,6 +20,9 @@ try:
     load_dotenv()
 except ImportError:
     pass
+
+# Default local traces to cloudwatch (stdout) unless the user set a mode
+os.environ.setdefault("CONVERSATION_TRACE", "cloudwatch")
 
 from agent import HooHelpAgent
 from gateway_mcp_client import GatewayMCPClient
@@ -45,9 +52,24 @@ def main():
         print("\n" + "=" * 70)
         print(f"QUERY {idx}: {q}")
         print("=" * 70)
-        answer = agent.process_message(q)
+        result = agent.process_message(q)
         print("\nHOOHELP RESPONSE:")
-        print(answer)
+        print(result.text)
+        print("\nTRACE SUMMARY:")
+        summary = result.trace.emit()
+        print(
+            json.dumps(
+                {
+                    "request_id": summary.get("request_id"),
+                    "tools_used": summary.get("tools_used"),
+                    "tool_call_count": summary.get("tool_call_count"),
+                    "duration_ms": summary.get("duration_ms"),
+                    "s3_uri": summary.get("s3_uri"),
+                    "error": summary.get("error"),
+                },
+                indent=2,
+            )
+        )
 
     print("\n" + "=" * 70)
     print("ALL HOOHELP AGENT END-TO-END TESTS PASSED SUCCESSFULLY!")

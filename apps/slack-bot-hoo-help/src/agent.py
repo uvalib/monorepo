@@ -5,10 +5,14 @@ Orchestrates multi-turn conversation loops with Amazon Bedrock Nova Pro:
 - Formats system instructions and conversation context
 - Executes tool calling loop with AgentCore Gateway MCP tools
 - Returns a clean response formatted for Slack
+- Records a SessionTrace for MCP development (prompts, tools, answers)
 """
 
 import logging
 import os
+import time
+import uuid
+from dataclasses import dataclass
 from datetime import datetime, timedelta
 from typing import Any, Dict, List, Optional
 from zoneinfo import ZoneInfo
@@ -16,6 +20,7 @@ from zoneinfo import ZoneInfo
 import boto3
 
 from gateway_mcp_client import GatewayMCPClient
+from session_trace import SessionTrace
 
 logger = logging.getLogger(__name__)
 
@@ -25,8 +30,10 @@ SYSTEM_PROMPT = """You are HooHelp, the helpful and friendly AI assistant for th
 
 You have access to real-time tools via an AgentCore MCP Gateway:
 1. **Occupancy & Hours**: get_library_hours, get_libraries, get_occupancy_report, get_foot_traffic.
-   - get_libraries lists major UVA Library locations (including Harrison/Small), not only camera buildings.
-   - Occupancy/foot-traffic tools only cover Clemons, Shannon, SEL, Music, Fine Arts.
+   - get_libraries lists major UVA libraries (including Harrison/Small) plus spaces **RMC** and **Scholars' Lab**, with **phone, email, address, web page** from Drupal.
+   - For phone/email/address questions, call `get_libraries` and use the library-specific Phone field — do not invent numbers or cite a generic Access Services page.
+   - Hours also work for spaces with their own LibCal calendars: pass `RMC` or `Scholars' Lab` to get_library_hours — never substitute Clemons or Shannon hours for them.
+   - Occupancy/foot-traffic tools only cover Clemons, Shannon, SEL, Music, Fine Arts (not RMC or Scholars' Lab).
 2. **Virgo Catalog (books/media records)**: search_catalog, search_by_field, get_item_details — use for circulating books, call numbers, checkout availability.
 3. **Images / visual materials**: search_virgo_image_suggestions — use for photos, pictures, images, drawings, historic photographs.
 4. **Other Knowledge Bases**: search_uvalib_web (policies/site), search_virgo_item_suggestions, search_virgo_suggestions (authors).
@@ -44,16 +51,29 @@ Guidelines:
 - Never wrap your answer in XML/HTML tags. Do not emit <thinking>, <think>, <reasoning>, or similar tags.
 - Do not narrate your internal reasoning to the user. Reply with the final answer only.
 - Avoid raw JSON dumps; synthesize tool findings into helpful natural answers.
-- NEVER invent library hours, dates, occupancy numbers, catalog holdings, or image links. If you need facts, call a tool.
+- **Ground every fact in tool output.** NEVER invent or guess:
+  - official names or acronym expansions (e.g. do not invent what "RMC" stands for)
+  - hours, dates, phone numbers, emails, addresses, occupancy counts
+  - catalog holdings, call numbers, image titles/links, policies
+  If the tool gives a display name (e.g. "### Hours: Robertson Media Center (RMC)"), use that name **exactly**. If you only know an acronym and the tool did not expand it, say "RMC" without expanding it — or call `get_libraries` / re-read the tool result.
 - When citing knowledge-base sources, use only **Source URL** / Virgo / IIIF links that start with `http`. Never cite `s3://…` paths or vector-store object keys.
+
+Multi-turn / thread follow-ups:
+- You may receive prior user/assistant turns as conversation history. Use them for
+  pronouns and short follow-ups ("what about Fine Arts?", "and tomorrow?", "the phone number?").
+- Still call tools for any new factual claim (hours, holdings, occupancy, contacts).
+- Do not assume the follow-up is about the same library unless the history clearly says so.
+- Do not trust prior assistant turns for official names if a fresh tool result has the name — prefer the tool.
 
 Library HOURS / "when is X open" / "this weekend" questions:
 - ALWAYS call `get_library_hours` before answering. Do not guess from memory.
 - Convert relative dates using the **Current date context** below into YYYY-MM-DD for start_date/end_date.
   - "this weekend" / "weekend" → the Saturday–Sunday pair listed under Current date context
   - "today" → today's date; "tomorrow" → tomorrow's date
-- Pass the specific library name (e.g. Fine Arts, Clemons, Shannon, Music, Science & Engineering).
-- Report ONLY what the tool returns (including Closed). Do not substitute another library's hours.
+- Pass the specific library **or space** name the user used (e.g. Fine Arts, Clemons, Shannon, RMC, Scholars' Lab, Music, Science & Engineering).
+  Tool aliases accept: RMC, Robertson Media Center, SLAB, Scholars Lab, makerspace, SEL, FAL, etc.
+- In your answer, use the **official display name from the tool heading** (e.g. *Robertson Media Center (RMC)*), not a guessed expansion of an acronym.
+- Report ONLY the hours the tool returns (including Closed). Do not substitute another library's hours (RMC ≠ Clemons; Scholars' Lab ≠ Shannon).
 - Quote the calendar dates from the tool in your answer (e.g. Saturday, July 25, 2026).
 
 Image / photo / picture questions:
@@ -112,6 +132,14 @@ def _current_date_context() -> str:
     )
 
 
+@dataclass
+class AgentTurnResult:
+    """Text answer plus structured trace for the agent turn."""
+
+    text: str
+    trace: SessionTrace
+
+
 class HooHelpAgent:
 
     def __init__(
@@ -129,6 +157,8 @@ class HooHelpAgent:
         self.model_id = model_id or os.environ.get("BEDROCK_MODEL_ID", "us.amazon.nova-pro-v1:0")
         self.region_name = region_name or os.environ.get("AWS_REGION", "us-east-1")
         self.bedrock_runtime = boto3.client("bedrock-runtime", region_name=self.region_name)
+        # Last completed turn (useful for callers that only need the text)
+        self.last_trace: Optional[SessionTrace] = None
 
     def _system_prompt(self) -> str:
         return SYSTEM_PROMPT + "\n\n" + _current_date_context()
@@ -137,14 +167,35 @@ class HooHelpAgent:
         self,
         user_message: str,
         conversation_history: Optional[List[Dict[str, Any]]] = None,
-    ) -> str:
-        """Process a user prompt through Bedrock Converse API with tool calling loop."""
+        *,
+        request_id: Optional[str] = None,
+        slack_context: Optional[Dict[str, Any]] = None,
+    ) -> AgentTurnResult:
+        """
+        Process a user prompt through Bedrock Converse API with tool calling loop.
+
+        Returns AgentTurnResult(text, trace). Callers that only need text can use
+        ``result.text``; ``result.trace`` is ready for SessionTrace.emit().
+        """
+        system_prompt = self._system_prompt()
+        history = list(conversation_history) if conversation_history else []
+        trace = SessionTrace(request_id=request_id or str(uuid.uuid4()))
+        trace.set_request(
+            user_message,
+            history_turns=len(history),
+            model_id=self.model_id,
+            gateway_url=getattr(self.gateway_client, "gateway_url", "") or "",
+            system_prompt=system_prompt,
+            slack=slack_context,
+        )
+        self.last_trace = trace
+
         tool_config = self.gateway_client.get_bedrock_tool_config()
 
-        messages = list(conversation_history) if conversation_history else []
+        messages = history
         messages.append({"role": "user", "content": [{"text": user_message}]})
 
-        system_instruction = [{"text": self._system_prompt()}]
+        system_instruction = [{"text": system_prompt}]
 
         max_iterations = 8
         iteration = 0
@@ -176,7 +227,13 @@ class HooHelpAgent:
                         block["text"] for block in output_message.get("content", []) if "text" in block
                     ]
                     # Raw model text — Slack-facing cleanup happens in app via slack_format
-                    return "\n\n".join(final_texts)
+                    text = "\n\n".join(final_texts)
+                    trace.finish(
+                        final_text=text,
+                        stop_reason=stop_reason,
+                        iterations=iteration,
+                    )
+                    return AgentTurnResult(text=text, trace=trace)
 
                 if stop_reason == "tool_use":
                     tool_results_content = []
@@ -190,14 +247,42 @@ class HooHelpAgent:
                         tool_input = t_req.get("input", {})
 
                         logger.info("[Tool Call] Invoking '%s' with args %s", tool_name, tool_input)
-                        tool_output_str = self.gateway_client.call_tool(tool_name, tool_input)
+                        t0 = time.perf_counter()
+                        tool_status = "success"
+                        tool_error: Optional[str] = None
+                        try:
+                            tool_output_str = self.gateway_client.call_tool(tool_name, tool_input)
+                        except Exception as tool_exc:
+                            tool_status = "error"
+                            tool_error = str(tool_exc)
+                            tool_output_str = f"Gateway Tool Invocation Error ({tool_name}): {tool_exc}"
+                            logger.error("Tool '%s' raised: %s", tool_name, tool_exc)
+                        latency_ms = int((time.perf_counter() - t0) * 1000)
+
+                        # Surface gateway-returned error strings as status=error in the trace
+                        if tool_status == "success" and tool_output_str.startswith(
+                            ("Tool Error:", "Gateway Tool Invocation Error")
+                        ):
+                            tool_status = "error"
+                            tool_error = tool_output_str[:500]
+
+                        trace.add_tool_step(
+                            tool_use_id=tool_use_id,
+                            tool_name=tool_name,
+                            tool_input=tool_input if isinstance(tool_input, dict) else {"value": tool_input},
+                            output=tool_output_str,
+                            latency_ms=latency_ms,
+                            iteration=iteration,
+                            status=tool_status,
+                            error=tool_error,
+                        )
 
                         tool_results_content.append(
                             {
                                 "toolResult": {
                                     "toolUseId": tool_use_id,
                                     "content": [{"text": tool_output_str}],
-                                    "status": "success",
+                                    "status": "success" if tool_status == "success" else "error",
                                 }
                             }
                         )
@@ -209,10 +294,33 @@ class HooHelpAgent:
                 final_texts = [
                     b["text"] for b in output_message.get("content", []) if "text" in b
                 ]
-                return "\n\n".join(final_texts) or "Done."
+                text = "\n\n".join(final_texts) or "Done."
+                trace.finish(
+                    final_text=text,
+                    stop_reason=stop_reason or "unexpected",
+                    iterations=iteration,
+                )
+                return AgentTurnResult(text=text, trace=trace)
 
             except Exception as e:
                 logger.error("Error in Bedrock converse loop: %s", e, exc_info=True)
-                return f"Sorry, I encountered an error processing your request: {str(e)}"
+                text = f"Sorry, I encountered an error processing your request: {str(e)}"
+                trace.finish(
+                    final_text=text,
+                    stop_reason="error",
+                    iterations=iteration,
+                    error=str(e),
+                )
+                return AgentTurnResult(text=text, trace=trace)
 
-        return "I completed the maximum processing steps. Please let me know if you'd like more information!"
+        text = (
+            "I completed the maximum processing steps. "
+            "Please let me know if you'd like more information!"
+        )
+        trace.finish(
+            final_text=text,
+            stop_reason="max_iterations",
+            iterations=iteration,
+            error="max_iterations",
+        )
+        return AgentTurnResult(text=text, trace=trace)

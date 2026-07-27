@@ -7,6 +7,13 @@ Architecture notes:
 - The AWS Lambda adapter acks quickly, then async re-invokes this same
   Lambda to run the lazy work (needs lambda:InvokeFunction on itself).
 - Socket Mode is intentionally not used — Lambda is request-driven.
+
+Thread follow-ups:
+- First @mention (or DM) starts a reply thread.
+- Later messages in that thread are answered even without a new @mention,
+  when the bot already participated or was mentioned on the parent.
+- Requires Slack event subscriptions: message.channels / message.groups
+  (and history scopes) — see README.
 """
 
 from __future__ import annotations
@@ -14,6 +21,7 @@ from __future__ import annotations
 import json
 import logging
 import os
+import uuid
 from typing import Any, Dict, List, Optional, Tuple
 
 from slack_bolt import App
@@ -21,7 +29,14 @@ from slack_bolt.adapter.aws_lambda import SlackRequestHandler
 
 from agent import HooHelpAgent
 from gateway_mcp_client import GatewayMCPClient
+from session_trace import SessionTrace
 from slack_format import format_for_slack
+from thread_context import (
+    extract_thread_history,
+    should_ignore_message_event,
+    strip_mention_prefix,
+    text_mentions_bot,
+)
 
 LOG_LEVEL = os.environ.get("LOG_LEVEL", "INFO").upper()
 logging.basicConfig(level=LOG_LEVEL)
@@ -94,85 +109,74 @@ agent = HooHelpAgent(
     model_id=BEDROCK_MODEL_ID,
 )
 
-BOT_USER_ID: Optional[str] = None
+# Cached from auth.test: Slack user id (U…) and bot id (B…)
+_BOT_USER_ID: Optional[str] = None
+_BOT_APP_BOT_ID: Optional[str] = None
+
+
+def get_bot_identity(client) -> Tuple[Optional[str], Optional[str]]:
+    """Return (bot_user_id, bot_app_bot_id), caching auth.test results."""
+    global _BOT_USER_ID, _BOT_APP_BOT_ID
+    if _BOT_USER_ID:
+        return _BOT_USER_ID, _BOT_APP_BOT_ID
+    try:
+        auth = client.auth_test()
+        _BOT_USER_ID = auth.get("user_id")
+        # auth.test may include bot_id for bot tokens
+        _BOT_APP_BOT_ID = auth.get("bot_id")
+        logger.info(
+            "Authenticated as bot user %s (%s) bot_id=%s",
+            _BOT_USER_ID,
+            auth.get("user"),
+            _BOT_APP_BOT_ID,
+        )
+    except Exception as e:
+        logger.warning("Could not fetch bot identity: %s", e)
+    return _BOT_USER_ID, _BOT_APP_BOT_ID
 
 
 def get_bot_user_id(client) -> Optional[str]:
-    """Fetch and cache bot user ID for thread participation checks."""
-    global BOT_USER_ID
-    if not BOT_USER_ID:
-        try:
-            auth = client.auth_test()
-            BOT_USER_ID = auth.get("user_id")
-            logger.info("Authenticated as bot user %s (%s)", BOT_USER_ID, auth.get("user"))
-        except Exception as e:
-            logger.warning("Could not fetch bot_user_id: %s", e)
-    return BOT_USER_ID
+    user_id, _ = get_bot_identity(client)
+    return user_id
 
 
-def extract_thread_history(
-    client, channel_id: str, thread_ts: str, bot_id: Optional[str]
-) -> Tuple[List[Dict[str, Any]], bool]:
+def _new_request_id(context: Any = None) -> str:
+    """Prefer Lambda request id when available so traces match CloudWatch log streams."""
+    if context is not None:
+        rid = getattr(context, "aws_request_id", None)
+        if rid:
+            return str(rid)
+    return str(uuid.uuid4())
+
+
+# Set on each Lambda invocation so lazy listeners can correlate traces
+_CURRENT_REQUEST_ID: Optional[str] = None
+
+
+def handle_user_query(
+    event,
+    say,
+    client,
+    *,
+    force_thread: bool = True,
+    known_history: Optional[List[Dict[str, Any]]] = None,
+) -> None:
     """
-    Fetch thread replies and build Bedrock conversation history.
-    Returns (conversation_history, is_bot_participant).
+    Common handler for Slack app mentions, DMs, and thread follow-ups.
+
+    Always replies in a thread (force_thread) so subsequent messages share context.
     """
-    try:
-        resp = client.conversations_replies(channel=channel_id, ts=thread_ts, limit=50)
-        messages = resp.get("messages", [])
-        if not messages:
-            return [], False
-
-        is_bot_participant = False
-        conversation_history: List[Dict[str, Any]] = []
-
-        for m in messages[:-1]:
-            m_user = m.get("user")
-            m_bot = m.get("bot_id")
-            if (m_user and bot_id and m_user == bot_id) or m_bot:
-                is_bot_participant = True
-
-            txt = m.get("text", "")
-            if not txt or "*HooHelp is thinking...*" in txt:
-                continue
-
-            if txt.startswith("<@"):
-                parts = txt.split(">", 1)
-                if len(parts) > 1:
-                    txt = parts[1].strip()
-
-            role = "assistant" if ((m_user and bot_id and m_user == bot_id) or m_bot) else "user"
-            conversation_history.append({"role": role, "content": [{"text": txt}]})
-
-        parent_user = messages[0].get("user")
-        if (parent_user and bot_id and parent_user == bot_id) or messages[0].get("bot_id"):
-            is_bot_participant = True
-
-        return conversation_history, is_bot_participant
-    except Exception as e:
-        logger.warning(
-            "Error fetching thread replies for channel %s ts %s: %s",
-            channel_id,
-            thread_ts,
-            e,
-        )
-        return [], False
-
-
-def handle_user_query(event, say, client) -> None:
-    """Common handler for Slack app mentions, DMs, and thread follow-ups."""
     user_id = event.get("user")
-    text = event.get("text", "")
+    text = event.get("text") or ""
     channel_id = event.get("channel")
     thread_ts = event.get("thread_ts")
     ts = event.get("ts")
+    # Prefer existing thread; otherwise start one on the triggering message
     reply_thread_ts = thread_ts or ts
+    request_id = _CURRENT_REQUEST_ID or _new_request_id()
 
-    cleaned_text = text
-    if text.startswith("<@"):
-        parts = text.split(">", 1)
-        if len(parts) > 1:
-            cleaned_text = parts[1].strip()
+    bot_user_id, bot_app_bot_id = get_bot_identity(client)
+    cleaned_text = strip_mention_prefix(text, bot_user_id)
 
     if not cleaned_text:
         say(
@@ -180,64 +184,138 @@ def handle_user_query(event, say, client) -> None:
                 "Hi! How can I help you today? Ask me about UVA library hours, "
                 "occupancy, Virgo catalog searches, or library policies!"
             ),
-            thread_ts=reply_thread_ts,
+            thread_ts=reply_thread_ts if force_thread else None,
         )
         return
 
-    conversation_history: List[Dict[str, Any]] = []
-    bot_id = get_bot_user_id(client)
-    if thread_ts:
-        conversation_history, _ = extract_thread_history(client, channel_id, thread_ts, bot_id)
+    conversation_history: List[Dict[str, Any]] = list(known_history or [])
+    history_meta: Dict[str, Any] = {}
+
+    # Load prior turns when we are already inside a thread
+    if not conversation_history and reply_thread_ts and channel_id:
+        conversation_history, _is_ours, history_meta = extract_thread_history(
+            client,
+            channel_id,
+            reply_thread_ts,
+            bot_user_id=bot_user_id,
+            bot_app_bot_id=bot_app_bot_id,
+            current_ts=ts,
+        )
 
     logger.info(
-        "Received query from user %s in channel %s (thread %s): %r (history turns: %s)",
+        "Received query from user %s in channel %s (thread %s): %r "
+        "(history turns: %s, meta=%s) request_id=%s",
         user_id,
         channel_id,
-        thread_ts,
+        reply_thread_ts,
         cleaned_text,
         len(conversation_history),
+        history_meta,
+        request_id,
     )
 
-    status_ts = None
-    try:
-        status_msg = say(text="*HooHelp is thinking...* :brain:", thread_ts=reply_thread_ts)
-        status_ts = status_msg.get("ts") if isinstance(status_msg, dict) else None
-    except Exception as err:
-        logger.warning("Could not post initial thinking status: %s", err)
+    # Acknowledge work-in-progress with a :brain: reaction on the user's message
+    # (no "thinking..." reply spam). Requires reactions:write bot scope.
+    thinking_reaction = "brain"
+    reacted = False
+    if channel_id and ts:
+        try:
+            client.reactions_add(
+                channel=channel_id,
+                timestamp=ts,
+                name=thinking_reaction,
+            )
+            reacted = True
+        except Exception as err:
+            # already_reacted is fine; other errors are non-fatal
+            err_str = str(err)
+            if "already_reacted" in err_str:
+                reacted = True
+            else:
+                logger.warning(
+                    "Could not add :%s: reaction on %s/%s: %s",
+                    thinking_reaction,
+                    channel_id,
+                    ts,
+                    err,
+                )
 
-    raw_response = agent.process_message(cleaned_text, conversation_history=conversation_history)
+    slack_context = {
+        "user_id": user_id,
+        "channel_id": channel_id,
+        "thread_ts": reply_thread_ts,
+        "message_ts": ts,
+        "channel_type": event.get("channel_type"),
+        "history_turns": len(conversation_history),
+        "is_followup": bool(thread_ts) or len(conversation_history) > 0,
+    }
+
+    turn = agent.process_message(
+        cleaned_text,
+        conversation_history=conversation_history,
+        request_id=request_id,
+        slack_context=slack_context,
+    )
+    raw_response = turn.text
+    trace: SessionTrace = turn.trace
+
     # Bedrock formats the draft as Slack mrkdwn; image IIIF URLs become image blocks
     fallback_text, blocks = format_for_slack(
         raw_response,
         bedrock_client=getattr(agent, "bedrock_runtime", None),
         model_id=getattr(agent, "model_id", None),
     )
-    logger.info("Formatted Slack reply (%s chars, %s blocks)", len(fallback_text), len(blocks))
+    logger.info(
+        "Formatted Slack reply (%s chars, %s blocks) tools=%s duration_ms=%s followup=%s",
+        len(fallback_text),
+        len(blocks),
+        trace.tools_used(),
+        trace.duration_ms,
+        slack_context.get("is_followup"),
+    )
+    trace.set_slack_reply(fallback_text)
 
     try:
-        if status_ts:
-            client.chat_update(
-                channel=channel_id,
-                ts=status_ts,
-                text=fallback_text,
-                blocks=blocks,
-            )
-        else:
-            client.chat_postMessage(
-                channel=channel_id,
-                thread_ts=reply_thread_ts,
-                text=fallback_text,
-                blocks=blocks,
-            )
+        client.chat_postMessage(
+            channel=channel_id,
+            thread_ts=reply_thread_ts if force_thread else None,
+            text=fallback_text,
+            blocks=blocks,
+        )
     except Exception as e:
         logger.error("Failed to send Slack response with blocks: %s", e)
+        if not trace.error:
+            trace.error = f"slack_send: {e}"
         try:
-            if status_ts:
-                client.chat_update(channel=channel_id, ts=status_ts, text=fallback_text)
-            else:
-                say(text=fallback_text, thread_ts=reply_thread_ts)
+            say(
+                text=fallback_text,
+                thread_ts=reply_thread_ts if force_thread else None,
+            )
         except Exception as e2:
             logger.error("Fallback Slack send also failed: %s", e2)
+            trace.error = f"slack_send_fallback: {e2}"
+    finally:
+        if reacted and channel_id and ts:
+            try:
+                client.reactions_remove(
+                    channel=channel_id,
+                    timestamp=ts,
+                    name=thinking_reaction,
+                )
+            except Exception as err:
+                # no_reaction / already gone is fine
+                if "no_reaction" not in str(err):
+                    logger.debug(
+                        "Could not remove :%s: reaction on %s/%s: %s",
+                        thinking_reaction,
+                        channel_id,
+                        ts,
+                        err,
+                    )
+        try:
+            trace.emit()
+        except Exception as emit_err:
+            logger.error("Failed to emit session trace: %s", emit_err)
 
 
 # ---------------------------------------------------------------------------
@@ -250,38 +328,78 @@ def _ack(ack):
 
 
 def _lazy_app_mention(event, say, client):
-    handle_user_query(event, say, client)
+    """@HooHelp in a channel or thread — always answer (and stay in the thread)."""
+    handle_user_query(event, say, client, force_thread=True)
 
 
 def _lazy_message(event, say, client):
-    # Ignore bot messages and message subtypes (edits, joins, etc.) to prevent loops
-    if event.get("bot_id") or event.get("subtype"):
+    """
+    DMs and unmentioned thread follow-ups.
+
+    Channel follow-ups without @mention only arrive if the Slack app is
+    subscribed to message.channels / message.groups and the bot is in the channel.
+    """
+    if should_ignore_message_event(event):
         return
 
-    # Top-level @mentions also emit app_mention — skip so we don't answer twice
-    bot_id = get_bot_user_id(client)
+    bot_user_id, bot_app_bot_id = get_bot_identity(client)
     text = event.get("text") or ""
-    if bot_id and f"<@{bot_id}>" in text:
+
+    # Top-level @mentions also emit app_mention — skip so we don't answer twice.
+    # Thread follow-ups that @mention us are also handled by app_mention.
+    if text_mentions_bot(text, bot_user_id):
+        logger.debug("Skipping message event with @mention (app_mention handles it)")
         return
 
     channel_type = event.get("channel_type")
     thread_ts = event.get("thread_ts")
     channel_id = event.get("channel")
+    ts = event.get("ts")
 
-    # Direct messages (no app_mention event for plain DMs without @)
+    # Direct messages (no app_mention for plain DMs without @)
     if channel_type in ("im", "mpim"):
-        handle_user_query(event, say, client)
+        handle_user_query(event, say, client, force_thread=True)
         return
 
-    # Thread follow-ups where the bot already participated (no new @mention)
-    if thread_ts:
-        _, is_bot_participant = extract_thread_history(client, channel_id, thread_ts, bot_id)
-        if is_bot_participant:
+    # Thread follow-ups in channels / private channels (no new @mention)
+    if thread_ts and channel_id:
+        history, is_our_thread, meta = extract_thread_history(
+            client,
+            channel_id,
+            thread_ts,
+            bot_user_id=bot_user_id,
+            bot_app_bot_id=bot_app_bot_id,
+            current_ts=ts,
+        )
+        if is_our_thread:
             logger.info(
-                "Bot is participant in thread %s — handling unmentioned follow-up.",
+                "Thread follow-up in %s thread %s (history=%s meta=%s)",
+                channel_id,
                 thread_ts,
+                len(history),
+                meta,
             )
-            handle_user_query(event, say, client)
+            handle_user_query(
+                event,
+                say,
+                client,
+                force_thread=True,
+                known_history=history,
+            )
+        else:
+            logger.info(
+                "Ignoring thread message in %s thread %s — not our thread (%s)",
+                channel_id,
+                thread_ts,
+                meta.get("reason"),
+            )
+        return
+
+    # Top-level channel message without @mention and without thread — ignore
+    logger.debug(
+        "Ignoring top-level channel message in %s (no @mention, no thread)",
+        channel_id,
+    )
 
 
 bolt_app.event("app_mention")(ack=_ack, lazy=[_lazy_app_mention])
@@ -303,6 +421,9 @@ def handler(event, context):
     - GET /health → simple JSON health check (mapped in template.yaml)
     - Async self-invokes from Bolt lazy listeners are also handled here
     """
+    global _CURRENT_REQUEST_ID
+    _CURRENT_REQUEST_ID = _new_request_id(context)
+
     # Health check (API Gateway HTTP API v2 format)
     request_context = event.get("requestContext") or {}
     http_info = request_context.get("http") or {}

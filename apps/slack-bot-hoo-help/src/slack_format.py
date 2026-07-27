@@ -59,6 +59,8 @@ Content rules by answer type:
 1) Library HOURS / schedules
    - Keep a short intro + simple bullet list of days and times from the draft
    - Keep the exact calendar dates from the draft (do not change July 25 into July 13, etc.)
+   - Keep official location names exactly as in the draft (e.g. Robertson Media Center (RMC)).
+     Never invent acronym expansions (do not change RMC into a guessed full name).
    - If the draft says Closed, keep Closed; if it gives only an open time, do not invent a close time
    - Example shape (values must come from the draft):
      Fine Arts Library hours for this weekend (July 25–26, 2026):
@@ -88,7 +90,8 @@ Content rules by answer type:
 
 General:
 - FAITHFULNESS IS CRITICAL: only restate facts present in the draft
-- Do NOT invent or complete missing data (no guessed closing times, call numbers, links, titles, or images)
+- Do NOT invent or complete missing data (no guessed closing times, call numbers, links, titles, official names, or images)
+- Do NOT expand acronyms unless the draft already expands them
 - If the draft says only "1:00 PM" with no end time, keep it as "1:00 PM" — do not add "– 5:00 PM"
 - Be concise and readable on mobile Slack
 - Output ONLY the final Slack message text (no preamble like "Here is the formatted version")

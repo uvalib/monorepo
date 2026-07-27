@@ -57,7 +57,40 @@ Parameters:
       If true, model <thinking> blocks are shown under the answer as muted
       Slack context. Default false strips them (recommended for library help).
 
+  ConversationTrace:
+    Type: String
+    Default: "both"
+    AllowedValues: ["off", "cloudwatch", "s3", "both"]
+    Description: >
+      Where to store per-turn agent transcripts (user prompt, tools, results, answer).
+      cloudwatch = JSON log line; s3 = full JSON in TraceBucket; both = summary + full.
+
+  TraceRetentionDays:
+    Type: Number
+    Default: 30
+    Description: S3 lifecycle expiration for session traces (days).
+
 Resources:
+  # Full tool transcripts for MCP development (partitioned by date)
+  HooHelpTraceBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub "hoohelp-session-traces-${StageName}-${AWS::AccountId}"
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      LifecycleConfiguration:
+        Rules:
+          - Id: ExpireTraces
+            Status: Enabled
+            ExpirationInDays: !Ref TraceRetentionDays
+
   HooHelpFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -76,6 +109,10 @@ Resources:
           SLACK_LLM_FORMAT: "true"
           # Optional cheaper/faster model for formatting only (defaults to BEDROCK_MODEL_ID)
           # SLACK_FORMAT_MODEL_ID: "us.amazon.nova-lite-v1:0"
+          # Session transcripts for MCP / prompt development
+          CONVERSATION_TRACE: !Ref ConversationTrace
+          CONVERSATION_TRACE_BUCKET: !Ref HooHelpTraceBucket
+          CONVERSATION_TRACE_PREFIX: traces
       Policies:
         # Read Slack secrets from SSM SecureString at cold start
         - Statement:
@@ -108,6 +145,13 @@ Resources:
               Action:
                 - lambda:InvokeFunction
               Resource: !Sub "arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:hoohelp-slack-bot-${StageName}"
+        # Write session traces for MCP development
+        - Statement:
+            - Effect: Allow
+              Action:
+                - s3:PutObject
+                - s3:AbortMultipartUpload
+              Resource: !Sub "${HooHelpTraceBucket.Arn}/*"
       Events:
         SlackEvents:
           Type: HttpApi
@@ -148,3 +192,11 @@ Outputs:
   ApiId:
     Description: HTTP API id.
     Value: !Ref HooHelpHttpApi
+
+  TraceBucketName:
+    Description: S3 bucket for full session traces (MCP development).
+    Value: !Ref HooHelpTraceBucket
+
+  TraceBucketArn:
+    Description: ARN of the session-trace bucket.
+    Value: !GetAtt HooHelpTraceBucket.Arn
