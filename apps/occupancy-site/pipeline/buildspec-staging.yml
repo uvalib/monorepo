@@ -1,0 +1,60 @@
+#
+# CodeBuild buildspec for staging (occupancy-dev.internal.lib.virginia.edu)
+#
+# Build:  npm install → optional fetch-data → astro build
+# Deploy: s3 sync to occupancy-dev.internal.lib.virginia.edu
+#
+# Environment variables (set on the CodeBuild project or pipeline):
+#   FETCH_DATA=true|false          # re-pull MCP reports before build (default false)
+#   S3_BUCKET                      # default occupancy-dev.internal.lib.virginia.edu
+#
+
+version: 0.2
+
+env:
+  variables:
+    S3_BUCKET: occupancy-dev.internal.lib.virginia.edu
+    FETCH_DATA: "false"
+    AWS_REGION: us-east-1
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 22
+    commands:
+      - echo "Node $(node -v) / npm $(npm -v)"
+      - cd apps/occupancy-site
+      - npm ci
+
+  pre_build:
+    commands:
+      - cd apps/occupancy-site
+      - |
+        if [ "${FETCH_DATA}" = "true" ]; then
+          echo "Refreshing occupancy reports from MCP gateway"
+          npm run fetch-data
+        else
+          echo "Using committed src/data/reports.json (FETCH_DATA=${FETCH_DATA})"
+        fi
+
+  build:
+    commands:
+      - cd apps/occupancy-site
+      - npm run build
+      - test -f dist/index.html
+      - echo "Built $(find dist -name index.html | wc -l | tr -d ' ') HTML pages"
+
+  post_build:
+    commands:
+      - cd apps/occupancy-site
+      - chmod +x scripts/deploy.sh
+      - ./scripts/deploy.sh --skip-build
+
+artifacts:
+  files:
+    - apps/occupancy-site/dist/**/*
+  name: occupancy-site-staging-$(date +%Y%m%d%H%M%S)
+
+cache:
+  paths:
+    - apps/occupancy-site/node_modules/**/*

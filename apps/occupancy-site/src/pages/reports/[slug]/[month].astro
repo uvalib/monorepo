@@ -6,6 +6,7 @@ import {
   formatInt,
   formatDecimal,
   formatPct,
+  formatPeakTraffic,
 } from '../../../lib/parse-report';
 import { monthLabel } from '../../../lib/months';
 
@@ -118,10 +119,6 @@ const pageTitle = lib
               <div class="metric-tile__value">{formatDecimal(report.metrics.avgDailyIn, 1)}</div>
             </div>
             <div class="metric-tile">
-              <div class="metric-tile__label">Avg occupancy</div>
-              <div class="metric-tile__value">{formatDecimal(report.metrics.avgOccupancy, 1)}</div>
-            </div>
-            <div class="metric-tile">
               <div class="metric-tile__label">Open days</div>
               <div class="metric-tile__value">
                 {report.metrics.openDays}
@@ -139,11 +136,11 @@ const pageTitle = lib
           <div class="prose">
             <p>
               <strong>Peak day:</strong>{' '}
-              {report.metrics.peakDay ?? 'n/a'}
+              {formatPeakTraffic(report.metrics.peakDay)}
             </p>
             <p>
               <strong>Peak hour:</strong>{' '}
-              {report.metrics.peakHour ?? 'n/a'}
+              {formatPeakTraffic(report.metrics.peakHour)}
             </p>
             <p>
               <strong>Open minutes captured:</strong>{' '}

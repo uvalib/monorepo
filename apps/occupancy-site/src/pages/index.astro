@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { libraryDisplayOrder } from '../lib/libraries';
 import { loadReports, latestReport, libraryTotals } from '../lib/data';
-import { formatInt, formatDecimal } from '../lib/parse-report';
+import { formatInt } from '../lib/parse-report';
 import { monthLabel } from '../lib/months';
 
 const data = loadReports();
@@ -89,11 +89,6 @@ const cards = libraries.map((lib) => {
               </span>
             </div>
           </div>
-          {latest?.metrics && (
-            <div style="margin-top:0.5rem;font-size:0.85rem;color:var(--gray-500)">
-              Avg occupancy {formatDecimal(latest.metrics.avgOccupancy, 1)}
-            </div>
-          )}
         </a>
       ))
     }
@@ -104,7 +99,7 @@ const cards = libraries.map((lib) => {
     <div class="prose">
       <ul>
         <li>
-          Open a library to view the full 24-month table of entries, exits, and average occupancy.
+          Open a library to view the full 24-month table of entries, exits, and related metrics.
         </li>
         <li>
           Each month links to an executive occupancy report suitable for archival or shared

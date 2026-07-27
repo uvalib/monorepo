@@ -95,3 +95,9 @@ export function formatPct(n: number | null | undefined): string {
   if (n == null || Number.isNaN(n)) return '—';
   return `${(n * 100).toFixed(1)}%`;
 }
+
+/** Drop occupancy clause from MCP peak-day/hour lines for site display. */
+export function formatPeakTraffic(line: string | null | undefined): string {
+  if (!line) return 'n/a';
+  return line.replace(/,?\s*avg occupancy\s+[\d.,]+/gi, '').trim();
+}

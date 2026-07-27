@@ -11,6 +11,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "preview:lan": "astro preview --host 0.0.0.0 --port 4321",
+    "dev:lan": "astro dev --host 0.0.0.0 --port 4321",
     "astro": "astro",
     "fetch-data": "node scripts/fetch-data.mjs",
     "build:full": "node scripts/fetch-data.mjs && astro build",
@@ -18,6 +20,8 @@
     "deploy:skip-build": "bash scripts/deploy.sh --skip-build",
     "deploy:dry-run": "bash scripts/deploy.sh --dry-run",
     "deploy:full": "bash scripts/deploy.sh --full",
+    "deploy:staging": "S3_BUCKET=occupancy-dev.internal.lib.virginia.edu bash scripts/deploy.sh",
+    "deploy:staging:full": "S3_BUCKET=occupancy-dev.internal.lib.virginia.edu bash scripts/deploy.sh --full",
     "a11y": "node scripts/a11y-check.mjs",
     "a11y:local": "node scripts/a11y-check.mjs --base http://127.0.0.1:4321"
   },

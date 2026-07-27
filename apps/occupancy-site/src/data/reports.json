@@ -1,6 +1,7 @@
 {
-  "fetchedAt": "2026-07-20T19:25:05.430Z",
+  "fetchedAt": "2026-07-21T16:02:05.432Z",
   "gateway": "https://occupancy-reporting-gateway-mohw8c1jug.gateway.bedrock-agentcore.us-east-1.amazonaws.com/mcp",
+  "timezone": "America/New_York",
   "range": {
     "start": "2024-07",
     "end": "2026-06"

@@ -1,24 +1,42 @@
 /**
- * Build the rolling 24 complete calendar months ending with the previous month.
- * Example (today = 2026-07-20): 2024-07 … 2026-06.
+ * Calendar helpers for the occupancy site.
+ *
+ * The published window is always complete calendar months in America/New_York
+ * (never a partial month cut at a rolling day-aligned 2-year mark).
+ */
+
+const TZ = 'America/New_York';
+
+function nyParts(date = new Date()): { year: number; month: number; day: number } {
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone: TZ,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(date);
+  const get = (type: string) => Number(parts.find((p) => p.type === type)?.value);
+  return { year: get('year'), month: get('month'), day: get('day') };
+}
+
+/**
+ * Build the rolling N complete calendar months ending with the previous month
+ * (America/New_York). Example (NY date 2026-07-21): 2024-07 … 2026-06.
  */
 export function lastCompleteMonths(count = 24, now = new Date()): MonthKey[] {
-  const months: MonthKey[] = [];
-  // Start at previous complete month
-  let year = now.getFullYear();
-  let month = now.getMonth(); // 0-based; current month index → last complete is month-1
-  // If day is early in the month we still use previous month as last complete
-  month -= 1;
-  if (month < 0) {
-    month = 11;
+  const { year: cy, month: cm } = nyParts(now);
+  let year = cy;
+  let month = cm - 1;
+  if (month < 1) {
+    month = 12;
     year -= 1;
   }
 
+  const months: MonthKey[] = [];
   for (let i = 0; i < count; i++) {
-    months.unshift({ year, month: month + 1 }); // 1-based month for storage
+    months.unshift({ year, month });
     month -= 1;
-    if (month < 0) {
-      month = 11;
+    if (month < 1) {
+      month = 12;
       year -= 1;
     }
   }
@@ -44,6 +62,7 @@ export function monthLabel(m: MonthKey, style: 'long' | 'short' = 'long'): strin
   });
 }
 
+/** Full calendar-month bounds (day 1 through last day). Never partial. */
 export function monthDateRange(m: MonthKey): { startDate: string; endDate: string } {
   const startDate = `${m.year}-${String(m.month).padStart(2, '0')}-01`;
   const lastDay = new Date(Date.UTC(m.year, m.month, 0)).getUTCDate();

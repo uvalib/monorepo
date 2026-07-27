@@ -89,5 +89,5 @@ if [[ "$DRY_RUN" -eq 1 ]]; then
   echo "Done (dry run)."
 else
   echo "Deploy complete."
-  echo "  Site: https://occupancy.library.virginia.edu/"
+  echo "  Site: https://${S3_BUCKET}/"
 fi

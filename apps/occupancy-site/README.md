@@ -50,6 +50,9 @@ Requires AWS CLI credentials with `s3:PutObject` / `s3:DeleteObject` on the buck
 # Build current reports.json and push to production
 npm run deploy
 
+# Deploy to staging (occupancy-dev.internal.lib.virginia.edu)
+npm run deploy:staging
+
 # Preview the sync without writing
 npm run deploy:dry-run
 
@@ -63,14 +66,18 @@ npm run deploy:full
 `scripts/deploy.sh` will:
 
 1. Build the Astro site (unless `--skip-build`)
-2. `aws s3 sync dist/ s3://occupancy.library.virginia.edu/ --delete`
+2. `aws s3 sync dist/ s3://${S3_BUCKET}/ --delete`
 
 | Env var | Default |
 | --- | --- |
 | `S3_BUCKET` | `occupancy.library.virginia.edu` |
 | `AWS_REGION` | `us-east-1` |
 
-For CI, see `pipeline/buildspec.yml` (CodeBuild). Set `FETCH_DATA=true` on scheduled jobs that should re-pull occupancy reports before publishing.
+For CI/CD CodeBuild jobs:
+- Production: `pipeline/buildspec.yml` (deploys to `occupancy.library.virginia.edu`)
+- Staging: `pipeline/buildspec-staging.yml` (deploys to `occupancy-dev.internal.lib.virginia.edu`)
+
+Set `FETCH_DATA=true` on scheduled jobs that should re-pull occupancy reports before publishing.
 
 ## Data refresh
 
@@ -83,7 +90,11 @@ For CI, see `pipeline/buildspec.yml` (CodeBuild). Set `FETCH_DATA=true` on sched
 | `--library NAME` | Only one library (e.g. `Music`) |
 | `--no-resume` | Ignore existing cache |
 
-Successful months are cached so re-runs only fill gaps. Override the gateway URL with `OCCUPANCY_MCP_URL` if needed.
+**Month window:** the last **24 complete calendar months** (America/New_York), each fetched as a full month (`01`–last day). The in-progress current month is not published.
+
+**Cache / resume:** fully closed historical months may be reused from `reports.json`. The **most recent complete month is always re-fetched**. Partial or malformed cached months are ignored. Use `--no-resume` to re-fetch everything.
+
+Override the gateway URL with `OCCUPANCY_MCP_URL` if needed.
 
 ## Site map
 
@@ -107,7 +118,8 @@ Counts are **estimates** derived from entrance cameras during published open hou
 | `npm run fetch-data` | Refresh report cache from MCP |
 | `npm run build:full` | Fetch then build |
 | `npm run preview` | Preview production build |
-| `npm run deploy` | Build and publish to S3 |
+| `npm run deploy` | Build and publish to S3 (Production) |
+| `npm run deploy:staging` | Build and publish to S3 (Staging: `occupancy-dev.internal.lib.virginia.edu`) |
 | `npm run deploy:dry-run` | Show planned S3 changes without uploading |
 | `npm run deploy:skip-build` | Publish existing `dist/` only |
 | `npm run deploy:full` | Fetch data, build, and deploy |

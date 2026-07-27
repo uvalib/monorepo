@@ -89,7 +89,6 @@ for (const r of reports) {
                     <th scope="col" class="num">Entries</th>
                     <th scope="col" class="num">Exits</th>
                     <th scope="col" class="num">Avg daily entries</th>
-                    <th scope="col" class="num">Avg occupancy</th>
                     <th scope="col" class="num">Open days</th>
                     <th scope="col" class="num">Coverage</th>
                     <th scope="col">Report</th>
@@ -108,7 +107,6 @@ for (const r of reports) {
                             <td class="num">{formatInt(r.metrics.totalIn)}</td>
                             <td class="num">{formatInt(r.metrics.totalOut)}</td>
                             <td class="num">{formatDecimal(r.metrics.avgDailyIn, 1)}</td>
-                            <td class="num">{formatDecimal(r.metrics.avgOccupancy, 1)}</td>
                             <td class="num">
                               {r.metrics.openDays}/{r.metrics.totalDays}
                             </td>
@@ -121,7 +119,7 @@ for (const r of reports) {
                           </>
                         ) : (
                           <>
-                            <td colspan="6">
+                            <td colspan="5">
                               <span class="empty">{r.error ?? 'No data'}</span>
                             </td>
                             <td>
