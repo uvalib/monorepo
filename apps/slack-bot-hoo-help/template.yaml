@@ -46,8 +46,8 @@ Parameters:
 
   BedrockModelId:
     Type: String
-    Default: "us.amazon.nova-pro-v1:0"
-    Description: Bedrock model / inference profile id for HooHelp.
+    Default: "us.anthropic.claude-sonnet-5"
+    Description: Bedrock model / inference profile id for HooHelp (Claude Sonnet 5).
 
   ShowModelReasoning:
     Type: String
@@ -70,7 +70,143 @@ Parameters:
     Default: 30
     Description: S3 lifecycle expiration for session traces (days).
 
+  EnableGuardrails:
+    Type: String
+    Default: "true"
+    AllowedValues: ["true", "false"]
+    Description: >
+      When true, Lambda Converse calls use the HooHelp Bedrock Guardrail
+      (content filters, denied out-of-scope topics, PII anonymize, profanity).
+
 Resources:
+  # ---------------------------------------------------------------------------
+  # Bedrock Guardrails — library assistant safety (input + output)
+  # Applied on Converse in agent.py and slack_format.py
+  # ---------------------------------------------------------------------------
+  HooHelpGuardrail:
+    Type: AWS::Bedrock::Guardrail
+    Properties:
+      Name: !Sub "hoohelp-library-assistant-${StageName}"
+      Description: >
+        UVA Library HooHelp Slack assistant: filter harmful content and prompt
+        attacks, deny out-of-scope advice topics, mask sensitive PII, block profanity.
+      BlockedInputMessaging: >-
+        I'm HooHelp, the UVA Library assistant. I can help with library hours,
+        locations, catalog availability, images in Virgo, and library policies.
+        I can't help with that request. Please rephrase, or contact a librarian:
+        https://www.library.virginia.edu/askalibrarian
+      BlockedOutputsMessaging: >-
+        I'm not able to share that response. I can help with UVA Library hours,
+        locations, catalog items, and policies — or you can Ask a Librarian:
+        https://www.library.virginia.edu/askalibrarian
+      # Harmful categories + prompt injection. Strengths balanced for a public
+      # academic library help desk (avoid over-blocking literature/history topics).
+      ContentPolicyConfig:
+        FiltersConfig:
+          - Type: HATE
+            InputStrength: MEDIUM
+            OutputStrength: MEDIUM
+          - Type: INSULTS
+            InputStrength: LOW
+            OutputStrength: MEDIUM
+          - Type: SEXUAL
+            InputStrength: MEDIUM
+            OutputStrength: MEDIUM
+          - Type: VIOLENCE
+            InputStrength: MEDIUM
+            OutputStrength: MEDIUM
+          - Type: MISCONDUCT
+            InputStrength: MEDIUM
+            OutputStrength: MEDIUM
+          - Type: PROMPT_ATTACK
+            InputStrength: HIGH
+            OutputStrength: NONE
+      WordPolicyConfig:
+        ManagedWordListsConfig:
+          - Type: PROFANITY
+      # Topics clearly outside a library assistant's role (still allow catalog
+      # questions *about* law/medicine books — definition targets advice-giving).
+      TopicPolicyConfig:
+        TopicsConfig:
+          - Name: MedicalDiagnosisAndTreatment
+            Type: DENY
+            Definition: >-
+              Requests for medical diagnosis, treatment plans, dosing, or clinical
+              care advice (not finding medical books or research help).
+            Examples:
+              - "Do I have strep based on these symptoms?"
+              - "What antibiotic dose should I take?"
+              - "How do I suture a wound at home?"
+          - Name: LegalAdvice
+            Type: DENY
+            Definition: >-
+              Requests for legal advice or case strategy for a real dispute (not
+              locating law books or catalog research).
+            Examples:
+              - "Write a contract for my landlord dispute"
+              - "How should I plead in court tomorrow?"
+              - "What legal steps against my neighbor?"
+          - Name: CybercrimeAndMalware
+            Type: DENY
+            Definition: >-
+              Requests to create malware, phishing, or unauthorized hacking of
+              systems or accounts.
+            Examples:
+              - "Write a ransomware script"
+              - "How do I phish student credentials?"
+              - "Help me break into this Wi-Fi network"
+          - Name: WeaponsAndExplosivesHowTo
+            Type: DENY
+            Definition: >-
+              Step-by-step instructions for building weapons or explosives (not
+              historical or catalog research).
+            Examples:
+              - "How do I make a bomb?"
+              - "Build a gun from household parts"
+          - Name: SelfHarmInstructions
+            Type: DENY
+            Definition: >-
+              Requests for methods of suicide or self-harm; crisis help should
+              be offered instead of instructions.
+            Examples:
+              - "What is the best way to kill myself?"
+              - "How can I hurt myself unnoticed?"
+      SensitiveInformationPolicyConfig:
+        PiiEntitiesConfig:
+          - Type: US_SOCIAL_SECURITY_NUMBER
+            Action: ANONYMIZE
+          - Type: CREDIT_DEBIT_CARD_NUMBER
+            Action: ANONYMIZE
+          - Type: CREDIT_DEBIT_CARD_CVV
+            Action: ANONYMIZE
+          - Type: CREDIT_DEBIT_CARD_EXPIRY
+            Action: ANONYMIZE
+          - Type: US_BANK_ACCOUNT_NUMBER
+            Action: ANONYMIZE
+          - Type: US_BANK_ROUTING_NUMBER
+            Action: ANONYMIZE
+          - Type: PASSWORD
+            Action: ANONYMIZE
+          - Type: AWS_ACCESS_KEY
+            Action: ANONYMIZE
+          - Type: AWS_SECRET_KEY
+            Action: ANONYMIZE
+          - Type: PIN
+            Action: ANONYMIZE
+      Tags:
+        - Key: Application
+          Value: hoohelp-slack-bot
+        - Key: Stage
+          Value: !Ref StageName
+        - Key: UseCase
+          Value: library-assistant
+
+  HooHelpGuardrailVersion:
+    Type: AWS::Bedrock::GuardrailVersion
+    Properties:
+      Description: !Sub "Production snapshot for HooHelp (${StageName})"
+      GuardrailIdentifier: !GetAtt HooHelpGuardrail.GuardrailId
+
   # Full tool transcripts for MCP development (partitioned by date)
   HooHelpTraceBucket:
     Type: AWS::S3::Bucket
@@ -113,6 +249,11 @@ Resources:
           CONVERSATION_TRACE: !Ref ConversationTrace
           CONVERSATION_TRACE_BUCKET: !Ref HooHelpTraceBucket
           CONVERSATION_TRACE_PREFIX: traces
+          # Bedrock Guardrails (library assistant)
+          BEDROCK_GUARDRAIL_ENABLED: !Ref EnableGuardrails
+          BEDROCK_GUARDRAIL_ID: !GetAtt HooHelpGuardrail.GuardrailId
+          BEDROCK_GUARDRAIL_VERSION: !GetAtt HooHelpGuardrailVersion.Version
+          BEDROCK_GUARDRAIL_TRACE: enabled
       Policies:
         # Read Slack secrets from SSM SecureString at cold start
         - Statement:
@@ -130,7 +271,7 @@ Resources:
               Condition:
                 StringEquals:
                   kms:ViaService: !Sub "ssm.${AWS::Region}.amazonaws.com"
-        # Bedrock Converse
+        # Bedrock Converse + Guardrails
         - Statement:
             - Effect: Allow
               Action:
@@ -139,6 +280,12 @@ Resources:
                 - bedrock:Converse
                 - bedrock:ConverseStream
               Resource: "*"
+            - Effect: Allow
+              Action:
+                - bedrock:ApplyGuardrail
+              Resource:
+                - !GetAtt HooHelpGuardrail.GuardrailArn
+                - !Sub "${HooHelpGuardrail.GuardrailArn}/*"
         # slack-bolt lazy listeners re-invoke this function asynchronously
         - Statement:
             - Effect: Allow
@@ -200,3 +347,15 @@ Outputs:
   TraceBucketArn:
     Description: ARN of the session-trace bucket.
     Value: !GetAtt HooHelpTraceBucket.Arn
+
+  GuardrailId:
+    Description: Bedrock Guardrail id used by HooHelp Converse calls.
+    Value: !GetAtt HooHelpGuardrail.GuardrailId
+
+  GuardrailArn:
+    Description: Bedrock Guardrail ARN.
+    Value: !GetAtt HooHelpGuardrail.GuardrailArn
+
+  GuardrailVersion:
+    Description: Published guardrail version number.
+    Value: !GetAtt HooHelpGuardrailVersion.Version

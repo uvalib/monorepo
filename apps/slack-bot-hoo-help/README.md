@@ -2,7 +2,7 @@
 
 Intelligent Slack bot for the University of Virginia (UVA) Library system.
 
-- **LLM:** Amazon Bedrock Nova Pro (`us.amazon.nova-pro-v1:0`)
+- **LLM:** Amazon Bedrock Claude Sonnet 5 (`us.anthropic.claude-sonnet-5`)
 - **Tools:** Public AgentCore MCP Gateway (occupancy, Virgo catalog, knowledge bases)
 - **Delivery:** Slack **Events API** → API Gateway HTTP API → **AWS Lambda** (SAM)
 
@@ -160,14 +160,38 @@ python3 test_bot_locally.py
 | `/hoohelp/slack/bot-token` | SSM SecureString | Bot token (`xoxb-...`) |
 | `/hoohelp/slack/signing-secret` | SSM SecureString | Events API signing secret |
 | `GATEWAY_URL` | Lambda env | Public MCP gateway URL |
-| `BEDROCK_MODEL_ID` | Lambda env | Bedrock model / inference profile |
+| `BEDROCK_MODEL_ID` | Lambda env | Bedrock model / inference profile (`us.anthropic.claude-sonnet-5`) |
 | `StageName` | SAM parameter | API stage (`prod`) |
 | `ShowModelReasoning` | SAM parameter | `true` to show muted CoT under answers |
 | `ConversationTrace` / `CONVERSATION_TRACE` | SAM / Lambda env | `off` · `cloudwatch` · `s3` · `both` (default **both**) |
 | `CONVERSATION_TRACE_BUCKET` | Lambda env | S3 bucket for full transcripts (set by SAM) |
 | `TraceRetentionDays` | SAM parameter | S3 lifecycle expiry for traces (default 30) |
+| `EnableGuardrails` / `BEDROCK_GUARDRAIL_*` | SAM / Lambda env | Bedrock Guardrails for library-safe Converse |
 
 `SLACK_APP_TOKEN` (`xapp-...`) is **not** used with Events API.
+
+---
+
+## Bedrock Guardrails (library assistant)
+
+SAM creates **`hoohelp-library-assistant-<stage>`** and a published version. Lambda
+passes `guardrailConfig` on every Bedrock **Converse** call (agent loop + Slack
+formatter).
+
+| Policy | Library-assistant settings |
+|--------|----------------------------|
+| **Content filters** | Hate / sexual / violence / misconduct at **MEDIUM**; insults **LOW** in / **MEDIUM** out (frustrated patrons); **PROMPT_ATTACK** **HIGH** on input |
+| **Profanity** | Managed word list blocked |
+| **Denied topics** | Medical diagnosis/treatment advice; legal advice; cybercrime/malware; weapons how-to; self-harm methods (catalog research about those fields is not the target) |
+| **Sensitive info** | Anonymize SSN, payment cards, bank numbers, passwords, AWS keys, PINs |
+
+Blocked messaging points users back to library help and
+[Ask a Librarian](https://www.library.virginia.edu/askalibrarian).
+
+Disable temporarily: deploy with `EnableGuardrails=false`, or set Lambda
+`BEDROCK_GUARDRAIL_ENABLED=false`.
+
+Stack outputs: `GuardrailId`, `GuardrailVersion`, `GuardrailArn`.
 
 ---
 

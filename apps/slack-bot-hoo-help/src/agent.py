@@ -1,7 +1,7 @@
 """
 agent.py — HooHelp Bedrock Conversational Agent
 
-Orchestrates multi-turn conversation loops with Amazon Bedrock Nova Pro:
+Orchestrates multi-turn conversation loops with Amazon Bedrock (Claude Sonnet 5):
 - Formats system instructions and conversation context
 - Executes tool calling loop with AgentCore Gateway MCP tools
 - Returns a clean response formatted for Slack
@@ -19,7 +19,13 @@ from zoneinfo import ZoneInfo
 
 import boto3
 
+from bedrock_params import inference_config_for_model
 from gateway_mcp_client import GatewayMCPClient
+from guardrails import (
+    get_guardrail_config,
+    log_guardrail_trace,
+    message_for_guardrail_block,
+)
 from session_trace import SessionTrace
 
 logger = logging.getLogger(__name__)
@@ -154,9 +160,18 @@ class HooHelpAgent:
                 "https://occupancy-reporting-gateway-mohw8c1jug.gateway.bedrock-agentcore.us-east-1.amazonaws.com/mcp",
             )
         )
-        self.model_id = model_id or os.environ.get("BEDROCK_MODEL_ID", "us.amazon.nova-pro-v1:0")
+        self.model_id = model_id or os.environ.get("BEDROCK_MODEL_ID", "us.anthropic.claude-sonnet-5")
         self.region_name = region_name or os.environ.get("AWS_REGION", "us-east-1")
         self.bedrock_runtime = boto3.client("bedrock-runtime", region_name=self.region_name)
+        self.guardrail_config = get_guardrail_config()
+        if self.guardrail_config:
+            logger.info(
+                "Bedrock Guardrails enabled id=%s version=%s",
+                self.guardrail_config.get("guardrailIdentifier"),
+                self.guardrail_config.get("guardrailVersion"),
+            )
+        else:
+            logger.warning("Bedrock Guardrails disabled (no BEDROCK_GUARDRAIL_ID)")
         # Last completed turn (useful for callers that only need the text)
         self.last_trace: Optional[SessionTrace] = None
 
@@ -208,19 +223,41 @@ class HooHelpAgent:
                     "modelId": self.model_id,
                     "messages": messages,
                     "system": system_instruction,
-                    "inferenceConfig": {
-                        "temperature": 0.1,
-                        "maxTokens": 2048,
-                    },
+                    "inferenceConfig": inference_config_for_model(
+                        self.model_id, max_tokens=2048, temperature=0.1
+                    ),
                 }
                 if tool_config and tool_config.get("tools"):
                     converse_kwargs["toolConfig"] = tool_config
+                if self.guardrail_config:
+                    converse_kwargs["guardrailConfig"] = self.guardrail_config
 
                 response = self.bedrock_runtime.converse(**converse_kwargs)
-                output_message = response["output"]["message"]
+                log_guardrail_trace(response, context="agent")
+                output_message = response.get("output", {}).get("message") or {
+                    "role": "assistant",
+                    "content": [],
+                }
                 stop_reason = response.get("stopReason")
 
                 messages.append(output_message)
+
+                if stop_reason == "guardrail_intervened":
+                    text = message_for_guardrail_block(
+                        response, output_message=output_message
+                    )
+                    logger.warning(
+                        "Guardrail blocked turn request_id=%s iteration=%s",
+                        trace.request_id,
+                        iteration,
+                    )
+                    trace.finish(
+                        final_text=text,
+                        stop_reason="guardrail_intervened",
+                        iterations=iteration,
+                        error="guardrail_intervened",
+                    )
+                    return AgentTurnResult(text=text, trace=trace)
 
                 if stop_reason == "end_turn":
                     final_texts = [

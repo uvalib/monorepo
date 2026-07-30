@@ -46,7 +46,7 @@ GATEWAY_URL = os.environ.get(
     "GATEWAY_URL",
     "https://occupancy-reporting-gateway-mohw8c1jug.gateway.bedrock-agentcore.us-east-1.amazonaws.com/mcp",
 )
-BEDROCK_MODEL_ID = os.environ.get("BEDROCK_MODEL_ID", "us.amazon.nova-pro-v1:0")
+BEDROCK_MODEL_ID = os.environ.get("BEDROCK_MODEL_ID", "us.anthropic.claude-sonnet-5")
 
 
 def _load_secret(env_key: str, ssm_path_env: str) -> str:

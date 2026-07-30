@@ -141,10 +141,12 @@ def _bedrock_format_for_slack(
     if len(draft) > 12000:
         draft = draft[:12000].rstrip() + "\n…"
 
-    resp = bedrock_client.converse(
-        modelId=model_id,
-        system=[{"text": SLACK_FORMAT_SYSTEM}],
-        messages=[
+    from bedrock_params import inference_config_for_model
+
+    converse_kwargs: Dict[str, Any] = {
+        "modelId": model_id,
+        "system": [{"text": SLACK_FORMAT_SYSTEM}],
+        "messages": [
             {
                 "role": "user",
                 "content": [
@@ -158,11 +160,31 @@ def _bedrock_format_for_slack(
                 ],
             }
         ],
-        inferenceConfig={
-            "temperature": 0.0,
-            "maxTokens": 1800,
-        },
-    )
+        "inferenceConfig": inference_config_for_model(
+            model_id, max_tokens=1800, temperature=0.0
+        ),
+    }
+    # Same guardrail as the agent when configured (library-safe outputs)
+    try:
+        from guardrails import get_guardrail_config, log_guardrail_trace
+
+        gr = get_guardrail_config()
+        if gr:
+            converse_kwargs["guardrailConfig"] = gr
+    except Exception:
+        gr = None
+
+    resp = bedrock_client.converse(**converse_kwargs)
+    if gr:
+        try:
+            log_guardrail_trace(resp, context="slack_format")
+        except Exception:
+            pass
+    if resp.get("stopReason") == "guardrail_intervened":
+        # Fall back to local cleanup of the original draft rather than a blocked empty string
+        logger.warning("Slack format call blocked by guardrail; using local cleanup")
+        return _local_markdown_cleanup(draft)
+
     parts = []
     for block in resp.get("output", {}).get("message", {}).get("content", []):
         if "text" in block:
@@ -321,7 +343,7 @@ def format_for_slack(
                 "bedrock-runtime",
                 region_name=os.environ.get("AWS_REGION", "us-east-1"),
             )
-            mid = model_id or os.environ.get("BEDROCK_MODEL_ID", "us.amazon.nova-pro-v1:0")
+            mid = model_id or os.environ.get("BEDROCK_MODEL_ID", "us.anthropic.claude-sonnet-5")
             # Prefer a fast cheap model for formatting if configured
             format_model = os.environ.get("SLACK_FORMAT_MODEL_ID") or mid
             formatted = _bedrock_format_for_slack(
