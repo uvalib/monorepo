@@ -284,17 +284,31 @@ class SessionTrace:
         if self.finished_at is None:
             self.finish(final_text=self.final_text, error=self.error)
 
+        # Build full payload first so S3 always has complete final/slack text
+        # (CloudWatch summary may truncate long bodies separately).
         full = self.to_dict(full_outputs=True)
-        summary = self.to_dict(full_outputs=False)
 
         if mode in ("s3", "both"):
+            # Placeholder path so the written object includes its own URI
+            bucket = (os.environ.get("CONVERSATION_TRACE_BUCKET") or "").strip()
+            prefix = (os.environ.get("CONVERSATION_TRACE_PREFIX") or "traces").strip().strip("/")
+            try:
+                day = (self.started_at or "")[:10]
+                y, m, d = day.split("-")
+                key_guess = f"{prefix}/{y}/{m}/{d}/{self.request_id}.json"
+            except Exception:
+                key_guess = f"{prefix}/{self.request_id}.json"
+            if bucket:
+                full["s3_uri"] = f"s3://{bucket}/{key_guess}"
             uri = _write_s3(full, self.request_id, self.started_at)
-            self.s3_uri = uri
-            full["s3_uri"] = uri
-            summary["s3_uri"] = uri
+            self.s3_uri = uri or full.get("s3_uri")
+            full["s3_uri"] = self.s3_uri
+
+        summary = self.to_dict(full_outputs=False)
+        summary["s3_uri"] = self.s3_uri
 
         if mode in ("cloudwatch", "both"):
-            # Single-line JSON for Logs Insights
+            # Single-line JSON for Logs Insights (may truncate long text/tool bodies)
             logger.info("%s", json.dumps(summary, default=str, ensure_ascii=False))
         elif mode == "s3":
             # Always leave a short CloudWatch pointer when only S3 is configured

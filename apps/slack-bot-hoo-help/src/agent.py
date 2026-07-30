@@ -27,6 +27,11 @@ from guardrails import (
     message_for_guardrail_block,
 )
 from session_trace import SessionTrace
+from wikipedia_tools import (
+    bedrock_tool_specs as wikipedia_bedrock_tool_specs,
+    call_local_tool as call_wikipedia_tool,
+    is_local_tool as is_wikipedia_tool,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -52,6 +57,11 @@ You have access to real-time tools via an AgentCore MCP Gateway:
 2. **Virgo Catalog (books/media records)**: search_catalog, search_by_field, get_item_details — use for circulating books, call numbers, checkout availability.
 3. **Images / visual materials**: search_virgo_image_suggestions — use for photos, pictures, images, drawings, historic photographs.
 4. **Other Knowledge Bases**: search_uvalib_web (policies/site), search_virgo_item_suggestions, search_virgo_suggestions (authors).
+5. **Wikipedia (local tools, not the library site)**: wikipedia_search, wikipedia_get_page.
+   - Use for external background: authors, books, awards, history, and **NYT / bestseller number-one lists by year** (e.g. search "New York Times number-one books of 2025", then get_page).
+   - Wikipedia lists are community-maintained summaries (often #1-by-week), not a live official NYT feed — say that when relevant.
+   - After you have titles from Wikipedia, use **Virgo catalog tools** to check UVA Library availability. Do not invent holdings.
+   - Do **not** use search_uvalib_web for NYT bestseller lists or general world knowledge.
 
 Guidelines:
 - Always be polite, helpful, and concise.
@@ -102,6 +112,11 @@ Image / photo / picture questions:
   • Collection / repository when available
 - Show up to 3–4 images. Never invent catalog IDs like u1234567 or uva_library item links for images.
 - Do not substitute a random book/catalog record when the user asked for images.
+
+Bestsellers / “books on the NYT list that the library has” questions:
+- First use `wikipedia_search` + `wikipedia_get_page` for a recent year list (e.g. number-one books of this or last year).
+- Extract concrete titles/authors from the page; then check each (or a short sample of ~5–8) with Virgo `search_by_field` / `search_catalog`.
+- Present which titles appear available at UVA and which you could not find; link Virgo records. Do not invent shelf status.
 
 Catalog / “do you have this book?” questions:
 - Prefer `search_by_field` with field=`title` for known titles. Use `search_catalog` for broader discovery.
@@ -187,6 +202,20 @@ class HooHelpAgent:
     def _system_prompt(self) -> str:
         return SYSTEM_PROMPT + "\n\n" + _current_date_context()
 
+    def _merged_tool_config(self) -> Dict[str, Any]:
+        """Gateway MCP tools plus in-process Wikipedia tools."""
+        gateway_cfg = self.gateway_client.get_bedrock_tool_config() or {}
+        tools = list(gateway_cfg.get("tools") or [])
+        # Local tools first so the model sees them clearly among many gateway tools
+        tools = wikipedia_bedrock_tool_specs() + tools
+        return {"tools": tools}
+
+    def _dispatch_tool(self, tool_name: str, tool_input: Dict[str, Any]) -> str:
+        """Route to local library tools or the AgentCore MCP gateway."""
+        if is_wikipedia_tool(tool_name):
+            return call_wikipedia_tool(tool_name, tool_input if isinstance(tool_input, dict) else {})
+        return self.gateway_client.call_tool(tool_name, tool_input)
+
     def process_message(
         self,
         user_message: str,
@@ -214,7 +243,7 @@ class HooHelpAgent:
         )
         self.last_trace = trace
 
-        tool_config = self.gateway_client.get_bedrock_tool_config()
+        tool_config = self._merged_tool_config()
 
         messages = history
         messages.append({"role": "user", "content": [{"text": user_message}]})
@@ -297,17 +326,22 @@ class HooHelpAgent:
                         tool_status = "success"
                         tool_error: Optional[str] = None
                         try:
-                            tool_output_str = self.gateway_client.call_tool(tool_name, tool_input)
+                            tool_output_str = self._dispatch_tool(tool_name, tool_input)
                         except Exception as tool_exc:
                             tool_status = "error"
                             tool_error = str(tool_exc)
-                            tool_output_str = f"Gateway Tool Invocation Error ({tool_name}): {tool_exc}"
+                            tool_output_str = f"Tool Invocation Error ({tool_name}): {tool_exc}"
                             logger.error("Tool '%s' raised: %s", tool_name, tool_exc)
                         latency_ms = int((time.perf_counter() - t0) * 1000)
 
-                        # Surface gateway-returned error strings as status=error in the trace
+                        # Surface error strings as status=error in the trace
                         if tool_status == "success" and tool_output_str.startswith(
-                            ("Tool Error:", "Gateway Tool Invocation Error")
+                            (
+                                "Tool Error:",
+                                "Gateway Tool Invocation Error",
+                                "Tool Invocation Error",
+                                "Error:",
+                            )
                         ):
                             tool_status = "error"
                             tool_error = tool_output_str[:500]

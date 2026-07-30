@@ -369,7 +369,6 @@ def format_for_slack(
 
     images = _extract_image_entries(formatted)
     blocks = _build_blocks(formatted, images)
-    fallback = formatted[:500]
 
     if show_reasoning and thinking:
         reason = thinking.strip()
@@ -388,4 +387,7 @@ def format_for_slack(
             }
         )
 
-    return fallback, blocks[:50]
+    # Full Slack mrkdwn body for chat.postMessage `text=` (notifications/a11y)
+    # and session traces. Do not slice mid-message — Slack allows large text fields
+    # when blocks are also present (up to ~40k).
+    return formatted, blocks[:50]
