@@ -11,3 +11,6 @@ build/
 .aws-sam/
 samconfig.toml.bak
 .DS_Store
+
+# Local copies of production session traces (MCP prompts / tool I/O)
+logs/

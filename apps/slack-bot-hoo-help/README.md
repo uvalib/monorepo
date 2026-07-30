@@ -221,3 +221,10 @@ s3://hoohelp-session-traces-<stage>-<account>/traces/YYYY/MM/DD/<request_id>.jso
 ```
 
 Stack output `TraceBucketName` is printed after `sam deploy`.
+
+Pull a local copy for MCP development (gitignored under `logs/`):
+
+```bash
+./scripts/sync-session-traces.sh           # → logs/session-traces/
+./scripts/sync-session-traces.sh --dry-run
+```
