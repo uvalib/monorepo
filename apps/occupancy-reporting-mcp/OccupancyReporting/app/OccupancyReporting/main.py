@@ -16,6 +16,8 @@ import processing as proc
 import report_generator as rep
 import camera_quirks
 import hours_helper as hours
+import spaces_helper as spaces
+import equipment_helper as equipment
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("OccupancyReporting")
@@ -271,6 +273,347 @@ def get_library_hours(
 
     end = end_date.strip() if end_date else start_date
     return hours.format_hours_schedule(resolved, start_date, end)
+
+
+@mcp.tool()
+def get_space_categories(location: str = "") -> str:
+    """
+    List reservable **space categories** (kinds of bookable rooms/equipment) from
+    LibCal Spaces for UVA Library locations.
+
+    Use for questions like:
+    - "What kinds of spaces can I reserve at Shannon / Clemons / RMC / Brown?"
+    - "Does Fine Arts have group study rooms?"
+    - "What are the booking rules for RMC studios?"
+    - "Where do I reserve library spaces?"
+
+    Returns public categories with descriptions and terms/policies when available,
+    plus a LibCal booking URL per location. Categories are types of spaces
+    (e.g. Group Study Rooms, Digital Media Lab Workstations) — not individual
+    room free/busy availability.
+
+    Space location lids from this tool are **not** the same as building-hours
+    LibCal ids used by `get_library_hours`.
+
+    :param location: Optional library/space name or numeric space location lid
+                     (e.g. Shannon, Clemons, RMC, Brown, Georges, Fine Arts,
+                     Music, Scholars' Lab, Makerspace, Harrison, or `1076`).
+                     Omit or leave empty to list **all public** locations.
+    """
+    return spaces.format_space_categories(location or "")
+
+
+@mcp.tool()
+def list_space_items(
+    location: str,
+    availability: str = "none",
+    category: str = "",
+    only_available: str = "false",
+) -> str:
+    """
+    List **individual reservable rooms/equipment** at a LibCal space location
+    via GET /space/items/{location_lid}, with item ids and optional **batch
+    free/busy** for every room.
+
+    Use for:
+    - "What study rooms are at Shannon?" (availability=none or omit)
+    - "What's free at Georges / Shannon / RMC today?" (availability=today)
+    - "Next open group study slot at Brown" (availability=next or next_only)
+    - Filter to one category: category="Group Study Rooms" or a cid from
+      get_space_categories
+
+    Prefer this over calling get_space_item once per room when checking a whole
+    building. For deep policy text on one room, follow up with get_space_item.
+
+    :param location: Library/space name or space location lid (required),
+                     e.g. Shannon, RMC, Georges, Brown, Clemons, Fine Arts, Music,
+                     Makerspace, or `1076`.
+    :param availability: `none` (catalog only), `today`, `tomorrow`, `YYYY-MM-DD`,
+                         `start,end` (max 31 days), `next`, `next_only`.
+                         Default `none`. For free times, prefer `today` or a short range.
+    :param category: Optional category name or cid (from get_space_categories)
+    :param only_available: If true/yes/1 and availability is set, hide items with
+                           no free slots
+    """
+    only = str(only_available or "").strip().lower() in ("1", "true", "yes", "on")
+    return spaces.format_space_items(
+        location,
+        availability=availability or "none",
+        category=category or "",
+        only_with_availability=only,
+    )
+
+
+@mcp.tool()
+def get_space_item(
+    item: str,
+    availability: str = "today",
+    location: str = "",
+) -> str:
+    """
+    Get details and **free (bookable) times** for a LibCal space/equipment item
+    via GET /space/item/{id}.
+
+    Use for:
+    - "Is Shannon 134 free tonight?"
+    - "When is Clemons 202 available this week?"
+    - "Next open slot for an RMC audio station?"
+
+    Availability values:
+    - `today` / `tomorrow` / empty → that day
+    - `YYYY-MM-DD` single day
+    - `YYYY-MM-DD,YYYY-MM-DD` range (max 31 days; keep short for answers)
+    - `next` → next date with free time
+    - `next_only` → first free timeslot only
+    - `none` → metadata only (no free/busy)
+
+    Returns capacity, description, policies, and merged free windows in 12-hour
+    local time. Does **not** create a reservation — send patrons to the LibCal
+    booking link.
+
+    :param item: Numeric item id (from list_space_items) or room name (e.g. "318 C",
+                 "134 - Conference Room"). Prefer id when known.
+    :param availability: Date / range / next / next_only / none (default today)
+    :param location: Optional building when resolving by name (e.g. Shannon)
+    """
+    return spaces.format_space_item(
+        item,
+        availability=availability or "today",
+        location=location or "",
+    )
+
+
+@mcp.tool()
+def get_space_search_filters() -> str:
+    """
+    List LibCal amenity **search filters** (e.g. Accessible, Power Available)
+    via GET /space/search/filters.
+
+    Use filter ids with `search_space_availability` when the user asks for
+    accessible rooms or power/outlets.
+    """
+    return spaces.format_space_search_filters()
+
+
+@mcp.tool()
+def search_space_availability(
+    location: str,
+    date: str = "today",
+    time_start: str = "",
+    time_end: str = "",
+    category: str = "",
+    capacity_range: int = 0,
+    filters: str = "",
+) -> str:
+    """
+    Search for spaces **free during an explicit time window** at a location
+    via GET /space/search/hourly/{location_lid}.
+
+    Prefer this when the user gives start and end times, e.g.:
+    - "Group study room at Shannon from 5pm to 8pm today"
+    - "Is anything free at RMC between 2:00 and 4:00 tomorrow?"
+    - "Accessible study room at Brown 10am–12pm"
+
+    Returns **exact_matches** (free for the full window) and **other_matches**
+    (free only for a partial/later window), with item ids and bookable intervals.
+
+    For browsing all rooms' free slots without a specific window, use
+    `list_space_items` with availability=today instead.
+    Daily multi-day search is not used (UVA spaces are hourly).
+
+    :param location: Building/space name or space lid (Shannon, RMC, Georges, …)
+    :param date: today | tomorrow | YYYY-MM-DD
+    :param time_start: Window start (HH:MM or 5pm / 17:00) — required
+    :param time_end: Window end (HH:MM or 8pm) — required, same day, after start
+    :param category: Optional category name or cid
+    :param capacity_range: 0=all, or LibCal capacity filter 1–4 (admin ranges,
+                           NOT exact seat count — avoid unless you know the mapping)
+    :param filters: Optional amenity filter ids or names (comma-separated),
+                    e.g. "545" or "Accessible,Power" from get_space_search_filters
+    """
+    return spaces.format_search_space_availability(
+        location,
+        date_str=date or "today",
+        time_start=time_start or "",
+        time_end=time_end or "",
+        category=category or "",
+        capacity_range=int(capacity_range or 0),
+        filters=filters or "",
+    )
+
+
+@mcp.tool()
+def get_equipment_categories(location: str = "") -> str:
+    """
+    List **equipment categories** from LibCal Equipment for UVA Library locations
+    via GET /equipment/locations + /equipment/categories/{lid}.
+
+    Use for questions like:
+    - "What equipment can I borrow at RMC / Clemons / Makerspace?"
+    - "Does RMC have reserve cameras vs walk-up gear?"
+    - "What categories of equipment exist at Fine Arts?"
+
+    Returns public categories (e.g. Reserve Cameras, Walk-Up Audio, In Library
+    Use Items [No Reservations], General Equipment) with booking URLs.
+    Equipment location lids often match space lids but **equipment item ids are
+    not space item ids or seat ids**.
+
+    Study rooms → get_space_categories / list_space_items.
+    Named Makerspace 3D printers (Big Bird, Kermit) → list_space_seats.
+
+    :param location: Optional name or equipment lid (RMC, Makerspace, Shannon,
+                     Clemons, Brown, Fine Arts, Music, `241`). Empty = all public.
+    """
+    return equipment.format_equipment_categories(location or "")
+
+
+@mcp.tool()
+def get_equipment_category(
+    category: str,
+    location: str = "",
+    availability: str = "none",
+) -> str:
+    """
+    Details and items for one **equipment category** via
+    GET /equipment/category/{cid}.
+
+    Use when you already know a category (name or cid), e.g. Reserve Cameras,
+    3D Printers (RMC Makerbots), Walk-Up Audio Equipment, Textiles.
+
+    :param category: Category id or name
+    :param location: Optional scope when resolving by name (strongly recommended
+                     for short names like "3D Printers")
+    :param availability: none | today | tomorrow | YYYY-MM-DD | start,end |
+                         next | next_only
+    """
+    return equipment.format_equipment_category(
+        category,
+        location=location or "",
+        availability=availability or "none",
+    )
+
+
+@mcp.tool()
+def list_equipment_items(
+    location: str,
+    availability: str = "none",
+    category: str = "",
+    only_available: str = "false",
+) -> str:
+    """
+    List **equipment items** at a LibCal equipment location via
+    GET /equipment/items/{location_lid}, with item ids and optional batch free/busy.
+
+    Use for:
+    - "What cameras can I reserve at RMC?"
+    - "List Makerspace equipment (Cameo, Cintiq, sewing machines)"
+    - "What's free at RMC today?" (availability=today)
+    - Filter: category="Reserve Cameras" or a cid from get_equipment_categories
+
+    Many "No Reservations" / walk-up items show little free/busy — tell patrons
+    they are first-come. Reserve categories (cameras, light kits) use LibCal booking.
+
+    :param location: Required name or equipment lid (RMC, Makerspace, Clemons, …)
+    :param availability: none | today | tomorrow | YYYY-MM-DD | start,end |
+                         next | next_only
+    :param category: Optional category name or cid
+    :param only_available: If true, hide items with no free slots
+    """
+    only = str(only_available or "").strip().lower() in ("1", "true", "yes", "on")
+    return equipment.format_equipment_items(
+        location,
+        availability=availability or "none",
+        category=category or "",
+        only_with_availability=only,
+    )
+
+
+@mcp.tool()
+def get_equipment_item(
+    item: str,
+    availability: str = "today",
+    location: str = "",
+) -> str:
+    """
+    Get details and free times for one **equipment item** via
+    GET /equipment/item/{id}.
+
+    Use for a specific piece of gear, e.g. item id from list_equipment_items,
+    "Cameo 4", "Canon C100 #1", "Cintiq graphics tablet". Includes description,
+    instructions, terms, model, and free slots when bookable.
+
+    Study rooms are not equipment — use get_space_item.
+    Named Makerspace 3D printers (Big Bird) are often seats — try get_space_seat
+    if get_equipment_item fails.
+
+    :param item: Equipment item id or name
+    :param availability: today | tomorrow | YYYY-MM-DD | start,end | next |
+                         next_only | none
+    :param location: Optional scope when resolving by name (e.g. RMC, Makerspace)
+    """
+    return equipment.format_equipment_item(
+        item,
+        availability=availability or "today",
+        location=location or "",
+    )
+
+
+@mcp.tool()
+def list_space_seats(
+    location: str = "Makerspace",
+    availability: str = "today",
+    only_available: str = "false",
+) -> str:
+    """
+    List LibCal **seats** at a location via GET /space/seats/{location_lid}.
+
+    At UVA, seats are used mainly for **named Scholars' Lab Makerspace equipment**
+    (e.g. Big Bird Prusa XL, Kermit MK4S, button makers)—not study-room chairs.
+    Most libraries return no seats; use list_space_items / search_space_availability
+    for group study rooms.
+
+    Use for:
+    - "Which 3D printers can I reserve?"
+    - "Is Big Bird free this week?"
+    - "List Makerspace equipment by machine name"
+
+    :param location: Default Makerspace; name or space lid (only locations with
+                     seats configured will return data)
+    :param availability: none | today | tomorrow | YYYY-MM-DD | start,end | next_only
+    :param only_available: If true, hide seats with no free slots
+    """
+    only = str(only_available or "").strip().lower() in ("1", "true", "yes", "on")
+    return spaces.format_space_seats(
+        location or "Makerspace",
+        availability=availability or "today",
+        only_with_availability=only,
+    )
+
+
+@mcp.tool()
+def get_space_seat(
+    seat: str,
+    availability: str = "today",
+    location: str = "",
+) -> str:
+    """
+    Get details and free times for one LibCal **seat** (named equipment)
+    via GET /space/seat/{id}.
+
+    Use for a specific Makerspace machine, e.g. Big Bird, Camilla, Kermit,
+    or a seat id from list_space_seats. Includes equipment how-to text when present.
+
+    Study rooms are not seats — use get_space_item instead.
+
+    :param seat: Seat id or equipment name
+    :param availability: today | tomorrow | YYYY-MM-DD | start,end | next_only | none
+    :param location: Optional scope when resolving by name (e.g. Makerspace)
+    """
+    return spaces.format_space_seat(
+        seat,
+        availability=availability or "today",
+        location=location or "",
+    )
 
 
 @mcp.tool()

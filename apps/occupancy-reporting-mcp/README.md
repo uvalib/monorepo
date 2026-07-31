@@ -181,6 +181,59 @@ Harrison/Small, RMC, and Scholars' Lab support hours but not occupancy sensors.
 - **Limits:** Max **120-day** range.
 - **Important:** Each building/space has its own calendar. Music/Fine Arts often close on weekends while Clemons stays open; RMC ≠ Clemons; Scholars' Lab ≠ Shannon—never assume one location’s hours for another.
 
+#### `get_space_categories`
+- **Purpose:** LibCal Spaces **categories** (types of reservable rooms/equipment) and booking policy text.
+- **Parameters:**
+  - `location` — optional name or space lid (e.g. `Shannon`, `RMC`, `Georges`, `1076`). Empty = all public locations.
+- **Returns:** Markdown per location: category names, descriptions/terms, space lid, LibCal booking URL.
+- **Source:** `GET /api/1.0/space/categories/{lid}` (same LibCal `iid`/key as hours).
+- **Important:** Space location lids ≠ hours calendar lids. Does not list individual rooms or live availability.
+
+#### `list_space_items`
+- **Purpose:** List bookable rooms/equipment at a location with **item ids**, optional **batch free/busy**.
+- **Parameters:**
+  - `location` — required (name or space lid)
+  - `availability` — `none` (default) | `today` | `tomorrow` | `YYYY-MM-DD` | `start,end` | `next` | `next_only`
+  - `category` — optional name or cid
+  - `only_available` — if true, hide items with no free slots
+- **Source:** `GET /api/1.0/space/items/{lid}` (same LibCal key as hours).
+
+#### `get_space_item`
+- **Purpose:** Item details + **free (bookable) time slots**.
+- **Parameters:**
+  - `item` — item id or room name
+  - `availability` — `today` / `tomorrow` / `YYYY-MM-DD` / `start,end` / `next` / `next_only` / `none`
+  - `location` — optional when resolving by name
+- **Source:** `GET /api/1.0/space/item/{id}?availability=...`
+- **Returns:** Capacity, policies, merged free windows in 12-hour local time + booking link.
+
+#### `search_space_availability`
+- **Purpose:** Find spaces free for an **explicit time window** (best “5–8pm study room” tool).
+- **Parameters:** `location`, `date`, `time_start`, `time_end`, optional `category`, `filters`, `capacity_range` (0–4 admin ranges only).
+- **Source:** `GET /api/1.0/space/search/hourly/{lid}`
+- **Returns:** Exact matches (full window) + other matches (partial) with item ids and free intervals.
+
+#### `get_space_search_filters`
+- **Purpose:** Amenity filter ids (Accessible, Power Available, …).
+- **Source:** `GET /api/1.0/space/search/filters`
+
+#### `list_space_seats` / `get_space_seat`
+- **Purpose:** Named **seats** (UVA: Makerspace printers/button makers), not study chairs.
+- **Source:** `GET /space/seats/{lid}`, `GET /space/seat/{id}`
+- **Note:** Most libraries return no seats; use space item tools for study rooms.
+
+#### `get_equipment_categories` / `get_equipment_category`
+- **Purpose:** LibCal **equipment** categories (cameras, chargers, walk-up vs reserve gear, makerspace tools).
+- **Parameters:** `location` optional (RMC, Makerspace, Clemons, …); category tools take `category` + optional `availability`.
+- **Source:** `GET /equipment/locations`, `/equipment/categories/{lid}`, `/equipment/category/{cid}`
+- **Booking UI:** https://cal.lib.virginia.edu/equipment?lid={lid}
+
+#### `list_equipment_items` / `get_equipment_item`
+- **Purpose:** Individual equipment items + optional free/busy.
+- **Parameters:** location (required for list), optional category/availability; item id or name for detail.
+- **Source:** `GET /equipment/items/{lid}`, `GET /equipment/item/{id}`
+- **Note:** Equipment item ids ≠ space item ids ≠ seat ids. RMC has the largest reserve set; many “No Reservations” items are walk-up.
+
 #### `get_foot_traffic`
 - **Purpose:** Total entries, exits, combined activity, and average daily entries.
 - **Parameters:** `start_date`, `end_date`, `library` (occupancy buildings only)

@@ -9,9 +9,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Install dependencies from pyproject.toml
+# Pin mcp <2: 2.0+ removed mcp.server.fastmcp (breaks FastMCP entrypoint).
 COPY pyproject.toml .
 RUN pip install --no-cache-dir \
-    "mcp>=1.19.0" \
+    "mcp>=1.19.0,<2" \
     uvicorn \
     pandas \
     numpy \
@@ -25,6 +26,8 @@ RUN pip install --no-cache-dir \
 COPY main.py .
 COPY db_helper.py .
 COPY hours_helper.py .
+COPY spaces_helper.py .
+COPY equipment_helper.py .
 COPY processing.py .
 COPY report_generator.py .
 COPY camera_quirks.py .

@@ -9,7 +9,7 @@ description = "AgentCore MCP Server — UVA Library Catalog Search"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-    "mcp >= 1.19.0",
+    "mcp >= 1.19.0, < 2",
     "uvicorn",
     "requests",
     "python-dotenv",

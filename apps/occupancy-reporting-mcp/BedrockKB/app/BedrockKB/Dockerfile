@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Install dependencies from pyproject.toml
 COPY pyproject.toml .
 RUN pip install --no-cache-dir \
-    "mcp>=1.19.0" \
+    "mcp>=1.19.0,<2" \
     uvicorn \
     boto3 \
     requests \

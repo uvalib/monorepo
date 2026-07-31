@@ -9,7 +9,7 @@ description = "AgentCore MCP Server — AWS Bedrock Knowledge Bases"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-    "mcp >= 1.19.0",
+    "mcp >= 1.19.0, < 2",
     "uvicorn",
     "boto3",
     "requests",
