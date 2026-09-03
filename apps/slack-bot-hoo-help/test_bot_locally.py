@@ -44,6 +44,7 @@ def main():
 
     test_queries = [
         "What are the hours for Clemons Library on 2026-07-22?",
+        "What was the foot traffic and entrance breakdown for Clemons Library from 2026-07-01 to 2026-07-07?",
         "Search the Virgo catalog for books about civil war memoirs.",
         "Tell me about William Faulkner from our catalog suggestions.",
     ]

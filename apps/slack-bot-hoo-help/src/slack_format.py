@@ -76,7 +76,8 @@ Content rules by answer type:
    - Only include facts present in the draft
 
 3) IMAGE / photo answers
-   - Prefer images that match the user's subject
+   - Keep the draft's chosen Image URLs (including top-ranked hits whose titles
+     do not contain the query words — catalog titles are often place/person names)
    - For each image (max 4):
      • *Title*
      • Image URL: https://iiif.lib.virginia.edu/...
@@ -84,6 +85,7 @@ Content rules by answer type:
      • Collection if known
    - Keep the full https://iiif.lib.virginia.edu/... Image URL line so Slack can display the picture
    - Do NOT invent uva_library item IDs like u1234567
+   - Do NOT drop images from the draft because the title lacks the subject word
 
 4) Occupancy / other
    - Clear plain prose + simple bullets; no catalog card structure
@@ -343,7 +345,7 @@ def format_for_slack(
                 "bedrock-runtime",
                 region_name=os.environ.get("AWS_REGION", "us-east-1"),
             )
-            mid = model_id or os.environ.get("BEDROCK_MODEL_ID", "us.anthropic.claude-sonnet-5")
+            mid = model_id or os.environ.get("BEDROCK_MODEL_ID", "us.amazon.nova-pro-v1:0")
             # Prefer a fast cheap model for formatting if configured
             format_model = os.environ.get("SLACK_FORMAT_MODEL_ID") or mid
             formatted = _bedrock_format_for_slack(

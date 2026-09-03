@@ -46,7 +46,7 @@ GATEWAY_URL = os.environ.get(
     "GATEWAY_URL",
     "https://occupancy-reporting-gateway-mohw8c1jug.gateway.bedrock-agentcore.us-east-1.amazonaws.com/mcp",
 )
-BEDROCK_MODEL_ID = os.environ.get("BEDROCK_MODEL_ID", "us.anthropic.claude-sonnet-5")
+BEDROCK_MODEL_ID = os.environ.get("BEDROCK_MODEL_ID", "us.amazon.nova-pro-v1:0")
 
 
 def _load_secret(env_key: str, ssm_path_env: str) -> str:
@@ -265,6 +265,28 @@ def handle_user_query(
         bedrock_client=getattr(agent, "bedrock_runtime", None),
         model_id=getattr(agent, "model_id", None),
     )
+    # Link gate: verify http(s) URLs; replace broken/ephemeral ones from tool outputs
+    try:
+        cleaned = agent._sanitize_links(
+            fallback_text,
+            trace,
+            extra_candidates=[raw_response] if raw_response else None,
+        )
+        if cleaned != fallback_text:
+            fallback_text = cleaned
+            # Rebuild blocks without a second LLM pass so Image URLs stay in sync
+            fallback_text, blocks = format_for_slack(
+                fallback_text,
+                bedrock_client=getattr(agent, "bedrock_runtime", None),
+                model_id=getattr(agent, "model_id", None),
+                use_llm=False,
+            )
+            # Keep session traces aligned with what Slack received
+            if hasattr(trace, "final_text"):
+                trace.final_text = fallback_text
+    except Exception as link_err:
+        logger.warning("Post-format link-check skipped: %s", link_err)
+
     logger.info(
         "Formatted Slack reply (%s chars, %s blocks) tools=%s duration_ms=%s followup=%s",
         len(fallback_text),

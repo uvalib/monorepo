@@ -21,7 +21,7 @@ capabilities      = "CAPABILITY_IAM"
 confirm_changeset = true
 resolve_s3        = true
 region            = "us-east-1"
-parameter_overrides = "StageName=prod ShowModelReasoning=false ConversationTrace=both EnableGuardrails=true GatewayUrl=https://occupancy-reporting-gateway-mohw8c1jug.gateway.bedrock-agentcore.us-east-1.amazonaws.com/mcp BedrockModelId=us.anthropic.claude-sonnet-5 SlackBotTokenSsmPath=/hoohelp/slack/bot-token SlackSigningSecretSsmPath=/hoohelp/slack/signing-secret"
+parameter_overrides = "StageName=prod ShowModelReasoning=false ConversationTrace=both EnableGuardrails=true GatewayUrl=https://occupancy-reporting-gateway-mohw8c1jug.gateway.bedrock-agentcore.us-east-1.amazonaws.com/mcp BedrockModelId=us.amazon.nova-pro-v1:0 SlackBotTokenSsmPath=/hoohelp/slack/bot-token SlackSigningSecretSsmPath=/hoohelp/slack/signing-secret"
 
 [default.local_start_api.parameters]
 warm_containers = "EAGER"

@@ -2,7 +2,7 @@
 
 Intelligent Slack bot for the University of Virginia (UVA) Library system.
 
-- **LLM:** Amazon Bedrock Claude Sonnet 5 (`us.anthropic.claude-sonnet-5`)
+- **LLM:** Amazon Bedrock Nova Pro (`us.amazon.nova-pro-v1:0`)
 - **Tools:** Public AgentCore MCP Gateway (occupancy, Virgo catalog, knowledge bases) plus **in-process Wikipedia** tools (`wikipedia_search`, `wikipedia_get_page`)
 - **Delivery:** Slack **Events API** → API Gateway HTTP API → **AWS Lambda** (SAM)
 

@@ -46,8 +46,8 @@ Parameters:
 
   BedrockModelId:
     Type: String
-    Default: "us.anthropic.claude-sonnet-5"
-    Description: Bedrock model / inference profile id for HooHelp (Claude Sonnet 5).
+    Default: "us.amazon.nova-pro-v1:0"
+    Description: Bedrock model / inference profile id for HooHelp (Amazon Nova Pro).
 
   ShowModelReasoning:
     Type: String

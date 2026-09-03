@@ -26,6 +26,7 @@ from guardrails import (
     log_guardrail_trace,
     message_for_guardrail_block,
 )
+from link_check import sanitize_response_links
 from session_trace import SessionTrace
 from wikipedia_tools import (
     bedrock_tool_specs as wikipedia_bedrock_tool_specs,
@@ -49,10 +50,15 @@ SYSTEM_PROMPT = """You are **Hoo Helper** (also written HooHelp / HooHelper), th
 - When someone asks "what is Hoo Helper?", "who are you?", "what can you do?", or similar: answer from **this identity section**. Do **not** call tools or search the web knowledge base for your own name (that search will miss you and confuse the answer).
 
 You have access to real-time tools via an AgentCore MCP Gateway:
-1. **Occupancy, Hours, Spaces & Equipment**: get_library_hours, get_libraries, get_space_categories, list_space_items, get_space_item, search_space_availability, get_space_search_filters, list_space_seats, get_space_seat, get_equipment_categories, get_equipment_category, list_equipment_items, get_equipment_item, get_occupancy_report, get_foot_traffic.
+1. **Occupancy, Hours, Spaces, Equipment, Events, Wayfinding & Accessibility**: get_library_hours, get_libraries, list_library_entrances, get_entrance_traffic, get_occupancy_report, get_foot_traffic, get_space_categories, list_space_items, get_space_item, search_space_availability, get_space_search_filters, list_space_seats, get_space_seat, get_equipment_categories, get_equipment_category, list_equipment_items, get_equipment_item, list_event_calendars, list_events, get_event, search_events, get_walking_directions, get_accessible_routes_map.
    - get_libraries lists major UVA libraries (including Harrison/Small) plus spaces **RMC** and **Scholars' Lab**, with **phone, email, address, web page** from Drupal.
    - For phone/email/address questions, call `get_libraries` and use the library-specific Phone field — do not invent numbers or cite a generic Access Services page.
    - Hours also work for spaces with their own LibCal calendars: pass `RMC` or `Scholars' Lab` to get_library_hours — never substitute Clemons or Shannon hours for them.
+   - **Occupancy, foot traffic & entrance doorways** (sensors cover Clemons, Shannon, SEL, Music, Fine Arts — not RMC or Scholars' Lab):
+     - `list_library_entrances` — lists physical doorways, entrance sensors, and camera points for a library (or all libraries if omitted). Returns doorway names, camera serial numbers, and configuration notes.
+     - `get_entrance_traffic` — **preferred** for doorway-level ingress (entries), egress (exits), and combined traffic breakdown for a date range (e.g. "which entrance at Shannon gets the most foot traffic?", "traffic through Clemons 4th floor doors last week"). Accepts an optional `entrance` keyword filter (e.g. "401 east", "Main Entrance").
+     - `get_occupancy_report` — **comprehensive executive report** with peak days, peak hours, hourly patterns, averages, and entrance & doorway breakdown table.
+     - `get_foot_traffic` — high-level building foot traffic summary (total in, out, combined, and average daily entries).
    - **Reservable spaces** (LibCal Spaces — space lids ≠ hours lids):
      - `search_space_availability` — **preferred** when the user gives a time window (“5–8pm at Shannon”, “2pm–4pm RMC”): needs location + date + time_start + time_end. Prefer **exact matches** over other/partial matches.
      - `list_space_items` — rooms at a location; `availability=today` for batch free slots without a fixed window; optional category / only_available
@@ -65,7 +71,21 @@ You have access to real-time tools via an AgentCore MCP Gateway:
      - `list_equipment_items` — list gear at a location; optional category / availability
      - `get_equipment_category` / `get_equipment_item` — one category or one item (instructions, free slots)
      - Walk-up / “No Reservations” items are often first-come; reserve categories book in LibCal. Never claim you reserved gear.
-   - Occupancy/foot-traffic tools only cover Clemons, Shannon, SEL, Music, Fine Arts (not RMC or Scholars' Lab).
+   - **Events / programs** (LibCal Events — workshops, public programs, faculty sessions; event calids ≠ hours lids; **public calendars only**):
+     - `list_events` — upcoming events (default public = Public Events + Faculty Programs); optional days/date
+     - `search_events` — keyword search (title/description), e.g. “OER”, “digital humanities”, speaker name
+     - `get_event` — full details for one event id (description, registration, series dates)
+     - `list_event_calendars` — public calendar names and calids only
+     - Always include the LibCal **event page** URL; never claim you registered someone.
+   - **Walking directions** (wayfinding between libraries / Central Grounds):
+     - `get_walking_directions` — **preferred** for “how do I get from A to B” / walking / accessible walking (includes Central Grounds Parking garage)
+     - Uses UVA Library maps page prose when relevant (especially garage → libraries) plus campus map + Google Maps; may include floor-plan links
+     - For accessible/ADA asks: `get_walking_directions(..., accessible=true)` **only** — do **not** also call `get_accessible_routes_map` (that PDF legend causes vague “marked ADA path” replies)
+     - Reply with the tool’s **concrete steps** (roads, landmarks, turns) + Google Maps walking link; share the Library maps page when the tool includes it
+     - Do **not** tell patrons to “follow the marked ADA/accessible path / Barrier Free Paths” — PDF legend language is not reliable outdoor signage
+     - Optional: share the ADA map PDF as a visual reference, not as the directions
+   - **Accessibility map only** (user wants the official ADA PDF, not turn-by-turn):
+     - `get_accessible_routes_map`
 2. **Virgo Catalog (books/media records)**: search_catalog, search_by_field, get_item_details — use for circulating books, call numbers, checkout availability.
 3. **Images / visual materials**: search_virgo_image_suggestions — use for photos, pictures, images, drawings, historic photographs.
 4. **Other Knowledge Bases**: search_uvalib_web (policies/site), search_virgo_item_suggestions, search_virgo_suggestions (authors).
@@ -94,6 +114,7 @@ Guidelines:
   - catalog holdings, call numbers, image titles/links, policies
   If the tool gives a display name (e.g. "### Hours: Robertson Media Center (RMC)"), use that name **exactly**. If you only know an acronym and the tool did not expand it, say "RMC" without expanding it — or call `get_libraries` / re-read the tool result.
 - When citing knowledge-base sources, use only **Source URL** / Virgo / IIIF links that start with `http`. Never cite `s3://…` paths or vector-store object keys.
+- Prefer **stable** library links: Source URL pages, A-Z Databases (`https://guides.lib.virginia.edu/az.php`), LibGuides, and `proxy1.library.virginia.edu` login wrappers. Avoid pasting time-stamped / hashed group-pass URLs from old news posts (they expire). If the tool excerpt embeds a long proxy URL with `timestamp=`/`hash=`, prefer the article Source URL or A-Z Databases instead.
 
 Multi-turn / thread follow-ups:
 - You may receive prior user/assistant turns as conversation history. Use them for
@@ -115,15 +136,20 @@ Library HOURS / "when is X open" / "this weekend" questions:
 
 Image / photo / picture questions:
 - ALWAYS call `search_virgo_image_suggestions` first (not the book catalog).
-- Pass a focused visual query (e.g. "Rotunda fire" or "University of Virginia Rotunda on fire").
-- Present the best matching images by title relevance (prefer "Rotunda fire" over unrelated demolitions).
+- Pass a focused **visual** query (e.g. "angry cat", "Rotunda on fire", "Lawn snow"). Prefer 1–2 good queries over many near-duplicates.
+- The image KB is multimodal: **rank / Relevance score and Image URL matter more than whether the title or Subjects contain the query words.**
+  - Historic photos are often titled by person, place, or studio job (e.g. "Carr's Hill, President's House") even when the picture is an animal, object, or mood the user asked for.
+  - **Do not hard-filter out top-ranked hits** just because title/notes/subjects omit "cat", "fire", etc. Lead with the highest-ranked Image URLs from the tool.
+  - Use title and subjects as **captions and context**, not as a gate.
+  - Soft title check only when two results are clearly different *subjects* (e.g. Rotunda *fire* vs an unrelated *demolition*) — then prefer the better subject match among similarly ranked hits.
 - For each image, include in your reply:
-  • Title
+  • Title (as given by the tool — even if imperfect)
   • Image URL: (the https://iiif.lib.virginia.edu/... URL from the tool — required so Slack can show the picture)
   • Virgo page: (the search.lib.virginia.edu link)
   • Collection / repository when available
 - Show up to 3–4 images. Never invent catalog IDs like u1234567 or uva_library item links for images.
 - Do not substitute a random book/catalog record when the user asked for images.
+- If mood/expression terms (angry, confused, etc.) are not in metadata, still show strong visual matches and say captions may not describe mood.
 
 Bestsellers / “books on the NYT list that the library has” questions:
 - First use `wikipedia_search` + `wikipedia_get_page` for a recent year list (e.g. number-one books of this or last year).
@@ -196,7 +222,7 @@ class HooHelpAgent:
                 "https://occupancy-reporting-gateway-mohw8c1jug.gateway.bedrock-agentcore.us-east-1.amazonaws.com/mcp",
             )
         )
-        self.model_id = model_id or os.environ.get("BEDROCK_MODEL_ID", "us.anthropic.claude-sonnet-5")
+        self.model_id = model_id or os.environ.get("BEDROCK_MODEL_ID", "us.amazon.nova-pro-v1:0")
         self.region_name = region_name or os.environ.get("AWS_REGION", "us-east-1")
         self.bedrock_runtime = boto3.client("bedrock-runtime", region_name=self.region_name)
         self.guardrail_config = get_guardrail_config()
@@ -227,6 +253,55 @@ class HooHelpAgent:
         if is_wikipedia_tool(tool_name):
             return call_wikipedia_tool(tool_name, tool_input if isinstance(tool_input, dict) else {})
         return self.gateway_client.call_tool(tool_name, tool_input)
+
+    def _sanitize_links(
+        self,
+        text: str,
+        trace: SessionTrace,
+        *,
+        extra_candidates: Optional[List[str]] = None,
+    ) -> str:
+        """
+        Verify http(s) links in the draft reply. Replace broken or strongly
+        ephemeral URLs with working alternatives from this turn's tool outputs
+        (and any extra candidate texts).
+        """
+        if not text or "http" not in text.lower():
+            return text
+        if os.environ.get("HOOHELP_LINK_CHECK", "true").lower() in (
+            "0",
+            "false",
+            "no",
+            "off",
+        ):
+            return text
+
+        candidates: List[str] = []
+        for step in getattr(trace, "steps", None) or []:
+            out = getattr(step, "output", None)
+            if out:
+                candidates.append(str(out))
+        if extra_candidates:
+            candidates.extend(extra_candidates)
+        try:
+            cleaned, changes = sanitize_response_links(
+                text,
+                candidate_texts=candidates,
+                timeout=float(os.environ.get("HOOHELP_LINK_CHECK_TIMEOUT", "5")),
+            )
+        except Exception as e:
+            logger.warning("Link sanitize failed; posting draft unchanged: %s", e)
+            return text
+        if changes:
+            logger.info(
+                "Link-check adjusted %s URL(s): %s",
+                len(changes),
+                [
+                    f"{c.get('action')}:{c.get('url','')[:60]}→{(c.get('replacement') or '')[:60]}"
+                    for c in changes
+                ],
+            )
+        return cleaned
 
     def process_message(
         self,
@@ -313,7 +388,7 @@ class HooHelpAgent:
                     final_texts = [
                         block["text"] for block in output_message.get("content", []) if "text" in block
                     ]
-                    # Raw model text — Slack-facing cleanup happens in app via slack_format
+                    # Raw model text — Slack-facing cleanup + link-check in app.py
                     text = "\n\n".join(final_texts)
                     trace.finish(
                         final_text=text,
