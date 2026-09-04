@@ -8,6 +8,7 @@ Interacts with the public AWS AgentCore MCP Gateway over Streamable HTTP:
 """
 
 import logging
+import time
 from typing import Any, Dict, List, Optional
 
 import requests
@@ -24,10 +25,19 @@ class GatewayMCPClient:
     def __init__(self, gateway_url: str = DEFAULT_GATEWAY_URL):
         self.gateway_url = gateway_url.rstrip("/")
         self._tools_cache: Optional[List[Dict[str, Any]]] = None
+        self._tools_cache_at: float = 0.0
+        # Gateway tool schemas can change (e.g. pagination fields). Don't pin
+        # a Lambda container to a stale tools/list for the whole warm lifetime.
+        self._tools_cache_ttl_s = 120.0
 
     def list_tools(self, force_refresh: bool = False) -> List[Dict[str, Any]]:
         """Fetch list of tools exposed on the AgentCore Gateway."""
-        if self._tools_cache is not None and not force_refresh:
+        now = time.monotonic()
+        cache_fresh = (
+            self._tools_cache is not None
+            and (now - self._tools_cache_at) < self._tools_cache_ttl_s
+        )
+        if cache_fresh and not force_refresh:
             return self._tools_cache
 
         payload = {
@@ -47,6 +57,7 @@ class GatewayMCPClient:
             data = resp.json()
             tools = data.get("result", {}).get("tools", [])
             self._tools_cache = tools
+            self._tools_cache_at = time.monotonic()
             logger.info("Loaded %s tools from AgentCore Gateway (%s)", len(tools), self.gateway_url)
             return tools
         except Exception as e:
@@ -119,7 +130,9 @@ class GatewayMCPClient:
                 {
                     "toolSpec": {
                         "name": sanitized_name,
-                        "description": desc[:500],
+                        # Bedrock toolSpec description max is 1024; keep the tail
+                        # so pagination notes at the end of long MCP docs survive.
+                        "description": desc[:1024] if len(desc) <= 1024 else (desc[:500].rstrip() + "\n…\n" + desc[-500:]),
                         "inputSchema": {"json": cleaned_schema},
                     }
                 }

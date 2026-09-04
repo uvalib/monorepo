@@ -46,8 +46,16 @@ Parameters:
 
   BedrockModelId:
     Type: String
-    Default: "us.amazon.nova-pro-v1:0"
-    Description: Bedrock model / inference profile id for HooHelp (Amazon Nova Pro).
+    Default: "minimax.minimax-m2.5"
+    Description: Bedrock Converse model for the MCP tool-calling agent (MiniMax M2.5).
+
+  SlackFormatModelId:
+    Type: String
+    Default: "google.gemma-4-31b"
+    Description: >
+      Bedrock Mantle model for Slack Block Kit formatting (Gemma 4 31B).
+      Gemma is mantle-only; it is invoked via Chat Completions with tool_choice
+      locked to the Block Kit JSON schema.
 
   ShowModelReasoning:
     Type: String
@@ -241,10 +249,9 @@ Resources:
           GATEWAY_URL: !Ref GatewayUrl
           BEDROCK_MODEL_ID: !Ref BedrockModelId
           SHOW_MODEL_REASONING: !Ref ShowModelReasoning
-          # Second Bedrock call reformats the draft as Slack mrkdwn (avoids brittle regex cards)
+          # Second call reformats the draft as Slack Block Kit (Gemma 4 31B on mantle)
           SLACK_LLM_FORMAT: "true"
-          # Optional cheaper/faster model for formatting only (defaults to BEDROCK_MODEL_ID)
-          # SLACK_FORMAT_MODEL_ID: "us.amazon.nova-lite-v1:0"
+          SLACK_FORMAT_MODEL_ID: !Ref SlackFormatModelId
           # Session transcripts for MCP / prompt development
           CONVERSATION_TRACE: !Ref ConversationTrace
           CONVERSATION_TRACE_BUCKET: !Ref HooHelpTraceBucket
@@ -271,7 +278,7 @@ Resources:
               Condition:
                 StringEquals:
                   kms:ViaService: !Sub "ssm.${AWS::Region}.amazonaws.com"
-        # Bedrock Converse + Guardrails
+        # Bedrock Converse (MiniMax agent + Guardrails) and Mantle (Gemma formatter)
         - Statement:
             - Effect: Allow
               Action:
@@ -286,6 +293,14 @@ Resources:
               Resource:
                 - !GetAtt HooHelpGuardrail.GuardrailArn
                 - !Sub "${HooHelpGuardrail.GuardrailArn}/*"
+            - Effect: Allow
+              Action:
+                - bedrock-mantle:CreateInference
+                - bedrock-mantle:Get*
+                - bedrock-mantle:List*
+              Resource:
+                - !Sub "arn:${AWS::Partition}:bedrock-mantle:${AWS::Region}:${AWS::AccountId}:project/*"
+                - !Sub "arn:${AWS::Partition}:bedrock-mantle:${AWS::Region}:${AWS::AccountId}:*"
         # slack-bolt lazy listeners re-invoke this function asynchronously
         - Statement:
             - Effect: Allow

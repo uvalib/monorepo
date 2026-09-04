@@ -46,6 +46,42 @@ _THINKING_MARKERS = (
     "HooHelp is thinking...",
 )
 
+_IIIF_URL = re.compile(
+    r"https://iiif\.lib\.virginia\.edu/iiif/[^\s|>\]\)\"']+",
+    re.I,
+)
+
+
+def image_urls_from_slack_message(message: Dict[str, Any]) -> List[str]:
+    """IIIF URLs already shown in a Slack message (blocks and/or text)."""
+    found: List[str] = []
+
+    def walk(obj: Any) -> None:
+        if isinstance(obj, dict):
+            url = obj.get("image_url")
+            if isinstance(url, str) and "iiif.lib.virginia.edu" in url:
+                found.append(url.split("?")[0].rstrip(".,);>"))
+            for v in obj.values():
+                walk(v)
+        elif isinstance(obj, list):
+            for item in obj:
+                walk(item)
+        elif isinstance(obj, str):
+            for url in _IIIF_URL.findall(obj):
+                found.append(url.rstrip(".,);>"))
+
+    walk(message.get("blocks"))
+    walk(message.get("attachments"))
+    walk(message.get("text") or "")
+    # Preserve order, drop dupes
+    seen = set()
+    out: List[str] = []
+    for url in found:
+        if url not in seen:
+            seen.add(url)
+            out.append(url)
+    return out
+
 # Max prior turns (user+assistant pairs roughly) to send to Bedrock
 DEFAULT_MAX_HISTORY_MESSAGES = 20
 
@@ -192,6 +228,7 @@ def extract_thread_history(
         "history_count": 0,
         "is_our_thread": False,
         "reason": "",
+        "seen_image_urls": [],
     }
     try:
         resp = client.conversations_replies(
@@ -209,6 +246,7 @@ def extract_thread_history(
 
         is_our_thread = False
         raw_history: List[Dict[str, Any]] = []
+        seen_image_urls: List[str] = []
 
         for m in messages:
             m_ts = m.get("ts")
@@ -226,6 +264,7 @@ def extract_thread_history(
                 m, bot_user_id=bot_user_id, bot_app_bot_id=bot_app_bot_id
             ):
                 is_our_thread = True
+                seen_image_urls.extend(image_urls_from_slack_message(m))
             elif text_mentions_bot(m.get("text") or "", bot_user_id):
                 is_our_thread = True
 
@@ -258,8 +297,16 @@ def extract_thread_history(
             is_our_thread = True
 
         history = sanitize_bedrock_history(raw_history, max_messages=max_messages)
+        # Dedupe seen URLs, keep order
+        seen_set = set()
+        uniq_seen: List[str] = []
+        for url in seen_image_urls:
+            if url not in seen_set:
+                seen_set.add(url)
+                uniq_seen.append(url)
         meta["history_count"] = len(history)
         meta["is_our_thread"] = is_our_thread
+        meta["seen_image_urls"] = uniq_seen
         meta["reason"] = "ok" if is_our_thread else "bot_not_in_thread"
         return history, is_our_thread, meta
 

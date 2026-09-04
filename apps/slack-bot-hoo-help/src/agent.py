@@ -1,7 +1,7 @@
 """
 agent.py — HooHelp Bedrock Conversational Agent
 
-Orchestrates multi-turn conversation loops with Amazon Bedrock (Claude Sonnet 5):
+Orchestrates multi-turn conversation loops with Amazon Bedrock (MiniMax M2.5):
 - Formats system instructions and conversation context
 - Executes tool calling loop with AgentCore Gateway MCP tools
 - Returns a clean response formatted for Slack
@@ -10,16 +10,17 @@ Orchestrates multi-turn conversation loops with Amazon Bedrock (Claude Sonnet 5)
 
 import logging
 import os
+import re
 import time
 import uuid
 from dataclasses import dataclass
 from datetime import datetime, timedelta
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 from zoneinfo import ZoneInfo
 
 import boto3
 
-from bedrock_params import inference_config_for_model
+from bedrock_params import DEFAULT_AGENT_MODEL_ID, inference_config_for_model, is_minimax
 from gateway_mcp_client import GatewayMCPClient
 from guardrails import (
     get_guardrail_config,
@@ -37,6 +38,26 @@ from wikipedia_tools import (
 logger = logging.getLogger(__name__)
 
 TZ = ZoneInfo("America/New_York")
+
+# Occupancy / hours / holdings must never be answered from thread memory alone.
+_FACTUAL_QUERY_RE = re.compile(
+    r"\b("
+    r"hours?|open|closed|occupancy|how busy|foot traffic|entrance|entries|exits|"
+    r"catalog|call number|do you have|phone|email|address|event|reserv|"
+    r"available|study room|compare|"
+    r"photos?|images?|pictures?|drawings?|"
+    r"more (to show|for me|photos?|images?|pictures?)|show me more"
+    r")\b",
+    re.I,
+)
+# Keep this bland: a stern "call tools now / that is not allowed" user turn
+# is classified as PROMPT_ATTACK by the library Guardrail (HIGH on input).
+_FORCE_TOOLS_NUDGE = (
+    "Please look that up with the live library tools. For more photos, call "
+    "search_virgo_image_suggestions with the same visual query and the next page "
+    "(page=2, or page=3, etc.) when the earlier result listed another page. "
+    "For occupancy or hours, call the tool again for each library named."
+)
 
 SYSTEM_PROMPT = """You are **Hoo Helper** (also written HooHelp / HooHelper), the UVA Library's AI assistant in Slack.
 
@@ -87,8 +108,8 @@ You have access to real-time tools via an AgentCore MCP Gateway:
    - **Accessibility map only** (user wants the official ADA PDF, not turn-by-turn):
      - `get_accessible_routes_map`
 2. **Virgo Catalog (books/media records)**: search_catalog, search_by_field, get_item_details — use for circulating books, call numbers, checkout availability.
-3. **Images / visual materials**: search_virgo_image_suggestions — use for photos, pictures, images, drawings, historic photographs.
-4. **Other Knowledge Bases**: search_uvalib_web (policies/site), search_virgo_item_suggestions, search_virgo_suggestions (authors).
+3. **Images / visual materials**: search_virgo_image_suggestions — use for photos, pictures, images, drawings, historic photographs. Supports `count` and `page` parameters for pagination when users ask for more images or batches.
+4. **Other Knowledge Bases**: search_uvalib_web (policies/site), search_virgo_item_suggestions, search_virgo_suggestions (authors). Supports `count` and `page` parameters for pagination.
 5. **Wikipedia (local tools, not the library site)**: wikipedia_search, wikipedia_get_page.
    - Use for external background: authors, books, awards, history, and **NYT / bestseller number-one lists by year** (e.g. search "New York Times number-one books of 2025", then get_page).
    - Wikipedia lists are community-maintained summaries (often #1-by-week), not a live official NYT feed — say that when relevant.
@@ -120,6 +141,9 @@ Multi-turn / thread follow-ups:
 - You may receive prior user/assistant turns as conversation history. Use them for
   pronouns and short follow-ups ("what about Fine Arts?", "and tomorrow?", "the phone number?").
 - Still call tools for any new factual claim (hours, holdings, occupancy, contacts).
+- Occupancy / hours / traffic comparisons ALWAYS need fresh tool calls this turn —
+  once per library named. Never reuse another library's counts from earlier in the thread
+  (Clemons ≠ Shannon ≠ SEL). "Compare X, Y, and Z" is a new factual question even in a thread.
 - Do not assume the follow-up is about the same library unless the history clearly says so.
 - Do not trust prior assistant turns for official names if a fresh tool result has the name — prefer the tool.
 
@@ -135,7 +159,16 @@ Library HOURS / "when is X open" / "this weekend" questions:
 - Quote the calendar dates from the tool in your answer (e.g. Saturday, July 25, 2026).
 
 Image / photo / picture questions:
-- ALWAYS call `search_virgo_image_suggestions` first (not the book catalog).
+- ALWAYS call `search_virgo_image_suggestions` this turn (not the book catalog),
+  even in a thread that already showed images. Never invent Image URLs or
+  `https://iiif.lib.virginia.edu/...` placeholders.
+- The image tool paginates (`page`, `count` / `max_results`). First request: page 1.
+  If the user wants more, make **one** tool call this turn with the **same query**,
+  the **same count**, and the **next page only** (2, then 3, …). Never fetch two
+  pages in the same turn. Do not skip a page. Do not repeat page 1.
+- If the tool says this is the last page / end of results, tell the user in
+  English that those are all the images for that search and offer a different
+  query. Do not invent JSON, schema fields, or switch languages.
 - Pass a focused **visual** query (e.g. "angry cat", "Rotunda on fire", "Lawn snow"). Prefer 1–2 good queries over many near-duplicates.
 - The image KB is multimodal: **rank / Relevance score and Image URL matter more than whether the title or Subjects contain the query words.**
   - Historic photos are often titled by person, place, or studio job (e.g. "Carr's Hill, President's House") even when the picture is an animal, object, or mood the user asked for.
@@ -200,6 +233,35 @@ def _current_date_context() -> str:
     )
 
 
+def _content_text_and_thinking(content: Any) -> Tuple[str, str]:
+    """Split Converse content into visible text vs reasoningContent (MiniMax)."""
+    texts: List[str] = []
+    thinking: List[str] = []
+    if not isinstance(content, list):
+        return "", ""
+    for block in content:
+        if not isinstance(block, dict):
+            continue
+        if block.get("text"):
+            texts.append(str(block["text"]))
+        rc = block.get("reasoningContent")
+        if isinstance(rc, dict):
+            rt = rc.get("reasoningText")
+            if isinstance(rt, dict) and rt.get("text"):
+                thinking.append(str(rt["text"]))
+            elif isinstance(rc.get("text"), str) and rc["text"]:
+                thinking.append(rc["text"])
+    return "\n\n".join(texts).strip(), "\n\n".join(thinking).strip()
+
+
+def _assistant_visible_text(content: Any) -> str:
+    """User-facing draft plus optional <thinking> so Slack format can strip/show it."""
+    text, thinking = _content_text_and_thinking(content)
+    if thinking:
+        return f"<thinking>\n{thinking}\n</thinking>\n\n{text}".strip()
+    return text
+
+
 @dataclass
 class AgentTurnResult:
     """Text answer plus structured trace for the agent turn."""
@@ -222,7 +284,9 @@ class HooHelpAgent:
                 "https://occupancy-reporting-gateway-mohw8c1jug.gateway.bedrock-agentcore.us-east-1.amazonaws.com/mcp",
             )
         )
-        self.model_id = model_id or os.environ.get("BEDROCK_MODEL_ID", "us.amazon.nova-pro-v1:0")
+        self.model_id = model_id or os.environ.get(
+            "BEDROCK_MODEL_ID", DEFAULT_AGENT_MODEL_ID
+        )
         self.region_name = region_name or os.environ.get("AWS_REGION", "us-east-1")
         self.bedrock_runtime = boto3.client("bedrock-runtime", region_name=self.region_name)
         self.guardrail_config = get_guardrail_config()
@@ -260,21 +324,23 @@ class HooHelpAgent:
         trace: SessionTrace,
         *,
         extra_candidates: Optional[List[str]] = None,
-    ) -> str:
+    ) -> Tuple[str, List[Dict[str, Any]]]:
         """
         Verify http(s) links in the draft reply. Replace broken or strongly
         ephemeral URLs with working alternatives from this turn's tool outputs
         (and any extra candidate texts).
+
+        Returns (cleaned_text, change records).
         """
         if not text or "http" not in text.lower():
-            return text
+            return text, []
         if os.environ.get("HOOHELP_LINK_CHECK", "true").lower() in (
             "0",
             "false",
             "no",
             "off",
         ):
-            return text
+            return text, []
 
         candidates: List[str] = []
         for step in getattr(trace, "steps", None) or []:
@@ -291,7 +357,7 @@ class HooHelpAgent:
             )
         except Exception as e:
             logger.warning("Link sanitize failed; posting draft unchanged: %s", e)
-            return text
+            return text, []
         if changes:
             logger.info(
                 "Link-check adjusted %s URL(s): %s",
@@ -301,7 +367,7 @@ class HooHelpAgent:
                     for c in changes
                 ],
             )
-        return cleaned
+        return cleaned, changes
 
     def process_message(
         self,
@@ -339,6 +405,9 @@ class HooHelpAgent:
 
         max_iterations = 8
         iteration = 0
+        forced_tools = False
+        force_tool_choice = False
+        include_top_p = True
 
         while iteration < max_iterations:
             iteration += 1
@@ -349,15 +418,48 @@ class HooHelpAgent:
                     "messages": messages,
                     "system": system_instruction,
                     "inferenceConfig": inference_config_for_model(
-                        self.model_id, max_tokens=2048, temperature=0.1
+                        self.model_id,
+                        # MiniMax spends tokens on reasoningContent before text/toolUse.
+                        max_tokens=4096,
+                        temperature=0.1,
+                        include_top_p=include_top_p,
                     ),
                 }
                 if tool_config and tool_config.get("tools"):
-                    converse_kwargs["toolConfig"] = tool_config
+                    tc: Dict[str, Any] = dict(tool_config)
+                    if force_tool_choice:
+                        tc["toolChoice"] = {"any": {}}
+                    converse_kwargs["toolConfig"] = tc
                 if self.guardrail_config:
                     converse_kwargs["guardrailConfig"] = self.guardrail_config
 
-                response = self.bedrock_runtime.converse(**converse_kwargs)
+                try:
+                    response = self.bedrock_runtime.converse(**converse_kwargs)
+                except Exception as conv_exc:
+                    err = str(conv_exc)
+                    if include_top_p and is_minimax(self.model_id) and (
+                        "topP" in err
+                        or "top_p" in err
+                        or (
+                            "ValidationException" in err
+                            and "temperature" in err.lower()
+                        )
+                    ):
+                        logger.warning(
+                            "MiniMax rejected inferenceConfig with topP (%s); retrying without it",
+                            conv_exc,
+                        )
+                        include_top_p = False
+                        iteration -= 1
+                        continue
+                    if force_tool_choice:
+                        logger.warning(
+                            "Forced toolChoice failed (%s); retrying without it",
+                            conv_exc,
+                        )
+                        force_tool_choice = False
+                        continue
+                    raise
                 log_guardrail_trace(response, context="agent")
                 output_message = response.get("output", {}).get("message") or {
                     "role": "assistant",
@@ -385,11 +487,25 @@ class HooHelpAgent:
                     return AgentTurnResult(text=text, trace=trace)
 
                 if stop_reason == "end_turn":
-                    final_texts = [
-                        block["text"] for block in output_message.get("content", []) if "text" in block
-                    ]
+                    if (
+                        not trace.steps
+                        and not forced_tools
+                        and _FACTUAL_QUERY_RE.search(user_message or "")
+                        and iteration < max_iterations
+                    ):
+                        logger.warning(
+                            "Model answered without tools for factual query; forcing tool use request_id=%s",
+                            trace.request_id,
+                        )
+                        forced_tools = True
+                        force_tool_choice = True
+                        messages.append(
+                            {"role": "user", "content": [{"text": _FORCE_TOOLS_NUDGE}]}
+                        )
+                        continue
                     # Raw model text — Slack-facing cleanup + link-check in app.py
-                    text = "\n\n".join(final_texts)
+                    # MiniMax returns reasoningContent before text; skip it here.
+                    text = _assistant_visible_text(output_message.get("content", []))
                     trace.finish(
                         final_text=text,
                         stop_reason=stop_reason,
@@ -458,10 +574,7 @@ class HooHelpAgent:
                     continue
 
                 logger.warning("Unexpected stop reason '%s' from Bedrock", stop_reason)
-                final_texts = [
-                    b["text"] for b in output_message.get("content", []) if "text" in b
-                ]
-                text = "\n\n".join(final_texts) or "Done."
+                text = _assistant_visible_text(output_message.get("content", [])) or "Done."
                 trace.finish(
                     final_text=text,
                     stop_reason=stop_reason or "unexpected",

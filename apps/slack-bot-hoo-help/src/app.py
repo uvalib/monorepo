@@ -28,9 +28,11 @@ from slack_bolt import App
 from slack_bolt.adapter.aws_lambda import SlackRequestHandler
 
 from agent import HooHelpAgent
+from bedrock_params import DEFAULT_AGENT_MODEL_ID, DEFAULT_FORMAT_MODEL_ID
 from gateway_mcp_client import GatewayMCPClient
 from session_trace import SessionTrace
-from slack_format import format_for_slack
+from slack_blocks import flatten_carousels
+from slack_format import format_for_slack, rewrite_urls_in_blocks
 from thread_context import (
     extract_thread_history,
     should_ignore_message_event,
@@ -46,7 +48,10 @@ GATEWAY_URL = os.environ.get(
     "GATEWAY_URL",
     "https://occupancy-reporting-gateway-mohw8c1jug.gateway.bedrock-agentcore.us-east-1.amazonaws.com/mcp",
 )
-BEDROCK_MODEL_ID = os.environ.get("BEDROCK_MODEL_ID", "us.amazon.nova-pro-v1:0")
+BEDROCK_MODEL_ID = os.environ.get("BEDROCK_MODEL_ID", DEFAULT_AGENT_MODEL_ID)
+SLACK_FORMAT_MODEL_ID = os.environ.get(
+    "SLACK_FORMAT_MODEL_ID", DEFAULT_FORMAT_MODEL_ID
+)
 
 
 def _load_secret(env_key: str, ssm_path_env: str) -> str:
@@ -259,29 +264,26 @@ def handle_user_query(
     raw_response = turn.text
     trace: SessionTrace = turn.trace
 
-    # Bedrock formats the draft as Slack mrkdwn; image IIIF URLs become image blocks
+    # Bedrock formats the draft as Slack mrkdwn; hours/occupancy tool output
+    # becomes tables/charts; image IIIF URLs become image blocks.
     fallback_text, blocks = format_for_slack(
         raw_response,
         bedrock_client=getattr(agent, "bedrock_runtime", None),
         model_id=getattr(agent, "model_id", None),
+        tool_steps=getattr(trace, "steps", None),
+        exclude_image_urls=history_meta.get("seen_image_urls") or [],
     )
     # Link gate: verify http(s) URLs; replace broken/ephemeral ones from tool outputs
     try:
-        cleaned = agent._sanitize_links(
+        cleaned, link_changes = agent._sanitize_links(
             fallback_text,
             trace,
             extra_candidates=[raw_response] if raw_response else None,
         )
         if cleaned != fallback_text:
             fallback_text = cleaned
-            # Rebuild blocks without a second LLM pass so Image URLs stay in sync
-            fallback_text, blocks = format_for_slack(
-                fallback_text,
-                bedrock_client=getattr(agent, "bedrock_runtime", None),
-                model_id=getattr(agent, "model_id", None),
-                use_llm=False,
-            )
-            # Keep session traces aligned with what Slack received
+            if link_changes:
+                blocks = rewrite_urls_in_blocks(blocks, link_changes)
             if hasattr(trace, "final_text"):
                 trace.final_text = fallback_text
     except Exception as link_err:
@@ -297,25 +299,48 @@ def handle_user_query(
     )
     trace.set_slack_reply(fallback_text)
 
+    post_kwargs = {
+        "channel": channel_id,
+        "thread_ts": reply_thread_ts if force_thread else None,
+        "text": fallback_text,
+        "blocks": blocks,
+    }
+    posted = False
     try:
-        client.chat_postMessage(
-            channel=channel_id,
-            thread_ts=reply_thread_ts if force_thread else None,
-            text=fallback_text,
-            blocks=blocks,
-        )
-    except Exception as e:
-        logger.error("Failed to send Slack response with blocks: %s", e)
-        if not trace.error:
-            trace.error = f"slack_send: {e}"
         try:
-            say(
-                text=fallback_text,
-                thread_ts=reply_thread_ts if force_thread else None,
-            )
-        except Exception as e2:
-            logger.error("Fallback Slack send also failed: %s", e2)
-            trace.error = f"slack_send_fallback: {e2}"
+            client.chat_postMessage(**post_kwargs)
+            posted = True
+        except Exception as e:
+            logger.error("Failed to send Slack response with blocks: %s", e)
+            if not trace.error:
+                trace.error = f"slack_send: {e}"
+            # Newest block types first: drop charts, then flatten carousel → image blocks.
+            no_viz = [b for b in blocks if b.get("type") != "data_visualization"]
+            retries = []
+            if no_viz and no_viz != blocks:
+                retries.append(("without charts", no_viz))
+            flat = flatten_carousels(no_viz or blocks)
+            if flat != (no_viz or blocks):
+                retries.append(("carousel flattened to images", flat))
+            for label, retry_blocks in retries:
+                if posted:
+                    break
+                try:
+                    post_kwargs["blocks"] = retry_blocks
+                    client.chat_postMessage(**post_kwargs)
+                    logger.warning("Posted Slack reply %s", label)
+                    posted = True
+                except Exception as e_retry:
+                    logger.error("Retry %s also failed: %s", label, e_retry)
+        if not posted:
+            try:
+                say(
+                    text=fallback_text,
+                    thread_ts=reply_thread_ts if force_thread else None,
+                )
+            except Exception as e2:
+                logger.error("Fallback Slack send also failed: %s", e2)
+                trace.error = f"slack_send_fallback: {e2}"
     finally:
         if reacted and channel_id and ts:
             try:
@@ -461,6 +486,7 @@ def handler(event, context):
                     "status": "Healthy",
                     "service": "slack-bot-hoo-help",
                     "model": BEDROCK_MODEL_ID,
+                    "format_model": SLACK_FORMAT_MODEL_ID,
                 }
             ),
         }

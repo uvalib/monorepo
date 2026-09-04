@@ -7,6 +7,7 @@ import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 
 from thread_context import (
+    image_urls_from_slack_message,
     sanitize_bedrock_history,
     should_ignore_message_event,
     strip_mention_prefix,
@@ -66,6 +67,25 @@ def test_sanitize_empty():
     assert sanitize_bedrock_history([{"role": "assistant", "content": [{"text": "x"}]}]) == []
 
 
+def test_image_urls_from_slack_message():
+    url = "https://iiif.lib.virginia.edu/iiif/uva-lib:2163994/full/!800,800/0/default.jpg"
+    msg = {
+        "text": "Here are some photos.",
+        "blocks": [
+            {
+                "type": "carousel",
+                "elements": [
+                    {
+                        "type": "card",
+                        "hero_image": {"type": "image", "image_url": url},
+                    }
+                ],
+            }
+        ],
+    }
+    assert url in image_urls_from_slack_message(msg)
+
+
 if __name__ == "__main__":
     test_strip_mention()
     test_mentions_bot()
@@ -73,4 +93,5 @@ if __name__ == "__main__":
     test_ignore_events()
     test_sanitize_history()
     test_sanitize_empty()
+    test_image_urls_from_slack_message()
     print("test_thread_context: OK")

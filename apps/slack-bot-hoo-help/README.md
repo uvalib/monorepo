@@ -2,7 +2,8 @@
 
 Intelligent Slack bot for the University of Virginia (UVA) Library system.
 
-- **LLM:** Amazon Bedrock Nova Pro (`us.amazon.nova-pro-v1:0`)
+- **Agent LLM:** Amazon Bedrock MiniMax M2.5 (`minimax.minimax-m2.5`) via Converse + MCP tools
+- **Formatter LLM:** Gemma 4 31B (`google.gemma-4-31b`) on Bedrock Mantle, `tool_choice` locked to the Block Kit JSON schema
 - **Tools:** Public AgentCore MCP Gateway (occupancy, Virgo catalog, knowledge bases) plus **in-process Wikipedia** tools (`wikipedia_search`, `wikipedia_get_page`)
 - **Delivery:** Slack **Events API** → API Gateway HTTP API → **AWS Lambda** (SAM)
 
@@ -21,7 +22,10 @@ Lambda (Bolt process_before_response + lazy listeners)
       │  1) ack within ~3s
       │  2) async self-invoke for agent work
       ▼
-Bedrock Converse (Nova Pro)  +  AgentCore MCP Gateway tools
+Bedrock Converse (MiniMax M2.5)  +  AgentCore MCP Gateway tools
+      │
+      ▼
+Bedrock Mantle Chat Completions (Gemma 4 31B, Block Kit tool_choice)
       │
       ▼
 Slack Web API (chat.postMessage / chat.update)
@@ -160,7 +164,8 @@ python3 test_bot_locally.py
 | `/hoohelp/slack/bot-token` | SSM SecureString | Bot token (`xoxb-...`) |
 | `/hoohelp/slack/signing-secret` | SSM SecureString | Events API signing secret |
 | `GATEWAY_URL` | Lambda env | Public MCP gateway URL |
-| `BEDROCK_MODEL_ID` | Lambda env | Bedrock model / inference profile (`us.anthropic.claude-sonnet-5`) |
+| `BEDROCK_MODEL_ID` | Lambda env | Agent model (`minimax.minimax-m2.5`, Converse + MCP tools) |
+| `SLACK_FORMAT_MODEL_ID` | Lambda env | Formatter model (`google.gemma-4-31b`, Mantle Chat Completions) |
 | `StageName` | SAM parameter | API stage (`prod`) |
 | `ShowModelReasoning` | SAM parameter | `true` to show muted CoT under answers |
 | `ConversationTrace` / `CONVERSATION_TRACE` | SAM / Lambda env | `off` · `cloudwatch` · `s3` · `both` (default **both**) |
@@ -175,8 +180,9 @@ python3 test_bot_locally.py
 ## Bedrock Guardrails (library assistant)
 
 SAM creates **`hoohelp-library-assistant-<stage>`** and a published version. Lambda
-passes `guardrailConfig` on every Bedrock **Converse** call (agent loop + Slack
-formatter).
+passes `guardrailConfig` on every Bedrock **Converse** call (the MiniMax agent loop).
+The Gemma formatter runs on **bedrock-mantle**, which does not support Guardrails;
+it only restyles already-guarded agent output into Block Kit JSON.
 
 | Policy | Library-assistant settings |
 |--------|----------------------------|
