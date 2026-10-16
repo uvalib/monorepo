@@ -3,7 +3,7 @@
 Intelligent Slack bot for the University of Virginia (UVA) Library system.
 
 - **Agent LLM:** Amazon Bedrock MiniMax M2.5 (`minimax.minimax-m2.5`) via Converse + MCP tools
-- **Formatter LLM:** Gemma 4 31B (`google.gemma-4-31b`) on Bedrock Mantle, `tool_choice` locked to the Block Kit JSON schema
+- **Slack formatting:** in code — agent mrkdwn cleanup, markdown tables → Slack table block, hours/occupancy cards and image carousels from tool output. An optional Gemma 4 31B Block Kit rewrite pass exists behind `SLACK_LLM_FORMAT=true` (off by default)
 - **Tools:** Public AgentCore MCP Gateway (occupancy, Virgo catalog, knowledge bases) plus **in-process Wikipedia** tools (`wikipedia_search`, `wikipedia_get_page`)
 - **Delivery:** Slack **Events API** → API Gateway HTTP API → **AWS Lambda** (SAM)
 
@@ -25,7 +25,8 @@ Lambda (Bolt process_before_response + lazy listeners)
 Bedrock Converse (MiniMax M2.5)  +  AgentCore MCP Gateway tools
       │
       ▼
-Bedrock Mantle Chat Completions (Gemma 4 31B, Block Kit tool_choice)
+slack_format.py (mrkdwn cleanup + Block Kit from tool output;
+                 optional Gemma 4 31B rewrite when SLACK_LLM_FORMAT=true)
       │
       ▼
 Slack Web API (chat.postMessage / chat.update)
@@ -126,6 +127,7 @@ After deploy, SAM prints **`SlackEventsUrl`**.
 5. **OAuth & Permissions** → ensure bot scopes include at least:
    - `app_mentions:read`
    - `chat:write`
+   - `files:write` (Excel attachments for spreadsheet requests)
    - `reactions:write` — bot adds :brain: on the user message while working (no “thinking…” reply)
    - `channels:history` / `groups:history` / `im:history` / `mpim:history` (thread context)
    - `channels:read` / `groups:read` as needed
@@ -165,7 +167,8 @@ python3 test_bot_locally.py
 | `/hoohelp/slack/signing-secret` | SSM SecureString | Events API signing secret |
 | `GATEWAY_URL` | Lambda env | Public MCP gateway URL |
 | `BEDROCK_MODEL_ID` | Lambda env | Agent model (`minimax.minimax-m2.5`, Converse + MCP tools) |
-| `SLACK_FORMAT_MODEL_ID` | Lambda env | Formatter model (`google.gemma-4-31b`, Mantle Chat Completions) |
+| `SLACK_LLM_FORMAT` | Lambda env | `false` (default): agent mrkdwn is cleaned and laid out in code. `true`: extra Gemma Block Kit rewrite pass |
+| `SLACK_FORMAT_MODEL_ID` | Lambda env | Formatter model when `SLACK_LLM_FORMAT=true` (`google.gemma-4-31b`, Mantle Chat Completions) |
 | `StageName` | SAM parameter | API stage (`prod`) |
 | `ShowModelReasoning` | SAM parameter | `true` to show muted CoT under answers |
 | `ConversationTrace` / `CONVERSATION_TRACE` | SAM / Lambda env | `off` · `cloudwatch` · `s3` · `both` (default **both**) |
@@ -181,8 +184,9 @@ python3 test_bot_locally.py
 
 SAM creates **`hoohelp-library-assistant-<stage>`** and a published version. Lambda
 passes `guardrailConfig` on every Bedrock **Converse** call (the MiniMax agent loop).
-The Gemma formatter runs on **bedrock-mantle**, which does not support Guardrails;
-it only restyles already-guarded agent output into Block Kit JSON.
+The optional Gemma formatter (`SLACK_LLM_FORMAT=true`) runs on **bedrock-mantle**,
+which does not support Guardrails; it only restyles already-guarded agent output
+into Block Kit JSON.
 
 | Policy | Library-assistant settings |
 |--------|----------------------------|

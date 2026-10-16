@@ -1,3 +1,4 @@
 # Copied at CodeUri root for `sam build`. Keep in sync with ../requirements.txt
 slack-bolt>=1.21.0,<2
 requests>=2.32.0,<3
+openpyxl>=3.1,<4

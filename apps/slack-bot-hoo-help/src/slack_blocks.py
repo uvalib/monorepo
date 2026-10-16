@@ -1133,6 +1133,15 @@ def blocks_from_tool_steps(
             blocks.append(divider_block())
         blocks.extend(hours_blocks(schedule))
 
+    # A comparison table only makes sense for different libraries over the
+    # same range. Repeated calls (retries, month-by-month) would otherwise
+    # render as "Shannon / Shannon / Shannon" rows with no dates.
+    if len(occupancy) > 1:
+        libs = {r.library for r in occupancy}
+        ranges = {(r.start_date, r.end_date) for r in occupancy}
+        if len(libs) != len(occupancy) or len(ranges) != 1:
+            occupancy = []
+
     viz_left = MAX_VIZ
     if occupancy:
         if blocks:

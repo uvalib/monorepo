@@ -53,7 +53,8 @@ Parameters:
     Type: String
     Default: "google.gemma-4-31b"
     Description: >
-      Bedrock Mantle model for Slack Block Kit formatting (Gemma 4 31B).
+      Bedrock Mantle model for optional Slack Block Kit formatting (Gemma 4 31B).
+      Only used when SLACK_LLM_FORMAT is "true" (off by default).
       Gemma is mantle-only; it is invoked via Chat Completions with tool_choice
       locked to the Block Kit JSON schema.
 
@@ -249,8 +250,10 @@ Resources:
           GATEWAY_URL: !Ref GatewayUrl
           BEDROCK_MODEL_ID: !Ref BedrockModelId
           SHOW_MODEL_REASONING: !Ref ShowModelReasoning
-          # Second call reformats the draft as Slack Block Kit (Gemma 4 31B on mantle)
-          SLACK_LLM_FORMAT: "true"
+          # Optional second call that reformats the draft as Block Kit (Gemma 4 31B
+          # on mantle). Off: it collapsed long answers and tables to one sentence.
+          # The agent's mrkdwn is cleaned and laid out in code instead.
+          SLACK_LLM_FORMAT: "false"
           SLACK_FORMAT_MODEL_ID: !Ref SlackFormatModelId
           # Session transcripts for MCP / prompt development
           CONVERSATION_TRACE: !Ref ConversationTrace

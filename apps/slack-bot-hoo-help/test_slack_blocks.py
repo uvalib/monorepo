@@ -291,6 +291,139 @@ def test_occupancy_replaces_llm_dump():
     assert "avg occupancy" in text.lower() or "8,356" in text or "9,206" in text
 
 
+def test_occupancy_keeps_agent_answer():
+    """The agent's prose must reach Slack; the occupancy card is appended below it."""
+    answer = (
+        "The tools don't provide a day-by-day breakdown, so I can't build an Excel "
+        "export. Here's the July summary instead."
+    )
+    text, blocks = format_for_slack(
+        answer,
+        use_llm=False,
+        tool_steps=[_Step("get_occupancy_report", OCCUPANCY_SAMPLE)],
+    )
+    assert "day-by-day breakdown" in text
+    types = _types(blocks)
+    assert types[0] == "section"
+    assert "day-by-day breakdown" in blocks[0]["text"]["text"]
+    assert "data_visualization" in types
+
+
+def test_occupancy_mismatched_reports_skip_compare():
+    """Same library over different ranges is not a comparison table."""
+    second = OCCUPANCY_SAMPLE.replace("2026-08-25 to 2026-08-31", "2026-09-01 to 2026-09-07")
+    blocks = blocks_from_tool_steps(
+        [
+            _Step("get_occupancy_report", OCCUPANCY_SAMPLE),
+            _Step("get_occupancy_report", second),
+        ]
+    )
+    headers = [b["text"]["text"] for b in blocks if b.get("type") == "header"]
+    assert not any("comparison" in h.lower() for h in headers)
+
+
+def test_occupancy_compare_same_range():
+    shannon = OCCUPANCY_SAMPLE.replace("Clemons (", "Shannon (")
+    blocks = blocks_from_tool_steps(
+        [
+            _Step("get_occupancy_report", OCCUPANCY_SAMPLE),
+            _Step("get_occupancy_report", shannon),
+        ]
+    )
+    headers = [b["text"]["text"] for b in blocks if b.get("type") == "header"]
+    assert any("comparison" in h.lower() for h in headers)
+
+
+ENTRANCE_ANSWER = """Here are the gate counts for *Clemons in April 2026*:
+
+**Monthly Totals**
+* **Entries (Ingress):** 73,469
+* **Exits (Egress):** 76,224
+
+| Entrance | Entries | Exits |
+| :--- | :--- | :--- |
+| Clemons Main Entry | 17,941 | 39,540 |
+| C215 connector | 12,779 | 16,675 |
+
+---
+
+April was the busiest month so far."""
+
+
+def test_markdown_table_becomes_table_block():
+    text, blocks = format_for_slack(
+        ENTRANCE_ANSWER,
+        use_llm=False,
+        tool_steps=[_Step("get_entrance_traffic", "| raw |")],
+    )
+    types = _types(blocks)
+    assert types.count("table") == 1
+    table = next(b for b in blocks if b["type"] == "table")
+    assert table["rows"][1][0]["text"] == "Clemons Main Entry"
+    blob = json.dumps(blocks)
+    assert "| :---" not in blob
+    assert "**" not in blob
+    # prose before and after the table survives, in order
+    sections = [b["text"]["text"] for b in blocks if b["type"] == "section"]
+    assert "Monthly Totals" in sections[0]
+    assert "• *Entries (Ingress):* 73,469" in sections[0]
+    assert "busiest month" in sections[-1]
+    assert types.index("table") < len(types) - 1
+    assert "\n---" not in text
+
+
+def test_markdown_table_falls_back_when_table_taken():
+    """Slack allows one table per message; occupancy already uses it."""
+    text, blocks = format_for_slack(
+        ENTRANCE_ANSWER,
+        use_llm=False,
+        tool_steps=[_Step("get_occupancy_report", OCCUPANCY_SAMPLE)],
+    )
+    assert _types(blocks).count("table") == 1
+    blob = json.dumps(blocks)
+    assert "Clemons Main Entry" in blob
+    assert "| :---" not in blob
+
+
+def test_bold_heading_not_double_starred():
+    text, _ = format_for_slack("## *Clemons — Sept 28*\n\n### Totals", use_llm=False)
+    assert "**" not in text
+    assert "*Clemons — Sept 28*" in text
+    assert "*Totals*" in text
+
+
+def test_nested_list_keeps_structure():
+    draft = "**Shannon:**\n  - Entries: 12,675\n  - Exits: 13,088\n- **Clemons:**\n  - Entries: 17,213"
+    text, _ = format_for_slack(draft, use_llm=False)
+    assert text == (
+        "*Shannon:*\n    ◦ Entries: 12,675\n    ◦ Exits: 13,088\n"
+        "• *Clemons:*\n    ◦ Entries: 17,213"
+    )
+
+
+def test_inline_bullets_still_split():
+    text, _ = format_for_slack("Open: Clemons • Shannon • Music", use_llm=False)
+    assert text == "Open: Clemons\n• Shannon\n• Music"
+
+
+def test_policy_echo_removed():
+    raw = (
+        "<thinking> tool timed out </thinking> Only reproduce, summarize, paraphrase "
+        "content ... provide general, non-infringing information and courteously direct "
+        "users to the original source. Ensure that all responses remain compliant with "
+        "the Media Outlets Policy.\nI'm sorry, the gate count tool timed out."
+    )
+    text, blocks = format_for_slack(raw, use_llm=False)
+    assert text == "I'm sorry, the gate count tool timed out."
+    assert "Media Outlets" not in json.dumps(blocks)
+
+
+def test_llm_formatter_off_by_default():
+    os.environ.pop("SLACK_LLM_FORMAT", None)
+    text, blocks = format_for_slack("*Clemons* is open.")
+    assert text == "*Clemons* is open."
+
+
 def test_format_for_slack_attaches_hours_table():
     text, blocks = format_for_slack(
         "*Clemons Library* is open all week.",
@@ -409,6 +542,16 @@ def main():
         test_occupancy_viz_cap_on_compare,
         test_skip_error_and_foot_when_occupancy_present,
         test_foot_traffic_only,
+        test_occupancy_keeps_agent_answer,
+        test_occupancy_mismatched_reports_skip_compare,
+        test_occupancy_compare_same_range,
+        test_markdown_table_becomes_table_block,
+        test_markdown_table_falls_back_when_table_taken,
+        test_bold_heading_not_double_starred,
+        test_nested_list_keeps_structure,
+        test_inline_bullets_still_split,
+        test_policy_echo_removed,
+        test_llm_formatter_off_by_default,
         test_format_for_slack_attaches_hours_table,
         test_image_carousel_from_tool,
         test_image_uses_first_page_with_new_hits,

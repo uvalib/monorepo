@@ -3,11 +3,14 @@ slack_format.py — Format HooHelp replies for Slack.
 
 Strategy:
 1. Strip model chain-of-thought tags (cheap, deterministic).
-2. Ask Bedrock to rewrite the answer as Slack Block Kit JSON (text + blocks).
-   Invalid / non-JSON output falls back to mrkdwn in section blocks.
+2. Clean the agent's answer into Slack mrkdwn locally (bold, links, bullets,
+   headings) and turn markdown tables into a Slack table block.
 3. Attach deterministic tables/charts from hours and occupancy tool output,
-   and image blocks when public IIIF URLs are present.
-4. Fall back to light local cleanup if the formatter call fails.
+   and image blocks when public IIIF URLs are present. These are appended
+   below the agent's answer; they never replace it (hours excepted).
+4. Optional (SLACK_LLM_FORMAT=true): ask a second model to rewrite the answer
+   as Block Kit JSON. Off by default — Gemma 31B summarized multi-paragraph
+   answers and tables down to a single sentence.
 """
 
 from __future__ import annotations
@@ -22,6 +25,8 @@ from slack_blocks import (
     MAX_BLOCKS,
     blocks_from_tool_steps,
     fmt_num,
+    parse_markdown_table,
+    table_block,
     tool_fallback_text,
 )
 
@@ -46,6 +51,14 @@ _THINKING_PATTERNS = [
 _ORPHAN_OPEN = re.compile(
     r"<(thinking|think|reasoning|reflection)\b[^>]*>.*$",
     re.IGNORECASE | re.DOTALL,
+)
+
+# Provider-side safety instructions MiniMax sometimes echoes into its answer
+# (seen after a gateway tool timeout). Drop the sentence, keep the answer.
+_POLICY_ECHO = re.compile(
+    r"[^\n]*(?:Media Outlets Policy|non-infringing information|"
+    r"Generate a polite, respectful, and safe response)[^\n]*\n?",
+    re.IGNORECASE,
 )
 
 _IIIF_RE = re.compile(
@@ -264,6 +277,7 @@ def extract_thinking(text: str) -> Tuple[str, str]:
                 thinking_parts.append(snippet)
         clean = pattern.sub("", clean)
     clean = _ORPHAN_OPEN.sub("", clean)
+    clean = _POLICY_ECHO.sub("", clean)
     clean = re.sub(r"\n{3,}", "\n\n", clean).strip()
     return "\n\n".join(thinking_parts).strip(), clean
 
@@ -277,8 +291,15 @@ def _local_markdown_cleanup(text: str) -> str:
     text = _MD_LINK.sub(r"<\2|\1>", text)
     text = re.sub(r"\*\*(.+?)\*\*", r"*\1*", text)
     text = re.sub(r"__(.+?)__", r"*\1*", text)
-    text = re.sub(r"^#{1,6}\s+(.+)$", r"*\1*", text, flags=re.MULTILINE)
-    text = re.sub(r"[ \t]+•[ \t]+", "\n• ", text)
+    text = re.sub(r"^#{1,6}\s+\**(.+?)\**\s*$", r"*\1*", text, flags=re.MULTILINE)
+    # Markdown list markers render literally in mrkdwn; Slack wants "•".
+    text = re.sub(r"^[*\-][ \t]+", "• ", text, flags=re.MULTILINE)
+    # Nested items: mrkdwn has no list nesting, so indent with a hollow bullet.
+    text = re.sub(r"^[ \t]+[*\-•][ \t]+", "    ◦ ", text, flags=re.MULTILINE)
+    # Horizontal rules ("---") show up as literal dashes.
+    text = re.sub(r"(?m)^[ \t]*(?:-{3,}|\*{3,}|_{3,})[ \t]*$", "", text)
+    # Inline "a • b • c" runs → one bullet per line (not leading/nested ones).
+    text = re.sub(r"(?<=\S)[ \t]+•[ \t]+", "\n• ", text)
     text = re.sub(r"\n{3,}", "\n\n", text)
     return text.strip()
 
@@ -1094,6 +1115,84 @@ def _chunk_mrkdwn(text: str, max_len: int = 2900) -> List[str]:
     return chunks or [text[:max_len]]
 
 
+_TABLE_LINE = re.compile(r"^\s*\|.*\|\s*$")
+_TABLE_SEP_LINE = re.compile(r"^\s*\|?[\s:|-]*-{3,}[\s:|-]*\|?\s*$")
+
+
+def split_markdown_tables(text: str) -> List[Tuple[str, str]]:
+    """Split mrkdwn into ("text", chunk) and ("table", markdown table) segments."""
+    segments: List[Tuple[str, str]] = []
+    buf: List[str] = []
+    table: List[str] = []
+
+    def flush_text() -> None:
+        chunk = "\n".join(buf).strip()
+        if chunk:
+            segments.append(("text", chunk))
+        buf.clear()
+
+    def flush_table() -> None:
+        # A real table has a header row plus a --- separator row.
+        if len(table) >= 2 and any(_TABLE_SEP_LINE.match(l) for l in table[1:2]):
+            flush_text()
+            segments.append(("table", "\n".join(table)))
+        else:
+            buf.extend(table)
+        table.clear()
+
+    for line in (text or "").splitlines():
+        if _TABLE_LINE.match(line):
+            table.append(line)
+            continue
+        if table:
+            flush_table()
+        buf.append(line)
+    if table:
+        flush_table()
+    flush_text()
+    return segments
+
+
+def _cell_text(cell: str) -> str:
+    """Table cells are raw_text in Slack: drop mrkdwn emphasis markers."""
+    cell = re.sub(r"<(https?://[^|>]+)\|([^>]+)>", r"\2", cell)
+    return re.sub(r"[*_`]+", "", cell).strip() or " "
+
+
+def _table_as_preformatted(md_table: str) -> str:
+    rows = [l.strip() for l in md_table.splitlines() if not _TABLE_SEP_LINE.match(l)]
+    rows = [re.sub(r"[*`]+", "", r) for r in rows]
+    return "```\n" + "\n".join(rows) + "\n```"
+
+
+def _prose_blocks(mrkdwn: str, *, allow_table: bool) -> List[Dict[str, Any]]:
+    """
+    Agent mrkdwn → section blocks, with the first markdown table as a native
+    Slack table (Slack allows one table block per message). Further tables, or
+    any table when the message already has one, become preformatted text.
+    """
+    blocks: List[Dict[str, Any]] = []
+    for kind, chunk in split_markdown_tables(mrkdwn):
+        if kind == "table":
+            headers, rows = parse_markdown_table(chunk)
+            tbl = None
+            if allow_table and headers and rows and len(headers) <= 20:
+                tbl = table_block(
+                    [_cell_text(h) for h in headers],
+                    [[_cell_text(c) for c in row] for row in rows],
+                )
+            if tbl:
+                blocks.append(tbl)
+                allow_table = False
+                continue
+            chunk = _table_as_preformatted(chunk)
+        for piece in _chunk_mrkdwn(chunk):
+            blocks.append(
+                {"type": "section", "text": {"type": "mrkdwn", "text": piece[:3000]}}
+            )
+    return blocks
+
+
 def _append_images(
     blocks: List[Dict[str, Any]], images: List[Dict[str, str]]
 ) -> None:
@@ -1135,10 +1234,8 @@ def _build_blocks(
     if llm_blocks:
         blocks.extend(llm_blocks)
     elif mrkdwn:
-        for chunk in _chunk_mrkdwn(mrkdwn):
-            blocks.append(
-                {"type": "section", "text": {"type": "mrkdwn", "text": chunk[:3000]}}
-            )
+        extra_has_table = any(b.get("type") == "table" for b in extra_blocks or [])
+        blocks.extend(_prose_blocks(mrkdwn, allow_table=not extra_has_table))
 
     if extra_blocks:
         if blocks:
@@ -1147,6 +1244,11 @@ def _build_blocks(
 
     _append_images(blocks, images)
     return blocks[:MAX_BLOCKS]
+
+
+_RAW_OCCUPANCY_DUMP = re.compile(
+    r"(?im)^\s*(?:coverage summary|average hourly|data quality summary)\s*:"
+)
 
 
 def _layout_owned(extra: List[Dict[str, Any]]) -> Tuple[bool, bool, bool]:
@@ -1193,7 +1295,7 @@ def format_for_slack(
             "on",
         )
     if use_llm is None:
-        use_llm = os.environ.get("SLACK_LLM_FORMAT", "true").lower() in (
+        use_llm = os.environ.get("SLACK_LLM_FORMAT", "false").lower() in (
             "1",
             "true",
             "yes",
@@ -1298,10 +1400,16 @@ def format_for_slack(
     if extra:
         prose_mrkdwn = formatted
         if occ_owned:
-            # Code owns occupancy layout. Drop the LLM paste of the raw report.
-            formatted = fallback or formatted
+            # Keep the agent's answer (it may explain limits, compare months,
+            # or answer a follow-up); the occupancy card is appended below.
+            # Only a pasted raw tool report is dropped in favor of the card.
             llm_blocks = None
-            prose_mrkdwn = ""
+            if _RAW_OCCUPANCY_DUMP.search(answer):
+                formatted = fallback or formatted
+                prose_mrkdwn = ""
+            else:
+                formatted = _local_markdown_cleanup(answer)
+                prose_mrkdwn = formatted
         elif hours_owned:
             # Code owns the Date/Day/Hours table. Drop the LLM day-by-day list
             # so Slack does not show the same schedule twice.

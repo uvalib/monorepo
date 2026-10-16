@@ -133,6 +133,7 @@ class SessionTrace:
     # Outputs
     final_text: str = ""
     slack_text: str = ""
+    slack_blocks: List[Dict[str, Any]] = field(default_factory=list)
     error: Optional[str] = None
 
     # Emit metadata filled after write
@@ -209,8 +210,11 @@ class SessionTrace:
         self.duration_ms = int((time.perf_counter() - self._t0) * 1000)
         return self
 
-    def set_slack_reply(self, slack_text: str) -> None:
+    def set_slack_reply(
+        self, slack_text: str, blocks: Optional[List[Dict[str, Any]]] = None
+    ) -> None:
         self.slack_text = slack_text or ""
+        self.slack_blocks = list(blocks or [])
 
     # --- serialization ------------------------------------------------------
 
@@ -263,6 +267,9 @@ class SessionTrace:
             "s3_uri": self.s3_uri,
             "emit_mode": self.emit_mode,
         }
+        if full_outputs and self.slack_blocks:
+            # What Slack actually rendered (slack_text is only the fallback).
+            payload["slack_blocks"] = self.slack_blocks
         if self.system_prompt is not None:
             payload["system_prompt"] = self.system_prompt
         return payload

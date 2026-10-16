@@ -86,8 +86,16 @@ def test_image_urls_from_slack_message():
     assert url in image_urls_from_slack_message(msg)
 
 
+def test_strip_mention_unescapes_slack_entities():
+    assert (
+        strip_mention_prefix("<@UBOT> rooms at Science &amp; Engineering &lt;3pm&gt;", "UBOT")
+        == "rooms at Science & Engineering <3pm>"
+    )
+
+
 if __name__ == "__main__":
     test_strip_mention()
+    test_strip_mention_unescapes_slack_entities()
     test_mentions_bot()
     test_is_from_our_bot()
     test_ignore_events()

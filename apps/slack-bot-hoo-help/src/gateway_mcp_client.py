@@ -8,6 +8,7 @@ Interacts with the public AWS AgentCore MCP Gateway over Streamable HTTP:
 """
 
 import logging
+import os
 import time
 from typing import Any, Dict, List, Optional
 
@@ -18,6 +19,10 @@ logger = logging.getLogger(__name__)
 DEFAULT_GATEWAY_URL = (
     "https://occupancy-reporting-gateway-mohw8c1jug.gateway.bedrock-agentcore.us-east-1.amazonaws.com/mcp"
 )
+
+# Month-long occupancy loads take ~10–20s server-side plus runtime cold start;
+# 30s was timing out. Keep well under the 120s Lambda timeout.
+TOOL_CALL_TIMEOUT_SEC = float(os.environ.get("GATEWAY_TOOL_TIMEOUT_SEC", "60"))
 
 
 class GatewayMCPClient:
@@ -52,10 +57,20 @@ class GatewayMCPClient:
         }
 
         try:
-            resp = requests.post(self.gateway_url, json=payload, headers=headers, timeout=15)
-            resp.raise_for_status()
-            data = resp.json()
-            tools = data.get("result", {}).get("tools", [])
+            # The gateway pages tools/list (30 per page); follow nextCursor or
+            # tools on later pages (e.g. search_catalog) are never offered.
+            tools: List[Dict[str, Any]] = []
+            cursor = None
+            for _ in range(20):
+                if cursor:
+                    payload["params"] = {"cursor": cursor}
+                resp = requests.post(self.gateway_url, json=payload, headers=headers, timeout=15)
+                resp.raise_for_status()
+                result = resp.json().get("result", {})
+                tools.extend(result.get("tools", []))
+                cursor = result.get("nextCursor")
+                if not cursor:
+                    break
             self._tools_cache = tools
             self._tools_cache_at = time.monotonic()
             logger.info("Loaded %s tools from AgentCore Gateway (%s)", len(tools), self.gateway_url)
@@ -81,7 +96,9 @@ class GatewayMCPClient:
         }
 
         try:
-            resp = requests.post(self.gateway_url, json=payload, headers=headers, timeout=30)
+            resp = requests.post(
+                self.gateway_url, json=payload, headers=headers, timeout=TOOL_CALL_TIMEOUT_SEC
+            )
             resp.raise_for_status()
             data = resp.json()
 

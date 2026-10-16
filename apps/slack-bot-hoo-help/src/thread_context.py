@@ -87,7 +87,10 @@ DEFAULT_MAX_HISTORY_MESSAGES = 20
 
 
 def strip_mention_prefix(text: str, bot_user_id: Optional[str] = None) -> str:
-    """Remove leading <@BOT> (and other leading mentions) from message text."""
+    """
+    Remove leading <@BOT> (and other leading mentions) from message text, and
+    undo Slack's &amp; / &lt; / &gt; escaping so tools get "Science & Engineering".
+    """
     if not text:
         return ""
     cleaned = text.strip()
@@ -98,7 +101,7 @@ def strip_mention_prefix(text: str, bot_user_id: Optional[str] = None) -> str:
             break
         cleaned = cleaned[m.end() :].strip()
     # Slack sometimes uses <!subteam...> etc. — leave those
-    return cleaned
+    return cleaned.replace("&lt;", "<").replace("&gt;", ">").replace("&amp;", "&")
 
 
 def text_mentions_bot(text: str, bot_user_id: Optional[str]) -> bool:
