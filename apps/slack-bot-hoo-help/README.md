@@ -105,11 +105,41 @@ redeploy required after rotating secrets.
 
 ```bash
 cd apps/slack-bot-hoo-help
-sam build
-sam deploy   # safe — does not take Slack tokens as CLI params
+scripts/deploy.sh          # offline regression evals → sam build → sam deploy
+scripts/deploy.sh --live   # also runs the live evals and asks before deploying
 ```
 
+`deploy.sh` stops if the offline evals fail, and always runs `sam build` (a bare
+`sam deploy` re-ships whatever is in `.aws-sam/build`). Set `PYTHON` to a venv
+with the bot's dependencies if `python3` doesn't have them. Plain
+`sam build && sam deploy` still works and is safe for Slack tokens.
+
 After deploy, SAM prints **`SlackEventsUrl`**.
+
+## Regression evals (`evals/`)
+
+Two tiers, built from real (scrubbed) questions in session traces:
+
+| Tier | Command | What it does |
+|------|---------|--------------|
+| Offline | `python evals/run.py --offline` | Replays each case's recorded tool output and model answer through today's formatting code (`format_for_slack`, Excel). Seconds, no network. **Exit 1 on any failure — blocks `deploy.sh`.** |
+| Live | `python evals/run.py --live` | Sends cases with a `live` block to the real model + gateway (AWS creds from `.env`; ~10–15 min). Writes `evals/reports/live-*.md` with pass/fail, tools called and the full Slack text. Report only. |
+
+Checks: Slack block limits (≤ 50 blocks, ≤ 1 table, ≤ 3000-char sections), no
+raw markdown / `<thinking>` / leaked policy text / `Unknown tool` in what's
+posted, answers not collapsed, plus per-case expected phrases, tools and
+attachments. Run one case with `--case ID`.
+
+Add a case when something goes wrong in Slack:
+
+```bash
+python evals/make_case.py logs/session-traces/2026/10/17/<id>.json --id my-case \
+    --category occupancy --traces-dir logs/session-traces
+```
+
+It scrubs Slack ids and S3 paths, rebuilds thread history, and warns about
+possible person names. Fill in `expect` (facts that must appear) and optionally
+`live`, then run the offline tier.
 
 ---
 

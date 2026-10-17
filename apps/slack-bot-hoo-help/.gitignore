@@ -14,3 +14,6 @@ samconfig.toml.bak
 
 # Local copies of production session traces (MCP prompts / tool I/O)
 logs/
+
+# Live regression eval reports
+evals/reports/
