@@ -923,18 +923,51 @@ _VIRGO_HIT = re.compile(
 )
 
 
+# Notes text that is cataloging boilerplate, not a description of the picture.
+_NOTES_BOILERPLATE = re.compile(
+    r"(?i)^(original negative|copy\b|uncertain identification|negatives?\b|prints?\b|plate\b|original photographs)"
+)
+
+
+def _notes_caption(notes: str) -> str:
+    """'Rotunda, South facade (Copy Negative Available) Size: 8x10 ; Plate…' → 'Rotunda, South facade'."""
+    text = re.split(r"\bSize:", (notes or "").split(";")[0])[0]
+    text = re.sub(r"\([^)]*\)", "", text)
+    text = " ".join(text.split()).strip(" ,.-")
+    if len(text) < 4 or len(text) > 100 or not text[0].isalpha() or _NOTES_BOILERPLATE.match(text):
+        return ""
+    return text
+
+
 def parse_image_hits(output: str) -> List[Dict[str, str]]:
-    """Pull title / collection / IIIF / Virgo records from image-KB tool markdown."""
+    """Pull title / collection / IIIF / Virgo records from image-KB tool markdown.
+
+    Series records (e.g. Holsinger "University of Virginia Grounds Views") share
+    one catalog title; each photo's own caption is the first clause of its
+    Notes. When a title repeats across hits, the card uses that caption and
+    keeps the shared title as `series`.
+    """
     if not output or "iiif.lib.virginia.edu/iiif/" not in output.lower():
         return []
     hits: List[Dict[str, str]] = []
     pending_title = ""
     pending_collection = ""
     pending_virgo = ""
+    pending_notes = ""
+    section_start = 0
     for line in output.splitlines():
         hm = re.match(r"^##\s+Image\s+\d+:\s*(.+?)\s*$", line.strip(), re.I)
         if hm:
             pending_title = hm.group(1).strip()
+            pending_notes = ""
+            section_start = len(hits)
+        nm = re.search(r"\*\*Notes\*\*:\s*(.+)$", line, re.I)
+        if nm:
+            # Notes follow the Image URL line: attach to this section's hit.
+            if len(hits) > section_start:
+                hits[-1]["notes"] = nm.group(1).strip()
+            else:
+                pending_notes = nm.group(1).strip()
         tm = re.search(r"\*\*Title\*\*:\s*(.+)$", line, re.I)
         if tm:
             pending_title = tm.group(1).strip()
@@ -958,11 +991,21 @@ def parse_image_hits(output: str) -> List[Dict[str, str]]:
                     "collection": pending_collection,
                     "image_url": url,
                     "virgo": pending_virgo,
+                    "notes": pending_notes,
                 }
             )
             pending_title = ""
             pending_collection = ""
             pending_virgo = ""
+            pending_notes = ""
+    title_counts: Dict[str, int] = {}
+    for h in hits:
+        title_counts[h["title"]] = title_counts.get(h["title"], 0) + 1
+    for h in hits:
+        caption = _notes_caption(h.get("notes", "")) if title_counts[h["title"]] > 1 else ""
+        if caption:
+            h["series"] = h["title"]
+            h["title"] = caption
     seen = set()
     unique: List[Dict[str, str]] = []
     for h in hits:
@@ -1002,11 +1045,13 @@ def image_blocks(
                 "alt_text": title[:2000],
             },
         }
-        coll = (h.get("collection") or "").strip()
-        if coll:
+        subtitle = " · ".join(
+            x for x in ((h.get("series") or "").strip(), (h.get("collection") or "").strip()) if x
+        )
+        if subtitle:
             card["subtitle"] = {
                 "type": "mrkdwn",
-                "text": coll[:150],
+                "text": subtitle[:150],
                 "verbatim": False,
             }
         virgo = h.get("virgo") or ""

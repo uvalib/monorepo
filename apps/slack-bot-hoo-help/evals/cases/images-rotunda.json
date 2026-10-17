@@ -1,0 +1,42 @@
+{
+  "id": "images-rotunda",
+  "category": "images",
+  "question": "do you have any images of the rotunda that you can show me?",
+  "history": [],
+  "recorded": {
+    "model": "us.anthropic.claude-sonnet-5",
+    "steps": [
+      {
+        "tool_name": "BedrockKBRuntime___search_virgo_image_suggestions",
+        "status": "success",
+        "input": {
+          "query": "Rotunda University of Virginia"
+        },
+        "output": "# Knowledge Base Retrieval Results\n**Knowledge Base**: `virgo-image-suggestions-knowledge-base` (J34YBBVTGA)\n**Query**: `Rotunda University of Virginia`\n**Result type**: visual / image records (multimodal retrieval). Prefer these for photo/image requests. Each hit includes an Image URL suitable for display and a Virgo page link. Order is by visual/semantic rank; catalog titles may not name the object visible in the image.\n\nFound **5** image hit(s):\n\n## Image 1: University of Virginia Grounds Views\n- **Title**: University of Virginia Grounds Views\n- **Identifier**: `uva-lib:1041884`\n- **Collection**: Holsinger Studio Collection\n- **Repository**: Special Collections, University of Virginia Library, Charlottesville, Va.\n- **Relevance score**: 0.591\n- **Image URL**: https://iiif.lib.virginia.edu/iiif/uva-lib:1041884/full/!800,800/0/default.jpg\n- **Virgo page**: https://search.lib.virginia.edu/sources/images/items/uva-lib:1041884\n- **Notes**: Rotunda, North facade Size: 8x10 ; Plate is in good condition.\n- **Subjects**: Architecture ; University of Virginia Rotunda (Charlottesville, Va.) ; Holsinger Studio (Charlottesville, Va.) ; University of Virginia ; United States, Virginia, Charlottesville\n\n## Image 2: University of Virginia Grounds Views\n- **Title**: University of Virginia Grounds Views\n- **Identifier**: `uva-lib:1041871`\n- **Collection**: Holsinger Studio Collection\n- **Repository**: Special Collections, University of Virginia Library, Charlottesville, Va.\n- **Relevance score**: 0.590\n- **Image URL**: https://iiif.lib.virginia.edu/iiif/uva-lib:1041871/full/!800,800/0/default.jpg\n- **Virgo page**: https://search.lib.virginia.edu/sources/images/items/uva-lib:1041871\n- **Notes**: Rotunda, South facade (Copy Negative Available) Size: 8x10 ; Plate is in good condition.\n- **Subjects**: Architecture ; University of Virginia Rotunda (Charlottesville, Va.) ; Holsinger Studio (Charlottesville, Va.) ; University of Virginia ; United States, Virginia, Charlottesville\n\n## Image 3: University of Virginia Grounds Views\n- **Title**: University of Virginia Grounds Views\n- **Identifier**: `uva-lib:1041870`\n- **Collection**: Holsinger Studio Collection\n- **Repository**: Special Collections, University of Virginia Library, Charlottesville, Va.\n- **Relevance score**: 0.584\n- **Image URL**: https://iiif.lib.virginia.edu/iiif/uva-lib:1041870/full/!800,800/0/default.jpg\n- **Virgo page**: https://search.lib.virginia.edu/sources/images/items/uva-lib:1041870\n- **Notes**: Rotunda, South facade (Copy Negative Available) Size: 8x10 ; Plate in good condition\n- **Subjects**: Architecture ; University of Virginia Rotunda (Charlottesville, Va.) ; Holsinger Studio (Charlottesville, Va.) ; University of Virginia ; United States, Virginia, Charlottesville\n\n## Image 4: University of Virginia Grounds Views\n- **Title**: University of Virginia Grounds Views\n- **Identifier**: `uva-lib:1041878`\n- **Collection**: Holsinger Studio Collection\n- **Repository**: Special Collections, University of Virginia Library, Charlottesville, Va.\n- **Relevance score**: 0.582\n- **Image URL**: https://iiif.lib.virginia.edu/iiif/uva-lib:1041878/full/!800,800/0/default.jpg\n- **Virgo page**: https://search.lib.virginia.edu/sources/images/items/uva-lib:1041878\n- **Notes**: Rotunda, South facade, Lawn statue Size: 8x10 ; Plate in good condition\n- **Subjects**: Architecture ; University of Virginia Rotunda (Charlottesville, Va.) ; Holsinger Studio (Charlottesville, Va.) ; University of Virginia ; United States, Virginia, Charlottesville\n\n## Image 5: Rotunda and the Lawn\n- **Title**: Rotunda and the Lawn\n- **Identifier**: `uva-lib:2154101`\n- **Collection**: University of Virginia Visual History Collection\n- **Repository**: Special Collections, University of Virginia Library, Charlottesville, Va.\n- **Relevance score**: 0.584\n- **Image URL**: https://iiif.lib.virginia.edu/iiif/uva-lib:2154101/full/!800,800/0/default.jpg\n- **Virgo page**: https://search.lib.virginia.edu/sources/images/items/uva-lib:2154101\n- **Notes**: Original Negative Present\n- **Subjects**: United States, Virginia, Charlottesville ; University of Virginia\n\n_Assistant instructions: Results are **ranked by visual/semantic similarity** (Relevance score). Titles and Subjects are catalog metadata and often name a place, person, or studio job — **not** everything visible in the photo. Prefer higher-ranked Image URLs even when title/subjects omit the user's words (e.g. a top hit titled for a building may still be the best *cat* photo). Do not hard-filter the list to only titles/subjects containing the query. Use title as caption; only demote a hit when it is clearly a different subject among similar ranks (e.g. demolition vs fire). Include the Image URL and Virgo page for each. Do NOT invent uva_library catalog item IDs (u123456); use the Identifier / Virgo page above._"
+      }
+    ],
+    "final_text": "Yes! Here are some historic photos of the Rotunda from UVA's Special Collections:\n\n*1. Rotunda, North facade*\n• Image URL: https://iiif.lib.virginia.edu/iiif/uva-lib:1041884/full/!800,800/0/default.jpg\n• Virgo page: <https://search.lib.virginia.edu/sources/images/items/uva-lib:1041884|View record>\n• Collection: Holsinger Studio Collection, Special Collections, UVA Library\n\n*2. Rotunda, South facade*\n• Image URL: https://iiif.lib.virginia.edu/iiif/uva-lib:1041871/full/!800,800/0/default.jpg\n• Virgo page: <https://search.lib.virginia.edu/sources/images/items/uva-lib:1041871|View record>\n• Collection: Holsinger Studio Collection, Special Collections, UVA Library\n\n*3. Rotunda, South facade with Lawn statue*\n• Image URL: https://iiif.lib.virginia.edu/iiif/uva-lib:1041878/full/!800,800/0/default.jpg\n• Virgo page: <https://search.lib.virginia.edu/sources/images/items/uva-lib:1041878|View record>\n• Collection: Holsinger Studio Collection, Special Collections, UVA Library\n\n*4. Rotunda and the Lawn*\n• Image URL: https://iiif.lib.virginia.edu/iiif/uva-lib:2154101/full/!800,800/0/default.jpg\n• Virgo page: <https://search.lib.virginia.edu/sources/images/items/uva-lib:2154101|View record>\n• Collection: University of Virginia Visual History Collection, Special Collections, UVA Library\n\nLet me know if you'd like a different angle, era, or a specific event (e.g., the 1895 Rotunda fire)."
+  },
+  "expect": {
+    "phrases": [
+      "Rotunda, North facade",
+      "Rotunda, South facade"
+    ],
+    "forbid": [],
+    "attachment": false,
+    "allow_condensed": true,
+    "blocks": [
+      "carousel"
+    ]
+  },
+  "live": {
+    "tools_any": [
+      "search_virgo_image_suggestions"
+    ],
+    "phrases_any": [
+      "Rotunda"
+    ],
+    "forbid": [],
+    "max_seconds": 120
+  }
+}

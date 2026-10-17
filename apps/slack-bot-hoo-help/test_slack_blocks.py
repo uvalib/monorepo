@@ -11,6 +11,7 @@ from slack_blocks import (
     MAX_VIZ,
     blocks_from_tool_steps,
     flatten_carousels,
+    image_blocks,
     parse_foot_traffic,
     parse_hours,
     parse_image_hits,
@@ -522,6 +523,54 @@ def test_image_answer_not_duplicated():
     assert types.count("carousel") == 1
 
 
+SERIES_TOOL_SAMPLE = """# Knowledge Base Retrieval Results
+Found **4** image hit(s):
+
+## Image 1: University of Virginia Grounds Views
+- **Title**: University of Virginia Grounds Views
+- **Identifier**: `uva-lib:1041884`
+- **Collection**: Holsinger Studio Collection
+- **Image URL**: https://iiif.lib.virginia.edu/iiif/uva-lib:1041884/full/!800,800/0/default.jpg
+- **Virgo page**: https://search.lib.virginia.edu/sources/images/items/uva-lib:1041884
+- **Notes**: Rotunda, North facade Size: 8x10 ; Plate is in good condition.
+
+## Image 2: University of Virginia Grounds Views
+- **Title**: University of Virginia Grounds Views
+- **Collection**: Holsinger Studio Collection
+- **Image URL**: https://iiif.lib.virginia.edu/iiif/uva-lib:1041871/full/!800,800/0/default.jpg
+- **Virgo page**: https://search.lib.virginia.edu/sources/images/items/uva-lib:1041871
+- **Notes**: Rotunda, South facade (Copy Negative Available) Size: 8x10 ; Plate is in good condition.
+
+## Image 3: University of Virginia Grounds Views
+- **Title**: University of Virginia Grounds Views
+- **Collection**: Holsinger Studio Collection
+- **Image URL**: https://iiif.lib.virginia.edu/iiif/uva-lib:1041890/full/!800,800/0/default.jpg
+- **Notes**: Original Negative Present
+
+## Image 4: Rotunda and the Lawn
+- **Title**: Rotunda and the Lawn
+- **Collection**: Visual History Collection
+- **Image URL**: https://iiif.lib.virginia.edu/iiif/uva-lib:2154101/full/!800,800/0/default.jpg
+- **Notes**: Rotunda, South facade with Lawn statue
+"""
+
+
+def test_series_titles_use_notes_caption():
+    hits = parse_image_hits(SERIES_TOOL_SAMPLE)
+    assert [h["title"] for h in hits] == [
+        "Rotunda, North facade",
+        "Rotunda, South facade",
+        "University of Virginia Grounds Views",   # boilerplate notes: keep the catalog title
+        "Rotunda and the Lawn",                   # unique title: never replaced
+    ]
+    assert hits[0]["series"] == "University of Virginia Grounds Views"
+    assert hits[3].get("series", "") == ""
+    cards = image_blocks(hits)[0]["elements"]
+    assert cards[0]["title"]["text"] == "Rotunda, North facade"
+    assert cards[0]["subtitle"]["text"] == "University of Virginia Grounds Views · Holsinger Studio Collection"
+    assert cards[3]["subtitle"]["text"] == "Visual History Collection"
+
+
 def test_short_library():
     assert short_library("Science & Engineering") == "SEL"
     assert short_library("Clemons Library") == "Clemons"
@@ -557,6 +606,7 @@ def main():
         test_image_uses_first_page_with_new_hits,
         test_image_excludes_already_shown,
         test_image_answer_not_duplicated,
+        test_series_titles_use_notes_caption,
         test_short_library,
     ]
     for fn in tests:
