@@ -42,14 +42,32 @@ TZ = ZoneInfo("America/New_York")
 # Occupancy / hours / holdings must never be answered from thread memory alone.
 _FACTUAL_QUERY_RE = re.compile(
     r"\b("
-    r"hours?|open|closed|occupancy|how busy|foot traffic|entrance|entries|exits|"
-    r"catalog|call number|do you have|phone|email|address|event|reserv|"
-    r"available|study room|compare|"
+    r"hours?|open|closed|occupan\w*|how busy|foot traffic|traffic|entrances?|entries|exits?|"
+    r"gate counts?|counts?|visits?|"
+    r"catalog|call numbers?|do you have|phone|emails?|address|events?|workshops?|happening|"
+    r"reserv\w*|available|availability|study rooms?|compare|"
     r"photos?|images?|pictures?|drawings?|"
     r"more (to show|for me|photos?|images?|pictures?)|show me more"
     r")\b",
     re.I,
 )
+# A reply made only of these words is an acknowledgement, not a new question.
+_ACK_WORDS = frozenset(
+    "thanks thank thx ty you ok okay great perfect cool got it awesome nice wonderful "
+    "that's thats the one sounds good much so very".split()
+)
+
+
+def _needs_tools(user_message: str) -> bool:
+    """Must this turn call a tool before answering? (keyword check on the message)
+
+    Topic-free thread follow-ups ("Previous month?") are left to the model:
+    production MiniMax calls tools for them on its own (see evals).
+    """
+    words = re.findall(r"[a-z']+", (user_message or "").lower())
+    if words and all(w in _ACK_WORDS for w in words):
+        return False
+    return bool(_FACTUAL_QUERY_RE.search(user_message or ""))
 # Keep this bland: a stern "call tools now / that is not allowed" user turn
 # is classified as PROMPT_ATTACK by the library Guardrail (HIGH on input).
 _FORCE_TOOLS_NUDGE = (
@@ -498,7 +516,7 @@ class HooHelpAgent:
                     if (
                         not trace.steps
                         and not forced_tools
-                        and _FACTUAL_QUERY_RE.search(user_message or "")
+                        and _needs_tools(user_message)
                         and iteration < max_iterations
                     ):
                         logger.warning(
