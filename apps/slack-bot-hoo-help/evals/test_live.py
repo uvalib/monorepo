@@ -62,8 +62,18 @@ def test_report_states_guardrail():   # final review #5
     os.environ.pop("BEDROCK_GUARDRAIL_ID")
 
 
+def test_live_uses_production_model_from_samconfig():
+    d = tempfile.mkdtemp()
+    path = os.path.join(d, "samconfig.toml")
+    open(path, "w").write('[default.deploy.parameters]\nparameter_overrides = "StageName=prod BedrockModelId=minimax.minimax-m2.5 X=1"\n')
+    from evals import run
+    assert run.production_model_id(path) == "minimax.minimax-m2.5"
+    assert run.production_model_id(os.path.join(d, "missing.toml")) is None
+
+
 if __name__ == "__main__":
     test_live_pass_and_fail_reasons()
     test_live_exception_fails_case_and_report_still_written()
     test_report_states_guardrail()
+    test_live_uses_production_model_from_samconfig()
     print("ok")

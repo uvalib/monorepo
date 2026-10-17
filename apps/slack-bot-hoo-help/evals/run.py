@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import os
+import re
 import sys
 
 APP = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -17,6 +18,17 @@ sys.path.insert(0, APP)
 from evals.case import CaseError, load_cases  # noqa: E402
 
 DEFAULT_CASES = os.path.join(os.path.dirname(os.path.abspath(__file__)), "cases")
+SAMCONFIG = os.path.join(APP, "samconfig.toml")
+
+
+def production_model_id(samconfig_path: str = SAMCONFIG) -> str | None:
+    """BedrockModelId from samconfig's parameter_overrides — the model production runs."""
+    try:
+        text = open(samconfig_path).read()
+    except OSError:
+        return None
+    m = re.search(r"\bBedrockModelId=([^\s\"']+)", text)
+    return m.group(1) if m else None
 
 
 def _offline(cases: list) -> int:
@@ -49,6 +61,7 @@ def main(argv: list[str] | None = None) -> int:
     mode.add_argument("--live", action="store_true")
     ap.add_argument("--case", action="append", dest="cases", metavar="ID")
     ap.add_argument("--cases-dir", default=DEFAULT_CASES)
+    ap.add_argument("--model", help="live tier: model id (default: production's BedrockModelId from samconfig.toml)")
     args = ap.parse_args(argv)
 
     cases = load_cases(args.cases_dir, args.cases)
@@ -61,10 +74,10 @@ def main(argv: list[str] | None = None) -> int:
             return 2
     if args.offline:
         return _offline(cases)
-    return _live(cases)
+    return _live(cases, args.model)
 
 
-def _live(cases: list) -> int:
+def _live(cases: list, model: str | None = None) -> int:
     try:
         from dotenv import load_dotenv
 
@@ -73,6 +86,10 @@ def _live(cases: list) -> int:
         pass
     from evals import live
 
+    # Test what production runs: .env may point at a different local model.
+    model = model or production_model_id()
+    if model:
+        os.environ["BEDROCK_MODEL_ID"] = model
     if not live.have_aws_credentials():
         print("No AWS credentials found (.env or environment); live tier needs Bedrock + gateway access.")
         return 2

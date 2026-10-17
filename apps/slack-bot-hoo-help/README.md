@@ -123,7 +123,7 @@ Two tiers, built from real (scrubbed) questions in session traces:
 | Tier | Command | What it does |
 |------|---------|--------------|
 | Offline | `python evals/run.py --offline` | Replays each case's recorded tool output and model answer through today's formatting code (`format_for_slack`, Excel). Seconds, no network. **Exit 1 on any failure — blocks `deploy.sh`.** |
-| Live | `python evals/run.py --live` | Sends cases with a `live` block to the real model + gateway (AWS creds from `.env`; ~10–15 min). Writes `evals/reports/live-*.md` with pass/fail, tools called and the full Slack text. Report only. |
+| Live | `python evals/run.py --live [--model ID]` | Sends cases with a `live` block to the real model + gateway (AWS creds from `.env`; ~10–15 min). Uses production's model (`BedrockModelId` in `samconfig.toml`), not `.env`'s `BEDROCK_MODEL_ID`, unless `--model` is given. Writes `evals/reports/live-*.md` with pass/fail, tools called and the full Slack text. Report only. |
 
 Checks: Slack block limits (≤ 50 blocks, ≤ 1 table, ≤ 3000-char sections), no
 raw markdown / `<thinking>` / leaked policy text / `Unknown tool` in what's
