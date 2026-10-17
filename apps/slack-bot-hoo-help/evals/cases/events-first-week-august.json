@@ -1,0 +1,31 @@
+{
+  "id": "events-first-week-august",
+  "category": "events",
+  "question": "what events are coming up the first week of august across the libraries?",
+  "history": [],
+  "recorded": {
+    "model": "us.anthropic.claude-sonnet-5",
+    "steps": [
+      {
+        "tool_name": "OccupancyReportingRuntime___list_events",
+        "status": "success",
+        "input": {
+          "date": "2026-08-01",
+          "days": 7,
+          "limit": 20
+        },
+        "output": "# Upcoming library events (LibCal)\n- **Calendars**: UVA Library Public Events, Faculty Programs\n- **cal_id(s)**: `4299,20151`\n- **From date**: `2026-08-01` · **days**: `7` · **limit**: `20`\n- **API**: `GET /events`\n- **Browse all public**: https://cal.lib.virginia.edu/calendar/events\n- **Count**: 1 event(s)\n\n### #ByteSizedPedagogy - August 2026\n- **Event id**: `16778248`\n- **When**: Fri 2026-08-07 12:00 PM–12:30 PM\n- **Campus / building**: Online\n- **Categories**: Digital Humanities, Scholars' Lab\n- **Calendar**: UVA Library Public Events (calid `4299`)\n- **Registration**: required (online) · seats 11/50\n- **Event page**: https://cal.lib.virginia.edu/event/16778248\n\nUse `get_event` with an event id for full description and registration details. Patrons register on the LibCal event page — this tool does not register them."
+      }
+    ],
+    "final_text": "Here's what's on the calendar for the first week of August (Aug 1–7, 2026) across UVA Library's public event calendars:\n\n*#ByteSizedPedagogy - August 2026*\nFriday, Aug 7, 2026 · 12:00–12:30 PM\nFormat: Online\nCategories: Digital Humanities, Scholars' Lab\nRegistration required (11/50 seats filled)\nEvent page: <https://cal.lib.virginia.edu/event/16778248|View & register>\n\nThat's the only event listed on the UVA Library Public Events / Faculty Programs calendars for that week. If you'd like, I can check other calendars (e.g., internal/staff-only calendars) or search for a specific topic/keyword — just let me know!"
+  },
+  "expect": {
+    "phrases": [
+      "ByteSizedPedagogy"
+    ],
+    "forbid": [],
+    "attachment": false,
+    "allow_condensed": false
+  },
+  "live": null
+}

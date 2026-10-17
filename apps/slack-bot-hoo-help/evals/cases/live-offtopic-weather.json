@@ -1,0 +1,15 @@
+{
+  "id": "live-offtopic-weather",
+  "category": "offtopic",
+  "question": "what will the weather be on thursday",
+  "history": [],
+  "expect": {},
+  "live": {
+    "tools_any": [],
+    "phrases_any": [],
+    "forbid": [
+      "°"
+    ],
+    "max_seconds": 120
+  }
+}

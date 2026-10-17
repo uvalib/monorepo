@@ -1,0 +1,16 @@
+{
+  "id": "live-bus-gold-load",
+  "category": "transit",
+  "question": "How crowded is the Gold Line right now?",
+  "history": [],
+  "expect": {},
+  "live": {
+    "tools_any": [
+      "get_bus_locations",
+      "get_bus_route"
+    ],
+    "phrases_any": [],
+    "forbid": [],
+    "max_seconds": 120
+  }
+}

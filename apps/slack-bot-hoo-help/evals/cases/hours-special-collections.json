@@ -1,0 +1,30 @@
+{
+  "id": "hours-special-collections",
+  "category": "hours",
+  "question": "When does Special Collections close today?",
+  "history": [],
+  "recorded": {
+    "model": "us.anthropic.claude-sonnet-5",
+    "steps": [
+      {
+        "tool_name": "OccupancyReportingRuntime___get_library_hours",
+        "status": "success",
+        "input": {
+          "library": "Special Collections",
+          "start_date": "2026-07-30"
+        },
+        "output": "### Hours: Harrison Institute / Small Special Collections Library\n* **Official name** (use this exact name in answers — do not invent expansions): **Harrison Institute / Small Special Collections Library**\n* **Canonical key**: `Harrison/Small`\n* **LibCal location id**: 4114\n* **Date range**: 2026-07-30 to 2026-07-30\n* **Source**: LibCal (published hours; no open/close buffer)\n* **Time format**: 12-hour local (e.g. 1:00 PM–5:00 PM)\n\n| Date | Day | Hours |\n| :--- | :--- | :--- |\n| 2026-07-30 | Thu | 9:00 AM–5:00 PM |\n\n**Summary**: 1 open day(s), 0 closed day(s)."
+      }
+    ],
+    "final_text": "Today, Thursday, July 30, 2026, the *Harrison Institute / Small Special Collections Library* is open until *5:00 PM* (hours: 9:00 AM–5:00 PM)."
+  },
+  "expect": {
+    "phrases": [
+      "5:00 PM"
+    ],
+    "forbid": [],
+    "attachment": false,
+    "allow_condensed": false
+  },
+  "live": null
+}

@@ -1,0 +1,133 @@
+{
+  "id": "events-ai",
+  "category": "events",
+  "question": "can you show me all AI related events at the Library",
+  "history": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "text": "What’s happening at the library this month?"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "text": "Since today (July 31) is the last day of the month, here's what's on the calendar today plus what's coming up in August:\n\n*Today (July 31)*\n• *UVA Library OER Microgrant Program* — 12:00–12:45 PM, presenters Bethany Mickel & Judy Thomas — <https://cal.lib.virginia.edu/event/16873310|Event page & registration>\n\n*Looking ahead into August*\n• *#ByteSizedPedagogy - August 2026* — Fri 8/7, 12:00–12:30 PM, online (Digital Humanities / Scholars' Lab) — <https://cal.lib.virginia.edu/event/16778248|Event page>\n• *UVA Library OER Microgrant Program* — Tue 8/11, 12:00–12:45 PM — <https://cal.lib.virginia.edu/event/16873311|Event page>\n• *UVA Library OER Microgrant Program* — Fri 8/14, 12:00–12:45 PM — <https://cal.lib.virginia.edu/event/16873312|Event page>\n• *UVA Library OER Microgrant Program* — Tue 8/25, 12:00–12:45 PM — <https://cal.lib.virginia.edu/event/16873313|Event page>\n• *Sci-Fi Reading Challenge Zoom Discussion: Kurt Vonnegut* — Tue 8/25, 4:00–5:00 PM (For FUN! series) — <https://cal.lib.virginia.edu/event/16267222|Event page>\n• *UVA Library OER Microgrant Program* — Fri 8/28, 12:00–12:45 PM — <https://cal.lib.virginia.edu/event/16873314|Event page>\n\nAll of these require online registration via their event pages — I can't register you, but you can sign up there.\n\nYou can browse the full public calendar anytime at <https://cal.lib.virginia.edu/calendar/events|UVA Library Events>. Want me to filter by topic (e.g. workshops, Scholars' Lab, faculty programs)?"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "text": "Any digital humanities workshops?"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "text": "Yes! Here are the Digital Humanities / Scholars' Lab workshops and sessions coming up (in August there's one online session; the rest are in September/October):\n\n*This month (August)*\n• *#ByteSizedPedagogy - August 2026* — Fri 8/7, 12:00–12:30 PM, online — <https://cal.lib.virginia.edu/event/16778248|Event page & registration>\n\n*Coming up after August (Scholars' Lab Common Room, Shannon Library)*\n• *DH Workshop: Patricia Murrieta-Flores* — Wed 9/2, 12:30–2:30 PM — <https://cal.lib.virginia.edu/event/17289146|Event page>\n• *Introduction to Topic Modeling for Humanities and Social Sciences* — Thu 9/10, 3:30–4:45 PM, presenter Brandon Walsh — <https://cal.lib.virginia.edu/event/17290940|Event page>\n• *Introduction to Word Embeddings for Humanities and Social Sciences* — Thu 10/15, 3:30–4:45 PM, presenter Brandon Walsh — <https://cal.lib.virginia.edu/event/17290955|Event page>\n• *Speaking in Code: Shane Lin* — Wed 10/21, 11:00–11:50 AM — <https://cal.lib.virginia.edu/event/17292584|Event page>\n\nAll require registration through the event page — seats are limited (some show only 1 spot left!), so I'd sign up soon if interested. Want details on any specific one?"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "text": "Tell me about the OER microgrant info session"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "text": "Here's the full picture on the *UVA Library OER Microgrant Program* info session:\n\n*What it's about*\nThis is an information session on UVA Library's OER (Open Educational Resources) Microgrant Program, presented by Bethany Mickel and Judy Thomas. It's aimed at potential applicants or anyone interested in learning more.\n\nThe program funds small projects that:\n• Advance the use, improvement, and adoption of open educational resources (OER)\n• Support development of open teaching practices at UVA\n• Encourage experimentation and reduce barriers to participation in open education\n• Generate openly shared resources benefiting both UVA students and the broader educational community\n\n*Logistics*\n• Format: Online via Zoom\n• Duration: 45 minutes\n• Calendar: Faculty Programs\n• Registration: Required (via the event page)\n\n*Session dates* (repeats several times this summer/fall)\n• Today, Fri 7/31, 12:00–12:45 PM — <https://cal.lib.virginia.edu/event/16873310|Register>\n• Tue 8/11, 12:00–12:45 PM — <https://cal.lib.virginia.edu/event/16873311|Register>\n• Fri 8/14, 12:00–12:45 PM — <https://cal.lib.virginia.edu/event/16873312|Register>\n• Tue 8/25, 12:00–12:45 PM — <https://cal.lib.virginia.edu/event/16873313|Register>\n• Fri 8/28, 12:00–12:45 PM — <https://cal.lib.virginia.edu/event/16873314|Register>\n\n*Can't make these times?*\nContact Judy Thomas (jet3h) or Bethany Mickel (bbm9u) directly to arrange a consultation.\n\n*More info*\n<https://guides.lib.virginia.edu/oer/grant-opportunities|OER Grant Opportunities guide>\n\nWant me to check if there's still time to register for today's noon session?"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "text": "Im interested in a scholars lab event with Doug Chestnut in September, can you tell me more about it?"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "text": "*Speaking in Code: Doug Chestnut*\n\n*When:* Wednesday, September 23, 2026, 11:00–11:50 AM\n*Where:* Scholars' Lab Common Room (Rm 308), Shannon Library — online join option available\n*Presenter:* Doug Chestnut (UVA Library)\n*Categories:* Digital Humanities, Scholars' Lab\n\n*What it's about*\nDoug will share his explorations developing a library-specific Model Context Protocol (MCP) for search and discovery.\n\nSpeaking in Code (formerly \"Coffee + Code\") is a series of informal gatherings featuring presentations on the technical aspects of ongoing projects, demos by invited guests, or new tools people are experimenting with — useful if you're developing your own projects or practice. Open to all!\n\n*Format:* In-person or online via Zoom\n• Online join link: <https://virginia.zoom.us/j/6790767548?omn=96134872462|Zoom link>\n\n*Registration*\nRequired — only 1 of 50 seats currently shown as reserved, so plenty of room.\n• Register here: <https://cal.lib.virginia.edu/event/17247986|Event page & registration>\n\nLet me know if you'd like help finding other \"Speaking in Code\" sessions or related Scholars' Lab events!"
+        }
+      ]
+    }
+  ],
+  "recorded": {
+    "model": "us.anthropic.claude-sonnet-5",
+    "steps": [
+      {
+        "tool_name": "OccupancyReportingRuntime___search_events",
+        "status": "success",
+        "input": {
+          "query": "AI",
+          "days": 180,
+          "limit": 30
+        },
+        "output": "# Event search: 'AI'\n- **Calendar scope**: all calendars (search)\n- **From date**: `2026-07-31` · **limit**: `30`\n- **API**: `GET /event_search`\n- **Count**: 2 event(s)\n\n### AFK Repair Café: We Love Lamp\n- **Event id**: `17221635`\n- **When**: Thu 2026-10-08 4:00 PM–7:00 PM\n- **Location**: Scholars' Lab (Shannon 308), The Makerspace (Shannon 308i)\n- **Campus / building**: Shannon Library\n- **Categories**: Scholars' Lab, The Makerspace , Workshop\n- **Calendar**: UVA Library Public Events (calid `4299`)\n- **Registration**: required (in-person) · seats 3/30\n- **Event page**: https://cal.lib.virginia.edu/event/17221635\n\n### AFK Repair Café: Jewelry Repair 101\n- **Event id**: `17283329`\n- **When**: Mon 2026-10-12 4:00 PM–6:00 PM\n- **Location**: Scholars' Lab (Shannon 308), The Makerspace (Shannon 308i)\n- **Campus / building**: Shannon Library\n- **Categories**: Scholars' Lab, Workshop\n- **Calendar**: UVA Library Public Events (calid `4299`)\n- **Registration**: required (in-person) · seats 0/30\n- **Event page**: https://cal.lib.virginia.edu/event/17283329\n\nUse `get_event` for full description on a specific event id."
+      },
+      {
+        "tool_name": "OccupancyReportingRuntime___search_events",
+        "status": "success",
+        "input": {
+          "query": "artificial intelligence",
+          "days": 180,
+          "limit": 30
+        },
+        "output": "# Event search: 'artificial intelligence'\n- **Calendar scope**: all calendars (search)\n- **From date**: `2026-07-31` · **limit**: `30`\n- **API**: `GET /event_search`\n- **Count**: 1 event(s)\n\n### DH Workshop: Patricia Murrieta-Flores\n- **Event id**: `17289146`\n- **When**: Wed 2026-09-02 12:30 PM–2:30 PM\n- **Location**: Scholars' Lab Common Room (Rm 308)\n- **Campus / building**: Shannon Library\n- **Categories**: Digital Humanities, Scholars' Lab\n- **Presenter**: Patricia Murrieta-Flores\n- **Calendar**: UVA Library Public Events (calid `4299`)\n- **Registration**: required (in-person) · seats 1/50\n- **Event page**: https://cal.lib.virginia.edu/event/17289146\n\nUse `get_event` for full description on a specific event id."
+      },
+      {
+        "tool_name": "OccupancyReportingRuntime___get_event",
+        "status": "success",
+        "input": {
+          "event_id": "17221635"
+        },
+        "output": "# Event: AFK Repair Café: We Love Lamp\n- **Source**: `GET /events/17221635`\n\n### AFK Repair Café: We Love Lamp\n- **Event id**: `17221635`\n- **When**: Thu 2026-10-08 4:00 PM–7:00 PM\n- **Location**: Scholars' Lab (Shannon 308), The Makerspace (Shannon 308i)\n- **Campus / building**: Shannon Library\n- **Categories**: Scholars' Lab, The Makerspace , Workshop\n- **Calendar**: UVA Library Public Events (calid `4299`)\n- **Registration**: required (in-person) · seats 3/30\n- **Event page**: https://cal.lib.virginia.edu/event/17221635\n- **Description**: Join fixers from the Charlottesville TimeBank Repair Caf&eacute; for an introductory repair caf&eacute; right here at the UVA Library, in the Scholars' Lab!\n\nWhat is a repair caf&eacute;, you ask? Repair caf&eacute;s are collaborative events to fix your stuff, saving them from the landfill and practicing creative re-use. They're also part of a global movement to build a more sustainable future by making it easier for anyone to repair anything! More information here: repaircafe.org/en.\n\nThis repair caf&eacute; will focus on introductory electrical repair via an appliance that everyone uses, needs, and occasionally breaks: lamps and lights. If you have a non-lamp small appliance that you would like to bring and fix, you can! Indicate that on the registration form. Volunteers from the Charlottesville TimeBank Repair Caf&eacute; will walk you through safety guidance, the troubleshooting proc…\n\nRegistration is completed on the LibCal event page when required."
+      },
+      {
+        "tool_name": "OccupancyReportingRuntime___get_event",
+        "status": "success",
+        "input": {
+          "event_id": "17289146"
+        },
+        "output": "# Event: DH Workshop: Patricia Murrieta-Flores\n- **Source**: `GET /events/17289146`\n\n### DH Workshop: Patricia Murrieta-Flores\n- **Event id**: `17289146`\n- **When**: Wed 2026-09-02 12:30 PM–2:30 PM\n- **Location**: Scholars' Lab Common Room (Rm 308)\n- **Campus / building**: Shannon Library\n- **Categories**: Digital Humanities, Scholars' Lab\n- **Presenter**: Patricia Murrieta-Flores\n- **Calendar**: UVA Library Public Events (calid `4299`)\n- **Registration**: required (in-person) · seats 1/50\n- **Event page**: https://cal.lib.virginia.edu/event/17289146\n- **Description**: Dr. Patricia Murrieta-Flores is the Distinguished Professor in Digital Humanities and Artificial Intelligence for the School of Humanities and Education at Tecnol&oacute;gico de Monterrey in Mexico. She is also co-director of the Digital Humanities Centre and a full professor in digital humanities in the History Department at Lancaster University in the UK. Her research focuses on the development of artificial intelligence to study Latin American colonial history, geographical spaces, and temporal dimensions using technologies derived from machine learning.\n\nRegistration is completed on the LibCal event page when required."
+      }
+    ],
+    "final_text": "I found one event that's genuinely AI-focused. (The two \"AFK Repair Café\" results were keyword false-positives — they're about lamp/appliance repair, no AI connection — so I've left those out.)\n\n*DH Workshop: Patricia Murrieta-Flores*\n• When: Wednesday, September 2, 2026, 12:30–2:30 PM\n• Where: Scholars' Lab Common Room (Rm 308), Shannon Library\n• Presenter: Dr. Patricia Murrieta-Flores — Distinguished Professor in Digital Humanities and Artificial Intelligence, Tecnológico de Monterrey (Mexico); co-director of the Digital Humanities Centre at Lancaster University (UK)\n• Focus: Her research develops AI/machine-learning methods to study Latin American colonial history, geography, and temporal dimensions\n• Registration: Required (in-person), 1 of 50 seats reserved so far — <https://cal.lib.virginia.edu/event/17289146|Event page & registration>\n\nI didn't find other events this year specifically framed around AI as a topic beyond this one — though the Scholars' Lab regularly hosts Digital Humanities talks that sometimes touch on machine learning/AI methods (like the topic modeling and word embeddings workshops I mentioned earlier). Want me to keep an eye out or check further into the fall calendar?"
+  },
+  "expect": {
+    "phrases": [
+      "Murrieta-Flores"
+    ],
+    "forbid": [],
+    "attachment": false,
+    "allow_condensed": false
+  },
+  "live": {
+    "tools_any": [
+      "search_events",
+      "list_events"
+    ],
+    "phrases_any": [
+      "AI",
+      "artificial"
+    ],
+    "forbid": [],
+    "max_seconds": 120
+  }
+}

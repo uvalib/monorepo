@@ -1,0 +1,20 @@
+{
+  "id": "offtopic-gemini",
+  "category": "offtopic",
+  "question": "what does Claude AI do better than Google Gemini?",
+  "history": [],
+  "recorded": {
+    "model": "us.anthropic.claude-sonnet-5",
+    "steps": [],
+    "final_text": "I'm Hoo Helper, a UVA Library assistant focused on library hours, catalog holdings, images, study spaces, and related library services — I don't have information on comparing AI products like Claude and Google Gemini, and that's outside what my tools can look up.\n\nIf you're doing research on AI tools/models, I'd suggest:\n• Checking the UVA Library's research guides or databases for computer science / tech industry sources\n• Asking a subject librarian via Ask a Librarian for guidance on scholarly or industry comparisons\n\nIs there something library-related I can help you with instead — like hours, finding a book, images from our collections, or study space availability?"
+  },
+  "expect": {
+    "phrases": [
+      "outside"
+    ],
+    "forbid": [],
+    "attachment": false,
+    "allow_condensed": false
+  },
+  "live": null
+}

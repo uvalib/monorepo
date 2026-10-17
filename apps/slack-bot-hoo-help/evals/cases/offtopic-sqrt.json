@@ -1,0 +1,20 @@
+{
+  "id": "offtopic-sqrt",
+  "category": "offtopic",
+  "question": "what is the square root of 63?",
+  "history": [],
+  "recorded": {
+    "model": "us.anthropic.claude-sonnet-5",
+    "steps": [],
+    "final_text": "The square root of 63 is *3√7*, which is approximately *7.937*.\n\nLet me know if you have any UVA Library questions I can help with — hours, catalog searches, study spaces, and more!"
+  },
+  "expect": {
+    "phrases": [
+      "7.937"
+    ],
+    "forbid": [],
+    "attachment": false,
+    "allow_condensed": false
+  },
+  "live": null
+}

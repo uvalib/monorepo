@@ -1,0 +1,17 @@
+{
+  "id": "live-hours-health-sciences",
+  "category": "hours",
+  "question": "When is the Health Sciences library open today?",
+  "history": [],
+  "expect": {},
+  "live": {
+    "tools_any": [
+      "get_library_hours"
+    ],
+    "phrases_any": [],
+    "forbid": [
+      "Science & Engineering Library"
+    ],
+    "max_seconds": 120
+  }
+}

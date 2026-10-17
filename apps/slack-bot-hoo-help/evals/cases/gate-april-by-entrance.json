@@ -1,0 +1,53 @@
+{
+  "id": "gate-april-by-entrance",
+  "category": "occupancy",
+  "question": "I need Gate counts for Clemons for April 2026. I need entries and exits separate.",
+  "history": [],
+  "recorded": {
+    "model": "minimax.minimax-m2.5",
+    "steps": [
+      {
+        "tool_name": "OccupancyReportingRuntime___get_entrance_traffic",
+        "status": "error",
+        "input": {
+          "end_date": "2026-04-30",
+          "library": "Clemons",
+          "start_date": "2026-04-01"
+        },
+        "output": "Gateway Tool Invocation Error (OccupancyReportingRuntime___get_entrance_traffic): HTTPSConnectionPool(host='occupancy-reporting-gateway-mohw8c1jug.gateway.bedrock-agentcore.us-east-1.amazonaws.com', port=443): Read timed out. (read timeout=30)"
+      },
+      {
+        "tool_name": "OccupancyReportingRuntime___get_entrance_traffic",
+        "status": "success",
+        "input": {
+          "end_date": "2026-04-30",
+          "library": "Clemons",
+          "start_date": "2026-04-01"
+        },
+        "output": "### Entrance Traffic Breakdown: Clemons\n* **Date Range**: 2026-04-01 to 2026-04-30\n* **Total Ingress (Entries)**: 73,469\n* **Total Egress (Exits)**: 76,224\n* **Total Combined Activity**: 149,693\n\n| Entrance / Access Point | In (Entries) | Out (Exits) | Combined | % of Total |\n| :--- | :--- | :--- | :--- | :--- |\n| Clemons Main Entry (Lead Camera) (C410) | 17,941 | 39,540 | 57,481 | 38.4% |\n| C215 public Clemons connector corridor Clemons side | 12,779 | 16,675 | 29,454 | 19.7% |\n| Clemons southern stair outside exit (c307) | 14,787 | 10,180 | 24,967 | 16.7% |\n| Clemons Main Entry (C410) | 21,017 | 2,743 | 23,760 | 15.9% |\n| Clemons Main Entry (C410) | 5,750 | 2,275 | 8,025 | 5.4% |\n| Clemons western stair outside exit (C306) | 140 | 3,286 | 3,426 | 2.3% |\n| C113A staff Clemons connector corridor Clemons side | 408 | 442 | 850 | 0.6% |\n| Clemons Main Entry (C410) | 317 | 251 | 568 | 0.4% |\n| Clemons central stair outside exit (c305) | 56 | 478 | 534 | 0.4% |\n| Clemons 200 western exit (200) | 161 | 176 | 337 | 0.2% |\n| Clemons 300c eastern exit to Special Collections Library | 89 | 132 | 221 | 0.1% |\n| Clemons 200 northern exit (200) | 18 | 23 | 41 | 0.0% |\n| Clemons eastern stair outside exit (c101) | 5 | 9 | 14 | 0.0% |\n| Clemons 300 northern exit (300) | 0 | 13 | 13 | 0.0% |\n| Clemons 100 northern exit (100) | 1 | 1 | 2 | 0.0% |"
+      }
+    ],
+    "final_text": "<thinking>\nI have the data. Let me present this in a clear format for the user. The data shows entries and exits broken down by entrance. I should note that there appear to be multiple \"Clemons Main Entry (C410)\" rows - this is likely due to different sensors/cameras at the same entrance capturing directional traffic differently.\n</thinking>\n\nHere are the gate counts for Clemons Library for April 2026:\n\n### Clemons Entrance Traffic — April 2026\n\n**Totals:**\n* **Entries (Ingress):** 73,469\n* **Exits (Egress):** 76,224\n* **Combined Activity:** 149,693\n\n| Entrance | Entries | Exits | Combined | % of Total |\n| :--- | :--- | :--- | :--- | :--- |\n| Clemons Main Entry (Lead Camera) (C410) | 17,941 | 39,540 | 57,481 | 38.4% |\n| C215 public Clemons connector corridor Clemons side | 12,779 | 16,675 | 29,454 | 19.7% |\n| Clemons southern stair outside exit (C307) | 14,787 | 10,180 | 24,967 | 16.7% |\n| Clemons Main Entry (C410) | 21,017 | 2,743 | 23,760 | 15.9% |\n| Clemons Main Entry (C410) | 5,750 | 2,275 | 8,025 | 5.4% |\n| Clemons western stair outside exit (C306) | 140 | 3,286 | 3,426 | 2.3% |\n| C113A staff Clemons connector corridor Clemons side | 408 | 442 | 850 | 0.6% |\n| Clemons Main Entry (C410) | 317 | 251 | 568 | 0.4% |\n| Clemons central stair outside exit (C305) | 56 | 478 | 534 | 0.4% |\n| Clemons 200 western exit (200) | 161 | 176 | 337 | 0.2% |\n| Clemons 300c eastern exit to Special Collections Library | 89 | 132 | 221 | 0.1% |\n| Clemons 200 northern exit (200) | 18 | 23 | 41 | 0.0% |\n| Clemons eastern stair outside exit (C101) | 5 | 9 | 14 | 0.0% |\n| Clemons 300 northern exit (300) | 0 | 13 | 13 | 0.0% |\n| Clemons 100 northern exit (100) | 1 | 1 | 2 | 0.0% |\n\n*Note: The \"Clemons Main Entry (C410)\" appears multiple times due to different sensors at the entrance capturing directional traffic separately.*"
+  },
+  "expect": {
+    "phrases": [
+      "73,469",
+      "76,224"
+    ],
+    "forbid": [],
+    "attachment": false,
+    "allow_condensed": false
+  },
+  "live": {
+    "tools_any": [
+      "get_entrance_traffic",
+      "get_traffic_by_period",
+      "get_foot_traffic"
+    ],
+    "phrases_any": [
+      "Clemons"
+    ],
+    "forbid": [],
+    "max_seconds": 120
+  }
+}

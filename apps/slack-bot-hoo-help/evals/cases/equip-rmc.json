@@ -1,0 +1,29 @@
+{
+  "id": "equip-rmc",
+  "category": "equipment",
+  "question": "What equipment can I borrow or reserve at RMC?",
+  "history": [],
+  "recorded": {
+    "model": "us.anthropic.claude-sonnet-5",
+    "steps": [
+      {
+        "tool_name": "OccupancyReportingRuntime___get_equipment_categories",
+        "status": "success",
+        "input": {
+          "location": "RMC"
+        },
+        "output": "# UVA Library equipment categories (LibCal)\n* **Scope**: Robertson Media Center (RMC)\n* **Source**: LibCal Equipment API (`/equipment/categories/{lid}`)\n* **Booking UI**: https://cal.lib.virginia.edu/equipment?lid={equipment_lid}\n* **Note**: These are **equipment categories** (cameras, chargers, makerspace tools, walk-up vs reserve), not study rooms. Study rooms → `list_space_items`. Named Makerspace 3D printers → `list_space_seats`.\n\n## Robertson Media Center (RMC)\n- **Equipment location lid**: `241`\n- **Book / browse**: https://cal.lib.virginia.edu/equipment?lid=241\n- **Public categories**: 10\n\n### Walk-Up Camera Equipment (No Reservations)\n- **Category id (cid)**: `13870`\n- **Reservations**: typically **walk-up / no booking** (confirm on the LibCal page)\n\n### Walk-Up Audio Equipment (No Reservations)\n- **Category id (cid)**: `13869`\n- **Reservations**: typically **walk-up / no booking** (confirm on the LibCal page)\n\n### Walk-Up VR Equipment (No Reservations)\n- **Category id (cid)**: `13868`\n- **Reservations**: typically **walk-up / no booking** (confirm on the LibCal page)\n\n### Walk-Up Media Equipment (No Reservations)\n- **Category id (cid)**: `5526`\n- **Reservations**: typically **walk-up / no booking** (confirm on the LibCal page)\n\n### 3D Printers\n- **Category id (cid)**: `8343`\n- **Booking form id**: `1081`\n- **Reservations**: bookable via LibCal form\n- **Terms / policies**: Our service is open and free to all patrons of the University, regardless of skill level or field of study. \n\r\n \r\n Initial training is required prior to reserving and using the 3D Printing Studio for the first time. If you haven't been trained yet, please take the online orientation and sign up here for the training. When reserving the space, please make sure to consider the time for preparation and cleaning. \r\n You need to check in at the front desk before entering the space. Please monitor your own print and make sure not to waste any material or damage the printers. Prints cannot run outsid…\n\n### Reserve Cameras\n- **Category id (cid)**: `489`\n- **Booking form id**: `816`\n- **Reservations**: bookable via LibCal form\n\n### Reserve Stabilizers and Camera Accesories\n- **Category id (cid)**: `52836`\n\n### Reserve Light Kits\n- **Category id (cid)**: `451`\n- **Booking form id**: `816`\n- **Reservations**: bookable via LibCal form\n\n### Reserve Microphones and Audio\n- **Category id (cid)**: `4094`\n- **Booking form id**: `816`\n- **Reservations**: bookable via LibCal form\n\n### Reserve Live Sound and PAs\n- **Category id (cid)**: `52834`\n- **Booking form id**: `816`\n- **Reservations**: bookable via LibCal form\n\n\n**Total public categories listed**: 10. Browse items with `list_equipment_items(location=…)` or `get_equipment_category` / `get_equipment_item`."
+      }
+    ],
+    "final_text": "The Robertson Media Center (RMC) has 10 equipment categories, split between items you can just walk up and grab and gear you need to reserve in advance.\n\n*Reserve ahead (LibCal booking form)*\n• Reserve Cameras\n• Reserve Stabilizers and Camera Accessories\n• Reserve Light Kits\n• Reserve Microphones and Audio\n• Reserve Live Sound and PAs\n• 3D Printers _(requires an online orientation + in-person training before your first reservation; check in at the front desk before using)_\n\n*Walk-up (no reservation needed — first come, first served)*\n• Walk-Up Camera Equipment\n• Walk-Up Audio Equipment\n• Walk-Up VR Equipment\n• Walk-Up Media Equipment\n\nYou can browse and book everything here: <https://cal.lib.virginia.edu/equipment?lid=241|RMC Equipment Booking>\n\nWant me to pull the specific items in any of these categories (e.g., which cameras or light kits are available) or check today's availability?"
+  },
+  "expect": {
+    "phrases": [
+      "Cameras"
+    ],
+    "forbid": [],
+    "attachment": false,
+    "allow_condensed": false
+  },
+  "live": null
+}

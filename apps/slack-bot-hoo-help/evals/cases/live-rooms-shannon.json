@@ -1,0 +1,16 @@
+{
+  "id": "live-rooms-shannon",
+  "category": "rooms",
+  "question": "Any group study rooms free at Shannon tomorrow 3-4pm?",
+  "history": [],
+  "expect": {},
+  "live": {
+    "tools_any": [
+      "search_space_availability",
+      "list_space_items"
+    ],
+    "phrases_any": [],
+    "forbid": [],
+    "max_seconds": 120
+  }
+}

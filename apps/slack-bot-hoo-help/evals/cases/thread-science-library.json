@@ -1,0 +1,48 @@
+{
+  "id": "thread-science-library",
+  "category": "thread",
+  "question": "How about the Science Library?",
+  "history": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "text": "I need a gate count report for patrons using Music library last month"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "text": "*Foot Traffic Summary — Music Library*\n_Date range: June 1–30, 2026_\n\n• Total entries (gate count \"in\"): *689*\n• Total exits (gate count \"out\"): *628*\n• Total combined activity: *1,317*\n• Average daily entries: *32.81*\n\nLet me know if you'd like a breakdown by day/week, a comparison to another month, or the same report for a different library."
+        }
+      ]
+    }
+  ],
+  "recorded": {
+    "model": "us.anthropic.claude-sonnet-5",
+    "steps": [
+      {
+        "tool_name": "OccupancyReportingRuntime___get_foot_traffic",
+        "status": "success",
+        "input": {
+          "start_date": "2026-06-01",
+          "end_date": "2026-06-30",
+          "library": "Science & Engineering"
+        },
+        "output": "### Foot Traffic Summary: Science & Engineering\n* **Date Range**: 2026-06-01 to 2026-06-30\n* **Total Entries (\"In\" Traffic)**: 4,075\n* **Total Exits (\"Out\" Traffic)**: 4,108\n* **Total Combined Activity**: 8,183\n* **Average Daily Entries**: 140.52\n"
+      }
+    ],
+    "final_text": "*Foot Traffic Summary — Science & Engineering Library* _Date range: June 1–30, 2026_\n• Total entries (gate count \"in\"): *4,075*\n• Total exits (gate count \"out\"): *4,108*\n• Total combined activity: *8,183*\n• Average daily entries: *140.52*\n\nFor comparison, Music Library saw *689* entries over the same period — Science & Engineering had roughly 6× the traffic.\n\nLet me know if you'd like a daily/weekly breakdown or a report for another library!"
+  },
+  "expect": {
+    "phrases": [
+      "4,075"
+    ],
+    "forbid": [],
+    "attachment": false,
+    "allow_condensed": false
+  },
+  "live": null
+}

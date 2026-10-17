@@ -1,0 +1,18 @@
+{
+  "id": "live-lost-in-place",
+  "category": "catalog",
+  "question": "Do we have Lost in Place by Mark Salzman?",
+  "history": [],
+  "expect": {},
+  "live": {
+    "tools_any": [
+      "search_by_field",
+      "search_catalog"
+    ],
+    "phrases_any": [
+      "Lost in Place"
+    ],
+    "forbid": [],
+    "max_seconds": 120
+  }
+}

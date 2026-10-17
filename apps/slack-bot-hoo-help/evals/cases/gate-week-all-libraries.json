@@ -1,0 +1,71 @@
+{
+  "id": "gate-week-all-libraries",
+  "category": "occupancy",
+  "question": "please give me the traffic in all libraries from last Monday until Sunday. I'd like to see a week of library traffic.",
+  "history": [],
+  "recorded": {
+    "model": "us.anthropic.claude-sonnet-5",
+    "steps": [
+      {
+        "tool_name": "OccupancyReportingRuntime___get_foot_traffic",
+        "status": "success",
+        "input": {
+          "start_date": "2026-08-03",
+          "end_date": "2026-08-09",
+          "library": "Clemons"
+        },
+        "output": "### Foot Traffic Summary: Clemons\n* **Date Range**: 2026-08-03 to 2026-08-09\n* **Total Entries (\"In\" Traffic)**: 1,127\n* **Total Exits (\"Out\" Traffic)**: 1,331\n* **Total Combined Activity**: 2,458\n* **Average Daily Entries**: 187.83\n"
+      },
+      {
+        "tool_name": "OccupancyReportingRuntime___get_foot_traffic",
+        "status": "success",
+        "input": {
+          "start_date": "2026-08-03",
+          "end_date": "2026-08-09",
+          "library": "Shannon"
+        },
+        "output": "### Foot Traffic Summary: Shannon\n* **Date Range**: 2026-08-03 to 2026-08-09\n* **Total Entries (\"In\" Traffic)**: 2,028\n* **Total Exits (\"Out\" Traffic)**: 1,984\n* **Total Combined Activity**: 4,012\n* **Average Daily Entries**: 338.00\n"
+      },
+      {
+        "tool_name": "OccupancyReportingRuntime___get_foot_traffic",
+        "status": "success",
+        "input": {
+          "start_date": "2026-08-03",
+          "end_date": "2026-08-09",
+          "library": "Science & Engineering"
+        },
+        "output": "### Foot Traffic Summary: Science & Engineering\n* **Date Range**: 2026-08-03 to 2026-08-09\n* **Total Entries (\"In\" Traffic)**: 1,146\n* **Total Exits (\"Out\" Traffic)**: 1,165\n* **Total Combined Activity**: 2,311\n* **Average Daily Entries**: 191.00\n"
+      },
+      {
+        "tool_name": "OccupancyReportingRuntime___get_foot_traffic",
+        "status": "success",
+        "input": {
+          "start_date": "2026-08-03",
+          "end_date": "2026-08-09",
+          "library": "Music"
+        },
+        "output": "### Foot Traffic Summary: Music\n* **Date Range**: 2026-08-03 to 2026-08-09\n* **Total Entries (\"In\" Traffic)**: 112\n* **Total Exits (\"Out\" Traffic)**: 109\n* **Total Combined Activity**: 221\n* **Average Daily Entries**: 22.40\n"
+      },
+      {
+        "tool_name": "OccupancyReportingRuntime___get_foot_traffic",
+        "status": "success",
+        "input": {
+          "start_date": "2026-08-03",
+          "end_date": "2026-08-09",
+          "library": "Fine Arts"
+        },
+        "output": "### Foot Traffic Summary: Fine Arts\n* **Date Range**: 2026-08-03 to 2026-08-09\n* **Total Entries (\"In\" Traffic)**: 129\n* **Total Exits (\"Out\" Traffic)**: 131\n* **Total Combined Activity**: 260\n* **Average Daily Entries**: 25.80\n"
+      }
+    ],
+    "final_text": "Here's the foot traffic for the week of Monday, August 3 – Sunday, August 9, 2026 across the libraries with occupancy sensors:\n\n*Shannon*\n• Entries: 2,028 | Exits: 1,984 | Combined: 4,012\n• Avg daily entries: 338.0\n\n*Science & Engineering*\n• Entries: 1,146 | Exits: 1,165 | Combined: 2,311\n• Avg daily entries: 191.0\n\n*Clemons*\n• Entries: 1,127 | Exits: 1,331 | Combined: 2,458\n• Avg daily entries: 187.8\n\n*Fine Arts*\n• Entries: 129 | Exits: 131 | Combined: 260\n• Avg daily entries: 25.8\n\n*Music*\n• Entries: 112 | Exits: 109 | Combined: 221\n• Avg daily entries: 22.4\n\nNote: Occupancy/foot-traffic sensors only cover these five libraries — RMC and Scholars' Lab aren't tracked this way. Shannon was by far the busiest overall, while Music and Fine Arts see much lighter daily traffic. Let me know if you'd like a breakdown by individual day or a different date range!"
+  },
+  "expect": {
+    "phrases": [
+      "2,028"
+    ],
+    "forbid": [],
+    "attachment": false,
+    "allow_condensed": false
+  },
+  "live": null
+}

@@ -1,0 +1,99 @@
+{
+  "id": "gate-12-weeks-max-iterations",
+  "category": "occupancy",
+  "question": "For Shannon Library, give me the total entries and total exits for each of the last 12 complete weeks.\nUse Monday through Sunday as each week. Do not calculate average occupancy or summarize the data.\nReturn the results as a table with exactly these columns:\n• Week (date range)\n• Total entries\n• Total exits\nInclude all 12 weeks, including weeks with unusually high or low traffic.",
+  "history": [],
+  "recorded": {
+    "model": "minimax.minimax-m2.5",
+    "steps": [
+      {
+        "tool_name": "OccupancyReportingRuntime___get_foot_traffic",
+        "status": "success",
+        "input": {
+          "start_date": "2026-07-06",
+          "end_date": "2026-09-27",
+          "library": "Shannon"
+        },
+        "output": "### Foot Traffic Summary: Shannon\n* **Date Range**: 2026-07-06 to 2026-09-27\n* **Total Entries (\"In\" Traffic)**: 78,678\n* **Total Exits (\"Out\" Traffic)**: 60,211\n* **Total Combined Activity**: 138,889\n* **Average Daily Entries**: 959.49\n"
+      },
+      {
+        "tool_name": "OccupancyReportingRuntime___get_foot_traffic",
+        "status": "success",
+        "input": {
+          "end_date": "2026-09-27",
+          "start_date": "2026-09-21",
+          "library": "Shannon"
+        },
+        "output": "### Foot Traffic Summary: Shannon\n* **Date Range**: 2026-09-21 to 2026-09-27\n* **Total Entries (\"In\" Traffic)**: 12,675\n* **Total Exits (\"Out\" Traffic)**: 13,088\n* **Total Combined Activity**: 25,763\n* **Average Daily Entries**: 1,810.71\n"
+      },
+      {
+        "tool_name": "OccupancyReportingRuntime___get_foot_traffic",
+        "status": "success",
+        "input": {
+          "end_date": "2026-09-20",
+          "start_date": "2026-09-14",
+          "library": "Shannon"
+        },
+        "output": "### Foot Traffic Summary: Shannon\n* **Date Range**: 2026-09-14 to 2026-09-20\n* **Total Entries (\"In\" Traffic)**: 13,258\n* **Total Exits (\"Out\" Traffic)**: 8,856\n* **Total Combined Activity**: 22,114\n* **Average Daily Entries**: 1,894.00\n"
+      },
+      {
+        "tool_name": "OccupancyReportingRuntime___get_foot_traffic",
+        "status": "success",
+        "input": {
+          "end_date": "2026-09-13",
+          "start_date": "2026-09-07",
+          "library": "Shannon"
+        },
+        "output": "### Foot Traffic Summary: Shannon\n* **Date Range**: 2026-09-07 to 2026-09-13\n* **Total Entries (\"In\" Traffic)**: 13,069\n* **Total Exits (\"Out\" Traffic)**: 8,110\n* **Total Combined Activity**: 21,179\n* **Average Daily Entries**: 1,867.00\n"
+      },
+      {
+        "tool_name": "OccupancyReportingRuntime___get_foot_traffic",
+        "status": "success",
+        "input": {
+          "end_date": "2026-09-06",
+          "start_date": "2026-08-31",
+          "library": "Shannon"
+        },
+        "output": "### Foot Traffic Summary: Shannon\n* **Date Range**: 2026-08-31 to 2026-09-06\n* **Total Entries (\"In\" Traffic)**: 13,202\n* **Total Exits (\"Out\" Traffic)**: 8,942\n* **Total Combined Activity**: 22,144\n* **Average Daily Entries**: 1,886.00\n"
+      },
+      {
+        "tool_name": "OccupancyReportingRuntime___get_foot_traffic",
+        "status": "success",
+        "input": {
+          "end_date": "2026-08-30",
+          "start_date": "2026-08-24",
+          "library": "Shannon"
+        },
+        "output": "### Foot Traffic Summary: Shannon\n* **Date Range**: 2026-08-24 to 2026-08-30\n* **Total Entries (\"In\" Traffic)**: 10,758\n* **Total Exits (\"Out\" Traffic)**: 7,051\n* **Total Combined Activity**: 17,809\n* **Average Daily Entries**: 1,536.86\n"
+      },
+      {
+        "tool_name": "OccupancyReportingRuntime___get_foot_traffic",
+        "status": "success",
+        "input": {
+          "end_date": "2026-08-23",
+          "start_date": "2026-08-17",
+          "library": "Shannon"
+        },
+        "output": "### Foot Traffic Summary: Shannon\n* **Date Range**: 2026-08-17 to 2026-08-23\n* **Total Entries (\"In\" Traffic)**: 2,358\n* **Total Exits (\"Out\" Traffic)**: 1,831\n* **Total Combined Activity**: 4,189\n* **Average Daily Entries**: 336.86\n"
+      },
+      {
+        "tool_name": "OccupancyReportingRuntime___get_foot_traffic",
+        "status": "success",
+        "input": {
+          "end_date": "2026-08-16",
+          "start_date": "2026-08-10",
+          "library": "Shannon"
+        },
+        "output": "### Foot Traffic Summary: Shannon\n* **Date Range**: 2026-08-10 to 2026-08-16\n* **Total Entries (\"In\" Traffic)**: 1,767\n* **Total Exits (\"Out\" Traffic)**: 1,345\n* **Total Combined Activity**: 3,112\n* **Average Daily Entries**: 294.50\n"
+      }
+    ],
+    "final_text": "I completed the maximum processing steps. Please let me know if you'd like more information!"
+  },
+  "expect": {
+    "phrases": [],
+    "forbid": [],
+    "attachment": false,
+    "allow_condensed": true
+  },
+  "live": null
+}

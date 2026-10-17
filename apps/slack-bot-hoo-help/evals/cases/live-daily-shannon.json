@@ -1,0 +1,19 @@
+{
+  "id": "live-daily-shannon",
+  "category": "occupancy",
+  "question": "Daily gate counts for Shannon for October 5-11, 2026",
+  "history": [],
+  "expect": {},
+  "live": {
+    "tools_any": [
+      "get_traffic_by_period"
+    ],
+    "phrases_any": [
+      "2026-10-07",
+      "Oct 7",
+      "October 7"
+    ],
+    "forbid": [],
+    "max_seconds": 120
+  }
+}

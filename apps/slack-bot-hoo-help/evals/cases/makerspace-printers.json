@@ -1,0 +1,30 @@
+{
+  "id": "makerspace-printers",
+  "category": "rooms",
+  "question": "Which 3D printers can I reserve in the Makerspace?",
+  "history": [],
+  "recorded": {
+    "model": "us.anthropic.claude-sonnet-5",
+    "steps": [
+      {
+        "tool_name": "OccupancyReportingRuntime___list_space_seats",
+        "status": "success",
+        "input": {
+          "location": "Makerspace",
+          "availability": "today"
+        },
+        "output": "# Seats (named equipment): Scholars' Lab Makerspace\n- **Space location lid**: `264`\n- **Book / browse**: https://cal.lib.virginia.edu/spaces?lid=264\n- **API**: `GET /space/seats/264`\n- **Availability query**: `2026-07-30`\n- **Count**: 7 seat(s)\n\nThese are LibCal **seats** (e.g. individual printers), not study-room chairs. Grouped products (3D Printers / Laser Cutter) may also appear under `list_space_items`.\n\n- **1.5\" Button Maker** — seat id `182177` · status Active\n  - *No free slots* in this range\n- **2.25\" Button Maker** — seat id `182178` · status Active\n  - *No free slots* in this range\n- **Big Bird (Prusa XL)** — seat id `176961` · status Active\n  - *No free slots* in this range\n- **Camilla (Prusa MK4S)** — seat id `176960` · status Active\n  - *No free slots* in this range\n- **Gonzo (Prusa MK4S)** — seat id `176953` · status Active\n  - *No free slots* in this range\n- **Janice (Prusa Core One+)** — seat id `182176` · status Active\n  - *No free slots* in this range\n- **Kermit (Prusa MK4S)** — seat id `176954` · status Active\n  - *No free slots* in this range\n\n**Summary**: 0 of 7 seat(s) have free slots for `2026-07-30`. Use `get_space_seat` for full equipment instructions. Booking is completed in LibCal."
+      }
+    ],
+    "final_text": "Here are the reservable 3D printers at the Scholars' Lab Makerspace:\n\n*3D Printers (bookable seats)*\n• Big Bird (Prusa XL)\n• Camilla (Prusa MK4S)\n• Gonzo (Prusa MK4S)\n• Janice (Prusa Core One+)\n• Kermit (Prusa MK4S)\n\n_(The Makerspace also has 1.5\" and 2.25\" Button Makers listed alongside these, in case you need those too.)_\n\nNone of them show free slots for today (2026-07-30), but availability can change day to day — you can check specific dates or book directly here:\n<https://cal.lib.virginia.edu/spaces?lid=264|Book a Makerspace 3D printer>\n\nWant me to check a specific printer's availability for another date?"
+  },
+  "expect": {
+    "phrases": [
+      "Janice"
+    ],
+    "forbid": [],
+    "attachment": false,
+    "allow_condensed": false
+  },
+  "live": null
+}

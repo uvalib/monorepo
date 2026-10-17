@@ -1,0 +1,30 @@
+{
+  "id": "images-dogs",
+  "category": "images",
+  "question": "show me some pics of dogs",
+  "history": [],
+  "recorded": {
+    "model": "us.amazon.nova-pro-v1:0",
+    "steps": [
+      {
+        "tool_name": "BedrockKBRuntime___search_virgo_image_suggestions",
+        "status": "success",
+        "input": {
+          "query": "dogs",
+          "max_results": 4
+        },
+        "output": "# Knowledge Base Retrieval Results\n**Knowledge Base**: `virgo-image-suggestions-knowledge-base` (J34YBBVTGA)\n**Query**: `dogs`\n**Result type**: visual / image records. Prefer these for photo/image requests. Each hit includes an Image URL suitable for display and a Virgo page link.\n\nFound **4** image hit(s):\n\n## Image 1: Unidentified woman feeding dogs\n- **Title**: Unidentified woman feeding dogs\n- **Identifier**: `uva-lib:331909`\n- **Collection**: Jackson Davis Collection of African American Photographs\n- **Repository**: Special Collections, University of Virginia Library, Charlottesville, Va.\n- **Relevance score**: 0.491\n- **Image URL**: https://iiif.lib.virginia.edu/iiif/uva-lib:331909/full/!800,800/0/default.jpg\n- **Virgo page**: https://search.lib.virginia.edu/sources/images/items/uva-lib:331909\n- **Subjects**: Dogs--Mammals ; Women--People by gender ; Animal feeding--Animals by activity\n\n## Image 2: Unidentified boy playing with dogs\n- **Title**: Unidentified boy playing with dogs\n- **Identifier**: `uva-lib:331927`\n- **Collection**: Jackson Davis Collection of African American Photographs\n- **Repository**: Special Collections, University of Virginia Library, Charlottesville, Va.\n- **Relevance score**: 0.489\n- **Image URL**: https://iiif.lib.virginia.edu/iiif/uva-lib:331927/full/!800,800/0/default.jpg\n- **Virgo page**: https://search.lib.virginia.edu/sources/images/items/uva-lib:331927\n- **Subjects**: Boys--People by gender ; Dogs--Mammals ; Children playing--People by age group and activity\n\n## Image 3: J.B. Garnett\n- **Title**: J.B. Garnett\n- **Identifier**: `uva-lib:1042267`\n- **Collection**: Holsinger Studio Collection\n- **Repository**: Special Collections, University of Virginia Library, Charlottesville, Va.\n- **Relevance score**: 0.496\n- **Image URL**: https://iiif.lib.virginia.edu/iiif/uva-lib:1042267/full/!800,800/0/default.jpg\n- **Virgo page**: https://search.lib.virginia.edu/sources/images/items/uva-lib:1042267\n- **Notes**: (Dog) 2 poses ; Negative X02429A2 depicts the same subject ; Plate is in good condition\n- **Subjects**: Animals ; Dogs ; Holsinger Studio (Charlottesville, Va.)\n\n## Image 4: Untitled\n- **Title**: Untitled\n- **Identifier**: `uva-lib:1039619`\n- **Collection**: Holsinger Studio Collection\n- **Repository**: Special Collections, University of Virginia Library, Charlottesville, Va.\n- **Relevance score**: 0.485\n- **Image URL**: https://iiif.lib.virginia.edu/iiif/uva-lib:1039619/full/!800,800/0/default.jpg\n- **Virgo page**: https://search.lib.virginia.edu/sources/images/items/uva-lib:1039619\n- **Notes**: Unidentified Group ; Plate is in good condition.\n- **Subjects**: Dog shows ; Dogs ; Animals ; Holsinger Studio (Charlottesville, Va.)\n\n_Assistant instructions: For image requests, present the most relevant titles (match the user's subject — e.g. rotunda *fire*, not demolition). Include the Image URL and Virgo page for each. Do NOT invent uva_library catalog item IDs (u123456); use the Identifier / Virgo page above._"
+      }
+    ],
+    "final_text": "Here are some images of dogs from the UVA Library's digital collections:\n\n• *Unidentified woman feeding dogs*\n  - Image URL: <https://iiif.lib.virginia.edu/iiif/uva-lib:331909/full/!800,800/0/default.jpg>\n  - Virgo page: <https://search.lib.virginia.edu/sources/images/items/uva-lib:331909>\n  - Collection: Jackson Davis Collection of African American Photographs\n\n• *Unidentified boy playing with dogs*\n  - Image URL: <https://iiif.lib.virginia.edu/iiif/uva-lib:331927/full/!800,800/0/default.jpg>\n  - Virgo page: <https://search.lib.virginia.edu/sources/images/items/uva-lib:331927>\n  - Collection: Jackson Davis Collection of African American Photographs\n\n• *J.B. Garnett*\n  - Image URL: <https://iiif.lib.virginia.edu/iiif/uva-lib:1042267/full/!800,800/0/default.jpg>\n  - Virgo page: <https://search.lib.virginia.edu/sources/images/items/uva-lib:1042267>\n  - Collection: Holsinger Studio Collection\n\n• *Untitled*\n  - Image URL: <https://iiif.lib.virginia.edu/iiif/uva-lib:1039619/full/!800,800/0/default.jpg>\n  - Virgo page: <https://search.lib.virginia.edu/sources/images/items/uva-lib:1039619>\n  - Collection: Holsinger Studio Collection"
+  },
+  "expect": {
+    "phrases": [
+      "dogs"
+    ],
+    "forbid": [],
+    "attachment": false,
+    "allow_condensed": false
+  },
+  "live": null
+}

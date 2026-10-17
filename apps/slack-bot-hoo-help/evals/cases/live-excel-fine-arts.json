@@ -1,0 +1,15 @@
+{
+  "id": "live-excel-fine-arts",
+  "category": "occupancy",
+  "question": "Give me daily gate counts for Fine Arts for July 2026 in Excel",
+  "history": [],
+  "expect": {},
+  "live": {
+    "tools_any": [
+      "get_traffic_by_period"
+    ],
+    "phrases_any": [],
+    "forbid": [],
+    "max_seconds": 120
+  }
+}

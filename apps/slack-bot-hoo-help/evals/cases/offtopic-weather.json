@@ -1,0 +1,20 @@
+{
+  "id": "offtopic-weather",
+  "category": "offtopic",
+  "question": "what will the weather be on thursday",
+  "history": [],
+  "recorded": {
+    "model": "minimax.minimax-m2.5",
+    "steps": [],
+    "final_text": "<thinking>\nThe user is asking about the weather on Thursday. This is not a question I can answer with my available tools - I have information about UVA Library hours, locations, occupancy, equipment, events, Virgo catalog, and images. I don't have access to weather data.\n\nI should politely let the user know that I can't provide weather information and redirect them to what I can help with.\n</thinking>\n\nI don't have access to weather information — that's outside what I can help with!\n\nI'm Hoo Helper, the UVA Library's AI assistant. I can help you with things like:\n\n* **Library hours** for any UVA library or space (Clemons, Shannon, RMC, Scholars' Lab, etc.)\n* **Study room reservations** — finding and booking rooms\n* **Equipment checkout** — cameras, makerspace tools, and more\n* **Library events and workshops**\n* **Catalog searches** — finding books, media, and online resources\n* **Walking directions** between library buildings\n* **Digital images** from our historic collections\n\nIs there something library-related I can help you with?"
+  },
+  "expect": {
+    "phrases": [
+      "weather"
+    ],
+    "forbid": [],
+    "attachment": false,
+    "allow_condensed": false
+  },
+  "live": null
+}

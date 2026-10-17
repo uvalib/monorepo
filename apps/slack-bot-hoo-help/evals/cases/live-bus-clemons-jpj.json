@@ -1,0 +1,15 @@
+{
+  "id": "live-bus-clemons-jpj",
+  "category": "transit",
+  "question": "Which bus goes from Clemons to JPJ?",
+  "history": [],
+  "expect": {},
+  "live": {
+    "tools_any": [
+      "find_bus_trip"
+    ],
+    "phrases_any": [],
+    "forbid": [],
+    "max_seconds": 120
+  }
+}

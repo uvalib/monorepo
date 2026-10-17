@@ -1,0 +1,31 @@
+{
+  "id": "directions-shannon-brown",
+  "category": "directions",
+  "question": "give me accessible walking directions from Shannon Library to Brown Library",
+  "history": [],
+  "recorded": {
+    "model": "us.anthropic.claude-sonnet-5",
+    "steps": [
+      {
+        "tool_name": "OccupancyReportingRuntime___get_walking_directions",
+        "status": "success",
+        "input": {
+          "from_place": "Shannon Library",
+          "to_place": "Brown Library",
+          "accessible": "true"
+        },
+        "output": "# Walking directions: Shannon Library → Brown Science & Engineering Library (in Clark Hall)\n- **Mode**: walking (**ADA / accessible** focus)\n- **From**: Shannon Library — Central Grounds library (near Lawn / University Avenue)\n- **To**: Brown Science & Engineering Library (in Clark Hall) — Ground-floor library inside Clark Hall (McCormick Road entrance) — no elevator needed for the library\n- **Map used**: Central Grounds official map (https://www.fm.virginia.edu/docs/ges/ADA_Regions_CentralGrounds.pdf)\n\n## Directions (from the campus map)\n1. Exit Shannon Library and head south, passing alongside Clemons Library on your right.\n2. Continue straight toward Newcomb Hall, keeping it on your right, and follow the walkway down to McCormick Road.\n3. Turn right onto McCormick Road and walk southwest, passing Bavaro Hall and Ridley Hall on your right and Monroe Hill / Brown College area on your left.\n4. Stay on McCormick Road as it curves near the amphitheater; Clark Hall will be on your left just ahead.\n5. Enter Clark Hall through its McCormick Road–level entrance — Brown Science & Engineering Library is right there on the ground floor, no elevator needed.\n\nApproximate walking time: 8–10 minutes.\n\n## Live map links\n- **Google Maps (walking)**: https://www.google.com/maps/dir/?api=1&origin=Shannon+Library%2C+University+of+Virginia%2C+Charlottesville+VA&destination=Brown+Science+and+Engineering+Library%2C+Clark+Hall%2C+University+of+Virginia&travelmode=walking\n- **Apple Maps (walking)**: https://maps.apple.com/?saddr=Shannon+Library%2C+University+of+Virginia%2C+Charlottesville+VA&daddr=Brown+Science+and+Engineering+Library%2C+Clark+Hall%2C+University+of+Virginia&dirflg=w\n- **UVA Central Grounds map (PDF)**: https://www.fm.virginia.edu/docs/ges/ADA_Regions_CentralGrounds.pdf\n\n## Agent notes\n- In Slack, lead with the numbered **Directions** (roads/landmarks). Include the Google Maps walking link.\n- Do **not** replace steps with vague “follow the marked accessible path” language, and do **not** call `get_accessible_routes_map` again if this tool already ran with accessible=true (avoids double legend-speak).\n- Do **not** add a closing note about “ADA Accessible Paths / Barrier Free Paths” from the map legend — that is map-PDF language, not street directions.\n- Construction can change entrances; on-site signs win.\n- Optional ADA Coordinator: `adacoordinator@virginia.edu` · https://www.eocr.virginia.edu/ada-coordinator\n- You may share the PDF as an optional **visual reference**, never as a substitute for the steps, and never as “follow the blue/marked ADA path.”"
+      }
+    ],
+    "final_text": "Here are accessible walking directions from *Shannon Library* to *Brown Science & Engineering Library* (located in Clark Hall):\n\n1. Exit Shannon Library and head south, passing alongside Clemons Library on your right.\n2. Continue straight toward Newcomb Hall, keeping it on your right, and follow the walkway down to McCormick Road.\n3. Turn right onto McCormick Road and walk southwest, passing Bavaro Hall and Ridley Hall on your right and the Monroe Hill / Brown College area on your left.\n4. Stay on McCormick Road as it curves near the amphitheater — Clark Hall will be on your left just ahead.\n5. Enter Clark Hall through its McCormick Road–level entrance — the library is right there on the ground floor, so no elevator is needed.\n\nApproximate walking time: 8–10 minutes.\n\nLive map links:\n• <https://www.google.com/maps/dir/?api=1&origin=Shannon+Library%2C+University+of+Virginia%2C+Charlottesville+VA&destination=Brown+Science+and+Engineering+Library%2C+Clark+Hall%2C+University+of+Virginia&travelmode=walking|Google Maps (walking)>\n• <https://maps.apple.com/?saddr=Shannon+Library%2C+University+of+Virginia%2C+Charlottesville+VA&daddr=Brown+Science+and+Engineering+Library%2C+Clark+Hall%2C+University+of+Virginia&dirflg=w|Apple Maps (walking)>\n\nFor reference, the official UVA accessibility map is here: <https://www.fm.virginia.edu/docs/ges/ADA_Regions_CentralGrounds.pdf|Central Grounds ADA Map (PDF)>\n\nA couple of notes:\n• Construction can change entrances from time to time, so on-site signage takes priority if it differs from these steps.\n• If you need further accessibility assistance, the ADA Coordinator can help: adacoordinator@virginia.edu or <https://www.eocr.virginia.edu/ada-coordinator|ADA Coordinator page>."
+  },
+  "expect": {
+    "phrases": [
+      "McCormick"
+    ],
+    "forbid": [],
+    "attachment": false,
+    "allow_condensed": false
+  },
+  "live": null
+}

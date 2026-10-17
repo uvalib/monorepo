@@ -1,0 +1,30 @@
+{
+  "id": "directions-garage-fine-arts",
+  "category": "directions",
+  "question": "what are the walking directions from the central garage to the fine-arts library",
+  "history": [],
+  "recorded": {
+    "model": "us.anthropic.claude-sonnet-5",
+    "steps": [
+      {
+        "tool_name": "OccupancyReportingRuntime___get_walking_directions",
+        "status": "success",
+        "input": {
+          "from_place": "Central Grounds Garage",
+          "to_place": "Fine Arts Library"
+        },
+        "output": "# Walking directions: Central Grounds Parking (garage) → Fine Arts Library (Fiske Kimball)\n- **Mode**: walking\n- **From**: Central Grounds Parking (garage) — Central Grounds Parking on the campus map — the multi-level garage near Emmet / University Ave area\n- **To**: Fine Arts Library (Fiske Kimball) — Arts area on Central Grounds\n- **Map used**: Central Grounds official map (https://www.fm.virginia.edu/docs/ges/ADA_Regions_CentralGrounds.pdf)\n\n## Directions (from the campus map)\n1. Exit Central Grounds Parking onto McCormick Road and turn right, heading past the Bookstore and Shannon Library on your left.\n2. Continue straight as McCormick curves uphill toward University Chapel, keeping Clemons Library on your left.\n3. Pass the Rotunda on your right and continue north onto University Avenue.\n4. Walk past Madison Hall and Bayly Museum, staying on University Avenue as it curves toward Carr's Hill.\n5. Fayerweather Hall (home of the Fine Arts Library / Fiske Kimball) will be just ahead on your right, past Carr's Hill and the President's House.\n\nApproximate walking time: 10–12 minutes.\n\n## Live map links\n- **Google Maps (walking)**: https://www.google.com/maps/dir/?api=1&origin=Central+Grounds+Parking+Garage%2C+University+of+Virginia%2C+Charlottesville+VA&destination=Fiske+Kimball+Fine+Arts+Library%2C+University+of+Virginia&travelmode=walking\n- **Apple Maps (walking)**: https://maps.apple.com/?saddr=Central+Grounds+Parking+Garage%2C+University+of+Virginia%2C+Charlottesville+VA&daddr=Fiske+Kimball+Fine+Arts+Library%2C+University+of+Virginia&dirflg=w\n- **UVA Central Grounds map (PDF)**: https://www.fm.virginia.edu/docs/ges/ADA_Regions_CentralGrounds.pdf\n\n## Agent notes\n- In Slack, lead with the numbered **Directions** (roads/landmarks). Include the Google Maps walking link.\n- Do **not** replace steps with vague “follow the marked accessible path” language, and do **not** call `get_accessible_routes_map` again if this tool already ran with accessible=true (avoids double legend-speak).\n- Do **not** add a closing note about “ADA Accessible Paths / Barrier Free Paths” from the map legend — that is map-PDF language, not street directions.\n- Construction can change entrances; on-site signs win."
+      }
+    ],
+    "final_text": "Here are walking directions from the Central Grounds Parking Garage to the Fine Arts Library (Fiske Kimball), based on the UVA Central Grounds map:\n\n1. Exit Central Grounds Parking onto McCormick Road and turn right, passing the Bookstore and Shannon Library on your left.\n2. Continue straight as McCormick curves uphill toward University Chapel, keeping Clemons Library on your left.\n3. Pass the Rotunda on your right and continue north onto University Avenue.\n4. Walk past Madison Hall and Bayly Museum, staying on University Avenue as it curves toward Carr's Hill.\n5. Fayerweather Hall (home of the Fine Arts Library / Fiske Kimball) will be just ahead on your right, past Carr's Hill and the President's House.\n\n_Approximate walking time: 10–12 minutes._\n\nLive map links:\n• <https://www.google.com/maps/dir/?api=1&origin=Central+Grounds+Parking+Garage%2C+University+of+Virginia%2C+Charlottesville+VA&destination=Fiske+Kimball+Fine+Arts+Library%2C+University+of+Virginia&travelmode=walking|Google Maps (walking)>\n• <https://maps.apple.com/?saddr=Central+Grounds+Parking+Garage%2C+University+of+Virginia%2C+Charlottesville+VA&daddr=Fiske+Kimball+Fine+Arts+Library%2C+University+of+Virginia&dirflg=w|Apple Maps (walking)>\n\nNote: Construction can occasionally change entrances or routes — on-site signage takes priority. Let me know if you'd like accessible/wheelchair-friendly directions instead!"
+  },
+  "expect": {
+    "phrases": [
+      "Fine Arts"
+    ],
+    "forbid": [],
+    "attachment": false,
+    "allow_condensed": false
+  },
+  "live": null
+}

@@ -1,0 +1,76 @@
+{
+  "id": "rooms-shannon-5-8",
+  "category": "rooms",
+  "question": "Is there a group study room free at Shannon from 5pm to 8pm tomorrow?",
+  "history": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "text": "What kinds of spaces can I reserve at Shannon?"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "text": "At Shannon Library, you can reserve:\n\n*Group Study Rooms*\nDefault booking time is 1 hour, but you can extend up to 3 hours total using the dropdown after selecting a start time.\n\nYou can browse and book available rooms here: <https://cal.lib.virginia.edu/spaces?lid=1076|Shannon Library Space Booking>\n\nWant me to check which specific rooms are free at a particular time today or another day?"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "text": "What's free at Georges today?"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "text": "*Georges Student Center* (Clemons Library, 2nd Floor) has *no free slots* today, Thursday, July 30, 2026, across all 15 reservable rooms:\n\n*Conference Rooms:*\n• Clemons 202, 203, 204 — all fully booked\n\n*Group Study Rooms:*\n• Clemons 220, 221, 222, 224, 226, 227, 230, 234, 237, 238, 241, 245 — all fully booked\n\nYou can check the live booking calendar in case of last-minute cancellations here: <https://cal.lib.virginia.edu/spaces?lid=2172|Georges Student Center Booking>\n\nWould you like me to check availability for tomorrow or a different location?"
+        }
+      ]
+    }
+  ],
+  "recorded": {
+    "model": "us.anthropic.claude-sonnet-5",
+    "steps": [
+      {
+        "tool_name": "OccupancyReportingRuntime___search_space_availability",
+        "status": "success",
+        "input": {
+          "location": "Shannon",
+          "date": "2026-07-31",
+          "time_start": "17:00",
+          "time_end": "20:00",
+          "category": "Group Study Rooms"
+        },
+        "output": "# Space availability search: Shannon Library\n- **Space location lid**: `1076`\n- **Book / browse**: https://cal.lib.virginia.edu/spaces?lid=1076\n- **API**: `GET /space/search/hourly/1076`\n- **Window**: 2026-07-31 (Friday) 5:00 PM–8:00 PM\n- **Category filter**: `Group Study Rooms` (cid `41529`)\n\n**Exact matches** = free for the full requested window. **Other matches** = free for a partial/later window only.\n\n## Exact matches (0)\n- *(none for the full window)*\n\n## Other matches (10)\n- **318 G** — item id `168181` · capacity 6 · Group Study Rooms · free **1:00 PM–4:00 PM**\n- **318 L** — item id `168186` · capacity 6 · Group Study Rooms · free **1:00 PM–4:00 PM**\n- **318 F** — item id `168179` · capacity 6 · Group Study Rooms · free **1:00 PM–4:00 PM**\n- **Shannon 321 (Taylor Room)** — item id `216543` · capacity 14 · Group Study Rooms · free **1:00 PM–4:00 PM**\n- **318 C** — item id `168175` · capacity 6 · Group Study Rooms · free **1:00 PM–4:00 PM**\n- **318 H** — item id `168182` · capacity 6 · Group Study Rooms · free **1:00 PM–4:00 PM**\n- **318 D** — item id `168177` · capacity 6 · Group Study Rooms · free **1:00 PM–4:00 PM**\n- **318 K** — item id `168185` · capacity 6 · Group Study Rooms · free **1:00 PM–4:00 PM**\n- **134 - Conference Room** — item id `169211` · capacity 14 · Group Study Rooms · free **1:00 PM–4:00 PM**\n- **318 I** — item id `168183` · capacity 6 · Group Study Rooms · free **1:00 PM–4:00 PM**\n\n**Summary**: 0 exact · 10 partial/other. Patrons must complete reservations in LibCal — this tool does not book."
+      }
+    ],
+    "final_text": "Unfortunately, no group study room at Shannon Library is free for the *entire* 5pm–8pm window tomorrow (Friday, July 31, 2026).\n\nThe rooms that show availability are all only free earlier in the day, from *1:00 PM–4:00 PM* — none extend into your requested evening window:\n\n• 318 C, 318 D, 318 F, 318 G, 318 H, 318 I, 318 K, 318 L — capacity 6 each\n• Shannon 321 (Taylor Room) — capacity 14\n• 134 - Conference Room — capacity 14\n\nYou can check the live calendar in case something opens up closer to your date (bookings can change): <https://cal.lib.virginia.edu/spaces?lid=1076|Shannon Library Space Booking>\n\nWould you like me to check a different time window or another library for tomorrow evening?"
+  },
+  "expect": {
+    "phrases": [
+      "318"
+    ],
+    "forbid": [],
+    "attachment": false,
+    "allow_condensed": false
+  },
+  "live": {
+    "tools_any": [
+      "search_space_availability",
+      "list_space_items"
+    ],
+    "phrases_any": [
+      "Shannon"
+    ],
+    "forbid": [],
+    "max_seconds": 120
+  }
+}

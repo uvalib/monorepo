@@ -1,0 +1,40 @@
+{
+  "id": "hours-rmc",
+  "category": "hours",
+  "question": "When is RMC open today?",
+  "history": [],
+  "recorded": {
+    "model": "us.amazon.nova-pro-v1:0",
+    "steps": [
+      {
+        "tool_name": "OccupancyReportingRuntime___get_library_hours",
+        "status": "success",
+        "input": {
+          "library": "RMC",
+          "start_date": "2026-07-27"
+        },
+        "output": "### Hours: Robertson Media Center (RMC)\n* **Official name** (use this exact name in answers — do not invent expansions): **Robertson Media Center (RMC)**\n* **Canonical key**: `RMC`\n* **LibCal location id**: 4170\n* **Date range**: 2026-07-27 to 2026-07-27\n* **Source**: LibCal (published hours; no open/close buffer)\n* **Time format**: 12-hour local (e.g. 1:00 PM–5:00 PM)\n* **Note**: Space in Clemons Library — has its own hours calendar (not the same as Clemons).\n\n| Date | Day | Hours |\n| :--- | :--- | :--- |\n| 2026-07-27 | Mon | 10:00 AM–6:00 PM |\n\n**Summary**: 1 open day(s), 0 closed day(s)."
+      }
+    ],
+    "final_text": "*Robertson Media Center (RMC)* is open today from 10:00 AM to 6:00 PM."
+  },
+  "expect": {
+    "phrases": [
+      "Robertson Media Center"
+    ],
+    "forbid": [],
+    "attachment": false,
+    "allow_condensed": false
+  },
+  "live": {
+    "tools_any": [
+      "get_library_hours"
+    ],
+    "phrases_any": [
+      "Robertson Media Center",
+      "RMC"
+    ],
+    "forbid": [],
+    "max_seconds": 120
+  }
+}
