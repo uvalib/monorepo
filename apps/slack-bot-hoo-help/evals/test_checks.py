@@ -11,6 +11,7 @@ sys.path.insert(0, APP)
 sys.path.insert(0, os.path.join(APP, "src"))
 
 from evals import checks  # noqa: E402
+from evals import case, offline, run  # noqa: E402
 
 SEC = lambda t: {"type": "section", "text": {"type": "mrkdwn", "text": t}}  # noqa: E731
 TABLE = {"type": "table", "rows": [[{"type": "raw_text", "text": "Entrance"}], [{"type": "raw_text", "text": "73,469"}]]}
@@ -31,6 +32,13 @@ def test_universal_forbidden_text():
     for bad in ["**bold**", "| :--- |", "<thinking>x</thinking>", "the Media Outlets Policy",
                 "Tool Error: Unknown tool: x"]:
         assert checks.universal(bad, [SEC(bad)]), bad
+
+
+def test_markdown_table_allowed_in_fallback_only():
+    fallback = "Counts:\n| Entrance | In |\n| :--- | :--- |\n| Main | 73,469 |"
+    assert checks.universal(fallback, [SEC("Counts:"), TABLE]) == []
+    assert checks.universal("x", [SEC("| :--- |")])                    # raw table in a visible block fails
+    assert checks.universal("leak: Media Outlets Policy", [SEC("ok")])  # leaks still caught in fallback
 
 
 def test_visible_text_reaches_tables_fields_cards():   # Review Focus 1
@@ -56,13 +64,53 @@ def test_tools_any_and_phrases_any():
     assert checks.forbid("Main Library hours", ["main library"])
 
 
+CASE = {"id": "synthetic-entrance", "category": "occupancy", "question": "Clemons gate counts April by entrance in Excel",
+        "recorded": {"model": "m", "final_text": "Here are the counts:\n\n| Entrance | In |\n| :--- | :--- |\n| Main | 73,469 |",
+                     "steps": [{"tool_name": "OccupancyReportingRuntime___get_entrance_traffic", "status": "success", "input": {},
+                                "output": "### Entrance Traffic Breakdown: Clemons\n\n| Entrance | In (Entries) |\n| :--- | :--- |\n| Main | 73,469 |"}]},
+        "expect": {"phrases": ["73,469"], "attachment": True}}
+
+
+def test_offline_replay_passes_and_builds_attachment():
+    r = offline.run_offline(CASE)
+    assert r.passed, r.reasons
+
+
+def test_offline_reports_missing_phrase():
+    bad = {**CASE, "expect": {"phrases": ["99,999"]}}
+    r = offline.run_offline(bad)
+    assert not r.passed and "missing phrase: '99,999'" in r.reasons
+
+
+def test_live_only_case_skipped_offline():   # Review Focus 2
+    r = offline.run_offline({"id": "live-only", "question": "q", "live": {"tools_any": []}, "history": [], "expect": {}})
+    assert r.skipped and r.passed
+
+
+def test_load_case_errors_and_cli_exit_codes():
+    d = tempfile.mkdtemp()
+    json.dump(CASE, open(os.path.join(d, "ok.json"), "w"))
+    open(os.path.join(d, "broken.json"), "w").write("{nope")
+    loaded = case.load_cases(d)
+    assert sum(isinstance(x, case.CaseError) for x in loaded) == 1
+    assert run.main(["--offline", "--cases-dir", d]) == 1                       # broken case fails the run
+    os.remove(os.path.join(d, "broken.json"))
+    assert run.main(["--offline", "--cases-dir", d]) == 0
+    assert run.main(["--offline", "--cases-dir", d, "--case", "nope"]) == 2
+
+
 TESTS = [
     test_universal_passes_clean_output,
     test_universal_limits,
     test_universal_forbidden_text,
+    test_markdown_table_allowed_in_fallback_only,
     test_visible_text_reaches_tables_fields_cards,
     test_not_collapsed,
     test_tools_any_and_phrases_any,
+    test_offline_replay_passes_and_builds_attachment,
+    test_offline_reports_missing_phrase,
+    test_live_only_case_skipped_offline,
+    test_load_case_errors_and_cli_exit_codes,
 ]
 
 if __name__ == "__main__":

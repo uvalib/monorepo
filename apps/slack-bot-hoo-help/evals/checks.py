@@ -18,11 +18,16 @@ MAX_BLOCKS = 50
 MAX_TABLES = 1
 MAX_SECTION_CHARS = 3000
 
-FORBIDDEN: tuple[str, ...] = (
+# Formatting markers: checked in visible blocks only (the fallback is Slack's
+# notification copy and intentionally keeps the agent's markdown table).
+FORBIDDEN_IN_BLOCKS: tuple[str, ...] = (
     "**",
     "| :---",
     "|---",
     "<thinking",
+)
+# Leaks and tool errors: checked in blocks and fallback text.
+FORBIDDEN: tuple[str, ...] = (
     "Media Outlets Policy",
     "non-infringing information",
     "Generate a polite, respectful",
@@ -97,9 +102,13 @@ def universal(fallback_text: str, blocks: list[dict]) -> list[str]:
             n = len(_text_of(b.get("text")))
             if n > MAX_SECTION_CHARS:
                 reasons.append(f"section text {n} chars (max {MAX_SECTION_CHARS})")
-    shown = f"{fallback_text or ''}\n{visible_text(blocks)}"
+    in_blocks = visible_text(blocks).lower()
+    shown = f"{fallback_text or ''}\n{in_blocks}".lower()
+    for bad in FORBIDDEN_IN_BLOCKS:
+        if bad.lower() in in_blocks:
+            reasons.append(f"forbidden text: {bad!r}")
     for bad in FORBIDDEN:
-        if bad.lower() in shown.lower():
+        if bad.lower() in shown:
             reasons.append(f"forbidden text: {bad!r}")
     return reasons
 
