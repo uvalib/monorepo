@@ -41,8 +41,11 @@ def run_offline(case: dict) -> CaseResult:
         expect = case.get("expect") or {}
         reasons = checks.universal(text, blocks)
         if not expect.get("allow_condensed"):
-            reasons += checks.not_collapsed(rec["final_text"], text, blocks)
-        shown = f"{text}\n{checks.visible_text(blocks)}"
+            reasons += checks.not_collapsed(rec["final_text"], blocks)
+            reasons += checks.structure_kept(rec["final_text"], blocks)
+        reasons += checks.blocks_present(blocks, expect.get("blocks") or [])
+        # Only what Slack shows counts: the fallback text always holds the full answer.
+        shown = checks.visible_text(blocks)
         reasons += checks.phrases_all(shown, expect.get("phrases") or [])
         reasons += checks.forbid(shown, expect.get("forbid") or [])
         if expect.get("attachment"):

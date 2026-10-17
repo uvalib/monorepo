@@ -24,7 +24,10 @@
     ],
     "forbid": [],
     "attachment": false,
-    "allow_condensed": false
+    "allow_condensed": true,
+    "blocks": [
+      "carousel"
+    ]
   },
   "live": null
 }

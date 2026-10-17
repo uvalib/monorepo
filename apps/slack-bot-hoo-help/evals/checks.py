@@ -118,16 +118,39 @@ def _distinctive_words(text: str) -> set[str]:
     return {w for w in _WORD.findall(clean) if w not in _STOP}
 
 
-def not_collapsed(answer: str, fallback_text: str, blocks: list[dict], min_ratio: float = 0.6) -> list[str]:
+def not_collapsed(answer: str, blocks: list[dict], min_ratio: float = 0.6) -> list[str]:
+    """Answer words must survive into the visible blocks (the fallback text always
+    holds the whole answer, so it can't count as visible)."""
     words = _distinctive_words(answer)
     if not words:
         return []
-    shown = f"{fallback_text or ''}\n{visible_text(blocks)}".lower()
+    shown = visible_text(blocks).lower()
     kept = sum(1 for w in words if w in shown)
     ratio = kept / len(words)
     if ratio < min_ratio:
         return [f"collapsed: {kept}/{len(words)} answer words visible ({ratio:.2f} < {min_ratio:.2f})"]
     return []
+
+
+def structure_kept(answer: str, blocks: list[dict], min_lines: int = 4, min_ratio: float = 0.5) -> list[str]:
+    """A multi-line answer must still be multi-line in the posted sections
+    (catches answers collapsed onto one line, which word checks can't see)."""
+    lines = [l for l in _THINKING.sub("", answer or "").splitlines()
+             if l.strip() and not l.strip().startswith("|")]
+    if len(lines) < min_lines:
+        return []
+    shown = sum(
+        len([l for l in _text_of(b.get("text")).splitlines() if l.strip()])
+        for b in blocks or [] if b.get("type") == "section"
+    )
+    if shown < min_ratio * len(lines):
+        return [f"structure lost: {shown} visible lines for a {len(lines)}-line answer"]
+    return []
+
+
+def blocks_present(blocks: list[dict], required: list[str]) -> list[str]:
+    types = {b.get("type") for b in blocks or []}
+    return [f"missing block type: {t}" for t in required or [] if t not in types]
 
 
 def phrases_all(text: str, phrases: list[str]) -> list[str]:

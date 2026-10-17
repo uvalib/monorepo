@@ -25,7 +25,10 @@
     ],
     "forbid": [],
     "attachment": false,
-    "allow_condensed": false
+    "allow_condensed": false,
+    "blocks": [
+      "data_visualization"
+    ]
   },
   "live": null
 }

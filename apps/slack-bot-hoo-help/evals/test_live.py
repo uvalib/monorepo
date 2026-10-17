@@ -51,7 +51,19 @@ def test_live_exception_fails_case_and_report_still_written():   # Review Focus 
     assert "| a | FAIL" in text and "| bus | PASS" in text and "Gold Line" in text
 
 
+def test_report_states_guardrail():   # final review #5
+    path = os.path.join(tempfile.mkdtemp(), "r.md")
+    os.environ.pop("BEDROCK_GUARDRAIL_ID", None)
+    live.write_report([], path)
+    assert "Guardrail: off" in open(path).read()
+    os.environ["BEDROCK_GUARDRAIL_ID"] = "abc123"
+    live.write_report([], path)
+    assert "Guardrail: abc123" in open(path).read()
+    os.environ.pop("BEDROCK_GUARDRAIL_ID")
+
+
 if __name__ == "__main__":
     test_live_pass_and_fail_reasons()
     test_live_exception_fails_case_and_report_still_written()
+    test_report_states_guardrail()
     print("ok")

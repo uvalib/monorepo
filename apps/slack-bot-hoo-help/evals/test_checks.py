@@ -53,8 +53,8 @@ def test_visible_text_reaches_tables_fields_cards():   # Review Focus 1
 def test_not_collapsed():
     answer = ("Faculty accessibility remediation services: contact lib-a11y, captioning through coaa, "
               "subject liaison librarians help locate accessible readings, video resources guide")
-    assert checks.not_collapsed(answer, "x", [SEC(answer)]) == []
-    assert checks.not_collapsed(answer, "x", [SEC("Accessibility remediation services. Contact lib-a11y.")])
+    assert checks.not_collapsed(answer, [SEC(answer)]) == []
+    assert checks.not_collapsed(answer, [SEC("Accessibility remediation services. Contact lib-a11y.")])
 
 
 def test_tools_any_and_phrases_any():
@@ -99,6 +99,54 @@ def test_load_case_errors_and_cli_exit_codes():
     assert run.main(["--offline", "--cases-dir", d, "--case", "nope"]) == 2
 
 
+# ---- Mutation tests: the gate must fail when the posted message is broken.
+import slack_format  # noqa: E402
+
+CASES_DIR = os.path.join(APP, "evals", "cases")
+
+
+def _failures_with(attr, replacement):
+    original = getattr(slack_format, attr)
+    setattr(slack_format, attr, replacement(original))
+    try:
+        results = [offline.run_offline(c) for c in case.load_cases(CASES_DIR) if isinstance(c, dict)]
+    finally:
+        setattr(slack_format, attr, original)
+    return [r.id for r in results if not r.passed and not r.skipped]
+
+
+def test_gate_fails_when_prose_dropped():   # final review #1
+    def drop(orig):
+        return lambda mrkdwn, images, extra_blocks=None, llm_blocks=None: orig("Here you go.", images, extra_blocks, llm_blocks)
+    assert len(_failures_with("_build_blocks", drop)) >= 20
+
+
+def test_gate_fails_when_tool_blocks_dropped():   # final review #2
+    assert len(_failures_with("blocks_from_tool_steps", lambda orig: (lambda *a, **k: []))) >= 3
+
+
+def test_gate_fails_when_answer_collapsed_to_one_line():   # final review #3
+    def collapse(orig):
+        return lambda text: " ".join(orig(text).split())
+    assert len(_failures_with("_local_markdown_cleanup", collapse)) >= 10
+
+
+def test_case_types_validated():   # final review #4
+    d = tempfile.mkdtemp()
+    bad = [{**CASE, "id": "s", "expect": {"phrases": "73,469"}},
+           {**CASE, "id": "k", "expect": {"phrase": ["x"]}},
+           {**CASE, "id": "r", "recorded": []},
+           {**CASE, "id": "l", "live": {"tools_any": "find_bus_trip"}}]
+    for c in bad:
+        path = os.path.join(d, c["id"] + ".json")
+        json.dump(c, open(path, "w"))
+        try:
+            case.load_case(path)
+            assert False, c["id"]
+        except case.CaseError:
+            pass
+
+
 TESTS = [
     test_universal_passes_clean_output,
     test_universal_limits,
@@ -111,6 +159,10 @@ TESTS = [
     test_offline_reports_missing_phrase,
     test_live_only_case_skipped_offline,
     test_load_case_errors_and_cli_exit_codes,
+    test_gate_fails_when_prose_dropped,
+    test_gate_fails_when_tool_blocks_dropped,
+    test_gate_fails_when_answer_collapsed_to_one_line,
+    test_case_types_validated,
 ]
 
 if __name__ == "__main__":

@@ -93,7 +93,11 @@
     "phrases": [],
     "forbid": [],
     "attachment": false,
-    "allow_condensed": true
+    "allow_condensed": true,
+    "blocks": [
+      "data_visualization",
+      "table"
+    ]
   },
   "live": null
 }

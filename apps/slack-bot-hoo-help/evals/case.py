@@ -42,11 +42,36 @@ def load_case(path: str) -> dict:
     rec, live = data.get("recorded"), data.get("live")
     if not rec and not live:
         raise CaseError(path, "needs 'recorded' and/or 'live'")
-    if rec is not None and (not isinstance(rec.get("steps"), list) or not isinstance(rec.get("final_text"), str)):
-        raise CaseError(path, "'recorded' needs 'steps' (list) and 'final_text' (str)")
-    data.setdefault("history", [])
+    if rec is not None:
+        if not isinstance(rec, dict) or not isinstance(rec.get("steps"), list) or not isinstance(rec.get("final_text"), str):
+            raise CaseError(path, "'recorded' needs 'steps' (list) and 'final_text' (str)")
+    if not isinstance(data.setdefault("history", []), list):
+        raise CaseError(path, "'history' must be a list")
     data["expect"] = data.get("expect") or {}
+    _check_fields(path, "expect", data["expect"], EXPECT_FIELDS)
+    if live is not None:
+        _check_fields(path, "live", live, LIVE_FIELDS)
     return data
+
+
+# field → type; "strs" = list of strings
+EXPECT_FIELDS = {"phrases": "strs", "forbid": "strs", "blocks": "strs", "attachment": bool, "allow_condensed": bool}
+LIVE_FIELDS = {"tools_any": "strs", "phrases_any": "strs", "forbid": "strs", "max_seconds": (int, float)}
+
+
+def _check_fields(path: str, name: str, value, fields: dict) -> None:
+    """Reject unknown keys and wrong types, so a typo can't silently check nothing."""
+    if not isinstance(value, dict):
+        raise CaseError(path, f"'{name}' must be an object")
+    for key, val in value.items():
+        if key not in fields:
+            raise CaseError(path, f"unknown '{name}' field {key!r} (known: {', '.join(fields)})")
+        kind = fields[key]
+        if kind == "strs":
+            if not isinstance(val, list) or not all(isinstance(x, str) for x in val):
+                raise CaseError(path, f"'{name}.{key}' must be a list of strings")
+        elif not isinstance(val, kind) or isinstance(val, bool) and kind is not bool:
+            raise CaseError(path, f"'{name}.{key}' has the wrong type")
 
 
 def load_cases(cases_dir: str, ids: Optional[list[str]] = None) -> list:

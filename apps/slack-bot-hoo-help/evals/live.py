@@ -34,7 +34,7 @@ def run_live(case: dict, agent) -> CaseResult:
     except Exception as e:  # one failing question must not stop the run
         return CaseResult(case["id"], False, [f"exception: {type(e).__name__}: {e}"],
                           seconds=time.monotonic() - started)
-    shown = f"{text}\n{checks.visible_text(blocks)}"
+    shown = checks.visible_text(blocks)
     reasons = checks.universal(text, blocks)
     reasons += checks.tools_any(tools, spec.get("tools_any") or [])
     reasons += checks.phrases_any(shown, spec.get("phrases_any") or [])
@@ -53,7 +53,9 @@ def write_report(results: list[CaseResult], path: str) -> None:
     lines = [
         f"# HooHelp live eval — {datetime.now():%Y-%m-%d %H:%M}",
         "",
-        f"Model: `{os.environ.get('BEDROCK_MODEL_ID', 'default')}` · {passed}/{len(results)} passed",
+        f"Model: `{os.environ.get('BEDROCK_MODEL_ID', 'default')}` · "
+        f"Guardrail: {os.environ.get('BEDROCK_GUARDRAIL_ID') or 'off (production runs with one)'} · "
+        f"{passed}/{len(results)} passed",
         "",
         "| case | result | seconds | tools |",
         "| :--- | :--- | ---: | :--- |",
