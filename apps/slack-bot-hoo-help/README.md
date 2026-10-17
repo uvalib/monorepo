@@ -127,8 +127,10 @@ Two tiers, built from real (scrubbed) questions in session traces:
 
 Checks: Slack block limits (≤ 50 blocks, ≤ 1 table, ≤ 3000-char sections), no
 raw markdown / `<thinking>` / leaked policy text / `Unknown tool` in what's
-posted, answers not collapsed, plus per-case expected phrases, tools and
-attachments. Run one case with `--case ID`.
+posted, answers not collapsed onto fewer words or lines, plus per-case expected
+phrases, required block types (`expect.blocks`, e.g. `["table"]`), tools and
+attachments. Phrases and collapse are checked against what Slack shows (the
+blocks), not the notification fallback text. Run one case with `--case ID`.
 
 Add a case when something goes wrong in Slack:
 
