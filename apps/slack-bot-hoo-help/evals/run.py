@@ -61,8 +61,41 @@ def main(argv: list[str] | None = None) -> int:
             return 2
     if args.offline:
         return _offline(cases)
-    print("live tier not implemented")
-    return 2
+    return _live(cases)
+
+
+def _live(cases: list) -> int:
+    try:
+        from dotenv import load_dotenv
+
+        load_dotenv(os.path.join(APP, ".env"))
+    except ImportError:
+        pass
+    from evals import live
+
+    if not live.have_aws_credentials():
+        print("No AWS credentials found (.env or environment); live tier needs Bedrock + gateway access.")
+        return 2
+    sys.path.insert(0, os.path.join(APP, "src"))
+    from agent import HooHelpAgent
+    from gateway_mcp_client import GatewayMCPClient
+    from datetime import datetime
+
+    agent = HooHelpAgent(gateway_client=GatewayMCPClient())
+    results = []
+    for c in cases:
+        if isinstance(c, CaseError):
+            print(f"FAIL {c}")
+            continue
+        if not c.get("live"):
+            continue
+        r = live.run_live(c, agent)
+        results.append(r)
+        print(f"{'PASS' if r.passed else 'FAIL'} {r.id} ({r.seconds:.0f}s)" + ("" if r.passed else ": " + "; ".join(r.reasons)))
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "reports", f"live-{datetime.now():%Y%m%d-%H%M%S}.md")
+    live.write_report(results, path)
+    print(f"\n{sum(r.passed for r in results)}/{len(results)} passed — report: {path}")
+    return 0
 
 
 if __name__ == "__main__":
