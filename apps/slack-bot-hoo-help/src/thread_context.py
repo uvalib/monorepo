@@ -135,6 +135,9 @@ def should_ignore_message_event(event: Dict[str, Any]) -> bool:
     """Skip edits, joins, other bots, and non-user message noise."""
     if event.get("bot_id"):
         return True
+    # Slackbot system notices ("You have been removed from #ai by …")
+    if event.get("user") == "USLACKBOT":
+        return True
     # app_bot messages sometimes set bot_profile without bot_id on rare payloads
     if event.get("bot_profile") and not event.get("user"):
         return True
@@ -309,6 +312,12 @@ def extract_thread_history(
                 uniq_seen.append(url)
         meta["history_count"] = len(history)
         meta["is_our_thread"] = is_our_thread
+        # Who's talking and who the bot last answered — for group-thread etiquette
+        from chime_in import snapshot_from_messages
+
+        meta["snapshot"] = snapshot_from_messages(
+            messages, bot_user_id=bot_user_id, bot_app_bot_id=bot_app_bot_id, current_ts=current_ts
+        )
         meta["seen_image_urls"] = uniq_seen
         meta["reason"] = "ok" if is_our_thread else "bot_not_in_thread"
         return history, is_our_thread, meta

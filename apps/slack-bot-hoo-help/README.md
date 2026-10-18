@@ -179,6 +179,12 @@ possible person names. Fill in `expect` (facts that must appear) and optionally
 3. Prior turns are loaded via `conversations.replies` and passed to Bedrock as history
    (pronouns / “what about X?”), while facts still come from MCP tools.
 4. Without `message.channels` / `message.groups`, only new `@HooHelp` mentions are received.
+5. **Group etiquette** (`src/chime_in.py`): when one person is talking with the bot, it answers
+   every follow-up. Once two or more people are in the thread (or in a group DM), it replies to an
+   unmentioned message only when addressed by name ("Hoo Helper, …"), when the person it just
+   answered replies, or when a quick Claude Haiku 5.5 check (`CHIME_IN_MODEL_ID`) judges the message
+   is aimed at the assistant or is an unanswered library question. Unsure, error or timeout → silent.
+   @mentions are always answered. Slackbot system notices are ignored. Skips are logged with a reason.
 
 ---
 

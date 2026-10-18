@@ -32,6 +32,7 @@ from bedrock_params import DEFAULT_AGENT_MODEL_ID, DEFAULT_FORMAT_MODEL_ID
 from gateway_mcp_client import GatewayMCPClient
 from session_trace import SessionTrace
 from slack_blocks import flatten_carousels
+import chime_in
 from slack_format import format_for_slack, rewrite_urls_in_blocks
 from spreadsheet import (
     build_xlsx,
@@ -426,6 +427,22 @@ def _lazy_app_mention(event, say, client):
     handle_user_query(event, say, client, force_thread=True)
 
 
+def _group_dm_snapshot(client, channel_id, thread_ts, current_ts, bot_user_id, bot_app_bot_id):
+    """Recent messages of a group DM (or its thread) for the chime-in decision."""
+    try:
+        if thread_ts:
+            messages = client.conversations_replies(channel=channel_id, ts=thread_ts, limit=20).get("messages") or []
+        else:
+            # conversations_history returns newest first
+            messages = list(reversed(client.conversations_history(channel=channel_id, limit=10).get("messages") or []))
+    except Exception as e:
+        logger.warning("Could not read group DM %s history: %s", channel_id, e)
+        messages = []
+    return chime_in.snapshot_from_messages(
+        messages, bot_user_id=bot_user_id, bot_app_bot_id=bot_app_bot_id, current_ts=current_ts
+    )
+
+
 def _lazy_message(event, say, client):
     """
     DMs and unmentioned thread follow-ups.
@@ -451,7 +468,16 @@ def _lazy_message(event, say, client):
     ts = event.get("ts")
 
     # Direct messages (no app_mention for plain DMs without @)
-    if channel_type in ("im", "mpim"):
+    if channel_type == "im":
+        handle_user_query(event, say, client, force_thread=True)
+        return
+    # Group DMs: several people — same etiquette as multi-person threads
+    if channel_type == "mpim":
+        snap = _group_dm_snapshot(client, channel_id, thread_ts, ts, bot_user_id, bot_app_bot_id)
+        ok, reason = chime_in.should_reply(text, event.get("user") or "", snap, judge=chime_in.haiku_judge)
+        if not ok:
+            logger.info("Group DM %s: not replying (%s)", channel_id, reason)
+            return
         handle_user_query(event, say, client, force_thread=True)
         return
 
@@ -466,6 +492,11 @@ def _lazy_message(event, say, client):
             current_ts=ts,
         )
         if is_our_thread:
+            snap = meta.get("snapshot") or chime_in.Snapshot()
+            ok, reason = chime_in.should_reply(text, event.get("user") or "", snap, judge=chime_in.haiku_judge)
+            if not ok:
+                logger.info("Thread %s in %s: not replying (%s)", thread_ts, channel_id, reason)
+                return
             logger.info(
                 "Thread follow-up in %s thread %s (history=%s meta=%s)",
                 channel_id,
