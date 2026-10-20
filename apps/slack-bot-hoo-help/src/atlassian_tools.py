@@ -36,11 +36,15 @@ MAX_EXCERPT_CHARS = 300
 _PAGE_ID = re.compile(r"/pages/(\d+)")
 _DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 _SPACE_KEYS: Dict[str, str] = {}  # Confluence spaceId → key, per container
+_ME: Dict[str, str] = {}  # Slack user id → Atlassian accountId, per container
+_ISSUE_KEY = re.compile(r"^[A-Z][A-Z0-9_]+-\d+$")
+ISSUE_FIELDS = ["summary", "status", "assignee", "updated", "issuetype", "priority"]
 
 
 def _reset_cache() -> None:
     """Tests only."""
     _SPACE_KEYS.clear()
+    _ME.clear()
 
 
 def _spec(name: str, description: str, properties: Dict[str, Any], required: List[str]) -> Dict[str, Any]:
@@ -227,10 +231,126 @@ class AtlassianTools:
             out.append(f"\n(continues — call again with offset={offset + max_chars})")
         return "\n".join(out)
 
-    # ---- Jira (Task 5) -------------------------------------------------------
+    # ---- Jira --------------------------------------------------------------
 
-    def search_jira(self, **kwargs) -> str:  # pragma: no cover - replaced in Task 5
-        raise NotImplementedError
+    def _project_refusal(self) -> str:
+        return f"That isn't in the Library's Jira projects (allowed: {', '.join(self.cfg.jira_projects)})."
 
-    def get_jira_issue(self, key: str, max_comments: int = 10) -> str:  # pragma: no cover
-        raise NotImplementedError
+    def _users(self, query: str) -> List[Dict[str, Any]]:
+        data = self.jira.get("/rest/api/3/user/search", params={"query": query, "maxResults": 10})
+        users = data if isinstance(data, list) else []
+        return [u for u in users if u.get("accountId") and u.get("active", True)
+                and u.get("accountType", "atlassian") == "atlassian"]
+
+    def _account_id(self, name_or_me: str) -> Tuple[Optional[str], str]:
+        """(accountId, '') or (None, sentence for the model)."""
+        want = name_or_me.strip()
+        if want.lower() in ("me", "@me", "myself"):
+            if self.asker_id in _ME:
+                return _ME[self.asker_id], ""
+            email = self.directory.email(self.asker_id) if self.asker_id else ""
+            users = self._users(email) if email else []
+            if not users:
+                logger.info("atlassian_me=unmatched")
+                return None, "I couldn't match your Slack account to a Jira account."
+            logger.info("atlassian_me=matched")
+            _ME[self.asker_id] = users[0]["accountId"]
+            return _ME[self.asker_id], ""
+        users = self._users(want)
+        exact = [u for u in users if (u.get("displayName") or "").lower() == want.lower()]
+        pick = exact if exact else users
+        if len(pick) == 1:
+            return pick[0]["accountId"], ""
+        if not pick:
+            return None, f'I couldn\'t find a Jira user named "{want}".'
+        names = ", ".join(sorted({u.get("displayName") or u["accountId"] for u in pick})[:5])
+        return None, f'More than one person matches "{want}": {names}. Which one?'
+
+    def search_jira(self, text: str = "", project: str = "", status: str = "", assignee: str = "",
+                    reporter: str = "", issue_type: str = "", updated_after: str = "",
+                    created_after: str = "", limit: int = 10) -> str:
+        allowed = self.cfg.jira_projects
+        limit = max(1, min(int(limit or 10), 50))
+        clauses = ["project IN (" + ", ".join(quote(k) for k in allowed) + ")"]
+        if project.strip():
+            key = project.strip().upper()
+            if key not in allowed:
+                return self._project_refusal()
+            clauses.append(f"project = {quote(key)}")
+        if text.strip():
+            clauses.append(f"text ~ {quote(text.strip())}")
+        st = status.strip()
+        if st.lower() == "open":
+            clauses.append("statusCategory != Done")
+        elif st.lower() == "done":
+            clauses.append("statusCategory = Done")
+        elif st:
+            clauses.append(f"status = {quote(st)}")
+        for field, who in (("assignee", assignee), ("reporter", reporter)):
+            if who.strip():
+                account, problem = self._account_id(who)
+                if problem:
+                    return problem
+                clauses.append(f"{field} = {quote(account)}")
+        if issue_type.strip():
+            clauses.append(f"issuetype = {quote(issue_type.strip())}")
+        for field, value in (("updated", updated_after), ("created", created_after)):
+            if value.strip():
+                if not _DATE.match(value.strip()):
+                    return "Dates must be YYYY-MM-DD."
+                clauses.append(f"{field} >= {quote(value.strip())}")
+        jql = " AND ".join(clauses) + " ORDER BY updated DESC"
+        data = self.jira.post("/rest/api/3/search/jql", {"jql": jql, "maxResults": limit, "fields": ISSUE_FIELDS})
+        issues = [i for i in data.get("issues") or []
+                  if str(i.get("key") or "").split("-")[0].upper() in allowed]
+        if not issues:
+            return f"No Jira issues in the Library projects matched.\nJQL: {jql}"
+        rows = ["| Key | Summary | Status | Assignee | Updated |", "| --- | --- | --- | --- | --- |"]
+        links = []
+        for i in issues:
+            f = i.get("fields") or {}
+            summary = (f.get("summary") or "").replace("|", "\\|")
+            rows.append(f"| {i['key']} | {summary} | {(f.get('status') or {}).get('name') or ''} | "
+                        f"{(f.get('assignee') or {}).get('displayName') or 'Unassigned'} | {_day(f.get('updated'))} |")
+            links.append(f"{i['key']} — {jira_link(self.cfg, i['key'])}")
+        return "\n".join(["### Jira issues", ""] + rows + ["", "Links:"] + links + ["", f"JQL: {jql}"])
+
+    def get_jira_issue(self, key: str, max_comments: int = 10) -> str:
+        key = (key or "").strip().upper()
+        if not _ISSUE_KEY.match(key):
+            return "Pass a Jira issue key like LIB-123."
+        if key.split("-")[0] not in self.cfg.jira_projects:
+            return self._project_refusal()
+        data = self.jira.get(f"/rest/api/3/issue/{key}", params={"fields": ",".join(ISSUE_FIELDS + [
+            "reporter", "created", "labels", "components", "issuelinks", "description"])})
+        f = data.get("fields") or {}
+        name = lambda d: (d or {}).get("name") or ""  # noqa: E731
+        person = lambda d: (d or {}).get("displayName") or ""  # noqa: E731
+        lines = [f"# {key}: {f.get('summary') or '(no summary)'}",
+                 f"Link: {jira_link(self.cfg, key)}",
+                 f"- Type: {name(f.get('issuetype'))} · Status: {name(f.get('status'))} · Priority: {name(f.get('priority'))}",
+                 f"- Assignee: {person(f.get('assignee')) or 'Unassigned'} · Reporter: {person(f.get('reporter'))}",
+                 f"- Created: {_day(f.get('created'))} · Updated: {_day(f.get('updated'))}"]
+        if f.get("labels"):
+            lines.append("- Labels: " + ", ".join(f["labels"]))
+        if f.get("components"):
+            lines.append("- Components: " + ", ".join(name(c) for c in f["components"]))
+        for link in f.get("issuelinks") or []:
+            t = link.get("type") or {}
+            if link.get("outwardIssue"):
+                other, verb = link["outwardIssue"], t.get("outward") or "relates to"
+            else:
+                other, verb = link.get("inwardIssue") or {}, t.get("inward") or "relates to"
+            if other.get("key"):
+                lines.append(f"- {verb} {other['key']}: {(other.get('fields') or {}).get('summary') or ''}".rstrip(": "))
+        lines += ["", "## Description", adf_to_text(f.get("description")) or "(no description)"]
+        max_comments = max(0, min(int(max_comments or 10), 20))
+        if max_comments:
+            comments = self.jira.get(f"/rest/api/3/issue/{key}/comment",
+                                     params={"orderBy": "-created", "maxResults": max_comments}).get("comments") or []
+            if comments:
+                lines += ["", "## Latest comments"]
+                for c in comments:
+                    lines.append(f"- {person(c.get('author'))} ({_day(c.get('created'))}): "
+                                 f"{_trim(adf_to_text(c.get('body')), 500)}")
+        return "\n".join(lines)

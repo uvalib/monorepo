@@ -208,6 +208,138 @@ def test_call_dispatch_and_no_tool_error_prefix():
     assert "Gate counts" in out and not out.startswith("Tool Error")
 
 
+# ---- Jira ----------------------------------------------------------------------
+
+import io  # noqa: E402
+import logging  # noqa: E402
+
+ISSUE_ROW = {"key": "LIB-12", "fields": {"summary": "Clemons camera offline", "status": {"name": "In Progress"},
+                                         "assignee": {"displayName": "Pat Doe"},
+                                         "updated": "2026-10-15T10:00:00.000-0400",
+                                         "issuetype": {"name": "Bug"}, "priority": {"name": "High"}}}
+ME = [{"accountId": "557058:acc-123", "displayName": "Pat Doe", "active": True, "accountType": "atlassian"}]
+
+
+def jira_routes(issues=None, users=None):
+    return {"/rest/api/3/search/jql": {"issues": [ISSUE_ROW] if issues is None else issues},
+            "/rest/api/3/user/search": ME if users is None else users}
+
+
+def test_jira_jql_built_and_constrained():  # RF3
+    t, _, jira = tools(jira_routes=jira_routes())
+    t.search_jira(text='camera "door" ORDER BY x', status="open", updated_after="2026-10-01")
+    body = jira.calls[-1][2]
+    assert body["jql"] == ('project IN ("LIB") AND text ~ "camera \\"door\\" ORDER BY x" '
+                           'AND statusCategory != Done AND updated >= "2026-10-01" ORDER BY updated DESC')
+    assert body["maxResults"] == 10 and "summary" in body["fields"]
+
+
+def test_jira_status_done_and_named_and_type():
+    t, _, jira = tools(jira_routes=jira_routes())
+    t.search_jira(status="done", issue_type="Bug", created_after="2026-01-01")
+    assert 'statusCategory = Done AND issuetype = "Bug" AND created >= "2026-01-01"' in jira.calls[-1][2]["jql"]
+    t.search_jira(status="In Review")
+    assert 'status = "In Review"' in jira.calls[-1][2]["jql"]
+
+
+def test_assignee_me_uses_email_lookup_and_never_shows_email():
+    buf = io.StringIO()
+    handler = logging.StreamHandler(buf)
+    log = logging.getLogger("atlassian_tools")
+    log.addHandler(handler)
+    log.setLevel(logging.DEBUG)
+    try:
+        t, _, jira = tools(jira_routes=jira_routes())
+        out = t.search_jira(assignee="me")
+    finally:
+        log.removeHandler(handler)
+    lookup = [c for c in jira.calls if c[1] == "/rest/api/3/user/search"][0]
+    assert lookup[2]["query"] == "pat@virginia.edu"
+    assert 'assignee = "557058:acc-123"' in out
+    assert "pat@virginia.edu" not in out
+    assert "pat@virginia.edu" not in buf.getvalue() and "atlassian_me=matched" in buf.getvalue()
+
+
+def test_me_unmatched_copy():
+    t, _, jira = tools(jira_routes=jira_routes(users=[]))
+    assert t.search_jira(assignee="me") == "I couldn't match your Slack account to a Jira account."
+    t2, _, jira2 = tools(jira_routes=jira_routes(), users={"U1": {"real_name": "No Email", "profile": {}}})
+    assert t2.search_jira(assignee="me") == "I couldn't match your Slack account to a Jira account."
+    assert not [c for c in jira2.calls if c[1] == "/rest/api/3/search/jql"]
+
+
+def test_display_name_lookup_and_ambiguity():
+    two = [{"accountId": "a1", "displayName": "Pat Doe", "active": True},
+           {"accountId": "a2", "displayName": "Pat Smith", "active": True}]
+    t, _, jira = tools(jira_routes=jira_routes(users=two))
+    assert t.search_jira(reporter="Pat") == 'More than one person matches "Pat": Pat Doe, Pat Smith. Which one?'
+    out = t.search_jira(reporter="Pat Smith")
+    assert 'reporter = "a2"' in out
+    t2, _, _ = tools(jira_routes=jira_routes(users=[]))
+    assert t2.search_jira(assignee="Nobody") == 'I couldn\'t find a Jira user named "Nobody".'
+
+
+def test_disallowed_project_refused_without_http():
+    t, _, jira = tools(jira_routes=jira_routes())
+    assert t.search_jira(project="hr") == "That isn't in the Library's Jira projects (allowed: LIB)."
+    assert t.get_jira_issue("HR-4") == "That isn't in the Library's Jira projects (allowed: LIB)."
+    assert jira.calls == []
+
+
+def test_results_outside_allow_list_dropped():  # RF1
+    other = {"key": "HR-7", "fields": {"summary": "Payroll", "status": {"name": "Open"}}}
+    t, _, _ = tools(jira_routes=jira_routes(issues=[ISSUE_ROW, other]))
+    out = t.search_jira(text="camera")
+    assert "LIB-12" in out and "HR-7" not in out and "Payroll" not in out
+
+
+def test_search_output_table_links_and_jql():
+    t, _, _ = tools(jira_routes=jira_routes())
+    out = t.search_jira(text="camera")
+    assert "| Key | Summary | Status | Assignee | Updated |" in out
+    assert "| LIB-12 | Clemons camera offline | In Progress | Pat Doe | 2026-10-15 |" in out
+    assert "LIB-12 — https://virginia-its.atlassian.net/browse/LIB-12" in out
+    assert "JQL: project IN" in out
+    t2, _, _ = tools(jira_routes=jira_routes(issues=[]))
+    assert "No Jira issues" in t2.search_jira(text="zebra")
+
+
+ADF = {"type": "doc", "content": [{"type": "paragraph", "content": [{"type": "text", "text": "Door 3 camera reboots."}]}]}
+ISSUE = {"key": "LIB-12", "fields": {
+    "summary": "Clemons camera offline", "issuetype": {"name": "Bug"}, "status": {"name": "In Progress"},
+    "priority": {"name": "High"}, "assignee": {"displayName": "Pat Doe"}, "reporter": {"displayName": "Jordan Lee"},
+    "created": "2026-10-01T09:00:00.000-0400", "updated": "2026-10-15T10:00:00.000-0400",
+    "labels": ["cameras"], "components": [{"name": "Occupancy"}], "description": ADF,
+    "issuelinks": [{"type": {"outward": "blocks"}, "outwardIssue": {"key": "LIB-9", "fields": {"summary": "Gate report"}}}]}}
+COMMENTS = {"comments": [{"author": {"displayName": "Jordan Lee"}, "created": "2026-10-14T08:00:00.000-0400",
+                          "body": {"type": "doc", "content": [{"type": "paragraph", "content": [
+                              {"type": "text", "text": "Replaced the power supply."}]}]}}]}
+
+
+def test_issue_details_comments_links():
+    t, _, jira = tools(jira_routes={"/rest/api/3/issue/LIB-12/comment": COMMENTS, "/rest/api/3/issue/LIB-12": ISSUE})
+    out = t.get_jira_issue("lib-12")
+    for s in ("LIB-12", "Clemons camera offline", "In Progress", "High", "Pat Doe", "Jordan Lee",
+              "Door 3 camera reboots.", "Replaced the power supply.", "blocks LIB-9", "cameras", "Occupancy",
+              "https://virginia-its.atlassian.net/browse/LIB-12"):
+        assert s in out, s
+    comment_call = [c for c in jira.calls if c[1].endswith("/comment")][0]
+    assert comment_call[2]["orderBy"] == "-created" and comment_call[2]["maxResults"] == 10
+
+
+def test_issue_missing_assignee_description_render():  # RF4
+    bare = {"key": "LIB-3", "fields": {"summary": "Bare", "status": {"name": "Open"}}}
+    t, _, _ = tools(jira_routes={"/rest/api/3/issue/LIB-3/comment": {}, "/rest/api/3/issue/LIB-3": bare})
+    out = t.get_jira_issue("LIB-3")
+    assert "Unassigned" in out and "(no description)" in out
+
+
+def test_bad_issue_key():
+    t, _, jira = tools()
+    assert "issue key" in t.get_jira_issue("camera")
+    assert jira.calls == []
+
+
 if __name__ == "__main__":
     test_confluence_cql_is_built_and_constrained()
     test_confluence_label_and_paging_params()
@@ -224,4 +356,15 @@ if __name__ == "__main__":
     test_specs_only_for_enabled_products()
     test_errors_are_plain_sentences()
     test_call_dispatch_and_no_tool_error_prefix()
+    test_jira_jql_built_and_constrained()
+    test_jira_status_done_and_named_and_type()
+    test_assignee_me_uses_email_lookup_and_never_shows_email()
+    test_me_unmatched_copy()
+    test_display_name_lookup_and_ambiguity()
+    test_disallowed_project_refused_without_http()
+    test_results_outside_allow_list_dropped()
+    test_search_output_table_links_and_jql()
+    test_issue_details_comments_links()
+    test_issue_missing_assignee_description_render()
+    test_bad_issue_key()
     print("ok")
