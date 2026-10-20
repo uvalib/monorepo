@@ -25,13 +25,34 @@ class StubGateway:
 
 
 class StubBedrock:
-    def __init__(self):
+    def __init__(self, tool_use=None):
         self.requests = []
+        self.tool_use = tool_use  # first reply asks for this tool, then the model answers
 
     def converse(self, **kwargs):
         self.requests.append(kwargs)
+        if self.tool_use and len(self.requests) == 1:
+            return {"output": {"message": {"role": "assistant", "content": [
+                {"toolUse": {"toolUseId": "t1", "name": self.tool_use[0], "input": self.tool_use[1]}}]}},
+                "stopReason": "tool_use", "usage": {}}
         return {"output": {"message": {"role": "assistant", "content": [{"text": "You're welcome!"}]}},
                 "stopReason": "end_turn", "usage": {}}
+
+
+class StubLocalTools:
+    def __init__(self):
+        self.calls = []
+
+    def tool_specs(self):
+        return [{"toolSpec": {"name": "search_slack", "description": "search",
+                              "inputSchema": {"json": {"type": "object", "properties": {}}}}}]
+
+    def handles(self, name):
+        return name == "search_slack"
+
+    def call(self, name, args):
+        self.calls.append((name, args))
+        return "stub result"
 
 
 def make_agent():
@@ -64,8 +85,45 @@ def test_process_message_sends_extra_context_to_the_model():
     assert "You're talking with Pat Doe — Slack id U1." in system
 
 
+def test_local_tools_listed_first_and_dispatched_locally():
+    agent, stub = make_agent(), StubLocalTools()
+    cfg = agent._merged_tool_config(local_tools=stub)
+    assert cfg["tools"][0]["toolSpec"]["name"] == "search_slack"
+    assert agent._dispatch_tool("search_slack", {"query": "x"}, local_tools=stub) == "stub result"
+    assert agent.gateway_client.calls == []
+    assert agent._dispatch_tool("get_library_hours", {}, local_tools=stub) == "gateway result"
+
+
+def test_no_local_tools_unchanged():
+    from wikipedia_tools import bedrock_tool_specs as wiki_specs
+
+    agent = make_agent()
+    names = [t["toolSpec"]["name"] for t in agent._merged_tool_config()["tools"]]
+    assert names == [t["toolSpec"]["name"] for t in wiki_specs()] + ["get_library_hours"]
+
+
+def test_process_message_runs_local_tool_calls():
+    agent, stub = make_agent(), StubLocalTools()
+    agent.bedrock_runtime = StubBedrock(tool_use=("search_slack", {"query": "libcal decision"}))
+    agent.process_message("what did we decide about libcal in slack?", local_tools=stub)
+    assert stub.calls == [("search_slack", {"query": "libcal decision"})]
+    assert agent.gateway_client.calls == []
+    sent = [t["toolSpec"]["name"] for t in agent.bedrock_runtime.requests[0]["toolConfig"]["tools"]]
+    assert sent[0] == "search_slack"
+
+
+def test_system_prompt_mentions_slack_search():
+    from agent import SYSTEM_PROMPT
+
+    assert "search_slack" in SYSTEM_PROMPT and 'from_user="me"' in SYSTEM_PROMPT
+
+
 if __name__ == "__main__":
     test_system_prompt_includes_extra_context()
     test_system_prompt_without_extra_context_unchanged()
     test_process_message_sends_extra_context_to_the_model()
+    test_local_tools_listed_first_and_dispatched_locally()
+    test_no_local_tools_unchanged()
+    test_process_message_runs_local_tool_calls()
+    test_system_prompt_mentions_slack_search()
     print("ok")

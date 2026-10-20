@@ -141,6 +141,10 @@ You have access to real-time tools via an AgentCore MCP Gateway:
    - Wikipedia lists are community-maintained summaries (often #1-by-week), not a live official NYT feed — say that when relevant.
    - After you have titles from Wikipedia, use **Virgo catalog tools** to check UVA Library availability. Do not invent holdings.
    - Do **not** use search_uvalib_web for NYT bestseller lists or general world knowledge.
+6. **Slack history (local tools, when listed)**: search_slack, read_slack_thread — public channels only.
+   - Use for past staff discussions and decisions ("what did we decide about…", "who asked about…"). Pass `from_user="me"` for "my messages", or a person's name.
+   - Cite each message's channel, author and permalink. A Slack message is discussion, not official policy — say so if someone treats it as policy.
+   - Use read_slack_thread on a hit's permalink when the surrounding thread matters.
 
 Guidelines:
 - Always be polite, helpful, and concise.
@@ -333,16 +337,22 @@ class HooHelpAgent:
         parts.extend(line for line in extra_context or [] if line)
         return "\n\n".join(parts)
 
-    def _merged_tool_config(self) -> Dict[str, Any]:
-        """Gateway MCP tools plus in-process Wikipedia tools."""
+    def _merged_tool_config(self, local_tools: Optional[Any] = None) -> Dict[str, Any]:
+        """Per-turn local tools (Slack search), in-process Wikipedia tools, then gateway MCP tools."""
         gateway_cfg = self.gateway_client.get_bedrock_tool_config() or {}
         tools = list(gateway_cfg.get("tools") or [])
         # Local tools first so the model sees them clearly among many gateway tools
         tools = wikipedia_bedrock_tool_specs() + tools
+        if local_tools is not None:
+            tools = list(local_tools.tool_specs()) + tools
         return {"tools": tools}
 
-    def _dispatch_tool(self, tool_name: str, tool_input: Dict[str, Any]) -> str:
-        """Route to local library tools or the AgentCore MCP gateway."""
+    def _dispatch_tool(
+        self, tool_name: str, tool_input: Dict[str, Any], local_tools: Optional[Any] = None
+    ) -> str:
+        """Route to per-turn local tools, Wikipedia tools, or the AgentCore MCP gateway."""
+        if local_tools is not None and local_tools.handles(tool_name):
+            return local_tools.call(tool_name, tool_input if isinstance(tool_input, dict) else {})
         if is_wikipedia_tool(tool_name):
             return call_wikipedia_tool(tool_name, tool_input if isinstance(tool_input, dict) else {})
         return self.gateway_client.call_tool(tool_name, tool_input)
@@ -427,7 +437,7 @@ class HooHelpAgent:
         )
         self.last_trace = trace
 
-        tool_config = self._merged_tool_config()
+        tool_config = self._merged_tool_config(local_tools)
 
         messages = history
         messages.append({"role": "user", "content": [{"text": user_message}]})
@@ -560,7 +570,7 @@ class HooHelpAgent:
                         tool_status = "success"
                         tool_error: Optional[str] = None
                         try:
-                            tool_output_str = self._dispatch_tool(tool_name, tool_input)
+                            tool_output_str = self._dispatch_tool(tool_name, tool_input, local_tools)
                         except Exception as tool_exc:
                             tool_status = "error"
                             tool_error = str(tool_exc)
