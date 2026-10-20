@@ -9,6 +9,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 from identity import UserDirectory, _reset_cache  # noqa: E402
 from thread_context import (
     extract_thread_history,
+    unanswered_turns_line,
     image_urls_from_slack_message,
     sanitize_bedrock_history,
     should_ignore_message_event,
@@ -158,6 +159,23 @@ def test_history_labels_survive_lookup_failure():  # RF5
     assert hist[0]["content"][0]["text"] == "[UA]: gate counts for Clemons?"
 
 
+def test_unanswered_turns_since_last_bot_reply_are_kept():  # review: newest human turns were dropped
+    _reset_cache()
+    client = FakeRepliesClient(THREAD, users={"UA": "Alex Kim", "UB": "Blair Roe"})
+    _, _, meta = _history(client, UserDirectory(client))
+    assert meta["unanswered_turns"] == ["[Blair Roe]: thanks @Alex Kim!"]
+    line = unanswered_turns_line(meta["unanswered_turns"])
+    assert line.startswith("Messages in this thread since your last reply")
+    assert "[Blair Roe]: thanks @Alex Kim!" in line
+    assert unanswered_turns_line([]) == ""
+
+
+def test_no_unanswered_turns_without_directory():
+    _reset_cache()
+    _, _, meta = _history(FakeRepliesClient(THREAD), None)
+    assert meta.get("unanswered_turns", []) == []
+
+
 if __name__ == "__main__":
     test_strip_mention()
     test_strip_mention_unescapes_slack_entities()
@@ -171,4 +189,6 @@ if __name__ == "__main__":
     test_history_labels_resolve_mentions_inside_turns()
     test_history_without_directory_unchanged()
     test_history_labels_survive_lookup_failure()
+    test_unanswered_turns_since_last_bot_reply_are_kept()
+    test_no_unanswered_turns_without_directory()
     print("test_thread_context: OK")

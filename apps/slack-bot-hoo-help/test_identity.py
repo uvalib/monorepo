@@ -87,7 +87,8 @@ def test_label_falls_back_to_display_name_then_id():  # RF2
     })
     d = UserDirectory(client)
     assert d.label("U2") == "jj"
-    assert d.label("U3") == "U3"
+    assert d.label("U3") == "Gone Person"  # review: departed staff keep their names
+    assert UserDirectory(FakeClient({"U4": {"real_name": "", "profile": {}}})).label("U4") == "U4"
 
 
 def test_resolve_mentions():
@@ -113,6 +114,20 @@ def test_failed_lookup_is_not_retried_immediately():  # RF5: one bad user, many 
     assert client.info_calls == 1
 
 
+def test_find_by_unique_first_name_and_reports_ambiguity():  # review: "Jordan's message"
+    _reset_cache()
+    d = UserDirectory(FakeClient({
+        "U1": {"real_name": "Jordan Lee", "profile": {"display_name": "jlee"}},
+        "U2": {"real_name": "Pat Doe", "profile": {}},
+        "U3": {"real_name": "Pat Smith", "profile": {}},
+    }))
+    assert d.find("Jordan") == "U1"
+    assert d.find("pat") is None
+    assert [i.label for i in d.candidates("pat")] == ["Pat Doe", "Pat Smith"]
+    assert [i.user_id for i in d.candidates("Jordan Lee")] == ["U1"]
+    assert d.candidates("nobody") == []
+
+
 if __name__ == "__main__":
     test_identity_line_full_profile()
     test_identity_line_without_pronouns_says_not_to_guess()
@@ -123,4 +138,5 @@ if __name__ == "__main__":
     test_resolve_mentions()
     test_find_accepts_ids_mentions_and_names()
     test_failed_lookup_is_not_retried_immediately()
+    test_find_by_unique_first_name_and_reports_ambiguity()
     print("ok")

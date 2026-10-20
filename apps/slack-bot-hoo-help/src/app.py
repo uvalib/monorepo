@@ -45,6 +45,7 @@ from spreadsheet import (
 )
 from thread_context import (
     extract_thread_history,
+    unanswered_turns_line,
     should_ignore_message_event,
     strip_mention_prefix,
     text_mentions_bot,
@@ -178,6 +179,7 @@ def handle_user_query(
     *,
     force_thread: bool = True,
     known_history: Optional[List[Dict[str, Any]]] = None,
+    known_meta: Optional[Dict[str, Any]] = None,
 ) -> None:
     """
     Common handler for Slack app mentions, DMs, and thread follow-ups.
@@ -210,7 +212,7 @@ def handle_user_query(
         return
 
     conversation_history: List[Dict[str, Any]] = list(known_history or [])
-    history_meta: Dict[str, Any] = {}
+    history_meta: Dict[str, Any] = dict(known_meta or {})
 
     # Load prior turns when we are already inside a thread
     if not conversation_history and reply_thread_ts and channel_id:
@@ -275,7 +277,10 @@ def handle_user_query(
     slack_tools, slack_lines = slack_tools_for_event(
         event, client, directory=directory, store=action_token_store
     )
-    extra_context = [identity_line(directory.get(user_id))] + slack_lines
+    extra_context = [
+        identity_line(directory.get(user_id)),
+        unanswered_turns_line(history_meta.get("unanswered_turns") or []),
+    ] + slack_lines
 
     turn = agent.process_message(
         cleaned_text,
@@ -528,6 +533,7 @@ def _lazy_message(event, say, client):
                 client,
                 force_thread=True,
                 known_history=history,
+                known_meta=meta,
             )
         else:
             logger.info(

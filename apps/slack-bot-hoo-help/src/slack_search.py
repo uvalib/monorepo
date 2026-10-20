@@ -87,7 +87,19 @@ def _trim(text: str, limit: int) -> str:
 
 
 def _is_public(channel: Dict[str, Any]) -> bool:
-    return not any(channel.get(k) for k in ("is_private", "is_im", "is_mpim", "is_group"))
+    """Fails closed: Slack must say is_private is False, and it mustn't be a DM / group DM."""
+    return channel.get("is_private") is False and not any(
+        channel.get(k) for k in ("is_im", "is_mpim", "is_group")
+    )
+
+
+def _hit_is_public(hit: Dict[str, Any]) -> bool:
+    """Defence in depth on search hits (channel_types=public_channel should already ensure it)."""
+    cid = str(hit.get("channel_id") or "")
+    if cid.startswith(("D", "G")) or hit.get("is_private"):
+        return False
+    channel_type = hit.get("channel_type")
+    return not channel_type or channel_type == "public_channel"
 
 
 class SlackSearchTools:
@@ -212,8 +224,15 @@ class SlackSearchTools:
 
         author_id = ""
         if from_user.strip():
-            author_id = self.asker_id if from_user.strip().lower() in ("me", "@me", "myself") else (
-                self.directory.find(from_user) or "")
+            if from_user.strip().lower() in ("me", "@me", "myself"):
+                author_id = self.asker_id
+            else:
+                author_id = self.directory.find(from_user) or ""
+                if not author_id:
+                    people = self.directory.candidates(from_user)
+                    if len(people) > 1:
+                        names = ", ".join(p.label for p in people[:5])
+                        return f'More than one person matches "{from_user}": {names}. Which one?'
             if not author_id:
                 return f'I couldn\'t find a Slack user named "{from_user}".'
 
@@ -260,6 +279,7 @@ class SlackSearchTools:
         def author_of(h: Dict[str, Any]) -> str:
             return str(h.get("author_user_id") or h.get("user") or "")
 
+        hits = [h for h in hits if _hit_is_public(h)]
         if author_id:
             hits = [h for h in hits if author_of(h) == author_id]
         if channel_id:
@@ -307,6 +327,11 @@ class SlackSearchTools:
             code, status = _error_code(e)
             if status == 429 or code == "ratelimited":
                 return BUSY_TEXT
+            if code == "not_in_channel":
+                return (
+                    "I can only open full threads in channels Hoo Helper has been added to; "
+                    "the search result and its link are what I can share for this one."
+                )
             return f"I couldn't read that Slack thread ({code or type(e).__name__})."
 
         name = info.get("name") or channel_id

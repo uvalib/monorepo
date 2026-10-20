@@ -36,7 +36,8 @@ DEFAULT_HITS = [
 
 
 class Fake:
-    def __init__(self, hits=None, error=None, status=200, channel_info=None, replies=None):
+    def __init__(self, hits=None, error=None, status=200, channel_info=None, replies=None, replies_error=None):
+        self.replies_error = replies_error
         self.hits = DEFAULT_HITS if hits is None else hits
         self.error = error
         self.status = status
@@ -75,6 +76,8 @@ class Fake:
 
     def conversations_replies(self, channel, ts, limit=50, inclusive=True):
         self.log.append(("conversations.replies", {"channel": channel, "ts": ts}))
+        if self.replies_error:
+            raise SlackApiError(self.replies_error, _Resp({"ok": False, "error": self.replies_error}, 200))
         return {"messages": self.replies}
 
     def chat_getPermalink(self, channel, message_ts):
@@ -158,6 +161,24 @@ def test_unknown_from_user_copy():
     assert s.search("x", from_user="nobody") == 'I couldn\'t find a Slack user named "nobody".'
 
 
+def test_ambiguous_from_user_asks_which_one():
+    s, _ = tools()
+    import identity
+
+    identity._PROFILES.clear()
+    s.directory.client.users_list = lambda cursor=None, limit=200: {
+        "members": [{"id": "U1", "real_name": "Pat Doe", "profile": {}},
+                    {"id": "U9", "real_name": "Pat Smith", "profile": {}}],
+        "response_metadata": {"next_cursor": ""}}
+    assert s.search("x", from_user="Pat") == 'More than one person matches "Pat": Pat Doe, Pat Smith. Which one?'
+
+
+def test_from_user_first_name():
+    s, _ = tools()
+    out = s.search("libcal", from_user="Jordan")
+    assert "Jordan Lee (U2)" in out and "Pat Doe" not in out
+
+
 def test_after_before_become_unix_timestamps():
     s, fake = tools()
     s.search("q", after="2026-10-01", before="2026-10-15")
@@ -236,6 +257,31 @@ def test_read_thread_refuses_private_im_mpim():  # RF3
         assert not fake.calls("conversations.replies")
 
 
+def test_read_thread_fails_closed_when_channel_info_is_unclear():  # review: public check failed open
+    s, fake = tools(channel_info={})
+    assert "only read public channels" in s.read_thread(PERMALINK)
+    assert not fake.calls("conversations.replies")
+
+
+def test_read_thread_not_in_channel_copy():  # review: bot isn't a member of most public channels
+    s, _ = tools(replies_error="not_in_channel")
+    out = s.read_thread(PERMALINK)
+    assert "channels Hoo Helper has been added to" in out
+    assert not out.startswith("Tool Error")
+
+
+def test_search_drops_hits_from_private_channels_or_dms():  # review: defence in depth
+    hits = [hit("U1", "C1", "assessment", "1760461440.000100", "public one"),
+            hit("U1", "G7", "secret", "1760461441.000100", "private group"),
+            hit("U1", "D7", "dm", "1760461442.000100", "a dm"),
+            {**hit("U1", "C8", "hidden", "1760461443.000100", "flagged private"), "is_private": True}]
+    s, _ = tools(hits=hits)
+    out = s.search("q")
+    assert "public one" in out
+    for leaked in ("private group", "a dm", "flagged private"):
+        assert leaked not in out, leaked
+
+
 def test_read_thread_parses_permalink_and_thread_ts():
     s, fake = tools()
     s.read_thread(PERMALINK)
@@ -278,6 +324,8 @@ if __name__ == "__main__":
     test_from_user_me_filters_to_asker()
     test_from_user_by_name()
     test_unknown_from_user_copy()
+    test_ambiguous_from_user_asks_which_one()
+    test_from_user_first_name()
     test_after_before_become_unix_timestamps()
     test_bad_date_is_a_plain_sentence()
     test_channel_filter_by_name_scopes_search()
@@ -290,6 +338,9 @@ if __name__ == "__main__":
     test_search_spec_description_guides_the_model()
     test_handles_and_call_dispatch()
     test_read_thread_refuses_private_im_mpim()
+    test_read_thread_fails_closed_when_channel_info_is_unclear()
+    test_read_thread_not_in_channel_copy()
+    test_search_drops_hits_from_private_channels_or_dms()
     test_read_thread_parses_permalink_and_thread_ts()
     test_read_thread_labels_speakers()
     test_read_thread_bad_link()

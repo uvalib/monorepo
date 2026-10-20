@@ -208,6 +208,16 @@ def sanitize_bedrock_history(
     return cleaned
 
 
+MAX_UNANSWERED_TURNS = 8
+
+
+def unanswered_turns_line(turns: List[str]) -> str:
+    """System-prompt context for thread messages since the bot last replied."""
+    if not turns:
+        return ""
+    return "Messages in this thread since your last reply (oldest first):\n" + "\n".join(turns)
+
+
 def extract_thread_history(
     client,
     channel_id: str,
@@ -312,6 +322,15 @@ def extract_thread_history(
             is_our_thread = True
 
         history = sanitize_bedrock_history(raw_history, max_messages=max_messages)
+        if directory is not None:
+            # sanitize drops trailing user turns (the current message is appended
+            # separately); keep the labelled ones so the model still sees them.
+            unanswered: List[str] = []
+            for turn in reversed(raw_history):
+                if turn["role"] != "user":
+                    break
+                unanswered.insert(0, turn["content"][0]["text"])
+            meta["unanswered_turns"] = unanswered[-MAX_UNANSWERED_TURNS:]
         # Dedupe seen URLs, keep order
         seen_set = set()
         uniq_seen: List[str] = []

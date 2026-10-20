@@ -56,8 +56,7 @@ class UserInfo:
 def _info_from_user(user: Dict[str, Any]) -> UserInfo:
     profile = user.get("profile") or {}
     uid = user.get("id") or ""
-    if user.get("deleted"):
-        return UserInfo(uid, "", "", "", "", bool(user.get("is_bot")))
+    # Deactivated users keep their names: their old messages still need an author.
     return UserInfo(
         user_id=uid,
         real_name=(user.get("real_name") or profile.get("real_name") or "").strip(),
@@ -115,23 +114,35 @@ class UserDirectory:
             _PROFILES[info.user_id] = (time.time() + self.ttl, info)
         return infos
 
+    def candidates(self, name: str) -> List[UserInfo]:
+        """People matching a name: exact real/display name first, else a first-name match."""
+        want = (name or "").strip().lstrip("@").strip().lower()
+        if not want:
+            return []
+
+        def matches(pool: List[UserInfo]) -> List[UserInfo]:
+            exact = [i for i in pool if want in (i.real_name.lower(), i.display_name.lower())]
+            if exact:
+                return exact
+            return [i for i in pool if i.real_name and i.real_name.lower().split()[0] == want]
+
+        cached = [info for _, info in _PROFILES.values() if info.user_id]
+        found = matches(cached)
+        if len(found) != 1:  # the cache may be partial; ask the full member list
+            found = matches([i for i in self._members() if i.user_id]) or found
+        unique = {i.user_id: i for i in found}
+        return sorted(unique.values(), key=lambda i: i.label)
+
     def find(self, name_or_id: str) -> Optional[str]:
-        """A Slack user id for an id, <@id>, @name, real name or display name."""
+        """A Slack user id for an id, <@id>, or a name that matches exactly one person."""
         raw = (name_or_id or "").strip()
         m = _MENTION.fullmatch(raw)
         if m:
             return m.group(1)
         if _USER_ID.match(raw):
             return raw
-        want = raw.lstrip("@").strip().lower()
-        if not want:
-            return None
-        cached = [info for _, info in _PROFILES.values()]
-        for pool in (cached, None):
-            for info in pool if pool is not None else self._members():
-                if want in (info.real_name.lower(), info.display_name.lower()) and info.user_id:
-                    return info.user_id
-        return None
+        found = self.candidates(raw)
+        return found[0].user_id if len(found) == 1 else None
 
 
 def identity_line(info: Optional[UserInfo]) -> str:
