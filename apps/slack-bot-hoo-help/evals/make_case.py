@@ -96,13 +96,16 @@ def scrub(trace: dict, history: list[dict], case_id: str, category: str) -> dict
     }
 
 
-SLACK_TOOLS = frozenset({"search_slack", "read_slack_thread"})
+SLACK_TOOLS = frozenset({
+    "search_slack", "read_slack_thread",
+    "search_confluence", "get_confluence_page", "search_jira", "get_jira_issue",
+})
 
 
 def slack_warning(steps: list[dict]) -> str | None:
-    """Slack search results are staff conversations: a human decides before committing them."""
+    """Slack / Confluence / Jira results are internal staff content: a human decides before committing them."""
     if any(str(s.get("tool_name") or "").split("___")[-1] in SLACK_TOOLS for s in steps or []):
-        return "trace includes Slack messages — keep only if the content is fine to commit"
+        return "trace includes Slack, Confluence or Jira content — keep only if it's fine to commit"
     return None
 
 

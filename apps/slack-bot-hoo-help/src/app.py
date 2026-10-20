@@ -32,6 +32,8 @@ from bedrock_params import DEFAULT_AGENT_MODEL_ID, DEFAULT_FORMAT_MODEL_ID
 from gateway_mcp_client import GatewayMCPClient
 from action_tokens import ActionTokenStore
 from identity import UserDirectory, identity_line, resolve_mentions
+from atlassian_tools import atlassian_tools_for_event
+from local_tools import LocalTools
 from slack_search import slack_tools_for_event
 from session_trace import SessionTrace
 from slack_blocks import flatten_carousels
@@ -95,6 +97,11 @@ def _load_secret(env_key: str, ssm_path_env: str) -> str:
 
 SLACK_BOT_TOKEN = _load_secret("SLACK_BOT_TOKEN", "SLACK_BOT_TOKEN_SSM_PATH")
 SLACK_SIGNING_SECRET = _load_secret("SLACK_SIGNING_SECRET", "SLACK_SIGNING_SECRET_SSM_PATH")
+
+# Confluence/Jira service account — only read when the feature is switched on
+ATLASSIAN_ENABLED = os.environ.get("ENABLE_ATLASSIAN", "false").strip().lower() == "true"
+ATLASSIAN_EMAIL = _load_secret("ATLASSIAN_EMAIL", "ATLASSIAN_EMAIL_SSM_PATH") if ATLASSIAN_ENABLED else ""
+ATLASSIAN_TOKEN = _load_secret("ATLASSIAN_API_TOKEN", "ATLASSIAN_TOKEN_SSM_PATH") if ATLASSIAN_ENABLED else ""
 
 # Do not call auth.test at import time — a bad token would crash every cold start
 # (including health checks) with BoltError invalid_auth.
@@ -288,7 +295,12 @@ def handle_user_query(
         request_id=request_id,
         slack_context=slack_context,
         extra_context=extra_context,
-        local_tools=slack_tools,
+        local_tools=LocalTools(
+            slack_tools,
+            atlassian_tools_for_event(
+                event, directory=directory, email=ATLASSIAN_EMAIL, token=ATLASSIAN_TOKEN
+            ),
+        ),
     )
     raw_response = turn.text
     trace: SessionTrace = turn.trace

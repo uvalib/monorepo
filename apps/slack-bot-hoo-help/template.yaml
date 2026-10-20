@@ -102,6 +102,30 @@ Parameters:
       Optional rollout allow-list: comma-separated channel and/or user ids that
       get Slack search. Empty = everyone (when EnableSlackSearch is true).
 
+  EnableAtlassian:
+    Type: String
+    Default: "false"
+    AllowedValues: ["true", "false"]
+    Description: >
+      When true, Hoo Helper can search and read the Library's Confluence pages and
+      Jira issues (read-only), using the service account in SSM /hoohelp/atlassian/.
+
+  AtlassianTokenType:
+    Type: String
+    Default: "scoped"
+    AllowedValues: ["classic", "scoped"]
+    Description: Kind of Atlassian API token in SSM (scoped tokens go through api.atlassian.com).
+
+  ConfluenceSpaces:
+    Type: String
+    Default: ""
+    Description: Comma-separated Library Confluence space keys Hoo Helper may read (empty = Confluence off).
+
+  JiraProjects:
+    Type: String
+    Default: ""
+    Description: Comma-separated Library Jira project keys Hoo Helper may read (empty = Jira off).
+
 Resources:
   # Slack search action tokens, saved per thread so unmentioned follow-ups can
   # search. Items expire after 24 h (expires_at) or when Slack rejects them.
@@ -302,6 +326,15 @@ Resources:
           ENABLE_SLACK_SEARCH: !Ref EnableSlackSearch
           SLACK_SEARCH_ALLOW: !Ref SlackSearchAllow
           ACTION_TOKENS_TABLE: !Ref HooHelpActionTokens
+          # Confluence / Jira (read-only, Library spaces and projects only)
+          ENABLE_ATLASSIAN: !Ref EnableAtlassian
+          ATLASSIAN_SITE: https://virginia-its.atlassian.net
+          ATLASSIAN_CLOUD_ID: c417cfa5-aa30-4f3f-be7e-968c5845b5e9
+          ATLASSIAN_TOKEN_TYPE: !Ref AtlassianTokenType
+          CONFLUENCE_SPACES: !Ref ConfluenceSpaces
+          JIRA_PROJECTS: !Ref JiraProjects
+          ATLASSIAN_EMAIL_SSM_PATH: /hoohelp/atlassian/email
+          ATLASSIAN_TOKEN_SSM_PATH: /hoohelp/atlassian/api-token
       Policies:
         # Read Slack secrets from SSM SecureString at cold start
         - Statement:
@@ -312,6 +345,8 @@ Resources:
               Resource:
                 - !Sub "arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter${SlackBotTokenSsmPath}"
                 - !Sub "arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter${SlackSigningSecretSsmPath}"
+                - !Sub "arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/hoohelp/atlassian/email"
+                - !Sub "arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/hoohelp/atlassian/api-token"
             - Effect: Allow
               Action:
                 - kms:Decrypt

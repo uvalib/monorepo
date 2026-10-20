@@ -213,6 +213,32 @@ testing; leave it empty for everyone.
 Session traces now include Slack excerpts and display names (same bucket, access and retention);
 `evals/make_case.py` warns when a trace used the Slack tools.
 
+### Confluence and Jira (`src/atlassian_tools.py`)
+
+Behind `EnableAtlassian` (default `false`). Read-only tools against
+`https://virginia-its.atlassian.net` (UVA ITS's shared site):
+
+- `search_confluence` / `get_confluence_page` — CQL `siteSearch`, v2 pages (storage → markdown).
+- `search_jira` / `get_jira_issue` — JQL built in code (`assignee="me"` works), issue + comments.
+
+**Library only:** the site is shared with other UVA units, so Hoo Helper reads only the space and
+project keys in `ConfluenceSpaces` / `JiraProjects`. An empty list switches that product off. Every
+query is limited to the list and results are re-checked in code.
+
+**Setup:**
+1. A service account (or dedicated user) that can browse the Library spaces and projects only,
+   plus Jira's *Browse users and groups* permission (for "assigned to me").
+2. An API token for it — scoped (read-only) is preferred; set `AtlassianTokenType=classic` for a
+   classic token.
+3. SSM SecureString: `/hoohelp/atlassian/email` and `/hoohelp/atlassian/api-token`. They're read
+   only when `EnableAtlassian=true`; the token is never logged.
+
+**"Me":** the asker's Slack profile email is matched to their Atlassian account. The email is
+kept out of the prompt, tool output and logs (logs say `atlassian_me=matched|unmatched`).
+Rejected credentials log `auth_failed source=atlassian`.
+
+Session traces include Confluence and Jira excerpts; `evals/make_case.py` warns about them.
+
 ---
 
 ## Local agent test (no Slack)
@@ -243,6 +269,10 @@ python3 test_bot_locally.py
 | `EnableSlackSearch` / `ENABLE_SLACK_SEARCH` | SAM / Lambda env | `true` to enable `search_slack` / `read_slack_thread` (default `false`) |
 | `SlackSearchAllow` / `SLACK_SEARCH_ALLOW` | SAM / Lambda env | Optional comma-separated channel/user ids allowed Slack search (empty = all) |
 | `ACTION_TOKENS_TABLE` | Lambda env | DynamoDB table for per-thread Slack action tokens (set by SAM) |
+| `EnableAtlassian` / `ENABLE_ATLASSIAN` | SAM / Lambda env | `true` to enable the Confluence/Jira tools (default `false`) |
+| `ConfluenceSpaces` / `JiraProjects` | SAM / Lambda env | Library space / project keys allowed (empty = that product off) |
+| `AtlassianTokenType` | SAM parameter | `scoped` (default) or `classic` |
+| `/hoohelp/atlassian/email`, `/hoohelp/atlassian/api-token` | SSM SecureString | Service account email and API token |
 
 `SLACK_APP_TOKEN` (`xapp-...`) is **not** used with Events API.
 

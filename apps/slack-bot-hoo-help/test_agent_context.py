@@ -124,6 +124,13 @@ def test_system_prompt_anchors_relative_dates_in_follow_ups():  # live eval thre
     assert "relative to the period being discussed" in SYSTEM_PROMPT
 
 
+def test_system_prompt_mentions_confluence_and_jira():
+    from agent import SYSTEM_PROMPT
+
+    assert "search_confluence" in SYSTEM_PROMPT and "search_jira" in SYSTEM_PROMPT
+    assert 'assignee="me"' in SYSTEM_PROMPT
+
+
 if __name__ == "__main__":
     test_system_prompt_includes_extra_context()
     test_system_prompt_without_extra_context_unchanged()
@@ -133,4 +140,5 @@ if __name__ == "__main__":
     test_process_message_runs_local_tool_calls()
     test_system_prompt_mentions_slack_search()
     test_system_prompt_anchors_relative_dates_in_follow_ups()
+    test_system_prompt_mentions_confluence_and_jira()
     print("ok")

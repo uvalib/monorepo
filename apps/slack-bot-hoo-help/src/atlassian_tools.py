@@ -354,3 +354,15 @@ class AtlassianTools:
                     lines.append(f"- {person(c.get('author'))} ({_day(c.get('created'))}): "
                                  f"{_trim(adf_to_text(c.get('body')), 500)}")
         return "\n".join(lines)
+
+
+def atlassian_tools_for_event(event: Dict[str, Any], *, directory, env=None, email: str = "",
+                              token: str = "") -> Optional[AtlassianTools]:
+    """Confluence/Jira tools for this turn, or None when switched off or not configured."""
+    env = os.environ if env is None else env
+    if str(env.get("ENABLE_ATLASSIAN", "false")).strip().lower() != "true":
+        return None
+    cfg = AtlassianConfig.from_env(env, email=email, token=token)
+    if not (cfg.confluence_enabled or cfg.jira_enabled):
+        return None
+    return AtlassianTools(cfg, asker_id=event.get("user") or "", directory=directory)
