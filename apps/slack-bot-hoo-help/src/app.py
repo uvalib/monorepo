@@ -45,10 +45,10 @@ from spreadsheet import (
 )
 from thread_context import (
     extract_thread_history,
+    mention_handled_by_app_mention,
     unanswered_turns_line,
     should_ignore_message_event,
     strip_mention_prefix,
-    text_mentions_bot,
 )
 
 LOG_LEVEL = os.environ.get("LOG_LEVEL", "INFO").upper()
@@ -478,9 +478,9 @@ def _lazy_message(event, say, client):
     bot_user_id, bot_app_bot_id = get_bot_identity(client)
     text = event.get("text") or ""
 
-    # Top-level @mentions also emit app_mention — skip so we don't answer twice.
-    # Thread follow-ups that @mention us are also handled by app_mention.
-    if text_mentions_bot(text, bot_user_id):
+    # Channel @mentions also emit app_mention — skip so we don't answer twice.
+    # (DMs don't get app_mention, so a DM that mentions us is answered below.)
+    if mention_handled_by_app_mention(event, bot_user_id):
         logger.debug("Skipping message event with @mention (app_mention handles it)")
         return
 

@@ -110,6 +110,17 @@ def text_mentions_bot(text: str, bot_user_id: Optional[str]) -> bool:
     return f"<@{bot_user_id}>" in text
 
 
+def mention_handled_by_app_mention(event: Dict[str, Any], bot_user_id: Optional[str]) -> bool:
+    """
+    True when a message event @mentions the bot and Slack also sends app_mention
+    for it (so the message handler should skip it). Slack doesn't send app_mention
+    for DMs, so a DM that mentions the bot must be answered here.
+    """
+    if event.get("channel_type") == "im":
+        return False
+    return text_mentions_bot(event.get("text") or "", bot_user_id)
+
+
 def is_from_our_bot(
     message: Dict[str, Any],
     *,

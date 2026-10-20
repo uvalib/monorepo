@@ -9,6 +9,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 from identity import UserDirectory, _reset_cache  # noqa: E402
 from thread_context import (
     extract_thread_history,
+    mention_handled_by_app_mention,
     unanswered_turns_line,
     image_urls_from_slack_message,
     sanitize_bedrock_history,
@@ -176,6 +177,13 @@ def test_no_unanswered_turns_without_directory():
     assert meta.get("unanswered_turns", []) == []
 
 
+def test_dm_with_mention_is_not_left_to_app_mention():  # bug: "@Hoo Helper …" in a DM got no reply
+    dm = {"channel_type": "im", "text": "<@UBOT> do you know my name?"}
+    assert not mention_handled_by_app_mention(dm, "UBOT")
+    assert mention_handled_by_app_mention({"channel_type": "channel", "text": "<@UBOT> hours?"}, "UBOT")
+    assert not mention_handled_by_app_mention({"channel_type": "channel", "text": "hours?"}, "UBOT")
+
+
 if __name__ == "__main__":
     test_strip_mention()
     test_strip_mention_unescapes_slack_entities()
@@ -191,4 +199,5 @@ if __name__ == "__main__":
     test_history_labels_survive_lookup_failure()
     test_unanswered_turns_since_last_bot_reply_are_kept()
     test_no_unanswered_turns_without_directory()
+    test_dm_with_mention_is_not_left_to_app_mention()
     print("test_thread_context: OK")
