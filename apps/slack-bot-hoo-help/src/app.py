@@ -30,6 +30,7 @@ from slack_bolt.adapter.aws_lambda import SlackRequestHandler
 from agent import HooHelpAgent
 from bedrock_params import DEFAULT_AGENT_MODEL_ID, DEFAULT_FORMAT_MODEL_ID
 from gateway_mcp_client import GatewayMCPClient
+from identity import UserDirectory, identity_line, resolve_mentions
 from session_trace import SessionTrace
 from slack_blocks import flatten_carousels
 import chime_in
@@ -188,7 +189,10 @@ def handle_user_query(
     request_id = _CURRENT_REQUEST_ID or _new_request_id()
 
     bot_user_id, bot_app_bot_id = get_bot_identity(client)
-    cleaned_text = strip_mention_prefix(text, bot_user_id)
+    directory = UserDirectory(client)
+    cleaned_text = resolve_mentions(
+        strip_mention_prefix(text, bot_user_id), directory, skip_ids=[bot_user_id] if bot_user_id else []
+    )
 
     if not cleaned_text:
         say(
@@ -212,6 +216,7 @@ def handle_user_query(
             bot_user_id=bot_user_id,
             bot_app_bot_id=bot_app_bot_id,
             current_ts=ts,
+            directory=directory,
         )
 
     logger.info(
@@ -262,11 +267,14 @@ def handle_user_query(
         "is_followup": bool(thread_ts) or len(conversation_history) > 0,
     }
 
+    extra_context = [identity_line(directory.get(user_id))]
+
     turn = agent.process_message(
         cleaned_text,
         conversation_history=conversation_history,
         request_id=request_id,
         slack_context=slack_context,
+        extra_context=extra_context,
     )
     raw_response = turn.text
     trace: SessionTrace = turn.trace
@@ -490,6 +498,7 @@ def _lazy_message(event, say, client):
             bot_user_id=bot_user_id,
             bot_app_bot_id=bot_app_bot_id,
             current_ts=ts,
+            directory=UserDirectory(client),
         )
         if is_our_thread:
             snap = meta.get("snapshot") or chime_in.Snapshot()

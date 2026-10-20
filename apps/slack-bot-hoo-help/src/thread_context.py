@@ -217,6 +217,7 @@ def extract_thread_history(
     bot_app_bot_id: Optional[str] = None,
     current_ts: Optional[str] = None,
     max_messages: int = DEFAULT_MAX_HISTORY_MESSAGES,
+    directory: Optional[Any] = None,
 ) -> Tuple[List[Dict[str, Any]], bool, Dict[str, Any]]:
     """
     Fetch thread replies and build Bedrock conversation history.
@@ -227,6 +228,9 @@ def extract_thread_history(
     is_our_thread is True when our bot already posted in the thread, or the
     parent (or any prior message) @mentioned our bot — so unmentioned follow-ups
     should still be answered.
+
+    With a ``directory`` (identity.UserDirectory), human turns are labelled with
+    the speaker — ``[Pat Doe]: …`` — and other <@U…> mentions become names.
     """
     meta: Dict[str, Any] = {
         "fetched": False,
@@ -289,6 +293,11 @@ def extract_thread_history(
                 if m.get("bot_id") or m.get("bot_profile"):
                     continue
                 role = "user"
+                if directory is not None:
+                    from identity import resolve_mentions
+
+                    txt = resolve_mentions(txt, directory, skip_ids=[bot_user_id] if bot_user_id else [])
+                    txt = f"[{directory.label(m.get('user') or '')}]: {txt}"
 
             raw_history.append({"role": role, "content": [{"text": txt}]})
 

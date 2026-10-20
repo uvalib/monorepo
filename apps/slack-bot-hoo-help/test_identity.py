@@ -27,7 +27,11 @@ class FakeClient:
 
 
 class FailingClient:
+    def __init__(self):
+        self.info_calls = 0
+
     def users_info(self, user):
+        self.info_calls += 1
         raise RuntimeError("ratelimited")
 
     def users_list(self, cursor=None, limit=200):
@@ -100,6 +104,15 @@ def test_find_accepts_ids_mentions_and_names():
     assert d.find("nobody") is None
 
 
+def test_failed_lookup_is_not_retried_immediately():  # RF5: one bad user, many messages
+    _reset_cache()
+    client = FailingClient()
+    d = UserDirectory(client)
+    for _ in range(20):
+        d.label("U9")
+    assert client.info_calls == 1
+
+
 if __name__ == "__main__":
     test_identity_line_full_profile()
     test_identity_line_without_pronouns_says_not_to_guess()
@@ -109,4 +122,5 @@ if __name__ == "__main__":
     test_label_falls_back_to_display_name_then_id()
     test_resolve_mentions()
     test_find_accepts_ids_mentions_and_names()
+    test_failed_lookup_is_not_retried_immediately()
     print("ok")

@@ -327,8 +327,11 @@ class HooHelpAgent:
         # Last completed turn (useful for callers that only need the text)
         self.last_trace: Optional[SessionTrace] = None
 
-    def _system_prompt(self) -> str:
-        return SYSTEM_PROMPT + "\n\n" + _current_date_context()
+    def _system_prompt(self, extra_context: Optional[List[str]] = None) -> str:
+        """Base prompt + date context + per-turn lines (who is asking, tool availability)."""
+        parts = [SYSTEM_PROMPT, _current_date_context()]
+        parts.extend(line for line in extra_context or [] if line)
+        return "\n\n".join(parts)
 
     def _merged_tool_config(self) -> Dict[str, Any]:
         """Gateway MCP tools plus in-process Wikipedia tools."""
@@ -402,6 +405,8 @@ class HooHelpAgent:
         *,
         request_id: Optional[str] = None,
         slack_context: Optional[Dict[str, Any]] = None,
+        extra_context: Optional[List[str]] = None,
+        local_tools: Optional[Any] = None,
     ) -> AgentTurnResult:
         """
         Process a user prompt through Bedrock Converse API with tool calling loop.
@@ -409,7 +414,7 @@ class HooHelpAgent:
         Returns AgentTurnResult(text, trace). Callers that only need text can use
         ``result.text``; ``result.trace`` is ready for SessionTrace.emit().
         """
-        system_prompt = self._system_prompt()
+        system_prompt = self._system_prompt(extra_context)
         history = list(conversation_history) if conversation_history else []
         trace = SessionTrace(request_id=request_id or str(uuid.uuid4()))
         trace.set_request(

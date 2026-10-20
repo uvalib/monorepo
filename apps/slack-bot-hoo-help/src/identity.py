@@ -21,9 +21,11 @@ from typing import Any, Dict, Iterable, List, Optional, Tuple
 logger = logging.getLogger(__name__)
 
 DEFAULT_TTL_SECONDS = 3600
+FAILED_LOOKUP_TTL_SECONDS = 60  # don't hammer users.info for one user while Slack is unhappy
 
 # Shared by all UserDirectory instances so a warm Lambda container reuses lookups.
 _PROFILES: Dict[str, Tuple[float, "UserInfo"]] = {}
+_FAILED: Dict[str, float] = {}
 _MEMBERS: Dict[str, Any] = {"expires": 0.0, "infos": []}
 
 _MENTION = re.compile(r"<@([UW][A-Z0-9]+)(?:\|[^>]*)?>")
@@ -33,6 +35,7 @@ _USER_ID = re.compile(r"^[UW][A-Z0-9]*[0-9][A-Z0-9]*$")  # needs a digit, so "UV
 def _reset_cache() -> None:
     """Tests only."""
     _PROFILES.clear()
+    _FAILED.clear()
     _MEMBERS.update(expires=0.0, infos=[])
 
 
@@ -76,10 +79,13 @@ class UserDirectory:
         hit = _PROFILES.get(user_id)
         if hit and hit[0] > time.time():
             return hit[1]
+        if _FAILED.get(user_id, 0) > time.time():
+            return None
         try:
             user = (self.client.users_info(user=user_id) or {}).get("user") or {}
         except Exception as e:
             logger.warning("users.info failed for %s: %s", user_id, type(e).__name__)
+            _FAILED[user_id] = time.time() + FAILED_LOOKUP_TTL_SECONDS
             return None
         info = _info_from_user({"id": user_id, **user})
         _PROFILES[user_id] = (time.time() + self.ttl, info)
