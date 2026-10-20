@@ -250,11 +250,14 @@ class AtlassianTools:
                 return _ME[self.asker_id], ""
             email = self.directory.email(self.asker_id) if self.asker_id else ""
             users = self._users(email) if email else []
-            if not users:
+            # user/search is fuzzy: take an exact (visible) email match, else only a single hit.
+            exact = [u for u in users if (u.get("emailAddress") or "").lower() == email.lower()]
+            pick = exact if exact else users
+            if len(pick) != 1:
                 logger.info("atlassian_me=unmatched")
                 return None, "I couldn't match your Slack account to a Jira account."
             logger.info("atlassian_me=matched")
-            _ME[self.asker_id] = users[0]["accountId"]
+            _ME[self.asker_id] = pick[0]["accountId"]
             return _ME[self.asker_id], ""
         users = self._users(want)
         exact = [u for u in users if (u.get("displayName") or "").lower() == want.lower()]
@@ -322,8 +325,13 @@ class AtlassianTools:
         if key.split("-")[0] not in self.cfg.jira_projects:
             return self._project_refusal()
         data = self.jira.get(f"/rest/api/3/issue/{key}", params={"fields": ",".join(ISSUE_FIELDS + [
-            "reporter", "created", "labels", "components", "issuelinks", "description"])})
+            "reporter", "created", "labels", "components", "issuelinks", "description", "project"])})
         f = data.get("fields") or {}
+        # Jira follows moved issues: check the issue it returned, not just the key we asked for.
+        key = str(data.get("key") or key).upper()
+        project = str((f.get("project") or {}).get("key") or key.split("-")[0]).upper()
+        if key.split("-")[0] not in self.cfg.jira_projects or project not in self.cfg.jira_projects:
+            return self._project_refusal()
         name = lambda d: (d or {}).get("name") or ""  # noqa: E731
         person = lambda d: (d or {}).get("displayName") or ""  # noqa: E731
         lines = [f"# {key}: {f.get('summary') or '(no summary)'}",

@@ -145,6 +145,26 @@ def test_other_http_errors_plain_sentence():
         assert e.user_message == "Jira didn't respond as expected (HTTP 500)."
 
 
+def test_400_passes_on_atlassians_reason():  # review: one bad key broke every search silently
+    resp = FakeResponse(400, {"errorMessages": ["The value 'TYPO' does not exist for the field 'project'."],
+                              "errors": {}})
+    try:
+        AtlassianClient(cfg(), product="jira", session=FakeSession([resp])).post("/rest/api/3/search/jql", {})
+        raise AssertionError("no error")
+    except AtlassianError as e:
+        assert e.user_message == "Jira rejected the request: The value 'TYPO' does not exist for the field 'project'."
+    resp = FakeResponse(400, {"message": "Could not parse cql : siteSearch ~"})
+    try:
+        AtlassianClient(cfg(), product="confluence", session=FakeSession([resp])).get("/rest/api/search")
+    except AtlassianError as e:
+        assert e.user_message == "Confluence rejected the request: Could not parse cql : siteSearch ~"
+    resp = FakeResponse(400, {"errors": {"issuetype": "Issue type 'Ticket' does not exist."}})
+    try:
+        AtlassianClient(cfg(), product="jira", session=FakeSession([resp])).post("/x", {})
+    except AtlassianError as e:
+        assert e.user_message == "Jira rejected the request: Issue type 'Ticket' does not exist."
+
+
 def test_token_never_logged():
     buf, done = capture_logs()
     try:
@@ -168,5 +188,6 @@ if __name__ == "__main__":
     test_429_retried_once_then_busy()
     test_timeout_is_busy_copy()
     test_other_http_errors_plain_sentence()
+    test_400_passes_on_atlassians_reason()
     test_token_never_logged()
     print("ok")

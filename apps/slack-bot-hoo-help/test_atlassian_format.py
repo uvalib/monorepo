@@ -46,6 +46,18 @@ def test_storage_collapses_blank_lines_and_handles_empty():
     assert storage_to_markdown("", site=SITE) == ""
 
 
+def test_storage_cdata_link_text_and_code_macro_kept():  # review: CDATA was dropped
+    md = storage_to_markdown(
+        '<p>See <ac:link><ri:page ri:content-title="Gate doc"/><ac:plain-text-link-body>'
+        '<![CDATA[the gate doc]]></ac:plain-text-link-body></ac:link> now</p>'
+        '<ac:structured-macro ac:name="code"><ac:parameter ac:name="language">bash</ac:parameter>'
+        '<ac:plain-text-body><![CDATA[aws s3 ls s3://bucket]]></ac:plain-text-body></ac:structured-macro>'
+        '<p>after</p>', site=SITE)
+    assert "See the gate doc now" in md
+    assert "```\naws s3 ls s3://bucket\n```" in md
+    assert "bash" not in md and "after" in md
+
+
 def test_adf_paragraphs_lists_mentions():
     doc = {"type": "doc", "content": [
         {"type": "paragraph", "content": [{"type": "text", "text": "Camera "},
@@ -69,6 +81,7 @@ if __name__ == "__main__":
     test_storage_ordered_list_bold_and_absolute_links_kept()
     test_storage_macros_keep_text_drop_markup()
     test_storage_collapses_blank_lines_and_handles_empty()
+    test_storage_cdata_link_text_and_code_macro_kept()
     test_adf_paragraphs_lists_mentions()
     test_adf_none_and_unknown_nodes()
     test_strip_highlight()

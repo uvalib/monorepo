@@ -34,6 +34,7 @@ class _StorageParser(HTMLParser):
         self.drop = 0
         self.table: Optional[List[List[str]]] = None
         self.cell: Optional[List[str]] = None
+        self.in_code = 0  # inside a code/noformat macro body (ac:plain-text-body)
 
     # -- block helpers --------------------------------------------------------
     def _flush(self) -> None:
@@ -55,6 +56,9 @@ class _StorageParser(HTMLParser):
         a = dict(attrs)
         if tag in _DROP_CONTENT:
             self.drop += 1
+            return
+        if tag == "ac:plain-text-body":
+            self.in_code += 1
             return
         if re.fullmatch(r"h[1-6]", tag):
             self._blank()
@@ -96,6 +100,9 @@ class _StorageParser(HTMLParser):
     def handle_endtag(self, tag: str) -> None:
         if tag in _DROP_CONTENT:
             self.drop = max(0, self.drop - 1)
+            return
+        if tag == "ac:plain-text-body":
+            self.in_code = max(0, self.in_code - 1)
             return
         if re.fullmatch(r"h[1-6]", tag) or tag in ("p", "div", "blockquote"):
             if self.cell is None:
@@ -143,6 +150,17 @@ class _StorageParser(HTMLParser):
         if self.table is not None and self.cell is None:
             return  # whitespace between table tags
         self._emit(data)
+
+    def unknown_decl(self, data: str) -> None:
+        """Storage format keeps link text and code-macro bodies in CDATA sections."""
+        if not data.startswith("CDATA[") or self.drop:
+            return
+        text = data[len("CDATA["):]
+        if self.in_code:
+            self._blank()
+            self.lines.extend(["```", text.strip("\n"), "```", ""])
+        else:
+            self._emit(text)
 
     def result(self) -> str:
         self._flush()

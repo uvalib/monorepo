@@ -97,6 +97,21 @@ def quote(value: str) -> str:
     return '"' + str(value).replace("\\", "\\\\").replace('"', '\\"') + '"'
 
 
+def _reason(resp) -> str:
+    """Atlassian's own explanation for a 400 (bad JQL/CQL, unknown project/status/type)."""
+    try:
+        data = resp.json() or {}
+    except ValueError:
+        return ""
+    if not isinstance(data, dict):
+        return ""
+    parts = [str(m) for m in data.get("errorMessages") or []]
+    parts += [str(v) for v in (data.get("errors") or {}).values()] if isinstance(data.get("errors"), dict) else []
+    if data.get("message"):
+        parts.append(str(data["message"]))
+    return " ".join(p.strip() for p in parts if p.strip())[:300]
+
+
 class AtlassianError(Exception):
     def __init__(self, user_message: str):
         super().__init__(user_message)
@@ -143,6 +158,11 @@ class AtlassianClient:
                     self.sleep(min(max(wait, 0), MAX_RETRY_AFTER_SEC))
                     continue
                 raise AtlassianError(f"{self.name} is busy, try again in a minute.")
+            if status == 400:
+                reason = _reason(resp)
+                logger.warning("%s %s %s → HTTP 400: %s", self.name, method, path, reason)
+                if reason:
+                    raise AtlassianError(f"{self.name} rejected the request: {reason}")
             if status >= 400:
                 logger.warning("%s %s %s → HTTP %s", self.name, method, path, status)
                 raise AtlassianError(f"{self.name} didn't respond as expected (HTTP {status}).")

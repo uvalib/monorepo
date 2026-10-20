@@ -268,6 +268,16 @@ def test_me_unmatched_copy():
     assert not [c for c in jira2.calls if c[1] == "/rest/api/3/search/jql"]
 
 
+def test_me_requires_a_single_or_exact_email_match():  # review: fuzzy user/search took users[0]
+    two = [{"accountId": "x1", "displayName": "Pat Doe-Smith", "active": True, "emailAddress": "pat@virginia.edu.old"},
+           {"accountId": "x2", "displayName": "Pat Doe", "active": True, "emailAddress": "PAT@virginia.edu"}]
+    t, _, _ = tools(jira_routes=jira_routes(users=two))
+    assert 'assignee = "x2"' in t.search_jira(assignee="me")
+    hidden = [{"accountId": "y1", "displayName": "A", "active": True}, {"accountId": "y2", "displayName": "B", "active": True}]
+    t2, _, _ = tools(jira_routes=jira_routes(users=hidden))
+    assert t2.search_jira(assignee="me") == "I couldn't match your Slack account to a Jira account."
+
+
 def test_display_name_lookup_and_ambiguity():
     two = [{"accountId": "a1", "displayName": "Pat Doe", "active": True},
            {"accountId": "a2", "displayName": "Pat Smith", "active": True}]
@@ -334,6 +344,22 @@ def test_issue_missing_assignee_description_render():  # RF4
     assert "Unassigned" in out and "(no description)" in out
 
 
+def test_moved_issue_outside_allow_list_refused():  # review: Jira follows moved issues
+    moved = {"key": "ITS-999", "fields": {**ISSUE["fields"], "summary": "SECRET MOVED",
+                                           "project": {"key": "ITS"}}}
+    t, _, _ = tools(jira_routes={"/rest/api/3/issue/LIB-5/comment": COMMENTS, "/rest/api/3/issue/LIB-5": moved})
+    out = t.get_jira_issue("LIB-5")
+    assert out == "That isn't in the Library's Jira projects (allowed: LIB)."
+    assert "SECRET MOVED" not in out
+
+
+def test_issue_moved_within_library_uses_returned_key():
+    moved = {"key": "LIB-77", "fields": {**ISSUE["fields"], "project": {"key": "LIB"}}}
+    t, _, _ = tools(jira_routes={"/rest/api/3/issue/LIB-77/comment": COMMENTS, "/rest/api/3/issue/LIB-5": moved})
+    out = t.get_jira_issue("LIB-5")
+    assert out.startswith("# LIB-77:") and "browse/LIB-77" in out
+
+
 def test_bad_issue_key():
     t, _, jira = tools()
     assert "issue key" in t.get_jira_issue("camera")
@@ -360,11 +386,14 @@ if __name__ == "__main__":
     test_jira_status_done_and_named_and_type()
     test_assignee_me_uses_email_lookup_and_never_shows_email()
     test_me_unmatched_copy()
+    test_me_requires_a_single_or_exact_email_match()
     test_display_name_lookup_and_ambiguity()
     test_disallowed_project_refused_without_http()
     test_results_outside_allow_list_dropped()
     test_search_output_table_links_and_jql()
     test_issue_details_comments_links()
     test_issue_missing_assignee_description_render()
+    test_moved_issue_outside_allow_list_refused()
+    test_issue_moved_within_library_uses_returned_key()
     test_bad_issue_key()
     print("ok")
