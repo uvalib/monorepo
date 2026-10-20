@@ -26,6 +26,9 @@ FAILED_LOOKUP_TTL_SECONDS = 60  # don't hammer users.info for one user while Sla
 # Shared by all UserDirectory instances so a warm Lambda container reuses lookups.
 _PROFILES: Dict[str, Tuple[float, "UserInfo"]] = {}
 _FAILED: Dict[str, float] = {}
+# Emails are kept apart from UserInfo so they can never reach identity_line or the
+# prompt; only account matching (Jira "me") reads them.
+_EMAILS: Dict[str, str] = {}
 _MEMBERS: Dict[str, Any] = {"expires": 0.0, "infos": []}
 
 _MENTION = re.compile(r"<@([UW][A-Z0-9]+)(?:\|[^>]*)?>")
@@ -36,6 +39,7 @@ def _reset_cache() -> None:
     """Tests only."""
     _PROFILES.clear()
     _FAILED.clear()
+    _EMAILS.clear()
     _MEMBERS.update(expires=0.0, infos=[])
 
 
@@ -87,8 +91,17 @@ class UserDirectory:
             _FAILED[user_id] = time.time() + FAILED_LOOKUP_TTL_SECONDS
             return None
         info = _info_from_user({"id": user_id, **user})
+        email = ((user.get("profile") or {}).get("email") or "").strip()
+        if email:
+            _EMAILS[user_id] = email
         _PROFILES[user_id] = (time.time() + self.ttl, info)
         return info
+
+    def email(self, user_id: str) -> str:
+        """Slack profile email, for matching accounts only — never put it in the prompt."""
+        if user_id not in _EMAILS:
+            self.get(user_id)
+        return _EMAILS.get(user_id, "")
 
     def label(self, user_id: str) -> str:
         info = self.get(user_id)

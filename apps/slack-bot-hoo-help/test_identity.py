@@ -128,6 +128,24 @@ def test_find_by_unique_first_name_and_reports_ambiguity():  # review: "Jordan's
     assert d.candidates("nobody") == []
 
 
+def test_email_lookup_is_separate_from_userinfo():
+    _reset_cache()
+    d = UserDirectory(FakeClient({"U1": {"real_name": "Pat Doe", "profile": {"email": "pat@virginia.edu"}}}))
+    assert d.email("U1") == "pat@virginia.edu"
+    assert "virginia.edu" not in repr(d.get("U1"))
+    assert "virginia.edu" not in identity_line(d.get("U1"))
+
+
+def test_email_uses_cache_and_failure_is_empty():
+    _reset_cache()
+    client = FakeClient({"U1": {"real_name": "Pat Doe", "profile": {"email": "pat@virginia.edu"}}})
+    d = UserDirectory(client)
+    d.get("U1")
+    assert d.email("U1") == "pat@virginia.edu" and client.info_calls == 1
+    assert UserDirectory(FailingClient()).email("U9") == ""
+    assert UserDirectory(FakeClient({"U2": {"real_name": "No Email", "profile": {}}})).email("U2") == ""
+
+
 if __name__ == "__main__":
     test_identity_line_full_profile()
     test_identity_line_without_pronouns_says_not_to_guess()
@@ -139,4 +157,6 @@ if __name__ == "__main__":
     test_find_accepts_ids_mentions_and_names()
     test_failed_lookup_is_not_retried_immediately()
     test_find_by_unique_first_name_and_reports_ambiguity()
+    test_email_lookup_is_separate_from_userinfo()
+    test_email_uses_cache_and_failure_is_empty()
     print("ok")
