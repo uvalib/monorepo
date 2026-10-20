@@ -1,0 +1,32 @@
+{
+  "id": "jira-camera-ticket",
+  "category": "atlassian",
+  "question": "is there a ticket for the Clemons camera?",
+  "history": [],
+  "recorded": {
+    "model": "minimax.minimax-m2.5",
+    "steps": [
+      {
+        "tool_name": "get_jira_issue",
+        "status": "success",
+        "input": {
+          "key": "LIB-12"
+        },
+        "output": "# LIB-12: Clemons camera offline\nLink: https://virginia-its.atlassian.net/browse/LIB-12\n- Type: Bug · Status: In Progress · Priority: High\n- Assignee: Pat Doe · Reporter: Jordan Lee\n- Created: 2026-10-01 · Updated: 2026-10-15\n- Labels: cameras\n- Components: Occupancy\n- blocks LIB-9: Gate report\n\n## Description\nDoor 3 camera reboots.\n\n## Latest comments\n- Jordan Lee (2026-10-14): Replaced the power supply."
+      }
+    ],
+    "final_text": "Yes — *LIB-12: Clemons camera offline* is *In Progress* (High priority), assigned to Pat Doe.\n\n• Door 3 camera reboots.\n• Latest comment, Jordan Lee (Oct 14): replaced the power supply.\n• Blocks LIB-9 (Gate report).\n\n<https://virginia-its.atlassian.net/browse/LIB-12|Open LIB-12>"
+  },
+  "expect": {
+    "phrases": [
+      "LIB-12",
+      "In Progress"
+    ],
+    "forbid": [
+      "Tool Error"
+    ],
+    "attachment": false,
+    "allow_condensed": false
+  },
+  "live": null
+}

@@ -1,0 +1,33 @@
+{
+  "id": "jira-assigned-to-me",
+  "category": "atlassian",
+  "question": "what Jira issues are assigned to me?",
+  "history": [],
+  "recorded": {
+    "model": "minimax.minimax-m2.5",
+    "steps": [
+      {
+        "tool_name": "search_jira",
+        "status": "success",
+        "input": {
+          "assignee": "me",
+          "status": "open"
+        },
+        "output": "### Jira issues\n\n| Key | Summary | Status | Assignee | Updated |\n| --- | --- | --- | --- | --- |\n| LIB-12 | Clemons camera offline | In Progress | Pat Doe | 2026-10-15 |\n| LIB-15 | Fine Arts door counter recalibration | To Do | Pat Doe | 2026-10-18 |\n\nLinks:\nLIB-12 — https://virginia-its.atlassian.net/browse/LIB-12\nLIB-15 — https://virginia-its.atlassian.net/browse/LIB-15\n\nJQL: project IN (\"LIB\") AND statusCategory != Done AND assignee = \"557058:acc-123\" ORDER BY updated DESC"
+      }
+    ],
+    "final_text": "Here are your open Library Jira issues:\n\n| Key | Summary | Status | Updated |\n| --- | --- | --- | --- |\n| LIB-12 | Clemons camera offline | In Progress | 2026-10-15 |\n| LIB-15 | Fine Arts door counter recalibration | To Do | 2026-10-18 |\n\n<https://virginia-its.atlassian.net/browse/LIB-12|LIB-12> · <https://virginia-its.atlassian.net/browse/LIB-15|LIB-15>"
+  },
+  "expect": {
+    "phrases": [
+      "LIB-12",
+      "LIB-15"
+    ],
+    "forbid": [
+      "Tool Error"
+    ],
+    "attachment": false,
+    "allow_condensed": false
+  },
+  "live": null
+}

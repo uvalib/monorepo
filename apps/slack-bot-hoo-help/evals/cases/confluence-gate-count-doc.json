@@ -1,0 +1,32 @@
+{
+  "id": "confluence-gate-count-doc",
+  "category": "atlassian",
+  "question": "where's the doc on gate count corrections?",
+  "history": [],
+  "recorded": {
+    "model": "minimax.minimax-m2.5",
+    "steps": [
+      {
+        "tool_name": "search_confluence",
+        "status": "success",
+        "input": {
+          "query": "gate count corrections"
+        },
+        "output": "### Confluence search: \"gate count corrections\"\n_Library spaces: LIB._\n\n1. **Gate count corrections** — Library (LIB) · Assessment › Data\n   Updated 2026-10-01 by Pat Doe\n   how we correct gate counts when a camera is reversed or offline\n   Link: https://virginia-its.atlassian.net/wiki/spaces/LIB/pages/4411/Gate+counts (page_id 4411)\n2. **Occupancy data dictionary** — Library (LIB) · Assessment › Data\n   Updated 2026-10-01 by Pat Doe\n   fields in the gate count tables\n   Link: https://virginia-its.atlassian.net/wiki/spaces/LIB/pages/4412/Gate+counts (page_id 4412)"
+      }
+    ],
+    "final_text": "The Library's Confluence has it:\n\n• *Gate count corrections* (Library, under Assessment › Data) — how we correct gate counts when a camera is reversed or offline. <https://virginia-its.atlassian.net/wiki/spaces/LIB/pages/4411/Gate+counts|Open page>\n• Related: *Occupancy data dictionary* — the fields in the gate count tables. <https://virginia-its.atlassian.net/wiki/spaces/LIB/pages/4412/Gate+counts|Open page>"
+  },
+  "expect": {
+    "phrases": [
+      "Gate count corrections",
+      "Assessment"
+    ],
+    "forbid": [
+      "Tool Error"
+    ],
+    "attachment": false,
+    "allow_condensed": false
+  },
+  "live": null
+}
