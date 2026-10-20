@@ -101,7 +101,13 @@ SLACK_SIGNING_SECRET = _load_secret("SLACK_SIGNING_SECRET", "SLACK_SIGNING_SECRE
 # Confluence/Jira service account — only read when the feature is switched on
 ATLASSIAN_ENABLED = os.environ.get("ENABLE_ATLASSIAN", "false").strip().lower() == "true"
 ATLASSIAN_EMAIL = _load_secret("ATLASSIAN_EMAIL", "ATLASSIAN_EMAIL_SSM_PATH") if ATLASSIAN_ENABLED else ""
-ATLASSIAN_TOKEN = _load_secret("ATLASSIAN_API_TOKEN", "ATLASSIAN_TOKEN_SSM_PATH") if ATLASSIAN_ENABLED else ""
+# Scoped API tokens are issued per app: one for Jira, one for Confluence
+ATLASSIAN_JIRA_TOKEN = (
+    _load_secret("ATLASSIAN_JIRA_TOKEN", "ATLASSIAN_JIRA_TOKEN_SSM_PATH") if ATLASSIAN_ENABLED else ""
+)
+ATLASSIAN_CONFLUENCE_TOKEN = (
+    _load_secret("ATLASSIAN_CONFLUENCE_TOKEN", "ATLASSIAN_CONFLUENCE_TOKEN_SSM_PATH") if ATLASSIAN_ENABLED else ""
+)
 
 # Do not call auth.test at import time — a bad token would crash every cold start
 # (including health checks) with BoltError invalid_auth.
@@ -298,7 +304,11 @@ def handle_user_query(
         local_tools=LocalTools(
             slack_tools,
             atlassian_tools_for_event(
-                event, directory=directory, email=ATLASSIAN_EMAIL, token=ATLASSIAN_TOKEN
+                event,
+                directory=directory,
+                email=ATLASSIAN_EMAIL,
+                jira_token=ATLASSIAN_JIRA_TOKEN,
+                confluence_token=ATLASSIAN_CONFLUENCE_TOKEN,
             ),
         ),
     )

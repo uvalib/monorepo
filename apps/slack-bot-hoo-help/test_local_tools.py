@@ -61,6 +61,8 @@ def test_atlassian_tools_for_event_switches():
     jira_only = atlassian_tools_for_event(EVENT, directory=d, env={**ON, "CONFLUENCE_SPACES": ""},
                                           email="e@x", token="t")
     assert names(jira_only) == ["search_jira", "get_jira_issue"] and jira_only.asker_id == "U1"
+    jira_token_only = atlassian_tools_for_event(EVENT, directory=d, env=ON, email="e@x", jira_token="jt")
+    assert names(jira_token_only) == ["search_jira", "get_jira_issue"]
     both = atlassian_tools_for_event(EVENT, directory=d, env=ON, email="e@x", token="t")
     assert names(both) == ["search_confluence", "get_confluence_page", "search_jira", "get_jira_issue"]
 

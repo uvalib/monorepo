@@ -40,7 +40,8 @@ SSM parameters (SecureString), read at cold start like the Slack secrets:
 | Parameter | Value |
 |---|---|
 | `/hoohelp/atlassian/email` | Service account's email |
-| `/hoohelp/atlassian/api-token` | API token (classic or scoped) |
+| `/hoohelp/atlassian/jira-token` | Jira API token (scoped tokens are per app) |
+| `/hoohelp/atlassian/confluence-token` | Confluence API token (for a classic token, the same value in both) |
 
 Plain Lambda env (not secret): `ATLASSIAN_SITE=https://virginia-its.atlassian.net`,
 `ATLASSIAN_CLOUD_ID=c417cfa5-aa30-4f3f-be7e-968c5845b5e9`,
@@ -135,7 +136,7 @@ Descriptions ask for short keyword queries and a second phrasing before giving u
   unless it says so.
 - **`template.yaml`:** parameters `EnableAtlassian` (default `false`),
   `ConfluenceSpaces`, `JiraProjects`, `AtlassianTokenType` (default `scoped`); env
-  vars above; SSM read on `/hoohelp/atlassian/email` and `/hoohelp/atlassian/api-token`.
+  vars above; SSM read on `/hoohelp/atlassian/email`, `/hoohelp/atlassian/jira-token` and `/hoohelp/atlassian/confluence-token`.
 - **`evals/make_case.py`:** the "keep only if fine to commit" warning also covers the
   four Atlassian tools.
 - **README:** setup (service account, token, SSM, allow-lists, Browse-users

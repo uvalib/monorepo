@@ -165,6 +165,20 @@ def test_400_passes_on_atlassians_reason():  # review: one bad key broke every s
         assert e.user_message == "Jira rejected the request: Issue type 'Ticket' does not exist."
 
 
+def test_separate_tokens_per_product():  # Atlassian issues one scoped token per app
+    c = AtlassianConfig.from_env({"CONFLUENCE_SPACES": "LIB", "JIRA_PROJECTS": "LIB"}, email="svc@x",
+                                 token="", jira_token="jira-tok", confluence_token="")
+    assert c.jira_enabled and not c.confluence_enabled
+    assert c.token_for("jira") == "jira-tok"
+    session = FakeSession([FakeResponse(200, {})])
+    AtlassianClient(c, product="jira", session=session).get("/x")
+    assert session.calls[0][2]["auth"] == ("svc@x", "jira-tok")
+    both = AtlassianConfig.from_env({"CONFLUENCE_SPACES": "LIB", "JIRA_PROJECTS": "LIB"}, email="svc@x",
+                                    token="shared", confluence_token="conf-tok")
+    assert both.token_for("confluence") == "conf-tok" and both.token_for("jira") == "shared"
+    assert both.confluence_enabled and both.jira_enabled
+
+
 def test_token_never_logged():
     buf, done = capture_logs()
     try:
@@ -189,5 +203,6 @@ if __name__ == "__main__":
     test_timeout_is_busy_copy()
     test_other_http_errors_plain_sentence()
     test_400_passes_on_atlassians_reason()
+    test_separate_tokens_per_product()
     test_token_never_logged()
     print("ok")

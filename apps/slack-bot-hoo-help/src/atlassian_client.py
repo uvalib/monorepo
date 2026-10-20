@@ -38,12 +38,16 @@ class AtlassianConfig:
     cloud_id: str
     token_type: str
     email: str
-    token: str = field(repr=False)
+    token: str = field(repr=False)  # shared token (classic), fallback for both products
     confluence_spaces: List[str] = field(default_factory=list)
     jira_projects: List[str] = field(default_factory=list)
+    # Scoped tokens are issued per app, so each product can have its own.
+    jira_token: str = field(default="", repr=False)
+    confluence_token: str = field(default="", repr=False)
 
     @classmethod
-    def from_env(cls, env=None, *, email: str, token: str) -> "AtlassianConfig":
+    def from_env(cls, env=None, *, email: str, token: str = "", jira_token: str = "",
+                 confluence_token: str = "") -> "AtlassianConfig":
         env = os.environ if env is None else env
         token_type = (env.get("ATLASSIAN_TOKEN_TYPE") or "scoped").strip().lower()
         return cls(
@@ -54,19 +58,21 @@ class AtlassianConfig:
             token=token or "",
             confluence_spaces=_keys(env.get("CONFLUENCE_SPACES", "")),
             jira_projects=_keys(env.get("JIRA_PROJECTS", "")),
+            jira_token=jira_token or "",
+            confluence_token=confluence_token or "",
         )
 
-    @property
-    def _has_credentials(self) -> bool:
-        return bool(self.email and self.token)
+    def token_for(self, product: str) -> str:
+        specific = self.jira_token if product == "jira" else self.confluence_token
+        return specific or self.token
 
     @property
     def confluence_enabled(self) -> bool:
-        return self._has_credentials and bool(self.confluence_spaces)
+        return bool(self.email and self.token_for("confluence") and self.confluence_spaces)
 
     @property
     def jira_enabled(self) -> bool:
-        return self._has_credentials and bool(self.jira_projects)
+        return bool(self.email and self.token_for("jira") and self.jira_projects)
 
     @property
     def confluence_base(self) -> str:
@@ -139,7 +145,7 @@ class AtlassianClient:
         for attempt in (1, 2):
             try:
                 resp = self.session.request(
-                    method, url, auth=(self.cfg.email, self.cfg.token), timeout=TIMEOUT_SEC,
+                    method, url, auth=(self.cfg.email, self.cfg.token_for(self.product)), timeout=TIMEOUT_SEC,
                     headers={"Accept": "application/json"}, **kw,
                 )
             except requests.RequestException as e:

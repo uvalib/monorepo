@@ -334,7 +334,8 @@ Resources:
           CONFLUENCE_SPACES: !Ref ConfluenceSpaces
           JIRA_PROJECTS: !Ref JiraProjects
           ATLASSIAN_EMAIL_SSM_PATH: /hoohelp/atlassian/email
-          ATLASSIAN_TOKEN_SSM_PATH: /hoohelp/atlassian/api-token
+          ATLASSIAN_JIRA_TOKEN_SSM_PATH: /hoohelp/atlassian/jira-token
+          ATLASSIAN_CONFLUENCE_TOKEN_SSM_PATH: /hoohelp/atlassian/confluence-token
       Policies:
         # Read Slack secrets from SSM SecureString at cold start
         - Statement:
@@ -346,7 +347,8 @@ Resources:
                 - !Sub "arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter${SlackBotTokenSsmPath}"
                 - !Sub "arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter${SlackSigningSecretSsmPath}"
                 - !Sub "arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/hoohelp/atlassian/email"
-                - !Sub "arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/hoohelp/atlassian/api-token"
+                - !Sub "arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/hoohelp/atlassian/jira-token"
+                - !Sub "arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/hoohelp/atlassian/confluence-token"
             - Effect: Allow
               Action:
                 - kms:Decrypt

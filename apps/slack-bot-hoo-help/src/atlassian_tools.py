@@ -365,12 +365,14 @@ class AtlassianTools:
 
 
 def atlassian_tools_for_event(event: Dict[str, Any], *, directory, env=None, email: str = "",
-                              token: str = "") -> Optional[AtlassianTools]:
+                              token: str = "", jira_token: str = "",
+                              confluence_token: str = "") -> Optional[AtlassianTools]:
     """Confluence/Jira tools for this turn, or None when switched off or not configured."""
     env = os.environ if env is None else env
     if str(env.get("ENABLE_ATLASSIAN", "false")).strip().lower() != "true":
         return None
-    cfg = AtlassianConfig.from_env(env, email=email, token=token)
+    cfg = AtlassianConfig.from_env(env, email=email, token=token, jira_token=jira_token,
+                                   confluence_token=confluence_token)
     if not (cfg.confluence_enabled or cfg.jira_enabled):
         return None
     return AtlassianTools(cfg, asker_id=event.get("user") or "", directory=directory)

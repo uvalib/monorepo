@@ -228,10 +228,11 @@ query is limited to the list and results are re-checked in code.
 **Setup:**
 1. A service account (or dedicated user) that can browse the Library spaces and projects only,
    plus Jira's *Browse users and groups* permission (for "assigned to me").
-2. An API token for it — scoped (read-only) is preferred; set `AtlassianTokenType=classic` for a
-   classic token.
-3. SSM SecureString: `/hoohelp/atlassian/email` and `/hoohelp/atlassian/api-token`. They're read
-   only when `EnableAtlassian=true`; the token is never logged.
+2. API tokens for it — scoped (read-only) tokens are issued per app, so one for Jira and one for
+   Confluence. For a classic token (`AtlassianTokenType=classic`), store the same token in both.
+3. SSM SecureString: `/hoohelp/atlassian/email`, `/hoohelp/atlassian/jira-token`,
+   `/hoohelp/atlassian/confluence-token`. Read only when `EnableAtlassian=true`; tokens are never
+   logged. A product with no token (or an empty allow-list) is simply not offered.
 
 **"Me":** the asker's Slack profile email is matched to their Atlassian account. The email is
 kept out of the prompt, tool output and logs (logs say `atlassian_me=matched|unmatched`).
@@ -272,7 +273,7 @@ python3 test_bot_locally.py
 | `EnableAtlassian` / `ENABLE_ATLASSIAN` | SAM / Lambda env | `true` to enable the Confluence/Jira tools (default `false`) |
 | `ConfluenceSpaces` / `JiraProjects` | SAM / Lambda env | Library space / project keys allowed (empty = that product off) |
 | `AtlassianTokenType` | SAM parameter | `scoped` (default) or `classic` |
-| `/hoohelp/atlassian/email`, `/hoohelp/atlassian/api-token` | SSM SecureString | Service account email and API token |
+| `/hoohelp/atlassian/email`, `/hoohelp/atlassian/jira-token`, `/hoohelp/atlassian/confluence-token` | SSM SecureString | Service account email and per-product API tokens |
 
 `SLACK_APP_TOKEN` (`xapp-...`) is **not** used with Events API.
 
