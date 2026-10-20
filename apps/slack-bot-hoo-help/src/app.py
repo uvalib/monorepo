@@ -30,7 +30,9 @@ from slack_bolt.adapter.aws_lambda import SlackRequestHandler
 from agent import HooHelpAgent
 from bedrock_params import DEFAULT_AGENT_MODEL_ID, DEFAULT_FORMAT_MODEL_ID
 from gateway_mcp_client import GatewayMCPClient
+from action_tokens import ActionTokenStore
 from identity import UserDirectory, identity_line, resolve_mentions
+from slack_search import slack_tools_for_event
 from session_trace import SessionTrace
 from slack_blocks import flatten_carousels
 import chime_in
@@ -116,6 +118,9 @@ if not SLACK_SIGNING_SECRET or len(SLACK_SIGNING_SECRET) < 8:
         "Set SSM /hoohelp/slack/signing-secret (SecureString).",
         len(SLACK_SIGNING_SECRET),
     )
+
+# Slack search action tokens, saved per thread (DynamoDB; ACTION_TOKENS_TABLE)
+action_token_store = ActionTokenStore()
 
 agent = HooHelpAgent(
     gateway_client=GatewayMCPClient(gateway_url=GATEWAY_URL),
@@ -267,7 +272,10 @@ def handle_user_query(
         "is_followup": bool(thread_ts) or len(conversation_history) > 0,
     }
 
-    extra_context = [identity_line(directory.get(user_id))]
+    slack_tools, slack_lines = slack_tools_for_event(
+        event, client, directory=directory, store=action_token_store
+    )
+    extra_context = [identity_line(directory.get(user_id))] + slack_lines
 
     turn = agent.process_message(
         cleaned_text,
@@ -275,6 +283,7 @@ def handle_user_query(
         request_id=request_id,
         slack_context=slack_context,
         extra_context=extra_context,
+        local_tools=slack_tools,
     )
     raw_response = turn.text
     trace: SessionTrace = turn.trace

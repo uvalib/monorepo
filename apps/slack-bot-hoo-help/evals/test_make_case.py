@@ -47,9 +47,16 @@ def test_likely_names():
     assert make_case.likely_names("Shannon Library and Clemons Library, Fine Arts") == []
 
 
+def test_make_case_warns_on_slack_tools():
+    assert "Slack messages" in make_case.slack_warning([{"tool_name": "search_slack"}])
+    assert "Slack messages" in make_case.slack_warning([{"tool_name": "x"}, {"tool_name": "read_slack_thread"}])
+    assert make_case.slack_warning([{"tool_name": "T___get_foot_traffic"}]) is None
+
+
 if __name__ == "__main__":
     test_scrub_drops_ids_and_caps_output()
     test_history_from_earlier_traces_in_thread()
     test_missing_history_warns_not_errors()
     test_likely_names()
+    test_make_case_warns_on_slack_tools()
     print("ok")

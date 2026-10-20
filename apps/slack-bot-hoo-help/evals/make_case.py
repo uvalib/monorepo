@@ -96,6 +96,16 @@ def scrub(trace: dict, history: list[dict], case_id: str, category: str) -> dict
     }
 
 
+SLACK_TOOLS = frozenset({"search_slack", "read_slack_thread"})
+
+
+def slack_warning(steps: list[dict]) -> str | None:
+    """Slack search results are staff conversations: a human decides before committing them."""
+    if any(str(s.get("tool_name") or "").split("___")[-1] in SLACK_TOOLS for s in steps or []):
+        return "trace includes Slack messages — keep only if the content is fine to commit"
+    return None
+
+
 def _load_traces(traces_dir: str) -> list[dict]:
     out = []
     for path in glob.glob(os.path.join(traces_dir, "**", "*.json"), recursive=True):
@@ -128,6 +138,9 @@ def main(argv: list[str] | None = None) -> int:
     names = likely_names(f"{case['question']}\n{case['recorded']['final_text']}")
     if names:
         warnings.append(f"possible person names (keep only if public): {', '.join(names)}")
+    slack = slack_warning(case["recorded"]["steps"])
+    if slack:
+        warnings.append(slack)
     os.makedirs(args.out_dir, exist_ok=True)
     with open(out_path, "w") as fh:
         json.dump(case, fh, indent=2, ensure_ascii=False)

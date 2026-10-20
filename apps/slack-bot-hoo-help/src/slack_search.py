@@ -14,6 +14,7 @@ that event's action_token:
 from __future__ import annotations
 
 import logging
+import os
 import re
 from datetime import datetime
 from typing import Any, Callable, Dict, List, Optional, Tuple
@@ -322,3 +323,32 @@ class SlackSearchTools:
         if len(body) > MAX_THREAD_CHARS:
             body = body[: MAX_THREAD_CHARS - 1] + "…\n(thread trimmed)"
         return body + (f"\nThread: {link}" if link else "")
+
+
+NO_TOKEN_LINE = (
+    "Slack search is unavailable in this thread until someone @mentions Hoo Helper again; "
+    "say so only if Slack history would help answer."
+)
+
+
+def _search_allowed(event: Dict[str, Any], env) -> bool:
+    if str(env.get("ENABLE_SLACK_SEARCH", "false")).strip().lower() != "true":
+        return False
+    allow = {x.strip() for x in str(env.get("SLACK_SEARCH_ALLOW", "") or "").split(",") if x.strip()}
+    return not allow or event.get("channel") in allow or event.get("user") in allow
+
+
+def slack_tools_for_event(event: Dict[str, Any], client, *, directory: UserDirectory, store, env=None):
+    """(SlackSearchTools or None, extra system-prompt lines) for this Slack event."""
+    env = os.environ if env is None else env
+    if not _search_allowed(event, env):
+        return None, []
+    token = store.resolve(event)
+    tools = SlackSearchTools(
+        client,
+        action_token=token,
+        asker_id=event.get("user") or "",
+        directory=directory,
+        on_token_expired=lambda: store.expire(event),
+    )
+    return tools, ([] if token else [NO_TOKEN_LINE])

@@ -87,7 +87,41 @@ Parameters:
       When true, Lambda Converse calls use the HooHelp Bedrock Guardrail
       (content filters, denied out-of-scope topics, PII anonymize, profanity).
 
+  EnableSlackSearch:
+    Type: String
+    Default: "false"
+    AllowedValues: ["true", "false"]
+    Description: >
+      When true, Hoo Helper can search public Slack channels (search_slack) and
+      read public threads (read_slack_thread). Needs search:read.public.
+
+  SlackSearchAllow:
+    Type: String
+    Default: ""
+    Description: >
+      Optional rollout allow-list: comma-separated channel and/or user ids that
+      get Slack search. Empty = everyone (when EnableSlackSearch is true).
+
 Resources:
+  # Slack search action tokens, saved per thread so unmentioned follow-ups can
+  # search. Items expire after 24 h (expires_at) or when Slack rejects them.
+  HooHelpActionTokens:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub "hoohelp-action-tokens-${StageName}"
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: key
+          AttributeType: S
+      KeySchema:
+        - AttributeName: key
+          KeyType: HASH
+      TimeToLiveSpecification:
+        AttributeName: expires_at
+        Enabled: true
+      SSESpecification:
+        SSEEnabled: true
+
   # ---------------------------------------------------------------------------
   # Bedrock Guardrails — library assistant safety (input + output)
   # Applied on Converse in agent.py and slack_format.py
@@ -264,6 +298,10 @@ Resources:
           BEDROCK_GUARDRAIL_ID: !GetAtt HooHelpGuardrail.GuardrailId
           BEDROCK_GUARDRAIL_VERSION: !GetAtt HooHelpGuardrailVersion.Version
           BEDROCK_GUARDRAIL_TRACE: enabled
+          # Slack search (public channels) and its per-thread action tokens
+          ENABLE_SLACK_SEARCH: !Ref EnableSlackSearch
+          SLACK_SEARCH_ALLOW: !Ref SlackSearchAllow
+          ACTION_TOKENS_TABLE: !Ref HooHelpActionTokens
       Policies:
         # Read Slack secrets from SSM SecureString at cold start
         - Statement:
@@ -310,6 +348,14 @@ Resources:
               Action:
                 - lambda:InvokeFunction
               Resource: !Sub "arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:hoohelp-slack-bot-${StageName}"
+        # Slack search action tokens (this table only)
+        - Statement:
+            - Effect: Allow
+              Action:
+                - dynamodb:GetItem
+                - dynamodb:PutItem
+                - dynamodb:DeleteItem
+              Resource: !GetAtt HooHelpActionTokens.Arn
         # Write session traces for MCP development
         - Statement:
             - Effect: Allow

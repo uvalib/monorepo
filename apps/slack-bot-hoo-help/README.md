@@ -185,6 +185,33 @@ possible person names. Fill in `expect` (facts that must appear) and optionally
    answered replies, or when a quick Claude Haiku 5.5 check (`CHIME_IN_MODEL_ID`) judges the message
    is aimed at the assistant or is an unanswered library question. Unsure, error or timeout → silent.
    @mentions are always answered. Slackbot system notices are ignored. Skips are logged with a reason.
+6. **Who's who** (`src/identity.py`): the model gets one line about the person asking (name, display
+   name, title, pronouns only if set in their profile, Slack id — **never email**). Earlier human turns
+   are labelled `[Name]: …` and `<@U…>` mentions become names. Lookups are cached for an hour.
+
+### Slack search (`src/slack_search.py`)
+
+Behind `EnableSlackSearch` (default `false`). Two in-process tools:
+
+- `search_slack` — Slack's Real-time Search API (`assistant.search.context`) with the bot token,
+  **public channels only**; optional `from_user` (a name or `me`), `channel`, `after` / `before`.
+- `read_slack_thread` — the public thread around a hit (`conversations.replies`). It checks the
+  channel is public first: the bot token also has `groups:history`, so this check is what keeps
+  private channels, DMs and group DMs out.
+
+Scopes it relies on: `search:read.public`, `users:read`, `channels:history`.
+
+Bot-token searches need an `action_token`, which Slack sends on @mentions, DMs and group DMs but
+not on unmentioned thread follow-ups. `src/action_tokens.py` saves it per thread in the DynamoDB
+table `hoohelp-action-tokens-<stage>` (24 h TTL) and reuses it for follow-ups until Slack rejects
+it; then the model is told Slack search needs a fresh @mention and says so only when relevant.
+The token is never logged — logs show `action_token=present|reused|missing|expired`.
+
+`SlackSearchAllow` (comma-separated channel and/or user ids) limits Slack search to those while
+testing; leave it empty for everyone.
+
+Session traces now include Slack excerpts and display names (same bucket, access and retention);
+`evals/make_case.py` warns when a trace used the Slack tools.
 
 ---
 
@@ -213,6 +240,9 @@ python3 test_bot_locally.py
 | `CONVERSATION_TRACE_BUCKET` | Lambda env | S3 bucket for full transcripts (set by SAM) |
 | `TraceRetentionDays` | SAM parameter | S3 lifecycle expiry for traces (default 30) |
 | `EnableGuardrails` / `BEDROCK_GUARDRAIL_*` | SAM / Lambda env | Bedrock Guardrails for library-safe Converse |
+| `EnableSlackSearch` / `ENABLE_SLACK_SEARCH` | SAM / Lambda env | `true` to enable `search_slack` / `read_slack_thread` (default `false`) |
+| `SlackSearchAllow` / `SLACK_SEARCH_ALLOW` | SAM / Lambda env | Optional comma-separated channel/user ids allowed Slack search (empty = all) |
+| `ACTION_TOKENS_TABLE` | Lambda env | DynamoDB table for per-thread Slack action tokens (set by SAM) |
 
 `SLACK_APP_TOKEN` (`xapp-...`) is **not** used with Events API.
 
