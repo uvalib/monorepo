@@ -118,6 +118,12 @@ def test_system_prompt_mentions_slack_search():
     assert "search_slack" in SYSTEM_PROMPT and 'from_user="me"' in SYSTEM_PROMPT
 
 
+def test_system_prompt_anchors_relative_dates_in_follow_ups():  # live eval thread-previous-month
+    from agent import SYSTEM_PROMPT
+
+    assert "relative to the period being discussed" in SYSTEM_PROMPT
+
+
 if __name__ == "__main__":
     test_system_prompt_includes_extra_context()
     test_system_prompt_without_extra_context_unchanged()
@@ -126,4 +132,5 @@ if __name__ == "__main__":
     test_no_local_tools_unchanged()
     test_process_message_runs_local_tool_calls()
     test_system_prompt_mentions_slack_search()
+    test_system_prompt_anchors_relative_dates_in_follow_ups()
     print("ok")
