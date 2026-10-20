@@ -47,6 +47,11 @@ def load_case(path: str) -> dict:
             raise CaseError(path, "'recorded' needs 'steps' (list) and 'final_text' (str)")
     if not isinstance(data.setdefault("history", []), list):
         raise CaseError(path, "'history' must be a list")
+    extra = data.get("extra_context")
+    if extra is not None and (
+        not isinstance(extra, list) or not all(isinstance(x, str) and x.strip() for x in extra)
+    ):
+        raise CaseError(path, "'extra_context' must be a list of non-empty strings")
     data["expect"] = data.get("expect") or {}
     _check_fields(path, "expect", data["expect"], EXPECT_FIELDS)
     if live is not None:

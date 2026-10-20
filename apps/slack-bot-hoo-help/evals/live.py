@@ -26,7 +26,10 @@ def run_live(case: dict, agent) -> CaseResult:
     spec = case.get("live") or {}
     started = time.monotonic()
     try:
-        result = agent.process_message(case["question"], conversation_history=case.get("history") or [])
+        kwargs = {"conversation_history": case.get("history") or []}
+        if case.get("extra_context"):
+            kwargs["extra_context"] = case["extra_context"]  # e.g. "Slack search is unavailable…"
+        result = agent.process_message(case["question"], **kwargs)
         seconds = time.monotonic() - started
         trace = result.trace
         tools = list(trace.tools_used())

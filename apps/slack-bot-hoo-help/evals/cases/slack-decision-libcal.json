@@ -1,0 +1,32 @@
+{
+  "id": "slack-decision-libcal",
+  "category": "slack",
+  "question": "what did we decide about the LibCal hours change?",
+  "history": [],
+  "recorded": {
+    "model": "minimax.minimax-m2.5",
+    "steps": [
+      {
+        "tool_name": "search_slack",
+        "status": "success",
+        "input": {
+          "query": "what did we decide about the LibCal hours change?"
+        },
+        "output": "### Slack search: \"what did we decide about the LibCal hours change?\"\n_Public channels only._\n\n1. **#web-team** — Pat Doe (U1) · Tue 2026-10-06 2:14 PM\n   Decision: library hours on the website come from LibCal only; the old hours page is retired and redirects to the LibCal calendar.\n   Link: https://uvalib.slack.com/archives/C0EXAMPLE1/p1759774440000100\n2. **#web-team** — Jordan Lee (U2) · Wed 2026-10-07 9:02 AM\n   Redirect for the old hours page is live; holiday closures are now entered in LibCal by each branch.\n   Link: https://uvalib.slack.com/archives/C0EXAMPLE1/p1759834920000200"
+      }
+    ],
+    "final_text": "Here's what was decided in Slack about the LibCal hours change:\n\n• *Decision* — Pat Doe in #web-team (Oct 6): website hours now come from LibCal only; the old hours page was retired and redirects to the LibCal calendar. <https://uvalib.slack.com/archives/C0EXAMPLE1/p1759774440000100|View message>\n• *Follow-up* — Jordan Lee in #web-team (Oct 7): the redirect is live, and each branch now enters its own holiday closures in LibCal. <https://uvalib.slack.com/archives/C0EXAMPLE1/p1759834920000200|View message>\n\n_These are Slack discussions, not official policy — check with the web team if you need the final word._"
+  },
+  "expect": {
+    "phrases": [
+      "#web-team",
+      "Pat Doe"
+    ],
+    "forbid": [
+      "Tool Error"
+    ],
+    "attachment": false,
+    "allow_condensed": false
+  },
+  "live": null
+}

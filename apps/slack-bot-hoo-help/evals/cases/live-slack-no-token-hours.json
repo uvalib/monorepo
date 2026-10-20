@@ -1,0 +1,18 @@
+{
+  "id": "live-slack-no-token-hours",
+  "category": "slack",
+  "question": "when is Clemons open today?",
+  "history": [],
+  "extra_context": [
+    "Slack search is unavailable in this thread until someone @mentions Hoo Helper again; say so only if Slack history would help answer."
+  ],
+  "expect": {},
+  "live": {
+    "tools_any": [
+      "get_library_hours"
+    ],
+    "forbid": [
+      "@mention"
+    ]
+  }
+}

@@ -8,7 +8,10 @@ import tempfile
 APP = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, APP)
 
+import json  # noqa: E402
+
 from evals import live  # noqa: E402
+from evals.case import CaseError, load_case  # noqa: E402
 
 
 class FakeTrace:
@@ -71,9 +74,48 @@ def test_live_uses_production_model_from_samconfig():
     assert run.production_model_id(os.path.join(d, "missing.toml")) is None
 
 
+class RecordingAgent:
+    def __init__(self):
+        self.kwargs = None
+
+    def process_message(self, q, **kwargs):
+        self.kwargs = kwargs
+        return type("R", (), {"text": "ok", "trace": FakeTrace([])})()
+
+
+def _write_case(data):
+    fd, path = tempfile.mkstemp(suffix=".json")
+    with os.fdopen(fd, "w") as fh:
+        json.dump(data, fh)
+    return path
+
+
+def test_case_extra_context_loaded_and_validated():
+    base = {"id": "x", "question": "q?", "live": {"phrases_any": ["a"]}}
+    assert load_case(_write_case({**base, "extra_context": ["line one"]}))["extra_context"] == ["line one"]
+    assert load_case(_write_case(base)).get("extra_context") is None
+    for bad in ("line", [1], [""]):
+        try:
+            load_case(_write_case({**base, "extra_context": bad}))
+            raise AssertionError(f"accepted {bad!r}")
+        except CaseError as e:
+            assert "extra_context" in str(e)
+
+
+def test_run_live_passes_extra_context():
+    agent = RecordingAgent()
+    live.run_live({**LIVE, "extra_context": ["Slack search is unavailable"]}, agent)
+    assert agent.kwargs["extra_context"] == ["Slack search is unavailable"]
+    agent2 = RecordingAgent()
+    live.run_live(LIVE, agent2)
+    assert "extra_context" not in agent2.kwargs
+
+
 if __name__ == "__main__":
     test_live_pass_and_fail_reasons()
     test_live_exception_fails_case_and_report_still_written()
     test_report_states_guardrail()
     test_live_uses_production_model_from_samconfig()
+    test_case_extra_context_loaded_and_validated()
+    test_run_live_passes_extra_context()
     print("ok")
