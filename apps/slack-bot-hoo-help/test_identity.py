@@ -43,7 +43,9 @@ def test_identity_line_full_profile():
     info = UserInfo("U07ABC", "Pat Doe", "pat", "Assessment Librarian", "she/her", False)
     assert identity_line(info) == (
         "You're talking with Pat Doe (display name \"pat\"), Assessment Librarian, she/her. "
-        "Use their name naturally and sparingly and their stated pronouns."
+        "Use their name naturally and sparingly and their stated pronouns. "
+        "If they ask \"whoami\", \"who am I\" or what you know about them, that's about them, "
+        "not about you: answer from this line."
     )
 
 
@@ -146,6 +148,11 @@ def test_email_uses_cache_and_failure_is_empty():
     assert UserDirectory(FakeClient({"U2": {"real_name": "No Email", "profile": {}}})).email("U2") == ""
 
 
+def test_identity_line_answers_whoami():  # trial: "whoami?" was read as "who are you?"
+    line = identity_line(UserInfo("U1", "Sam Lee", "", "", "", False))
+    assert '"whoami"' in line and "about them, not about you" in line
+
+
 if __name__ == "__main__":
     test_identity_line_full_profile()
     test_identity_line_without_pronouns_says_not_to_guess()
@@ -159,4 +166,5 @@ if __name__ == "__main__":
     test_find_by_unique_first_name_and_reports_ambiguity()
     test_email_lookup_is_separate_from_userinfo()
     test_email_uses_cache_and_failure_is_empty()
+    test_identity_line_answers_whoami()
     print("ok")

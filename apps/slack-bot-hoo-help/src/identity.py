@@ -173,8 +173,12 @@ def identity_line(info: Optional[UserInfo]) -> str:
     # and the model never needs one ("me" is resolved in code).
     line = f"You're talking with {who}. "
     if info.pronouns:
-        return line + "Use their name naturally and sparingly and their stated pronouns."
-    return line + "Use their name naturally and sparingly. Their pronouns aren't set — don't guess; use they/them."
+        line += "Use their name naturally and sparingly and their stated pronouns."
+    else:
+        line += "Use their name naturally and sparingly. Their pronouns aren't set — don't guess; use they/them."
+    # "whoami?" reads like "who are you?" to the model unless told otherwise.
+    return line + (' If they ask "whoami", "who am I" or what you know about them, that\'s about them, '
+                   "not about you: answer from this line.")
 
 
 def resolve_mentions(text: str, directory: UserDirectory, *, skip_ids: Iterable[str] = ()) -> str:
