@@ -1,0 +1,21 @@
+{
+  "id": "live-gate-brown-august",
+  "category": "occupancy",
+  "question": "Give me daily gate counts for Brown for August 2026",
+  "history": [],
+  "expect": {},
+  "live": {
+    "tools_any": [
+      "get_traffic_by_period"
+    ],
+    "phrases_any": [
+      "Science & Engineering",
+      "Science and Engineering"
+    ],
+    "forbid": [
+      "doesn't have occupancy sensors",
+      "aren't available"
+    ],
+    "max_seconds": 90
+  }
+}

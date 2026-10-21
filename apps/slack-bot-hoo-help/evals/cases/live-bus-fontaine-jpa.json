@@ -1,0 +1,20 @@
+{
+  "id": "live-bus-fontaine-jpa",
+  "category": "transit",
+  "question": "I want to catch a bus from Shannon Library to the corner of Fontaine and JPA. Help me find buses",
+  "history": [],
+  "expect": {},
+  "live": {
+    "tools_any": [
+      "find_bus_trip",
+      "find_bus_stops"
+    ],
+    "phrases_any": [
+      "Maury"
+    ],
+    "forbid": [
+      "400 Fontaine"
+    ],
+    "max_seconds": 90
+  }
+}
