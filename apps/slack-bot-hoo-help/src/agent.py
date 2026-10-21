@@ -67,6 +67,10 @@ def _needs_tools(user_message: str) -> bool:
     words = re.findall(r"[a-z']+", (user_message or "").lower())
     if words and all(w in _ACK_WORDS for w in words):
         return False
+    # Questions about Slack history are answered by search_slack when it's offered; when it
+    # isn't (no @mention token), forcing "any tool" sends the model into unrelated lookups.
+    if "slack" in words:
+        return False
     return bool(_FACTUAL_QUERY_RE.search(user_message or ""))
 # Keep this bland: a stern "call tools now / that is not allowed" user turn
 # is classified as PROMPT_ATTACK by the library Guardrail (HIGH on input).

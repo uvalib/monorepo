@@ -27,8 +27,16 @@ def test_topic_free_follow_ups_are_left_to_the_model():
     assert not _needs_tools("Previous month?")
 
 
+def test_questions_about_slack_history_are_not_forced():  # live eval: forced hours lookups looped
+    for q in ["what did we decide in Slack about the LibCal hours change?",
+              "find my Slack message about gate counts", "did anyone mention room bookings in slack?"]:
+        assert not _needs_tools(q), q
+    assert _needs_tools("when is Clemons open today?")
+
+
 if __name__ == "__main__":
     test_plurals_stems_and_gate_counts_need_tools()
     test_acknowledgements_and_small_talk_do_not()
     test_topic_free_follow_ups_are_left_to_the_model()
+    test_questions_about_slack_history_are_not_forced()
     print("ok")
