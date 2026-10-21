@@ -58,6 +58,12 @@ _ACK_WORDS = frozenset(
 )
 
 
+_ABOUT_ASSISTANT_RE = re.compile(
+    r"(?i)\bwhat (?:\w+ ){0,3}(?:can|could|should) i ask\b"
+    r"|\bwhat (?:\w+ ){0,3}(?:do|does) you (?:have access to|know)\b"
+)
+
+
 def _needs_tools(user_message: str) -> bool:
     """Must this turn call a tool before answering? (keyword check on the message)
 
@@ -66,6 +72,10 @@ def _needs_tools(user_message: str) -> bool:
     """
     words = re.findall(r"[a-z']+", (user_message or "").lower())
     if words and all(w in _ACK_WORDS for w in words):
+        return False
+    # Questions about Hoo Helper itself ("what can I ask you?") need no lookup; the forced
+    # retry's extra turn also tripped the guardrail's prompt-attack filter in the trial.
+    if _ABOUT_ASSISTANT_RE.search(user_message or ""):
         return False
     # Questions about Slack history are answered by search_slack when it's offered; when it
     # isn't (no @mention token), forcing "any tool" sends the model into unrelated lookups.

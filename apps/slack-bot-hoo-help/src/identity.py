@@ -169,7 +169,9 @@ def identity_line(info: Optional[UserInfo]) -> str:
     if info.pronouns:
         parts.append(info.pronouns)
     who = ", ".join(parts)
-    line = f"You're talking with {who} — Slack id {info.user_id}. "
+    # No Slack id: the guardrail's PII filter reads ids like U90MC9HQV as passwords,
+    # and the model never needs one ("me" is resolved in code).
+    line = f"You're talking with {who}. "
     if info.pronouns:
         return line + "Use their name naturally and sparingly and their stated pronouns."
     return line + "Use their name naturally and sparingly. Their pronouns aren't set — don't guess; use they/them."

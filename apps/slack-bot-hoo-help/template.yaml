@@ -158,13 +158,15 @@ Resources:
         UVA Library HooHelp Slack assistant: filter harmful content and prompt
         attacks, deny out-of-scope advice topics, mask sensitive PII, block profanity.
       BlockedInputMessaging: >-
-        I'm HooHelp, the UVA Library assistant. I can help with library hours,
-        locations, catalog availability, images in Virgo, and library policies.
-        I can't help with that request. Please rephrase, or contact a librarian:
-        https://www.library.virginia.edu/askalibrarian
+        I'm Hoo Helper, the UVA Library assistant. I can help with library hours,
+        rooms and equipment, events, gate counts, the Virgo catalog and images,
+        library policies, buses and walking directions, and searching our Slack
+        and Jira. I can't help with that request. Please rephrase, or contact a
+        librarian: https://www.library.virginia.edu/askalibrarian
       BlockedOutputsMessaging: >-
         I'm not able to share that response. I can help with UVA Library hours,
-        locations, catalog items, and policies — or you can Ask a Librarian:
+        rooms, events, gate counts, the catalog, policies, buses, and our Slack
+        and Jira — or you can Ask a Librarian:
         https://www.library.virginia.edu/askalibrarian
       # Harmful categories + prompt injection. Strengths balanced for a public
       # academic library help desk (avoid over-blocking literature/history topics).
@@ -185,8 +187,10 @@ Resources:
           - Type: MISCONDUCT
             InputStrength: MEDIUM
             OutputStrength: MEDIUM
+          # MEDIUM: HIGH also blocked LOW-confidence hits, which caught ordinary
+          # "what can you do?" turns in the Oct 2026 staff trial.
           - Type: PROMPT_ATTACK
-            InputStrength: HIGH
+            InputStrength: MEDIUM
             OutputStrength: NONE
       WordPolicyConfig:
         ManagedWordListsConfig:
@@ -271,7 +275,9 @@ Resources:
   HooHelpGuardrailVersion:
     Type: AWS::Bedrock::GuardrailVersion
     Properties:
-      Description: !Sub "Production snapshot for HooHelp (${StageName})"
+      # Changing this description makes CloudFormation cut a new version from the
+      # current guardrail settings (the Lambda reads its number via GetAtt).
+      Description: !Sub "Production snapshot for HooHelp (${StageName}) - prompt-attack MEDIUM, current capabilities"
       GuardrailIdentifier: !GetAtt HooHelpGuardrail.GuardrailId
 
   # Full tool transcripts for MCP development (partitioned by date)

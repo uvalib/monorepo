@@ -16,12 +16,50 @@ logger = logging.getLogger(__name__)
 
 # Friendly copy when Converse returns no blocked text payload
 DEFAULT_BLOCKED_MESSAGE = (
-    "I'm HooHelp, the UVA Library assistant. I can help with library hours, "
-    "locations and contacts, catalog and availability, images in Virgo, and "
-    "library policies. I can't help with that request — please rephrase, or "
-    "ask a human librarian via Ask a Librarian: "
+    "I'm Hoo Helper, the UVA Library assistant. I can help with library hours, rooms "
+    "and equipment, events, gate counts, the Virgo catalog and images, library "
+    "policies, buses and walking directions, and searching our Slack and Jira. "
+    "I can't help with that request — please rephrase, or ask a librarian: "
     "https://www.library.virginia.edu/askalibrarian"
 )
+
+_POLICY_KEYS = (
+    ("topicPolicy", "topic", "topics", "name"),
+    ("contentPolicy", "content", "filters", "type"),
+    ("wordPolicy", "word", "customWords", None),
+    ("sensitiveInformationPolicy", "pii", "piiEntities", "type"),
+    ("contextualGroundingPolicy", "grounding", "filters", "type"),
+)
+
+
+def guardrail_reasons(response: Dict[str, Any]) -> List[str]:
+    """Which guardrail checks fired, e.g. 'input:content:PROMPT_ATTACK:BLOCKED:LOW'.
+
+    Names the policy, item and action only — never the matched text (that would put the
+    very PII or content the guardrail caught into the logs).
+    """
+    gr = ((response or {}).get("trace") or {}).get("guardrail")
+    if not isinstance(gr, dict):
+        return []
+    out: List[str] = []
+
+    def scan(side: str, assessment: Dict[str, Any]) -> None:
+        for policy, short, items_key, name_key in _POLICY_KEYS:
+            for item in (assessment.get(policy) or {}).get(items_key) or []:
+                if not item.get("detected", item.get("action") not in (None, "NONE")):
+                    continue
+                name = item.get(name_key) if name_key else "custom word"
+                reason = f"{side}:{short}:{name}:{item.get('action')}"
+                if item.get("confidence"):
+                    reason += f":{item['confidence']}"
+                out.append(reason)
+
+    for assessment in (gr.get("inputAssessment") or {}).values():
+        scan("input", assessment)
+    for assessments in (gr.get("outputAssessments") or {}).values():
+        for assessment in assessments or []:
+            scan("output", assessment)
+    return out
 
 
 def get_guardrail_config() -> Optional[Dict[str, str]]:
@@ -101,10 +139,11 @@ def log_guardrail_trace(response: Dict[str, Any], *, context: str = "converse") 
             return
         action = gr.get("action") if isinstance(gr, dict) else None
         logger.info(
-            "Bedrock guardrail trace context=%s action=%s stopReason=%s",
+            "Bedrock guardrail trace context=%s action=%s stopReason=%s reasons=%s",
             context,
             action,
             response.get("stopReason"),
+            guardrail_reasons(response),
         )
     except Exception:
         pass

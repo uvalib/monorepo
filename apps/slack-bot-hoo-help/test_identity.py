@@ -42,7 +42,7 @@ def test_identity_line_full_profile():
     _reset_cache()
     info = UserInfo("U07ABC", "Pat Doe", "pat", "Assessment Librarian", "she/her", False)
     assert identity_line(info) == (
-        "You're talking with Pat Doe (display name \"pat\"), Assessment Librarian, she/her — Slack id U07ABC. "
+        "You're talking with Pat Doe (display name \"pat\"), Assessment Librarian, she/her. "
         "Use their name naturally and sparingly and their stated pronouns."
     )
 
@@ -50,7 +50,7 @@ def test_identity_line_full_profile():
 def test_identity_line_without_pronouns_says_not_to_guess():
     _reset_cache()
     line = identity_line(UserInfo("U1", "Sam Lee", "", "", "", False))
-    assert "Sam Lee" in line and "U1" in line
+    assert "Sam Lee" in line and "U1" not in line  # Slack ids look like passwords to the guardrail
     assert "pronouns aren't set" in line and "they/them" in line
 
 

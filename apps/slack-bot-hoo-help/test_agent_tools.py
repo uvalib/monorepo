@@ -34,9 +34,17 @@ def test_questions_about_slack_history_are_not_forced():  # live eval: forced ho
     assert _needs_tools("when is Clemons open today?")
 
 
+def test_questions_about_the_assistant_are_not_forced():  # trial: forced retry tripped the guardrail
+    for q in ["Can you give me details or documentation about what I can ask you about? What information do you have access to?",
+              "what can I ask you?", "what kinds of things do you know about?", "what data do you have access to?"]:
+        assert not _needs_tools(q), q
+    assert _needs_tools("what are the hours for Clemons?")
+
+
 if __name__ == "__main__":
     test_plurals_stems_and_gate_counts_need_tools()
     test_acknowledgements_and_small_talk_do_not()
     test_topic_free_follow_ups_are_left_to_the_model()
     test_questions_about_slack_history_are_not_forced()
+    test_questions_about_the_assistant_are_not_forced()
     print("ok")
