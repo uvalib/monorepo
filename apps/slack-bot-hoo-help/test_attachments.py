@@ -88,8 +88,8 @@ def test_file_context_line_tells_the_model_the_truth():
     line = file_context_line("csv")
     assert "CSV" in line and "attached automatically" in line
     ris = file_context_line("ris")
-    assert "Virgo" in ris and "list_slack_channel" in ris and "attached automatically" in ris
-    assert "every catalog item" in ris and "not a subset" in ris  # model check: "the 6 on-shelf items" (it had 20)
+    assert "get_citations" in ris and "list_slack_channel" in ris and "attached automatically" in ris
+    assert "exactly those items" in ris and "re-run" not in ris  # "those" = the items already shown
 
 
 
@@ -234,9 +234,11 @@ class ThreadClient(Uploads):
         return {"messages": []}
 
 
-def _follow_up(text, history, tables=(LINKS,)):
+def _follow_up(text, history, tables=(LINKS,), call_tool=None):
     import app
     agent, client = FakeAgent(), ThreadClient()
+    if call_tool is not None:
+        agent.gateway_client = SimpleNamespace(call_tool=call_tool)
     tools = SimpleNamespace(listings=[SimpleNamespace(table=t) for t in tables])
     real = app.agent, app.get_bot_identity, app.slack_tools_for_event
     app.agent, app.get_bot_identity = agent, (lambda c: ("UBOT", "B1"))
@@ -339,6 +341,17 @@ def test_ris_uses_the_bots_gateway_client_by_default():
     assert len(gw.calls) == 1
 
 
+def test_those_as_ris_cites_the_items_in_the_previous_answer():  # trial: RIS used a different search
+    rec = "https://search.lib.virginia.edu/sources/uva_library/items/"
+    history = [turn("user", "[Doug]: do we have 1984?"),
+               turn("assistant", f"Yes: <{rec}u4422|*Nineteen Eighty-four*> at Shannon, and <{rec}u5099809|*1984* (DVD)>.")]
+    gw = _gateway(lambda ids: "".join(f"TY  - BOOK\r\nTI  - x\r\nID  - {i}\r\nER  - \r\n" for i in ids.split(",")))
+    _, client = _follow_up("can I get those as an RIS file for Zotero?", history, tables=(), call_tool=gw)
+    assert gw.calls[0][1]["item_ids"] == "u4422,u5099809"
+    text = client.files[0]["content"].decode("utf-8")
+    assert text.index("ID  - u4422") < text.index("ID  - u5099809")
+
+
 def test_no_file_asked_tells_the_model_not_to_claim_one():
     agent, client = _follow_up("all the links in #ai", [])
     assert client.files == []
@@ -370,5 +383,6 @@ if __name__ == "__main__":
     test_ris_combines_slack_links_and_virgo_items()
     test_ris_gateway_down_still_cites_from_search_output()
     test_ris_uses_the_bots_gateway_client_by_default()
+    test_those_as_ris_cites_the_items_in_the_previous_answer()
     test_no_file_asked_tells_the_model_not_to_claim_one()
     print("ok")

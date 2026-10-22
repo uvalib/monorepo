@@ -26,6 +26,9 @@ _RECORD = re.compile(r"https://search\.lib\.virginia\.edu/sources/(\w+)/items/([
 _HEADING = re.compile(r"^#{2,4}\s+(?:\d+\.\s+)?(.+?)\s*$")
 _FIELD = re.compile(r"^\s*-\s+\*\*(Format|Author)\*\*:\s*(.+?)\s*$")
 _ID_LINE = re.compile(r"^ID  - (.+?)\s*$", re.M)
+# In the bot's own replies: either record-link form, optionally as Slack <url|label> markup.
+_ANSWER_LINK = re.compile(r"<?https://search\.lib\.virginia\.edu/(?:sources/(\w+)/)?items/([A-Za-z0-9_.:-]+)(?:\|([^>]*)>)?")
+_REFERS_BACK = re.compile(r"(?i)\b(?:those|these|them|the above|that list|the same ones?)\b")
 _FALLBACK_TYPES = (("video", "VIDEO"), ("dvd", "VIDEO"), ("map", "MAP"), ("music", "MUSIC"),
                    ("sound", "SOUND"), ("journal", "JFULL"), ("thesis", "THES"), ("book", "BOOK"))
 
@@ -87,6 +90,29 @@ def catalog_items(steps: Optional[Iterable[Any]]) -> FoundItems:
     return found
 
 
+def refers_back(text: str) -> bool:
+    """'those as RIS', 'export them': the items are the ones in the previous answer."""
+    return bool(_REFERS_BACK.search(text or ""))
+
+
+def items_from_history(history: Optional[Iterable[Dict[str, Any]]]) -> FoundItems:
+    """Catalog items linked in the bot's most recent reply that links any."""
+    for turn in reversed(list(history or [])):
+        if turn.get("role") != "assistant":
+            continue
+        text = " ".join(str(p.get("text") or "") for p in turn.get("content") or [] if isinstance(p, dict))
+        found, seen = FoundItems(), set()
+        for m in _ANSWER_LINK.finditer(text):
+            pool, item_id, label = m.group(1), m.group(2), m.group(3) or ""
+            if pool not in (None, "uva_library") or item_id in seen:
+                continue
+            seen.add(item_id)
+            found.items.append(CatalogItem(item_id, title=label.strip("*_ ").strip()))
+        if found.items:
+            return found
+    return FoundItems()
+
+
 def fallback_record(item: CatalogItem) -> str:
     fmt = item.format.lower()
     ty = next((code for word, code in _FALLBACK_TYPES if word in fmt), "GEN")
@@ -109,8 +135,43 @@ def _records_by_id(ris: str) -> Dict[str, str]:
     return records
 
 
-def virgo_ris(steps: Optional[Iterable[Any]], *, call_tool: Optional[CallTool]) -> VirgoRis:
+def _model_citations(steps: Iterable[Any]) -> Optional[tuple]:
+    """(item ids, RIS reply) from the model's own get_citations(format='ris') call this turn, if any."""
+    picked = None
+    for step in steps:
+        if not str(_attr(step, "tool_name") or "").endswith("get_citations") or _attr(step, "status") not in (None, "success"):
+            continue
+        args = _attr(step, "input") or {}
+        if str(args.get("format") or "ris").lower() != "ris":
+            continue
+        ids = [i for i in re.split(r"[\s,]+", str(args.get("item_ids") or "")) if i]
+        ids = [(_ANSWER_LINK.search(i).group(2) if _ANSWER_LINK.search(i) else i) for i in ids]
+        picked = (list(dict.fromkeys(ids)), str(_attr(step, "output") or ""))  # the last call wins
+    return picked
+
+
+def virgo_ris(steps: Optional[Iterable[Any]], *, call_tool: Optional[CallTool],
+              history: Optional[Iterable[Dict[str, Any]]] = None, user_text: str = "") -> VirgoRis:
+    """RIS for the catalog items meant, in this order of trust:
+    1. the model's own get_citations(format='ris') call this turn (it resolves "those" best);
+    2. for "those" (or when nothing was searched), the items linked in the previous answer;
+    3. this turn's catalog search results."""
+    steps = list(steps or [])
     found = catalog_items(steps)
+    previous = items_from_history(history)
+    known = {i.item_id: i for i in previous.items + found.items}
+    chosen = _model_citations(steps)
+    if chosen and chosen[0]:
+        ids, reply = chosen
+        result = VirgoRis(skipped_other=found.skipped_other, capped=len(ids) > MAX_ITEMS)
+        items = [known.get(i) or CatalogItem(i) for i in ids[:MAX_ITEMS]]
+        cited = _records_by_id(reply)
+        records = [cited.get(item.item_id) or fallback_record(item) for item in items]
+        result.cited, result.fallback = len(records), sum(1 for item in items if item.item_id not in cited)
+        result.content = ("\r\n".join(records) + "\r\n").encode("utf-8")
+        return result
+    if previous.items and (refers_back(user_text) or not found.items):
+        found = previous
     result = VirgoRis(skipped_other=found.skipped_other)
     items = found.items[:MAX_ITEMS]
     result.capped = len(found.items) > MAX_ITEMS

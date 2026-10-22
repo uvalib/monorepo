@@ -97,6 +97,55 @@ def test_caps_items():
     assert result.cited == 50 and result.capped
 
 
+PREVIOUS_ANSWER = (f"We have it:\n• <{REC}u4422|*Nineteen Eighty-four*> — Shannon, on shelf\n"
+                   "• *1984* (DVD) https://search.lib.virginia.edu/items/u5099809 — Clemons\n")
+HISTORY = [{"role": "user", "content": [{"text": "[Doug]: do we have 1984?"}]},
+           {"role": "assistant", "content": [{"text": PREVIOUS_ANSWER}]}]
+
+
+def test_refers_back():
+    for text in ["can I get those as RIS?", "these in Zotero format", "export them for Zotero", "the above as RIS"]:
+        assert vc.refers_back(text), text
+    assert not vc.refers_back("Orwell books as RIS for Zotero")
+
+
+def test_items_from_the_previous_answer():
+    found = vc.items_from_history(HISTORY)
+    assert [i.item_id for i in found.items] == ["u4422", "u5099809"]
+    assert found.items[0].title == "Nineteen Eighty-four"
+    assert vc.items_from_history([{"role": "user", "content": [{"text": f"{REC}u1"}]}]).items == []  # bot turns only
+
+
+def test_those_uses_the_previous_answer_not_a_new_search():  # trial: RIS re-ran a different search
+    gw = FakeGateway()
+    result = vc.virgo_ris([step(SEARCH_OUT)], call_tool=gw, history=HISTORY, user_text="can I get those as RIS?")
+    assert gw.calls[0][1]["item_ids"] == "u4422,u5099809" and result.cited == 2
+
+
+def test_new_request_still_uses_this_turns_search():
+    gw = FakeGateway()
+    vc.virgo_ris([step(SEARCH_OUT)], call_tool=gw, history=HISTORY, user_text="Orwell books as RIS")
+    assert gw.calls[0][1]["item_ids"] == "u5099809,u254532"
+    gw = FakeGateway()
+    vc.virgo_ris([], call_tool=gw, history=HISTORY, user_text="as RIS please")  # nothing searched: use the answer
+    assert gw.calls[0][1]["item_ids"] == "u4422,u5099809"
+
+
+def test_the_models_own_get_citations_call_is_the_file():  # live check: the model picks "those" itself
+    ris = "\r\n".join([record("u4422"), record("u9", note=vc.UNAVAILABLE_NOTE)]) + "\r\n"
+    cite_step = {"tool_name": "VirgoCatalogRuntime___get_citations", "status": "success",
+                 "input": {"item_ids": "u4422, u9", "format": "ris"}, "output": ris}
+    gw = FakeGateway()
+    result = vc.virgo_ris([step(SEARCH_OUT), cite_step], call_tool=gw, history=HISTORY, user_text="those as RIS")
+    text = result.content.decode("utf-8")
+    assert gw.calls == []  # no second gateway call
+    assert text.index("ID  - u4422") < text.index("ID  - u9") and result.cited == 2 and result.fallback == 1
+    assert vc.UNAVAILABLE_NOTE not in text  # the unavailable one gets a fallback record
+    apa_step = {**cite_step, "input": {"item_ids": "u4422", "format": "apa"}, "output": "**APA** ..."}
+    vc.virgo_ris([step(SEARCH_OUT), apa_step], call_tool=gw, history=HISTORY, user_text="those as RIS")
+    assert gw.calls and gw.calls[0][1]["item_ids"] == "u4422,u5099809"  # APA calls don't count
+
+
 def test_no_catalog_items_means_no_call_and_no_file():
     gw = FakeGateway()
     result = vc.virgo_ris([step(IMAGE_OUT)], call_tool=gw)
@@ -109,5 +158,10 @@ if __name__ == "__main__":
     test_unavailable_items_use_the_search_output()
     test_gateway_error_falls_back_for_every_item()
     test_caps_items()
+    test_refers_back()
+    test_items_from_the_previous_answer()
+    test_those_uses_the_previous_answer_not_a_new_search()
+    test_new_request_still_uses_this_turns_search()
+    test_the_models_own_get_citations_call_is_the_file()
     test_no_catalog_items_means_no_call_and_no_file()
     print("ok")

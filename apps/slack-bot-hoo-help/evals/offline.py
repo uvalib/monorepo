@@ -37,9 +37,9 @@ def _listing_tables(steps: list) -> list:
     return tables
 
 
-def _ris_reasons(tables: list, steps: list) -> list[str]:
+def _ris_reasons(tables: list, steps: list, case: dict) -> list[str]:
     cite = citable_tables(tables)
-    virgo = virgo_ris(steps, call_tool=None)  # offline: every Virgo item uses the search-output fallback
+    virgo = virgo_ris(steps, call_tool=None, history=case.get("history"), user_text=case["question"])  # offline: every Virgo item uses the search-output fallback
     if not cite and not virgo.cited:
         return ["asked for RIS, but no tool produced links, files or catalog items to cite"]
     text = (build_file("ris", cite)[0] if cite else b"").decode("utf-8") + virgo.content.decode("utf-8")
@@ -56,7 +56,7 @@ def _attachment_reasons(case: dict, steps: list) -> list[str]:
         return ["expected attachment, but the question doesn't ask for Excel / CSV / JSON / RIS"]
     tables = _listing_tables(steps) + tables_from_steps(steps)
     if fmt == "ris":
-        return _ris_reasons(tables, steps)
+        return _ris_reasons(tables, steps, case)
     if not tables:
         return ["expected attachment, but no table-producing tool output"]
     content, filename, _ = build_file(fmt, tables)

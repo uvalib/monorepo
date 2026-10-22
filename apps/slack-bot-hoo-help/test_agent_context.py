@@ -129,6 +129,14 @@ def test_system_prompt_routes_exhaustive_slack_lists_and_file_formats():  # tria
     assert "attaches an .xlsx" not in SYSTEM_PROMPT
 
 
+def test_system_prompt_catalog_alternate_titles_links_and_citations():  # trial: "do we have 1984?" said checked out
+    from agent import SYSTEM_PROMPT
+
+    assert "Nineteen eighty-four" in SYSTEM_PROMPT and "spelled-out" in SYSTEM_PROMPT
+    assert "Virgo record link for every item" in SYSTEM_PROMPT  # so "those" can be pinned down later
+    assert "get_citations(format=\"ris\")" in SYSTEM_PROMPT and "don't paste the RIS" in SYSTEM_PROMPT
+
+
 def test_system_prompt_anchors_relative_dates_in_follow_ups():  # live eval thread-previous-month
     from agent import SYSTEM_PROMPT
 
@@ -225,6 +233,7 @@ def test_throttling_gets_a_try_again_message():
 
 
 if __name__ == "__main__":
+    test_system_prompt_catalog_alternate_titles_links_and_citations()
     test_system_prompt_routes_exhaustive_slack_lists_and_file_formats()
     test_system_prompt_includes_extra_context()
     test_system_prompt_without_extra_context_unchanged()

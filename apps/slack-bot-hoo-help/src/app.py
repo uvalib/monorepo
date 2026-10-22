@@ -401,6 +401,8 @@ def handle_user_query(
                 file_fmt,
                 # only the last listing: a retry with wider dates replaces the first try
                 [l.table for l in getattr(slack_tools, "listings", None) or []][-1:],
+                history=conversation_history,
+                user_text=cleaned_text,
             )
     finally:
         if reacted and channel_id and ts:
@@ -452,10 +454,10 @@ def _upload(client, channel_id, thread_ts, trace, content, filename, title) -> N
                        "_I couldn't attach the file: the Slack app needs the `files:write` scope._")
 
 
-def _attach_ris(client, channel_id, thread_ts, trace, tables, call_tool) -> None:
+def _attach_ris(client, channel_id, thread_ts, trace, tables, call_tool, history=None, user_text="") -> None:
     """RIS from Slack link / file listings plus Virgo catalog items, in one file."""
     cite = citable_tables(tables)
-    virgo = virgo_ris(getattr(trace, "steps", None), call_tool=call_tool)
+    virgo = virgo_ris(getattr(trace, "steps", None), call_tool=call_tool, history=history, user_text=user_text)
     if not cite and not virgo.cited:
         if tables:
             _post_note(client, channel_id, thread_ts,
@@ -478,7 +480,8 @@ def _attach_ris(client, channel_id, thread_ts, trace, tables, call_tool) -> None
         _post_note(client, channel_id, thread_ts, "_" + " ".join(notes) + "_")
 
 
-def _attach_file(client, channel_id, thread_ts, trace, fmt, listing_tables, call_tool=None) -> None:
+def _attach_file(client, channel_id, thread_ts, trace, fmt, listing_tables, call_tool=None,
+                 history=None, user_text="") -> None:
     """Upload this turn's tool tables (Slack listings, gate counts) as the file the user asked for.
 
     call_tool: a gateway tool caller (default: the bot's own) for Virgo citations in RIS files.
@@ -487,7 +490,7 @@ def _attach_file(client, channel_id, thread_ts, trace, fmt, listing_tables, call
     if fmt == "ris":
         if call_tool is None:
             call_tool = getattr(getattr(agent, "gateway_client", None), "call_tool", None)
-        _attach_ris(client, channel_id, thread_ts, trace, tables, call_tool)
+        _attach_ris(client, channel_id, thread_ts, trace, tables, call_tool, history, user_text)
         return
     if not tables:
         logger.info("%s file requested but no table-producing tool ran", fmt)
