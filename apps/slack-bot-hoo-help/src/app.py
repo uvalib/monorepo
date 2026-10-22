@@ -452,10 +452,10 @@ def _upload(client, channel_id, thread_ts, trace, content, filename, title) -> N
                        "_I couldn't attach the file: the Slack app needs the `files:write` scope._")
 
 
-def _attach_ris(client, channel_id, thread_ts, trace, tables) -> None:
+def _attach_ris(client, channel_id, thread_ts, trace, tables, call_tool) -> None:
     """RIS from Slack link / file listings plus Virgo catalog items, in one file."""
     cite = citable_tables(tables)
-    virgo = virgo_ris(getattr(trace, "steps", None))
+    virgo = virgo_ris(getattr(trace, "steps", None), call_tool=call_tool)
     if not cite and not virgo.cited:
         if tables:
             _post_note(client, channel_id, thread_ts,
@@ -478,11 +478,16 @@ def _attach_ris(client, channel_id, thread_ts, trace, tables) -> None:
         _post_note(client, channel_id, thread_ts, "_" + " ".join(notes) + "_")
 
 
-def _attach_file(client, channel_id, thread_ts, trace, fmt, listing_tables) -> None:
-    """Upload this turn's tool tables (Slack listings, gate counts) as the file the user asked for."""
+def _attach_file(client, channel_id, thread_ts, trace, fmt, listing_tables, call_tool=None) -> None:
+    """Upload this turn's tool tables (Slack listings, gate counts) as the file the user asked for.
+
+    call_tool: a gateway tool caller (default: the bot's own) for Virgo citations in RIS files.
+    """
     tables = list(listing_tables or []) + tables_from_steps(getattr(trace, "steps", None))
     if fmt == "ris":
-        _attach_ris(client, channel_id, thread_ts, trace, tables)
+        if call_tool is None:
+            call_tool = getattr(getattr(agent, "gateway_client", None), "call_tool", None)
+        _attach_ris(client, channel_id, thread_ts, trace, tables, call_tool)
         return
     if not tables:
         logger.info("%s file requested but no table-producing tool ran", fmt)

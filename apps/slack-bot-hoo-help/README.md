@@ -214,9 +214,10 @@ tables) and the app uploads it to the thread; a follow-up keeps the format asked
 thread. Values come from tool data, never from the model's prose. RIS (for Zotero / EndNote import)
 covers links and files only: one web-page record per link, titled from Slack's link preview when
 there is one, with the date shared and a note linking back to the Slack message. Virgo catalog
-results this turn go in the same file as full citations from Virgo's own citations service
-(`citations-ws`, with Virgo's public guest token; `src/virgo_citations.py`), up to 50 items; if the
-service fails for an item, a basic record is built from the search output instead.
+results this turn go in the same file as full citations: `src/virgo_citations.py` calls the Virgo
+MCP server's `get_citations` tool directly through the gateway (Virgo's own citations service, up to
+50 items), so the RIS never passes through the model. If an item can't be cited, or the gateway
+call fails, a basic record is built from the search output instead.
 
 Bot-token searches need an `action_token`, which Slack sends on @mentions, DMs and group DMs but
 not on unmentioned thread follow-ups. `src/action_tokens.py` saves it per thread in the DynamoDB

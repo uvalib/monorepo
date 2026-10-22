@@ -276,21 +276,23 @@ VIRGO_STEP = {"tool_name": "VirgoCatalogRuntime___search_by_field", "status": "s
                         "### 2. Rotunda photo\n- **Virgo page**: https://search.lib.virginia.edu/sources/images/items/uva-lib:9\n"}
 
 
-def _with_citations(fetch):
-    import virgo_citations
-    real = virgo_citations._service_fetcher
-    virgo_citations._service_fetcher = lambda *a, **k: fetch
-    return lambda: setattr(virgo_citations, "_service_fetcher", real)
+def _gateway(reply_for):
+    """A fake GatewayMCPClient.call_tool: get_citations → reply_for(item_ids)."""
+    calls = []
+
+    def call_tool(name, args):
+        calls.append((name, args))
+        return reply_for(args["item_ids"])
+    call_tool.calls = calls
+    return call_tool
 
 
 def test_ris_for_virgo_catalog_results():
     import app
-    restore = _with_citations(lambda item_id: f"TY  - BOOK\nTI  - Animal farm\nID  - {item_id}\nER  - \n")
-    try:
-        client = Uploads()
-        app._attach_file(client, "C9", "1.0", Trace([VIRGO_STEP]), "ris", [])
-    finally:
-        restore()
+    gw = _gateway(lambda ids: f"TY  - BOOK\r\nTI  - Animal farm\r\nID  - {ids}\r\nER  - \r\n")
+    client = Uploads()
+    app._attach_file(client, "C9", "1.0", Trace([VIRGO_STEP]), "ris", [], call_tool=gw)
+    assert gw.calls == [("VirgoCatalogRuntime___get_citations", {"item_ids": "u1", "format": "ris"})]
     assert [f["filename"] for f in client.files] == ["virgo-catalog-citations.ris"]
     text = client.files[0]["content"].decode("utf-8")
     assert text.startswith("TY  - BOOK") and "ID  - u1" in text and text.count("ER  - ") == 1
@@ -299,29 +301,32 @@ def test_ris_for_virgo_catalog_results():
 
 def test_ris_combines_slack_links_and_virgo_items():
     import app
-    restore = _with_citations(lambda item_id: "TY  - BOOK\nTI  - Animal farm\nER  - \n")
-    try:
-        client = Uploads()
-        app._attach_file(client, "C9", None, Trace([VIRGO_STEP]), "ris", [LINK_TABLE])
-    finally:
-        restore()
+    gw = _gateway(lambda ids: f"TY  - BOOK\r\nTI  - Animal farm\r\nID  - {ids}\r\nER  - \r\n")
+    client = Uploads()
+    app._attach_file(client, "C9", None, Trace([VIRGO_STEP]), "ris", [LINK_TABLE], call_tool=gw)
     text = client.files[0]["content"].decode("utf-8")
     assert len(client.files) == 1 and text.count("ER  - ") == 3 and "TY  - ELEC" in text and "TY  - BOOK" in text
 
 
-def test_ris_virgo_service_down_still_cites_from_search_output():
+def test_ris_gateway_down_still_cites_from_search_output():
     import app
-
-    def down(item_id):
-        raise RuntimeError("503")
-    restore = _with_citations(down)
-    try:
-        client = Uploads()
-        app._attach_file(client, "C9", None, Trace([VIRGO_STEP]), "ris", [])
-    finally:
-        restore()
+    client = Uploads()
+    app._attach_file(client, "C9", None, Trace([VIRGO_STEP]), "ris", [],
+                     call_tool=_gateway(lambda ids: "Gateway Tool Invocation Error (get_citations): timed out"))
     text = client.files[0]["content"].decode("utf-8")
     assert "TI  - Animal farm" in text and "AU  - Orwell, George" in text
+
+
+def test_ris_uses_the_bots_gateway_client_by_default():
+    import app
+    gw = _gateway(lambda ids: f"TY  - BOOK\r\nTI  - Animal farm\r\nID  - {ids}\r\nER  - \r\n")
+    real = app.agent
+    app.agent = SimpleNamespace(gateway_client=SimpleNamespace(call_tool=gw))
+    try:
+        app._attach_file(Uploads(), "C9", None, Trace([VIRGO_STEP]), "ris", [])
+    finally:
+        app.agent = real
+    assert len(gw.calls) == 1
 
 
 def test_no_file_asked_tells_the_model_not_to_claim_one():
@@ -352,6 +357,7 @@ if __name__ == "__main__":
     test_ris_with_nothing_citable_says_so_instead_of_a_broken_file()
     test_ris_for_virgo_catalog_results()
     test_ris_combines_slack_links_and_virgo_items()
-    test_ris_virgo_service_down_still_cites_from_search_output()
+    test_ris_gateway_down_still_cites_from_search_output()
+    test_ris_uses_the_bots_gateway_client_by_default()
     test_no_file_asked_tells_the_model_not_to_claim_one()
     print("ok")

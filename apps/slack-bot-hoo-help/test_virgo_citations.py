@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""RIS for Virgo catalog results via Virgo's citations service (fake service, no network)."""
+"""RIS for Virgo catalog results via the Virgo MCP server's get_citations tool (fake gateway, no network)."""
 
 import os
 import sys
@@ -31,24 +31,30 @@ SEARCH_OUT = f"""# Virgo Catalog Search Results
 - **Virgo record**: {REC}u254532
 """
 IMAGE_OUT = "### 1. Rotunda\n- **Virgo page**: https://search.lib.virginia.edu/sources/images/items/uva-lib:1041884\n"
-SERVICE_RIS = ("TY  - VIDEO\nAU  - Orwell, George\nTI  - 1984\nPY  - 2003\n"
-               'N1  - Based on the novel.\nN1  - <a href="https://search.lib.virginia.edu/items/u5099809" rel="nofollow">'
-               "https://search.lib.virginia.edu/items/u5099809</a>\nER  - \n")
+
+
+def record(item_id, ty="BOOK", note=""):
+    lines = [f"TY  - {ty}", f"TI  - Title {item_id}", f"ID  - {item_id}", f"UR  - {REC}{item_id}"]
+    return "\r\n".join(lines + ([f"N1  - {note}"] if note else []) + ["ER  - "])
 
 
 def step(output, tool="VirgoCatalogRuntime___search_by_field", status="success"):
     return {"tool_name": tool, "status": status, "output": output}
 
 
-class FakeCitations:
-    def __init__(self, ris=None, fail=()):
-        self.ris, self.fail, self.calls = ris or {}, set(fail), []
+class FakeGateway:
+    """call_tool(name, args) like GatewayMCPClient: get_citations answers with one RIS record per ID."""
 
-    def __call__(self, item_id):
-        self.calls.append(item_id)
-        if item_id in self.fail:
-            raise RuntimeError("timeout")
-        return self.ris.get(item_id, SERVICE_RIS)
+    def __init__(self, unavailable=(), reply=None):
+        self.unavailable, self.reply, self.calls = set(unavailable), reply, []
+
+    def __call__(self, name, args):
+        self.calls.append((name, args))
+        if self.reply is not None:
+            return self.reply
+        ids = [i for i in args["item_ids"].split(",") if i]
+        return "\r\n".join(record(i, note=vc.UNAVAILABLE_NOTE) if i in self.unavailable else record(i)
+                           for i in ids) + "\r\n"
 
 
 def test_catalog_items_in_order_without_duplicates_or_other_pools():
@@ -60,61 +66,48 @@ def test_catalog_items_in_order_without_duplicates_or_other_pools():
     assert found.skipped_other == 1  # the image
 
 
-def test_service_ris_is_cleaned_to_plain_ur_and_crlf():
-    rec = vc.clean_record(SERVICE_RIS, "u5099809")
-    lines = rec.split("\r\n")
-    assert lines[0] == "TY  - VIDEO" and lines[-1] == "ER  - "
-    assert "UR  - https://search.lib.virginia.edu/items/u5099809" in lines
-    assert not any("<a " in line for line in lines) and "N1  - Based on the novel." in lines
-    assert "\n" not in rec.replace("\r\n", "")
-
-
-def test_ur_added_when_the_service_gives_none():
-    rec = vc.clean_record("TY  - BOOK\nTI  - Animal farm\nER  - \n", "u1")
-    assert "UR  - https://search.lib.virginia.edu/sources/uva_library/items/u1" in rec
-
-
-def test_virgo_ris_fetches_each_item_and_falls_back_on_failure():
-    fake = FakeCitations(fail={"u254532"})
-    result = vc.virgo_ris([step(SEARCH_OUT)], fetch=fake)
+def test_one_gateway_call_for_all_items_in_search_order():
+    gw = FakeGateway()
+    result = vc.virgo_ris([step(SEARCH_OUT)], call_tool=gw)
+    assert gw.calls == [("VirgoCatalogRuntime___get_citations", {"item_ids": "u5099809,u254532", "format": "ris"})]
     text = result.content.decode("utf-8")
-    assert sorted(fake.calls) == ["u254532", "u5099809"]
-    assert text.count("ER  - ") == 2 and text.startswith("TY  - VIDEO")
-    assert "TY  - BOOK\r\nTI  - Nineteen eighty-four : a novel\r\nAU  - Orwell, George" in text  # fallback record
-    assert result.cited == 2 and result.fallback == 1 and result.skipped_other == 0
+    assert text.index("ID  - u5099809") < text.index("ID  - u254532") and text.count("ER  - ") == 2
+    assert result.cited == 2 and result.fallback == 0
 
 
-def test_virgo_ris_caps_items():
+def test_unavailable_items_use_the_search_output():
+    result = vc.virgo_ris([step(SEARCH_OUT)], call_tool=FakeGateway(unavailable={"u254532"}))
+    text = result.content.decode("utf-8")
+    assert "TY  - BOOK\r\nTI  - Nineteen eighty-four : a novel\r\nAU  - Orwell, George" in text
+    assert vc.UNAVAILABLE_NOTE not in text and result.fallback == 1
+
+
+def test_gateway_error_falls_back_for_every_item():
+    for reply in ["Gateway Tool Invocation Error (x): timed out", "Tool Error: Unknown tool", ""]:
+        result = vc.virgo_ris([step(SEARCH_OUT)], call_tool=FakeGateway(reply=reply))
+        assert result.cited == 2 and result.fallback == 2, reply
+        assert "TI  - 1984" in result.content.decode("utf-8")
+
+
+def test_caps_items():
     many = "\n".join(f"### {i}. Book {i}\n- **Virgo record**: {REC}u{i}" for i in range(80))
-    fake = FakeCitations()
-    result = vc.virgo_ris([step(many)], fetch=fake)
-    assert len(fake.calls) == vc.MAX_ITEMS == 50 and result.cited == 50 and result.capped
+    gw = FakeGateway()
+    result = vc.virgo_ris([step(many)], call_tool=gw)
+    assert len(gw.calls[0][1]["item_ids"].split(",")) == vc.MAX_ITEMS == 50
+    assert result.cited == 50 and result.capped
 
 
-def test_slow_service_stops_at_the_time_budget():  # Lambda has 120 s; 50 hung requests would blow it
-    many = "\n".join(f"### {i}. Book {i}\n- **Virgo record**: {REC}u{i}" for i in range(12))
-    now = [0.0]
-    fake = FakeCitations()
-
-    def slow(item_id):
-        now[0] += 5.0  # every request takes 5 s
-        return fake(item_id)
-    result = vc.virgo_ris([step(many)], fetch=slow, budget_s=20, clock=lambda: now[0])
-    assert result.cited == 12 and 0 < result.fallback < 12  # the rest still get fallback records
-    assert len(fake.calls) <= 4 + vc.WORKERS
-
-
-def test_no_catalog_items_means_no_file():
-    result = vc.virgo_ris([step(IMAGE_OUT)], fetch=FakeCitations())
-    assert result.content == b"" and result.cited == 0 and result.skipped_other == 1
+def test_no_catalog_items_means_no_call_and_no_file():
+    gw = FakeGateway()
+    result = vc.virgo_ris([step(IMAGE_OUT)], call_tool=gw)
+    assert gw.calls == [] and result.content == b"" and result.cited == 0 and result.skipped_other == 1
 
 
 if __name__ == "__main__":
     test_catalog_items_in_order_without_duplicates_or_other_pools()
-    test_service_ris_is_cleaned_to_plain_ur_and_crlf()
-    test_ur_added_when_the_service_gives_none()
-    test_virgo_ris_fetches_each_item_and_falls_back_on_failure()
-    test_virgo_ris_caps_items()
-    test_slow_service_stops_at_the_time_budget()
-    test_no_catalog_items_means_no_file()
+    test_one_gateway_call_for_all_items_in_search_order()
+    test_unavailable_items_use_the_search_output()
+    test_gateway_error_falls_back_for_every_item()
+    test_caps_items()
+    test_no_catalog_items_means_no_call_and_no_file()
     print("ok")

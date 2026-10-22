@@ -37,13 +37,9 @@ def _listing_tables(steps: list) -> list:
     return tables
 
 
-def _offline_fetch(item_id: str) -> str:
-    raise RuntimeError("offline")  # no network: every Virgo item uses the search-output fallback
-
-
 def _ris_reasons(tables: list, steps: list) -> list[str]:
     cite = citable_tables(tables)
-    virgo = virgo_ris(steps, fetch=_offline_fetch)
+    virgo = virgo_ris(steps, call_tool=None)  # offline: every Virgo item uses the search-output fallback
     if not cite and not virgo.cited:
         return ["asked for RIS, but no tool produced links, files or catalog items to cite"]
     text = (build_file("ris", cite)[0] if cite else b"").decode("utf-8") + virgo.content.decode("utf-8")
