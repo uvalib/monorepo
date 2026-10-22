@@ -336,6 +336,7 @@ def sanitize_response_links(
     text: str,
     *,
     candidate_texts: Optional[Iterable[str]] = None,
+    trusted_urls: Optional[Iterable[str]] = None,
     timeout: float = 6.0,
     max_workers: int = 6,
 ) -> Tuple[str, List[dict]]:
@@ -351,8 +352,11 @@ def sanitize_response_links(
     pool_parts = [text]
     if candidate_texts:
         pool_parts.extend(t for t in candidate_texts if t)
-    pool_urls = extract_urls("\n".join(pool_parts))
-    reply_urls = extract_urls(text)
+    # Trusted URLs are data the reply reproduces (e.g. links people shared in Slack):
+    # never probe them (intranet hosts, one-time links) or swap them for another.
+    trusted = set(trusted_urls or ())
+    pool_urls = [u for u in extract_urls("\n".join(pool_parts)) if u not in trusted]
+    reply_urls = [u for u in extract_urls(text) if u not in trusted]
     if not reply_urls:
         return text, []
 

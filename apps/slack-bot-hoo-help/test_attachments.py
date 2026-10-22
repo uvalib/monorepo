@@ -57,6 +57,27 @@ def test_xlsx_still_builds():
     assert data[:2] == b"PK" and filename.endswith(".xlsx")
 
 
+MESSAGES = SheetTable("Messages in #ai (2026-10-01 to 2026-10-21)", ["Date", "Author", "Text", "Message"],
+                      [["2026-10-02 09:00", "Pat Doe", '=HYPERLINK("http://evil.example","report")', "https://uvalib.slack.com/archives/C1/p1"],
+                       ["2026-10-02 09:05", "+1", "**bold** and `code`", "https://uvalib.slack.com/archives/C1/p2"],
+                       ["2026-10-02 09:06", "Jordan Lee", "bell\x07 here", "https://uvalib.slack.com/archives/C1/p3"]],
+                      plain=True)
+
+
+def test_message_text_is_never_a_formula_in_xlsx():  # review: formula injection from Slack text
+    from openpyxl import load_workbook
+    ws = load_workbook(io.BytesIO(build_file("xlsx", [MESSAGES])[0])).active
+    assert ws["C4"].value == '=HYPERLINK("http://evil.example","report")' and ws["C4"].data_type == "s"
+    assert ws["B5"].value == "+1" and ws["C5"].value == "**bold** and `code`"
+    assert ws["C6"].value == "bell here"
+
+
+def test_message_text_is_never_a_formula_in_csv():
+    rows = list(csv.reader(io.StringIO(build_file("csv", [MESSAGES])[0].decode("utf-8-sig"))))
+    assert rows[1][2].startswith("'=HYPERLINK") and rows[2][1] == "'+1"
+    assert json.loads(build_file("json", [MESSAGES])[0])["rows"][0]["Text"].startswith("=HYPERLINK")  # JSON is data
+
+
 # ---- app wiring: _attach_file (fake Slack client) ------------------------------
 os.environ.setdefault("SLACK_BOT_TOKEN", "xoxb-test")
 os.environ.setdefault("SLACK_SIGNING_SECRET", "test")
@@ -118,6 +139,8 @@ if __name__ == "__main__":
     test_json_is_records_with_header_keys()
     test_multiple_tables_json_is_a_list_and_csv_has_sections()
     test_xlsx_still_builds()
+    test_message_text_is_never_a_formula_in_xlsx()
+    test_message_text_is_never_a_formula_in_csv()
     test_app_attaches_listing_as_json()
     test_app_csv_request_attaches_csv_not_excel()
     test_app_nothing_to_attach_and_missing_scope_notice()

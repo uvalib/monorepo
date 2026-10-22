@@ -4,7 +4,7 @@
   "question": "what did we decide in Slack about the LibCal hours change?",
   "history": [],
   "extra_context": [
-    "Slack search is unavailable in this thread until someone @mentions Hoo Helper again; say so only if Slack history would help answer."
+    "search_slack is unavailable in this thread until someone @mentions Hoo Helper again (list_slack_channel and read_slack_thread still work); say so only if a Slack search would help answer."
   ],
   "expect": {},
   "live": {

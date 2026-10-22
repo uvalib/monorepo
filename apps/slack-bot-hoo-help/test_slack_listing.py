@@ -75,6 +75,15 @@ def test_files_and_all_kinds():
     assert len(everything.table.rows) == 2 and everything.table.headers == ["Date", "Author", "Text", "Message"]
 
 
+def test_slack_escaping_is_undone_in_urls_and_text():  # review: &amp; in exported URLs
+    pages = [[m("1.000001", "see <https://x.org/s?a=1&amp;b=2|search> &lt;3 thanks <@U2> in <#C9|web-team>")]]
+    client = FakeSlack(pages)
+    links = list_channel(client, "C1", kind="links", oldest=0, latest=3, directory=directory(client))
+    assert links.table.rows[0][2] == "https://x.org/s?a=1&b=2"
+    everything = list_channel(client, "C1", kind="all", oldest=0, latest=3, directory=directory(client))
+    assert everything.table.rows[0][2] == "see https://x.org/s?a=1&b=2 <3 thanks @Jordan Lee in #web-team"
+
+
 def test_from_user_filters_authors():
     pages = [[m("2.000001", "<https://b.org>", "U2"), m("1.000001", "<https://a.org>", "U1")]]
     client = FakeSlack(pages)
@@ -88,6 +97,19 @@ def test_cap_stops_paging_and_says_so():
     listing = list_channel(client, "C1", kind="links", oldest=0, latest=1770000000, directory=directory(client))
     assert listing.scanned == MAX_MESSAGES == 2000 and listing.capped
     assert len(client.calls) == 10
+    assert listing.table.plain
+
+
+def test_capped_listing_says_which_days_it_covers():  # review: Slack drops the *oldest* messages past the cap
+    # newest first, as Slack returns: page i holds day 30-i (2025-10-30 back to 2025-10-11 EDT)
+    day0 = 1761796800  # 2025-10-30 00:00 EDT
+    pages = [[m(f"{day0 - i * 86400 + 3600 + j}.000100", f"<https://x.org/{i}-{j}>") for j in range(200)] for i in range(20)]
+    client = FakeSlack(pages)
+    listing = list_channel(client, "C1", kind="links", oldest=1759291200, latest=1761969600,  # Oct 1 – Oct 31
+                           directory=directory(client), channel_name="ai")
+    out = format_listing(listing, "ai")
+    assert "(2025-10-21 to 2025-10-31)" in listing.table.title  # page 10 is the oldest kept: Oct 21
+    assert "2025-10-21 to 2025-10-31" in out and "2025-10-01" in out and "older messages" in out
 
 
 def test_format_shows_summary_first_rows_and_notes():
@@ -168,6 +190,30 @@ def test_list_tool_from_user_me_and_bad_dates():
     assert "YYYY-MM-DD" in t.call(TOOL_LIST_CHANNEL, {"channel": "ai", "after": "last week"})
 
 
+def test_list_tool_refuses_guests_external_users_and_unknown_askers():  # review: bot token reads for the asker
+    class People(FakeChannels):
+        def __init__(self, pages, people):
+            super().__init__(pages)
+            self.people = people
+
+        def users_info(self, user):
+            if user not in self.people:
+                raise RuntimeError("user_not_found")
+            return {"user": {"id": user, "real_name": "X", "profile": {}, **self.people[user]}}
+
+        def auth_test(self):
+            return {"url": "https://uvalib.slack.com/", "team_id": "T1"}
+
+    for flags in ({"is_restricted": True}, {"is_ultra_restricted": True}, {"is_stranger": True}, {"team_id": "TOTHER"}):
+        client = People([[m("1.000001", "<https://a.org>")]], {"U1": {"team_id": "T1", **flags}})
+        out = tools(client).call(TOOL_LIST_CHANNEL, {"channel": "ai"})
+        assert "full members" in out and client.calls == [], flags
+    client = People([[]], {})
+    assert "couldn't confirm" in tools(client).call(TOOL_LIST_CHANNEL, {"channel": "ai"}) and client.calls == []
+    client = People([[m("1.000001", "<https://a.org>")]], {"U1": {"team_id": "T1"}})
+    assert "https://a.org" in tools(client).call(TOOL_LIST_CHANNEL, {"channel": "ai", "after": "1970-01-01", "before": "1970-01-02"})
+
+
 def test_list_tool_not_in_channel_error_suggests_invite():
     class NotIn(FakeChannels):
         def conversations_history(self, **kw):
@@ -179,13 +225,16 @@ if __name__ == "__main__":
     test_extract_links_from_slack_markup()
     test_links_listing_pages_and_builds_rows()
     test_files_and_all_kinds()
+    test_slack_escaping_is_undone_in_urls_and_text()
     test_from_user_filters_authors()
     test_cap_stops_paging_and_says_so()
+    test_capped_listing_says_which_days_it_covers()
     test_format_shows_summary_first_rows_and_notes()
     test_list_tool_offered_without_search_token()
     test_list_tool_lists_links_and_keeps_the_table()
     test_list_tool_defaults_to_last_30_days()
     test_list_tool_refuses_private_and_unjoined_channels()
     test_list_tool_from_user_me_and_bad_dates()
+    test_list_tool_refuses_guests_external_users_and_unknown_askers()
     test_list_tool_not_in_channel_error_suggests_invite()
     print("ok")

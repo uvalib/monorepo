@@ -27,7 +27,7 @@ from guardrails import (
     log_guardrail_trace,
     message_for_guardrail_block,
 )
-from link_check import sanitize_response_links
+from link_check import extract_urls, sanitize_response_links
 from session_trace import SessionTrace
 from wikipedia_tools import (
     bedrock_tool_specs as wikipedia_bedrock_tool_specs,
@@ -479,16 +479,21 @@ class HooHelpAgent:
             return text, []
 
         candidates: List[str] = []
+        trusted: List[str] = []
         for step in getattr(trace, "steps", None) or []:
             out = getattr(step, "output", None)
             if out:
                 candidates.append(str(out))
+                # A channel listing's URLs are what people posted: report them as-is.
+                if str(getattr(step, "tool_name", "") or "").endswith("list_slack_channel"):
+                    trusted.extend(extract_urls(str(out)))
         if extra_candidates:
             candidates.extend(extra_candidates)
         try:
             cleaned, changes = sanitize_response_links(
                 text,
                 candidate_texts=candidates,
+                trusted_urls=trusted,
                 timeout=float(os.environ.get("HOOHELP_LINK_CHECK_TIMEOUT", "5")),
             )
         except Exception as e:

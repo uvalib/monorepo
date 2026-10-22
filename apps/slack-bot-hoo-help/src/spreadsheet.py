@@ -35,6 +35,8 @@ class SheetTable:
     title: str
     headers: List[str]
     rows: List[List[str]] = field(default_factory=list)
+    # True for people's text (Slack listings): cells stay exact strings, never numbers or formulas.
+    plain: bool = False
 
 
 def wants_spreadsheet(user_text: str) -> bool:
@@ -93,6 +95,12 @@ def _sheet_name(title: str, used: set) -> str:
     return name
 
 
+def _plain_cell(raw: str) -> str:
+    from openpyxl.cell.cell import ILLEGAL_CHARACTERS_RE
+
+    return ILLEGAL_CHARACTERS_RE.sub("", str(raw or ""))
+
+
 def build_xlsx(tables: List[SheetTable]) -> bytes:
     from openpyxl import Workbook
     from openpyxl.styles import Font
@@ -114,13 +122,15 @@ def build_xlsx(tables: List[SheetTable]) -> bytes:
             values = []
             formats = []
             for raw in row:
-                value, fmt = _cell_value(raw)
+                value, fmt = (_plain_cell(raw), None) if table.plain else _cell_value(raw)
                 values.append(value)
                 formats.append(fmt)
             ws.append(values)
             for cell, fmt in zip(ws[ws.max_row], formats):
                 if fmt:
                     cell.number_format = fmt
+                if table.plain:
+                    cell.data_type = "s"  # "=..." from a Slack message is text, not a formula
             if row and str(row[0]).strip().lower() == "total":
                 for cell in ws[ws.max_row]:
                     cell.font = Font(bold=True)

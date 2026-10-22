@@ -26,7 +26,7 @@ from urllib.parse import parse_qs, urlparse
 from zoneinfo import ZoneInfo
 
 from identity import UserDirectory, resolve_mentions
-from slack_listing import Listing, format_listing, list_channel
+from slack_listing import Listing, format_listing, list_channel, workspace_team
 
 logger = logging.getLogger(__name__)
 
@@ -45,6 +45,9 @@ PUBLIC_ONLY_TEXT = "I can only read public channels, not private channels, DMs o
 NOT_JOINED_TEXT = ("Hoo Helper isn't in #{name}, so I can't list it. Anyone in the channel can add it with "
                    "`/invite @Hoo Helper`; I don't join channels on my own.")
 LIST_DEFAULT_DAYS = 30
+MEMBERS_ONLY_TEXT = ("Channel listings are for full members of this Slack workspace; guests and people "
+                     "from other organizations can use search instead.")
+UNKNOWN_ASKER_TEXT = "I couldn't confirm your Slack account just now, so I can't list a channel; try again in a minute."
 
 _PERMALINK = re.compile(r"/archives/([A-Z0-9]+)/p(\d{10})(\d{6})")
 _logged_keys = False
@@ -407,6 +410,14 @@ class SlackSearchTools:
             oldest = _day_ts(after) if after.strip() else latest - LIST_DEFAULT_DAYS * 86400
         except ValueError:
             return "Dates for after / before must be YYYY-MM-DD."
+        # The listing reads with the bot's access, not the asker's: only full members of
+        # this workspace may use it (fail closed when Slack can't say who's asking).
+        asker = self.directory.get(self.asker_id)
+        if asker is None:
+            return UNKNOWN_ASKER_TEXT
+        team = workspace_team(self.client)
+        if asker.is_guest or (team and asker.team_id and asker.team_id != team):
+            return MEMBERS_ONLY_TEXT
         author_id, refusal = self._author(from_user)
         if refusal:
             return refusal
@@ -433,8 +444,9 @@ class SlackSearchTools:
 
 
 NO_TOKEN_LINE = (
-    "Slack search is unavailable in this thread until someone @mentions Hoo Helper again; "
-    "say so only if Slack history would help answer."
+    "search_slack is unavailable in this thread until someone @mentions Hoo Helper again "
+    "(list_slack_channel and read_slack_thread still work); say so only if a Slack search "
+    "would help answer."
 )
 
 

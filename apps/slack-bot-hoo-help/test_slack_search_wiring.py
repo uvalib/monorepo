@@ -56,8 +56,9 @@ def test_mention_gets_search_and_followup_reuses_token():
 def test_no_token_adds_prompt_line_and_hides_search():
     client, d, s = setup()
     tools, extra = slack_tools_for_event(FOLLOWUP, client, directory=d, store=s, env=ON)
-    assert extra == ["Slack search is unavailable in this thread until someone @mentions Hoo Helper again; "
-                     "say so only if Slack history would help answer."]
+    assert extra == ["search_slack is unavailable in this thread until someone @mentions Hoo Helper again "
+                     "(list_slack_channel and read_slack_thread still work); say so only if a Slack search "
+                     "would help answer."]
     assert extra == [NO_TOKEN_LINE]
     assert names(tools) == ["read_slack_thread", "list_slack_channel"]
 

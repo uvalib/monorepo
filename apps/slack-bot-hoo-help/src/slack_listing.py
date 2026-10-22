@@ -9,13 +9,14 @@ attachments (all rows).
 
 from __future__ import annotations
 
+import html
 import re
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Any, List, Optional
 from zoneinfo import ZoneInfo
 
-from identity import UserDirectory
+from identity import UserDirectory, resolve_mentions
 from spreadsheet import SheetTable
 
 TZ = ZoneInfo("America/New_York")
@@ -24,7 +25,9 @@ PAGE_SIZE = 200
 _SKIP_SUBTYPES = frozenset({"channel_join", "channel_leave", "channel_topic", "channel_purpose",
                             "channel_name", "pinned_item", "unpinned_item"})
 _LINK = re.compile(r"<(https?://[^|>\s]+)(?:\|[^>]*)?>")
-_WORKSPACE_URLS: dict = {}  # per container: client id → https://<workspace>.slack.com/
+_CHANNEL_REF = re.compile(r"<#[CG][A-Z0-9]+\|([^>]*)>")
+_SPECIAL = re.compile(r"<!(here|channel|everyone)(?:\|[^>]*)?>")
+_AUTH: dict = {}  # per container: client id → (client, auth.test: workspace url, team id)
 
 KIND_HEADERS = {
     "links": ["Date", "Author", "URL", "Message"],
@@ -42,11 +45,21 @@ class Listing:
     capped: bool
     oldest: float
     latest: float
+    covered_from: float = 0.0  # when capped: the oldest message kept (Slack pages newest first)
 
 
 def extract_links(text: str) -> List[str]:
     """http(s) URLs in Slack's <url|label> markup (mentions, channels and mailto are skipped)."""
-    return _LINK.findall(text or "")
+    return [html.unescape(url) for url in _LINK.findall(text or "")]
+
+
+def plain_text(text: str, directory: UserDirectory) -> str:
+    """Slack mrkdwn as a person reads it: names for mentions, #channel, bare URLs, & < > unescaped."""
+    text = resolve_mentions(text or "", directory)
+    text = _CHANNEL_REF.sub(lambda m: f"#{m.group(1)}", text)
+    text = _SPECIAL.sub(lambda m: f"@{m.group(1)}", text)
+    text = _LINK.sub(lambda m: m.group(1), text)
+    return html.unescape(" ".join(text.split()))
 
 
 def _day(ts: float) -> str:
@@ -57,14 +70,25 @@ def _when(ts: str) -> str:
     return datetime.fromtimestamp(float(ts), TZ).strftime("%Y-%m-%d %H:%M")
 
 
-def _workspace_url(client) -> str:
+def _auth(client) -> dict:
     key = id(client)
-    if key not in _WORKSPACE_URLS:
+    hit = _AUTH.get(key)
+    if hit is None or hit[0] is not client:  # ids are reused once a client is freed
         try:
-            _WORKSPACE_URLS[key] = str((client.auth_test() or {}).get("url") or "")
+            auth = dict(client.auth_test() or {})
         except Exception:
-            _WORKSPACE_URLS[key] = ""
-    return _WORKSPACE_URLS[key] or "https://slack.com/"
+            auth = {}
+        hit = _AUTH[key] = (client, auth)
+    return hit[1]
+
+
+def _workspace_url(client) -> str:
+    return str(_auth(client).get("url") or "") or "https://slack.com/"
+
+
+def workspace_team(client) -> str:
+    """The bot's own workspace (team) id, or '' when auth.test didn't say."""
+    return str(_auth(client).get("team_id") or "")
 
 
 def list_channel(client, channel_id: str, *, kind: str, oldest: float, latest: float,
@@ -108,11 +132,13 @@ def list_channel(client, channel_id: str, *, kind: str, oldest: float, latest: f
                 rows.append([when, who, str(f.get("name") or f.get("title") or "file"),
                              str(f.get("permalink") or ""), link])
         else:
-            rows.append([when, who, " ".join((msg.get("text") or "").split()), link])
+            rows.append([when, who, plain_text(msg.get("text") or "", directory), link])
 
+    covered_from = min(float(x.get("ts") or 0) for x in batch) if capped and batch else oldest
     label = f"#{channel_name}" if channel_name else channel_id
-    title = f"{KIND_NOUNS[kind].capitalize()} in {label} ({_day(oldest)} to {_day(latest - 1)})"
-    return Listing(SheetTable(title, KIND_HEADERS[kind], rows), kind, scanned, capped, oldest, latest)
+    title = f"{KIND_NOUNS[kind].capitalize()} in {label} ({_day(covered_from)} to {_day(latest - 1)})"
+    return Listing(SheetTable(title, KIND_HEADERS[kind], rows, plain=True), kind, scanned, capped, oldest, latest,
+                   covered_from)
 
 
 def _cell(value: str) -> str:
@@ -122,10 +148,13 @@ def _cell(value: str) -> str:
 def format_listing(listing: Listing, channel_name: str, limit: int = 50) -> str:
     noun = KIND_NOUNS[listing.kind]
     total = len(listing.table.rows)
-    lines = [f"### {noun.capitalize()} shared in #{channel_name} ({_day(listing.oldest)} to {_day(listing.latest - 1)})",
+    start = listing.covered_from or listing.oldest
+    lines = [f"### {noun.capitalize()} shared in #{channel_name} ({_day(start)} to {_day(listing.latest - 1)})",
              f"_{total} {noun} in {listing.scanned} messages · thread replies aren't included._", ""]
     if listing.capped:
-        lines += [f"_Stopped after the first {MAX_MESSAGES} messages; a shorter date range gets the rest._", ""]
+        lines += [f"_Stopped at {MAX_MESSAGES} messages, so this covers {_day(start)} to {_day(listing.latest - 1)}; "
+                  f"older messages (from {_day(listing.oldest)}) weren't fetched. Ask for a range ending "
+                  f"{_day(start - 86400)} to get them._", ""]
     if total:
         headers = listing.table.headers
         lines.append("| " + " | ".join(headers) + " |")

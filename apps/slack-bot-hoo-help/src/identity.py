@@ -51,6 +51,8 @@ class UserInfo:
     title: str
     pronouns: str
     is_bot: bool
+    is_guest: bool = False  # guest, single-channel guest, or someone Slack calls a stranger
+    team_id: str = ""
 
     @property
     def label(self) -> str:
@@ -68,6 +70,8 @@ def _info_from_user(user: Dict[str, Any]) -> UserInfo:
         title=(profile.get("title") or "").strip(),
         pronouns=(profile.get("pronouns") or "").strip(),
         is_bot=bool(user.get("is_bot")),
+        is_guest=any(bool(user.get(k)) for k in ("is_restricted", "is_ultra_restricted", "is_stranger")),
+        team_id=str(user.get("team_id") or profile.get("team") or ""),
     )
 
 

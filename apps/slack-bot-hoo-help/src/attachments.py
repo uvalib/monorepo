@@ -18,6 +18,7 @@ from spreadsheet import SheetTable, build_xlsx, spreadsheet_filename
 _JSON = re.compile(r"(?i)\bjson\b")
 _CSV = re.compile(r"(?i)\bcsv\b")
 _XLSX = re.compile(r"(?i)\b(?:excel|spreadsheets?|xlsx)\b")
+_FORMULA_START = ("=", "+", "-", "@", "\t", "\r")
 
 
 def file_format(user_text: str) -> Optional[str]:
@@ -34,6 +35,13 @@ def file_format(user_text: str) -> Optional[str]:
 
 def _records(table: SheetTable) -> List[dict]:
     return [dict(zip(table.headers, row)) for row in table.rows]
+
+
+def _csv_row(table: SheetTable, row: List[str]) -> List[str]:
+    if not table.plain:
+        return row
+    # Excel runs CSV cells that start like a formula; people's text gets a leading quote.
+    return ["'" + v if str(v).startswith(_FORMULA_START) else v for v in row]
 
 
 def build_file(fmt: str, tables: List[SheetTable]) -> Tuple[bytes, str, str]:
@@ -53,7 +61,7 @@ def build_file(fmt: str, tables: List[SheetTable]) -> Tuple[bytes, str, str]:
                     writer.writerow([])
                 writer.writerow([table.title])
             writer.writerow(table.headers)
-            writer.writerows(table.rows)
+            writer.writerows(_csv_row(table, row) for row in table.rows)
         # BOM so Excel opens UTF-8 names correctly
         return buf.getvalue().encode("utf-8-sig"), f"{stem}.csv", title
     return build_xlsx(tables), f"{stem}.xlsx", title
