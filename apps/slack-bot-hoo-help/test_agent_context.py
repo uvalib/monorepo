@@ -137,6 +137,49 @@ def test_system_prompt_handles_half_remembered_authors():  # model comparison: e
     assert "half-remember" in SYSTEM_PROMPT and "every author" in SYSTEM_PROMPT
 
 
+class LoopingBedrock:
+    """Asks for get_library_hours every time; optionally answers once it's told to wrap up."""
+
+    def __init__(self, wrap_up_text=None):
+        self.requests = []
+        self.wrap_up_text = wrap_up_text
+
+    def converse(self, **kwargs):
+        self.requests.append(kwargs)
+        last = kwargs["messages"][-1]["content"]
+        told_to_wrap_up = any("limit of lookups" in (b.get("text") or "") for b in last)
+        if told_to_wrap_up and self.wrap_up_text is not None:
+            return {"output": {"message": {"role": "assistant", "content": [{"text": self.wrap_up_text}]}},
+                    "stopReason": "end_turn", "usage": {}}
+        n = len(self.requests)
+        return {"output": {"message": {"role": "assistant", "content": [
+            {"toolUse": {"toolUseId": f"t{n}", "name": "get_library_hours", "input": {"library": "Clemons"}}}]}},
+            "stopReason": "tool_use", "usage": {}}
+
+
+def test_step_limit_wraps_up_with_what_was_found():  # trial: "I completed the maximum processing steps."
+    agent = make_agent()
+    agent.bedrock_runtime = LoopingBedrock(wrap_up_text="Clemons is open 8am–2am. I couldn't finish the rest.")
+    result = agent.process_message("hours for every library for the next month?")
+    assert result.text == "Clemons is open 8am–2am. I couldn't finish the rest."
+    assert "maximum processing steps" not in result.text
+    last_request = agent.bedrock_runtime.requests[-1]
+    last_msg = last_request["messages"][-1]
+    assert last_msg["role"] == "user"
+    assert any("toolResult" in b for b in last_msg["content"])  # nudge rides along with the tool results
+    roles = [m["role"] for m in last_request["messages"]]
+    assert all(a != b for a, b in zip(roles, roles[1:]))  # Converse needs alternating roles
+    assert result.trace.stop_reason == "max_iterations"
+
+
+def test_step_limit_fallback_names_what_was_checked():
+    agent = make_agent()
+    agent.bedrock_runtime = LoopingBedrock(wrap_up_text=None)  # keeps asking for tools
+    result = agent.process_message("hours for every library for the next month?")
+    assert "maximum processing steps" not in result.text
+    assert "get_library_hours" in result.text and "narrower" in result.text
+
+
 if __name__ == "__main__":
     test_system_prompt_includes_extra_context()
     test_system_prompt_without_extra_context_unchanged()
@@ -148,4 +191,6 @@ if __name__ == "__main__":
     test_system_prompt_anchors_relative_dates_in_follow_ups()
     test_system_prompt_mentions_confluence_and_jira()
     test_system_prompt_handles_half_remembered_authors()
+    test_step_limit_wraps_up_with_what_was_found()
+    test_step_limit_fallback_names_what_was_checked()
     print("ok")

@@ -64,6 +64,14 @@ _ABOUT_ASSISTANT_RE = re.compile(
 )
 
 
+# Bland on purpose: stern "stop now" turns trip the guardrail's prompt-attack filter.
+_WRAP_UP_NUDGE = (
+    "You've reached the limit of lookups for this question. Please write the best answer you can "
+    "from the results above: briefly say what you found and what you couldn't finish, and suggest "
+    "a narrower follow-up question if that would help."
+)
+
+
 def _needs_tools(user_message: str) -> bool:
     """Must this turn call a tool before answering? (keyword check on the message)
 
@@ -376,6 +384,53 @@ class HooHelpAgent:
             return call_wikipedia_tool(tool_name, tool_input if isinstance(tool_input, dict) else {})
         return self.gateway_client.call_tool(tool_name, tool_input)
 
+    def _wrap_up(
+        self,
+        messages: List[Dict[str, Any]],
+        system_instruction: List[Dict[str, Any]],
+        tool_config: Dict[str, Any],
+        include_top_p: bool,
+        trace: SessionTrace,
+    ) -> str:
+        """Out of lookup steps: answer from what was found instead of giving up.
+
+        The nudge joins the last (tool-results) user turn, since Converse needs roles
+        to alternate. If the model still asks for a tool, say what was checked.
+        """
+        nudge = {"text": _WRAP_UP_NUDGE}
+        if messages and messages[-1].get("role") == "user":
+            messages[-1] = {"role": "user", "content": list(messages[-1].get("content") or []) + [nudge]}
+        else:
+            messages.append({"role": "user", "content": [nudge]})
+        kwargs: Dict[str, Any] = {
+            "modelId": self.model_id,
+            "messages": messages,
+            "system": system_instruction,
+            "inferenceConfig": inference_config_for_model(
+                self.model_id, max_tokens=4096, temperature=0.1, include_top_p=include_top_p
+            ),
+        }
+        if tool_config and tool_config.get("tools"):
+            kwargs["toolConfig"] = dict(tool_config)  # history has tool blocks, so tools must stay listed
+        if self.guardrail_config:
+            kwargs["guardrailConfig"] = self.guardrail_config
+        try:
+            response = self.bedrock_runtime.converse(**kwargs)
+            log_guardrail_trace(response, context="wrap_up")
+            if response.get("stopReason") != "tool_use":
+                text = _assistant_visible_text(((response.get("output") or {}).get("message") or {}).get("content", []))
+                if text.strip():
+                    return text
+        except Exception as e:
+            logger.warning("Wrap-up call after the step limit failed: %s", type(e).__name__)
+        checked = sorted({t.split("___")[-1] for t in trace.tools_used()})
+        return (
+            "I ran out of lookup steps before finishing this one"
+            + (f" (I checked: {', '.join(checked)})" if checked else "")
+            + ". Could you try a narrower question — for example one library, one topic, "
+            "or a shorter date range?"
+        )
+
     def _sanitize_links(
         self,
         text: str,
@@ -653,10 +708,7 @@ class HooHelpAgent:
                 )
                 return AgentTurnResult(text=text, trace=trace)
 
-        text = (
-            "I completed the maximum processing steps. "
-            "Please let me know if you'd like more information!"
-        )
+        text = self._wrap_up(messages, system_instruction, tool_config, include_top_p, trace)
         trace.finish(
             final_text=text,
             stop_reason="max_iterations",
