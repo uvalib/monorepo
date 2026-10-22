@@ -77,6 +77,9 @@ def test_file_context_line_tells_the_model_the_truth():
     assert "won't be attached" in file_context_line(None) and "CSV, JSON, Excel or RIS" in file_context_line(None)
     line = file_context_line("csv")
     assert "CSV" in line and "attached automatically" in line
+    ris = file_context_line("ris")
+    assert "Virgo" in ris and "list_slack_channel" in ris and "attached automatically" in ris
+    assert "every catalog item" in ris and "not a subset" in ris  # model check: "the 6 on-shelf items" (it had 20)
 
 
 
@@ -267,6 +270,60 @@ def test_ris_with_nothing_citable_says_so_instead_of_a_broken_file():
     assert client.files == [] and "RIS" in client.posts[0]["text"] and "CSV" in client.posts[0]["text"]
 
 
+VIRGO_STEP = {"tool_name": "VirgoCatalogRuntime___search_by_field", "status": "success",
+              "output": "## Matching items\n\n### 1. Animal farm\n- **Format**: Book\n- **Author**: Orwell, George\n"
+                        "- **Virgo record**: https://search.lib.virginia.edu/sources/uva_library/items/u1\n\n"
+                        "### 2. Rotunda photo\n- **Virgo page**: https://search.lib.virginia.edu/sources/images/items/uva-lib:9\n"}
+
+
+def _with_citations(fetch):
+    import virgo_citations
+    real = virgo_citations._service_fetcher
+    virgo_citations._service_fetcher = lambda *a, **k: fetch
+    return lambda: setattr(virgo_citations, "_service_fetcher", real)
+
+
+def test_ris_for_virgo_catalog_results():
+    import app
+    restore = _with_citations(lambda item_id: f"TY  - BOOK\nTI  - Animal farm\nID  - {item_id}\nER  - \n")
+    try:
+        client = Uploads()
+        app._attach_file(client, "C9", "1.0", Trace([VIRGO_STEP]), "ris", [])
+    finally:
+        restore()
+    assert [f["filename"] for f in client.files] == ["virgo-catalog-citations.ris"]
+    text = client.files[0]["content"].decode("utf-8")
+    assert text.startswith("TY  - BOOK") and "ID  - u1" in text and text.count("ER  - ") == 1
+    assert "1 result from another Virgo source" in client.posts[0]["text"]  # the image isn't a catalog item
+
+
+def test_ris_combines_slack_links_and_virgo_items():
+    import app
+    restore = _with_citations(lambda item_id: "TY  - BOOK\nTI  - Animal farm\nER  - \n")
+    try:
+        client = Uploads()
+        app._attach_file(client, "C9", None, Trace([VIRGO_STEP]), "ris", [LINK_TABLE])
+    finally:
+        restore()
+    text = client.files[0]["content"].decode("utf-8")
+    assert len(client.files) == 1 and text.count("ER  - ") == 3 and "TY  - ELEC" in text and "TY  - BOOK" in text
+
+
+def test_ris_virgo_service_down_still_cites_from_search_output():
+    import app
+
+    def down(item_id):
+        raise RuntimeError("503")
+    restore = _with_citations(down)
+    try:
+        client = Uploads()
+        app._attach_file(client, "C9", None, Trace([VIRGO_STEP]), "ris", [])
+    finally:
+        restore()
+    text = client.files[0]["content"].decode("utf-8")
+    assert "TI  - Animal farm" in text and "AU  - Orwell, George" in text
+
+
 def test_no_file_asked_tells_the_model_not_to_claim_one():
     agent, client = _follow_up("all the links in #ai", [])
     assert client.files == []
@@ -293,5 +350,8 @@ if __name__ == "__main__":
     test_retried_listing_attaches_only_the_last_one()
     test_ris_follow_up_attaches_a_ris_file()
     test_ris_with_nothing_citable_says_so_instead_of_a_broken_file()
+    test_ris_for_virgo_catalog_results()
+    test_ris_combines_slack_links_and_virgo_items()
+    test_ris_virgo_service_down_still_cites_from_search_output()
     test_no_file_asked_tells_the_model_not_to_claim_one()
     print("ok")

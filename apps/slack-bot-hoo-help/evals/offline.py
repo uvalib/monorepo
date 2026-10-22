@@ -11,11 +11,12 @@ import sys
 APP = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(APP, "src"))
 
-from attachments import build_file, citable_tables, file_format  # noqa: E402
+from attachments import build_file, citable_tables, requested_format  # noqa: E402
 from slack_blocks import parse_markdown_table, tool_leaf  # noqa: E402
 from slack_format import format_for_slack, split_markdown_tables  # noqa: E402
 from slack_search import TOOL_LIST_CHANNEL  # noqa: E402
 from spreadsheet import SheetTable, tables_from_steps  # noqa: E402
+from virgo_citations import virgo_ris  # noqa: E402
 
 from evals import checks  # noqa: E402
 from evals.case import CaseResult  # noqa: E402
@@ -36,15 +37,32 @@ def _listing_tables(steps: list) -> list:
     return tables
 
 
+def _offline_fetch(item_id: str) -> str:
+    raise RuntimeError("offline")  # no network: every Virgo item uses the search-output fallback
+
+
+def _ris_reasons(tables: list, steps: list) -> list[str]:
+    cite = citable_tables(tables)
+    virgo = virgo_ris(steps, fetch=_offline_fetch)
+    if not cite and not virgo.cited:
+        return ["asked for RIS, but no tool produced links, files or catalog items to cite"]
+    text = (build_file("ris", cite)[0] if cite else b"").decode("utf-8") + virgo.content.decode("utf-8")
+    records = [r for r in text.split("ER  - ") if r.strip()]
+    expected = sum(len(t.rows) for t in cite) + virgo.cited
+    if len(records) != expected or not all(r.strip().startswith("TY  - ") for r in records):
+        return [f"RIS has {len(records)} well-formed records for {expected} citable results"]
+    return []
+
+
 def _attachment_reasons(case: dict, steps: list) -> list[str]:
-    fmt = file_format(case["question"])
+    fmt = requested_format(case["question"], case.get("history"))  # a follow-up keeps the thread's format
     if not fmt:
         return ["expected attachment, but the question doesn't ask for Excel / CSV / JSON / RIS"]
     tables = _listing_tables(steps) + tables_from_steps(steps)
+    if fmt == "ris":
+        return _ris_reasons(tables, steps)
     if not tables:
         return ["expected attachment, but no table-producing tool output"]
-    if fmt == "ris" and not citable_tables(tables):
-        return ["asked for RIS, but no tool produced links or files to cite"]
     content, filename, _ = build_file(fmt, tables)
     if not filename.endswith("." + fmt):
         return [f"asked for {fmt}, built {filename}"]
@@ -53,12 +71,6 @@ def _attachment_reasons(case: dict, steps: list) -> list[str]:
         docs = doc if isinstance(doc, list) else [doc]
         if len(docs) != len(tables) or not all(d.get("rows") for d in docs):
             return [f"JSON has {len(docs)} tables with rows for {len(tables)} tables"]
-    elif fmt == "ris":
-        text = content.decode("utf-8")
-        records = [r for r in text.split("ER  - ") if r.strip()]
-        rows = sum(len(t.rows) for t in citable_tables(tables))
-        if len(records) != rows or not all(r.strip().startswith("TY  - ") for r in records):
-            return [f"RIS has {len(records)} well-formed records for {rows} rows"]
     elif fmt == "csv":
         if len(list(csv.reader(io.StringIO(content.decode("utf-8-sig"))))) < 2:
             return ["CSV has no data rows"]

@@ -40,6 +40,7 @@ from slack_blocks import flatten_carousels
 import chime_in
 from slack_format import format_for_slack, rewrite_urls_in_blocks
 from attachments import build_file, citable_tables, file_context_line, requested_format
+from virgo_citations import MAX_ITEMS as MAX_CITED, virgo_ris
 from spreadsheet import tables_from_steps
 from thread_context import (
     extract_thread_history,
@@ -425,25 +426,15 @@ def handle_user_query(
             logger.error("Failed to emit session trace: %s", emit_err)
 
 
-def _attach_file(client, channel_id, thread_ts, trace, fmt, listing_tables) -> None:
-    """Upload this turn's tool tables (Slack listings, gate counts) as the file the user asked for."""
-    tables = list(listing_tables or []) + tables_from_steps(getattr(trace, "steps", None))
-    if not tables:
-        logger.info("%s file requested but no table-producing tool ran", fmt)
-        return
-    if fmt == "ris" and not citable_tables(tables):
-        try:
-            client.chat_postMessage(
-                channel=channel_id,
-                thread_ts=thread_ts,
-                text="_RIS is for citations (links and files), so there's nothing to cite here; "
-                "I can attach this as a CSV or Excel file instead._",
-            )
-        except Exception:
-            pass
-        return
+def _post_note(client, channel_id, thread_ts, text) -> None:
     try:
-        content, filename, title = build_file(fmt, tables)
+        client.chat_postMessage(channel=channel_id, thread_ts=thread_ts, text=text)
+    except Exception:
+        pass
+
+
+def _upload(client, channel_id, thread_ts, trace, content, filename, title) -> None:
+    try:
         client.files_upload_v2(
             channel=channel_id,
             thread_ts=thread_ts,
@@ -451,23 +442,59 @@ def _attach_file(client, channel_id, thread_ts, trace, fmt, listing_tables) -> N
             filename=filename,
             title=title,
         )
-        logger.info("Attached %s (%s tables)", filename, len(tables))
+        logger.info("Attached %s (%s bytes)", filename, len(content))
     except Exception as e:
         logger.error("File upload failed: %s", e)
         if not trace.error:
             trace.error = f"file_upload: {e}"
         if "missing_scope" in str(e):
-            try:
-                client.chat_postMessage(
-                    channel=channel_id,
-                    thread_ts=thread_ts,
-                    text=(
-                        "_I couldn't attach the file: the Slack app needs the "
-                        "`files:write` scope._"
-                    ),
-                )
-            except Exception:
-                pass
+            _post_note(client, channel_id, thread_ts,
+                       "_I couldn't attach the file: the Slack app needs the `files:write` scope._")
+
+
+def _attach_ris(client, channel_id, thread_ts, trace, tables) -> None:
+    """RIS from Slack link / file listings plus Virgo catalog items, in one file."""
+    cite = citable_tables(tables)
+    virgo = virgo_ris(getattr(trace, "steps", None))
+    if not cite and not virgo.cited:
+        if tables:
+            _post_note(client, channel_id, thread_ts,
+                       "_RIS is for citations (links, files and catalog items), so there's nothing to cite "
+                       "here; I can attach this as a CSV or Excel file instead._")
+        return
+    if cite:
+        content, filename, title = build_file("ris", cite)
+    else:
+        content, filename, title = b"", "virgo-catalog-citations.ris", "Virgo catalog citations"
+    _upload(client, channel_id, thread_ts, trace, content + virgo.content, filename, title)
+    notes = []
+    if virgo.skipped_other:
+        n = virgo.skipped_other
+        notes.append(f"{n} result{'s' if n != 1 else ''} from another Virgo source (images, articles) "
+                     f"{'aren' if n != 1 else 'isn'}'t a catalog item, so {'they' if n != 1 else 'it'}'s not in the file.")
+    if virgo.capped:
+        notes.append(f"Only the first {MAX_CITED} catalog items are in the file.")
+    if notes:
+        _post_note(client, channel_id, thread_ts, "_" + " ".join(notes) + "_")
+
+
+def _attach_file(client, channel_id, thread_ts, trace, fmt, listing_tables) -> None:
+    """Upload this turn's tool tables (Slack listings, gate counts) as the file the user asked for."""
+    tables = list(listing_tables or []) + tables_from_steps(getattr(trace, "steps", None))
+    if fmt == "ris":
+        _attach_ris(client, channel_id, thread_ts, trace, tables)
+        return
+    if not tables:
+        logger.info("%s file requested but no table-producing tool ran", fmt)
+        return
+    try:
+        content, filename, title = build_file(fmt, tables)
+    except Exception as e:
+        logger.error("Building the %s file failed: %s", fmt, e)
+        if not trace.error:
+            trace.error = f"file_build: {e}"
+        return
+    _upload(client, channel_id, thread_ts, trace, content, filename, title)
 
 
 # ---------------------------------------------------------------------------

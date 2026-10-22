@@ -63,6 +63,13 @@ def file_context_line(fmt: Optional[str]) -> str:
         return ("No file will be attached to this reply (they haven't asked for one), so don't say one is "
                 "attached. For long lists, offer the full list as a CSV, JSON, Excel or RIS (Zotero) file — it won't be "
                 "attached unless they ask.")
+    if fmt == "ris":
+        return ("They want a RIS (Zotero) file: it is attached automatically, built from this turn's citable "
+                "results — Virgo catalog searches (one full citation per item) and list_slack_channel links or "
+                "files. It holds every catalog item the searches return this turn (up to 50), not a subset you "
+                "choose — to narrow it, search more narrowly. Call the tool for the items they want in this turn "
+                "(re-run the catalog search for \"those books\"), then say the file is attached and how many "
+                "results it covers.")
     return (f"They want a {FORMAT_NAMES[fmt]} file: it is attached automatically, built from this turn's "
             "table tools (list_slack_channel, gate counts). Call the tool for the data they want in this turn, "
             "then say the file is attached.")

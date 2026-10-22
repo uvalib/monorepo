@@ -103,6 +103,18 @@ def test_offline_listing_case_builds_ris_attachment():
     assert not offline.run_offline(gate).passed  # nothing citable
 
 
+def test_offline_virgo_case_builds_ris_attachment():
+    out = ("## Matching items\n\n### 1. Animal farm\n- **Author**: Orwell, George\n"
+           "- **Virgo record**: https://search.lib.virginia.edu/sources/uva_library/items/u1\n")
+    virgo = {"id": "synthetic-virgo-ris", "category": "catalog", "question": "Orwell books as RIS for Zotero",
+             "recorded": {"model": "m", "final_text": "The RIS file is attached.",
+                          "steps": [{"tool_name": "VirgoCatalogRuntime___search_by_field", "status": "success",
+                                     "input": {}, "output": out}]},
+             "expect": {"phrases": ["RIS"], "attachment": True, "allow_condensed": True}}
+    r = offline.run_offline(virgo)
+    assert r.passed, r.reasons
+
+
 def test_offline_reports_missing_phrase():
     bad = {**CASE, "expect": {"phrases": ["99,999"]}}
     r = offline.run_offline(bad)
@@ -185,6 +197,7 @@ TESTS = [
     test_offline_replay_passes_and_builds_attachment,
     test_offline_listing_case_builds_json_attachment,
     test_offline_listing_case_builds_ris_attachment,
+    test_offline_virgo_case_builds_ris_attachment,
     test_offline_reports_missing_phrase,
     test_live_only_case_skipped_offline,
     test_load_case_errors_and_cli_exit_codes,

@@ -124,6 +124,7 @@ def test_system_prompt_routes_exhaustive_slack_lists_and_file_formats():  # tria
     assert "list_slack_channel" in SYSTEM_PROMPT and "not a full export" in SYSTEM_PROMPT
     assert 'after="2010-01-01"' in SYSTEM_PROMPT  # trial: "ever" got the 30-day default
     assert "RIS" in SYSTEM_PROMPT and "Zotero" in SYSTEM_PROMPT  # trial: "can't do RIS"
+    assert "catalog results as RIS" in SYSTEM_PROMPT
     assert "CSV" in SYSTEM_PROMPT and "JSON" in SYSTEM_PROMPT
     assert "attaches an .xlsx" not in SYSTEM_PROMPT
 
