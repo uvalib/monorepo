@@ -39,7 +39,7 @@ from session_trace import SessionTrace
 from slack_blocks import flatten_carousels
 import chime_in
 from slack_format import format_for_slack, rewrite_urls_in_blocks
-from attachments import build_file, file_format
+from attachments import build_file, file_context_line, requested_format
 from spreadsheet import tables_from_steps
 from thread_context import (
     extract_thread_history,
@@ -286,9 +286,12 @@ def handle_user_query(
     slack_tools, slack_lines = slack_tools_for_event(
         event, client, directory=directory, store=action_token_store
     )
+    # "as a CSV" earlier in the thread still applies to "now all of them".
+    file_fmt = requested_format(cleaned_text, conversation_history)
     extra_context = [
         identity_line(directory.get(user_id)),
         unanswered_turns_line(history_meta.get("unanswered_turns") or []),
+        file_context_line(file_fmt),
     ] + slack_lines
 
     turn = agent.process_message(
@@ -388,14 +391,13 @@ def handle_user_query(
             except Exception as e2:
                 logger.error("Fallback Slack send also failed: %s", e2)
                 trace.error = f"slack_send_fallback: {e2}"
-        fmt = file_format(cleaned_text)
-        if fmt:
+        if file_fmt:
             _attach_file(
                 client,
                 channel_id,
                 reply_thread_ts if force_thread else None,
                 trace,
-                fmt,
+                file_fmt,
                 [l.table for l in getattr(slack_tools, "listings", None) or []],
             )
     finally:

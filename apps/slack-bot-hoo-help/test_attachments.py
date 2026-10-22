@@ -6,10 +6,11 @@ import io
 import json
 import os
 import sys
+from types import SimpleNamespace
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 
-from attachments import build_file, file_format  # noqa: E402
+from attachments import build_file, file_context_line, file_format, requested_format  # noqa: E402
 from spreadsheet import SheetTable  # noqa: E402
 
 LINKS = SheetTable("Links shared in #ai (2026-10-01 to 2026-10-21)", ["Date", "Author", "URL", "Message"],
@@ -55,6 +56,27 @@ def test_multiple_tables_json_is_a_list_and_csv_has_sections():
 def test_xlsx_still_builds():
     data, filename, _ = build_file("xlsx", [LINKS])
     assert data[:2] == b"PK" and filename.endswith(".xlsx")
+
+
+
+def turn(role, text):
+    return {"role": role, "content": [{"text": text}]}
+
+
+def test_follow_up_keeps_the_format_the_thread_asked_for():  # staff trial: "all the links ever" got no CSV
+    history = [turn("user", "[Doug]: all the URLs shared in #ai as a CSV file"), turn("assistant", "Attached.")]
+    assert requested_format("can you give me all the links ever shared?", history) == "csv"
+    assert requested_format("now as JSON please", history) == "json"
+    later = history + [turn("user", "[Doug]: and as a spreadsheet"), turn("assistant", "ok")]
+    assert requested_format("all of them", later) == "xlsx"
+    assert requested_format("all of them", [turn("assistant", "Here is a CSV")]) is None  # only people's asks count
+    assert requested_format("hours for Clemons?", []) is None
+
+
+def test_file_context_line_tells_the_model_the_truth():
+    assert "won't be attached" in file_context_line(None) and "CSV, JSON or Excel" in file_context_line(None)
+    line = file_context_line("csv")
+    assert "CSV" in line and "attached automatically" in line
 
 
 MESSAGES = SheetTable("Messages in #ai (2026-10-01 to 2026-10-21)", ["Date", "Author", "Text", "Message"],
@@ -133,15 +155,79 @@ def test_app_nothing_to_attach_and_missing_scope_notice():
     assert "files:write" in client.posts[0]["text"] and "Excel" not in client.posts[0]["text"]
 
 
+class FakeAgent:
+    bedrock_runtime = None
+    model_id = "m"
+
+    def __init__(self):
+        self.extra = None
+
+    def process_message(self, text, *, extra_context=None, **kw):
+        from session_trace import SessionTrace
+        self.extra = list(extra_context or [])
+        trace = SessionTrace(request_id="r1", user_message=text)
+        return SimpleNamespace(text="There are 2 links in #ai.", trace=trace)
+
+    def _sanitize_links(self, text, trace, **kw):
+        return text, []
+
+
+class ThreadClient(Uploads):
+    def reactions_add(self, **kw):
+        pass
+
+    def reactions_remove(self, **kw):
+        pass
+
+    def users_info(self, user):
+        return {"user": {"id": user, "real_name": "Doug", "profile": {}}}
+
+    def conversations_replies(self, **kw):
+        return {"messages": []}
+
+
+def _follow_up(text, history):
+    import app
+    agent, client = FakeAgent(), ThreadClient()
+    tools = SimpleNamespace(listings=[SimpleNamespace(table=LINKS)])
+    real = app.agent, app.get_bot_identity, app.slack_tools_for_event
+    app.agent, app.get_bot_identity = agent, (lambda c: ("UBOT", "B1"))
+    app.slack_tools_for_event = lambda *a, **k: (tools, [])
+    try:
+        event = {"type": "message", "channel": "C9", "channel_type": "channel", "user": "U1", "text": text,
+                 "ts": "9.0", "thread_ts": "1.0"}
+        app.handle_user_query(event, lambda **k: None, client, known_history=history, known_meta={})
+    finally:
+        app.agent, app.get_bot_identity, app.slack_tools_for_event = real
+    return agent, client
+
+
+def test_follow_up_in_a_csv_thread_attaches_a_csv():  # staff trial: "all the links ever" → "attached", no file
+    history = [turn("user", "[Doug]: all the URLs shared in #ai as a CSV file"), turn("assistant", "Attached.")]
+    agent, client = _follow_up("can you give me a listing of all the links ever shared in the channel?", history)
+    assert [f["filename"].rsplit(".", 1)[1] for f in client.files] == ["csv"]
+    assert any("CSV file" in line and "attached automatically" in line for line in agent.extra)
+
+
+def test_no_file_asked_tells_the_model_not_to_claim_one():
+    agent, client = _follow_up("all the links in #ai", [])
+    assert client.files == []
+    assert any("No file will be attached" in line for line in agent.extra)
+
+
 if __name__ == "__main__":
     test_file_format_from_question()
     test_csv_quotes_commas_and_keeps_headers()
     test_json_is_records_with_header_keys()
     test_multiple_tables_json_is_a_list_and_csv_has_sections()
     test_xlsx_still_builds()
+    test_follow_up_keeps_the_format_the_thread_asked_for()
+    test_file_context_line_tells_the_model_the_truth()
     test_message_text_is_never_a_formula_in_xlsx()
     test_message_text_is_never_a_formula_in_csv()
     test_app_attaches_listing_as_json()
     test_app_csv_request_attaches_csv_not_excel()
     test_app_nothing_to_attach_and_missing_scope_notice()
+    test_follow_up_in_a_csv_thread_attaches_a_csv()
+    test_no_file_asked_tells_the_model_not_to_claim_one()
     print("ok")

@@ -44,6 +44,21 @@ def directory(client):
     return UserDirectory(client)
 
 
+def test_workspace_url_from_a_real_slack_response():  # prod: dict(SlackResponse) failed → slack.com links
+    from slack_sdk.web.slack_response import SlackResponse
+
+    class Real(FakeSlack):
+        def auth_test(self):
+            return SlackResponse(client=None, http_verb="POST", api_url="auth.test", req_args={}, headers={},
+                                 status_code=200, data={"ok": True, "url": "https://uvalib.slack.com/", "team_id": "T1"})
+
+    client = Real([[m("1.000001", "<https://a.org>")]])
+    listing = list_channel(client, "C1", kind="links", oldest=0, latest=3, directory=directory(client))
+    assert listing.table.rows[0][3] == "https://uvalib.slack.com/archives/C1/p1000001"
+    from slack_listing import workspace_team
+    assert workspace_team(client) == "T1"
+
+
 def test_extract_links_from_slack_markup():
     text = "see <https://example.org/a|the doc> and <https://example.org/b> not <@U1> or <#C9|ai> or <mailto:x@y.org|x>"
     assert extract_links(text) == ["https://example.org/a", "https://example.org/b"]
@@ -222,6 +237,7 @@ def test_list_tool_not_in_channel_error_suggests_invite():
 
 
 if __name__ == "__main__":
+    test_workspace_url_from_a_real_slack_response()
     test_extract_links_from_slack_markup()
     test_links_listing_pages_and_builds_rows()
     test_files_and_all_kinds()

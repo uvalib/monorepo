@@ -75,7 +75,8 @@ def _auth(client) -> dict:
     hit = _AUTH.get(key)
     if hit is None or hit[0] is not client:  # ids are reused once a client is freed
         try:
-            auth = dict(client.auth_test() or {})
+            resp = client.auth_test() or {}  # a SlackResponse: has .get, but dict() can't copy it
+            auth = {k: resp.get(k) for k in ("url", "team_id")}
         except Exception:
             auth = {}
         hit = _AUTH[key] = (client, auth)
