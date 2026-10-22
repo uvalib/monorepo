@@ -118,6 +118,14 @@ def test_system_prompt_mentions_slack_search():
     assert "search_slack" in SYSTEM_PROMPT and 'from_user="me"' in SYSTEM_PROMPT
 
 
+def test_system_prompt_routes_exhaustive_slack_lists_and_file_formats():  # trial: "all URLs in #ai"
+    from agent import SYSTEM_PROMPT
+
+    assert "list_slack_channel" in SYSTEM_PROMPT and "not a full export" in SYSTEM_PROMPT
+    assert "CSV" in SYSTEM_PROMPT and "JSON" in SYSTEM_PROMPT
+    assert "attaches an .xlsx" not in SYSTEM_PROMPT
+
+
 def test_system_prompt_anchors_relative_dates_in_follow_ups():  # live eval thread-previous-month
     from agent import SYSTEM_PROMPT
 
@@ -214,6 +222,7 @@ def test_throttling_gets_a_try_again_message():
 
 
 if __name__ == "__main__":
+    test_system_prompt_routes_exhaustive_slack_lists_and_file_formats()
     test_system_prompt_includes_extra_context()
     test_system_prompt_without_extra_context_unchanged()
     test_process_message_sends_extra_context_to_the_model()

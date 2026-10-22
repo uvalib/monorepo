@@ -57,10 +57,68 @@ def test_xlsx_still_builds():
     assert data[:2] == b"PK" and filename.endswith(".xlsx")
 
 
+# ---- app wiring: _attach_file (fake Slack client) ------------------------------
+os.environ.setdefault("SLACK_BOT_TOKEN", "xoxb-test")
+os.environ.setdefault("SLACK_SIGNING_SECRET", "test")
+os.environ.setdefault("AWS_REGION", "us-east-1")
+os.environ.setdefault("CONVERSATION_TRACE", "off")
+
+GATE_STEP = {"tool_name": "OccupancyReportingRuntime___get_entrance_traffic", "status": "success",
+             "output": "### Entrance Traffic Breakdown: Clemons\n\n| Entrance | In (Entries) |\n| :--- | :--- |\n| Main | 73,469 |"}
+
+
+class Uploads:
+    def __init__(self, error=None):
+        self.files, self.posts, self.error = [], [], error
+
+    def files_upload_v2(self, **kw):
+        if self.error:
+            raise RuntimeError(self.error)
+        self.files.append(kw)
+
+    def chat_postMessage(self, **kw):
+        self.posts.append(kw)
+
+
+class Trace:
+    def __init__(self, steps):
+        self.steps, self.error = steps, ""
+
+
+def test_app_attaches_listing_as_json():
+    import app
+    client = Uploads()
+    app._attach_file(client, "C9", "1.2", Trace([]), "json", [LINKS])
+    assert len(client.files) == 1 and client.files[0]["filename"].endswith(".json")
+    assert json.loads(client.files[0]["content"])["rows"][1]["URL"] == "https://example.org/b,c"
+    assert client.files[0]["thread_ts"] == "1.2"
+
+
+def test_app_csv_request_attaches_csv_not_excel():  # trial: "as a CSV" produced an .xlsx
+    import app
+    client = Uploads()
+    app._attach_file(client, "C9", None, Trace([GATE_STEP]), "csv", [])
+    assert client.files[0]["filename"].endswith(".csv")
+    assert "73,469" in client.files[0]["content"].decode("utf-8-sig")
+
+
+def test_app_nothing_to_attach_and_missing_scope_notice():
+    import app
+    client = Uploads()
+    app._attach_file(client, "C9", None, Trace([]), "json", [])
+    assert client.files == [] and client.posts == []
+    client = Uploads(error="missing_scope")
+    app._attach_file(client, "C9", None, Trace([]), "csv", [LINKS])
+    assert "files:write" in client.posts[0]["text"] and "Excel" not in client.posts[0]["text"]
+
+
 if __name__ == "__main__":
     test_file_format_from_question()
     test_csv_quotes_commas_and_keeps_headers()
     test_json_is_records_with_header_keys()
     test_multiple_tables_json_is_a_list_and_csv_has_sections()
     test_xlsx_still_builds()
+    test_app_attaches_listing_as_json()
+    test_app_csv_request_attaches_csv_not_excel()
+    test_app_nothing_to_attach_and_missing_scope_notice()
     print("ok")

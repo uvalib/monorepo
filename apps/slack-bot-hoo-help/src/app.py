@@ -39,12 +39,8 @@ from session_trace import SessionTrace
 from slack_blocks import flatten_carousels
 import chime_in
 from slack_format import format_for_slack, rewrite_urls_in_blocks
-from spreadsheet import (
-    build_xlsx,
-    spreadsheet_filename,
-    tables_from_steps,
-    wants_spreadsheet,
-)
+from attachments import build_file, file_format
+from spreadsheet import tables_from_steps
 from thread_context import (
     extract_thread_history,
     mention_handled_by_app_mention,
@@ -392,12 +388,15 @@ def handle_user_query(
             except Exception as e2:
                 logger.error("Fallback Slack send also failed: %s", e2)
                 trace.error = f"slack_send_fallback: {e2}"
-        if wants_spreadsheet(cleaned_text):
-            _attach_spreadsheet(
+        fmt = file_format(cleaned_text)
+        if fmt:
+            _attach_file(
                 client,
                 channel_id,
                 reply_thread_ts if force_thread else None,
                 trace,
+                fmt,
+                [l.table for l in getattr(slack_tools, "listings", None) or []],
             )
     finally:
         if reacted and channel_id and ts:
@@ -423,33 +422,33 @@ def handle_user_query(
             logger.error("Failed to emit session trace: %s", emit_err)
 
 
-def _attach_spreadsheet(client, channel_id, thread_ts, trace) -> None:
-    """Upload an .xlsx of this turn's occupancy tool tables (user asked for Excel)."""
-    tables = tables_from_steps(getattr(trace, "steps", None))
+def _attach_file(client, channel_id, thread_ts, trace, fmt, listing_tables) -> None:
+    """Upload this turn's tool tables (Slack listings, gate counts) as the file the user asked for."""
+    tables = list(listing_tables or []) + tables_from_steps(getattr(trace, "steps", None))
     if not tables:
-        logger.info("Spreadsheet requested but no table-producing tool ran")
+        logger.info("%s file requested but no table-producing tool ran", fmt)
         return
-    filename = spreadsheet_filename(tables)
     try:
+        content, filename, title = build_file(fmt, tables)
         client.files_upload_v2(
             channel=channel_id,
             thread_ts=thread_ts,
-            content=build_xlsx(tables),
+            content=content,
             filename=filename,
-            title=tables[0].title,
+            title=title,
         )
-        logger.info("Attached spreadsheet %s (%s sheets)", filename, len(tables))
+        logger.info("Attached %s (%s tables)", filename, len(tables))
     except Exception as e:
-        logger.error("Spreadsheet upload failed: %s", e)
+        logger.error("File upload failed: %s", e)
         if not trace.error:
-            trace.error = f"spreadsheet_upload: {e}"
+            trace.error = f"file_upload: {e}"
         if "missing_scope" in str(e):
             try:
                 client.chat_postMessage(
                     channel=channel_id,
                     thread_ts=thread_ts,
                     text=(
-                        "_I couldn't attach the Excel file: the Slack app needs the "
+                        "_I couldn't attach the file: the Slack app needs the "
                         "`files:write` scope._"
                     ),
                 )

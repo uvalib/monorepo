@@ -76,6 +76,25 @@ def test_offline_replay_passes_and_builds_attachment():
     assert r.passed, r.reasons
 
 
+LISTING_OUTPUT = ("### Links shared in #ai (2026-09-22 to 2026-10-22)\n_2 links in 14 messages · thread replies aren't included._\n\n"
+                  "| Date | Author | URL | Message |\n| --- | --- | --- | --- |\n"
+                  "| 2026-10-01 09:12 | Pat Doe | https://example.org/a | https://uvalib.slack.com/archives/C1/p1 |\n"
+                  "| 2026-10-03 14:40 | Jordan Lee | https://example.org/b | https://uvalib.slack.com/archives/C1/p2 |\n\n"
+                  "This list can be attached as a CSV, JSON or Excel file — ask for one.")
+LISTING_CASE = {"id": "synthetic-listing", "category": "slack", "question": "@HooHelp all the URLs shared in #ai as JSON",
+                "recorded": {"model": "m", "final_text": "I found 2 links in #ai. The JSON file is attached.",
+                             "steps": [{"tool_name": "list_slack_channel", "status": "success",
+                                        "input": {"channel": "ai", "kind": "links"}, "output": LISTING_OUTPUT}]},
+                "expect": {"phrases": ["2 links"], "attachment": True, "allow_condensed": True}}
+
+
+def test_offline_listing_case_builds_json_attachment():
+    r = offline.run_offline(LISTING_CASE)
+    assert r.passed, r.reasons
+    no_file = {**LISTING_CASE, "question": "@HooHelp all the URLs shared in #ai"}
+    assert not offline.run_offline(no_file).passed
+
+
 def test_offline_reports_missing_phrase():
     bad = {**CASE, "expect": {"phrases": ["99,999"]}}
     r = offline.run_offline(bad)
@@ -156,6 +175,7 @@ TESTS = [
     test_not_collapsed,
     test_tools_any_and_phrases_any,
     test_offline_replay_passes_and_builds_attachment,
+    test_offline_listing_case_builds_json_attachment,
     test_offline_reports_missing_phrase,
     test_live_only_case_skipped_offline,
     test_load_case_errors_and_cli_exit_codes,

@@ -137,6 +137,7 @@ def test_list_tool_lists_links_and_keeps_the_table():
     t = tools(client)
     out = t.call(TOOL_LIST_CHANNEL, {"channel": "#ai", "after": "2025-10-01", "before": "2025-10-31", "kind": "links"})
     assert "https://example.org/a" in out and "1 links in 1 messages" in out
+    assert "(2025-10-01 to 2025-10-31)" in out and "2025-11-01" not in out  # the end is exclusive
     assert len(t.listings) == 1 and t.listings[0].table.rows[0][2] == "https://example.org/a"
     assert client.calls[0]["latest"] == "1761969600"  # end of 2025-10-31 EDT (before is inclusive)
     assert client.calls[0]["oldest"] == "1759291200"  # 2025-10-01 00:00 EDT

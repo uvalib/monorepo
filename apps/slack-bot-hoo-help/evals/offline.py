@@ -2,31 +2,64 @@
 
 from __future__ import annotations
 
+import csv
+import io
+import json
 import os
 import sys
-from io import BytesIO
 
 APP = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(APP, "src"))
 
-from slack_format import format_for_slack  # noqa: E402
-from spreadsheet import build_xlsx, tables_from_steps, wants_spreadsheet  # noqa: E402
+from attachments import build_file, file_format  # noqa: E402
+from slack_blocks import parse_markdown_table, tool_leaf  # noqa: E402
+from slack_format import format_for_slack, split_markdown_tables  # noqa: E402
+from slack_search import TOOL_LIST_CHANNEL  # noqa: E402
+from spreadsheet import SheetTable, tables_from_steps  # noqa: E402
 
 from evals import checks  # noqa: E402
 from evals.case import CaseResult  # noqa: E402
 
 
+def _listing_tables(steps: list) -> list:
+    """Slack listing tables as recorded (the live app attaches the full Listing; a trace keeps its first rows)."""
+    tables = []
+    for step in steps:
+        if tool_leaf(step.get("tool_name") or "") != TOOL_LIST_CHANNEL or step.get("status") != "success":
+            continue
+        output = str(step.get("output") or "")
+        title = next((ln.lstrip("#").strip() for ln in output.splitlines() if ln.startswith("#")), "Slack listing")
+        for kind, chunk in split_markdown_tables(output):
+            headers, rows = parse_markdown_table(chunk) if kind == "table" else ([], [])
+            if headers and rows:
+                tables.append(SheetTable(title, headers, rows))
+    return tables
+
+
 def _attachment_reasons(case: dict, steps: list) -> list[str]:
-    if not wants_spreadsheet(case["question"]):
-        return ["expected attachment, but the question doesn't ask for Excel/CSV"]
-    tables = tables_from_steps(steps)
+    fmt = file_format(case["question"])
+    if not fmt:
+        return ["expected attachment, but the question doesn't ask for Excel / CSV / JSON"]
+    tables = _listing_tables(steps) + tables_from_steps(steps)
     if not tables:
         return ["expected attachment, but no table-producing tool output"]
-    from openpyxl import load_workbook
+    content, filename, _ = build_file(fmt, tables)
+    if not filename.endswith("." + fmt):
+        return [f"asked for {fmt}, built {filename}"]
+    if fmt == "json":
+        doc = json.loads(content)
+        docs = doc if isinstance(doc, list) else [doc]
+        if len(docs) != len(tables) or not all(d.get("rows") for d in docs):
+            return [f"JSON has {len(docs)} tables with rows for {len(tables)} tables"]
+    elif fmt == "csv":
+        if len(list(csv.reader(io.StringIO(content.decode("utf-8-sig"))))) < 2:
+            return ["CSV has no data rows"]
+    else:
+        from openpyxl import load_workbook
 
-    wb = load_workbook(BytesIO(build_xlsx(tables)))
-    if len(wb.sheetnames) != len(tables):
-        return [f"workbook has {len(wb.sheetnames)} sheets for {len(tables)} tables"]
+        wb = load_workbook(io.BytesIO(content))
+        if len(wb.sheetnames) != len(tables):
+            return [f"workbook has {len(wb.sheetnames)} sheets for {len(tables)} tables"]
     return []
 
 

@@ -111,7 +111,7 @@ def list_channel(client, channel_id: str, *, kind: str, oldest: float, latest: f
             rows.append([when, who, " ".join((msg.get("text") or "").split()), link])
 
     label = f"#{channel_name}" if channel_name else channel_id
-    title = f"{KIND_NOUNS[kind].capitalize()} in {label} ({_day(oldest)} to {_day(latest)})"
+    title = f"{KIND_NOUNS[kind].capitalize()} in {label} ({_day(oldest)} to {_day(latest - 1)})"
     return Listing(SheetTable(title, KIND_HEADERS[kind], rows), kind, scanned, capped, oldest, latest)
 
 
@@ -122,7 +122,7 @@ def _cell(value: str) -> str:
 def format_listing(listing: Listing, channel_name: str, limit: int = 50) -> str:
     noun = KIND_NOUNS[listing.kind]
     total = len(listing.table.rows)
-    lines = [f"### {noun.capitalize()} shared in #{channel_name} ({_day(listing.oldest)} to {_day(listing.latest)})",
+    lines = [f"### {noun.capitalize()} shared in #{channel_name} ({_day(listing.oldest)} to {_day(listing.latest - 1)})",
              f"_{total} {noun} in {listing.scanned} messages · thread replies aren't included._", ""]
     if listing.capped:
         lines += [f"_Stopped after the first {MAX_MESSAGES} messages; a shorter date range gets the rest._", ""]

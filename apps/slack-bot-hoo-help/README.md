@@ -159,7 +159,7 @@ possible person names. Fill in `expect` (facts that must appear) and optionally
 5. **OAuth & Permissions** → ensure bot scopes include at least:
    - `app_mentions:read`
    - `chat:write`
-   - `files:write` (Excel attachments for spreadsheet requests)
+   - `files:write` (Excel / CSV / JSON attachments when a question asks for a file)
    - `reactions:write` — bot adds :brain: on the user message while working (no “thinking…” reply)
    - `channels:history` / `groups:history` / `im:history` / `mpim:history` (thread context)
    - `channels:read` / `groups:read` as needed
@@ -191,15 +191,26 @@ possible person names. Fill in `expect` (facts that must appear) and optionally
 
 ### Slack search (`src/slack_search.py`)
 
-Behind `EnableSlackSearch` (default `false`). Two in-process tools:
+Behind `EnableSlackSearch` (default `false`). Three in-process tools:
 
 - `search_slack` — Slack's Real-time Search API (`assistant.search.context`) with the bot token,
   **public channels only**; optional `from_user` (a name or `me`), `channel`, `after` / `before`.
 - `read_slack_thread` — the public thread around a hit (`conversations.replies`). It checks the
   channel is public first: the bot token also has `groups:history`, so this check is what keeps
   private channels, DMs and group DMs out.
+- `list_slack_channel` (`src/slack_listing.py`) — every link, file or message in one public channel
+  for a date range (default the last 30 days), for "all the URLs shared in #ai" requests that
+  search's best-20 matches can't answer. Pages `conversations.history` with the bot token only (no
+  action token), up to 2,000 top-level messages (thread replies aren't included; the reply says so
+  and suggests a shorter range when capped). Only channels Hoo Helper has been added to — it never
+  joins on its own and suggests `/invite @Hoo Helper` instead. The model sees the count and the
+  first 50 rows; the full table goes into any requested file.
 
-Scopes it relies on: `search:read.public`, `users:read`, `channels:history`.
+Scopes it relies on: `search:read.public`, `users:read`, `channels:history`, `channels:read`.
+
+**Files:** when the question says "CSV", "JSON" or "Excel / spreadsheet", `src/attachments.py`
+builds that file from this turn's tool tables (Slack listings, gate-count tables) and the app
+uploads it to the thread. Values come from tool data, never from the model's prose.
 
 Bot-token searches need an `action_token`, which Slack sends on @mentions, DMs and group DMs but
 not on unmentioned thread follow-ups. `src/action_tokens.py` saves it per thread in the DynamoDB
