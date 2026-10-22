@@ -21,6 +21,7 @@ from spreadsheet import SheetTable
 
 TZ = ZoneInfo("America/New_York")
 MAX_MESSAGES = 2000
+MAX_PAGES = 15  # join/leave notices don't count toward MAX_MESSAGES, so pages need their own limit
 PAGE_SIZE = 200
 _SKIP_SUBTYPES = frozenset({"channel_join", "channel_leave", "channel_topic", "channel_purpose",
                             "channel_name", "pinned_item", "unpinned_item"})
@@ -112,10 +113,14 @@ def list_channel(client, channel_id: str, *, kind: str, oldest: float, latest: f
     rows: List[List[str]] = []
     scanned, cursor, capped = 0, None, False
     batch: List[dict] = []
+    pages, oldest_seen = 0, None
     while True:
+        pages += 1
         resp = client.conversations_history(channel=channel_id, oldest=str(int(oldest)), latest=str(int(latest)),
                                             limit=PAGE_SIZE, cursor=cursor, inclusive=True) or {}
         for msg in resp.get("messages") or []:
+            ts_seen = float(msg.get("ts") or 0)
+            oldest_seen = ts_seen if oldest_seen is None else min(oldest_seen, ts_seen)
             if msg.get("subtype") in _SKIP_SUBTYPES:
                 continue
             if scanned >= MAX_MESSAGES:
@@ -125,7 +130,7 @@ def list_channel(client, channel_id: str, *, kind: str, oldest: float, latest: f
             batch.append(msg)
         cursor = (resp.get("response_metadata") or {}).get("next_cursor")
         more = bool(cursor) and resp.get("has_more", True)
-        if scanned >= MAX_MESSAGES and more:  # full, and Slack has more: don't fetch another page
+        if more and (scanned >= MAX_MESSAGES or pages >= MAX_PAGES):  # full: don't fetch another page
             capped = True
         if capped or not more:
             break
@@ -149,7 +154,7 @@ def list_channel(client, channel_id: str, *, kind: str, oldest: float, latest: f
         else:
             rows.append([when, who, plain_text(msg.get("text") or "", directory), link])
 
-    covered_from = min(float(x.get("ts") or 0) for x in batch) if capped and batch else oldest
+    covered_from = (oldest_seen or oldest) if capped else oldest
     label = f"#{channel_name}" if channel_name else channel_id
     title = f"{KIND_NOUNS[kind].capitalize()} in {label} ({_day(covered_from)} to {_day(latest - 1)})"
     return Listing(SheetTable(title, KIND_HEADERS[kind], rows, plain=True, source=label), kind, scanned, capped, oldest, latest,
@@ -172,7 +177,7 @@ def format_listing(listing: Listing, channel_name: str, limit: int = 50) -> str:
     lines = [f"### {noun.capitalize()} shared in #{channel_name} ({_day(start)} to {_day(listing.latest - 1)})",
              f"_{total} {noun} in {listing.scanned} messages · thread replies aren't included._", ""]
     if listing.capped:
-        lines += [f"_Stopped at {MAX_MESSAGES} messages, so this covers {_day(start)} to {_day(listing.latest - 1)}; "
+        lines += [f"_Stopped early (limit: {MAX_MESSAGES:,} messages or {MAX_PAGES} pages of history), so this covers {_day(start)} to {_day(listing.latest - 1)}; "
                   f"older messages (from {_day(listing.oldest)}) weren't fetched. Ask for a range ending "
                   f"{_day(start - 86400)} to get them._", ""]
     if total:

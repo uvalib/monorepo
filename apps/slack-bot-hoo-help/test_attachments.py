@@ -27,6 +27,16 @@ def test_file_format_from_question():
     assert file_format("excel or json, whichever") == "json"  # explicit non-Excel format wins
 
 
+def test_format_words_used_as_the_topic_are_not_file_requests():  # review: "list the JSON files" got a .json
+    for text in ["list the JSON files shared in #dev", "links about Excel in #ai", "any Excel tips posted lately?",
+                 "who asked about CSV parsing?", "messages regarding Zotero", "the RIS workshop slides",
+                 "spreadsheet formulas people shared", "Excel training sessions this fall"]:
+        assert file_format(text) is None, text
+    assert file_format("list the JSON files in #dev as a CSV") == "csv"  # topic + a real request
+    assert file_format("links about Excel in #ai, as JSON please") == "json"
+    assert file_format("send the CSV file") == "csv"
+
+
 def test_csv_quotes_commas_and_keeps_headers():
     data, filename, title = build_file("csv", [LINKS])
     rows = list(csv.reader(io.StringIO(data.decode("utf-8-sig"))))
@@ -337,6 +347,7 @@ def test_no_file_asked_tells_the_model_not_to_claim_one():
 
 if __name__ == "__main__":
     test_file_format_from_question()
+    test_format_words_used_as_the_topic_are_not_file_requests()
     test_csv_quotes_commas_and_keeps_headers()
     test_json_is_records_with_header_keys()
     test_multiple_tables_json_is_a_list_and_csv_has_sections()

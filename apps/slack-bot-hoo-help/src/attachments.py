@@ -22,17 +22,25 @@ _RIS = re.compile(r"(?i)\b(?:ris|zotero|citation\s+file)\b")
 _FORMULA_START = ("=", "+", "-", "@", "\t", "\r")
 
 
+# A format word that's the subject, not a request: "list the JSON files", "links about Excel".
+_TOPIC_BEFORE = re.compile(r"(?i)\b(?:about|regarding|re:?|mentioning|discussing|on how to use)\s+(?:the\s+|an?\s+)?$")
+_TOPIC_AFTER = re.compile(r"(?i)^\s*(?:files|documents|docs|schemas?|pars(?:ing|er)|formulas?|macros|tips|tricks|"
+                          r"questions|help|workshops?|training|class(?:es)?|sessions?|slides|issues|errors|skills)\b")
+
+
+def _requested(pattern: "re.Pattern[str]", text: str) -> bool:
+    for m in pattern.finditer(text):
+        if not (_TOPIC_BEFORE.search(text[: m.start()]) or _TOPIC_AFTER.match(text[m.end():])):
+            return True
+    return False
+
+
 def file_format(user_text: str) -> Optional[str]:
     """'ris' | 'json' | 'csv' | 'xlsx' when the question asks for a file, else None."""
     text = user_text or ""
-    if _RIS.search(text):
-        return "ris"
-    if _JSON.search(text):
-        return "json"
-    if _CSV.search(text):
-        return "csv"
-    if _XLSX.search(text):
-        return "xlsx"
+    for fmt, pattern in (("ris", _RIS), ("json", _JSON), ("csv", _CSV), ("xlsx", _XLSX)):
+        if _requested(pattern, text):
+            return fmt
     return None
 
 

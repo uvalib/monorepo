@@ -7,7 +7,7 @@ import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 
 from identity import UserDirectory, _reset_cache  # noqa: E402
-from slack_listing import MAX_MESSAGES, extract_links, format_listing, list_channel  # noqa: E402
+from slack_listing import MAX_MESSAGES, MAX_PAGES, extract_links, format_listing, list_channel  # noqa: E402
 from slack_search import TOOL_LIST_CHANNEL, SlackSearchTools  # noqa: E402
 
 USERS = {"U1": "Pat Doe", "U2": "Jordan Lee"}
@@ -129,6 +129,14 @@ def test_cap_stops_paging_and_says_so():
     assert listing.table.plain
 
 
+def test_page_limit_stops_paging_through_join_notices():  # review: skipped messages didn't count toward a cap
+    joins = [m(f"{1760461440 + i}.000100", "", subtype="channel_join") for i in range(200)]
+    client = FakeSlack([joins] * 40)
+    listing = list_channel(client, "C1", kind="links", oldest=0, latest=1770000000, directory=directory(client))
+    assert len(client.calls) == MAX_PAGES == 15 and listing.capped and listing.scanned == 0
+    assert "Stopped at 0 messages" not in format_listing(listing, "general")
+
+
 def test_capped_listing_says_which_days_it_covers():  # review: Slack drops the *oldest* messages past the cap
     # newest first, as Slack returns: page i holds day 30-i (2025-10-30 back to 2025-10-11 EDT)
     day0 = 1761796800  # 2025-10-30 00:00 EDT
@@ -215,6 +223,16 @@ def test_list_tool_description_covers_all_time_requests():
     assert "years" in LIST_CHANNEL_DESCRIPTION
 
 
+def test_after_later_than_before_is_a_plain_error():
+    client = FakeChannels([[]])
+    out = tools(client).call(TOOL_LIST_CHANNEL, {"channel": "ai", "after": "2026-10-10", "before": "2026-09-30"})
+    assert "after (2026-10-10) is later than before (2026-09-30)" in out and client.calls == []
+    same_day = tools(client).call(TOOL_LIST_CHANNEL, {"channel": "ai", "after": "2026-09-30", "before": "2026-09-30"})
+    assert "later than" not in same_day
+    future = tools(client).call(TOOL_LIST_CHANNEL, {"channel": "ai", "after": "2099-01-01"})
+    assert "after (2099-01-01) is in the future" in future and "before ()" not in future
+
+
 def test_list_tool_refuses_private_and_unjoined_channels():
     client = FakeChannels([[]])
     t = tools(client)
@@ -273,6 +291,7 @@ if __name__ == "__main__":
     test_slack_escaping_is_undone_in_urls_and_text()
     test_from_user_filters_authors()
     test_cap_stops_paging_and_says_so()
+    test_page_limit_stops_paging_through_join_notices()
     test_capped_listing_says_which_days_it_covers()
     test_format_shows_summary_first_rows_and_notes()
     test_list_tool_offered_without_search_token()
@@ -280,6 +299,7 @@ if __name__ == "__main__":
     test_list_tool_defaults_to_last_30_days()
     test_default_range_says_how_to_get_everything()
     test_list_tool_description_covers_all_time_requests()
+    test_after_later_than_before_is_a_plain_error()
     test_list_tool_refuses_private_and_unjoined_channels()
     test_list_tool_from_user_me_and_bad_dates()
     test_list_tool_refuses_guests_external_users_and_unknown_askers()

@@ -412,6 +412,11 @@ class SlackSearchTools:
             oldest = _day_ts(after) if after.strip() else latest - LIST_DEFAULT_DAYS * 86400
         except ValueError:
             return "Dates for after / before must be YYYY-MM-DD."
+        if oldest >= latest:
+            if not before.strip():
+                return f"after ({after.strip()}) is in the future; pick a start date on or before today."
+            return (f"after ({after.strip()}) is later than before ({before.strip()}); "
+                    "after is the first day and before the last day of the range.")
         # The listing reads with the bot's access, not the asker's: only full members of
         # this workspace may use it (fail closed when Slack can't say who's asking).
         asker = self.directory.get(self.asker_id)
