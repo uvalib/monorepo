@@ -398,7 +398,8 @@ def handle_user_query(
                 reply_thread_ts if force_thread else None,
                 trace,
                 file_fmt,
-                [l.table for l in getattr(slack_tools, "listings", None) or []],
+                # only the last listing: a retry with wider dates replaces the first try
+                [l.table for l in getattr(slack_tools, "listings", None) or []][-1:],
             )
     finally:
         if reacted and channel_id and ts:

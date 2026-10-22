@@ -66,8 +66,10 @@ SEARCH_DESCRIPTION = (
 LIST_CHANNEL_DESCRIPTION = (
     "List everything of one kind posted in a public Slack channel over a date range: kind='links' "
     "(every URL shared, default), 'files', or 'all' messages. Use it for exhaustive requests like "
-    "'all the URLs shared in #ai last month'. channel is required; after / before are YYYY-MM-DD "
-    "(default: the last 30 days); from_user is a name, @name or 'me'. Covers top-level messages "
+    "'all the URLs shared in #ai last month'. channel is required; after / before are YYYY-MM-DD and "
+    "can go back years (default when after is left out: only the last 30 days). For 'ever' / 'all "
+    "time' / 'since the channel started', pass after=\"2010-01-01\". from_user is a name, @name or "
+    "'me'. Covers top-level messages "
     "only (not thread replies), up to 2,000 messages, and only channels Hoo Helper has been added "
     "to. The result shows the first 50 rows; the full list can be attached as a CSV, JSON or "
     "Excel file when the person asks for one."
@@ -440,7 +442,11 @@ class SlackSearchTools:
             logger.warning("conversations.history failed: %s", code if code.isidentifier() else type(e).__name__)
             return "I couldn't read that channel's history just now; try again in a minute."
         self.listings.append(listing)
-        return format_listing(listing, name)
+        out = format_listing(listing, name)
+        if not after.strip():
+            out += (f"\n\n_This is the last {LIST_DEFAULT_DAYS} days by default. For older or all-time "
+                    f"links, call {TOOL_LIST_CHANNEL} again with after=\"2010-01-01\" (or the start date wanted)._")
+        return out
 
 
 NO_TOKEN_LINE = (

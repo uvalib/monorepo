@@ -186,10 +186,10 @@ class ThreadClient(Uploads):
         return {"messages": []}
 
 
-def _follow_up(text, history):
+def _follow_up(text, history, tables=(LINKS,)):
     import app
     agent, client = FakeAgent(), ThreadClient()
-    tools = SimpleNamespace(listings=[SimpleNamespace(table=LINKS)])
+    tools = SimpleNamespace(listings=[SimpleNamespace(table=t) for t in tables])
     real = app.agent, app.get_bot_identity, app.slack_tools_for_event
     app.agent, app.get_bot_identity = agent, (lambda c: ("UBOT", "B1"))
     app.slack_tools_for_event = lambda *a, **k: (tools, [])
@@ -207,6 +207,14 @@ def test_follow_up_in_a_csv_thread_attaches_a_csv():  # staff trial: "all the li
     agent, client = _follow_up("can you give me a listing of all the links ever shared in the channel?", history)
     assert [f["filename"].rsplit(".", 1)[1] for f in client.files] == ["csv"]
     assert any("CSV file" in line and "attached automatically" in line for line in agent.extra)
+
+
+def test_retried_listing_attaches_only_the_last_one():  # default 30 days, then all-time, in one turn
+    all_time = SheetTable("Links in #ai (2010-01-01 to 2026-10-22)", LINKS.headers, LINKS.rows + [LINKS.rows[0]], plain=True)
+    _, client = _follow_up("all the links ever in #ai as CSV", [], tables=(LINKS, all_time))
+    text = client.files[0]["content"].decode("utf-8-sig")
+    assert LINKS.title not in text  # one table, no section titles
+    assert client.files[0]["title"] == all_time.title and len(text.strip().splitlines()) == 4
 
 
 def test_no_file_asked_tells_the_model_not_to_claim_one():
@@ -229,5 +237,6 @@ if __name__ == "__main__":
     test_app_csv_request_attaches_csv_not_excel()
     test_app_nothing_to_attach_and_missing_scope_notice()
     test_follow_up_in_a_csv_thread_attaches_a_csv()
+    test_retried_listing_attaches_only_the_last_one()
     test_no_file_asked_tells_the_model_not_to_claim_one()
     print("ok")

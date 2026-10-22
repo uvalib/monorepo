@@ -187,6 +187,20 @@ def test_list_tool_defaults_to_last_30_days():
     assert 30 * 86400 - 5 <= span <= 30 * 86400 + 5
 
 
+def test_default_range_says_how_to_get_everything():  # trial: "all the links ever" → "only 30 days"
+    t = tools(FakeChannels([[m("1.000001", "<https://a.org>")]]))
+    out = t.call(TOOL_LIST_CHANNEL, {"channel": "ai"})
+    assert "last 30 days by default" in out and 'after="2010-01-01"' in out
+    dated = tools(FakeChannels([[]])).call(TOOL_LIST_CHANNEL, {"channel": "ai", "after": "2025-01-01"})
+    assert "by default" not in dated
+
+
+def test_list_tool_description_covers_all_time_requests():
+    from slack_search import LIST_CHANNEL_DESCRIPTION
+    assert "ever" in LIST_CHANNEL_DESCRIPTION and 'after="2010-01-01"' in LIST_CHANNEL_DESCRIPTION
+    assert "years" in LIST_CHANNEL_DESCRIPTION
+
+
 def test_list_tool_refuses_private_and_unjoined_channels():
     client = FakeChannels([[]])
     t = tools(client)
@@ -249,6 +263,8 @@ if __name__ == "__main__":
     test_list_tool_offered_without_search_token()
     test_list_tool_lists_links_and_keeps_the_table()
     test_list_tool_defaults_to_last_30_days()
+    test_default_range_says_how_to_get_everything()
+    test_list_tool_description_covers_all_time_requests()
     test_list_tool_refuses_private_and_unjoined_channels()
     test_list_tool_from_user_me_and_bad_dates()
     test_list_tool_refuses_guests_external_users_and_unknown_askers()
