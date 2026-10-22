@@ -9,6 +9,9 @@ that event's action_token:
   - read_slack_thread: conversations.replies with the bot token. The bot token
     also has groups:history, so the public-channel check here is what keeps
     private channels, DMs and group DMs out.
+  - list_slack_channel: every link / file / message in a public channel Hoo
+    Helper has joined, for a date range (slack_listing.py). Bot token only; it
+    never joins channels by itself.
 """
 
 from __future__ import annotations
@@ -16,17 +19,20 @@ from __future__ import annotations
 import logging
 import os
 import re
-from datetime import datetime
+import time
+from datetime import datetime, timedelta
 from typing import Any, Callable, Dict, List, Optional, Tuple
 from urllib.parse import parse_qs, urlparse
 from zoneinfo import ZoneInfo
 
 from identity import UserDirectory, resolve_mentions
+from slack_listing import Listing, format_listing, list_channel
 
 logger = logging.getLogger(__name__)
 
 TOOL_SEARCH = "search_slack"
 TOOL_READ_THREAD = "read_slack_thread"
+TOOL_LIST_CHANNEL = "list_slack_channel"
 
 TZ = ZoneInfo("America/New_York")
 MAX_HIT_CHARS = 400
@@ -36,6 +42,9 @@ FROM_USER_FETCH = 20  # filter by author in the tool (see plan rulings)
 EXPIRED_TEXT = "Slack search needs a fresh @mention in this thread."
 BUSY_TEXT = "Slack search is busy, try again in a minute."
 PUBLIC_ONLY_TEXT = "I can only read public channels, not private channels, DMs or group DMs."
+NOT_JOINED_TEXT = ("Hoo Helper isn't in #{name}, so I can't list it. Anyone in the channel can add it with "
+                   "`/invite @Hoo Helper`; I don't join channels on my own.")
+LIST_DEFAULT_DAYS = 30
 
 _PERMALINK = re.compile(r"/archives/([A-Z0-9]+)/p(\d{10})(\d{6})")
 _logged_keys = False
@@ -47,7 +56,18 @@ SEARCH_DESCRIPTION = (
     "'what did we decide about LibCal hours?'. Optional: from_user (a name, @name, Slack id, or "
     "'me' for the person asking), channel (name or id), after / before (YYYY-MM-DD). Use at most "
     "2–3 searches per answer. In the answer, cite each message's channel, author and permalink; "
-    "a Slack message is discussion, not official policy."
+    "a Slack message is discussion, not official policy. Search returns only the best ~20 matches, "
+    "so it is not a full export: for 'all the links / files / messages in #channel', use "
+    "list_slack_channel instead."
+)
+LIST_CHANNEL_DESCRIPTION = (
+    "List everything of one kind posted in a public Slack channel over a date range: kind='links' "
+    "(every URL shared, default), 'files', or 'all' messages. Use it for exhaustive requests like "
+    "'all the URLs shared in #ai last month'. channel is required; after / before are YYYY-MM-DD "
+    "(default: the last 30 days); from_user is a name, @name or 'me'. Covers top-level messages "
+    "only (not thread replies), up to 2,000 messages, and only channels Hoo Helper has been added "
+    "to. The result shows the first 50 rows; the full list can be attached as a CSV, JSON or "
+    "Excel file when the person asks for one."
 )
 READ_THREAD_DESCRIPTION = (
     "Read the whole public Slack thread around a message. Pass a permalink from search_slack "
@@ -117,6 +137,7 @@ class SlackSearchTools:
         self.asker_id = asker_id
         self.directory = directory
         self.on_token_expired = on_token_expired
+        self.listings: List[Listing] = []  # full tables, for file attachments
 
     # ---- tool plumbing -------------------------------------------------------
 
@@ -135,10 +156,17 @@ class SlackSearchTools:
             "permalink_or_ts": {"type": "string", "description": "Slack permalink, or a message ts with channel"},
             "channel": {"type": "string", "description": "Channel id when passing a ts"},
         }, ["permalink_or_ts"]))
+        specs.append(_spec(TOOL_LIST_CHANNEL, LIST_CHANNEL_DESCRIPTION, {
+            "channel": {"type": "string", "description": "Public channel name or id"},
+            "kind": {"type": "string", "enum": ["links", "files", "all"], "description": "What to list (default links)"},
+            "after": {"type": "string", "description": "YYYY-MM-DD (first day included)"},
+            "before": {"type": "string", "description": "YYYY-MM-DD (last day included)"},
+            "from_user": {"type": "string", "description": "Name, @name, Slack id, or 'me'"},
+        }, ["channel"]))
         return specs
 
     def handles(self, name: str) -> bool:
-        return name in (TOOL_SEARCH, TOOL_READ_THREAD)
+        return name in (TOOL_SEARCH, TOOL_READ_THREAD, TOOL_LIST_CHANNEL)
 
     def call(self, name: str, args: Dict[str, Any]) -> str:
         args = args if isinstance(args, dict) else {}
@@ -154,6 +182,14 @@ class SlackSearchTools:
                 )
             if name == TOOL_READ_THREAD:
                 return self.read_thread(str(args.get("permalink_or_ts") or ""), channel=str(args.get("channel") or ""))
+            if name == TOOL_LIST_CHANNEL:
+                return self.list_channel(
+                    str(args.get("channel") or ""),
+                    kind=str(args.get("kind") or "links"),
+                    after=str(args.get("after") or ""),
+                    before=str(args.get("before") or ""),
+                    from_user=str(args.get("from_user") or ""),
+                )
         except Exception as e:  # never hand the model a stack trace
             logger.warning("%s failed: %s", name, type(e).__name__)
             return "Slack didn't respond as expected; try again in a minute."
@@ -163,6 +199,10 @@ class SlackSearchTools:
 
     def _public_channel(self, name_or_id: str) -> Tuple[Optional[str], str]:
         """(channel id, '') for a public channel, or (None, sentence to return)."""
+        channel_id, _, refusal = self._public_channel_info(name_or_id)
+        return channel_id, refusal
+
+    def _public_channel_info(self, name_or_id: str) -> Tuple[Optional[str], Dict[str, Any], str]:
         raw = name_or_id.strip().lstrip("#")
         channel_id = raw if re.fullmatch(r"[CG][A-Z0-9]+", raw) else _CHANNEL_IDS.get(raw.lower())
         if not channel_id:
@@ -177,14 +217,29 @@ class SlackSearchTools:
                     break
             channel_id = _CHANNEL_IDS.get(raw.lower())
         if not channel_id:
-            return None, f'I couldn\'t find a public channel named "{name_or_id}".'
+            return None, {}, f'I couldn\'t find a public channel named "{name_or_id}".'
         try:
             info = (self.client.conversations_info(channel=channel_id) or {}).get("channel") or {}
         except Exception:
-            return None, f'I couldn\'t find a public channel named "{name_or_id}".'
+            return None, {}, f'I couldn\'t find a public channel named "{name_or_id}".'
         if not _is_public(info):
-            return None, PUBLIC_ONLY_TEXT
-        return channel_id, ""
+            return None, {}, PUBLIC_ONLY_TEXT
+        return channel_id, info, ""
+
+    def _author(self, from_user: str) -> Tuple[str, str]:
+        """(Slack user id or '', sentence to return instead) for a from_user argument."""
+        if not from_user.strip():
+            return "", ""
+        if from_user.strip().lower() in ("me", "@me", "myself"):
+            return self.asker_id, ""
+        author_id = self.directory.find(from_user) or ""
+        if author_id:
+            return author_id, ""
+        people = self.directory.candidates(from_user)
+        if len(people) > 1:
+            names = ", ".join(p.label for p in people[:5])
+            return "", f'More than one person matches "{from_user}": {names}. Which one?'
+        return "", f'I couldn\'t find a Slack user named "{from_user}".'
 
     def _channel_name(self, hit: Dict[str, Any]) -> str:
         name = hit.get("channel_name")
@@ -222,19 +277,9 @@ class SlackSearchTools:
             return "Give me something to search for."
         limit = max(1, min(int(limit or 10), 20))
 
-        author_id = ""
-        if from_user.strip():
-            if from_user.strip().lower() in ("me", "@me", "myself"):
-                author_id = self.asker_id
-            else:
-                author_id = self.directory.find(from_user) or ""
-                if not author_id:
-                    people = self.directory.candidates(from_user)
-                    if len(people) > 1:
-                        names = ", ".join(p.label for p in people[:5])
-                        return f'More than one person matches "{from_user}": {names}. Which one?'
-            if not author_id:
-                return f'I couldn\'t find a Slack user named "{from_user}".'
+        author_id, refusal = self._author(from_user)
+        if refusal:
+            return refusal
 
         params: Dict[str, Any] = {
             "query": query,
@@ -348,6 +393,43 @@ class SlackSearchTools:
         if len(body) > MAX_THREAD_CHARS:
             body = body[: MAX_THREAD_CHARS - 1] + "…\n(thread trimmed)"
         return body + (f"\nThread: {link}" if link else "")
+
+
+    def list_channel(self, channel: str, kind: str = "links", after: str = "", before: str = "",
+                     from_user: str = "") -> str:
+        if not channel.strip():
+            return "Which public channel should I list?"
+        try:
+            latest = int(time.time())
+            if before.strip():  # end of the last day, DST-safe
+                last = datetime.strptime(before.strip(), "%Y-%m-%d") + timedelta(days=1)
+                latest = int(last.replace(tzinfo=TZ).timestamp())
+            oldest = _day_ts(after) if after.strip() else latest - LIST_DEFAULT_DAYS * 86400
+        except ValueError:
+            return "Dates for after / before must be YYYY-MM-DD."
+        author_id, refusal = self._author(from_user)
+        if refusal:
+            return refusal
+        channel_id, info, refusal = self._public_channel_info(channel)
+        if refusal:
+            return refusal
+        name = str(info.get("name") or channel.strip().lstrip("#"))
+        if info.get("is_member") is not True:
+            return NOT_JOINED_TEXT.format(name=name)
+        try:
+            listing = list_channel(self.client, channel_id, kind=kind, oldest=oldest, latest=latest,
+                                   directory=self.directory, author_id=author_id, channel_name=name)
+        except Exception as e:
+            code, status = _error_code(e)
+            code = code or str(e)
+            if status == 429 or code == "ratelimited":
+                return BUSY_TEXT
+            if code == "not_in_channel":
+                return NOT_JOINED_TEXT.format(name=name)
+            logger.warning("conversations.history failed: %s", code if code.isidentifier() else type(e).__name__)
+            return "I couldn't read that channel's history just now; try again in a minute."
+        self.listings.append(listing)
+        return format_listing(listing, name)
 
 
 NO_TOKEN_LINE = (

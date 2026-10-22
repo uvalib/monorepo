@@ -8,6 +8,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 
 from identity import UserDirectory, _reset_cache  # noqa: E402
 from slack_listing import MAX_MESSAGES, extract_links, format_listing, list_channel  # noqa: E402
+from slack_search import TOOL_LIST_CHANNEL, SlackSearchTools  # noqa: E402
 
 USERS = {"U1": "Pat Doe", "U2": "Jordan Lee"}
 
@@ -100,6 +101,79 @@ def test_format_shows_summary_first_rows_and_notes():
     assert "CSV, JSON or Excel" in out
 
 
+# ---- the list_slack_channel tool (SlackSearchTools) ---------------------------
+
+CHANNELS = {
+    "C1": {"id": "C1", "name": "ai", "is_private": False, "is_member": True},
+    "C2": {"id": "C2", "name": "web-team", "is_private": False, "is_member": False},
+    "G1": {"id": "G1", "name": "secret", "is_private": True, "is_group": True, "is_member": True},
+}
+
+
+class FakeChannels(FakeSlack):
+    def conversations_info(self, channel):
+        if channel not in CHANNELS:
+            raise RuntimeError("channel_not_found")
+        return {"channel": CHANNELS[channel]}
+
+    def conversations_list(self, types="public_channel", limit=200, cursor=None, exclude_archived=False):
+        return {"channels": [c for c in CHANNELS.values() if not c["is_private"]],
+                "response_metadata": {"next_cursor": ""}}
+
+
+def tools(client, token=""):
+    return SlackSearchTools(client, action_token=token, asker_id="U1", directory=directory(client))
+
+
+def test_list_tool_offered_without_search_token():
+    names = [s["toolSpec"]["name"] for s in tools(FakeChannels([[]])).tool_specs()]
+    assert TOOL_LIST_CHANNEL in names and "search_slack" not in names
+    t = tools(FakeChannels([[]]))
+    assert t.handles(TOOL_LIST_CHANNEL)
+
+
+def test_list_tool_lists_links_and_keeps_the_table():
+    client = FakeChannels([[m("1760461440.000100", "see <https://example.org/a>")]])
+    t = tools(client)
+    out = t.call(TOOL_LIST_CHANNEL, {"channel": "#ai", "after": "2025-10-01", "before": "2025-10-31", "kind": "links"})
+    assert "https://example.org/a" in out and "1 links in 1 messages" in out
+    assert len(t.listings) == 1 and t.listings[0].table.rows[0][2] == "https://example.org/a"
+    assert client.calls[0]["latest"] == "1761969600"  # end of 2025-10-31 EDT (before is inclusive)
+    assert client.calls[0]["oldest"] == "1759291200"  # 2025-10-01 00:00 EDT
+
+
+def test_list_tool_defaults_to_last_30_days():
+    client = FakeChannels([[]])
+    tools(client).call(TOOL_LIST_CHANNEL, {"channel": "ai"})
+    span = int(client.calls[0]["latest"]) - int(client.calls[0]["oldest"])
+    assert 30 * 86400 - 5 <= span <= 30 * 86400 + 5
+
+
+def test_list_tool_refuses_private_and_unjoined_channels():
+    client = FakeChannels([[]])
+    t = tools(client)
+    assert "public channels" in t.call(TOOL_LIST_CHANNEL, {"channel": "G1"})
+    out = t.call(TOOL_LIST_CHANNEL, {"channel": "web-team"})
+    assert "/invite @Hoo Helper" in out and client.calls == []
+    assert "couldn't find" in t.call(TOOL_LIST_CHANNEL, {"channel": "nope"})
+    assert t.listings == []
+
+
+def test_list_tool_from_user_me_and_bad_dates():
+    client = FakeChannels([[m("2.000001", "<https://b.org>", "U2"), m("1.000001", "<https://a.org>", "U1")]])
+    t = tools(client)
+    out = t.call(TOOL_LIST_CHANNEL, {"channel": "ai", "after": "1970-01-01", "before": "1970-01-02", "from_user": "me"})
+    assert "https://a.org" in out and "https://b.org" not in out
+    assert "YYYY-MM-DD" in t.call(TOOL_LIST_CHANNEL, {"channel": "ai", "after": "last week"})
+
+
+def test_list_tool_not_in_channel_error_suggests_invite():
+    class NotIn(FakeChannels):
+        def conversations_history(self, **kw):
+            raise RuntimeError("not_in_channel")
+    assert "/invite @Hoo Helper" in tools(NotIn([[]])).call(TOOL_LIST_CHANNEL, {"channel": "ai"})
+
+
 if __name__ == "__main__":
     test_extract_links_from_slack_markup()
     test_links_listing_pages_and_builds_rows()
@@ -107,4 +181,10 @@ if __name__ == "__main__":
     test_from_user_filters_authors()
     test_cap_stops_paging_and_says_so()
     test_format_shows_summary_first_rows_and_notes()
+    test_list_tool_offered_without_search_token()
+    test_list_tool_lists_links_and_keeps_the_table()
+    test_list_tool_defaults_to_last_30_days()
+    test_list_tool_refuses_private_and_unjoined_channels()
+    test_list_tool_from_user_me_and_bad_dates()
+    test_list_tool_not_in_channel_error_suggests_invite()
     print("ok")

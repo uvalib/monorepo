@@ -48,7 +48,7 @@ def test_allow_list_limits_rollout():
 def test_mention_gets_search_and_followup_reuses_token():
     client, d, s = setup()
     tools, extra = slack_tools_for_event(MENTION, client, directory=d, store=s, env=ON)
-    assert names(tools) == ["search_slack", "read_slack_thread"] and extra == []
+    assert names(tools) == ["search_slack", "read_slack_thread", "list_slack_channel"] and extra == []
     tools, extra = slack_tools_for_event(FOLLOWUP, client, directory=d, store=s, env=ON)
     assert tools.action_token == "tok" and tools.asker_id == "U2" and extra == []
 
@@ -59,7 +59,7 @@ def test_no_token_adds_prompt_line_and_hides_search():
     assert extra == ["Slack search is unavailable in this thread until someone @mentions Hoo Helper again; "
                      "say so only if Slack history would help answer."]
     assert extra == [NO_TOKEN_LINE]
-    assert names(tools) == ["read_slack_thread"]
+    assert names(tools) == ["read_slack_thread", "list_slack_channel"]
 
 
 def test_expired_token_is_forgotten_for_the_thread():

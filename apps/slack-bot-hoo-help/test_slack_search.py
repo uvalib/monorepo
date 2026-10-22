@@ -231,9 +231,9 @@ def test_no_results():
 
 def test_no_token_hides_search_tool():
     s, _ = tools(action_token="")
-    assert [t["toolSpec"]["name"] for t in s.tool_specs()] == [TOOL_READ_THREAD]
+    assert [t["toolSpec"]["name"] for t in s.tool_specs()] == [TOOL_READ_THREAD, "list_slack_channel"]
     s2, _ = tools(action_token="tok")
-    assert [t["toolSpec"]["name"] for t in s2.tool_specs()] == [TOOL_SEARCH, TOOL_READ_THREAD]
+    assert [t["toolSpec"]["name"] for t in s2.tool_specs()] == [TOOL_SEARCH, TOOL_READ_THREAD, "list_slack_channel"]
 
 
 def test_search_spec_description_guides_the_model():
