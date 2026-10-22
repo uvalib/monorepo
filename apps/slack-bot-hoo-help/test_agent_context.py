@@ -180,6 +180,39 @@ def test_step_limit_fallback_names_what_was_checked():
     assert "get_library_hours" in result.text and "narrower" in result.text
 
 
+class FailingBedrock:
+    def __init__(self, exc):
+        self.exc = exc
+
+    def converse(self, **kwargs):
+        raise self.exc
+
+
+def test_errors_never_show_raw_exception_text():  # review: Slack got "…error processing your request: <boto error>"
+    from botocore.exceptions import ClientError
+
+    raw = ("An error occurred (ValidationException) when calling the Converse operation: "
+           "messages.3.content.0: arn:aws:bedrock:us-east-1:115119339709:inference-profile/x")
+    agent = make_agent()
+    agent.bedrock_runtime = FailingBedrock(ClientError(
+        {"Error": {"Code": "ValidationException", "Message": raw}}, "Converse"))
+    result = agent.process_message("thanks!", request_id="1d0409af-dd71-4ea6-adcd-f9e79b1af616")
+    assert "ValidationException" not in result.text and "arn:aws" not in result.text
+    assert "1d0409af" in result.text  # reference code to find the trace
+    assert result.trace.stop_reason == "error" and "ValidationException" in (result.trace.error or "")
+
+
+def test_throttling_gets_a_try_again_message():
+    from botocore.exceptions import ClientError, ReadTimeoutError
+
+    for exc in (ClientError({"Error": {"Code": "ThrottlingException", "Message": "Too many requests"}}, "Converse"),
+                ReadTimeoutError(endpoint_url="https://bedrock-runtime.us-east-1.amazonaws.com")):
+        agent = make_agent()
+        agent.bedrock_runtime = FailingBedrock(exc)
+        text = agent.process_message("thanks!").text
+        assert "try again in a minute" in text and "Throttling" not in text and "amazonaws" not in text
+
+
 if __name__ == "__main__":
     test_system_prompt_includes_extra_context()
     test_system_prompt_without_extra_context_unchanged()
@@ -193,4 +226,6 @@ if __name__ == "__main__":
     test_system_prompt_handles_half_remembered_authors()
     test_step_limit_wraps_up_with_what_was_found()
     test_step_limit_fallback_names_what_was_checked()
+    test_errors_never_show_raw_exception_text()
+    test_throttling_gets_a_try_again_message()
     print("ok")

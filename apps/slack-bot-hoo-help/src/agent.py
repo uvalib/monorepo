@@ -64,6 +64,28 @@ _ABOUT_ASSISTANT_RE = re.compile(
 )
 
 
+_BUSY_ERROR_CODES = frozenset({
+    "ThrottlingException", "ServiceUnavailableException", "ModelNotReadyException",
+    "TooManyRequestsException", "ModelTimeoutException",
+})
+
+
+def _error_reply(exc: Exception, request_id: str) -> str:
+    """What Slack sees when the model call fails: never the raw error (it can carry
+    request details, ARNs and AWS internals); a reference code finds the trace."""
+    code = ""
+    response = getattr(exc, "response", None)
+    if isinstance(response, dict):
+        code = str((response.get("Error") or {}).get("Code") or "")
+    if code in _BUSY_ERROR_CODES or "Timeout" in type(exc).__name__:
+        return "I'm getting a lot of requests right now — please try again in a minute."
+    ref = (request_id or "")[:8]
+    return (
+        "Sorry — something went wrong on my end while answering that. Please try again"
+        + (f", and if it keeps happening, mention reference {ref} to the Library's web team." if ref else ".")
+    )
+
+
 # Bland on purpose: stern "stop now" turns trip the guardrail's prompt-attack filter.
 _WRAP_UP_NUDGE = (
     "You've reached the limit of lookups for this question. Please write the best answer you can "
@@ -699,7 +721,7 @@ class HooHelpAgent:
 
             except Exception as e:
                 logger.error("Error in Bedrock converse loop: %s", e, exc_info=True)
-                text = f"Sorry, I encountered an error processing your request: {str(e)}"
+                text = _error_reply(e, trace.request_id)
                 trace.finish(
                     final_text=text,
                     stop_reason="error",
