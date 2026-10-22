@@ -71,9 +71,10 @@ def test_slackbot_system_messages_ignored():
     assert not should_ignore_message_event({"user": "UA", "text": "hello"})
 
 
-def test_judge_request_has_no_temperature():
-    # Claude Haiku 5.5 rejects `temperature` ("deprecated for this model").
+def _judge_request(model_env=None):
+    """Run llm_judge against a fake Bedrock client and return the request it sent."""
     import boto3
+    import chime_in
     sent = {}
 
     class FakeBedrock:
@@ -81,17 +82,37 @@ def test_judge_request_has_no_temperature():
             sent.update(kw)
             return {"output": {"message": {"content": [{"text": "YES"}]}}}
 
-    import chime_in
-    real = boto3.client
+    real, old_env = boto3.client, os.environ.get("CHIME_IN_MODEL_ID")
     boto3.client = lambda *a, **k: FakeBedrock()
     chime_in._bedrock_client.cache_clear()
+    if model_env is None:
+        os.environ.pop("CHIME_IN_MODEL_ID", None)
+    else:
+        os.environ["CHIME_IN_MODEL_ID"] = model_env
     try:
-        assert chime_in.haiku_judge([("Person A", "hi")], "Person B", "is Clemons open?") is True
+        assert chime_in.llm_judge([("Person A", "hi")], "Person B", "is Clemons open?") is True
     finally:
         boto3.client = real
         chime_in._bedrock_client.cache_clear()
+        if old_env is None:
+            os.environ.pop("CHIME_IN_MODEL_ID", None)
+        else:
+            os.environ["CHIME_IN_MODEL_ID"] = old_env
+    return sent
+
+
+def test_default_judge_is_gemma_with_plain_settings():  # model comparison: 30/30, ~3x faster than Haiku
+    sent = _judge_request()
+    assert sent["modelId"] == "google.gemma-3-12b-it"
+    assert sent["inferenceConfig"]["temperature"] == 0
+    assert 8 <= sent["inferenceConfig"]["maxTokens"] <= 64
+    assert "additionalModelRequestFields" not in sent  # Claude-only fields
+
+
+def test_claude_judge_keeps_claude_settings():
+    sent = _judge_request("us.anthropic.claude-haiku-5-5")
+    # Claude Haiku 5.5 rejects `temperature`, and thinks by default (spending maxTokens before the answer).
     assert "temperature" not in sent["inferenceConfig"] and "topP" not in sent["inferenceConfig"]
-    # Haiku 5.5 thinks by default and spends maxTokens on reasoning before the answer.
     assert sent["additionalModelRequestFields"] == {"thinking": {"type": "disabled"}, "output_config": {"effort": "low"}}
     assert sent["inferenceConfig"]["maxTokens"] >= 256
 
@@ -120,8 +141,8 @@ def _run_lazy(event, client, judge_answer):
     replied = []
     app.handle_user_query = lambda *a, **k: replied.append(k)
     app.get_bot_identity = lambda c: (BOT, "B1")
-    chime_in.haiku_judge = lambda *a: judge_answer
-    app.chime_in_judge = chime_in.haiku_judge
+    chime_in.llm_judge = lambda *a: judge_answer
+    app.chime_in_judge = chime_in.llm_judge
     app._lazy_message(event, lambda **k: None, client)
     return replied
 
@@ -160,7 +181,8 @@ if __name__ == "__main__":
     test_group_chatter_uses_judge_and_defaults_to_silence()
     test_judge_errors_stay_silent()
     test_slackbot_system_messages_ignored()
-    test_judge_request_has_no_temperature()
+    test_default_judge_is_gemma_with_plain_settings()
+    test_claude_judge_keeps_claude_settings()
     test_group_thread_chatter_is_not_answered()
     test_one_on_one_thread_still_answered()
     test_group_dm_chatter_is_not_answered()

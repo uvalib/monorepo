@@ -20,7 +20,9 @@ from typing import Any, Callable, Dict, List, Optional, Tuple
 
 logger = logging.getLogger(__name__)
 
-DEFAULT_CHIME_IN_MODEL_ID = "us.anthropic.claude-haiku-5-5"
+# Gemma 3 12B matched Claude Haiku 5.5 on 30/30 labelled thread moments (3 runs, Oct 2026)
+# at ~0.23 s vs ~0.8 s and a fraction of the cost. CHIME_IN_MODEL_ID overrides it.
+DEFAULT_CHIME_IN_MODEL_ID = "google.gemma-3-12b-it"
 TRANSCRIPT_MESSAGES = 6
 JUDGE_TIMEOUT_SEC = 3
 
@@ -107,25 +109,35 @@ def _bedrock_client():
     )
 
 
-def haiku_judge(transcript: List[Tuple[str, str]], sender: str, text: str) -> bool:
+def _request_settings(model_id: str) -> Dict[str, Any]:
+    """Per-model Converse settings for a one-word YES/NO answer."""
+    if "anthropic" in model_id:
+        # Haiku 5.5: sampling params are rejected, and thinking (on by default)
+        # would spend the token budget before the one-word answer.
+        return {
+            "inferenceConfig": {"maxTokens": 256},
+            "additionalModelRequestFields": {"thinking": {"type": "disabled"}, "output_config": {"effort": "low"}},
+        }
+    return {"inferenceConfig": {"maxTokens": 16, "temperature": 0}}
+
+
+def llm_judge(transcript: List[Tuple[str, str]], sender: str, text: str) -> bool:
     client = _bedrock_client()
     convo = "\n".join(f"{speaker}: {line}" for speaker, line in transcript)
     prompt = f"Thread so far:\n{convo}\n\nLAST message — {sender}: {text}\n\nShould Hoo Helper reply?"
+    model_id = os.environ.get("CHIME_IN_MODEL_ID", DEFAULT_CHIME_IN_MODEL_ID)
     resp = client.converse(
-        modelId=os.environ.get("CHIME_IN_MODEL_ID", DEFAULT_CHIME_IN_MODEL_ID),
+        modelId=model_id,
         system=[{"text": JUDGE_SYSTEM}],
         messages=[{"role": "user", "content": [{"text": prompt}]}],
-        # Haiku 5.5: sampling params are rejected, and thinking (on by default)
-        # would spend the token budget before the one-word answer.
-        inferenceConfig={"maxTokens": 256},
-        additionalModelRequestFields={"thinking": {"type": "disabled"}, "output_config": {"effort": "low"}},
+        **_request_settings(model_id),
     )
     blocks = resp.get("output", {}).get("message", {}).get("content", []) or []
     answer = " ".join(b.get("text", "") for b in blocks if isinstance(b, dict)).strip().upper()
     return answer.startswith("YES")
 
 
-def should_reply(text: str, sender: str, snap: Snapshot, *, judge: Judge = haiku_judge) -> Tuple[bool, str]:
+def should_reply(text: str, sender: str, snap: Snapshot, *, judge: Judge = llm_judge) -> Tuple[bool, str]:
     humans = set(snap.participants) | ({sender} if sender else set())
     if len(humans) <= 1:
         return True, "one-on-one"

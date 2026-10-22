@@ -182,7 +182,7 @@ possible person names. Fill in `expect` (facts that must appear) and optionally
 5. **Group etiquette** (`src/chime_in.py`): when one person is talking with the bot, it answers
    every follow-up. Once two or more people are in the thread (or in a group DM), it replies to an
    unmentioned message only when addressed by name ("Hoo Helper, …"), when the person it just
-   answered replies, or when a quick Claude Haiku 5.5 check (`CHIME_IN_MODEL_ID`) judges the message
+   answered replies, or when a quick Gemma 3 12B check (`CHIME_IN_MODEL_ID`) judges the message
    is aimed at the assistant or is an unanswered library question. Unsure, error or timeout → silent.
    @mentions are always answered. Slackbot system notices are ignored. Skips are logged with a reason.
 6. **Who's who** (`src/identity.py`): the model gets one line about the person asking (name, display

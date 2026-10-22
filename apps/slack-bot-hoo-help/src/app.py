@@ -518,7 +518,7 @@ def _lazy_message(event, say, client):
     # Group DMs: several people — same etiquette as multi-person threads
     if channel_type == "mpim":
         snap = _group_dm_snapshot(client, channel_id, thread_ts, ts, bot_user_id, bot_app_bot_id)
-        ok, reason = chime_in.should_reply(text, event.get("user") or "", snap, judge=chime_in.haiku_judge)
+        ok, reason = chime_in.should_reply(text, event.get("user") or "", snap, judge=chime_in.llm_judge)
         if not ok:
             logger.info("Group DM %s: not replying (%s)", channel_id, reason)
             return
@@ -538,7 +538,7 @@ def _lazy_message(event, say, client):
         )
         if is_our_thread:
             snap = meta.get("snapshot") or chime_in.Snapshot()
-            ok, reason = chime_in.should_reply(text, event.get("user") or "", snap, judge=chime_in.haiku_judge)
+            ok, reason = chime_in.should_reply(text, event.get("user") or "", snap, judge=chime_in.llm_judge)
             if not ok:
                 logger.info("Thread %s in %s: not replying (%s)", thread_ts, channel_id, reason)
                 return
