@@ -10,7 +10,7 @@ from types import SimpleNamespace
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 
-from attachments import build_file, file_context_line, file_format, requested_format  # noqa: E402
+from attachments import build_file, citable_tables, file_context_line, file_format, requested_format  # noqa: E402
 from spreadsheet import SheetTable  # noqa: E402
 
 LINKS = SheetTable("Links shared in #ai (2026-10-01 to 2026-10-21)", ["Date", "Author", "URL", "Message"],
@@ -74,9 +74,44 @@ def test_follow_up_keeps_the_format_the_thread_asked_for():  # staff trial: "all
 
 
 def test_file_context_line_tells_the_model_the_truth():
-    assert "won't be attached" in file_context_line(None) and "CSV, JSON or Excel" in file_context_line(None)
+    assert "won't be attached" in file_context_line(None) and "CSV, JSON, Excel or RIS" in file_context_line(None)
     line = file_context_line("csv")
     assert "CSV" in line and "attached automatically" in line
+
+
+
+LINK_TABLE = SheetTable("Links in #ai (2026-10-01 to 2026-10-21)", ["Date", "Author", "URL", "Title", "Message"],
+                        [["2026-10-02 09:00", "Pat Doe", "https://example.org/a", "Example A", "https://uvalib.slack.com/archives/C1/p1"],
+                         ["2026-10-05 14:30", "Jordan Lee", "https://example.org/b", "", "https://uvalib.slack.com/archives/C1/p2"]],
+                        plain=True, source="#ai")
+FILE_TABLE = SheetTable("Files in #ai (2026-10-01 to 2026-10-21)", ["Date", "Author", "File", "Link", "Message"],
+                        [["2026-10-03 10:00", "Pat Doe", "deck.pdf", "https://uvalib.slack.com/files/U1/F1/deck.pdf",
+                          "https://uvalib.slack.com/archives/C1/p3"]], plain=True, source="#ai")
+GATE = SheetTable("Clemons", ["Entrance", "In"], [["Main", "73,469"]])
+
+
+def test_ris_format_from_question():
+    for text in ["those links as RIS", "export them for Zotero", "as a .ris file", "a citation file please"]:
+        assert file_format(text) == "ris", text
+
+
+def test_ris_records_for_links():
+    data, filename, _ = build_file("ris", [LINK_TABLE])
+    text = data.decode("utf-8")
+    assert filename.endswith(".ris") and "\r\n" in text and not text.replace("\r\n", "").count("\n")
+    records = [r for r in text.split("ER  - ") if r.strip()]
+    assert len(records) == 2
+    first = records[0].strip().split("\r\n")
+    assert first[0] == "TY  - ELEC"
+    assert "TI  - Example A" in first and "UR  - https://example.org/a" in first and "DA  - 2026/10/02" in first
+    assert any(l.startswith("N1  - Shared in #ai by Pat Doe") and "archives/C1/p1" in l for l in first)
+    assert "TI  - https://example.org/b" in records[1]  # no preview title: the URL stands in
+
+
+def test_ris_records_for_files_and_nothing_citable():
+    text = build_file("ris", [FILE_TABLE])[0].decode("utf-8")
+    assert "TI  - deck.pdf" in text and "UR  - https://uvalib.slack.com/files/U1/F1/deck.pdf" in text
+    assert citable_tables([GATE]) == [] and citable_tables([GATE, LINK_TABLE]) == [LINK_TABLE]
 
 
 MESSAGES = SheetTable("Messages in #ai (2026-10-01 to 2026-10-21)", ["Date", "Author", "Text", "Message"],
@@ -217,6 +252,21 @@ def test_retried_listing_attaches_only_the_last_one():  # default 30 days, then 
     assert client.files[0]["title"] == all_time.title and len(text.strip().splitlines()) == 4
 
 
+def test_ris_follow_up_attaches_a_ris_file():  # staff trial: "links in RIS for Zotero" → "can't"
+    history = [turn("user", "[Doug]: all the links ever shared in #ai as CSV"), turn("assistant", "Attached.")]
+    agent, client = _follow_up("can I get those in RIS format for Zotero?", history, tables=(LINK_TABLE,))
+    assert [f["filename"].rsplit(".", 1)[1] for f in client.files] == ["ris"]
+    assert client.files[0]["content"].startswith(b"TY  - ELEC")
+    assert any("RIS" in line and "attached automatically" in line for line in agent.extra)
+
+
+def test_ris_with_nothing_citable_says_so_instead_of_a_broken_file():
+    import app
+    client = Uploads()
+    app._attach_file(client, "C9", None, Trace([GATE_STEP]), "ris", [])
+    assert client.files == [] and "RIS" in client.posts[0]["text"] and "CSV" in client.posts[0]["text"]
+
+
 def test_no_file_asked_tells_the_model_not_to_claim_one():
     agent, client = _follow_up("all the links in #ai", [])
     assert client.files == []
@@ -229,6 +279,9 @@ if __name__ == "__main__":
     test_json_is_records_with_header_keys()
     test_multiple_tables_json_is_a_list_and_csv_has_sections()
     test_xlsx_still_builds()
+    test_ris_format_from_question()
+    test_ris_records_for_links()
+    test_ris_records_for_files_and_nothing_citable()
     test_follow_up_keeps_the_format_the_thread_asked_for()
     test_file_context_line_tells_the_model_the_truth()
     test_message_text_is_never_a_formula_in_xlsx()
@@ -238,5 +291,7 @@ if __name__ == "__main__":
     test_app_nothing_to_attach_and_missing_scope_notice()
     test_follow_up_in_a_csv_thread_attaches_a_csv()
     test_retried_listing_attaches_only_the_last_one()
+    test_ris_follow_up_attaches_a_ris_file()
+    test_ris_with_nothing_citable_says_so_instead_of_a_broken_file()
     test_no_file_asked_tells_the_model_not_to_claim_one()
     print("ok")

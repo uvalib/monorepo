@@ -208,9 +208,12 @@ Behind `EnableSlackSearch` (default `false`). Three in-process tools:
 
 Scopes it relies on: `search:read.public`, `users:read`, `channels:history`, `channels:read`.
 
-**Files:** when the question says "CSV", "JSON" or "Excel / spreadsheet", `src/attachments.py`
-builds that file from this turn's tool tables (Slack listings, gate-count tables) and the app
-uploads it to the thread. Values come from tool data, never from the model's prose.
+**Files:** when the question says "CSV", "JSON", "Excel / spreadsheet" or "RIS / Zotero",
+`src/attachments.py` builds that file from this turn's tool tables (Slack listings, gate-count
+tables) and the app uploads it to the thread; a follow-up keeps the format asked for earlier in the
+thread. Values come from tool data, never from the model's prose. RIS (for Zotero / EndNote import)
+covers links and files only: one web-page record per link, titled from Slack's link preview when
+there is one, with the date shared and a note linking back to the Slack message.
 
 Bot-token searches need an `action_token`, which Slack sends on @mentions, DMs and group DMs but
 not on unmentioned thread follow-ups. `src/action_tokens.py` saves it per thread in the DynamoDB

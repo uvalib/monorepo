@@ -37,6 +37,7 @@ class SheetTable:
     rows: List[List[str]] = field(default_factory=list)
     # True for people's text (Slack listings): cells stay exact strings, never numbers or formulas.
     plain: bool = False
+    source: str = ""  # where the rows came from, e.g. "#ai" (RIS notes)
 
 
 def wants_spreadsheet(user_text: str) -> bool:

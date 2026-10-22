@@ -39,7 +39,7 @@ from session_trace import SessionTrace
 from slack_blocks import flatten_carousels
 import chime_in
 from slack_format import format_for_slack, rewrite_urls_in_blocks
-from attachments import build_file, file_context_line, requested_format
+from attachments import build_file, citable_tables, file_context_line, requested_format
 from spreadsheet import tables_from_steps
 from thread_context import (
     extract_thread_history,
@@ -430,6 +430,17 @@ def _attach_file(client, channel_id, thread_ts, trace, fmt, listing_tables) -> N
     tables = list(listing_tables or []) + tables_from_steps(getattr(trace, "steps", None))
     if not tables:
         logger.info("%s file requested but no table-producing tool ran", fmt)
+        return
+    if fmt == "ris" and not citable_tables(tables):
+        try:
+            client.chat_postMessage(
+                channel=channel_id,
+                thread_ts=thread_ts,
+                text="_RIS is for citations (links and files), so there's nothing to cite here; "
+                "I can attach this as a CSV or Excel file instead._",
+            )
+        except Exception:
+            pass
         return
     try:
         content, filename, title = build_file(fmt, tables)

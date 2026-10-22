@@ -18,12 +18,15 @@ from spreadsheet import SheetTable, build_xlsx, spreadsheet_filename
 _JSON = re.compile(r"(?i)\bjson\b")
 _CSV = re.compile(r"(?i)\bcsv\b")
 _XLSX = re.compile(r"(?i)\b(?:excel|spreadsheets?|xlsx)\b")
+_RIS = re.compile(r"(?i)\b(?:ris|zotero|citation\s+file)\b")
 _FORMULA_START = ("=", "+", "-", "@", "\t", "\r")
 
 
 def file_format(user_text: str) -> Optional[str]:
-    """'json' | 'csv' | 'xlsx' when the question asks for a file, else None."""
+    """'ris' | 'json' | 'csv' | 'xlsx' when the question asks for a file, else None."""
     text = user_text or ""
+    if _RIS.search(text):
+        return "ris"
     if _JSON.search(text):
         return "json"
     if _CSV.search(text):
@@ -33,7 +36,7 @@ def file_format(user_text: str) -> Optional[str]:
     return None
 
 
-FORMAT_NAMES = {"json": "JSON", "csv": "CSV", "xlsx": "Excel"}
+FORMAT_NAMES = {"ris": "RIS (Zotero)", "json": "JSON", "csv": "CSV", "xlsx": "Excel"}
 
 
 def requested_format(user_text: str, history: Optional[Iterable[Dict[str, Any]]] = None) -> Optional[str]:
@@ -58,7 +61,7 @@ def file_context_line(fmt: Optional[str]) -> str:
     """One system-prompt line so the model never claims a file that won't come (or denies one that will)."""
     if not fmt:
         return ("No file will be attached to this reply (they haven't asked for one), so don't say one is "
-                "attached. For long lists, offer the full list as a CSV, JSON or Excel file — it won't be "
+                "attached. For long lists, offer the full list as a CSV, JSON, Excel or RIS (Zotero) file — it won't be "
                 "attached unless they ask.")
     return (f"They want a {FORMAT_NAMES[fmt]} file: it is attached automatically, built from this turn's "
             "table tools (list_slack_channel, gate counts). Call the tool for the data they want in this turn, "
@@ -76,10 +79,58 @@ def _csv_row(table: SheetTable, row: List[str]) -> List[str]:
     return ["'" + v if str(v).startswith(_FORMULA_START) else v for v in row]
 
 
+def _ris_columns(table: SheetTable) -> Optional[Tuple[int, int, Optional[int]]]:
+    """(url, title, preview-title) column indexes for tables of links or files, else None."""
+    h = table.headers
+    if "URL" in h:
+        return h.index("URL"), h.index("URL"), (h.index("Title") if "Title" in h else None)
+    if "File" in h and "Link" in h:
+        return h.index("Link"), h.index("File"), None
+    return None
+
+
+def citable_tables(tables: List[SheetTable]) -> List[SheetTable]:
+    """Tables RIS can describe: links or files (gate counts aren't citations)."""
+    return [t for t in tables if _ris_columns(t)]
+
+
+def _ris_line(tag: str, value: str) -> str:
+    return f"{tag}  - {' '.join(str(value).split())}"
+
+
+def build_ris(tables: List[SheetTable]) -> bytes:
+    """RIS (Zotero / EndNote import): one ELEC record per link or file, CRLF line endings."""
+    lines: List[str] = []
+    for table in citable_tables(tables):
+        url_i, title_i, preview_i = _ris_columns(table)
+        h = table.headers
+        for row in table.rows:
+            url = row[url_i]
+            title = (row[preview_i] if preview_i is not None else "") or row[title_i] or url
+            when = row[h.index("Date")] if "Date" in h else ""
+            who = row[h.index("Author")] if "Author" in h else ""
+            message = row[h.index("Message")] if "Message" in h else ""
+            lines.append(_ris_line("TY", "ELEC"))
+            lines.append(_ris_line("TI", title))
+            lines.append(_ris_line("UR", url))
+            if when[:10].count("-") == 2:
+                lines.append(_ris_line("DA", when[:10].replace("-", "/")))
+            where = f" in {table.source}" if table.source else ""
+            note = f"Shared{where} by {who} on {when}".rstrip() + (f". Slack message: {message}" if message else "")
+            lines.append(_ris_line("N1", note))
+            lines.append("ER  - ")
+            lines.append("")
+    return "\r\n".join(lines).encode("utf-8")
+
+
 def build_file(fmt: str, tables: List[SheetTable]) -> Tuple[bytes, str, str]:
     """(content, filename, title) for the requested format."""
+    if fmt == "ris":
+        tables = citable_tables(tables)
     title = tables[0].title if tables else "HooHelp data"
     stem = spreadsheet_filename(tables).rsplit(".", 1)[0]
+    if fmt == "ris":
+        return build_ris(tables), f"{stem}.ris", title
     if fmt == "json":
         docs = [{"title": t.title, "rows": _records(t)} for t in tables]
         payload = docs[0] if len(docs) == 1 else docs

@@ -1,0 +1,54 @@
+{
+  "id": "slack-list-urls-ris",
+  "category": "slack",
+  "question": "can I get those links in RIS format so I can import them into Zotero?",
+  "history": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "text": "[Doug]: all the links ever shared in #ai as a CSV"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "text": "There are 3 links shared in #ai. The CSV file is attached."
+        }
+      ]
+    }
+  ],
+  "recorded": {
+    "model": "minimax.minimax-m2.5",
+    "steps": [
+      {
+        "tool_name": "list_slack_channel",
+        "status": "success",
+        "input": {
+          "channel": "ai",
+          "kind": "links",
+          "after": "2010-01-01"
+        },
+        "output": "### Links shared in #ai (2010-01-01 to 2026-10-22)\n_3 links in 3 messages · thread replies aren't included._\n\n| Date | Author | URL | Title | Message |\n| --- | --- | --- | --- | --- |\n| 2025-10-02 13:00 | Jordan Lee | https://aws.amazon.com/bedrock/pricing/ |  | https://uvalib.slack.com/archives/C1/p1759424400000400 |\n| 2025-10-10 10:00 | Jordan Lee | https://arxiv.org/abs/2510.01234 | Agents for library discovery | https://uvalib.slack.com/archives/C1/p1760104800000200 |\n| 2025-10-17 10:20 | Pat Doe | https://guides.lib.virginia.edu/ai | Artificial Intelligence (AI) - Research Guides | https://uvalib.slack.com/archives/C1/p1760710800000100 |\n\nThis list can be attached as a CSV, JSON, Excel or RIS (Zotero) file — ask for one."
+      }
+    ],
+    "final_text": "Here are the 3 links shared in #ai as an RIS file for Zotero — it's attached. In Zotero, use File → Import and pick the .ris file; each link comes in as a web page with its title, date shared and a note linking back to the Slack message."
+  },
+  "expect": {
+    "phrases": [
+      "RIS",
+      "Zotero",
+      "attached"
+    ],
+    "forbid": [
+      "can't",
+      "cannot",
+      "Tool Error"
+    ],
+    "attachment": true,
+    "allow_condensed": true
+  },
+  "live": null
+}

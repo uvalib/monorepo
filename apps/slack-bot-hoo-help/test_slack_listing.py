@@ -54,7 +54,7 @@ def test_workspace_url_from_a_real_slack_response():  # prod: dict(SlackResponse
 
     client = Real([[m("1.000001", "<https://a.org>")]])
     listing = list_channel(client, "C1", kind="links", oldest=0, latest=3, directory=directory(client))
-    assert listing.table.rows[0][3] == "https://uvalib.slack.com/archives/C1/p1000001"
+    assert listing.table.rows[0][4] == "https://uvalib.slack.com/archives/C1/p1000001"
     from slack_listing import workspace_team
     assert workspace_team(client) == "T1"
 
@@ -72,11 +72,25 @@ def test_links_listing_pages_and_builds_rows():
     client = FakeSlack(pages)
     listing = list_channel(client, "C1", kind="links", oldest=1760400000, latest=1760500000, directory=directory(client))
     assert [r[2] for r in listing.table.rows] == ["https://example.org/a", "https://example.org/c", "https://example.org/b"]
-    assert listing.table.headers == ["Date", "Author", "URL", "Message"]
+    assert listing.table.headers == ["Date", "Author", "URL", "Title", "Message"]
     assert listing.table.rows[0][1] == "Pat Doe"
-    assert listing.table.rows[0][3] == "https://uvalib.slack.com/archives/C1/p1760461440000100"
+    assert listing.table.rows[0][4] == "https://uvalib.slack.com/archives/C1/p1760461440000100"
     assert listing.scanned == 2 and not listing.capped  # join notice not counted
     assert client.calls[0]["oldest"] == "1760400000" and client.calls[1]["cursor"] == "1"
+
+
+def test_link_titles_come_from_slack_previews():  # for RIS / Zotero: a title per link
+    pages = [[m("1.000001", "see <https://example.org/a> and <https://example.org/b?x=1&amp;y=2>",
+                attachments=[{"original_url": "https://example.org/a", "title": "Example A"},
+                             {"from_url": "https://example.org/b?x=1&y=2", "title": "B &amp; friends"},
+                             {"from_url": "https://other.org", "title": "Unrelated"}])]]
+    client = FakeSlack(pages)
+    rows = list_channel(client, "C1", kind="links", oldest=0, latest=3, directory=directory(client)).table.rows
+    assert [(r[2], r[3]) for r in rows] == [("https://example.org/a", "Example A"),
+                                            ("https://example.org/b?x=1&y=2", "B & friends")]
+    plain = list_channel(FakeSlack([[m("1.000001", "<https://c.org>")]]), "C1", kind="links", oldest=0, latest=3,
+                         directory=directory(client)).table.rows
+    assert plain[0][3] == ""
 
 
 def test_files_and_all_kinds():
@@ -135,7 +149,7 @@ def test_format_shows_summary_first_rows_and_notes():
     assert "80 links in 80 messages" in out and "#ai" in out
     assert out.count("| https://x.org/") == 50
     assert "thread replies aren't included" in out
-    assert "CSV, JSON or Excel" in out
+    assert "CSV, JSON, Excel or RIS (Zotero) file" in out
 
 
 # ---- the list_slack_channel tool (SlackSearchTools) ---------------------------
@@ -254,6 +268,7 @@ if __name__ == "__main__":
     test_workspace_url_from_a_real_slack_response()
     test_extract_links_from_slack_markup()
     test_links_listing_pages_and_builds_rows()
+    test_link_titles_come_from_slack_previews()
     test_files_and_all_kinds()
     test_slack_escaping_is_undone_in_urls_and_text()
     test_from_user_filters_authors()

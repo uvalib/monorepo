@@ -30,7 +30,7 @@ _SPECIAL = re.compile(r"<!(here|channel|everyone)(?:\|[^>]*)?>")
 _AUTH: dict = {}  # per container: client id → (client, auth.test: workspace url, team id)
 
 KIND_HEADERS = {
-    "links": ["Date", "Author", "URL", "Message"],
+    "links": ["Date", "Author", "URL", "Title", "Message"],
     "files": ["Date", "Author", "File", "Link", "Message"],
     "all": ["Date", "Author", "Text", "Message"],
 }
@@ -51,6 +51,19 @@ class Listing:
 def extract_links(text: str) -> List[str]:
     """http(s) URLs in Slack's <url|label> markup (mentions, channels and mailto are skipped)."""
     return [html.unescape(url) for url in _LINK.findall(text or "")]
+
+
+def _preview_titles(msg: dict) -> dict:
+    """URL → page title from the link previews (unfurls) Slack stored on the message."""
+    titles = {}
+    for att in msg.get("attachments") or []:
+        title = html.unescape(str(att.get("title") or "")).strip()
+        if not title:
+            continue
+        for key in ("original_url", "from_url", "title_link"):
+            if att.get(key):
+                titles.setdefault(html.unescape(str(att[key])), title)
+    return titles
 
 
 def plain_text(text: str, directory: UserDirectory) -> str:
@@ -126,8 +139,9 @@ def list_channel(client, channel_id: str, *, kind: str, oldest: float, latest: f
         link = f"{base}/archives/{channel_id}/p{ts.replace('.', '')}"
         when = _when(ts) if ts else ""
         if kind == "links":
+            titles = _preview_titles(msg)
             for url in extract_links(msg.get("text") or ""):
-                rows.append([when, who, url, link])
+                rows.append([when, who, url, titles.get(url, ""), link])
         elif kind == "files":
             for f in msg.get("files") or []:
                 rows.append([when, who, str(f.get("name") or f.get("title") or "file"),
@@ -138,8 +152,13 @@ def list_channel(client, channel_id: str, *, kind: str, oldest: float, latest: f
     covered_from = min(float(x.get("ts") or 0) for x in batch) if capped and batch else oldest
     label = f"#{channel_name}" if channel_name else channel_id
     title = f"{KIND_NOUNS[kind].capitalize()} in {label} ({_day(covered_from)} to {_day(latest - 1)})"
-    return Listing(SheetTable(title, KIND_HEADERS[kind], rows, plain=True), kind, scanned, capped, oldest, latest,
+    return Listing(SheetTable(title, KIND_HEADERS[kind], rows, plain=True, source=label), kind, scanned, capped, oldest, latest,
                    covered_from)
+
+
+def _formats(kind: str) -> str:
+    """File formats a listing can be attached as (RIS needs something citable: links or files)."""
+    return "CSV, JSON, Excel or RIS (Zotero)" if kind in ("links", "files") else "CSV, JSON or Excel"
 
 
 def _cell(value: str) -> str:
@@ -163,10 +182,10 @@ def format_listing(listing: Listing, channel_name: str, limit: int = 50) -> str:
         lines += ["| " + " | ".join(_cell(v) for v in row) + " |" for row in listing.table.rows[:limit]]
         lines.append("")
     if total > limit:
-        lines.append(f"Showing the first {limit} of {total}. The full list can be attached as a CSV, JSON or Excel "
+        lines.append(f"Showing the first {limit} of {total}. The full list can be attached as a {_formats(listing.kind)} "
                      "file — ask for one.")
     elif total:
-        lines.append("This list can be attached as a CSV, JSON or Excel file — ask for one.")
+        lines.append(f"This list can be attached as a {_formats(listing.kind)} file — ask for one.")
     else:
         lines.append(f"No {noun} in that range.")
     return "\n".join(lines)

@@ -95,6 +95,14 @@ def test_offline_listing_case_builds_json_attachment():
     assert not offline.run_offline(no_file).passed
 
 
+def test_offline_listing_case_builds_ris_attachment():
+    ris = {**LISTING_CASE, "question": "@HooHelp all the URLs shared in #ai as RIS for Zotero"}
+    r = offline.run_offline(ris)
+    assert r.passed, r.reasons
+    gate = {**CASE, "question": "Clemons gate counts April by entrance as RIS"}
+    assert not offline.run_offline(gate).passed  # nothing citable
+
+
 def test_offline_reports_missing_phrase():
     bad = {**CASE, "expect": {"phrases": ["99,999"]}}
     r = offline.run_offline(bad)
@@ -176,6 +184,7 @@ TESTS = [
     test_tools_any_and_phrases_any,
     test_offline_replay_passes_and_builds_attachment,
     test_offline_listing_case_builds_json_attachment,
+    test_offline_listing_case_builds_ris_attachment,
     test_offline_reports_missing_phrase,
     test_live_only_case_skipped_offline,
     test_load_case_errors_and_cli_exit_codes,
