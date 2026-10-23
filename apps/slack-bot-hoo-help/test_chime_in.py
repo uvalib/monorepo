@@ -139,11 +139,14 @@ def _run_lazy(event, client, judge_answer):
     import app
     import chime_in
     replied = []
+    real = app.handle_user_query, app.get_bot_identity, chime_in.llm_judge
     app.handle_user_query = lambda *a, **k: replied.append(k)
     app.get_bot_identity = lambda c: (BOT, "B1")
     chime_in.llm_judge = lambda *a: judge_answer
-    app.chime_in_judge = chime_in.llm_judge
-    app._lazy_message(event, lambda **k: None, client)
+    try:
+        app._lazy_message(event, lambda **k: None, client)
+    finally:  # later test files call the real handler
+        app.handle_user_query, app.get_bot_identity, chime_in.llm_judge = real
     return replied
 
 
