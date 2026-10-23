@@ -17,6 +17,7 @@ from slack_format import format_for_slack, split_markdown_tables  # noqa: E402
 from slack_search import TOOL_LIST_CHANNEL  # noqa: E402
 from spreadsheet import SheetTable, tables_from_steps  # noqa: E402
 from virgo_citations import virgo_ris  # noqa: E402
+from virgo_links import add_virgo_links  # noqa: E402
 
 from evals import checks  # noqa: E402
 from evals.case import CaseResult  # noqa: E402
@@ -86,12 +87,13 @@ def run_offline(case: dict) -> CaseResult:
     text = ""
     try:
         steps = rec["steps"]
-        text, blocks = format_for_slack(rec["final_text"], use_llm=False, tool_steps=steps)
+        final = add_virgo_links(rec["final_text"], steps)  # as app.py does before formatting
+        text, blocks = format_for_slack(final, use_llm=False, tool_steps=steps)
         expect = case.get("expect") or {}
         reasons = checks.universal(text, blocks)
         if not expect.get("allow_condensed"):
-            reasons += checks.not_collapsed(rec["final_text"], blocks)
-            reasons += checks.structure_kept(rec["final_text"], blocks)
+            reasons += checks.not_collapsed(final, blocks)
+            reasons += checks.structure_kept(final, blocks)
         reasons += checks.blocks_present(blocks, expect.get("blocks") or [])
         # Only what Slack shows counts: the fallback text always holds the full answer.
         shown = checks.visible_text(blocks)

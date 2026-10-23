@@ -488,8 +488,13 @@ class HooHelpAgent:
             if out:
                 candidates.append(str(out))
                 # A channel listing's URLs are what people posted: report them as-is.
-                if str(getattr(step, "tool_name", "") or "").endswith("list_slack_channel"):
+                name = str(getattr(step, "tool_name", "") or "")
+                if name.endswith("list_slack_channel"):
                     trusted.extend(extract_urls(str(out)))
+                # Virgo record links come straight from the catalog (virgo_links adds them to replies).
+                if name.startswith("VirgoCatalogRuntime"):
+                    trusted.extend(u for u in extract_urls(str(out))
+                                   if u.startswith("https://search.lib.virginia.edu/sources/uva_library/items/"))
         if extra_candidates:
             candidates.extend(extra_candidates)
         try:

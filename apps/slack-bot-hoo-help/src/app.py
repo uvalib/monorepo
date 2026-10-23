@@ -41,6 +41,7 @@ import chime_in
 from slack_format import format_for_slack, rewrite_urls_in_blocks
 from attachments import build_file, citable_tables, file_context_line, requested_format
 from virgo_citations import MAX_ITEMS as MAX_CITED, virgo_ris
+from virgo_links import add_virgo_links
 from spreadsheet import tables_from_steps
 from thread_context import (
     extract_thread_history,
@@ -313,6 +314,8 @@ def handle_user_query(
         ),
     )
     raw_response = turn.text
+    # Link each catalog item the reply names, so "those" can be tied to exact items later.
+    raw_response = add_virgo_links(raw_response, getattr(turn.trace, "steps", None))
     trace: SessionTrace = turn.trace
 
     # Bedrock formats the draft as Slack mrkdwn; hours/occupancy tool output
