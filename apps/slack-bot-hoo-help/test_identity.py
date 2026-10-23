@@ -45,7 +45,8 @@ def test_identity_line_full_profile():
         "You're talking with Pat Doe (display name \"pat\"), Assessment Librarian, she/her. "
         "Use their name naturally and sparingly and their stated pronouns. "
         "If they ask \"whoami\", \"who am I\" or what you know about them, that's about them, "
-        "not about you: answer from this line."
+        "not about you: answer from this line. If they ask who holds their own role (\"Assessment Librarian\"), "
+        "tell them \"that's you!\" instead of describing them in the third person — only for that exact role."
     )
 
 
@@ -153,6 +154,13 @@ def test_identity_line_answers_whoami():  # trial: "whoami?" was read as "who ar
     assert '"whoami"' in line and "about them, not about you" in line
 
 
+def test_identity_line_notices_questions_about_the_asker():  # trial: Rebecca asked about "the architecture librarian"
+    line = identity_line(UserInfo("U1", "Rebecca Coleman", "", "Research Librarian for Architecture", "", False))
+    assert 'their own role ("Research Librarian for Architecture")' in line and "that's you" in line
+    # model check: a generic nudge told a systems administrator "you're the architecture librarian"
+    assert "that's you" not in identity_line(UserInfo("U2", "Sam Lee", "", "", "", False))
+
+
 if __name__ == "__main__":
     test_identity_line_full_profile()
     test_identity_line_without_pronouns_says_not_to_guess()
@@ -167,4 +175,5 @@ if __name__ == "__main__":
     test_email_lookup_is_separate_from_userinfo()
     test_email_uses_cache_and_failure_is_empty()
     test_identity_line_answers_whoami()
+    test_identity_line_notices_questions_about_the_asker()
     print("ok")

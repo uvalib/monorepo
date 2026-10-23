@@ -181,8 +181,12 @@ def identity_line(info: Optional[UserInfo]) -> str:
     else:
         line += "Use their name naturally and sparingly. Their pronouns aren't set — don't guess; use they/them."
     # "whoami?" reads like "who are you?" to the model unless told otherwise.
-    return line + (' If they ask "whoami", "who am I" or what you know about them, that\'s about them, '
-                   "not about you: answer from this line.")
+    line += (' If they ask "whoami", "who am I" or what you know about them, that\'s about them, '
+             "not about you: answer from this line.")
+    if info.title:  # quoted, so the model can't stretch it to someone else's role
+        line += (f' If they ask who holds their own role ("{info.title}"), tell them "that\'s you!" instead of '
+                 "describing them in the third person — only for that exact role.")
+    return line
 
 
 def resolve_mentions(text: str, directory: UserDirectory, *, skip_ids: Iterable[str] = ()) -> str:
