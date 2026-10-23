@@ -168,6 +168,17 @@ def test_system_prompt_handles_half_remembered_authors():  # model comparison: e
     assert "half-remember" in SYSTEM_PROMPT and "every author" in SYSTEM_PROMPT
 
 
+def test_system_prompt_routes_archival_questions():
+    from agent import SYSTEM_PROMPT
+
+    assert "search_archives" in SYSTEM_PROMPT and "get_archival_record" in SYSTEM_PROMPT
+    assert "finding aid" in SYSTEM_PROMPT and "reading room" in SYSTEM_PROMPT
+    assert "archives.lib.virginia.edu" in SYSTEM_PROMPT
+    assert "Couldn't search" in SYSTEM_PROMPT
+    section = SYSTEM_PROMPT.split("Archival collections", 1)[1]
+    assert "Virgo" in section.split("\n\nGuidelines:", 1)[0]  # published books go to the catalog
+
+
 class LoopingBedrock:
     """Asks for get_library_hours every time; optionally answers once it's told to wrap up."""
 

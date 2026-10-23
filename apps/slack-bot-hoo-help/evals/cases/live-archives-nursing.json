@@ -1,0 +1,14 @@
+{
+  "id": "live-archives-nursing",
+  "category": "archives",
+  "question": "do we have any nursing school records from the 1920s?",
+  "history": [],
+  "recorded": null,
+  "expect": {},
+  "live": {
+    "tools_any": [
+      "search_archives"
+    ],
+    "max_seconds": 60
+  }
+}

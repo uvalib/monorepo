@@ -1,0 +1,32 @@
+{
+  "id": "archives-jefferson-papers",
+  "category": "archives",
+  "question": "do we have Jefferson's letters about the University?",
+  "history": [],
+  "recorded": {
+    "model": "us.amazon.nova-pro-v1:0",
+    "steps": [
+      {
+        "tool_name": "ArchivesSpaceRuntime___search_archives",
+        "status": "success",
+        "input": {
+          "query": "jefferson letters",
+          "count": 5
+        },
+        "output": "**Archives search**: \"jefferson letters\" · 58 results in Albert and Shirley Small Special Collections Library\nCouldn't search: Arthur J. Morris Law Library Special Collections, Claude Moore Health Sciences Library, The Eleanor Crowder Bjoring Center for Nursing Historical Inquiry\n\n1. **The University of Virginia Jefferson Papers** — Collection · Jefferson Papers\n   Dates: 1751–1898\n   Extent: 14.2 cubic_feet\n   Repository: Albert and Shirley Small Special Collections Library\n   This collection consists of letters written by and addressed to Thomas Jefferson, as well as architectural plans and studies that were created or endorsed by Jefferson, created by other individuals associated with him, deeds, plats, and maps, some of which pertain to the subjects of the architectur…\n   https://archives.lib.virginia.edu/repositories/3/resources/1438\n\n2. **Extracts of letters about Charlottesville, Thomas Jefferson, and Washington D. C.** — Collection · MSS 16117\n   Dates: 1830\n   Extent: 0.03 cubic_feet\n   Repository: Albert and Shirley Small Special Collections Library\n   Extracts of letters about Charlottesville, Thomas Jefferson, and Washington D. C. from a gentleman on a visit to the University of Virginia in 1830 and consists of 0.03 cubic feet. He mentions that he was a childhood friend of Thomas Jefferson and knew Daniel Boone, John Adams, and Justice John Mar…\n   https://archives.lib.virginia.edu/repositories/3/resources/344\n\n3. **Jefferson Cable Corporation collection** — Collection · MSS 11458\n   Dates: 1885-1982\n   Extent: 23.5 cubic_feet; 239 open reel videotapes\n   Repository: Albert and Shirley Small Special Collections Library\n   The majority of the collection is composed of videotape recordings of local-origination programming aired on the Jefferson Cable Corporation, including City Council Meetings and local news specials. The collection includes approximately 300 color slides used in productions; color slides of a Univer…\n   https://archives.lib.virginia.edu/repositories/3/resources/1521\n\n4. **Jefferson Wallace collection** — Collection · MSS-16338\n   Dates: 1890-1950\n   Extent: 0.6 cubic_feet\n   Repository: Albert and Shirley Small Special Collections Library\n   This collection contains typescript and manuscript books, all richly illustrated with watercolor paintings and illuminations by commercial artist and Richmond resident, Jefferson Wallace. These include The Fairy Book, The Story Teller, Anthology of English poetry, The Virginia Text Book: Containing…\n   https://archives.lib.virginia.edu/repositories/3/resources/1100\n\n5. **H. G. Charles, Charles L. Pollock, and Slaughter W. Ficklin letters** — Collection · MSS 16124\n   Dates: 1831; 1847; [1861]\n   Extent: 0.03 cubic_feet\n   Repository: Albert and Shirley Small Special Collections Library\n   H. G. Charles, Charles L. Pollock, and Slaughter W. Ficklin letters, 1831, 1847, and [1861], .03 cubic feet consisting of University of Virginia students letters about student life, exams, and the [Alexander Galt] statue of Thomas Jefferson. H. G. Charles writes to his brother in Darlington Court H…\n   https://archives.lib.virginia.edu/repositories/3/resources/348"
+      }
+    ],
+    "final_text": "*Yes — Special Collections holds Jefferson's letters:*\n- *The University of Virginia Jefferson Papers* (1751–1898, Albert and Shirley Small Special Collections Library) — letters written by and to Thomas Jefferson, plus architectural plans and studies: <https://archives.lib.virginia.edu/repositories/3/resources/1438|finding aid>\n- *Extracts of letters about Charlottesville, Thomas Jefferson, and Washington D. C.* (1830) — a visitor's account of the University: <https://archives.lib.virginia.edu/repositories/3/resources/344|finding aid>\n\nThis material is used in the reading room at Special Collections; it isn't checked out. The Law, Health Sciences and Nursing archives couldn't be searched just now, so they may hold more."
+  },
+  "expect": {
+    "phrases": [
+      "Jefferson Papers",
+      "archives.lib.virginia.edu",
+      "reading room"
+    ],
+    "forbid": [],
+    "attachment": false,
+    "allow_condensed": false
+  },
+  "live": null
+}
