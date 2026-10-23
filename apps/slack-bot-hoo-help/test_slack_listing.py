@@ -137,6 +137,22 @@ def test_page_limit_stops_paging_through_join_notices():  # review: skipped mess
     assert "Stopped at 0 messages" not in format_listing(listing, "general")
 
 
+def test_heading_states_the_dates_actually_found():  # trial: "Jan 2010 through Oct 2022" for links from 2023–2026
+    pages = [[m("1792612800.000100", "<https://b.org>"),                 # 2026-10-21
+              m("1730000000.000100", "no link"),                          # 2024-10-26, no link
+              m("1673979376.040249", "<https://a.org>")]]                 # 2023-01-17
+    client = FakeSlack(pages)
+    listing = list_channel(client, "C1", kind="links", oldest=1262322000, latest=1792641600,  # 2010-01-01 – 2026-10-21
+                           directory=directory(client), channel_name="ai")
+    out = format_listing(listing, "ai")
+    assert out.startswith("### Links shared in #ai (2023-01-17 to 2026-10-21)")
+    assert "searched 2010-01-01 to 2026-10-21" in out
+    assert listing.table.title == "Links in #ai (2023-01-17 to 2026-10-21)"
+    empty = format_listing(list_channel(FakeSlack([[]]), "C1", kind="links", oldest=1262322000, latest=1792641600,
+                                        directory=directory(client)), "ai")
+    assert "(2010-01-01 to 2026-10-21)" in empty and "No links in that range" in empty
+
+
 def test_capped_listing_says_which_days_it_covers():  # review: Slack drops the *oldest* messages past the cap
     # newest first, as Slack returns: page i holds day 30-i (2025-10-30 back to 2025-10-11 EDT)
     day0 = 1761796800  # 2025-10-30 00:00 EDT
@@ -145,7 +161,7 @@ def test_capped_listing_says_which_days_it_covers():  # review: Slack drops the 
     listing = list_channel(client, "C1", kind="links", oldest=1759291200, latest=1761969600,  # Oct 1 – Oct 31
                            directory=directory(client), channel_name="ai")
     out = format_listing(listing, "ai")
-    assert "(2025-10-21 to 2025-10-31)" in listing.table.title  # page 10 is the oldest kept: Oct 21
+    assert "(2025-10-21 to 2025-10-30)" in listing.table.title  # oldest kept (page 10): Oct 21; newest found: Oct 30
     assert "2025-10-21 to 2025-10-31" in out and "2025-10-01" in out and "older messages" in out
 
 
@@ -196,7 +212,7 @@ def test_list_tool_lists_links_and_keeps_the_table():
     t = tools(client)
     out = t.call(TOOL_LIST_CHANNEL, {"channel": "#ai", "after": "2025-10-01", "before": "2025-10-31", "kind": "links"})
     assert "https://example.org/a" in out and "1 links in 1 messages" in out
-    assert "(2025-10-01 to 2025-10-31)" in out and "2025-11-01" not in out  # the end is exclusive
+    assert "searched 2025-10-01 to 2025-10-31" in out and "2025-11-01" not in out  # the end is exclusive
     assert len(t.listings) == 1 and t.listings[0].table.rows[0][2] == "https://example.org/a"
     assert client.calls[0]["latest"] == "1761969600"  # end of 2025-10-31 EDT (before is inclusive)
     assert client.calls[0]["oldest"] == "1759291200"  # 2025-10-01 00:00 EDT
@@ -292,6 +308,7 @@ if __name__ == "__main__":
     test_from_user_filters_authors()
     test_cap_stops_paging_and_says_so()
     test_page_limit_stops_paging_through_join_notices()
+    test_heading_states_the_dates_actually_found()
     test_capped_listing_says_which_days_it_covers()
     test_format_shows_summary_first_rows_and_notes()
     test_list_tool_offered_without_search_token()

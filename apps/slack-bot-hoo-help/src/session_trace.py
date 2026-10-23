@@ -127,6 +127,8 @@ class SessionTrace:
 
     # Loop
     steps: List[ToolStep] = field(default_factory=list)
+    # one per Bedrock call: where the non-tool time goes (a slow answer is usually the model)
+    model_calls: List[Dict[str, Any]] = field(default_factory=list)
     iterations: int = 0
     stop_reason: Optional[str] = None
 
@@ -190,6 +192,23 @@ class SessionTrace:
                 error=error,
             )
         )
+
+    def add_model_call(
+        self,
+        *,
+        iteration: int,
+        latency_ms: int,
+        stop_reason: Optional[str],
+        input_tokens: Optional[int] = None,
+        output_tokens: Optional[int] = None,
+    ) -> None:
+        self.model_calls.append({
+            "iteration": iteration,
+            "latency_ms": int(latency_ms),
+            "stop_reason": stop_reason,
+            "input_tokens": input_tokens,
+            "output_tokens": output_tokens,
+        })
 
     def finish(
         self,
@@ -261,6 +280,7 @@ class SessionTrace:
             "tools_used": self.tools_used(),
             "tool_call_count": len(self.steps),
             "steps": [s.to_dict(max_output_chars=max_tool) for s in self.steps],
+            "model_calls": list(self.model_calls),
             "final_text": text_field(self.final_text),
             "slack_text": text_field(self.slack_text),
             "error": self.error,

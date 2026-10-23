@@ -579,6 +579,7 @@ class HooHelpAgent:
                 if self.guardrail_config:
                     converse_kwargs["guardrailConfig"] = self.guardrail_config
 
+                model_t0 = time.perf_counter()
                 try:
                     response = self.bedrock_runtime.converse(**converse_kwargs)
                 except Exception as conv_exc:
@@ -612,6 +613,14 @@ class HooHelpAgent:
                     "content": [],
                 }
                 stop_reason = response.get("stopReason")
+                usage = response.get("usage") or {}
+                trace.add_model_call(
+                    iteration=iteration,
+                    latency_ms=int((time.perf_counter() - model_t0) * 1000),
+                    stop_reason=stop_reason,
+                    input_tokens=usage.get("inputTokens"),
+                    output_tokens=usage.get("outputTokens"),
+                )
 
                 messages.append(output_message)
 

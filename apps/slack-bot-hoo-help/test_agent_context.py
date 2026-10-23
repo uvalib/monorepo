@@ -36,7 +36,7 @@ class StubBedrock:
                 {"toolUse": {"toolUseId": "t1", "name": self.tool_use[0], "input": self.tool_use[1]}}]}},
                 "stopReason": "tool_use", "usage": {}}
         return {"output": {"message": {"role": "assistant", "content": [{"text": "You're welcome!"}]}},
-                "stopReason": "end_turn", "usage": {}}
+                "stopReason": "end_turn", "usage": dict(getattr(self, "usage", {}))}
 
 
 class StubLocalTools:
@@ -110,6 +110,18 @@ def test_process_message_runs_local_tool_calls():
     assert agent.gateway_client.calls == []
     sent = [t["toolSpec"]["name"] for t in agent.bedrock_runtime.requests[0]["toolConfig"]["tools"]]
     assert sent[0] == "search_slack"
+
+
+def test_trace_records_each_model_call():  # usage review: an 81 s answer, 77 s of it not in any tool
+    agent, stub = make_agent(), StubLocalTools()
+    agent.bedrock_runtime = StubBedrock(tool_use=("search_slack", {"query": "libcal"}))
+    agent.bedrock_runtime.usage = {"inputTokens": 5000, "outputTokens": 900}
+    turn = agent.process_message("what did we decide about libcal in slack?", local_tools=stub)
+    calls = turn.trace.to_dict()["model_calls"]
+    assert [c["iteration"] for c in calls] == [1, 2]
+    assert [c["stop_reason"] for c in calls] == ["tool_use", "end_turn"]
+    assert all(isinstance(c["latency_ms"], int) and c["latency_ms"] >= 0 for c in calls)
+    assert calls[1]["input_tokens"] == 5000 and calls[1]["output_tokens"] == 900
 
 
 def test_system_prompt_mentions_slack_search():
@@ -233,6 +245,7 @@ def test_throttling_gets_a_try_again_message():
 
 
 if __name__ == "__main__":
+    test_trace_records_each_model_call()
     test_system_prompt_catalog_alternate_titles_links_and_citations()
     test_system_prompt_routes_exhaustive_slack_lists_and_file_formats()
     test_system_prompt_includes_extra_context()

@@ -47,6 +47,8 @@ class Listing:
     oldest: float
     latest: float
     covered_from: float = 0.0  # when capped: the oldest message kept (Slack pages newest first)
+    found_from: float = 0.0    # dates of the first and last rows actually found (0 = none)
+    found_to: float = 0.0
 
 
 def extract_links(text: str) -> List[str]:
@@ -135,7 +137,9 @@ def list_channel(client, channel_id: str, *, kind: str, oldest: float, latest: f
         if capped or not more:
             break
 
+    found: List[float] = []
     for msg in sorted(batch, key=lambda x: float(x.get("ts") or 0)):  # oldest first
+        before_rows = len(rows)
         uid = msg.get("user") or ""
         if author_id and uid != author_id:
             continue
@@ -153,12 +157,17 @@ def list_channel(client, channel_id: str, *, kind: str, oldest: float, latest: f
                              str(f.get("permalink") or ""), link])
         else:
             rows.append([when, who, plain_text(msg.get("text") or "", directory), link])
+        if len(rows) > before_rows and ts:
+            found.append(float(ts))
 
     covered_from = (oldest_seen or oldest) if capped else oldest
+    found_from, found_to = (min(found), max(found)) if found else (0.0, 0.0)
     label = f"#{channel_name}" if channel_name else channel_id
-    title = f"{KIND_NOUNS[kind].capitalize()} in {label} ({_day(covered_from)} to {_day(latest - 1)})"
+    # Name the dates actually found: the requested range ("since 2010") misled the model.
+    shown = (found_from, found_to) if found else (covered_from, latest - 1)
+    title = f"{KIND_NOUNS[kind].capitalize()} in {label} ({_day(shown[0])} to {_day(shown[1])})"
     return Listing(SheetTable(title, KIND_HEADERS[kind], rows, plain=True, source=label), kind, scanned, capped, oldest, latest,
-                   covered_from)
+                   covered_from, found_from, found_to)
 
 
 def _formats(kind: str) -> str:
@@ -174,8 +183,11 @@ def format_listing(listing: Listing, channel_name: str, limit: int = 50) -> str:
     noun = KIND_NOUNS[listing.kind]
     total = len(listing.table.rows)
     start = listing.covered_from or listing.oldest
-    lines = [f"### {noun.capitalize()} shared in #{channel_name} ({_day(start)} to {_day(listing.latest - 1)})",
-             f"_{total} {noun} in {listing.scanned} messages · thread replies aren't included._", ""]
+    searched = f"{_day(start)} to {_day(listing.latest - 1)}"
+    shown = f"{_day(listing.found_from)} to {_day(listing.found_to)}" if listing.found_from else searched
+    lines = [f"### {noun.capitalize()} shared in #{channel_name} ({shown})",
+             f"_{total} {noun} in {listing.scanned} messages" + (f" · searched {searched}" if shown != searched else "")
+             + " · thread replies aren't included._", ""]
     if listing.capped:
         lines += [f"_Stopped early (limit: {MAX_MESSAGES:,} messages or {MAX_PAGES} pages of history), so this covers {_day(start)} to {_day(listing.latest - 1)}; "
                   f"older messages (from {_day(listing.oldest)}) weren't fetched. Ask for a range ending "
