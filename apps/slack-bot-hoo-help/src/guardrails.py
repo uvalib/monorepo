@@ -17,8 +17,9 @@ logger = logging.getLogger(__name__)
 # Friendly copy when Converse returns no blocked text payload
 DEFAULT_BLOCKED_MESSAGE = (
     "I'm Hoo Helper, the UVA Library assistant. I can help with library hours, rooms "
-    "and equipment, events, gate counts, the Virgo catalog and images, library "
-    "policies, buses and walking directions, and searching our Slack and Jira. "
+    "and equipment, events, gate counts, the Virgo catalog and images, Special "
+    "Collections archives and finding aids, library policies, buses and walking "
+    "directions, and searching our Slack and Jira. "
     "I can't help with that request — please rephrase, or ask a librarian: "
     "https://www.library.virginia.edu/askalibrarian"
 )

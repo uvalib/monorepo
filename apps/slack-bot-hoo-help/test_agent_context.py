@@ -175,8 +175,18 @@ def test_system_prompt_routes_archival_questions():
     assert "finding aid" in SYSTEM_PROMPT and "reading room" in SYSTEM_PROMPT
     assert "archives.lib.virginia.edu" in SYSTEM_PROMPT
     assert "Couldn't search" in SYSTEM_PROMPT
-    section = SYSTEM_PROMPT.split("Archival collections", 1)[1]
-    assert "Virgo" in section.split("\n\nGuidelines:", 1)[0]  # published books go to the catalog
+    section = SYSTEM_PROMPT.split("8. **Archival collections", 1)[1].split("\n\nGuidelines:", 1)[0]
+    assert "Virgo" in section  # published books go to the catalog
+
+
+def test_system_prompt_archival_routing_from_staff_testing():  # trial: law papers → website search; "1820s" in query
+    from agent import SYSTEM_PROMPT
+
+    section = SYSTEM_PROMPT.split("8. **Archival collections", 1)[1].split("\n\nGuidelines:", 1)[0]
+    assert '"papers of' in section.lower() and "before search_uvalib_web" in section
+    assert "law" in section.lower() and "nursing" in section.lower()
+    assert "year_from" in section and "not in the query" in section
+    assert "alongside the catalog" in section
 
 
 class LoopingBedrock:
@@ -256,6 +266,7 @@ def test_throttling_gets_a_try_again_message():
 
 
 if __name__ == "__main__":
+    test_system_prompt_archival_routing_from_staff_testing()
     test_trace_records_each_model_call()
     test_system_prompt_catalog_alternate_titles_links_and_citations()
     test_system_prompt_routes_exhaustive_slack_lists_and_file_formats()

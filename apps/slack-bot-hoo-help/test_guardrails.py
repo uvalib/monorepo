@@ -2,6 +2,7 @@
 """Unit tests for guardrails helpers (no AWS required)."""
 
 import os
+import re
 import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
@@ -73,6 +74,38 @@ def test_blocked_message_lists_current_capabilities():
         assert word in DEFAULT_BLOCKED_MESSAGE, word
 
 
+
+def _template_guardrail() -> str:
+    """The HooHelpGuardrail resource's text from template.yaml (no YAML dependency)."""
+    text = open(os.path.join(os.path.dirname(__file__), "template.yaml")).read()
+    start = text.index("  HooHelpGuardrail:\n")
+    return text[start:text.index("\n  HooHelpGuardrailVersion:", start)]
+
+
+def _filter(block: str, kind: str) -> dict:
+    m = re.search(rf"- Type: {kind}\n\s+InputStrength: (\w+)\n\s+OutputStrength: (\w+)", block)
+    return {"InputStrength": m.group(1), "OutputStrength": m.group(2)}
+
+
+def _messaging(block: str, key: str) -> str:
+    m = re.search(rf"{key}: >-\n((?:\s{{8}}.*\n)+)", block)
+    return " ".join(m.group(1).split())
+
+
+def test_guardrail_allows_hard_history_research():  # staff trial: KKK, Nazi, Unite the Right questions blocked
+    g = _template_guardrail()
+    assert _filter(g, "HATE") == {"InputStrength": "NONE", "OutputStrength": "LOW"}
+    # the managed profanity list treats "Nazi" / "Ku Klux Klan" as profanity
+    assert "ManagedWordListsConfig" not in g and "PROFANITY" not in g
+    assert _filter(g, "PROMPT_ATTACK")["InputStrength"] == "MEDIUM"  # unchanged
+
+
+def test_blocked_messages_mention_archives():
+    g = _template_guardrail()
+    for text in (DEFAULT_BLOCKED_MESSAGE, _messaging(g, "BlockedInputMessaging"), _messaging(g, "BlockedOutputsMessaging")):
+        assert "archives" in text.lower() or "Special Collections" in text, text
+
+
 if __name__ == "__main__":
     test_disabled_without_id()
     test_enabled_with_id()
@@ -81,4 +114,6 @@ if __name__ == "__main__":
     test_extract_text()
     test_guardrail_reasons_name_the_policy_not_the_text()
     test_blocked_message_lists_current_capabilities()
+    test_guardrail_allows_hard_history_research()
+    test_blocked_messages_mention_archives()
     print("test_guardrails: OK")

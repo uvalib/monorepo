@@ -156,25 +156,30 @@ Resources:
       Name: !Sub "hoohelp-library-assistant-${StageName}"
       Description: >
         UVA Library HooHelp Slack assistant: filter harmful content and prompt
-        attacks, deny out-of-scope advice topics, mask sensitive PII, block profanity.
+        attacks, deny out-of-scope advice topics, mask sensitive PII.
       BlockedInputMessaging: >-
         I'm Hoo Helper, the UVA Library assistant. I can help with library hours,
         rooms and equipment, events, gate counts, the Virgo catalog and images,
-        library policies, buses and walking directions, and searching our Slack
-        and Jira. I can't help with that request. Please rephrase, or contact a
-        librarian: https://www.library.virginia.edu/askalibrarian
+        Special Collections archives and finding aids, library policies, buses and
+        walking directions, and searching our Slack and Jira. I can't help with
+        that request. Please rephrase, or contact a librarian:
+        https://www.library.virginia.edu/askalibrarian
       BlockedOutputsMessaging: >-
         I'm not able to share that response. I can help with UVA Library hours,
-        rooms, events, gate counts, the catalog, policies, buses, and our Slack
-        and Jira — or you can Ask a Librarian:
+        rooms, events, gate counts, the catalog, Special Collections archives,
+        policies, buses, and our Slack and Jira — or you can Ask a Librarian:
         https://www.library.virginia.edu/askalibrarian
       # Harmful categories + prompt injection. Strengths balanced for a public
       # academic library help desk (avoid over-blocking literature/history topics).
       ContentPolicyConfig:
         FiltersConfig:
+          # Archival research is often about hate history (KKK records, Nazi
+          # propaganda, the 2017 Unite the Right rally): the input filter blocked
+          # those staff questions at MEDIUM and even HIGH confidence, so it's off
+          # for input; answers are still blocked at HIGH confidence.
           - Type: HATE
-            InputStrength: MEDIUM
-            OutputStrength: MEDIUM
+            InputStrength: NONE
+            OutputStrength: LOW
           - Type: INSULTS
             InputStrength: LOW
             OutputStrength: MEDIUM
@@ -192,9 +197,8 @@ Resources:
           - Type: PROMPT_ATTACK
             InputStrength: MEDIUM
             OutputStrength: NONE
-      WordPolicyConfig:
-        ManagedWordListsConfig:
-          - Type: PROFANITY
+      # No managed profanity word list: it treats historical terms ("Nazi",
+      # "Ku Klux Klan") as profanity, which blocks real collection questions.
       # Topics clearly outside a library assistant's role (still allow catalog
       # questions *about* law/medicine books — definition targets advice-giving).
       TopicPolicyConfig:
@@ -277,7 +281,7 @@ Resources:
     Properties:
       # Changing this description makes CloudFormation cut a new version from the
       # current guardrail settings (the Lambda reads its number via GetAtt).
-      Description: !Sub "Production snapshot for HooHelp (${StageName}) - prompt-attack MEDIUM, current capabilities"
+      Description: !Sub "Production snapshot for HooHelp (${StageName}) - prompt-attack MEDIUM, hate input off, no profanity list, archives"
       GuardrailIdentifier: !GetAtt HooHelpGuardrail.GuardrailId
 
   # Full tool transcripts for MCP development (partitioned by date)
