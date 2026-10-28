@@ -1,0 +1,20 @@
+{
+  "id": "live-archives-jefferson-letters",
+  "category": "archives",
+  "question": "Are there any historic letters from Thomas Jefferson?",
+  "recorded": null,
+  "expect": {},
+  "live": {
+    "tools_any": [
+      "search_archives"
+    ],
+    "phrases_any": [
+      "Jefferson Papers"
+    ],
+    "forbid": [
+      "an authentic Thomas Jefferson letter",
+      "link unavailable"
+    ],
+    "max_seconds": 60
+  }
+}
