@@ -53,6 +53,54 @@ def test_agent_trusts_urls_from_list_slack_channel_output():  # review: a 50-lin
     assert "https://other.example.org/x" in calls  # everything else is still checked
 
 
+def _sanitize_offline(text):
+    real = _no_network([])
+    try:
+        return link_check.sanitize_response_links(text)
+    finally:
+        link_check.check_urls, link_check.check_url = real
+
+
+def test_dead_bare_url_is_dropped_with_its_connector():  # review: "(link unavailable)" reached Slack
+    out, changes = _sanitize_offline(
+        "Contact Small Special Collections directly — they may know of materials I can't "
+        "search: https://library.virginia.edu/nope or call 434-243-8539.")
+    assert "link unavailable" not in out
+    assert "nope" not in out
+    assert out.endswith("materials I can't search or call 434-243-8539.")
+    assert changes[0]["action"] == "removed" and changes[0]["url"] == "https://library.virginia.edu/nope"
+
+
+def test_dead_links_in_angle_brackets_and_labels():
+    out, _ = _sanitize_offline("See <https://b.example/y>. Read <https://c.example/z|the guide> first.")
+    assert "link unavailable" not in out and "<>" not in out
+    assert out == "See. Read the guide first."
+
+
+def test_drop_url_handles_parenthesized_form():
+    assert link_check.drop_url("Ask the desk (https://a.example/x).", "https://a.example/x") == "Ask the desk."
+
+
+def test_removed_url_is_dropped_cleanly_from_blocks():
+    from slack_format import rewrite_urls_in_blocks
+
+    blocks = [{"type": "section", "text": {"type": "mrkdwn",
+               "text": "Call or visit <https://a.example/x|our page>, or see: https://b.example/y today"}}]
+    out = rewrite_urls_in_blocks(blocks, [
+        {"url": "https://a.example/x", "action": "removed", "replacement": None},
+        {"url": "https://b.example/y", "action": "removed", "replacement": None},
+    ])
+    assert out[0]["text"]["text"] == "Call or visit our page, or see today"
+
+
+def test_trace_records_link_changes():
+    from session_trace import SessionTrace
+
+    trace = SessionTrace(user_message="q")
+    trace.link_changes = [{"url": "https://a.example/x", "action": "removed"}]
+    assert trace.to_dict()["link_changes"] == [{"url": "https://a.example/x", "action": "removed"}]
+
+
 if __name__ == "__main__":
     test_trusted_urls_are_not_checked_or_replaced()
     test_agent_trusts_urls_from_list_slack_channel_output()

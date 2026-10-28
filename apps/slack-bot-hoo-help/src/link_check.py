@@ -308,6 +308,18 @@ def pick_replacement(
     return None
 
 
+def drop_url(text: str, url: str) -> str:
+    """Remove a dead URL so the sentence still reads: keep a link's label, drop the
+    bare form with its connector ("search: <url> or call" -> "search or call")."""
+    if not url or url not in text:
+        return text
+    u = re.escape(url)
+    text = re.sub(r"<" + u + r"\|([^>]*)>", lambda m: m.group(1), text)
+    text = re.sub(r"[ \t]*(?:[:\u2014\u2013-][ \t]*|\b(?:at|via)[ \t]+)?\(?<?" + u + r">?\)?", "", text)
+    text = re.sub(r"[ \t]+([.,;:!?])", r"\1", text)
+    return re.sub(r"[ \t]{2,}", " ", text)
+
+
 def _replace_url_in_text(text: str, old: str, new: Optional[str]) -> str:
     """Replace old URL in Slack links and bare form. Drop link if new is None."""
     if not old or old == new:
@@ -318,17 +330,19 @@ def _replace_url_in_text(text: str, old: str, new: Optional[str]) -> str:
         if _normalize_url(url) != old:
             return m.group(0)
         if not new:
-            # Keep readable label without dead link
-            return label if label else "(link unavailable)"
+            # Keep the readable label; an unlabeled link is dropped below
+            return label if label else f"<{url}>"
         if label is not None:
             return f"<{new}|{label}>"
         return f"<{new}>"
 
     text = _SLACK_LINK.sub(slack_sub, text)
 
+    if not new:
+        return drop_url(text, old)
     # Bare URL occurrences
     if old in text:
-        text = text.replace(old, new if new else "(link unavailable)")
+        text = text.replace(old, new)
     return text
 
 

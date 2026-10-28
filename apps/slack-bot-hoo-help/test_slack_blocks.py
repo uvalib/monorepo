@@ -523,6 +523,130 @@ def test_image_answer_not_duplicated():
     assert types.count("carousel") == 1
 
 
+
+def test_image_answer_keeps_prose_after_listing():
+    answer = (
+        "Here are photos of the Rotunda in the snow:\n\n"
+        "*Rotunda in snow*\n"
+        "Image URL: https://iiif.lib.virginia.edu/iiif/uva-lib:2167141/full/!800,800/0/default.jpg\n"
+        "Virgo: https://search.lib.virginia.edu/sources/images/items/uva-lib:2167141\n\n"
+        "**Tips:**\n\n"
+        "1. The Holsinger Studio Collection has more winter views.\n"
+        "2. Ask Small Special Collections for prints.\n"
+    )
+    text, blocks = format_for_slack(
+        answer,
+        use_llm=False,
+        tool_steps=[
+            _Step("BedrockKBRuntime___search_virgo_image_suggestions", IMAGE_TOOL_SAMPLE)
+        ],
+    )
+    assert "Here are photos of the Rotunda" in text
+    assert "Holsinger Studio Collection has more winter views" in text
+    assert "Ask Small Special Collections for prints" in text
+    assert "iiif.lib.virginia.edu" not in text
+    assert "*Rotunda in snow*" not in text  # the card shows the title
+    assert [b.get("type") for b in blocks].count("carousel") == 1
+
+
+def test_image_carousel_dropped_when_answer_found_nothing():
+    answer = (
+        "Unfortunately, I didn't find any historical aerial photographs specifically "
+        "covering Free Union, VA. The searches returned:\n\n"
+        "* UVA campus aerial views (Charlottesville, not Free Union)\n\n"
+        "**Other places to check:**\n\n"
+        "1. **Virginia Tech's University Libraries** — geospatial collection\n"
+    )
+    text, blocks = format_for_slack(
+        answer,
+        use_llm=False,
+        tool_steps=[
+            _Step("BedrockKBRuntime___search_virgo_image_suggestions", IMAGE_TOOL_SAMPLE)
+        ],
+    )
+    types = [b.get("type") for b in blocks]
+    assert "carousel" not in types and "card" not in types
+    assert "Virginia Tech" in text
+    assert "UVA campus aerial views" in text
+
+
+
+def test_image_answer_drops_numbered_titles_and_field_bullets():
+    answer = (
+        "Here are some snow images:\n\n"
+        "*1. Rotunda in snow*\n"
+        "• Collection: University of Virginia Visual History Collection\n\n"
+        "*2. Lawn snow*\n"
+        "• Collection: Visual History Collection\n\n"
+        "Want the next set?\n"
+    )
+    text, _ = format_for_slack(
+        answer,
+        use_llm=False,
+        tool_steps=[
+            _Step("BedrockKBRuntime___search_virgo_image_suggestions", IMAGE_TOOL_SAMPLE)
+        ],
+    )
+    assert "Rotunda in snow" not in text
+    assert "Collection:" not in text
+    assert "Here are some snow images" in text and "Want the next set?" in text
+
+
+def test_image_carousel_dropped_when_answer_disowns_hits_later():
+    answer = (
+        "Yes! There is a collection of photographs by Ed Roseberry in Special Collections.\n\n"
+        "*What I learned:*\n• His work covers Charlottesville and UVA from the 1950s on.\n"
+        "• It is part of the Visual History Collection, searchable in Virgo.\n\n"
+        "I wasn't able to directly pull up his images in this search; the image knowledge base "
+        "returned other photographers' work instead.\n"
+    )
+    _, blocks = format_for_slack(
+        answer,
+        use_llm=False,
+        tool_steps=[
+            _Step("BedrockKBRuntime___search_virgo_image_suggestions", IMAGE_TOOL_SAMPLE)
+        ],
+    )
+    types = [b.get("type") for b in blocks]
+    assert "carousel" not in types and "card" not in types
+
+
+
+def test_image_carousel_dropped_when_opening_says_none_even_if_a_hit_is_named():
+    answer = (
+        "Unfortunately, I didn't find any aerial photographs covering Free Union. "
+        "The searches returned only campus views and a photo of \"Lawn snow\".\n\n"
+        "Try the Library of Congress for federal aerial surveys.\n"
+    )
+    _, blocks = format_for_slack(
+        answer, use_llm=False,
+        tool_steps=[_Step("BedrockKBRuntime___search_virgo_image_suggestions", IMAGE_TOOL_SAMPLE)],
+    )
+    assert not any(b.get("type") in ("carousel", "card") for b in blocks)
+
+
+def test_image_carousel_kept_when_answer_offers_related_images():
+    answer = (
+        "I couldn't find photos of that exact storm, but here are some related snow images "
+        "of the Rotunda and the Lawn.\n"
+    )
+    _, blocks = format_for_slack(
+        answer, use_llm=False,
+        tool_steps=[_Step("BedrockKBRuntime___search_virgo_image_suggestions", IMAGE_TOOL_SAMPLE)],
+    )
+    assert any(b.get("type") == "carousel" for b in blocks)
+
+
+def test_image_listing_title_matches_hit_title_prefix():
+    sample = IMAGE_TOOL_SAMPLE.replace("Lawn snow", "Lawn snow: view east")
+    answer = "Snow images:\n\n*1. Rotunda in snow*\n\n*2. Lawn snow*\n\nMore?\n"
+    text, _ = format_for_slack(
+        answer, use_llm=False,
+        tool_steps=[_Step("BedrockKBRuntime___search_virgo_image_suggestions", sample)],
+    )
+    assert "Lawn snow" not in text and "Rotunda in snow" not in text
+
+
 SERIES_TOOL_SAMPLE = """# Knowledge Base Retrieval Results
 Found **4** image hit(s):
 

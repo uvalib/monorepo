@@ -287,6 +287,10 @@ class SessionTrace:
             "s3_uri": self.s3_uri,
             "emit_mode": self.emit_mode,
         }
+        link_changes = getattr(self, "link_changes", None)
+        if link_changes:
+            # Links the gate swapped or removed (the original URL is otherwise lost).
+            payload["link_changes"] = list(link_changes)
         if full_outputs and self.slack_blocks:
             # What Slack actually rendered (slack_text is only the fallback).
             payload["slack_blocks"] = self.slack_blocks

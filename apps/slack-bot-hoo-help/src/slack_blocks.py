@@ -1115,6 +1115,22 @@ def flatten_carousels(blocks: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     return out[:MAX_BLOCKS]
 
 
+def image_hit_titles(steps: Optional[Iterable[Any]]) -> List[str]:
+    """Titles of every image hit the image tools returned (shown or not)."""
+    titles: List[str] = []
+    for step in steps or []:
+        if "image" not in tool_leaf(_step_attr(step, "tool_name") or ""):
+            continue
+        text = _usable_output(step)
+        if not text:
+            continue
+        try:
+            titles.extend(h.get("title") or "" for h in parse_image_hits(text))
+        except Exception:
+            logger.warning("Failed to parse image tool output for titles", exc_info=True)
+    return [t for t in titles if t]
+
+
 def blocks_from_tool_steps(
     steps: Optional[Iterable[Any]],
     *,

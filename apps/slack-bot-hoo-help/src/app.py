@@ -334,6 +334,8 @@ def handle_user_query(
             trace,
             extra_candidates=[raw_response] if raw_response else None,
         )
+        if link_changes:
+            trace.link_changes = link_changes
         if cleaned != fallback_text:
             fallback_text = cleaned
             if link_changes:

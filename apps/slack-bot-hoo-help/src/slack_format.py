@@ -21,10 +21,12 @@ import os
 import re
 from typing import Any, Dict, Iterable, List, Optional, Tuple
 
+from link_check import drop_url
 from slack_blocks import (
     MAX_BLOCKS,
     blocks_from_tool_steps,
     fmt_num,
+    image_hit_titles,
     parse_markdown_table,
     table_block,
     tool_fallback_text,
@@ -1074,23 +1076,65 @@ def _extract_image_entries(text: str) -> List[Dict[str, str]]:
     return unique[:4]
 
 
-def _short_image_intro(text: str) -> str:
-    """One-line caption for image answers; strip IIIF/Virgo listing lines."""
+_IMAGE_LISTING_LINE = re.compile(r"^(image url|virgo|collection|title)\b", re.I)
+_NO_IMAGES_FOUND = re.compile(
+    r"(?i)\b(?:didn't|did not|couldn't|could not|wasn't able to|was unable to|unable to)"
+    r"(?:\s+\w+ly)?\s+(?:find|locate|pull up|retrieve)\b"
+    r"|\bno\s+(?:relevant\s+|matching\s+)?(?:images|photographs|photos)\b"
+)
+
+_OFFERS_IMAGES = re.compile(
+    r"(?i)\b(?:here are|here's|below are|take a look|these (?:images|photos|photographs))\b"
+)
+
+
+def _plain_line(line: str) -> str:
+    s = re.sub(r"^[•\-\*\s]+|[\*\s]+$", "", line).strip()
+    return re.sub(r"^\d+[.)]\s*", "", s)
+
+
+def _image_answer_prose(text: str, titles: Iterable[str] = ()) -> str:
+    """The answer without its image listing (the carousel shows those)."""
+    known = set()
+    for t in titles:
+        t = (t or "").strip().lower()
+        if t:
+            known.update({t, t.split(":")[0].strip()})  # "Millington Bridge: ridge"
+    kept: List[str] = []
     for line in (text or "").splitlines():
-        s = line.strip().strip("*")
-        if not s:
-            continue
+        s = _plain_line(line)
         low = s.lower()
-        if "iiif.lib.virginia.edu" in low or "search.lib.virginia.edu" in low:
+        if "iiif.lib.virginia.edu" in low or "search.lib.virginia.edu/sources/images" in low:
             continue
-        if re.match(r"^(image url|virgo|collection|title)\b", s, re.I):
+        if s.startswith("http") or _IMAGE_LISTING_LINE.match(s):
             continue
-        if s.startswith("http"):
+        if known and low in known:
             continue
-        if re.match(r"^\d+[.)]", s):
-            continue
-        return s[:300]
-    return "Here are some images from the library collections."
+        kept.append(line.rstrip())
+    prose = re.sub(r"\n{3,}", "\n\n", "\n".join(kept)).strip()
+    return prose or "Here are some images from the library collections."
+
+
+def _card_titles(blocks: Iterable[Dict[str, Any]]) -> List[str]:
+    cards: List[Dict[str, Any]] = []
+    for b in blocks:
+        if b.get("type") == "carousel":
+            cards.extend(b.get("elements") or [])
+        elif b.get("type") == "card":
+            cards.append(b)
+    return [str((c.get("title") or {}).get("text") or "") for c in cards]
+
+
+def _answer_rejects_images(answer: str, titles: Iterable[str]) -> bool:
+    """The answer says the image hits don't fit, and isn't offering any of them."""
+    text = answer or ""
+    if not _NO_IMAGES_FOUND.search(text) or _OFFERS_IMAGES.search(text):
+        return False
+    opening = re.split(r"(?<=[.!?])\s", text.strip(), maxsplit=1)[0]
+    if _NO_IMAGES_FOUND.search(opening):
+        return True
+    low = text.lower()
+    return not any(t and t.lower() in low for t in titles)
 
 
 def _chunk_mrkdwn(text: str, max_len: int = 2900) -> List[str]:
@@ -1325,6 +1369,11 @@ def format_for_slack(
         except Exception:
             fallback = ""
     occ_owned, hours_owned, img_owned = _layout_owned(extra)
+    image_titles = _card_titles(extra) + image_hit_titles(tool_steps)
+    if img_owned and _answer_rejects_images(answer, image_titles):
+        # "Didn't find any…" over unrelated pictures misleads; show the answer only.
+        extra = [b for b in extra if b.get("type") not in ("carousel", "card")]
+        occ_owned, hours_owned, img_owned = _layout_owned(extra)
     # Hours / occupancy / image carousels are code-owned. Skip the formatter
     # LLM — it was adding 5–15s and then being discarded.
     skip_formatter = bool(occ_owned or hours_owned or img_owned)
@@ -1419,7 +1468,7 @@ def format_for_slack(
         elif img_owned:
             # Carousel owns the pictures. Drop LLM image listings / IIIF URLs so
             # Slack does not unfurl a second set of thumbnails.
-            intro = _short_image_intro(formatted or answer)
+            intro = _image_answer_prose(formatted or answer, image_titles)
             formatted = intro
             llm_blocks = None
             prose_mrkdwn = intro
@@ -1486,7 +1535,7 @@ def rewrite_urls_in_blocks(
                 if old in obj:
                     obj = obj.replace(old, new)
             for old in removed:
-                obj = obj.replace(old, "")
+                obj = drop_url(obj, old)
             return obj
         if isinstance(obj, list):
             return [walk(x) for x in obj]
