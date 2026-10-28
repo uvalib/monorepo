@@ -41,6 +41,27 @@ _ISSUE_KEY = re.compile(r"^[A-Z][A-Z0-9_]+-\d+$")
 ISSUE_FIELDS = ["summary", "status", "assignee", "updated", "issuetype", "priority"]
 
 
+# Read restrictions on a page or any parent hide it from most staff. The Hoo Helper
+# account can see restricted pages (it's in IT groups), so those never reach an answer.
+_READ_RESTRICTIONS = ("restrictions.read.restrictions.group", "restrictions.read.restrictions.user")
+
+
+def _has_read_restriction(item: Dict[str, Any]) -> bool:
+    """True when restricted, or when the restriction data is missing (fail closed)."""
+    rr = (((item.get("restrictions") or {}).get("read") or {}).get("restrictions"))
+    if not isinstance(rr, dict):
+        return True
+    return any((rr.get(kind) or {}).get("results") for kind in ("group", "user"))
+
+
+def _read_restricted(content: Dict[str, Any]) -> bool:
+    if not isinstance(content, dict):
+        return True
+    ancestors = content.get("ancestors") or []
+    return _has_read_restriction(content) or any(
+        not isinstance(a, dict) or _has_read_restriction(a) for a in ancestors)
+
+
 def _reset_cache() -> None:
     """Tests only."""
     _SPACE_KEYS.clear()
@@ -146,6 +167,9 @@ class AtlassianTools:
 
     # ---- Confluence ----------------------------------------------------------
 
+    def _page_refusal(self) -> str:
+        return "That page isn't available to Hoo Helper."
+
     def _space_refusal(self) -> str:
         return f"That isn't in the Library's Confluence spaces (allowed: {', '.join(self.cfg.confluence_spaces)})."
 
@@ -172,12 +196,15 @@ class AtlassianTools:
         start = (page - 1) * limit
         data = self.confluence.get("/rest/api/search", params={
             "cql": " AND ".join(clauses), "limit": limit, "start": start, "excerpt": "highlight",
-            "expand": "content.space,content.history.lastUpdated,content.ancestors",
+            "expand": ",".join(["content.space", "content.history.lastUpdated", "content.ancestors",
+                                *(f"content.{e}" for e in _READ_RESTRICTIONS),
+                                *(f"content.ancestors.{e}" for e in _READ_RESTRICTIONS)]),
         })
         hits = []
         for r in data.get("results") or []:
             content = r.get("content") or {}
-            if ((content.get("space") or {}).get("key") or "").upper() in allowed:
+            if ((content.get("space") or {}).get("key") or "").upper() in allowed \
+                    and not _read_restricted(content):
                 hits.append((r, content))
         if not hits:
             return f'No Confluence pages in the Library spaces matched "{query}".'
@@ -216,6 +243,11 @@ class AtlassianTools:
         page_id = m.group(1) if m else (ref if ref.isdigit() else "")
         if not page_id:
             return "Pass a Confluence page id (from search_confluence) or a page URL."
+        # The v2 page doesn't carry restrictions; ask v1 first and never fetch a restricted body.
+        meta = self.confluence.get(f"/rest/api/content/{page_id}", params={"expand": ",".join(
+            [*_READ_RESTRICTIONS, *(f"ancestors.{e}" for e in _READ_RESTRICTIONS)])})
+        if _read_restricted(meta):
+            return self._page_refusal()
         data = self.confluence.get(f"/api/v2/pages/{page_id}", params={"body-format": "storage"})
         if self._space_key(str(data.get("spaceId") or "")) not in self.cfg.confluence_spaces:
             return self._space_refusal()

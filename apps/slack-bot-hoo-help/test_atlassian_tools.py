@@ -58,15 +58,26 @@ class FakeSlack:
         return {"members": [], "response_metadata": {"next_cursor": ""}}
 
 
+def restrictions(groups=(), users=()):
+    return {"read": {"restrictions": {"group": {"results": [{"name": g} for g in groups]},
+                                      "user": {"results": [{"accountId": u} for u in users]}}}}
+
+
+OPEN = restrictions()
+
+
 def hit(page_id="123", space="LIB", title="Gate counts", excerpt="the @@@hl@@@camera@@@endhl@@@ fix",
-        ancestors=("Assessment", "Data")):
-    return {"content": {"id": page_id, "type": "page", "title": title,
-                        "space": {"key": space, "name": "Library" if space == "LIB" else space},
-                        "ancestors": [{"title": a} for a in ancestors],
-                        "history": {"lastUpdated": {"when": "2026-10-01T12:00:00.000Z",
-                                                    "by": {"displayName": "Pat Doe"}}},
-                        "_links": {"webui": f"/spaces/{space}/pages/{page_id}/Gate+counts"}},
-            "title": title, "excerpt": excerpt}
+        ancestors=("Assessment", "Data"), own=OPEN, ancestor_restrictions=None):
+    anc = [{"title": a, "restrictions": (ancestor_restrictions or {}).get(a, OPEN)} for a in ancestors]
+    content = {"id": page_id, "type": "page", "title": title,
+               "space": {"key": space, "name": "Library" if space == "LIB" else space},
+               "ancestors": anc,
+               "history": {"lastUpdated": {"when": "2026-10-01T12:00:00.000Z",
+                                           "by": {"displayName": "Pat Doe"}}},
+               "_links": {"webui": f"/spaces/{space}/pages/{page_id}/Gate+counts"}}
+    if own is not None:
+        content["restrictions"] = own
+    return {"content": content, "title": title, "excerpt": excerpt}
 
 
 def search_response(hits, total=None):
@@ -146,15 +157,19 @@ PAGE = {"id": "123", "title": "Gate counts", "spaceId": "98",
         "_links": {"webui": "/spaces/LIB/pages/123/Gate+counts"}}
 
 
-def page_routes(page=PAGE, space_key="LIB"):
-    return {"/api/v2/pages/": page, "/api/v2/spaces/": {"id": "98", "key": space_key, "name": "Library"}}
+def page_routes(page=PAGE, space_key="LIB", own=OPEN, ancestors=({"title": "Home", "restrictions": OPEN},)):
+    v1 = {"id": page.get("id"), "ancestors": list(ancestors)}
+    if own is not None:
+        v1["restrictions"] = own
+    return {"/api/v2/pages/": page, "/api/v2/spaces/": {"id": "98", "key": space_key, "name": "Library"},
+            "/rest/api/content/": v1}
 
 
 def test_page_by_id_and_url():
     t, conf, _ = tools(conf_routes=page_routes())
     out = t.get_confluence_page(f"{SITE}/wiki/spaces/LIB/pages/123/Gate+counts")
-    assert conf.calls[0][1] == "/api/v2/pages/123"
-    assert conf.calls[0][2]["body-format"] == "storage"
+    v2 = next(c for c in conf.calls if c[1] == "/api/v2/pages/123")
+    assert v2[2]["body-format"] == "storage"
     assert "# Gate counts" in out and "## Method" in out
     assert f"{SITE}/wiki/spaces/LIB/pages/123/Gate+counts" in out
     assert "Gate counts" in t.get_confluence_page("123")
@@ -180,6 +195,52 @@ def test_page_missing_fields_render():  # RF4
     t, _, _ = tools(conf_routes=page_routes({"id": "5", "spaceId": "98"}))
     out = t.get_confluence_page("5")
     assert "Untitled page" in out and "(This page has no text.)" in out
+
+
+def test_search_drops_pages_with_their_own_read_restriction():  # review 2026-10-28: IT-only pages
+    t, _, _ = tools(conf_routes={"/rest/api/search": search_response([
+        hit(), hit("7", title="Staff salaries", own=restrictions(groups=["lib-it-staff"]))])})
+    out = t.search_confluence("gate")
+    assert "Gate counts" in out and "Staff salaries" not in out
+
+
+def test_search_drops_pages_under_a_restricted_parent():
+    t, _, _ = tools(conf_routes={"/rest/api/search": search_response([
+        hit("8", title="Desktop minutes", ancestors=("Home", "LIT Desktop Team"),
+            ancestor_restrictions={"LIT Desktop Team": restrictions(users=["acct-1"])})])})
+    assert "Desktop minutes" not in t.search_confluence("minutes")
+    assert "No Confluence pages" in t.search_confluence("minutes")
+
+
+def test_search_fails_closed_when_restrictions_are_missing():
+    t, _, _ = tools(conf_routes={"/rest/api/search": search_response([hit(own=None)])})
+    assert "Gate counts" not in t.search_confluence("gate")
+    bare_ancestor = hit()
+    bare_ancestor["content"]["ancestors"] = [{"title": "Home"}]
+    t2, _, _ = tools(conf_routes={"/rest/api/search": search_response([bare_ancestor])})
+    assert "Gate counts" not in t2.search_confluence("gate")
+
+
+def test_search_asks_for_page_and_parent_restrictions():
+    t, conf, _ = tools()
+    t.search_confluence("gate")
+    exp = conf.last_params()["expand"].split(",")
+    for e in ("content.restrictions.read.restrictions.group", "content.restrictions.read.restrictions.user",
+              "content.ancestors.restrictions.read.restrictions.group",
+              "content.ancestors.restrictions.read.restrictions.user"):
+        assert e in exp
+
+
+def test_restricted_page_refused_without_its_body():
+    secret = {**PAGE, "body": {"storage": {"value": "<p>SECRET BODY</p>"}}}
+    for routes in (page_routes(secret, own=restrictions(groups=["lb-it-development"])),
+                   page_routes(secret, ancestors=({"title": "Team", "restrictions": restrictions(users=["a"])},)),
+                   page_routes(secret, own=None)):
+        t, conf, _ = tools(conf_routes=routes)
+        out = t.get_confluence_page("123")
+        assert out == "That page isn't available to Hoo Helper.", out
+        assert "SECRET BODY" not in out
+        assert not any(c[1] == "/api/v2/pages/123" for c in conf.calls)  # body never fetched
 
 
 def test_page_bad_reference():
