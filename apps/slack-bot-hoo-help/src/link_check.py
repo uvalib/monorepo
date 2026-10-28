@@ -26,7 +26,7 @@ _SLACK_LINK = re.compile(
 )
 # Bare URLs (not already inside <...>)
 _BARE_URL = re.compile(
-    r"(?<![<|\"'(\[])(https?://[^\s<>\[\]\"']+)",
+    r"(?<![<|\"'\[])(https?://[^\s<>\[\]\"']+)",
     re.I,
 )
 
@@ -82,7 +82,12 @@ def _normalize_url(url: str) -> str:
     # Slack mrkdwn residue or trailing punctuation
     if "|" in u:
         u = u.split("|", 1)[0]
-    u = u.rstrip(").,;]'\"")
+    # Trailing punctuation, and a ")" only when it closes text around the URL
+    # ("(https://a/x)") rather than the URL itself ("…/Monticello_(disambiguation)").
+    while u and u[-1] in ").,;]'\"":
+        if u[-1] == ")" and u.count("(") >= u.count(")"):
+            break
+        u = u[:-1]
     if not u.startswith(("http://", "https://")):
         return ""
     return u

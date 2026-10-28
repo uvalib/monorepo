@@ -77,6 +77,20 @@ def test_dead_links_in_angle_brackets_and_labels():
     assert out == "See. Read the guide first."
 
 
+def test_parenthesized_and_markdown_urls_are_checked():  # review: "(https://…)" links were never checked
+    assert link_check.extract_urls("Ask the desk (https://a.example/x).") == ["https://a.example/x"]
+    assert link_check.extract_urls("See [the guide](https://a.example/y).") == ["https://a.example/y"]
+    out, changes = _sanitize_offline("Ask the desk (https://a.example/x).")
+    assert out == "Ask the desk." and changes[0]["url"] == "https://a.example/x"
+
+
+def test_balanced_parens_stay_in_the_url():
+    wiki = "https://en.wikipedia.org/wiki/Monticello_(disambiguation)"
+    assert link_check.extract_urls(f"see {wiki}.") == [wiki]
+    assert link_check.extract_urls(f"(see {wiki})") == [wiki]
+    assert link_check.extract_urls(f"({wiki})") == [wiki]
+
+
 def test_drop_url_handles_parenthesized_form():
     assert link_check.drop_url("Ask the desk (https://a.example/x).", "https://a.example/x") == "Ask the desk."
 
