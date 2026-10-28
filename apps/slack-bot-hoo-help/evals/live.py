@@ -22,13 +22,15 @@ def have_aws_credentials() -> bool:
     return boto3.Session().get_credentials() is not None
 
 
-def run_live(case: dict, agent) -> CaseResult:
+def run_live(case: dict, agent, local_tools=None) -> CaseResult:
     spec = case.get("live") or {}
     started = time.monotonic()
     try:
         kwargs = {"conversation_history": case.get("history") or []}
         if case.get("extra_context"):
             kwargs["extra_context"] = case["extra_context"]  # e.g. "Slack search is unavailable…"
+        if local_tools is not None:
+            kwargs["local_tools"] = local_tools  # Confluence/Jira, as production passes them
         result = agent.process_message(case["question"], **kwargs)
         seconds = time.monotonic() - started
         trace = result.trace

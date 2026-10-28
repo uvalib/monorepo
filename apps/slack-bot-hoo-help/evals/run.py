@@ -31,6 +31,41 @@ def production_model_id(samconfig_path: str = SAMCONFIG) -> str | None:
     return m.group(1) if m else None
 
 
+def production_atlassian_env(samconfig_path: str = SAMCONFIG) -> dict:
+    """Production's Confluence/Jira switch and allow-lists, from samconfig's parameter_overrides."""
+    try:
+        text = open(samconfig_path).read()
+    except OSError:
+        text = ""
+
+    def value(name: str) -> str:
+        m = re.search(rf"\b{name}=([^\s\"']*)", text)
+        return m.group(1) if m else ""
+    return {"ENABLE_ATLASSIAN": value("EnableAtlassian") or "false",
+            "CONFLUENCE_SPACES": value("ConfluenceSpaces"), "JIRA_PROJECTS": value("JiraProjects")}
+
+
+def _atlassian_tools():
+    """Confluence/Jira tools as production builds them (tokens from SSM), or None with a note."""
+    try:
+        import boto3
+        from atlassian_tools import atlassian_tools_for_event
+
+        ssm = boto3.client("ssm", region_name=os.environ.get("AWS_REGION", "us-east-1"))
+
+        def secret(name: str) -> str:
+            return ssm.get_parameter(Name=f"/hoohelp/atlassian/{name}", WithDecryption=True)["Parameter"]["Value"]
+        tools = atlassian_tools_for_event({"user": ""}, directory=None, env=production_atlassian_env(),
+                                          email=secret("email"), jira_token=secret("jira-token"),
+                                          confluence_token=secret("confluence-token"))
+    except Exception as e:  # live cases still run; Confluence/Jira cases will fail on tools_any
+        print(f"Confluence/Jira tools unavailable for live evals: {type(e).__name__}")
+        return None
+    if tools is None:
+        print("Confluence/Jira tools are switched off in samconfig.")
+    return tools
+
+
 def _offline(cases: list) -> int:
     from evals.offline import run_offline
 
@@ -99,6 +134,10 @@ def _live(cases: list, model: str | None = None) -> int:
     from datetime import datetime
 
     agent = HooHelpAgent(gateway_client=GatewayMCPClient())
+    from local_tools import LocalTools
+
+    atlassian = _atlassian_tools()
+    local_tools = LocalTools(atlassian) if atlassian is not None else None
     results = []
     for c in cases:
         if isinstance(c, CaseError):
@@ -106,7 +145,7 @@ def _live(cases: list, model: str | None = None) -> int:
             continue
         if not c.get("live"):
             continue
-        r = live.run_live(c, agent)
+        r = live.run_live(c, agent, local_tools=local_tools)
         results.append(r)
         print(f"{'PASS' if r.passed else 'FAIL'} {r.id} ({r.seconds:.0f}s)" + ("" if r.passed else ": " + "; ".join(r.reasons)))
     path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "reports", f"live-{datetime.now():%Y%m%d-%H%M%S}.md")

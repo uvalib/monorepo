@@ -1,0 +1,22 @@
+{
+  "id": "live-confluence-aeon",
+  "category": "confluence",
+  "question": "How do I handle an Aeon print request?",
+  "recorded": null,
+  "expect": {},
+  "live": {
+    "tools_any": [
+      "search_confluence",
+      "get_confluence_page"
+    ],
+    "phrases_any": [
+      "Aeon"
+    ],
+    "forbid": [
+      "&quot;",
+      "&#39;",
+      "isn't available right now"
+    ],
+    "max_seconds": 75
+  }
+}

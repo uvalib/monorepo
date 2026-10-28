@@ -118,7 +118,7 @@ def test_confluence_label_and_paging_params():
 
 def test_disallowed_space_refused_without_http():
     t, conf, _ = tools()
-    assert t.search_confluence("x", space="HR") == "That isn't in the Library's Confluence spaces (allowed: LIB, DEV)."
+    assert t.search_confluence("x", space="HR") == "That space isn't one of the Library's Confluence spaces Hoo Helper can search; leave out the space to search all of them."
     assert conf.calls == []
 
 
@@ -143,6 +143,21 @@ def test_hit_formatting_title_space_breadcrumb_excerpt_link():
     assert "Pat Doe" in out and "2026-10-01" in out
     assert f"{SITE}/wiki/spaces/LIB/pages/123/Gate+counts" in out
     assert "page_id 123" in out
+
+
+def test_excerpt_and_title_html_entities_decoded():  # review 2026-10-28: &quot; and &#39; in snippets
+    t, _, _ = tools(conf_routes={"/rest/api/search": search_response([
+        hit(title="Staff &amp; Student Hold Policies", excerpt="writes it to the &quot;12 - Gate Count&quot; dataset; can&#39;t recall")])})
+    out = t.search_confluence("gate")
+    assert 'Staff & Student Hold Policies' in out
+    assert 'the "12 - Gate Count" dataset; can\'t recall' in out
+    assert "&quot;" not in out and "&#39;" not in out and "&amp;" not in out
+
+
+def test_search_header_does_not_repeat_the_space_list():
+    t, _, _ = tools(spaces=("LIB", "DEV", "OPS", "CAT"))
+    out = t.search_confluence("gate")
+    assert "LIB, DEV, OPS, CAT" not in out and "DEV" not in out
 
 
 def test_more_results_hint_and_no_results():
@@ -179,7 +194,7 @@ def test_page_by_url_other_space_refused():  # RF2
     page = {**PAGE, "body": {"storage": {"value": "<p>SECRET BODY</p>"}}}
     t, _, _ = tools(conf_routes=page_routes(page, space_key="HR"))
     out = t.get_confluence_page(f"{SITE}/wiki/spaces/HR/pages/123/Pay")
-    assert out == "That isn't in the Library's Confluence spaces (allowed: LIB, DEV)."
+    assert out == "That space isn't one of the Library's Confluence spaces Hoo Helper can search; leave out the space to search all of them."
     assert "SECRET BODY" not in out
 
 

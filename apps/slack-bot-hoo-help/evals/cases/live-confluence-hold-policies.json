@@ -1,0 +1,22 @@
+{
+  "id": "live-confluence-hold-policies",
+  "category": "confluence",
+  "question": "Where's the doc on hold policies?",
+  "recorded": null,
+  "expect": {},
+  "live": {
+    "tools_any": [
+      "search_confluence"
+    ],
+    "phrases_any": [
+      "Hold Policies"
+    ],
+    "forbid": [
+      "&quot;",
+      "&#39;",
+      "link unavailable",
+      "isn't available right now"
+    ],
+    "max_seconds": 60
+  }
+}

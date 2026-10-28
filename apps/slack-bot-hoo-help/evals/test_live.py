@@ -111,6 +111,29 @@ def test_run_live_passes_extra_context():
     assert "extra_context" not in agent2.kwargs
 
 
+
+def test_run_live_passes_local_tools_through():  # Confluence/Jira are local tools, not gateway tools
+    marker = object()
+    agent = RecordingAgent()
+    live.run_live(LIVE, agent, local_tools=marker)
+    assert agent.kwargs["local_tools"] is marker
+    agent2 = RecordingAgent()
+    live.run_live(LIVE, agent2)
+    assert "local_tools" not in agent2.kwargs
+
+
+def test_atlassian_env_comes_from_samconfig():
+    from evals.run import production_atlassian_env
+
+    with tempfile.NamedTemporaryFile("w", suffix=".toml", delete=False) as fh:
+        fh.write('parameter_overrides = "EnableAtlassian=true ConfluenceSpaces=CC,sw JiraProjects=TDG,TS '
+                 'BedrockModelId=m"\n')
+    env = production_atlassian_env(fh.name)
+    assert env == {"ENABLE_ATLASSIAN": "true", "CONFLUENCE_SPACES": "CC,sw", "JIRA_PROJECTS": "TDG,TS"}
+    with tempfile.NamedTemporaryFile("w", suffix=".toml", delete=False) as fh2:
+        fh2.write('parameter_overrides = "BedrockModelId=m"\n')
+    assert production_atlassian_env(fh2.name)["ENABLE_ATLASSIAN"] == "false"
+
 if __name__ == "__main__":
     test_live_pass_and_fail_reasons()
     test_live_exception_fails_case_and_report_still_written()
@@ -118,4 +141,6 @@ if __name__ == "__main__":
     test_live_uses_production_model_from_samconfig()
     test_case_extra_context_loaded_and_validated()
     test_run_live_passes_extra_context()
+    test_run_live_passes_local_tools_through()
+    test_atlassian_env_comes_from_samconfig()
     print("ok")

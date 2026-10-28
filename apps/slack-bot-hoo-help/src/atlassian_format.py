@@ -9,6 +9,7 @@ atlassian_format.py — turn Atlassian page/issue bodies into text the model can
 
 from __future__ import annotations
 
+import html
 import re
 from html.parser import HTMLParser
 from typing import Any, Dict, List, Optional
@@ -19,7 +20,8 @@ _DROP_CONTENT = {"script", "style", "ac:parameter"}  # macro parameters are sett
 
 
 def strip_highlight(text: str) -> str:
-    return _HL.sub("", text or "")
+    """Drop search highlight markers and decode HTML entities (&quot; → ")."""
+    return html.unescape(_HL.sub("", text or ""))
 
 
 class _StorageParser(HTMLParser):

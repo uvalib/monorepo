@@ -1,0 +1,19 @@
+{
+  "id": "live-jira-virgo4-recent",
+  "category": "jira",
+  "question": "What Virgo 4 Jira issues were updated in the last two weeks?",
+  "recorded": null,
+  "expect": {},
+  "live": {
+    "tools_any": [
+      "search_jira"
+    ],
+    "phrases_any": [
+      "VIRGONEW-"
+    ],
+    "forbid": [
+      "isn't available right now"
+    ],
+    "max_seconds": 60
+  }
+}

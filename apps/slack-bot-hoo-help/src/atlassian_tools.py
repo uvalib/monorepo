@@ -171,7 +171,8 @@ class AtlassianTools:
         return "That page isn't available to Hoo Helper."
 
     def _space_refusal(self) -> str:
-        return f"That isn't in the Library's Confluence spaces (allowed: {', '.join(self.cfg.confluence_spaces)})."
+        return ("That space isn't one of the Library's Confluence spaces Hoo Helper can search; "
+                "leave out the space to search all of them.")
 
     def search_confluence(self, query: str, space: str = "", label: str = "", updated_after: str = "",
                           limit: int = 5, page: int = 1) -> str:
@@ -208,7 +209,7 @@ class AtlassianTools:
                 hits.append((r, content))
         if not hits:
             return f'No Confluence pages in the Library spaces matched "{query}".'
-        lines = [f'### Confluence search: "{query}"', f"_Library spaces: {', '.join(allowed)}._", ""]
+        lines = [f'### Confluence search: "{query}" (Library spaces)', ""]
         for i, (r, content) in enumerate(hits, start + 1):
             title = strip_highlight(content.get("title") or r.get("title") or "Untitled page")
             sp = content.get("space") or {}
