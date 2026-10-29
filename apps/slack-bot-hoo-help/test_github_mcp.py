@@ -159,8 +159,14 @@ def test_session_lost_reinitializes_once():
 
 def test_401_refreshes_token_once():
     invalidated = []
+    tokens = {"cur": "ghs_OLD" + "a" * 20}
+    NEW = "ghs_NEW" + "b" * 20
     base = standard()
     seen = {"n": 0}
+
+    def inval():
+        invalidated.append(1)
+        tokens["cur"] = NEW
 
     def handler(n, payload, headers):
         if payload["method"] == "tools/list":
@@ -168,9 +174,13 @@ def test_401_refreshes_token_once():
             if seen["n"] == 1:
                 return FakeResp(401, raw="bad credentials")
         return base(n, payload, headers)
-    c = client(FakeHttp(handler), invalidate=lambda: invalidated.append(1))
+    http = FakeHttp(handler)
+    c = GitHubMCPClient(lambda: tokens["cur"], invalidate=inval, http=http)
     assert c.list_tools()
     assert invalidated == [1]
+    lists = [x for x in http.calls if x["json"]["method"] == "tools/list"]
+    assert lists[0]["headers"]["Authorization"] == "Bearer ghs_OLD" + "a" * 20
+    assert lists[1]["headers"]["Authorization"] == f"Bearer {NEW}"
 
     invalidated.clear()
     c2 = client(FakeHttp(lambda n, p, h: FakeResp(401, raw="no")), invalidate=lambda: invalidated.append(1))
@@ -182,6 +192,78 @@ def test_401_refreshes_token_once():
     else:
         raise AssertionError("expected GitHubMCPError")
     assert invalidated == [1]
+
+
+def test_404_on_initialized_notification_is_github_error():
+    base = standard()
+
+    def handler(n, payload, headers):
+        if payload["method"] == "notifications/initialized":
+            return FakeResp(404, raw="gone")
+        return base(n, payload, headers)
+    for call in (lambda c: c.list_tools(), lambda c: c.call_tool("x", {})):
+        try:
+            call(client(FakeHttp(handler)))
+        except GitHubMCPError as e:
+            assert e.user_message == "GitHub isn't available right now."
+        else:
+            raise AssertionError("expected GitHubMCPError")
+
+
+def _sse_client(raw_body, request_result_marker="ok"):
+    base = standard()
+
+    def handler(n, payload, headers):
+        if payload["method"] == "tools/call":
+            body = raw_body.replace("__ID__", str(payload["id"]))
+            return FakeResp(200, raw=body, headers={"Content-Type": "text/event-stream"})
+        return base(n, payload, headers)
+    return client(FakeHttp(handler))
+
+
+def _evt(id_, text):
+    return json.dumps({"jsonrpc": "2.0", "id": id_, "result": {"content": [{"type": "text", "text": text}]}})
+
+
+def test_sse_picks_event_matching_request_id_not_last():
+    notif = json.dumps({"jsonrpc": "2.0", "method": "notifications/message", "params": {}})
+    other = _evt(9999, "wrong")
+    body = "data: " + '{"jsonrpc":"2.0","id":__ID__,"result":{"content":[{"type":"text","text":"right"}]}}' + "\n\n" \
+        + f"data: {other}\n\ndata: {notif}\n\n"
+    res = _sse_client(body).call_tool("x", {})
+    assert res["content"][0]["text"] == "right"
+
+
+def test_sse_comment_keepalive_and_crlf_and_empty_trailing_data():
+    msg = '{"jsonrpc":"2.0","id":__ID__,"result":{"content":[{"type":"text","text":"ok"}]}}'
+    body = ": keepalive\r\n\r\nevent: message\r\ndata: " + msg + "\r\n\r\ndata:\r\n\r\n: ping\r\n\r\n"
+    assert _sse_client(body).call_tool("x", {})["content"][0]["text"] == "ok"
+
+
+def test_sse_multiline_data_joined():
+    body = 'data: {"jsonrpc":"2.0","id":__ID__,\ndata: "result":{"content":[{"type":"text","text":"multi"}]}}\n\n'
+    assert _sse_client(body).call_tool("x", {})["content"][0]["text"] == "multi"
+
+
+def test_sse_falls_back_to_last_result_when_id_absent():
+    body = 'data: {"jsonrpc":"2.0","id":424242,"result":{"content":[{"type":"text","text":"fb"}]}}\n\n' \
+           'data: {"jsonrpc":"2.0","method":"notifications/x"}\n\n'
+    assert _sse_client(body).call_tool("x", {})["content"][0]["text"] == "fb"
+
+
+def test_empty_token_does_not_mangle_error_message():
+    base = standard()
+
+    def handler(n, payload, headers):
+        if payload["method"] == "tools/call":
+            return FakeResp(200, {"jsonrpc": "2.0", "id": 3, "error": {"code": -1, "message": "boom"}})
+        return base(n, payload, headers)
+    try:
+        GitHubMCPClient(lambda: "", http=FakeHttp(handler)).call_tool("x", {})
+    except GitHubMCPError as e:
+        assert str(e) == "boom"
+    else:
+        raise AssertionError("expected GitHubMCPError")
 
 
 def test_429_and_5xx_retried_once_then_busy():

@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import json
 import logging
+import re
 import threading
 import time
 from typing import Any, Callable, Dict, List, Optional
@@ -100,7 +101,11 @@ class GitHubMCPClient:
             "capabilities": {},
             "clientInfo": CLIENT_INFO,
         }, with_session=False)
-        self._send(None, None, notification="notifications/initialized")
+        try:
+            self._send(None, None, notification="notifications/initialized")
+        except _SessionLost:
+            logger.warning("github mcp session rejected at initialized notification")
+            raise GitHubMCPError("GitHub MCP session rejected", MSG_UNAVAILABLE) from None
         self._initialized = True
 
     def _request(self, method: str, params: Dict[str, Any]) -> Dict[str, Any]:
@@ -178,11 +183,11 @@ class GitHubMCPClient:
             sid = _header(resp, "Mcp-Session-Id")
             if sid and method == "initialize":
                 self._session_id = sid
-            return self._unwrap(resp, token)
+            return self._unwrap(resp, token, payload["id"])
 
-    def _unwrap(self, resp, token: str) -> Dict[str, Any]:
+    def _unwrap(self, resp, token: str, req_id) -> Dict[str, Any]:
         try:
-            data = _parse_body(resp)
+            data = _parse_body(resp, req_id)
         except ValueError:
             raise GitHubMCPError("GitHub MCP returned an unreadable reply", MSG_UNAVAILABLE) from None
         if not isinstance(data, dict):
@@ -191,7 +196,8 @@ class GitHubMCPClient:
         if err:
             msg = str(err.get("message", "unknown error")) if isinstance(err, dict) else str(err)
             code = err.get("code") if isinstance(err, dict) else None
-            msg = msg.replace(token, "[redacted]")
+            if token:
+                msg = msg.replace(token, "[redacted]")
             raise GitHubMCPError(msg, MSG_UNAVAILABLE, code=code)
         result = data.get("result")
         return result if isinstance(result, dict) else {}
@@ -205,15 +211,29 @@ def _header(resp, name: str) -> Optional[str]:
     return None
 
 
-def _parse_body(resp) -> Any:
+def _parse_body(resp, req_id) -> Any:
     ctype = (_header(resp, "Content-Type") or "").lower()
     text = resp.text or ""
-    if "text/event-stream" in ctype or text.lstrip().startswith(("data:", "event:", "id:")):
-        last = None
-        for line in text.splitlines():
+    if "text/event-stream" not in ctype and not text.lstrip().startswith(("data:", "event:", "id:", ":")):
+        return json.loads(text)
+    messages = []
+    for event in re.split(r"\n\n+", text.replace("\r\n", "\n").replace("\r", "\n")):
+        lines = []
+        for line in event.split("\n"):
             if line.startswith("data:"):
-                last = line[5:].strip()
-        if last is None:
-            raise ValueError("no data line")
-        return json.loads(last)
-    return json.loads(text)
+                v = line[5:]
+                lines.append(v[1:] if v.startswith(" ") else v)
+        data = "\n".join(lines).strip()
+        if not data:
+            continue
+        try:
+            messages.append(json.loads(data))
+        except ValueError:
+            continue
+    for m in messages:
+        if isinstance(m, dict) and m.get("id") == req_id and ("result" in m or "error" in m):
+            return m
+    for m in reversed(messages):
+        if isinstance(m, dict) and ("result" in m or "error" in m):
+            return m
+    raise ValueError("no response event")
