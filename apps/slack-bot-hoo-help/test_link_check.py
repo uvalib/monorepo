@@ -162,3 +162,11 @@ def test_reshaped_uvalib_links_for_repos_in_github_output_are_trusted():  # priv
     assert "https://github.com/uvalib/other-repo/blob/main/x.go" in calls  # not in this turn's output
     assert "https://github.com/uvalib/hold-svc-old" in calls
     assert "https://github.com/someone/hold-svc" in calls
+
+
+def test_uvalib_dot_segments_are_not_a_repo():  # final re-review minor 1: github.com/uvalib/../other must not be trusted
+    from agent import _uvalib_repo
+
+    assert _uvalib_repo("https://github.com/uvalib/../torvalds/linux") is None
+    assert _uvalib_repo("https://github.com/uvalib/./x") is None
+    assert _uvalib_repo("https://github.com/uvalib/virgo4-client/blob/main/README.md#L3") == "virgo4-client"

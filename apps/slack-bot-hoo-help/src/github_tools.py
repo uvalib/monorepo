@@ -94,6 +94,8 @@ _REDACTIONS = [
     (re.compile(r"(?<![A-Za-z0-9-])xox[abposr]-[A-Za-z0-9-]{10,}"), REDACTED),  # Slack tokens
     # Slack incoming webhooks: the last segment is the secret.
     (re.compile(r"(https://hooks\.slack\.com/services/T[A-Z0-9]+/B[A-Z0-9]+/)[A-Za-z0-9]+"), r"\1" + REDACTED),
+    # Slack workflow and trigger webhooks: everything after the team id is the secret.
+    (re.compile(r"(https://hooks\.slack\.com/(?:workflows|triggers)/T[A-Z0-9]+/)[A-Za-z0-9/_-]+"), r"\1" + REDACTED),
     # JWTs (header.payload.signature).
     (re.compile(r"(?<![A-Za-z0-9_-])eyJ[A-Za-z0-9_-]{10,}\.eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}"), REDACTED),
     # A password in a URL: scheme://user:PASS@host keeps everything but PASS.

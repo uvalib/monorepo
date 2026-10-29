@@ -378,7 +378,9 @@ _UVALIB_REPO_URL = re.compile(r"^https://github\.com/uvalib/([A-Za-z0-9._-]+)(?:
 def _uvalib_repo(url: str) -> Optional[str]:
     """The repo name (lowercase) of an https://github.com/uvalib/<repo>... URL, else None."""
     m = _UVALIB_REPO_URL.match(url or "")
-    return m.group(1).lower() if m else None
+    if not m or m.group(1) in (".", ".."):  # uvalib/../other resolves off uvalib
+        return None
+    return m.group(1).lower()
 
 
 class HooHelpAgent:

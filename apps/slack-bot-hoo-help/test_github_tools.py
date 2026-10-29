@@ -833,3 +833,12 @@ if __name__ == "__main__":
     import pytest
 
     sys.exit(pytest.main([__file__, "-q"]))
+
+
+def test_slack_workflow_and_trigger_webhooks_redacted():  # final re-review minor 4
+    from github_tools import redact
+
+    for kind in ("workflows", "triggers"):
+        text = f"notify: https://hooks.slack.com/{kind}/T0ABCDEF1/A0BCDEF23/123456789012345678/abcDEF123ghiJKL456mno"
+        out = redact(text)
+        assert "abcDEF123ghiJKL456mno" not in out and "[redacted credential]" in out, out
