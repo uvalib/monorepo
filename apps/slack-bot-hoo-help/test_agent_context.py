@@ -130,6 +130,13 @@ def test_system_prompt_mentions_slack_search():
     assert "search_slack" in SYSTEM_PROMPT and 'from_user="me"' in SYSTEM_PROMPT
 
 
+def test_system_prompt_sends_doc_questions_to_confluence_even_for_policies():  # live: "doc on hold policies" → website
+    from agent import SYSTEM_PROMPT
+
+    assert "must call search_confluence, even when it also mentions a policy" in SYSTEM_PROMPT
+    assert "search_uvalib_web (policies/site)" not in SYSTEM_PROMPT
+
+
 def test_system_prompt_routes_descriptive_archives_questions_to_semantic_search():  # archives KB, phase 2
     from agent import SYSTEM_PROMPT
 
