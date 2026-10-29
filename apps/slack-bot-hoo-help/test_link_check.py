@@ -140,3 +140,25 @@ if __name__ == "__main__":
     test_trusted_urls_are_not_checked_or_replaced()
     test_agent_trusts_urls_from_list_slack_channel_output()
     print("ok")
+
+
+def test_reshaped_uvalib_links_for_repos_in_github_output_are_trusted():  # private repos 404 without login
+    calls = []
+    real = _no_network(calls)
+    out = ("Links:\n- https://github.com/uvalib/hold-svc/blob/HEAD/svc/a.go — svc/a.go "
+           "in https://github.com/uvalib/hold-svc")
+    trace = SimpleNamespace(steps=[SimpleNamespace(tool_name="GitHub___search_code", output=out)])
+    reply = ("See https://github.com/uvalib/hold-svc, https://github.com/uvalib/Hold-Svc/blob/main/svc/a.go#L120 "
+             "and https://github.com/uvalib/other-repo/blob/main/x.go and https://github.com/uvalib/hold-svc-old "
+             "and https://github.com/someone/hold-svc")
+    try:
+        text, _ = HooHelpAgent._sanitize_links(None, reply, trace)
+    finally:
+        link_check.check_urls, link_check.check_url = real
+    assert "https://github.com/uvalib/hold-svc" not in calls
+    assert "https://github.com/uvalib/Hold-Svc/blob/main/svc/a.go#L120" not in calls
+    assert "https://github.com/uvalib/hold-svc," in text  # kept, not stripped
+    assert "https://github.com/uvalib/Hold-Svc/blob/main/svc/a.go#L120" in text
+    assert "https://github.com/uvalib/other-repo/blob/main/x.go" in calls  # not in this turn's output
+    assert "https://github.com/uvalib/hold-svc-old" in calls
+    assert "https://github.com/someone/hold-svc" in calls

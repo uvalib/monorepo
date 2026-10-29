@@ -22,7 +22,7 @@ import os
 import re
 import threading
 import time
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional, Tuple
 from urllib.parse import quote, unquote
 
 logger = logging.getLogger(__name__)
@@ -65,6 +65,15 @@ MSG_SEARCH_UNCHECKED = ("GitHub's search reply couldn't be checked against the u
 MSG_DOTDOT_REFUSED = "Paths, refs and names can't contain a \"..\" segment."
 MSG_EMPTY_SEARCH = "Give me something to search for."
 MSG_BINARY = "(binary file, not shown)"
+MSG_BAD_LINE_RANGE = "startLine and endLine must be whole numbers of 1 or more, with endLine at least startLine."
+
+# Local paging for get_file_contents (GitHub's tool has no line range): stripped before the call.
+LINE_RANGE_PROPS = {
+    "startLine": {"type": "integer", "minimum": 1,
+                  "description": "First line to show (1-based). Long files come in pages: the reply says which "
+                                 "startLine to ask for next."},
+    "endLine": {"type": "integer", "minimum": 1, "description": "Last line to show (inclusive)."},
+}
 
 _REPO_NAME = re.compile(r"^[A-Za-z0-9._-]+$")
 _SCOPE_WORD = re.compile(r"(?i)(org|user|owner|repo)\s*:")
@@ -72,13 +81,24 @@ _SCOPE_QUALIFIER = re.compile(r"(?i)(?<![\w-])(-?)(org|user|owner|repo)\s*:\s*(\
 
 REDACTED = "[redacted credential]"
 _NOT_REDACTED = r"(?!\[redacted credential\])"
+_PEM_BEGIN = re.compile(r"-----BEGIN [A-Z ]*PRIVATE KEY-----")
+_PEM_END = re.compile(r"-----END [A-Z ]*PRIVATE KEY-----")
+# Every pattern is linear-time: fixed-length bodies, or anchored at the start of a run (lookbehind) so
+# a failed match can't be retried from every position inside a long run.
 _REDACTIONS = [
-    (re.compile(r"-----BEGIN [A-Z ]*PRIVATE KEY-----.*?-----END [A-Z ]*PRIVATE KEY-----", re.S), REDACTED),
-    # An unterminated key block (e.g. cut off by GitHub): redact everything after BEGIN.
-    (re.compile(r"-----BEGIN [A-Z ]*PRIVATE KEY-----.*", re.S), REDACTED),
     (re.compile(r"gh[pousr]_[A-Za-z0-9_]{20,}"), REDACTED),
     (re.compile(r"github_pat_[A-Za-z0-9_]{22,}"), REDACTED),
     (re.compile(r"AKIA[0-9A-Z]{16}"), REDACTED),
+    (re.compile(r"ASIA[0-9A-Z]{16}"), REDACTED),  # temporary (STS) AWS keys
+    (re.compile(r"AIza[0-9A-Za-z_-]{35}"), REDACTED),  # Google API keys
+    (re.compile(r"(?<![A-Za-z0-9-])xox[abposr]-[A-Za-z0-9-]{10,}"), REDACTED),  # Slack tokens
+    # Slack incoming webhooks: the last segment is the secret.
+    (re.compile(r"(https://hooks\.slack\.com/services/T[A-Z0-9]+/B[A-Z0-9]+/)[A-Za-z0-9]+"), r"\1" + REDACTED),
+    # JWTs (header.payload.signature).
+    (re.compile(r"(?<![A-Za-z0-9_-])eyJ[A-Za-z0-9_-]{10,}\.eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}"), REDACTED),
+    # A password in a URL: scheme://user:PASS@host keeps everything but PASS.
+    (re.compile(r"(?<![A-Za-z0-9+.-])([A-Za-z][A-Za-z0-9+.-]*://[^\s:/@]+:)" + _NOT_REDACTED + r"[^\s@/]+(?=@)"),
+     r"\1" + REDACTED),
     # key = value where the key mentions a secret (AWS_SECRET_ACCESS_KEY=, "client_secret": ...): only the
     # value goes. An optional (JSON-escaped) closing quote covers JSON/YAML keys; a quoted value is
     # redacted whole, spaces included. Anchored at the start of a key-like run, so it stays linear.
@@ -89,7 +109,25 @@ _REDACTIONS = [
 ]
 
 
+def _redact_private_keys(text: str) -> str:
+    """BEGIN … END PRIVATE KEY blocks; an unterminated block (e.g. cut off) is redacted to the end.
+    One forward scan, so many BEGINs without an END stay linear."""
+    out, pos = [], 0
+    while True:
+        begin = _PEM_BEGIN.search(text, pos)
+        if not begin:
+            out.append(text[pos:])
+            return "".join(out)
+        out.append(text[pos:begin.start()])
+        out.append(REDACTED)
+        end = _PEM_END.search(text, begin.end())
+        if not end:
+            return "".join(out)
+        pos = end.end()
+
+
 def redact(text: str) -> str:
+    text = _redact_private_keys(text)
     for pattern, repl in _REDACTIONS:
         text = pattern.sub(repl, text)
     return text
@@ -265,6 +303,65 @@ def _trim_item(item: Any) -> Any:
     return out
 
 
+DROP_FIELDS = frozenset({"reactions", "performed_via_github_app"})
+
+
+def _clean(value: Any, depth: int = 0) -> Any:
+    """Drop fields that only add size: API URLs (every *_url but html_url), reactions, app details,
+    user objects beyond login, labels beyond name."""
+    if depth > 8:
+        return value
+    if isinstance(value, list):
+        return [_clean(v, depth + 1) for v in value]
+    if not isinstance(value, dict):
+        return value
+    out = {}
+    for k, v in value.items():
+        if k in DROP_FIELDS or (k.endswith("_url") and k != "html_url"):
+            continue
+        if k == "labels" and isinstance(v, list):
+            v = [lab.get("name") if isinstance(lab, dict) else lab for lab in v]
+        elif isinstance(v, dict) and isinstance(v.get("login"), str):
+            v = v["login"]
+        elif k == "assignees" and isinstance(v, list):
+            v = [a.get("login") if isinstance(a, dict) else a for a in v]
+        else:
+            v = _clean(v, depth + 1)
+        out[k] = v
+    return out
+
+
+def _short(text: Any, limit: int = 150) -> str:
+    text = " ".join(str(text or "").split())
+    return text if len(text) <= limit else text[:limit - 1].rstrip() + "…"
+
+
+def _link_line(item: Any) -> Optional[str]:
+    """One Links line: the URL plus what it is, so the list reads well even when the JSON is cut."""
+    url = _item_link(item)
+    if not url:
+        return None
+    number, title = item.get("number"), item.get("title")
+    if isinstance(number, int) and not isinstance(number, bool):
+        state = item.get("state")
+        return (f"- {url} — #{number} {_short(title)}".rstrip()
+                + (f" ({state})" if isinstance(state, str) and state else ""))
+    repo, path = item.get("repository"), item.get("path")
+    if isinstance(repo, dict):
+        repo = repo.get("full_name")
+    if isinstance(path, str) and isinstance(repo, str) and repo.lower().startswith(ORG + "/"):
+        return f"- {url} — {path} in https://github.com/{repo}"
+    full_name = item.get("full_name")
+    if isinstance(full_name, str):
+        desc = item.get("description")
+        return f"- {url} — {full_name}" + (f": {_short(desc)}" if desc else "")
+    sha = item.get("sha")
+    if isinstance(sha, str):
+        message = ((item.get("commit") or {}).get("message") if isinstance(item.get("commit"), dict) else "") or ""
+        return f"- {url} — {sha[:7]} {_short(message.splitlines()[0] if message else '')}".rstrip()
+    return f"- {url}"
+
+
 def _render_json(data: Any, *, search: bool) -> str:
     notes: List[str] = []
     links: List[str] = []
@@ -275,7 +372,7 @@ def _render_json(data: Any, *, search: bool) -> str:
         kept = [i for i in items if _owner_of(i) == ORG] if search else items
         if len(kept) < len(items):
             filtered.append(True)
-        shown = [_trim_item(i) for i in kept[:MAX_ITEMS]]
+        shown = [_clean(_trim_item(i)) for i in kept[:MAX_ITEMS]]
         has_total = isinstance(total, int) and not isinstance(total, bool)
         if len(kept) < len(items):
             # Hits were dropped: GitHub's total no longer describes what's shown.
@@ -285,7 +382,7 @@ def _render_json(data: Any, *, search: bool) -> str:
             total = total if has_total else len(items)
             if total > len(shown):
                 notes.append(f"(showing {len(shown)} of {total}; more available — ask for the next page)")
-        links.extend(link for link in (_item_link(i) for i in shown) if link)
+        links.extend(line for line in (_link_line(i) for i in shown) if line)
         return shown
 
     if isinstance(data, list):
@@ -301,10 +398,11 @@ def _render_json(data: Any, *, search: bool) -> str:
         link = _uvalib_link(data.get("html_url"))
         if link:
             notes.append(f"Link: {link}")
+        data = _clean(data)
     # Notes and links first: the overall cap may cut the end of the JSON, never these.
     head = list(notes)
     if links:
-        head.append("Links:\n" + "\n".join(f"- {u}" for u in links))
+        head.append("Links:\n" + "\n".join(links))
     body = json.dumps(data, ensure_ascii=False)
     return "\n\n".join(head + [body])
 
@@ -339,7 +437,56 @@ def _ref_from(mid: str, args: Dict[str, Any]) -> str:
     return "HEAD"
 
 
-def _render_resource(res: Dict[str, Any], args: Dict[str, Any]) -> str:
+def _pop_line_range(args: Dict[str, Any]) -> Tuple[Dict[str, Any], Optional[int], Optional[int]]:
+    """Strip our local startLine/endLine from get_file_contents arguments and validate them."""
+    args = dict(args)
+    values = []
+    for key in ("startLine", "endLine"):
+        v = args.pop(key, None)
+        if v is not None:
+            if isinstance(v, bool) or not isinstance(v, (int, float)) or v != int(v) or v < 1:
+                raise _Refused(MSG_BAD_LINE_RANGE)
+            v = int(v)
+        values.append(v)
+    start, end = values
+    if start is not None and end is not None and end < start:
+        raise _Refused(MSG_BAD_LINE_RANGE)
+    return args, start, end
+
+
+def _page_lines(text: str, start: Optional[int], end: Optional[int]) -> str:
+    """The requested lines of an (already redacted) file, at most MAX_FILE_CHARS, with a note on what
+    was shown and which startLine comes next."""
+    lines = text.splitlines(keepends=True)
+    total = len(lines)
+    first = start or 1
+    if total == 0:
+        return text
+    if first > total:
+        return f"(the file has {total} lines; startLine={first} is past the end)"
+    chosen = lines[first - 1:min(end or total, total)]
+    shown, size = [], 0
+    for line in chosen:
+        if size + len(line) > MAX_FILE_CHARS:
+            break
+        shown.append(line)
+        size += len(line)
+    if not shown:  # one line longer than the cap (minified code, data)
+        line = chosen[0]
+        more = len(line) - MAX_FILE_CHARS
+        nxt = f"; ask for startLine={first + 1}" if first < total else ""
+        return (line[:MAX_FILE_CHARS] + f"\n\n(line {first} of {total} shown only up to {MAX_FILE_CHARS} "
+                f"characters; {more} more characters not shown{nxt})")
+    last = first + len(shown) - 1
+    body = "".join(shown)
+    if first == 1 and last == total:
+        return body
+    nxt = f"; ask for startLine={last + 1}" if last < total else ""
+    return body + f"\n\n(lines {first}–{last} of {total} shown{nxt})"
+
+
+def _render_resource(res: Dict[str, Any], args: Dict[str, Any],
+                     line_range: Tuple[Optional[int], Optional[int]] = (None, None)) -> str:
     m = _RESOURCE_URI.match(res.get("uri") or "") if isinstance(res.get("uri"), str) else None
     if m:
         if m.group("owner").lower() != ORG:
@@ -353,10 +500,12 @@ def _render_resource(res: Dict[str, Any], args: Dict[str, Any]) -> str:
     text = res.get("text")
     if res.get("blob") is not None or not isinstance(text, str) or not _is_text_mime(res.get("mimeType")):
         return f"{head}\n{MSG_BINARY}"
-    return f"{head}\n\n" + _cap(redact(text), MAX_FILE_CHARS, "; ask for a line range")
+    # Redact the whole file first, then page by lines, then cap: a cut never splits a credential.
+    return f"{head}\n\n" + _page_lines(redact(text), *line_range)
 
 
-def render_result(result: Dict[str, Any], *, tool: str, args: Dict[str, Any]) -> str:
+def render_result(result: Dict[str, Any], *, tool: str, args: Dict[str, Any],
+                  line_range: Tuple[Optional[int], Optional[int]] = (None, None)) -> str:
     items = result.get("content") if isinstance(result, dict) else None
     items = items if isinstance(items, list) else []
     if result.get("isError"):
@@ -368,7 +517,7 @@ def render_result(result: Dict[str, Any], *, tool: str, args: Dict[str, Any]) ->
         if not isinstance(i, dict):
             continue
         if i.get("type") == "resource" and isinstance(i.get("resource"), dict):
-            parts.append(_render_resource(i["resource"], args))
+            parts.append(_render_resource(i["resource"], args, line_range))
         elif isinstance(i.get("text"), str):
             if has_resource and i["text"].startswith("successfully downloaded"):
                 continue
@@ -386,7 +535,9 @@ class GitHubTools:
     def tool_specs(self) -> List[Dict[str, Any]]:
         try:
             tools = self.client.list_tools()
-        except Exception as e:  # GitHub down: no GitHub tools this turn, never a crash
+        except (KeyboardInterrupt, SystemExit):
+            raise
+        except BaseException as e:  # noqa: BLE001 — GitHub down (or a pyo3 panic): no GitHub tools, never a crash
             logger.warning("github tools/list failed: %s", type(e).__name__)
             return []
         specs = []
@@ -396,6 +547,9 @@ class GitHubTools:
                 continue
             schema = t.get("inputSchema")
             schema = dict(schema) if isinstance(schema, dict) else {"type": "object", "properties": {}}
+            if name == "get_file_contents":
+                props = schema.get("properties")
+                schema["properties"] = {**(props if isinstance(props, dict) else {}), **LINE_RANGE_PROPS}
             specs.append({"toolSpec": {
                 "name": TOOL_PREFIX + name,
                 "description": redact(str(t.get("description") or name)) + DESCRIPTION_SUFFIX,
@@ -412,13 +566,19 @@ class GitHubTools:
         tool = name[len(TOOL_PREFIX):]
         args = args if isinstance(args, dict) else {}
         try:
+            start = end = None
+            if tool == "get_file_contents":
+                args, start, end = _pop_line_range(args)
             scoped = _scope_args(args, tool=tool)
             result = self.client.call_tool(tool, scoped)
-            return render_result(result if isinstance(result, dict) else {}, tool=tool, args=scoped)
+            return render_result(result if isinstance(result, dict) else {}, tool=tool, args=scoped,
+                                 line_range=(start, end))
         except _Refused as e:
             logger.info("github_refused tool=%s", tool)
             return str(e)
-        except Exception as e:
+        except (KeyboardInterrupt, SystemExit):
+            raise
+        except BaseException as e:  # noqa: BLE001 — incl. a pyo3 panic on an hourly re-mint
             user_message = getattr(e, "user_message", None)
             if user_message is not None and getattr(e, "code", None) is not None:
                 # A JSON-RPC error from GitHub (bad arguments, unknown tool): its own words help the model.

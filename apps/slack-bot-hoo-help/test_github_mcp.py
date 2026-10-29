@@ -93,7 +93,8 @@ def test_initialize_then_list_and_call_with_session_id():
         assert h["X-MCP-Toolsets"] == "repos,issues,pull_requests"
         assert h["X-MCP-Readonly"] == "true"
         assert h["Accept"] == "application/json, text/event-stream"
-        assert call_["timeout"] == 20
+    assert init["timeout"] == note["timeout"] == call["timeout"] == 20
+    assert lst["timeout"] == 8  # tools/list runs at the start of every turn: fail fast
     assert call["json"]["params"] == {"name": "get_commit", "arguments": {"owner": "uvalib"}}
     assert call["url"] == "https://api.githubcopilot.com/mcp/readonly"
 
@@ -155,6 +156,110 @@ def test_session_lost_reinitializes_once():
     else:
         raise AssertionError("expected GitHubMCPError")
     assert methods(http2).count("initialize") == 2
+
+
+def test_400_on_session_request_is_session_lost():  # live: a stale Mcp-Session-Id gets 400 text/plain
+    state = {"lost": 1}
+    base = standard()
+
+    def handler(n, payload, headers):
+        if payload["method"] == "tools/call" and state["lost"]:
+            state["lost"] -= 1
+            return FakeResp(400, raw="Invalid session ID", headers={"Content-Type": "text/plain"})
+        return base(n, payload, headers)
+    http = FakeHttp(handler)
+    c = client(http)
+    assert c.call_tool("x", {})["isError"] is False
+    assert methods(http) == ["initialize", "notifications/initialized", "tools/call",
+                             "initialize", "notifications/initialized", "tools/call"]
+    state["lost"] = 5
+    try:
+        client(FakeHttp(handler)).call_tool("x", {})
+    except GitHubMCPError as e:
+        assert e.user_message == "GitHub isn't available right now."
+    else:
+        raise AssertionError("expected GitHubMCPError")
+
+
+def test_400_without_session_is_not_retried():
+    http = FakeHttp(lambda n, p, h: FakeResp(400, raw="bad request"))
+    try:
+        client(http).list_tools()
+    except GitHubMCPError:
+        pass
+    else:
+        raise AssertionError("expected GitHubMCPError")
+    assert methods(http) == ["initialize"]
+
+
+def _outage_client(now):
+    state = {"down": False}
+    base = standard()
+
+    def handler(n, payload, headers):
+        if state["down"] and payload["method"] == "tools/list":
+            return requests.Timeout()
+        return base(n, payload, headers)
+    http = FakeHttp(handler)
+    return client(http, clock=lambda: now[0]), http, state
+
+
+def test_tools_list_outage_serves_last_good_list_and_backs_off():
+    now = [1000.0]
+    c, http, state = _outage_client(now)
+    assert c.list_tools() == [{"name": "get_commit"}]
+    state["down"] = True
+    now[0] += 700  # cache expired
+    slow = lambda: methods(http).count("tools/list")  # noqa: E731
+    assert c.list_tools() == [{"name": "get_commit"}] and slow() == 2
+    for _ in range(10):  # every turn in the next 5 minutes: no call at all
+        now[0] += 29
+        assert c.list_tools() == [{"name": "get_commit"}]
+    assert slow() == 2
+    now[0] += 11  # 300 s after the failure: one more try
+    assert c.list_tools() == [{"name": "get_commit"}] and slow() == 3
+    state["down"] = False
+    now[0] += 301
+    assert c.list_tools() == [{"name": "get_commit"}] and slow() == 4
+    now[0] += 100  # healthy again: the normal 10-minute cache applies
+    c.list_tools()
+    assert slow() == 4
+
+
+def test_token_failure_during_tools_list_also_backs_off():
+    now = [1000.0]
+    minted = []
+
+    def token():
+        minted.append(1)
+        if len(minted) > 3:
+            raise RuntimeError("token exchange down")
+        return TOKEN
+    c = GitHubMCPClient(token, http=FakeHttp(standard()), clock=lambda: now[0])
+    assert c.list_tools()
+    now[0] += 700
+    assert c.list_tools() == [{"name": "get_commit"}]
+    n = len(minted)
+    now[0] += 100
+    assert c.list_tools() == [{"name": "get_commit"}] and len(minted) == n
+
+
+def test_tools_list_outage_without_previous_list_backs_off():
+    now = [1000.0]
+    c, http, state = _outage_client(now)
+    state["down"] = True
+    for _ in range(5):
+        try:
+            c.list_tools()
+        except GitHubMCPError as e:
+            assert e.user_message == "GitHub didn't respond in time." or "isn't available" in e.user_message
+        else:
+            raise AssertionError("expected GitHubMCPError")
+        now[0] += 50
+    assert methods(http).count("tools/list") == 1
+    now[0] += 100
+    state["down"] = False
+    assert c.list_tools() == [{"name": "get_commit"}]
 
 
 def test_401_refreshes_token_once():

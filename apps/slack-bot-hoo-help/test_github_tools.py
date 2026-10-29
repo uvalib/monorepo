@@ -250,8 +250,73 @@ def test_file_resource_rendered_and_capped():
     tools, _ = _gh(result=_file(text=text))
     out = tools.call("GitHub___get_file_contents", {"owner": "uvalib", "repo": "virgo4-client", "path": "src/app.js"})
     assert "a" * 12_000 in out and "a" * 12_001 not in out
-    assert "(truncated — 18000 more characters; ask for a line range)" in out
+    # One 30,000-character line can't be paged by lines: say how much is missing, offer no range.
+    assert "18000 more characters" in out and "line range" not in out
     assert len(out) < 13_000
+
+
+FILE_LINES = [f"{i:05d} " + "x" * 23 + "\n" for i in range(1, 1101)]  # 1,100 lines, 33,000 characters
+FILE_TEXT = "".join(FILE_LINES)
+FILE_ARGS = {"owner": "uvalib", "repo": "virgo4-client", "path": "src/app.js"}
+
+
+def test_get_file_contents_schema_offers_line_range():
+    tools, _ = _gh()
+    spec = next(s["toolSpec"] for s in tools.tool_specs() if s["toolSpec"]["name"] == "GitHub___get_file_contents")
+    props = spec["inputSchema"]["json"]["properties"]
+    assert props["startLine"]["type"] == "integer" and props["endLine"]["type"] == "integer"
+    assert "owner" in props
+    other = next(s["toolSpec"] for s in tools.tool_specs() if s["toolSpec"]["name"] == "GitHub___list_issues")
+    assert "startLine" not in other["inputSchema"]["json"]["properties"]
+
+
+def test_large_file_readable_in_pages():
+    assert len(FILE_TEXT) == 33_000
+    tools, c = _gh(result=_file(text=FILE_TEXT))
+    out = tools.call("GitHub___get_file_contents", dict(FILE_ARGS))
+    assert "(lines 1–400 of 1100 shown; ask for startLine=401)" in out, out[-200:]
+    got, start = [], 1
+    for _ in range(10):
+        args = dict(FILE_ARGS, startLine=start) if start > 1 else dict(FILE_ARGS)
+        out = tools.call("GitHub___get_file_contents", args)
+        body = out.split("\n\n", 1)[1]
+        m = re.search(r"\n\n\(lines (\d+)–(\d+) of 1100 shown(?:; ask for startLine=(\d+))?\)$", body)
+        assert m, body[-120:]
+        got.append(body[:m.start()])
+        assert int(m.group(1)) == start
+        if not m.group(3):
+            assert m.group(2) == "1100"
+            break
+        start = int(m.group(3))
+    assert "".join(got) == FILE_TEXT
+    for name, args in c.calls:
+        assert "startLine" not in args and "endLine" not in args
+
+
+def test_line_range_slices_after_redaction():
+    text = "a\nkey: -----BEGIN PRIVATE KEY-----\nMIIsecret\n-----END PRIVATE KEY-----\nb\nc\n"
+    tools, _ = _gh(result=_file(text=text))
+    out = tools.call("GitHub___get_file_contents", dict(FILE_ARGS, startLine=3, endLine=4))
+    assert "MIIsecret" not in out
+    out = tools.call("GitHub___get_file_contents", dict(FILE_ARGS, startLine=2, endLine=2))
+    assert "MIIsecret" not in out and REDACTED in out
+
+
+def test_line_range_past_end_and_bad_values():
+    tools, c = _gh(result=_file(text=FILE_TEXT))
+    out = tools.call("GitHub___get_file_contents", dict(FILE_ARGS, startLine=5000))
+    assert "1100 lines" in out and "5000" in out and "00001" not in out
+    out = tools.call("GitHub___get_file_contents", dict(FILE_ARGS, startLine=10, endLine=12))
+    assert "00010" in out and "00012" in out and "00013" not in out and "00009" not in out
+    assert "(lines 10–12 of 1100 shown; ask for startLine=13)" in out
+    for bad in ({"startLine": 0}, {"startLine": "x"}, {"startLine": 5, "endLine": 2}, {"endLine": -1},
+                {"startLine": True}):
+        n = len(c.calls)
+        out = tools.call("GitHub___get_file_contents", dict(FILE_ARGS, **bad))
+        assert "startLine" in out or "endLine" in out, (bad, out[:100])
+        assert len(c.calls) == n
+    for name, args in c.calls:
+        assert "startLine" not in args and "endLine" not in args
 
 
 def test_short_file_rendered_whole():
@@ -301,7 +366,7 @@ def test_big_items_keep_links_and_note():
         tools, _ = _gh(result=_text(json.dumps(payload)))
         out = tools.call("GitHub___" + tool, args)
         for i in range(20):
-            assert f"https://github.com/uvalib/x/pull/{i}\n" in out + "\n", (tool, i)
+            assert f"- https://github.com/uvalib/x/pull/{i} — #{i} p{i}" in out, (tool, i)
         assert "more available" in out or "20 of 25" in out
         assert "b" * 501 not in out and "p" * 501 not in out and "f" * 501 not in out
         assert "…" in out
@@ -320,6 +385,50 @@ def test_trimmed_fields_redacted_first():
     tools, _ = _gh(result=_text(json.dumps(prs)))
     out = tools.call("GitHub___list_pull_requests", {"owner": "uvalib", "repo": "x"})
     assert "ghp_" not in out
+
+
+def _links(out):
+    return out.split("Links:\n", 1)[1].split("\n\n", 1)[0].splitlines()
+
+
+def test_link_lines_describe_each_item():
+    issues = [{"number": i, "title": f"Title {i}", "state": "open", "body": "b" * 20_000,
+               "user": {"login": "lou", "id": 1, "avatar_url": "x", "type": "User"},
+               "reactions": {"+1": 1, "url": "y"}, "labels": [{"name": "bug", "color": "f00", "id": 3}],
+               "comments_url": "https://api.github.com/x", "repository_url": "https://api.github.com/repos/uvalib/x",
+               "performed_via_github_app": {"id": 1}, "html_url": f"https://github.com/uvalib/x/issues/{i}"}
+              for i in range(20)]
+    tools, _ = _gh(result=_text(json.dumps({"issues": issues, "totalCount": 20})))
+    out = tools.call("GitHub___list_issues", {"owner": "uvalib", "repo": "x"})
+    lines = _links(out)
+    assert lines == [f"- https://github.com/uvalib/x/issues/{i} — #{i} Title {i} (open)" for i in range(20)]
+    data = json.loads(out.rsplit("\n\n", 1)[1])
+    item = data["issues"][0]
+    assert item["user"] == "lou" and item["labels"] == ["bug"]
+    for k in ("reactions", "comments_url", "repository_url", "performed_via_github_app"):
+        assert k not in item
+    assert item["html_url"] == "https://github.com/uvalib/x/issues/0"
+
+    # Search results keep the hit filter working even though *_url fields are dropped from the JSON.
+    hits = issues + [dict(issues[0], repository_url="https://api.github.com/repos/other/y",
+                          html_url="https://github.com/other/y/issues/1")]
+    tools, _ = _gh(result=_text(json.dumps({"total_count": 21, "items": hits})))
+    out = tools.call("GitHub___search_pull_requests", {"query": "x"})
+    assert len(_links(out)) == 20 and "other/y" not in out
+
+    code = {"total_count": 1, "items": [{"name": "a.go", "path": "svc/a.go", "repository": "uvalib/hold"}]}
+    tools, _ = _gh(result=_text(json.dumps(code)))
+    out = tools.call("GitHub___search_code", {"query": "hold"})
+    assert _links(out) == ["- https://github.com/uvalib/hold/blob/HEAD/svc/a.go — svc/a.go "
+                           "in https://github.com/uvalib/hold"]
+
+    repos = {"total_count": 2, "items": [
+        {"full_name": "uvalib/virgo4", "description": "Virgo 4", "html_url": "https://github.com/uvalib/virgo4"},
+        {"full_name": "uvalib/bare", "description": None, "html_url": "https://github.com/uvalib/bare"}]}
+    tools, _ = _gh(result=_text(json.dumps(repos)))
+    out = tools.call("GitHub___search_repositories", {"query": "x"})
+    assert _links(out) == ["- https://github.com/uvalib/virgo4 — uvalib/virgo4: Virgo 4",
+                           "- https://github.com/uvalib/bare — uvalib/bare"]
 
 
 def test_unparseable_text_still_capped_and_redacted():
@@ -460,6 +569,46 @@ def test_json_quoted_keys_with_spaces_redacted():
     assert "a b c" not in out and "d e" not in out and "bob" in out
 
 
+I5 = [
+    ("https://hooks.slack.com/services/T0ABC123/B0DEF456/aBcDeFgHiJkLmNoPqRsTuVwX", "aBcDeFgHiJkLmNoPqRsTuVwX"),
+    ("xoxb-1234567890-0987654321-AbCdEfGhIjKl", "xoxb-1234567890"),
+    ("xoxp-11111-22222-33333-abcdef", "xoxp-11111"),
+    ("postgres://dbuser:Sup3rS3cret@db.example.org:5432/app", "Sup3rS3cret"),
+    ("https://deploy:hunter2@git.example.org/repo.git", "hunter2"),
+    ("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.dozjgNryP4J3jVmNHl0w5N_XgL0n3I9PlFUP0THsR8U",
+     "dozjgNryP4J3jVmNHl0w5N"),
+    ("ASIAABCDEFGHIJKLMNOP", "ASIAABCDEFGHIJKLMNOP"),
+    ("AIzaSyA1b2C3d4E5f6G7h8I9j0K_LmNoPqRsTuV", "AIzaSyA1b2C3d4E5f6G7h8I9j0K_LmNoPqRsTuV"),
+]
+
+
+def test_more_credential_shapes_redacted():
+    for secret, leak in I5:
+        text = f"before {secret} after"
+        out = github_tools.redact(text)
+        assert leak not in out and REDACTED in out and out.startswith("before ") and out.endswith(" after"), out
+        tools, _ = _gh(result=_text(json.dumps({"total_count": 1, "items": [
+            {"path": "x", "repository": "uvalib/a", "text_matches": [{"fragment": text}]}]})))
+        out = tools.call("GitHub___search_code", {"query": "x"})
+        assert leak not in out and REDACTED in out
+    assert "db.example.org" in github_tools.redact("postgres://dbuser:Sup3rS3cret@db.example.org/app")
+    for fine in ("https://github.com/uvalib/x", "http://localhost:8080/path", "see eyJhbGciOiJIUzI1NiJ9 only",
+                 "ASIA is a continent"):
+        assert github_tools.redact(fine) == fine
+
+
+def test_redaction_linear_on_adversarial_text():
+    import time
+    texts = ["eyJ" * 30_000, "eyJ" + "a" * 50_000 + ".eyJ" + "b" * 50_000, "a://" * 20_000,
+             "x://user:" * 10_000, "a:b@" * 20_000, "xoxb-" * 20_000, "-----BEGIN PRIVATE KEY-----" * 3_000,
+             "https://hooks.slack.com/services/T" * 3_000, "AIza" * 25_000, "ghp_" * 25_000,
+             "-----BEGIN RSA PRIVATE KEY-----\nabc\n" * 3_000]
+    for t in texts:
+        t0 = time.time()
+        github_tools.redact(t)
+        assert time.time() - t0 < 1, t[:20]
+
+
 def test_assignment_after_plain_assignment_redacted():
     tools, _ = _gh(result=_file(text="opts a=password: hunter2 end"))
     out = tools.call("GitHub___get_file_contents", {"owner": "uvalib", "repo": "virgo4-client", "path": "x"})
@@ -584,6 +733,34 @@ def test_factory_off_missing_or_failing_returns_none(caplog, monkeypatch):
     monkeypatch.setitem(sys.modules, "github_auth", None)
     assert github_tools_for_env(ON, ssm_get=_ssm(SSM), http=FakeHttp()) is None
     github_tools._reset_cache()
+
+
+class _Panic(BaseException):  # pyo3's PanicException derives from BaseException
+    pass
+
+
+def test_call_and_specs_contain_panics_but_not_interrupts():
+    tools, _ = _gh(error=_Panic("rust"))
+    assert tools.call("GitHub___list_issues", {"owner": "uvalib", "repo": "x"}) == "GitHub isn't available right now."
+    c = FakeClient()
+    c.list_tools = lambda: (_ for _ in ()).throw(_Panic("rust"))
+    assert GitHubTools(c).tool_specs() == []
+    for exc in (KeyboardInterrupt, SystemExit):
+        tools, _ = _gh(error=exc())
+        try:
+            tools.call("GitHub___list_issues", {"owner": "uvalib", "repo": "x"})
+        except exc:
+            pass
+        else:
+            raise AssertionError("swallowed")
+        c = FakeClient()
+        c.list_tools = lambda e=exc: (_ for _ in ()).throw(e())
+        try:
+            GitHubTools(c).tool_specs()
+        except exc:
+            pass
+        else:
+            raise AssertionError("swallowed")
 
 
 def test_factory_contains_panics_but_not_interrupts(monkeypatch):

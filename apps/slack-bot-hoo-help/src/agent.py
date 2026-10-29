@@ -372,6 +372,15 @@ class AgentTurnResult:
     trace: SessionTrace
 
 
+_UVALIB_REPO_URL = re.compile(r"^https://github\.com/uvalib/([A-Za-z0-9._-]+)(?:[/#?]|$)", re.IGNORECASE)
+
+
+def _uvalib_repo(url: str) -> Optional[str]:
+    """The repo name (lowercase) of an https://github.com/uvalib/<repo>... URL, else None."""
+    m = _UVALIB_REPO_URL.match(url or "")
+    return m.group(1).lower() if m else None
+
+
 class HooHelpAgent:
 
     def __init__(
@@ -502,6 +511,7 @@ class HooHelpAgent:
 
         candidates: List[str] = []
         trusted: List[str] = []
+        github_repos: set = set()
         for step in getattr(trace, "steps", None) or []:
             out = getattr(step, "output", None)
             if out:
@@ -514,10 +524,15 @@ class HooHelpAgent:
                 if name.startswith("VirgoCatalogRuntime"):
                     trusted.extend(u for u in extract_urls(str(out))
                                    if u.startswith("https://search.lib.virginia.edu/sources/uva_library/items/"))
-                # Private uvalib repos answer 404 without a login: GitHub tool links are reported as-is.
+                # Private uvalib repos answer 404 without a login: GitHub tool links are reported as-is,
+                # and so is any github.com/uvalib/<repo> link (root, other branch, #L anchor) for a repo
+                # that this turn's GitHub output names.
                 if name.startswith("GitHub___"):
                     trusted.extend(u for u in extract_urls(str(out))
                                    if u.startswith("https://github.com/uvalib/"))
+                    github_repos.update(r for r in (_uvalib_repo(u) for u in extract_urls(str(out))) if r)
+        if github_repos:
+            trusted.extend(u for u in extract_urls(text) if _uvalib_repo(u) in github_repos)
         if extra_candidates:
             candidates.extend(extra_candidates)
         try:

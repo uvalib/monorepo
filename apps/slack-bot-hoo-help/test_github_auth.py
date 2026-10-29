@@ -148,6 +148,40 @@ def test_broken_jwt_import_raises_auth_error():
         sys.modules["jwt"] = saved
 
 
+class _PanicException(BaseException):  # what pyo3 raises from a broken cryptography build
+    pass
+
+
+class _PanickingJwt:
+    def __init__(self, exc):
+        self.exc = exc
+
+    def encode(self, *a, **k):
+        raise self.exc
+
+
+def test_jwt_panic_raises_auth_error_but_interrupts_propagate():
+    saved = sys.modules.get("jwt")
+    try:
+        sys.modules["jwt"] = _PanickingJwt(_PanicException("rust panic"))
+        try:
+            _minter(FakeHttp(), lambda: NOW).token()
+        except GitHubAuthError as e:
+            assert "rust" not in str(e)
+        else:
+            raise AssertionError("expected GitHubAuthError")
+        for exc in (KeyboardInterrupt, SystemExit):
+            sys.modules["jwt"] = _PanickingJwt(exc())
+            try:
+                _minter(FakeHttp(), lambda: NOW).token()
+            except exc:
+                pass
+            else:
+                raise AssertionError(f"{exc.__name__} swallowed")
+    finally:
+        sys.modules["jwt"] = saved
+
+
 def test_load_credentials_complete():
     values = {
         "/hoohelp/github/app-id": "123",

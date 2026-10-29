@@ -25,7 +25,9 @@ PROTOCOL_VERSION = "2025-03-26"
 CLIENT_INFO = {"name": "hoohelp", "version": "1"}
 TOOLSETS = "repos,issues,pull_requests"
 TIMEOUT_SEC = 20
+LIST_TIMEOUT_SEC = 8  # tools/list runs at the start of every turn: fail fast
 TOOLS_CACHE_TTL_SEC = 600
+LIST_BACKOFF_SEC = 300  # after a failed tools/list, don't try again for this long
 MAX_PAGES = 20
 
 MSG_UNAVAILABLE = "GitHub isn't available right now."
@@ -67,22 +69,38 @@ class GitHubMCPClient:
         self._next_id = 0
         self._tools: Optional[List[Dict[str, Any]]] = None
         self._tools_at = 0.0
+        self._list_failed_at: Optional[float] = None
 
     # ---- public API -------------------------------------------------------
 
     def list_tools(self) -> List[Dict[str, Any]]:
+        """Cached 10 minutes. If a refresh fails, the last good list is served (or the error raised, when
+        there is none) and GitHub isn't asked again for 5 minutes, so an outage costs one slow call."""
         with self._lock:
-            if self._tools is not None and (self._clock() - self._tools_at) < TOOLS_CACHE_TTL_SEC:
+            now = self._clock()
+            if self._tools is not None and (now - self._tools_at) < TOOLS_CACHE_TTL_SEC:
                 return self._tools
-            tools: List[Dict[str, Any]] = []
-            cursor = None
-            for _ in range(MAX_PAGES):
-                result = self._request("tools/list", {"cursor": cursor} if cursor else {})
-                tools.extend(result.get("tools", []))
-                cursor = result.get("nextCursor")
-                if not cursor:
-                    break
-            self._tools, self._tools_at = tools, self._clock()
+            if self._list_failed_at is not None and (now - self._list_failed_at) < LIST_BACKOFF_SEC:
+                if self._tools is not None:
+                    return self._tools
+                raise GitHubMCPError("GitHub MCP tools/list backing off after a failure", MSG_UNAVAILABLE)
+            try:
+                tools: List[Dict[str, Any]] = []
+                cursor = None
+                for _ in range(MAX_PAGES):
+                    result = self._request("tools/list", {"cursor": cursor} if cursor else {},
+                                           timeout=LIST_TIMEOUT_SEC)
+                    tools.extend(result.get("tools", []))
+                    cursor = result.get("nextCursor")
+                    if not cursor:
+                        break
+            except Exception:  # incl. GitHubAuthError from the token provider
+                self._list_failed_at = self._clock()
+                if self._tools is not None:
+                    logger.warning("github mcp tools/list failed; serving the last good list")
+                    return self._tools
+                raise
+            self._tools, self._tools_at, self._list_failed_at = tools, self._clock(), None
             logger.info("Loaded %s tools from GitHub MCP", len(tools))
             return tools
 
@@ -108,12 +126,12 @@ class GitHubMCPClient:
             raise GitHubMCPError("GitHub MCP session rejected", MSG_UNAVAILABLE) from None
         self._initialized = True
 
-    def _request(self, method: str, params: Dict[str, Any]) -> Dict[str, Any]:
+    def _request(self, method: str, params: Dict[str, Any], *, timeout: float = TIMEOUT_SEC) -> Dict[str, Any]:
         reinit_left = 1
         while True:
             self._ensure_session()
             try:
-                return self._send(method, params)
+                return self._send(method, params, timeout=timeout)
             except _SessionLost:
                 self._initialized = False
                 self._session_id = None
@@ -136,7 +154,8 @@ class GitHubMCPClient:
             h["Mcp-Session-Id"] = self._session_id
         return h
 
-    def _send(self, method, params, *, with_session: bool = True, notification: Optional[str] = None):
+    def _send(self, method, params, *, with_session: bool = True, notification: Optional[str] = None,
+              timeout: float = TIMEOUT_SEC):
         if notification:
             payload = {"jsonrpc": "2.0", "method": notification}
         else:
@@ -150,7 +169,7 @@ class GitHubMCPClient:
             token = self._token_provider()
             try:
                 resp = self._http.post(self._url, json=payload, headers=self._headers(token, with_session),
-                                       timeout=TIMEOUT_SEC)
+                                       timeout=timeout)
             except requests.Timeout:
                 logger.warning("github mcp %s timed out", label)
                 raise GitHubMCPError("GitHub MCP request timed out", MSG_TIMEOUT) from None
@@ -166,7 +185,8 @@ class GitHubMCPClient:
                 refreshed = True
                 self._invalidate()
                 continue
-            if status == 404 and with_session and self._session_id:
+            # A stale Mcp-Session-Id: the spec says 404; GitHub's hosted server answers 400 text/plain.
+            if status in (400, 404) and with_session and self._session_id:
                 raise _SessionLost()
             if status == 429 or status >= 500:
                 if retried:

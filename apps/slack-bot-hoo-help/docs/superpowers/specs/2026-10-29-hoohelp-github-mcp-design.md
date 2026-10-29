@@ -127,6 +127,24 @@ That covers GitHub tokens (`gh[pousr]_…`), AWS access keys, private-key blocks
 `password=`/`secret=` assignments. Each becomes `[redacted credential]` in that output only.
 This is a best-effort guard, not a guarantee.
 
+**Amendment (2026-10-29, final review).** Private uvalib repos turned up more shapes, so these are
+redacted as well:
+
+- Fine-grained GitHub tokens (`github_pat_…`).
+- Assignments whose key contains secret, password, passwd, token or key, such as
+  `AWS_SECRET_ACCESS_KEY=`, `SECRET_KEY_BASE:` and quoted JSON keys. Only the value goes, and a
+  quoted value is redacted whole.
+- Slack incoming webhooks (`https://hooks.slack.com/services/T…/B…/<secret>`). The secret segment
+  goes.
+- Slack tokens (`xox[abposr]-…`).
+- Passwords in URLs (`scheme://user:PASS@host`). Only PASS goes.
+- JWTs (`eyJ….eyJ….…`).
+- Temporary AWS keys (`ASIA` plus 16 characters).
+- Google API keys (`AIza` plus 35 characters).
+
+Every pattern runs in linear time. A file is redacted in full before it's paged or cut, so a cut
+never splits a credential.
+
 ## Error handling
 
 | Case | Behaviour |

@@ -95,7 +95,9 @@ class InstallationTokenMinter:
             import jwt  # imported lazily: a bad cryptography wheel must not break Hoo Helper's startup
 
             encoded = jwt.encode(claims, self._creds.private_key, algorithm="RS256")
-        except Exception as e:
+        except (KeyboardInterrupt, SystemExit):
+            raise
+        except BaseException as e:  # noqa: BLE001 — incl. pyo3's PanicException from a broken cryptography
             logger.warning("github jwt signing failed: %s", type(e).__name__)
             raise GitHubAuthError("GitHub App JWT signing failed.") from None
         return encoded.decode() if isinstance(encoded, bytes) else encoded
