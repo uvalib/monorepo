@@ -826,7 +826,7 @@ def test_template_has_enable_github_and_ssm_policy():
     assert "ENABLE_GITHUB: !Ref EnableGitHub" in text
     assert "parameter/hoohelp/github/*" in text
     cfg = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "samconfig.toml")).read()
-    assert "EnableGitHub=false" in cfg
+    assert "EnableGitHub=true" in cfg  # on in production since 2026-10-29
 
 
 if __name__ == "__main__":

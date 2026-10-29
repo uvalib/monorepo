@@ -1,0 +1,21 @@
+{
+  "id": "live-github-bov-publish",
+  "category": "github",
+  "question": "Looking at the bov project, how do I publish new minutes?",
+  "history": [],
+  "expect": {},
+  "live": {
+    "tools_any": [
+      "get_file_contents"
+    ],
+    "phrases_any": [
+      "github.com/uvalib/bov-web"
+    ],
+    "forbid": [
+      "I'm not able to share that response",
+      "can't read",
+      "isn't available right now"
+    ],
+    "max_seconds": 90
+  }
+}

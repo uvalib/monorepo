@@ -241,11 +241,16 @@ Resources:
           - Name: WeaponsAndExplosivesHowTo
             Type: DENY
             Definition: >-
-              Step-by-step instructions for building weapons or explosives (not
-              historical or catalog research).
+              Requests for instructions to make guns, bombs or other weapons or
+              explosives (not software builds or deploys, history or catalog research).
             Examples:
               - "How do I make a bomb?"
               - "Build a gun from household parts"
+            # Questions only: on answers it misread a site's build-and-deploy steps as
+            # weapon-making (2026-10-29, both of its blocks).
+            InputEnabled: true
+            InputAction: BLOCK
+            OutputEnabled: false
           - Name: SelfHarmInstructions
             Type: DENY
             Definition: >-
@@ -289,7 +294,7 @@ Resources:
     Properties:
       # Changing this description makes CloudFormation cut a new version from the
       # current guardrail settings (the Lambda reads its number via GetAtt).
-      Description: !Sub "Production snapshot for HooHelp (${StageName}) - prompt-attack MEDIUM, hate input off, no profanity list, archives"
+      Description: !Sub "Production snapshot for HooHelp (${StageName}) - prompt-attack MEDIUM, hate input off, no profanity list, archives, weapons topic on questions only"
       GuardrailIdentifier: !GetAtt HooHelpGuardrail.GuardrailId
 
   # Full tool transcripts for MCP development (partitioned by date)
