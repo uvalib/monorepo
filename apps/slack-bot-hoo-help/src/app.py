@@ -33,6 +33,7 @@ from gateway_mcp_client import GatewayMCPClient
 from action_tokens import ActionTokenStore
 from identity import UserDirectory, identity_line, resolve_mentions
 from atlassian_tools import atlassian_tools_for_event
+from github_tools import github_tools_for_env
 from local_tools import LocalTools
 from slack_search import slack_tools_for_event
 from session_trace import SessionTrace
@@ -311,6 +312,7 @@ def handle_user_query(
                 jira_token=ATLASSIAN_JIRA_TOKEN,
                 confluence_token=ATLASSIAN_CONFLUENCE_TOKEN,
             ),
+            github_tools_for_env(),
         ),
     )
     raw_response = turn.text

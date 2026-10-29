@@ -180,6 +180,18 @@ def test_system_prompt_mentions_confluence_and_jira():
     assert 'assignee="me"' in SYSTEM_PROMPT
 
 
+def test_system_prompt_routes_code_questions_to_github():
+    from agent import SYSTEM_PROMPT
+
+    i = SYSTEM_PROMPT.index("9. **GitHub")
+    section = SYSTEM_PROMPT[i:i + 2500]
+    for name in ("search_code", "get_file_contents", "list_issues", "pull_request_read"):
+        assert name in section
+    assert "use Jira first" in section
+    assert "never repeat a password, key or token" in section
+    assert "search_pull_requests with is:issue in the query (search_issues needs a repo)" in section
+
+
 def test_system_prompt_handles_half_remembered_authors():  # model comparison: every model missed "Heaven" by Kawakami
     from agent import SYSTEM_PROMPT
 
@@ -297,6 +309,7 @@ if __name__ == "__main__":
     test_system_prompt_mentions_slack_search()
     test_system_prompt_anchors_relative_dates_in_follow_ups()
     test_system_prompt_mentions_confluence_and_jira()
+    test_system_prompt_routes_code_questions_to_github()
     test_system_prompt_handles_half_remembered_authors()
     test_step_limit_wraps_up_with_what_was_found()
     test_step_limit_fallback_names_what_was_checked()

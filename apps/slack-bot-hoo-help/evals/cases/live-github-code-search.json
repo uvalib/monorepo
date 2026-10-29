@@ -1,0 +1,20 @@
+{
+  "id": "live-github-code-search",
+  "category": "github",
+  "question": "Where is the hold request logic in our Go services?",
+  "history": [],
+  "expect": {},
+  "live": {
+    "tools_any": [
+      "search_code"
+    ],
+    "phrases_any": [
+      "github.com/uvalib/"
+    ],
+    "forbid": [
+      "[redacted credential]",
+      "isn't available right now"
+    ],
+    "max_seconds": 60
+  }
+}

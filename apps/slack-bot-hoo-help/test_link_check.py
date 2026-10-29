@@ -53,6 +53,27 @@ def test_agent_trusts_urls_from_list_slack_channel_output():  # review: a 50-lin
     assert "https://other.example.org/x" in calls  # everything else is still checked
 
 
+def test_github_links_from_github_tools_are_trusted():  # private repos 404 without a login
+    calls = []
+    real = _no_network(calls)
+    out = ("### virgo4-client\nhttps://github.com/uvalib/virgo4-client/blob/main/README.md\n"
+           "https://github.com/someoneelse/x/blob/main/a.md")
+    trace = SimpleNamespace(steps=[SimpleNamespace(tool_name="GitHub___get_file_contents", output=out)])
+    reply = ("README: https://github.com/uvalib/virgo4-client/blob/main/README.md and "
+             "https://github.com/someoneelse/x/blob/main/a.md and https://other.example.org/x")
+    try:
+        HooHelpAgent._sanitize_links(None, reply, trace)
+        other = SimpleNamespace(steps=[SimpleNamespace(tool_name="search_uvalib_web", output=out)])
+        HooHelpAgent._sanitize_links(None, reply, other)
+    finally:
+        link_check.check_urls, link_check.check_url = real
+    first = calls[:calls.index("https://other.example.org/x") + 1]
+    assert "https://github.com/uvalib/virgo4-client/blob/main/README.md" not in first
+    assert "https://github.com/someoneelse/x/blob/main/a.md" in first
+    assert "https://other.example.org/x" in first
+    assert "https://github.com/uvalib/virgo4-client/blob/main/README.md" in calls[len(first):]  # not from GitHub tool
+
+
 def _sanitize_offline(text):
     real = _no_network([])
     try:

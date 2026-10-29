@@ -14,6 +14,7 @@ import sys
 
 APP = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, APP)
+sys.path.insert(0, os.path.join(APP, "src"))
 
 from evals.case import CaseError, load_cases  # noqa: E402
 
@@ -64,6 +65,44 @@ def _atlassian_tools():
     if tools is None:
         print("Confluence/Jira tools are switched off in samconfig.")
     return tools
+
+
+def production_github_enabled(samconfig_path: str = SAMCONFIG, env=None) -> bool:
+    """Live evals use GitHub when samconfig says EnableGitHub=true, or HOOHELP_EVAL_GITHUB=1 is set."""
+    env = os.environ if env is None else env
+    if str(env.get("HOOHELP_EVAL_GITHUB", "")).strip().lower() in ("1", "true", "yes"):
+        return True
+    try:
+        text = open(samconfig_path).read()
+    except OSError:
+        return False
+    m = re.search(r"\bEnableGitHub=([^\s\"']*)", text)
+    return bool(m) and m.group(1).lower() == "true"
+
+
+def _github_tools():
+    """GitHub tools as production builds them (App credentials from SSM), or None with a note."""
+    if not production_github_enabled():
+        print("GitHub tools are switched off (samconfig EnableGitHub=false; set HOOHELP_EVAL_GITHUB=1 to try them).")
+        return None
+    try:
+        from github_tools import github_tools_for_env
+
+        tools = github_tools_for_env({"ENABLE_GITHUB": "true"})
+    except Exception as e:  # live cases still run; GitHub cases will fail on tools_any
+        print(f"GitHub tools unavailable for live evals: {type(e).__name__}")
+        return None
+    if tools is None:
+        print("GitHub tools could not be set up for live evals (check SSM /hoohelp/github/*).")
+    return tools
+
+
+def combined_local_tools(*tool_sets):
+    """One LocalTools over the tool sets that exist, or None when there are none."""
+    from local_tools import LocalTools
+
+    present = [t for t in tool_sets if t is not None]
+    return LocalTools(*present) if present else None
 
 
 def _offline(cases: list) -> int:
@@ -134,10 +173,7 @@ def _live(cases: list, model: str | None = None) -> int:
     from datetime import datetime
 
     agent = HooHelpAgent(gateway_client=GatewayMCPClient())
-    from local_tools import LocalTools
-
-    atlassian = _atlassian_tools()
-    local_tools = LocalTools(atlassian) if atlassian is not None else None
+    local_tools = combined_local_tools(_atlassian_tools(), _github_tools())
     results = []
     for c in cases:
         if isinstance(c, CaseError):

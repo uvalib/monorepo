@@ -1,0 +1,21 @@
+{
+  "id": "live-github-open-prs",
+  "category": "github",
+  "question": "Any open pull requests on virgo4-client?",
+  "history": [],
+  "expect": {},
+  "live": {
+    "tools_any": [
+      "list_pull_requests",
+      "search_pull_requests"
+    ],
+    "phrases_any": [
+      "virgo4-client"
+    ],
+    "forbid": [
+      "[redacted credential]",
+      "isn't available right now"
+    ],
+    "max_seconds": 60
+  }
+}

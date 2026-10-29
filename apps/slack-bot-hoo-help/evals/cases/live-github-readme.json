@@ -1,0 +1,20 @@
+{
+  "id": "live-github-readme",
+  "category": "github",
+  "question": "What's in the README of virgo4-client?",
+  "history": [],
+  "expect": {},
+  "live": {
+    "tools_any": [
+      "get_file_contents"
+    ],
+    "phrases_any": [
+      "virgo4-client"
+    ],
+    "forbid": [
+      "[redacted credential]",
+      "isn't available right now"
+    ],
+    "max_seconds": 60
+  }
+}

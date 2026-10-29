@@ -1,0 +1,20 @@
+{
+  "id": "live-github-ruby-repos",
+  "category": "github",
+  "question": "Which uvalib repos are written in Ruby?",
+  "history": [],
+  "expect": {},
+  "live": {
+    "tools_any": [
+      "search_repositories"
+    ],
+    "phrases_any": [
+      "github.com/uvalib/"
+    ],
+    "forbid": [
+      "[redacted credential]",
+      "isn't available right now"
+    ],
+    "max_seconds": 60
+  }
+}

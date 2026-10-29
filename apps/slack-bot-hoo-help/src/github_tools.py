@@ -59,7 +59,7 @@ MSG_SEARCH_SCOPE_REFUSED = ("Hoo Helper can only search GitHub in the uvalib org
 MSG_SEARCH_BOOLEAN_REFUSED = ("Use plain search terms and qualifiers without OR, NOT, parentheses or "
                               "unbalanced quotes (searches are limited to uvalib).")
 MSG_SEARCH_ISSUES_REPO = ("search_issues needs a repo: name it (repo:uvalib/<name>), or use list_issues on that "
-                          "repo; for PRs across all uvalib repos use search_pull_requests.")
+                          "repo; for issues across all uvalib repos use search_pull_requests with is:issue in the query.")
 MSG_SEARCH_UNCHECKED = ("GitHub's search reply couldn't be checked against the uvalib scope, so it isn't shown; "
                         "try a simpler search.")
 MSG_DOTDOT_REFUSED = "Paths, refs and names can't contain a \"..\" segment."

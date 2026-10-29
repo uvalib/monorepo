@@ -5,6 +5,7 @@ import base64
 import json
 import logging
 import os
+import re
 import sys
 from datetime import datetime, timezone
 
@@ -182,7 +183,7 @@ def test_search_issues_needs_a_repo_not_org():
     assert c.calls[-1][1] == {"query": "login fails", "owner": "uvalib", "repo": "virgo4-client"}
     n = len(c.calls)
     guidance = ("search_issues needs a repo: name it (repo:uvalib/<name>), or use list_issues on that repo; "
-                "for PRs across all uvalib repos use search_pull_requests.")
+                "for issues across all uvalib repos use search_pull_requests with is:issue in the query.")
     for args in ({"query": "login fails"}, {"query": "login fails", "owner": "uvalib"},
                  {"query": "login fails org:uvalib"}, {"query": "login user:uvalib"}):
         assert tools.call("GitHub___search_issues", args) == guidance, args
@@ -638,6 +639,17 @@ def test_no_secrets_in_logs(caplog):
         assert TOKEN not in text
         assert "BEGIN" not in text and PRIVATE_PEM.splitlines()[1] not in text
     github_tools._reset_cache()
+
+
+def test_template_has_enable_github_and_ssm_policy():
+    text = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "template.yaml")).read()
+    m = re.search(r"\n  EnableGitHub:\n((?:    .*\n)+)", text)
+    assert m, "EnableGitHub parameter missing"
+    assert 'Default: "false"' in m.group(1) and 'AllowedValues: ["true", "false"]' in m.group(1)
+    assert "ENABLE_GITHUB: !Ref EnableGitHub" in text
+    assert "parameter/hoohelp/github/*" in text
+    cfg = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "samconfig.toml")).read()
+    assert "EnableGitHub=false" in cfg
 
 
 if __name__ == "__main__":

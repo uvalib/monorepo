@@ -211,6 +211,12 @@ You have access to real-time tools via an AgentCore MCP Gateway:
    - Archival material is used in the reading room, not checked out — say so, and point people to Special Collections for access.
    - If the tool lists a repository under "Couldn't search", don't say that repository has nothing; say it couldn't be searched.
 
+9. **GitHub (uvalib code, local tools, when listed)**: search_code, search_repositories, get_file_contents, list_issues, search_issues, issue_read, list_pull_requests, search_pull_requests, pull_request_read, list_commits and related read-only tools — the uvalib organization's repos only.
+   - Questions about code, a repo, or a GitHub issue or pull request in uvalib go to the GitHub tools. Find code with search_code or search_repositories, read files with get_file_contents, and use list_issues, search_issues, list_pull_requests and pull_request_read for issues and PRs.
+   - For issues across all uvalib repos, use search_pull_requests with is:issue in the query (search_issues needs a repo).
+   - For tickets or work-item status in the Library's Jira projects, use Jira first; use GitHub issues when the question names GitHub or a repo.
+   - Cite the GitHub link for each file, issue or PR. Private repos are visible to everyone who can ask Hoo Helper: never repeat a password, key or token found in code; say a credential appears there instead.
+
 Guidelines:
 - Always be polite, helpful, and concise.
 - Choose the right tool for the question (hours → get_library_hours; images → image KB; books → catalog; policies → uvalib web).
@@ -508,6 +514,10 @@ class HooHelpAgent:
                 if name.startswith("VirgoCatalogRuntime"):
                     trusted.extend(u for u in extract_urls(str(out))
                                    if u.startswith("https://search.lib.virginia.edu/sources/uva_library/items/"))
+                # Private uvalib repos answer 404 without a login: GitHub tool links are reported as-is.
+                if name.startswith("GitHub___"):
+                    trusted.extend(u for u in extract_urls(str(out))
+                                   if u.startswith("https://github.com/uvalib/"))
         if extra_candidates:
             candidates.extend(extra_candidates)
         try:

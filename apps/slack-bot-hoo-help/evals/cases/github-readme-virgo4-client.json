@@ -1,0 +1,43 @@
+{
+  "id": "github-readme-virgo4-client",
+  "category": "github",
+  "question": "What's in the README of virgo4-client?",
+  "history": [],
+  "recorded": {
+    "model": "minimax.minimax-m2.5",
+    "steps": [
+      {
+        "tool_name": "GitHub___search_repositories",
+        "status": "success",
+        "input": {
+          "query": "virgo4-client"
+        },
+        "output": "Links:\n- https://github.com/uvalib/virgo4-client\n\n{\"total_count\": 1, \"incomplete_results\": false, \"items\": [{\"id\": 187850670, \"name\": \"virgo4-client\", \"full_name\": \"uvalib/virgo4-client\", \"description\": \"Client for Virgo4 API\", \"html_url\": \"https://github.com/uvalib/virgo4-client\", \"language\": \"Vue\", \"stargazers_count\": 1, \"forks_count\": 0, \"open_issues_count\": 0, \"updated_at\": \"2026-10-20T17:21:28Z\", \"created_at\": \"2019-05-21T14:10:40Z\", \"private\": false, \"fork\": false, \"archived\": false, \"default_branch\": \"master\"}]}"
+      },
+      {
+        "tool_name": "GitHub___get_file_contents",
+        "status": "success",
+        "input": {
+          "owner": "uvalib",
+          "path": "README.md",
+          "repo": "virgo4-client"
+        },
+        "output": "File: uvalib/virgo4-client/README.md\nLink: https://github.com/uvalib/virgo4-client/blob/73ddeb4ff431fc1929d5e5f9128ee5a690f20140/README.md\n\n# Virgo4 client\n\nThis is a client to expose the virgo4 API functionality. It is a SPA written in Vue2\nand includes a simple server written in go to serve it. \n\n### System Requirements\n\n* GO version 1.12 or greater (mod required)\n* Node version 12.2.0 or higher (https://nodejs.org/en/)\n* NPM version 7.19 or greater\n\n### Build Instructions\n\n1. After clone, `cd frontend` and execute `npm install` to prepare the front end\n2. Run the Makefile target `make build all` to generate binaries for linux, darwin and the front end.  All results will be in the bin directory.\n3. To run locally in debug mode, be sure to set V4_CONFIG to localhost at the port you are running the back end at.\n\n### Development Startup Instructions\n\n1. `./bin/v4srv.darwin -search='https://VirgoSearchAPI:port' -ils http://docker1.lib.virginia.edu:8500/v2` (for MacOS)\n    Starts backend go service on port 8080\n    NOTE: To fake NetBadge auth locally, add this param `-devuser compute_ID` where compute_ID is any valid UVA computeID.\n2. In another terminal `cd frontend` then `V4_CONFIG='http://localhost:8080' yarn serve`\n    Starts a Yarn dev server with hot reloading and connects to the local go service for config.\n\n### Database Notes\n\nThe backend of the client uses a Postgres DB for user settings/preferences. The schema is managed by \nhttps://github.com/golang-migrate/migrate and the scripts are in ./backend/db/migrations.\n\nInstall the migrate binary on your host system. For OSX, the easiest method is brew. Execute:\n\n`brew install golang-migrate`.\n\nDefine your PSQL connection params in an environment variable, like this:\n\n`export V4DB=postgres://v4user:pass@localhost:5432/virgo4`\n\nUser roles are stored in the v4_role enumerated type. To see values:\n\n`SELECT enumlabel FROM pg_enum WHERE enumtypid = 'v4_role'::regtype ORDER BY oid;`\n\nRun migrations like this:\n\n`migrate -database ${V4DB} -path backend/db/migrations up`\n\nExample migrate commads to create a migration and run one:\n\n* `migrate create -ext sql -dir backend/db/migrations -seq update_user_auth`\n* `migrate -database ${V4DB} -path backend/db/migrations/ up`\n"
+      }
+    ],
+    "final_text": "Here's the README from the *virgo4-client* repository:\n\n*Virgo4 client*\nThis is a client to expose the virgo4 API functionality. It is a SPA written in Vue2\nand includes a simple server written in go to serve it. \n\n*System Requirements*\n• GO version 1.12 or greater (mod required)\n• Node version 12.2.0 or higher (https://nodejs.org/en/)\n• NPM version 7.19 or greater\n\n*Build Instructions*\n1. After clone, `cd frontend` and execute `npm install` to prepare the front end\n2. Run the Makefile target `make build all` to generate binaries for linux, darwin and the front end.  All results will be in the bin directory.\n3. To run locally in debug mode, be sure to set V4_CONFIG to localhost at the port you are running the back end at.\n\n*Development Startup Instructions*\n1. `./bin/v4srv.darwin -search='https://VirgoSearchAPI:port' -ils http://docker1.lib.virginia.edu:8500/v2` (for MacOS)\n    Starts backend go service on port 8080\n    NOTE: To fake NetBadge auth locally, add this param `-devuser compute_ID` where compute_ID is any valid UVA computeID.\n2. In another terminal `cd frontend` then `V4_CONFIG='http://localhost:8080' yarn serve`\n    Starts a Yarn dev server with hot reloading and connects to the local go service for config.\n\n*Database Notes*\nThe backend of the client uses a Postgres DB for user settings/preferences. The schema is managed by \nhttps://github.com/golang-migrate/migrate and the scripts are in ./backend/db/migrations.\n\nInstall the migrate binary on your host system. For OSX, the easiest method is brew. Execute:\n\n`brew install golang-migrate`.\n\nDefine your PSQL connection params in an environment variable, like this:\n\n`export V4DB=postgres://v4user:pass@localhost:5432/virgo4`\n\nUser roles are stored in the v4_role enumerated type. To see values:\n\n`SELECT enumlabel FROM pg_enum WHERE enumtypid = 'v4_role'::regtype ORDER BY oid;`\n\nRun migrations like this:\n\n`migrate -database ${V4DB} -path backend/db/migrations up`\n\nExample migrate commads to create a migration and run one:\n\n• `migrate create -ext sql -dir backend/db/migrations -seq update_user_auth`\n• `migrate -database ${V4DB} -path backend/db/migrations/ up`\n\n*Repo:* <https://github.com/uvalib/virgo4-client>  \n*Language:* Vue"
+  },
+  "expect": {
+    "phrases": [
+      "virgo4-client",
+      "github.com/uvalib/virgo4-client"
+    ],
+    "forbid": [
+      "[redacted credential]",
+      "isn't available right now"
+    ],
+    "attachment": false,
+    "allow_condensed": false
+  },
+  "live": null
+}

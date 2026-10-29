@@ -134,6 +134,42 @@ def test_atlassian_env_comes_from_samconfig():
         fh2.write('parameter_overrides = "BedrockModelId=m"\n')
     assert production_atlassian_env(fh2.name)["ENABLE_ATLASSIAN"] == "false"
 
+def test_live_combines_local_tool_sets():
+    from evals import run
+
+    class Set:
+        def __init__(self, name):
+            self.name = name
+
+        def tool_specs(self):
+            return [self.name]
+
+        def handles(self, n):
+            return n == self.name
+
+        def call(self, n, a):
+            return n
+
+    assert run.combined_local_tools(None, None) is None
+    both = run.combined_local_tools(Set("a"), Set("b"))
+    assert both.tool_specs() == ["a", "b"] and both.handles("b")
+    only = run.combined_local_tools(None, Set("b"))
+    assert only.tool_specs() == ["b"]
+
+
+def test_github_live_switch_from_samconfig_or_env():
+    from evals.run import production_github_enabled
+
+    with tempfile.NamedTemporaryFile("w", suffix=".toml", delete=False) as fh:
+        fh.write('parameter_overrides = "EnableGitHub=true BedrockModelId=m"\n')
+    with tempfile.NamedTemporaryFile("w", suffix=".toml", delete=False) as off:
+        off.write('parameter_overrides = "EnableGitHub=false BedrockModelId=m"\n')
+    assert production_github_enabled(fh.name, {}) is True
+    assert production_github_enabled(off.name, {}) is False
+    assert production_github_enabled(off.name, {"HOOHELP_EVAL_GITHUB": "1"}) is True
+    assert production_github_enabled("/nonexistent", {}) is False
+
+
 if __name__ == "__main__":
     test_live_pass_and_fail_reasons()
     test_live_exception_fails_case_and_report_still_written()
@@ -143,4 +179,6 @@ if __name__ == "__main__":
     test_run_live_passes_extra_context()
     test_run_live_passes_local_tools_through()
     test_atlassian_env_comes_from_samconfig()
+    test_live_combines_local_tool_sets()
+    test_github_live_switch_from_samconfig_or_env()
     print("ok")
