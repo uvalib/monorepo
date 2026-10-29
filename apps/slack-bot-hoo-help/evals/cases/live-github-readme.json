@@ -12,7 +12,6 @@
       "virgo4-client"
     ],
     "forbid": [
-      "[redacted credential]",
       "isn't available right now"
     ],
     "max_seconds": 60
