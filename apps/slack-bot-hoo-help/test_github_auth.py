@@ -122,6 +122,32 @@ def test_exchange_failure_raises_without_secrets():
         raise AssertionError("expected GitHubAuthError")
 
 
+def test_non_string_or_empty_token_rejected():
+    for bad in (None, "", 123, ["x"]):
+        class Http(FakeHttp):
+            def post(self, url, headers=None, timeout=None, **kw):
+                return FakeResponse(201, {"token": bad, "expires_at": _iso(NOW + 3600)})
+        try:
+            _minter(Http(), lambda: NOW).token()
+        except GitHubAuthError as e:
+            assert "unexpected" in str(e)
+        else:
+            raise AssertionError(f"expected GitHubAuthError for token={bad!r}")
+
+
+def test_broken_jwt_import_raises_auth_error():
+    saved = sys.modules.get("jwt")
+    sys.modules["jwt"] = None  # makes `import jwt` raise ImportError
+    try:
+        _minter(FakeHttp(), lambda: NOW).token()
+    except GitHubAuthError:
+        pass
+    else:
+        raise AssertionError("expected GitHubAuthError")
+    finally:
+        sys.modules["jwt"] = saved
+
+
 def test_load_credentials_complete():
     values = {
         "/hoohelp/github/app-id": "123",

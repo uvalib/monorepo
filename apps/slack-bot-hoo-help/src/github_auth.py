@@ -88,12 +88,12 @@ class InstallationTokenMinter:
             self._expires_at = 0.0
 
     def _app_jwt(self) -> str:
-        import jwt  # imported lazily: a bad cryptography wheel must not break Hoo Helper's startup
-
         now = int(self._clock())
         claims = {"iat": now - JWT_BACKDATE_SEC, "exp": now - JWT_BACKDATE_SEC + JWT_LIFETIME_SEC,
                   "iss": self._creds.app_id}
         try:
+            import jwt  # imported lazily: a bad cryptography wheel must not break Hoo Helper's startup
+
             encoded = jwt.encode(claims, self._creds.private_key, algorithm="RS256")
         except Exception as e:
             logger.warning("github jwt signing failed: %s", type(e).__name__)
@@ -117,6 +117,9 @@ class InstallationTokenMinter:
             raise GitHubAuthError(f"GitHub token exchange failed (HTTP {resp.status_code}).")
         try:
             body = resp.json() or {}
-            return str(body["token"]), _parse_expiry(body["expires_at"])
-        except (ValueError, KeyError, TypeError):
+            token = body["token"]
+            if not isinstance(token, str) or not token:
+                raise TypeError("token")
+            return token, _parse_expiry(body["expires_at"])
+        except (ValueError, KeyError, TypeError, AttributeError):
             raise GitHubAuthError("GitHub token exchange returned an unexpected response.") from None
