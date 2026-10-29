@@ -151,7 +151,7 @@ def test_search_gets_org_uvalib():
     assert c.calls[-1] == ("search_code", {"query": "hold repo:uvalib/x"})
     tools.call("GitHub___search_repositories", {"query": "language:ruby ORG:UVALib"})
     assert c.calls[-1][1]["query"] == "language:ruby ORG:UVALib"
-    tools.call("GitHub___search_issues", {"query": "hold user:uvalib is:open"})
+    tools.call("GitHub___search_pull_requests", {"query": "hold user:uvalib is:open"})
     assert c.calls[-1][1]["query"] == "hold user:uvalib is:open"
     tools.call("GitHub___search_pull_requests", {"query": "bump", "owner": "UVALib", "repo": "virgo4-client"})
     assert c.calls[-1] == ("search_pull_requests",
@@ -162,11 +162,67 @@ def test_search_other_org_refused():
     tools, c = _gh()
     for q in ("hold org:github", "hold user:x", "hold repo:other/x", "x repo:uvalib/a repo:other/b",
               "x -org:uvalib", "x org:\"github\"", "x org: github", "x owner:github", "x repo:uvalib",
-              "x repo:uvalib/a,other/b", "a OR b", "(a org:uvalib)", "", None, 5):
+              "x repo:uvalib/a,other/b", "a OR b", "(a org:uvalib)", "", None, 5,
+              "func main NOT org:uvalib", "NOT hold", "a NOT b", 'say "hold', 'a "b" "c'):
         out = tools.call("GitHub___search_code", {"query": q})
         assert "uvalib" in out or "search" in out.lower(), (q, out)
     tools.call("GitHub___search_issues", {"query": "x", "owner": "github"})
     assert c.calls == []
+
+
+def test_search_issues_needs_a_repo_not_org():
+    # search_issues is semantic on GitHub's server: it rejects org:/user:/owner:, so it must name a repo.
+    tools, c = _gh()
+    tools.call("GitHub___search_issues", {"query": "login fails repo:uvalib/virgo4-client"})
+    assert c.calls[-1] == ("search_issues", {"query": "login fails repo:uvalib/virgo4-client"})
+    tools.call("GitHub___search_issues", {"query": "login fails", "owner": "UVALib", "repo": "virgo4-client"})
+    assert c.calls[-1] == ("search_issues",
+                           {"query": "login fails", "owner": "uvalib", "repo": "virgo4-client"})
+    tools.call("GitHub___search_issues", {"query": "login fails", "repo": "uvalib/virgo4-client"})
+    assert c.calls[-1][1] == {"query": "login fails", "owner": "uvalib", "repo": "virgo4-client"}
+    n = len(c.calls)
+    guidance = ("search_issues needs a repo: name it (repo:uvalib/<name>), or use list_issues on that repo; "
+                "for PRs across all uvalib repos use search_pull_requests.")
+    for args in ({"query": "login fails"}, {"query": "login fails", "owner": "uvalib"},
+                 {"query": "login fails org:uvalib"}, {"query": "login user:uvalib"}):
+        assert tools.call("GitHub___search_issues", args) == guidance, args
+    assert tools.call("GitHub___search_issues", {"query": "x repo:other/y"}) != guidance
+    assert len(c.calls) == n
+
+
+def test_search_fields_argument_stripped():
+    tools, c = _gh()
+    tools.call("GitHub___search_code", {"query": "hold", "fields": ["path"]})
+    assert "fields" not in c.calls[-1][1]
+    tools.call("GitHub___list_commits", {"owner": "uvalib", "repo": "x", "fields": ["sha"]})
+    assert c.calls[-1][1]["fields"] == ["sha"]
+
+
+def test_search_non_json_result_refused():
+    tools, _ = _gh(result=_text("torvalds/linux: main.c matched"))
+    out = tools.call("GitHub___search_code", {"query": "x"})
+    assert "torvalds" not in out
+
+
+def test_dotdot_path_segments_refused():
+    tools, c = _gh()
+    for key, value in (("path", "../secrets"), ("path", "a/../../b"), ("path", "%2e%2e/x"), ("path", "a/%2E%2E"),
+                       ("path", "a/%252e%252e/b"), ("path", "..\\x"), ("ref", "../main"), ("sha", ".."),
+                       ("tag", "v1/../../x"), ("name", "../x")):
+        out = tools.call("GitHub___get_file_contents", {"owner": "uvalib", "repo": "x", key: value})
+        assert ".." in out or "path" in out.lower(), (key, value, out)
+    assert c.calls == []
+    tools.call("GitHub___get_file_contents", {"owner": "uvalib", "repo": "x", "path": "a/..b/c..d/.x"})
+    assert len(c.calls) == 1
+
+
+def test_search_paging_note_after_filter():
+    body = {"total_count": 900, "items": [{"path": f"{i}.go", "repository": "uvalib/a" if i % 2 else "other/b"}
+                                          for i in range(30)]}
+    tools, _ = _gh(result=_text(json.dumps(body)))
+    out = tools.call("GitHub___search_code", {"query": "x"})
+    assert "900" not in out and "of 30" not in out
+    assert "showing 15" in out and "more available" in out
 
 
 def test_search_results_from_other_owners_dropped():
@@ -231,6 +287,38 @@ def test_lists_capped_at_20():
     tools, _ = _gh(result=_text(json.dumps({"total_count": 40, "items": items})))
     out = tools.call("GitHub___search_repositories", {"query": "x"})
     assert "uvalib/r19" in out and "uvalib/r20" not in out
+
+
+def test_big_items_keep_links_and_note():
+    prs = [{"number": i, "title": f"p{i}", "body": "b" * 5000, "patch": "p" * 5000,
+            "text_matches": [{"fragment": "f" * 5000}] * 5,
+            "html_url": f"https://github.com/uvalib/x/pull/{i}"} for i in range(25)]
+    for tool, payload, args in (
+            ("list_pull_requests", prs, {"owner": "uvalib", "repo": "x"}),
+            ("search_pull_requests", {"total_count": 25, "items": [dict(p, repository_url=
+                "https://api.github.com/repos/uvalib/x") for p in prs]}, {"query": "bump"})):
+        tools, _ = _gh(result=_text(json.dumps(payload)))
+        out = tools.call("GitHub___" + tool, args)
+        for i in range(20):
+            assert f"https://github.com/uvalib/x/pull/{i}\n" in out + "\n", (tool, i)
+        assert "more available" in out or "20 of 25" in out
+        assert "b" * 501 not in out and "p" * 501 not in out and "f" * 501 not in out
+        assert "…" in out
+        assert out.index("Links:") < out.index('"title"')
+    # The reviewer's case: 20 items with 5 KB bodies fit whole once trimmed.
+    tools, _ = _gh(result=_text(json.dumps([{"number": i, "body": "b" * 5000,
+                                             "html_url": f"https://github.com/uvalib/x/pull/{i}"}
+                                            for i in range(20)])))
+    out = tools.call("GitHub___list_pull_requests", {"owner": "uvalib", "repo": "x"})
+    assert "truncated" not in out and out.count("https://github.com/uvalib/x/pull/") == 40
+
+
+def test_trimmed_fields_redacted_first():
+    tok = "ghp_" + "Z" * 40
+    prs = [{"number": 1, "body": "x" * 490 + tok, "html_url": "https://github.com/uvalib/x/pull/1"}]
+    tools, _ = _gh(result=_text(json.dumps(prs)))
+    out = tools.call("GitHub___list_pull_requests", {"owner": "uvalib", "repo": "x"})
+    assert "ghp_" not in out
 
 
 def test_unparseable_text_still_capped_and_redacted():
@@ -306,11 +394,15 @@ SECRETS = [
     ("ghu_" + "y" * 25, "before ", " after"),
     ("ghs_" + "z_9" * 8, "before ", " after"),
     ("ghr_" + "R" * 40, "before ", " after"),
+    ("github_pat_11ABCDEFG0" + "a1B2c3" * 10, "before ", " after"),
     ("AKIAABCDEFGHIJKLMNOP", "aws ", " end"),
     (PRIVATE_PEM.strip(), "key:\n", "\nafter"),
     ("-----BEGIN RSA PRIVATE KEY-----\nMIIabc\n-----END RSA PRIVATE KEY-----", "x\n", "\ny"),
 ]
-KV = [("password = hunter2", "password = "), ("passwd: s3cr3t", "passwd: "), ("SECRET=abc", "SECRET="),
+KV = [("AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG", "AWS_SECRET_ACCESS_KEY="),
+      ("SECRET_KEY_BASE: 9f8e7d6c5b", "SECRET_KEY_BASE: "), ("db_password='p@ss word'", "db_password="),
+      ('api_key: "two words here"', "api_key: "), ("GITHUB_TOKEN=abc123", "GITHUB_TOKEN="),
+      ("password = hunter2", "password = "), ("passwd: s3cr3t", "passwd: "), ("SECRET=abc", "SECRET="),
       ("api_key: k-123", "api_key: "), ("apikey=k1", "apikey="), ("api-key = zz", "api-key = "),
       ("token: tok123", "token: ")]
 
@@ -353,6 +445,39 @@ def test_json_quoted_password_value_redacted():
     tools, _ = _gh(result=_file(text='{"password": "hunter2", "user": "bob"}'))
     out = tools.call("GitHub___get_file_contents", {"owner": "uvalib", "repo": "virgo4-client", "path": "x"})
     assert "hunter2" not in out and "bob" in out
+
+
+def test_json_quoted_keys_with_spaces_redacted():
+    text = '{"client_secret": "a b c", "secretKey": "d e", "user": "bob"}'
+    tools, _ = _gh(result=_file(text=text))
+    out = tools.call("GitHub___get_file_contents", {"owner": "uvalib", "repo": "virgo4-client", "path": "x"})
+    assert "a b c" not in out and "d e" not in out and "bob" in out
+    # The same text inside a search fragment (JSON-escaped quotes in the rendered output).
+    body = {"total_count": 1, "items": [{"path": "x", "repository": "uvalib/a", "text_matches": [{"fragment": text}]}]}
+    tools, _ = _gh(result=_text(json.dumps(body)))
+    out = tools.call("GitHub___search_code", {"query": "x"})
+    assert "a b c" not in out and "d e" not in out and "bob" in out
+
+
+def test_assignment_after_plain_assignment_redacted():
+    tools, _ = _gh(result=_file(text="opts a=password: hunter2 end"))
+    out = tools.call("GitHub___get_file_contents", {"owner": "uvalib", "repo": "virgo4-client", "path": "x"})
+    assert "hunter2" not in out and "end" in out
+
+
+def test_redaction_linear_on_key_like_runs():
+    import time
+    t0 = time.time()
+    github_tools.redact("key" * 20_000 + " " + "key." * 10_000 + " " + "a=" * 20_000)
+    assert time.time() - t0 < 1
+
+
+def test_descriptions_redacted():
+    tool = _tool("search_code")
+    tool["description"] = "Search code. token: ghp_" + "Q" * 30
+    tools, _ = _gh(tools=[tool])
+    desc = tools.tool_specs()[0]["toolSpec"]["description"]
+    assert "ghp_" not in desc and REDACTED in desc
 
 
 # ---- factory ---------------------------------------------------------------
@@ -457,6 +582,39 @@ def test_factory_off_missing_or_failing_returns_none(caplog, monkeypatch):
     github_tools._reset_cache()
     monkeypatch.setitem(sys.modules, "github_auth", None)
     assert github_tools_for_env(ON, ssm_get=_ssm(SSM), http=FakeHttp()) is None
+    github_tools._reset_cache()
+
+
+def test_factory_contains_panics_but_not_interrupts(monkeypatch):
+    class PanicException(BaseException):  # what pyo3 raises from a broken cryptography build
+        pass
+
+    def boom(*a, **k):
+        raise PanicException("rust panic")
+
+    github_tools._reset_cache()
+    monkeypatch.setattr(github_tools, "_build", boom)
+    assert github_tools_for_env(ON, ssm_get=_ssm(SSM), http=FakeHttp()) is None
+    for exc in (KeyboardInterrupt, SystemExit):
+        github_tools._reset_cache()
+        monkeypatch.setattr(github_tools, "_build", lambda *a, e=exc, **k: (_ for _ in ()).throw(e()))
+        try:
+            github_tools_for_env(ON, ssm_get=_ssm(SSM), http=FakeHttp())
+        except exc:
+            pass
+        else:
+            raise AssertionError(f"{exc.__name__} swallowed")
+    github_tools._reset_cache()
+
+
+def test_factory_logs_auth_failure_status(caplog):
+    github_tools._reset_cache()
+    with caplog.at_level(logging.INFO):
+        caplog.clear()
+        assert github_tools_for_env(ON, ssm_get=_ssm(SSM), http=FakeHttp(exchange_status=401)) is None
+    lines = [r.getMessage() for r in caplog.records if r.name == "github_tools"]
+    assert "github_auth_failed status=401" in lines, lines
+    assert TOKEN not in caplog.text and "Bad credentials" not in caplog.text
     github_tools._reset_cache()
 
 

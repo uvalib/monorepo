@@ -23,7 +23,7 @@ import re
 import threading
 import time
 from typing import Any, Callable, Dict, List, Optional
-from urllib.parse import quote
+from urllib.parse import quote, unquote
 
 logger = logging.getLogger(__name__)
 
@@ -44,6 +44,10 @@ MAX_FILE_CHARS = 12_000
 MAX_OUTPUT_CHARS = 20_000
 MAX_ERROR_CHARS = 2_000
 MAX_ITEMS = 20
+MAX_FIELD_CHARS = 500  # per large field (body, patch, ...) of each listed item
+TRIM_FIELDS = frozenset({"body", "patch", "diff", "fragment"})
+MAX_TEXT_MATCHES = 3
+PATH_ARGS = ("path", "sha", "tag", "name", "ref")
 RETRY_AFTER_SEC = 600  # after a failed setup, stay off this long before trying again
 
 MSG_UNAVAILABLE = "GitHub isn't available right now."
@@ -52,8 +56,13 @@ MSG_OWNER_REFUSED = ("Hoo Helper can only read GitHub repos in the uvalib organi
                      "(owner \"uvalib\", repo as a name like \"virgo4-client\").")
 MSG_SEARCH_SCOPE_REFUSED = ("Hoo Helper can only search GitHub in the uvalib organization: leave out "
                             "org:/user:/repo:, or use repo:uvalib/<name>.")
-MSG_SEARCH_BOOLEAN_REFUSED = ("Use plain search terms and qualifiers without OR or parentheses "
-                              "(searches are limited to uvalib).")
+MSG_SEARCH_BOOLEAN_REFUSED = ("Use plain search terms and qualifiers without OR, NOT, parentheses or "
+                              "unbalanced quotes (searches are limited to uvalib).")
+MSG_SEARCH_ISSUES_REPO = ("search_issues needs a repo: name it (repo:uvalib/<name>), or use list_issues on that "
+                          "repo; for PRs across all uvalib repos use search_pull_requests.")
+MSG_SEARCH_UNCHECKED = ("GitHub's search reply couldn't be checked against the uvalib scope, so it isn't shown; "
+                        "try a simpler search.")
+MSG_DOTDOT_REFUSED = "Paths, refs and names can't contain a \"..\" segment."
 MSG_EMPTY_SEARCH = "Give me something to search for."
 MSG_BINARY = "(binary file, not shown)"
 
@@ -68,9 +77,14 @@ _REDACTIONS = [
     # An unterminated key block (e.g. cut off by GitHub): redact everything after BEGIN.
     (re.compile(r"-----BEGIN [A-Z ]*PRIVATE KEY-----.*", re.S), REDACTED),
     (re.compile(r"gh[pousr]_[A-Za-z0-9_]{20,}"), REDACTED),
+    (re.compile(r"github_pat_[A-Za-z0-9_]{22,}"), REDACTED),
     (re.compile(r"AKIA[0-9A-Z]{16}"), REDACTED),
-    # key = value: only the value goes; an optional closing quote covers JSON/YAML keys.
-    (re.compile(r"(?i)((?:password|passwd|secret|api[_-]?key|token)[\"']?\s*[:=]\s*)" + _NOT_REDACTED + r"\S+"),
+    # key = value where the key mentions a secret (AWS_SECRET_ACCESS_KEY=, "client_secret": ...): only the
+    # value goes. An optional (JSON-escaped) closing quote covers JSON/YAML keys; a quoted value is
+    # redacted whole, spaces included. Anchored at the start of a key-like run, so it stays linear.
+    (re.compile(r"(?<![A-Za-z0-9_.-])(?=[A-Za-z0-9_.-]*?(?i:password|passwd|secret|token|key))"
+                r"([A-Za-z0-9_.-]+(?:\\?[\"'])?\s*[:=]\s*)" + _NOT_REDACTED
+                + r"(\\\".*?\\\"|\"[^\"\n]*\"|'[^'\n]*'|\S+)"),
      r"\1" + REDACTED),
 ]
 
@@ -100,8 +114,23 @@ def _check_owner(value: Any) -> str:
     return ORG
 
 
-def _scope_args(args: Dict[str, Any], *, search: bool) -> Dict[str, Any]:
+def _check_no_dotdot(args: Dict[str, Any]) -> None:
+    for key in PATH_ARGS:
+        value = args.get(key)
+        if not isinstance(value, str):
+            continue
+        for _ in range(3):  # %2e%2e, %252e%252e
+            value = unquote(value)
+        if ".." in re.split(r"[/\\]", value):
+            raise _Refused(MSG_DOTDOT_REFUSED)
+
+
+def _scope_args(args: Dict[str, Any], *, tool: str) -> Dict[str, Any]:
+    search = tool in SEARCH_TOOLS
     out = dict(args)
+    _check_no_dotdot(out)
+    if search:
+        out.pop("fields", None)  # a fields subset can drop the owner fields the hit filter needs
     if "owner" in out:
         out["owner"] = _check_owner(out["owner"])
     if "repo" in out:
@@ -122,15 +151,19 @@ def _scope_args(args: Dict[str, Any], *, search: bool) -> Dict[str, Any]:
     if isinstance(per_page, (int, float)) and not isinstance(per_page, bool) and per_page > MAX_ITEMS:
         out["perPage"] = MAX_ITEMS
     if search:
-        out["query"] = _scope_query(out.get("query"))
+        out["query"] = _scope_query(out.get("query"), semantic=tool == "search_issues",
+                                    repo_arg="repo" in out)
     return out
 
 
-def _scope_query(query: Any) -> str:
+def _scope_query(query: Any, *, semantic: bool = False, repo_arg: bool = False) -> str:
+    """The query limited to uvalib. semantic: GitHub's search_issues, which rejects org:/user:/owner:
+    and so must be scoped by a repo (in the query, or the owner+repo arguments)."""
     if not isinstance(query, str) or not query.strip():
         raise _Refused(MSG_EMPTY_SEARCH)
     query = query.strip()
-    if "(" in query or ")" in query or re.search(r"(?<!\S)OR(?!\S)", query):
+    if ("(" in query or ")" in query or query.count('"') % 2
+            or re.search(r"(?<!\S)(?:OR|NOT)(?!\S)", query)):
         raise _Refused(MSG_SEARCH_BOOLEAN_REFUSED)
     qualifiers = list(_SCOPE_QUALIFIER.finditer(query))
     # Every "org:" / "repo:" ... in the text must be a qualifier we parsed (fail closed).
@@ -146,6 +179,11 @@ def _scope_query(query: Any) -> str:
                 raise _Refused(MSG_SEARCH_SCOPE_REFUSED)
         elif value.lower() != ORG:
             raise _Refused(MSG_SEARCH_SCOPE_REFUSED)
+    if semantic:
+        kinds = {m.group(2).lower() for m in qualifiers}
+        if kinds - {"repo"} or not (kinds or repo_arg):
+            raise _Refused(MSG_SEARCH_ISSUES_REPO)
+        return query
     return query if qualifiers else f"{query} org:{ORG}"
 
 
@@ -205,17 +243,48 @@ def _item_link(item: Any) -> Optional[str]:
     return None
 
 
+def _trim_value(value: Any) -> Any:
+    if isinstance(value, str) and len(value) > MAX_FIELD_CHARS:
+        # Redact first, so a cut can't leave a partial credential the patterns no longer match.
+        value = redact(value)
+        return value[:MAX_FIELD_CHARS].rstrip() + "…" if len(value) > MAX_FIELD_CHARS else value
+    return value
+
+
+def _trim_item(item: Any) -> Any:
+    """Shorten the large free-text fields of one listed item."""
+    if not isinstance(item, dict):
+        return item
+    out = {}
+    for k, v in item.items():
+        if k in TRIM_FIELDS:
+            v = _trim_value(v)
+        elif k == "text_matches" and isinstance(v, list):
+            v = [_trim_item(m) for m in v[:MAX_TEXT_MATCHES]]
+        out[k] = v
+    return out
+
+
 def _render_json(data: Any, *, search: bool) -> str:
     notes: List[str] = []
     links: List[str] = []
 
+    filtered = []
+
     def cap_list(items: List[Any], total: Any) -> List[Any]:
-        if search:
-            items = [i for i in items if _owner_of(i) == ORG]
-        shown = items[:MAX_ITEMS]
-        total = total if isinstance(total, int) and not isinstance(total, bool) else len(items)
-        if total > len(shown):
-            notes.append(f"(showing {len(shown)} of {total}; ask for the next page for more)")
+        kept = [i for i in items if _owner_of(i) == ORG] if search else items
+        if len(kept) < len(items):
+            filtered.append(True)
+        shown = [_trim_item(i) for i in kept[:MAX_ITEMS]]
+        has_total = isinstance(total, int) and not isinstance(total, bool)
+        if len(kept) < len(items):
+            # Hits were dropped: GitHub's total no longer describes what's shown.
+            if len(kept) > len(shown) or (has_total and total > len(items)):
+                notes.append(f"(showing {len(shown)}; more available — ask for the next page)")
+        else:
+            total = total if has_total else len(items)
+            if total > len(shown):
+                notes.append(f"(showing {len(shown)} of {total}; more available — ask for the next page)")
         links.extend(link for link in (_item_link(i) for i in shown) if link)
         return shown
 
@@ -226,23 +295,28 @@ def _render_json(data: Any, *, search: bool) -> str:
         lists = [k for k, v in data.items() if isinstance(v, list)]
         for k in lists:
             data[k] = cap_list(data[k], total if len(lists) == 1 else None)
+        if filtered:  # GitHub's total counts hits that were dropped
+            data.pop("total_count", None)
+            data.pop("totalCount", None)
         link = _uvalib_link(data.get("html_url"))
         if link:
             notes.append(f"Link: {link}")
-    out = json.dumps(data, ensure_ascii=False)
-    if notes:
-        out += "\n\n" + "\n".join(notes)
+    # Notes and links first: the overall cap may cut the end of the JSON, never these.
+    head = list(notes)
     if links:
-        out += "\n\nLinks:\n" + "\n".join(f"- {u}" for u in links)
-    return out
+        head.append("Links:\n" + "\n".join(f"- {u}" for u in links))
+    body = json.dumps(data, ensure_ascii=False)
+    return "\n\n".join(head + [body])
 
 
 def _render_text(text: str, *, search: bool) -> str:
     try:
         data = json.loads(text)
     except (ValueError, TypeError):
-        return text
+        data = None
     if not isinstance(data, (dict, list)):
+        if search:  # the hit filter can't run on it
+            raise _Refused(MSG_SEARCH_UNCHECKED)
         return text
     return _render_json(data, search=search)
 
@@ -324,7 +398,7 @@ class GitHubTools:
             schema = dict(schema) if isinstance(schema, dict) else {"type": "object", "properties": {}}
             specs.append({"toolSpec": {
                 "name": TOOL_PREFIX + name,
-                "description": str(t.get("description") or name) + DESCRIPTION_SUFFIX,
+                "description": redact(str(t.get("description") or name)) + DESCRIPTION_SUFFIX,
                 "inputSchema": {"json": schema},
             }})
         return specs
@@ -338,7 +412,7 @@ class GitHubTools:
         tool = name[len(TOOL_PREFIX):]
         args = args if isinstance(args, dict) else {}
         try:
-            scoped = _scope_args(args, search=tool in SEARCH_TOOLS)
+            scoped = _scope_args(args, tool=tool)
             result = self.client.call_tool(tool, scoped)
             return render_result(result if isinstance(result, dict) else {}, tool=tool, args=scoped)
         except _Refused as e:
@@ -406,8 +480,13 @@ def github_tools_for_env(env=None, *, ssm_get=None, http=None) -> Optional[GitHu
             _INSTANCE = _build(ssm_get or _boto3_ssm_get, http)
             logger.info("github tools on")
             return _INSTANCE
-        except Exception as e:  # any setup failure (ImportError included) switches GitHub off
+        except (KeyboardInterrupt, SystemExit):
+            raise
+        except BaseException as e:  # noqa: BLE001 — any setup failure (ImportError, pyo3 PanicException) switches GitHub off
             _FAILED_AT = time.monotonic()
+            status = re.search(r"\(HTTP (\d{3})\)", str(e)) if type(e).__name__ == "GitHubAuthError" else None
+            if status:  # GitHubAuthError messages carry only the status, never secrets
+                logger.warning("github_auth_failed status=%s", status.group(1))
             if not _WARNED:
                 _WARNED = True
                 logger.warning("github tools off: setup failed (%s)", type(e).__name__)
