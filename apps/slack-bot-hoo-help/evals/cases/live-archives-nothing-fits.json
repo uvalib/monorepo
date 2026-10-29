@@ -1,0 +1,18 @@
+{
+  "id": "live-archives-nothing-fits",
+  "category": "archives",
+  "question": "Do we have the president's private correspondence from 2024?",
+  "recorded": null,
+  "expect": {},
+  "live": {
+    "tools_any": [
+      "search_archives",
+      "search_archives_semantic"
+    ],
+    "phrases_any": [],
+    "forbid": [
+      "link unavailable"
+    ],
+    "max_seconds": 60
+  }
+}

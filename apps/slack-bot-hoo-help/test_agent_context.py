@@ -130,6 +130,17 @@ def test_system_prompt_mentions_slack_search():
     assert "search_slack" in SYSTEM_PROMPT and 'from_user="me"' in SYSTEM_PROMPT
 
 
+def test_system_prompt_routes_descriptive_archives_questions_to_semantic_search():  # archives KB, phase 2
+    from agent import SYSTEM_PROMPT
+
+    assert "search_archives_semantic" in SYSTEM_PROMPT
+    section = SYSTEM_PROMPT.split("**Archival collections", 1)[1].split("Guidelines:", 1)[0]
+    assert "search_archives_semantic" in section
+    assert "names, titles and identifiers" in section and "descriptive" in section
+    assert "whole question" in section  # eval: keyword search needs key terms, semantic doesn't
+    assert "nothing fits" in section  # eval: semantic always returns five, even for "2024 presidential letters"
+
+
 def test_system_prompt_routes_exhaustive_slack_lists_and_file_formats():  # trial: "all URLs in #ai"
     from agent import SYSTEM_PROMPT
 
