@@ -15,9 +15,11 @@ import re
 from dataclasses import dataclass, field
 from typing import Any, Callable, Dict, Iterable, List, Optional
 
+from tool_names import gateway_name, legacy_leaf
+
 logger = logging.getLogger(__name__)
 
-TOOL_GET_CITATIONS = "VirgoCatalogRuntime___get_citations"
+TOOL_GET_CITATIONS = "VirgoCatalogRuntime___get_citations"  # legacy gateway; gateway_name() picks per gateway
 RECORD_URL = "https://search.lib.virginia.edu/sources/uva_library/items/"
 MAX_ITEMS = 50  # same cap as get_citations
 UNAVAILABLE_NOTE = "Virgo has no citation for this item right now; see the Virgo record."  # get_citations' marker
@@ -139,7 +141,7 @@ def _model_citations(steps: Iterable[Any]) -> Optional[tuple]:
     """(item ids, RIS reply) from the model's own get_citations(format='ris') call this turn, if any."""
     picked = None
     for step in steps:
-        if not str(_attr(step, "tool_name") or "").endswith("get_citations") or _attr(step, "status") not in (None, "success"):
+        if legacy_leaf(str(_attr(step, "tool_name") or ""), _attr(step, "input")) != "get_citations" or _attr(step, "status") not in (None, "success"):
             continue
         args = _attr(step, "input") or {}
         if str(args.get("format") or "ris").lower() != "ris":
@@ -151,11 +153,13 @@ def _model_citations(steps: Iterable[Any]) -> Optional[tuple]:
 
 
 def virgo_ris(steps: Optional[Iterable[Any]], *, call_tool: Optional[CallTool],
-              history: Optional[Iterable[Dict[str, Any]]] = None, user_text: str = "") -> VirgoRis:
+              history: Optional[Iterable[Dict[str, Any]]] = None, user_text: str = "",
+              v2: bool = False) -> VirgoRis:
     """RIS for the catalog items meant, in this order of trust:
     1. the model's own get_citations(format='ris') call this turn (it resolves "those" best);
     2. for "those" (or when nothing was searched), the items linked in the previous answer;
-    3. this turn's catalog search results."""
+    3. this turn's catalog search results.
+    v2: the gateway serves the uvalib-mcp tool names (see tool_names.is_v2_toolset)."""
     steps = list(steps or [])
     found = catalog_items(steps)
     previous = items_from_history(history)
@@ -180,7 +184,7 @@ def virgo_ris(steps: Optional[Iterable[Any]], *, call_tool: Optional[CallTool],
     cited: Dict[str, str] = {}
     if call_tool is not None:
         try:
-            reply = call_tool(TOOL_GET_CITATIONS, {"item_ids": ",".join(i.item_id for i in items), "format": "ris"})
+            reply = call_tool(gateway_name("get_citations", v2), {"item_ids": ",".join(i.item_id for i in items), "format": "ris"})
             cited = _records_by_id(reply)
             if not cited:
                 logger.warning("get_citations gave no records: %s", str(reply)[:120])

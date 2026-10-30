@@ -41,6 +41,7 @@ from slack_blocks import flatten_carousels
 import chime_in
 from slack_format import format_for_slack, rewrite_urls_in_blocks
 from attachments import build_file, citable_tables, file_context_line, requested_format
+from tool_names import is_v2_toolset
 from virgo_citations import MAX_ITEMS as MAX_CITED, virgo_ris
 from virgo_links import add_virgo_links
 from spreadsheet import tables_from_steps
@@ -461,10 +462,18 @@ def _upload(client, channel_id, thread_ts, trace, content, filename, title) -> N
                        "_I couldn't attach the file: the Slack app needs the `files:write` scope._")
 
 
-def _attach_ris(client, channel_id, thread_ts, trace, tables, call_tool, history=None, user_text="") -> None:
+def _gateway_is_v2() -> bool:
+    """True when the gateway client listed the uvalib-mcp tool names (cached list; legacy on any doubt)."""
+    try:
+        return is_v2_toolset(t.get("name") or "" for t in agent.gateway_client.list_tools())
+    except Exception:
+        return False
+
+
+def _attach_ris(client, channel_id, thread_ts, trace, tables, call_tool, history=None, user_text="", v2=False) -> None:
     """RIS from Slack link / file listings plus Virgo catalog items, in one file."""
     cite = citable_tables(tables)
-    virgo = virgo_ris(getattr(trace, "steps", None), call_tool=call_tool, history=history, user_text=user_text)
+    virgo = virgo_ris(getattr(trace, "steps", None), call_tool=call_tool, history=history, user_text=user_text, v2=v2)
     if not cite and not virgo.cited:
         if tables:
             _post_note(client, channel_id, thread_ts,
@@ -497,7 +506,8 @@ def _attach_file(client, channel_id, thread_ts, trace, fmt, listing_tables, call
     if fmt == "ris":
         if call_tool is None:
             call_tool = getattr(getattr(agent, "gateway_client", None), "call_tool", None)
-        _attach_ris(client, channel_id, thread_ts, trace, tables, call_tool, history, user_text)
+        _attach_ris(client, channel_id, thread_ts, trace, tables, call_tool, history, user_text,
+                    v2=_gateway_is_v2())
         return
     if not tables:
         logger.info("%s file requested but no table-producing tool ran", fmt)

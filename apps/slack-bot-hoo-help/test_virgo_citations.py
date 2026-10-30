@@ -57,6 +57,17 @@ class FakeGateway:
                            for i in ids) + "\r\n"
 
 
+def test_v2_gateway_calls_catalog_get_citations_and_reads_model_call():
+    gw = FakeGateway()
+    result = vc.virgo_ris([step(SEARCH_OUT, tool="Catalog___search_catalog")], call_tool=gw, v2=True)
+    assert gw.calls == [("Catalog___get_citations", {"item_ids": "u5099809,u254532", "format": "ris"})]
+    assert result.cited == 2
+    cite = {"tool_name": "Catalog___get_citations", "status": "success", "input": {"item_ids": "u254532", "format": "ris"},
+            "output": record("u254532")}
+    gw2 = FakeGateway()
+    assert vc.virgo_ris([step(SEARCH_OUT), cite], call_tool=gw2, v2=True).cited == 1 and gw2.calls == []
+
+
 def test_catalog_items_in_order_without_duplicates_or_other_pools():
     found = vc.catalog_items([step(SEARCH_OUT), step(IMAGE_OUT, tool="X___search_virgo_image_suggestions"),
                               step(f"{REC}u999", status="error")])

@@ -12,7 +12,8 @@ APP = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(APP, "src"))
 
 from attachments import build_file, citable_tables, requested_format  # noqa: E402
-from slack_blocks import parse_markdown_table, tool_leaf  # noqa: E402
+from slack_blocks import parse_markdown_table
+from tool_names import legacy_leaf  # noqa: E402
 from slack_format import format_for_slack, split_markdown_tables  # noqa: E402
 from slack_search import TOOL_LIST_CHANNEL  # noqa: E402
 from spreadsheet import SheetTable, tables_from_steps  # noqa: E402
@@ -27,7 +28,7 @@ def _listing_tables(steps: list) -> list:
     """Slack listing tables as recorded (the live app attaches the full Listing; a trace keeps its first rows)."""
     tables = []
     for step in steps:
-        if tool_leaf(step.get("tool_name") or "") != TOOL_LIST_CHANNEL or step.get("status") != "success":
+        if legacy_leaf(step.get("tool_name") or "", step.get("input")) != TOOL_LIST_CHANNEL or step.get("status") != "success":
             continue
         output = str(step.get("output") or "")
         title = next((ln.lstrip("#").strip() for ln in output.splitlines() if ln.startswith("#")), "Slack listing")

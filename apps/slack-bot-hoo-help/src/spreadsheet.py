@@ -15,7 +15,8 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any, Iterable, List, Optional
 
-from slack_blocks import parse_markdown_table, tool_leaf
+from slack_blocks import parse_markdown_table
+from tool_names import legacy_leaf
 from slack_format import split_markdown_tables
 
 # Tools whose output tables are worth exporting (hours/spaces are not).
@@ -55,7 +56,7 @@ def tables_from_steps(steps: Optional[Iterable[Any]]) -> List[SheetTable]:
     for step in steps or []:
         if _step_attr(step, "status") not in (None, "success"):
             continue
-        if tool_leaf(_step_attr(step, "tool_name") or "") not in TABLE_TOOLS:
+        if legacy_leaf(_step_attr(step, "tool_name") or "", _step_attr(step, "input")) not in TABLE_TOOLS:
             continue
         output = str(_step_attr(step, "output") or "")
         title = ""

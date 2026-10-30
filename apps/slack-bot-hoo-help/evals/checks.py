@@ -7,8 +7,13 @@ fallback text.
 
 from __future__ import annotations
 
+import os
 import re
+import sys
 from typing import Any
+
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "src"))
+from tool_names import legacy_leaf  # noqa: E402
 
 ALLOWED_BLOCK_TYPES = frozenset({
     "header", "section", "divider", "context", "image", "table",
@@ -172,10 +177,11 @@ def forbid(text: str, phrases: list[str]) -> list[str]:
     return [f"forbidden phrase present: {p!r}" for p in phrases or [] if normalize(p) in hay]
 
 
-def tools_any(called: list[str], wanted: list[str]) -> list[str]:
+def tools_any(called: list, wanted: list[str]) -> list[str]:
+    """called: tool names, or (name, input) pairs so uvalib-mcp names map to the legacy leaf they route to."""
     if not wanted:
         return []
-    leaves = {c.split("___")[-1] for c in called or []}
+    leaves = {legacy_leaf(*c) if isinstance(c, (tuple, list)) else legacy_leaf(c) for c in called or []}
     if leaves & set(wanted):
         return []
     return [f"none of tools called: {list(wanted)!r} (called: {sorted(leaves)!r})"]

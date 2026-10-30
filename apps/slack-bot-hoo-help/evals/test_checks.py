@@ -60,6 +60,8 @@ def test_not_collapsed():
 def test_tools_any_and_phrases_any():
     assert checks.tools_any(["OccupancyReportingRuntime___get_traffic_by_period"], ["get_traffic_by_period"]) == []
     assert checks.tools_any(["X___get_foot_traffic"], ["get_traffic_by_period"])
+    assert checks.tools_any([("Library___get_traffic", {"kind": "foot", "period": "week"})], ["get_traffic_by_period"]) == []
+    assert checks.tools_any([("Library___get_traffic", {"kind": "foot"})], ["get_traffic_by_period"])
     assert checks.phrases_any("gold line arriving", ["Silver", "Gold Line"]) == []
     assert checks.forbid("Main Library hours", ["main library"])
 

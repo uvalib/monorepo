@@ -16,6 +16,8 @@ import re
 from dataclasses import dataclass, field
 from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 
+from tool_names import legacy_leaf
+
 logger = logging.getLogger(__name__)
 
 MAX_BLOCKS = 50
@@ -332,6 +334,11 @@ def tool_leaf(name: str) -> str:
     if not name:
         return ""
     return name.split("___")[-1].strip()
+
+
+def step_leaf(step: Any) -> str:
+    """The legacy tool name a recorded step stands for (v2 names are routed by their input)."""
+    return legacy_leaf(_step_attr(step, "tool_name") or "", _step_attr(step, "input"))
 
 
 def parse_markdown_table(text: str) -> Tuple[List[str], List[List[str]]]:
@@ -1119,7 +1126,7 @@ def image_hit_titles(steps: Optional[Iterable[Any]]) -> List[str]:
     """Titles of every image hit the image tools returned (shown or not)."""
     titles: List[str] = []
     for step in steps or []:
-        if "image" not in tool_leaf(_step_attr(step, "tool_name") or ""):
+        if "image" not in step_leaf(step):
             continue
         text = _usable_output(step)
         if not text:
@@ -1144,7 +1151,7 @@ def blocks_from_tool_steps(
     foot: List[FootTraffic] = []
     image_pages: List[List[Dict[str, str]]] = []
     for step in steps:
-        name = tool_leaf(_step_attr(step, "tool_name") or "")
+        name = step_leaf(step)
         text = _usable_output(step)
         if not text:
             continue
@@ -1230,7 +1237,7 @@ def tool_fallback_text(steps: Optional[Iterable[Any]]) -> str:
     parts: List[str] = []
     occ: List[OccupancyReport] = []
     for step in steps:
-        name = tool_leaf(_step_attr(step, "tool_name") or "")
+        name = step_leaf(step)
         text = _usable_output(step)
         if not text:
             continue

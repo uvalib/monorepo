@@ -29,6 +29,7 @@ from guardrails import (
 )
 from link_check import extract_urls, sanitize_response_links
 from session_trace import SessionTrace
+from tool_names import legacy_leaf
 from wikipedia_tools import (
     bedrock_tool_specs as wikipedia_bedrock_tool_specs,
     call_local_tool as call_wikipedia_tool,
@@ -481,7 +482,7 @@ class HooHelpAgent:
                     return text
         except Exception as e:
             logger.warning("Wrap-up call after the step limit failed: %s", type(e).__name__)
-        checked = sorted({t.split("___")[-1] for t in trace.tools_used()})
+        checked = sorted({legacy_leaf(s.tool_name, s.input) for s in trace.steps})
         return (
             "I ran out of lookup steps before finishing this one"
             + (f" (I checked: {', '.join(checked)})" if checked else "")

@@ -22,6 +22,10 @@ def have_aws_credentials() -> bool:
     return boto3.Session().get_credentials() is not None
 
 
+def _get(step, key):
+    return step.get(key) if isinstance(step, dict) else getattr(step, key, None)
+
+
 def run_live(case: dict, agent, local_tools=None) -> CaseResult:
     spec = case.get("live") or {}
     started = time.monotonic()
@@ -35,13 +39,14 @@ def run_live(case: dict, agent, local_tools=None) -> CaseResult:
         seconds = time.monotonic() - started
         trace = result.trace
         tools = list(trace.tools_used())
+        calls = [(_get(s, "tool_name"), _get(s, "input")) for s in trace.steps]
         text, blocks = format_for_slack(result.text, use_llm=False, tool_steps=trace.steps)
     except Exception as e:  # one failing question must not stop the run
         return CaseResult(case["id"], False, [f"exception: {type(e).__name__}: {e}"],
                           seconds=time.monotonic() - started)
     shown = checks.visible_text(blocks)
     reasons = checks.universal(text, blocks)
-    reasons += checks.tools_any(tools, spec.get("tools_any") or [])
+    reasons += checks.tools_any(calls, spec.get("tools_any") or [])
     reasons += checks.phrases_any(shown, spec.get("phrases_any") or [])
     reasons += checks.forbid(shown, spec.get("forbid") or [])
     max_seconds = spec.get("max_seconds")
