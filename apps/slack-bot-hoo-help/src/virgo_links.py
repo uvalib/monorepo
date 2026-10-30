@@ -15,6 +15,8 @@ import re
 from dataclasses import dataclass
 from typing import Any, Dict, Iterable, List, Optional
 
+from tool_names import is_catalog_tool
+
 _HEADING = re.compile(r"^#{2,4}\s+(?:\d+\.\s+)?(.+?)\s*$")
 _CALL = re.compile(r"^\s*-\s+\*\*Call number\*\*:\s*`?([^`]+?)`?\s*$")
 _RECORD = re.compile(r"(https://search\.lib\.virginia\.edu/sources/uva_library/items/[A-Za-z0-9_.:-]+)")
@@ -51,7 +53,7 @@ def catalog_records(steps: Optional[Iterable[Any]]) -> List[CatalogRecord]:
     for step in steps or []:
         if _attr(step, "status") not in (None, "success"):
             continue
-        if not str(_attr(step, "tool_name") or "").startswith("VirgoCatalogRuntime"):
+        if not is_catalog_tool(str(_attr(step, "tool_name") or "")):
             continue  # a Virgo link quoted in Jira or Slack isn't a catalog result
         title, call = "", ""
         for line in str(_attr(step, "output") or "").splitlines():

@@ -29,7 +29,7 @@ from guardrails import (
 )
 from link_check import extract_urls, sanitize_response_links
 from session_trace import SessionTrace
-from tool_names import legacy_leaf
+from tool_names import is_catalog_tool, legacy_leaf
 from wikipedia_tools import (
     bedrock_tool_specs as wikipedia_bedrock_tool_specs,
     call_local_tool as call_wikipedia_tool,
@@ -526,7 +526,7 @@ class HooHelpAgent:
                 if name.endswith("list_slack_channel"):
                     trusted.extend(extract_urls(str(out)))
                 # Virgo record links come straight from the catalog (virgo_links adds them to replies).
-                if name.startswith("VirgoCatalogRuntime"):
+                if is_catalog_tool(name):
                     trusted.extend(u for u in extract_urls(str(out))
                                    if u.startswith("https://search.lib.virginia.edu/sources/uva_library/items/"))
                 # Private uvalib repos answer 404 without a login: GitHub tool links are reported as-is,

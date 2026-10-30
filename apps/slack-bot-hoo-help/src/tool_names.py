@@ -100,6 +100,12 @@ def is_v2_toolset(tool_names: Iterable[str]) -> bool:
     return seen
 
 
+def is_catalog_tool(name: str) -> bool:
+    """True for a Virgo catalog tool on either gateway (VirgoCatalogRuntime___* or Catalog___*)."""
+    name = name or ""
+    return name.startswith("VirgoCatalogRuntime") or name.startswith("Catalog___")
+
+
 def legacy_leaf(tool_name: str, tool_input: Optional[dict] = None) -> str:
     """The legacy tool name's leaf; for v2 names, the legacy leaf the server would have routed the call to."""
     leaf = (tool_name or "").split("___")[-1].strip()
@@ -111,6 +117,21 @@ def legacy_leaf(tool_name: str, tool_input: Optional[dict] = None) -> str:
         if kind == "foot":
             return "get_traffic_by_period" if args.get("period") else "get_foot_traffic"
         return "get_entrance_traffic" if kind == "entrance" else "get_occupancy_report"
+    if leaf == "find_spaces":
+        if args.get("kind") == "seat":
+            return "list_space_seats"
+        if not args.get("library") or not any(
+                args.get(k) for k in ("category", "date", "time_start", "time_end", "capacity", "filters")):
+            return "get_space_categories"
+        if any(args.get(k) for k in ("time_start", "time_end", "capacity", "filters")):
+            return "search_space_availability"
+        return "list_space_items"
+    if leaf == "get_space":
+        return "get_space_seat" if args.get("kind") == "seat" else "get_space_item"
+    if leaf == "find_equipment":
+        if not args.get("category"):
+            return "get_equipment_categories"
+        return "list_equipment_items" if args.get("library") else "get_equipment_category"
     if leaf == "search_catalog":
         if args.get("source") == "images":
             return "search_images"

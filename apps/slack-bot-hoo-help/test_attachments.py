@@ -185,6 +185,30 @@ def test_app_attaches_listing_as_json():
     assert client.files[0]["thread_ts"] == "1.2"
 
 
+def test_gateway_is_v2_falls_back_to_legacy():
+    import app
+
+    class GW:
+        def __init__(self, tools=None, boom=False):
+            self.tools, self.boom = tools, boom
+
+        def list_tools(self):
+            if self.boom:
+                raise RuntimeError("down")
+            return self.tools
+
+    real = app.agent
+    try:
+        app.agent = SimpleNamespace(gateway_client=GW(boom=True))
+        assert app._gateway_is_v2() is False
+        app.agent = SimpleNamespace(gateway_client=GW([]))
+        assert app._gateway_is_v2() is False
+        app.agent = SimpleNamespace(gateway_client=GW([{"name": "Catalog___search_catalog"}]))
+        assert app._gateway_is_v2() is True
+    finally:
+        app.agent = real
+
+
 def test_app_csv_request_attaches_csv_not_excel():  # trial: "as a CSV" produced an .xlsx
     import app
     client = Uploads()

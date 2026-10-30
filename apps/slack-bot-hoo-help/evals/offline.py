@@ -12,7 +12,7 @@ APP = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(APP, "src"))
 
 from attachments import build_file, citable_tables, requested_format  # noqa: E402
-from slack_blocks import parse_markdown_table
+from slack_blocks import parse_markdown_table  # noqa: E402
 from tool_names import legacy_leaf  # noqa: E402
 from slack_format import format_for_slack, split_markdown_tables  # noqa: E402
 from slack_search import TOOL_LIST_CHANNEL  # noqa: E402

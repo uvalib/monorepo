@@ -40,6 +40,12 @@ def test_catalog_records_from_tool_output():
     assert recs[3].call_number == "PR6029.R8 N49 2021" and recs[2].title == "Nineteen Eighty-Four (1st ed.)"
 
 
+def test_v2_catalog_step_gets_links():
+    steps = [{**STEPS[0], "tool_name": "Catalog___search_catalog", "input": {"field": "title", "query": "1984"}}]
+    assert catalog_records(steps) == catalog_records(STEPS) and catalog_records(steps)
+    assert add_virgo_links("**1984 (Full screen version.)**", steps) == add_virgo_links("**1984 (Full screen version.)**", STEPS)
+
+
 def test_call_number_lines_get_their_link():
     answer = ("**Checked out:**\n• *Nineteen Eighty-four* — Shannon — `PR6029.R8 N49 2021`\n"
               "• *1984* (DVD) — Clemons — VIDEO.DVD11521\n")

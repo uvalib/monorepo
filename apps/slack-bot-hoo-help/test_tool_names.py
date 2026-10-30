@@ -68,34 +68,39 @@ def test_legacy_leaf_routes():
     assert legacy_leaf("") == ""
 
 
-# legacy leaves legacy_leaf routes to (the rest map to a v2 tool of the same leaf, or have no renderer)
-ROUTED = {
-    "get_foot_traffic", "get_traffic_by_period", "get_occupancy_report", "get_entrance_traffic",
-    "search_catalog", "search_by_field", "search_images", "search_events", "list_events",
-    "get_bus_route", "list_bus_routes", "search_archives", "search_archives_semantic",
-    "search_virgo_item_suggestions", "search_virgo_suggestions", "search_virgo_image_suggestions",
-    "search_uvalib_web",
-}
+ROUTED_V2 = {"get_traffic", "search_catalog", "find_events", "get_bus_routes", "search_archives", "get_suggestions",
+             "search_site", "find_spaces", "get_space", "find_equipment"}
 
-ROUTED_V2 = {"get_traffic", "search_catalog", "find_events", "get_bus_routes", "search_archives",
-             "get_suggestions", "search_site"}
+# arguments (beyond the fixed ones) that make a call route to each legacy leaf, as the server routes it
+CALL_ARGS = {
+    "get_traffic_by_period": {"period": "week"},
+    "search_events": {"query": "poetry"},
+    "get_bus_route": {"route": "Gold Line"},
+    "search_by_field": {"field": "title"},
+    "get_space_categories": {},
+    "search_space_availability": {"library": "Clemons", "capacity": 4},
+    "list_space_items": {"library": "Shannon", "category": "Study rooms"},
+    "get_space_search_filters": None,  # rides along with get_space_categories
+    "list_space_seats": {},
+    "get_space_item": {}, "get_space_seat": {},
+    "get_equipment_categories": {},
+    "get_equipment_category": {"category": "Laptops"},
+    "list_equipment_items": {"category": "Laptops", "library": "Clemons"},
+    "list_event_calendars": None,  # rides along with find_events
+    "get_bus_locations": None,  # rides along with get_bus_route
+}
+RIDES_ALONG = {leaf for leaf, args in CALL_ARGS.items() if args is None}
 
 
 def test_round_trip():
     for leaf, (name, fixed) in V2.items():
-        args = dict(fixed)
-        if leaf == "get_traffic_by_period":
-            args["period"] = "week"  # the period is a call argument, not a fixed one
-        if leaf in ("search_events",):
-            args["query"] = "poetry"
-        if leaf == "get_bus_route":
-            args["route"] = "Gold Line"
-        if leaf == "search_by_field":
-            args["field"] = "title"
-        if leaf in ROUTED:
-            assert legacy_leaf(name, args) == leaf, leaf
-        elif name.split("___")[-1] not in ROUTED_V2:  # e.g. list_event_calendars rides along with find_events
-            assert legacy_leaf(name, args) == name.split("___")[-1], leaf
+        if leaf in RIDES_ALONG:
+            continue
+        args = {**fixed, **CALL_ARGS.get(leaf, {})}
+        v2_leaf = name.split("___")[-1]
+        expected = leaf if v2_leaf in ROUTED_V2 else v2_leaf  # a routed v2 tool must give back this legacy leaf
+        assert legacy_leaf(name, args) == expected, leaf
+    assert RIDES_ALONG == {"get_space_search_filters", "list_event_calendars", "get_bus_locations"}
 
 
 def test_is_v2_toolset_mixed_is_legacy():
@@ -159,3 +164,34 @@ def test_renderers_same_on_v2(leaf, output, extra):
         assert blocks_from_tool_steps(new)  # not vacuous
     if leaf in ("get_traffic_by_period", "get_entrance_traffic"):
         assert tables_from_steps(new)
+
+
+def test_rooms_eval_cases_pass_on_v2():
+    import json
+    import glob
+    from evals import checks
+    for path in glob.glob(os.path.join(os.path.dirname(__file__), "evals", "cases", "*rooms-shannon*.json")):
+        wanted = json.load(open(path))["live"]["tools_any"]
+        for call in ({"library": "Shannon", "category": "Study rooms", "date": "2026-10-30"},
+                     {"library": "Shannon", "time_start": "17:00", "time_end": "20:00", "capacity": 6}):
+            assert checks.tools_any([("Library___find_spaces", call)], wanted) == [], (path, call)
+
+
+def test_find_spaces_equipment_and_space_routes():
+    assert legacy_leaf("Library___find_spaces", {}) == "get_space_categories"
+    assert legacy_leaf("Library___find_spaces", {"library": "Shannon"}) == "get_space_categories"
+    assert legacy_leaf("Library___find_spaces", {"category": "x"}) == "get_space_categories"  # no library
+    assert legacy_leaf("Library___find_spaces", {"library": "Shannon", "kind": "seat"}) == "list_space_seats"
+    assert legacy_leaf("Library___find_spaces", {"library": "S", "filters": "a"}) == "search_space_availability"
+    assert legacy_leaf("Library___find_spaces", {"library": "S", "date": "today"}) == "list_space_items"
+    assert legacy_leaf("Library___get_space", {"kind": "seat"}) == "get_space_seat"
+    assert legacy_leaf("Library___get_space", {}) == "get_space_item"
+    assert legacy_leaf("Library___find_equipment", {}) == "get_equipment_categories"
+    assert legacy_leaf("Library___find_equipment", {"category": "c"}) == "get_equipment_category"
+    assert legacy_leaf("Library___find_equipment", {"category": "c", "library": "l"}) == "list_equipment_items"
+
+
+def test_is_catalog_tool():
+    from tool_names import is_catalog_tool
+    assert is_catalog_tool("VirgoCatalogRuntime___search_catalog") and is_catalog_tool("Catalog___search_catalog")
+    assert not is_catalog_tool("Collections___search_archives") and not is_catalog_tool("") and not is_catalog_tool(None)

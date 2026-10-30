@@ -170,3 +170,17 @@ def test_uvalib_dot_segments_are_not_a_repo():  # final re-review minor 1: githu
     assert _uvalib_repo("https://github.com/uvalib/../torvalds/linux") is None
     assert _uvalib_repo("https://github.com/uvalib/./x") is None
     assert _uvalib_repo("https://github.com/uvalib/virgo4-client/blob/main/README.md#L3") == "virgo4-client"
+
+
+def test_virgo_item_urls_from_v2_catalog_step_are_trusted():
+    item = "https://search.lib.virginia.edu/sources/uva_library/items/u5099809"
+    out = f"### 1984\n- **Virgo record**: {item}"
+    for tool, probed in (("Catalog___search_catalog", False), ("VirgoCatalogRuntime___search_catalog", False),
+                         ("Library___get_event", True)):
+        calls = []
+        real = _no_network(calls)
+        try:
+            HooHelpAgent._sanitize_links(None, f"See {item}", SimpleNamespace(steps=[SimpleNamespace(tool_name=tool, output=out)]))
+        finally:
+            link_check.check_urls, link_check.check_url = real
+        assert (item in calls) is probed, tool
