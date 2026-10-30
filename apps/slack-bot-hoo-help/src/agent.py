@@ -115,12 +115,19 @@ def _needs_tools(user_message: str) -> bool:
     return bool(_FACTUAL_QUERY_RE.search(user_message or ""))
 # Keep this bland: a stern "call tools now / that is not allowed" user turn
 # is classified as PROMPT_ATTACK by the library Guardrail (HIGH on input).
-_FORCE_TOOLS_NUDGE = (
+_FORCE_TOOLS_NUDGE_TEMPLATE = (
     "Please look that up with the live library tools. For more photos, call "
-    "search_virgo_image_suggestions with the same visual query and the next page "
+    "{{tool:search_virgo_image_suggestions}} with the same visual query and the next page "
     "(page=2, or page=3, etc.) when the earlier result listed another page. "
     "For occupancy or hours, call the tool again for each library named."
 )
+_FORCE_TOOLS_NUDGE = render_prompt(_FORCE_TOOLS_NUDGE_TEMPLATE, v2=False)
+
+
+def _force_tools_nudge(v2: bool) -> str:
+    """The "please use the tools" retry turn, naming the tools of the gateway in use."""
+    return render_prompt(_FORCE_TOOLS_NUDGE_TEMPLATE, v2) if v2 else _FORCE_TOOLS_NUDGE
+
 
 SYSTEM_PROMPT_TEMPLATE = """You are **Hoo Helper** (also written HooHelp / HooHelper), the UVA Library's AI assistant in Slack.
 
@@ -590,6 +597,7 @@ class HooHelpAgent:
         tool_config = self._merged_tool_config(local_tools)
         offered = [(t.get("toolSpec") or {}).get("name") or "" for t in tool_config.get("tools") or []]
         system_prompt = self._system_prompt(extra_context, tool_names=offered)
+        v2 = is_v2_toolset(offered)
         history = list(conversation_history) if conversation_history else []
         trace = SessionTrace(request_id=request_id or str(uuid.uuid4()))
         trace.set_request(
@@ -713,7 +721,7 @@ class HooHelpAgent:
                         forced_tools = True
                         force_tool_choice = True
                         messages.append(
-                            {"role": "user", "content": [{"text": _FORCE_TOOLS_NUDGE}]}
+                            {"role": "user", "content": [{"text": _force_tools_nudge(v2)}]}
                         )
                         continue
                     # Raw model text — Slack-facing cleanup + link-check in app.py

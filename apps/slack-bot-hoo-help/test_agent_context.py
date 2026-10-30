@@ -381,6 +381,38 @@ def test_process_message_renders_prompt_for_the_offered_gateway():
     assert "get_foot_traffic" in agent.bedrock_runtime.requests[0]["system"][0]["text"]
 
 
+def test_force_tools_nudge_per_toolset():
+    import re
+    from agent import _FORCE_TOOLS_NUDGE, _force_tools_nudge
+    from tool_names import V2
+
+    legacy = (
+        "Please look that up with the live library tools. For more photos, call "
+        "search_virgo_image_suggestions with the same visual query and the next page "
+        "(page=2, or page=3, etc.) when the earlier result listed another page. "
+        "For occupancy or hours, call the tool again for each library named."
+    )
+    assert _FORCE_TOOLS_NUDGE == _force_tools_nudge(False) == legacy
+    v2 = _force_tools_nudge(True)
+    for name, (full, _) in V2.items():
+        if full.split("___")[-1] != name:
+            assert not re.search(rf"\b{name}\b", v2), name
+    assert 'call get_suggestions (kind="images") with the same visual query and the next page (page=2' in v2
+
+
+def test_process_message_forced_retry_names_v2_tools():
+    agent = make_agent()
+    agent.gateway_client.get_bedrock_tool_config = lambda: {"tools": [{"toolSpec": {
+        "name": "Site___get_suggestions", "description": "s",
+        "inputSchema": {"json": {"type": "object", "properties": {}}}}}]}
+    agent.process_message("What are Clemons hours today?")
+    sent = [b.get("text", "") for r in agent.bedrock_runtime.requests for m in r["messages"]
+            for b in m["content"] if isinstance(b, dict)]
+    nudges = [t for t in sent if t.startswith("Please look that up")]
+    assert nudges and all('get_suggestions (kind="images")' in t for t in nudges)
+    assert not any("search_virgo_image_suggestions" in t for t in sent)
+
+
 if __name__ == "__main__":
     test_system_prompt_archival_routing_from_staff_testing()
     test_trace_records_each_model_call()
