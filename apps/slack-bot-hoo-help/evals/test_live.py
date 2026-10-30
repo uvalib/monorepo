@@ -182,3 +182,29 @@ if __name__ == "__main__":
     test_live_combines_local_tool_sets()
     test_github_live_switch_from_samconfig_or_env()
     print("ok")
+
+
+def test_gateway_url_flag_sets_env():
+    from evals import run
+
+    seen = {}
+    real = run._live
+    run._live = lambda cases, model=None, outcomes=None: seen.setdefault("url", os.environ.get("GATEWAY_URL")) and 0
+    old = os.environ.pop("GATEWAY_URL", None)
+    try:
+        run.main(["--live", "--case", "catalog-heaven", "--gateway-url", "https://example.test/mcp"])
+        assert seen["url"] == "https://example.test/mcp"
+        assert run.gateway_client().gateway_url == "https://example.test/mcp"
+    finally:
+        run._live = real
+        os.environ.pop("GATEWAY_URL", None)
+        if old is not None:
+            os.environ["GATEWAY_URL"] = old
+
+
+def test_json_out_written():
+    from evals import run
+
+    path = os.path.join(tempfile.mkdtemp(), "out.json")
+    assert run.main(["--offline", "--case", "catalog-heaven", "--json-out", path]) == 0
+    assert json.load(open(path)) == {"catalog-heaven": "PASS"}

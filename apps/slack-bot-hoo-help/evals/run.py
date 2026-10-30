@@ -8,6 +8,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import re
 import sys
@@ -105,7 +106,14 @@ def combined_local_tools(*tool_sets):
     return LocalTools(*present) if present else None
 
 
-def _offline(cases: list) -> int:
+def gateway_client():
+    """Gateway client for the URL in GATEWAY_URL (set by --gateway-url), else the built-in default."""
+    from gateway_mcp_client import DEFAULT_GATEWAY_URL, GatewayMCPClient
+
+    return GatewayMCPClient(gateway_url=os.environ.get("GATEWAY_URL") or DEFAULT_GATEWAY_URL)
+
+
+def _offline(cases: list, outcomes: dict | None = None) -> int:
     from evals.offline import run_offline
 
     passed = failed = skipped = 0
@@ -115,6 +123,8 @@ def _offline(cases: list) -> int:
             print(f"FAIL {c}")
             continue
         r = run_offline(c)
+        if outcomes is not None and not r.skipped:
+            outcomes[r.id] = "PASS" if r.passed else "FAIL"
         if r.skipped:
             skipped += 1
             print(f"SKIP {r.id}")
@@ -136,7 +146,11 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--case", action="append", dest="cases", metavar="ID")
     ap.add_argument("--cases-dir", default=DEFAULT_CASES)
     ap.add_argument("--model", help="live tier: model id (default: production's BedrockModelId from samconfig.toml)")
+    ap.add_argument("--gateway-url", help="live tier: gateway MCP URL to test (sets GATEWAY_URL)")
+    ap.add_argument("--json-out", metavar="PATH", help='write {case_id: "PASS"|"FAIL"} for this run')
     args = ap.parse_args(argv)
+    if args.gateway_url:
+        os.environ["GATEWAY_URL"] = args.gateway_url
 
     cases = load_cases(args.cases_dir, args.cases)
     if args.cases:
@@ -146,12 +160,15 @@ def main(argv: list[str] | None = None) -> int:
             known = sorted(c["id"] for c in load_cases(args.cases_dir) if isinstance(c, dict))
             print(f"Unknown case id(s): {', '.join(missing)}\nKnown: {', '.join(known)}")
             return 2
-    if args.offline:
-        return _offline(cases)
-    return _live(cases, args.model)
+    outcomes: dict = {}
+    rc = _offline(cases, outcomes) if args.offline else _live(cases, args.model, outcomes)
+    if args.json_out:
+        with open(args.json_out, "w") as fh:
+            json.dump(outcomes, fh, indent=2, sort_keys=True)
+    return rc
 
 
-def _live(cases: list, model: str | None = None) -> int:
+def _live(cases: list, model: str | None = None, outcomes: dict | None = None) -> int:
     try:
         from dotenv import load_dotenv
 
@@ -169,10 +186,9 @@ def _live(cases: list, model: str | None = None) -> int:
         return 2
     sys.path.insert(0, os.path.join(APP, "src"))
     from agent import HooHelpAgent
-    from gateway_mcp_client import GatewayMCPClient
     from datetime import datetime
 
-    agent = HooHelpAgent(gateway_client=GatewayMCPClient())
+    agent = HooHelpAgent(gateway_client=gateway_client())
     local_tools = combined_local_tools(_atlassian_tools(), _github_tools())
     results = []
     for c in cases:
@@ -183,6 +199,8 @@ def _live(cases: list, model: str | None = None) -> int:
             continue
         r = live.run_live(c, agent, local_tools=local_tools)
         results.append(r)
+        if outcomes is not None:
+            outcomes[r.id] = "PASS" if r.passed else "FAIL"
         print(f"{'PASS' if r.passed else 'FAIL'} {r.id} ({r.seconds:.0f}s)" + ("" if r.passed else ": " + "; ".join(r.reasons)))
     path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "reports", f"live-{datetime.now():%Y%m%d-%H%M%S}.md")
     live.write_report(results, path)
