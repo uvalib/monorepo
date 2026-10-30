@@ -295,6 +295,92 @@ def test_throttling_gets_a_try_again_message():
         assert "try again in a minute" in text and "Throttling" not in text and "amazonaws" not in text
 
 
+# --- prompt rendered per toolset (legacy gateway vs uvalib-mcp) ---
+
+_FIXTURE = os.path.join(os.path.dirname(__file__), "test_fixtures", "system_prompt_legacy.txt")
+_V2_NAMES = ["Library___get_library_hours", "Catalog___search_catalog", "Transit___get_bus_routes",
+             "search_slack", "wikipedia_search", "GitHub___search_code"]
+_LEGACY_NAMES = ["OccupancyReportingRuntime___get_library_hours", "VirgoCatalogRuntime___search_catalog"]
+
+
+def _rendered(v2):
+    agent = make_agent()
+    return agent._system_prompt(tool_names=_V2_NAMES if v2 else _LEGACY_NAMES).split("\n\nCurrent date context", 1)[0]
+
+
+def test_legacy_prompt_unchanged():
+    with open(_FIXTURE, encoding="utf-8", newline="") as f:
+        legacy = f.read()
+    assert _rendered(False) == legacy
+    agent = make_agent()
+    assert agent._system_prompt().startswith(legacy)  # unknown toolset -> legacy
+    assert agent._system_prompt(tool_names=["get_library_hours"]).startswith(legacy)
+
+
+def test_v2_prompt_names_only_v2_tools():
+    import re
+    from tool_names import V2
+
+    text = _rendered(True)
+    for legacy, (full, _) in V2.items():
+        if full.split("___")[-1] != legacy:
+            assert not re.search(rf"\b{legacy}\b", text), legacy
+    assert 'get_traffic (kind="foot")' in text
+    assert 'search_catalog (source="images")' in text or 'get_suggestions (kind="images")' in text
+    assert 'get_suggestions (kind="images")' in text
+
+
+def test_v2_prompt_argument_guidance():
+    text = _rendered(True)
+    assert "search_catalog field=title" in text and "search_catalog field=author" in text
+    assert "availability=today" not in text and "max_results" not in text
+    assert "`library`" in text and "`date`" in text  # find_spaces arguments
+    assert " location" not in text.split("**Reservable spaces**", 1)[1].split("**Walking directions**", 1)[0]
+    assert 'match="meaning"' in text and 'period=' in text
+    assert "running_only" in text
+    # no duplicated tool names in one list ("search_catalog, search_catalog")
+    assert "search_catalog, search_catalog" not in text and "search_catalog` / `search_catalog" not in text
+
+
+def test_no_placeholder_left():
+    for v2 in (False, True):
+        text = _rendered(v2)
+        assert "{{" not in text and "}}" not in text
+
+
+def test_prompt_tool():
+    from tool_names import prompt_tool
+
+    assert prompt_tool("get_foot_traffic", False) == "get_foot_traffic"
+    assert prompt_tool("get_foot_traffic", True) == 'get_traffic (kind="foot")'
+    assert prompt_tool("search_by_field", True) == "search_catalog"
+    assert prompt_tool("get_accessible_routes_map", True) == 'get_directions (accessible="true")'
+
+
+def test_render_prompt_renames_legacy_arguments_on_v2():
+    from tool_names import render_prompt
+
+    t = "{{tool:list_space_items}} needs `location`; {{tool:get_space_item}}(location=Shannon); locations"
+    assert render_prompt(t, False) == "list_space_items needs `location`; get_space_item(location=Shannon); locations"
+    assert render_prompt(t, True) == "find_spaces needs `library`; get_space(library=Shannon); locations"
+
+
+def test_process_message_renders_prompt_for_the_offered_gateway():
+    agent = make_agent()
+
+    def v2_tools():
+        return {"tools": [{"toolSpec": {"name": "Library___get_traffic", "description": "traffic",
+                                        "inputSchema": {"json": {"type": "object", "properties": {}}}}}]}
+
+    agent.gateway_client.get_bedrock_tool_config = v2_tools
+    agent.process_message("thanks!")
+    system = agent.bedrock_runtime.requests[0]["system"][0]["text"]
+    assert 'get_traffic (kind="foot")' in system and "get_foot_traffic" not in system
+    agent = make_agent()
+    agent.process_message("thanks!")
+    assert "get_foot_traffic" in agent.bedrock_runtime.requests[0]["system"][0]["text"]
+
+
 if __name__ == "__main__":
     test_system_prompt_archival_routing_from_staff_testing()
     test_trace_records_each_model_call()

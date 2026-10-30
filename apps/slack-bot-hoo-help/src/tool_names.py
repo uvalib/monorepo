@@ -10,6 +10,7 @@ the server's routing for the routes the renderers care about.
 
 from __future__ import annotations
 
+import re
 from typing import Dict, Iterable, Optional, Tuple
 
 _LIB = "Library___"
@@ -155,3 +156,145 @@ def gateway_name(legacy: str, v2: bool) -> str:
     if v2:
         return V2[legacy][0]
     return f"{OLD_TARGET[legacy]}___{legacy}"
+
+
+# --- system prompt rendered for whichever gateway is configured ---
+
+def prompt_tool(legacy: str, v2: bool) -> str:
+    """How the prompt names a legacy tool: the legacy leaf, or the v2 leaf plus its fixed args."""
+    if not v2:
+        return legacy
+    full, fixed = V2[legacy]
+    leaf = full.split("___")[-1]
+    if not fixed:
+        return leaf
+    return leaf + " (" + ", ".join(f'{k}="{v}"' for k, v in fixed.items()) + ")"
+
+
+# Prompt phrases whose wording differs per toolset, where naming tools one by one would read
+# badly on v2 (several legacy tools become one v2 tool, or the arguments changed).
+# key -> (legacy text, v2 text). The legacy text is today's prompt, word for word.
+PHRASES: Dict[str, Tuple[str, str]] = {
+    "library_tools": (
+        "get_library_hours, get_libraries, list_library_entrances, get_entrance_traffic, get_occupancy_report, "
+        "get_foot_traffic, get_space_categories, list_space_items, get_space_item, search_space_availability, "
+        "get_space_search_filters, list_space_seats, get_space_seat, get_equipment_categories, "
+        "get_equipment_category, list_equipment_items, get_equipment_item, list_event_calendars, list_events, "
+        "get_event, search_events, get_walking_directions, get_accessible_routes_map",
+        "get_library_hours, get_libraries, get_traffic, find_spaces, get_space, find_equipment, get_equipment, "
+        "find_events, get_event, get_directions",
+    ),
+    "entrances": (
+        "`list_library_entrances` — lists physical doorways, entrance sensors, and camera points for a library "
+        "(or all libraries if omitted).",
+        "`get_libraries` — after the library list, lists physical doorways, entrance sensors, and camera points "
+        "for `library` (or all libraries if blank).",
+    ),
+    "traffic_by_period": ("get_traffic_by_period", 'get_traffic (kind="foot", period=...)'),
+    "space_window": (
+        "`search_space_availability` — **preferred** when the user gives a time window (“5–8pm at Shannon”, "
+        "“2pm–4pm RMC”): needs location + date + time_start + time_end.",
+        "`find_spaces` with `library` + `date` + `time_start` + `time_end` (HH:MM) — **preferred** when the user "
+        "gives a time window (“5–8pm at Shannon”, “2pm–4pm RMC”); add `capacity` or `filters` when asked.",
+    ),
+    "space_list": (
+        "`list_space_items` — rooms at a location; `availability=today` for batch free slots without a fixed "
+        "window; optional category / only_available",
+        "`find_spaces` with `library` + `date` (\"today\", \"tomorrow\" or YYYY-MM-DD) — rooms at a library with "
+        "their free slots, without a fixed window; optional `category` / `only_available`",
+    ),
+    "space_filters": (
+        "`get_space_categories` / `get_space_search_filters` — categories and amenity filters (accessible, power)",
+        "`find_spaces` with just `library` (or nothing) — categories and amenity filters (accessible, power); "
+        "pass filter ids as `filters`",
+    ),
+    "seat_tools": (
+        "Most libraries have no seats; study rooms use item tools.",
+        "Most libraries have no seats; for study rooms leave `kind` at its default (\"room\").",
+    ),
+    "equipment_categories": (
+        "`get_equipment_categories` — kinds of equipment at a location (or all public)",
+        "`find_equipment` with just `library` (or nothing) — kinds of equipment at a library (or all public)",
+    ),
+    "equipment_list": (
+        "`list_equipment_items` — list gear at a location; optional category / availability",
+        "`find_equipment` with `library` + `category` — the gear in that category at that library; optional "
+        "`availability` (\"today\", \"tomorrow\" or YYYY-MM-DD) / `only_available`",
+    ),
+    "equipment_one": (
+        "`get_equipment_category` / `get_equipment_item`",
+        "`find_equipment` with just `category` / `get_equipment`",
+    ),
+    "events_list": (
+        "`list_events` — upcoming events",
+        "`find_events` with no `query` — upcoming events",
+    ),
+    "events_search": (
+        "`search_events` — keyword search",
+        "`find_events` with `query` — keyword search",
+    ),
+    "events_calendars": (
+        "`list_event_calendars` — public calendar names and calids only",
+        "every `find_events` result ends with the calendar names; pass one as `calendar`",
+    ),
+    "accessible_walk": (
+        "`get_walking_directions(..., accessible=true)` **only** — do **not** also call "
+        "`get_accessible_routes_map` (that PDF legend causes vague “marked ADA path” replies)",
+        "`get_directions(..., accessible=\"true\")` — it adds the accessible-routes map after the steps; answer "
+        "from the steps, not the map's legend (that PDF legend causes vague “marked ADA path” replies)",
+    ),
+    "accessible_map": (
+        "`get_accessible_routes_map`",
+        "`get_directions(..., accessible=\"true\")` and share the accessible-routes map at the end of its result",
+    ),
+    "bus_routes": (
+        "`get_bus_locations` — where buses are now and how crowded; `list_bus_routes` / `get_bus_route` — "
+        "what's running and a route's stops",
+        "`get_bus_routes` — what's running (`running_only=true` for only the routes running now), or with "
+        "`route` (e.g. \"Gold Line\"), that route's stops plus where its buses are now and how crowded",
+    ),
+    "catalog_tools": (
+        "search_catalog, search_by_field, get_item_details",
+        "search_catalog (`field` = keyword, title, author, subject, identifier, …), get_item_details",
+    ),
+    "site_suggestions": (
+        "search_virgo_item_suggestions, search_virgo_suggestions (authors)",
+        "get_suggestions (kind=\"items\" for related catalog items, kind=\"authors\" for authors)",
+    ),
+    "archives_tools": (
+        "search_archives, search_archives_semantic, get_archival_record",
+        "search_archives (`match` = \"words\" or \"meaning\"), get_archival_record",
+    ),
+    "archives_two_searches": (
+        "Two searches. search_archives matches words",
+        "Two kinds of search. search_archives (match=\"words\", the default) matches words",
+    ),
+    "archives_topic": (
+        "search_archives_semantic (and search_archives for any names)",
+        "search_archives with match=\"meaning\" (and a word search for any names)",
+    ),
+    "image_paging_args": ("`page`, `count` / `max_results`", "`page`, `count`"),
+    "catalog_check": ("`search_by_field` / `search_catalog`", "`search_catalog` (field=`title` or `author`)"),
+    "catalog_discovery": (
+        "Use `search_catalog` for broader discovery.",
+        "Use the default keyword search (no `field`) for broader discovery.",
+    ),
+}
+
+
+def prompt_phrase(key: str, v2: bool) -> str:
+    """A prompt phrase in the legacy or the v2 wording."""
+    return PHRASES[key][1 if v2 else 0]
+
+
+_PLACEHOLDER = re.compile(r"\{\{(tool|phrase):([a-z_]+)\}\}")
+_RENAMED_ARG = re.compile(r"(?<=`)(" + "|".join(RENAMED_ARGS) + r")(?=`)|\b(" + "|".join(RENAMED_ARGS) + r")(?==)")
+
+
+def render_prompt(template: str, v2: bool) -> str:
+    """Fill {{tool:<legacy leaf>}} and {{phrase:<key>}}; on v2 also rename legacy arguments (`location` -> `library`)."""
+    text = _PLACEHOLDER.sub(
+        lambda m: prompt_tool(m.group(2), v2) if m.group(1) == "tool" else prompt_phrase(m.group(2), v2), template)
+    if v2:
+        text = _RENAMED_ARG.sub(lambda m: RENAMED_ARGS[m.group(0)], text)
+    return text
