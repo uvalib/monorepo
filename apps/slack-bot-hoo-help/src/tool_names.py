@@ -273,6 +273,9 @@ PHRASES: Dict[str, Tuple[str, str]] = {
         "search_archives_semantic (and search_archives for any names)",
         "search_archives with match=\"meaning\" (and a word search for any names)",
     ),
+    "archives_both": ("call both", "run both kinds"),
+    "archives_meaning_search": ("Semantic search", "A meaning search"),
+    "archives_word_search": ("search_archives", 'search_archives (match="words")'),
     "image_paging_args": ("`page`, `count` / `max_results`", "`page`, `count`"),
     "catalog_check": ("`search_by_field` / `search_catalog`", "`search_catalog` (field=`title` or `author`)"),
     "catalog_discovery": (

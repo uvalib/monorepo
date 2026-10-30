@@ -338,6 +338,10 @@ def test_v2_prompt_argument_guidance():
     assert " location" not in text.split("**Reservable spaces**", 1)[1].split("**Walking directions**", 1)[0]
     assert 'match="meaning"' in text and 'period=' in text
     assert "running_only" in text
+    # live eval live-archives-nursing: v2 only ever ran the meaning search for institutional history
+    assert 'search_archives (match="words") before search_site' in text
+    assert "When a question has both a name and a topic, run both kinds." in text
+    assert "A meaning search always returns its closest matches" in text
     # no duplicated tool names in one list ("search_catalog, search_catalog")
     assert "search_catalog, search_catalog" not in text and "search_catalog` / `search_catalog" not in text
 
