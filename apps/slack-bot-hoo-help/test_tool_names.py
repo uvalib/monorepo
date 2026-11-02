@@ -33,6 +33,8 @@ def test_every_legacy_tool_mapped():
     assert V2["search_images"] == ("Catalog___search_catalog", {"source": "images"})
     assert V2["search_by_field"] == ("Catalog___search_catalog", {})
     assert V2["list_bus_routes"] == ("Transit___get_bus_routes", {})
+    assert V2["get_bus_locations"] == ("Transit___get_bus_routes", {"include_buses": True})
+    assert V2["get_accessible_routes_map"] == ("Library___get_directions", {"accessible": "true"})
     assert RENAMED_ARGS == {"location": "library"}
 
 
@@ -56,6 +58,18 @@ def test_legacy_leaf_routes():
     assert legacy_leaf("Library___find_events", {}) == "list_events"
     assert legacy_leaf("Transit___get_bus_routes", {"route": "Gold Line"}) == "get_bus_route"
     assert legacy_leaf("Transit___get_bus_routes", {}) == "list_bus_routes"
+    assert legacy_leaf("Transit___get_bus_routes", {"include_buses": True}) == "get_bus_locations"
+    assert legacy_leaf("Transit___get_bus_routes", {"include_buses": "true"}) == "get_bus_locations"
+    assert legacy_leaf("Transit___get_bus_routes", {"include_buses": False}) == "list_bus_routes"
+    assert legacy_leaf("Transit___get_bus_routes", {"route": "Gold Line", "include_buses": True}) == "get_bus_route"
+    assert legacy_leaf("Library___get_directions", {"accessible": "true"}) == "get_accessible_routes_map"
+    assert legacy_leaf("Library___get_directions", {"accessible": "true", "from_place": " ", "to_place": ""}) == \
+        "get_accessible_routes_map"
+    assert legacy_leaf("Library___get_directions", {"from_place": "Clemons", "to_place": "Rotunda"}) == \
+        "get_walking_directions"
+    assert legacy_leaf("Library___get_directions", {"from_place": "Clemons", "accessible": "true"}) == \
+        "get_walking_directions"
+    assert legacy_leaf("Library___get_directions", {}) == "get_walking_directions"
     assert legacy_leaf("Collections___search_archives", {"match": "meaning"}) == "search_archives_semantic"
     assert legacy_leaf("Collections___search_archives", {}) == "search_archives"
     assert legacy_leaf("Site___get_suggestions", {}) == "search_virgo_item_suggestions"
@@ -68,7 +82,7 @@ def test_legacy_leaf_routes():
     assert legacy_leaf("") == ""
 
 
-ROUTED_V2 = {"get_traffic", "search_catalog", "find_events", "get_bus_routes", "search_archives", "get_suggestions",
+ROUTED_V2 = {"get_directions", "get_traffic", "search_catalog", "find_events", "get_bus_routes", "search_archives", "get_suggestions",
              "search_site", "find_spaces", "get_space", "find_equipment"}
 
 # arguments (beyond the fixed ones) that make a call route to each legacy leaf, as the server routes it
@@ -87,7 +101,7 @@ CALL_ARGS = {
     "get_equipment_category": {"category": "Laptops"},
     "list_equipment_items": {"category": "Laptops", "library": "Clemons"},
     "list_event_calendars": None,  # rides along with find_events
-    "get_bus_locations": None,  # rides along with get_bus_route
+    "get_walking_directions": {"from_place": "Clemons", "to_place": "Rotunda"},
 }
 RIDES_ALONG = {leaf for leaf, args in CALL_ARGS.items() if args is None}
 
@@ -100,7 +114,7 @@ def test_round_trip():
         v2_leaf = name.split("___")[-1]
         expected = leaf if v2_leaf in ROUTED_V2 else v2_leaf  # a routed v2 tool must give back this legacy leaf
         assert legacy_leaf(name, args) == expected, leaf
-    assert RIDES_ALONG == {"get_space_search_filters", "list_event_calendars", "get_bus_locations"}
+    assert RIDES_ALONG == {"get_space_search_filters", "list_event_calendars"}
 
 
 def test_is_v2_toolset_mixed_is_legacy():

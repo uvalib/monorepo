@@ -64,7 +64,7 @@ V2: Dict[str, Tuple[str, dict]] = {
     "get_next_buses": ("Transit___get_next_buses", {}),
     "list_bus_routes": ("Transit___get_bus_routes", {}),
     "get_bus_route": ("Transit___get_bus_routes", {}),
-    "get_bus_locations": ("Transit___get_bus_routes", {}),
+    "get_bus_locations": ("Transit___get_bus_routes", {"include_buses": True}),
 }
 
 # legacy argument -> v2 argument (Library tools only)
@@ -142,7 +142,13 @@ def legacy_leaf(tool_name: str, tool_input: Optional[dict] = None) -> str:
     if leaf == "find_events":
         return "search_events" if args.get("query") else "list_events"
     if leaf == "get_bus_routes":
-        return "get_bus_route" if str(args.get("route") or "").strip() else "list_bus_routes"
+        if str(args.get("route") or "").strip():
+            return "get_bus_route"
+        return "get_bus_locations" if str(args.get("include_buses")).strip().lower() == "true" else "list_bus_routes"
+    if leaf == "get_directions":
+        places = any(str(args.get(k) or "").strip() for k in ("from_place", "to_place"))
+        accessible = str(args.get("accessible")).strip().lower() == "true"
+        return "get_walking_directions" if places or not accessible else "get_accessible_routes_map"
     if leaf == "search_archives":
         return "search_archives_semantic" if args.get("match") == "meaning" else "search_archives"
     if leaf == "get_suggestions":
@@ -170,7 +176,8 @@ def prompt_tool(legacy: str, v2: bool) -> str:
     leaf = full.split("___")[-1]
     if not fixed:
         return leaf
-    return leaf + " (" + ", ".join(f'{k}="{v}"' for k, v in fixed.items()) + ")"
+    return leaf + " (" + ", ".join(
+        f"{k}={v}" if isinstance(v, bool) else f'{k}="{v}"' for k, v in fixed.items()) + ")"
 
 
 # Prompt phrases whose wording differs per toolset, where naming tools one by one would read
@@ -247,13 +254,16 @@ PHRASES: Dict[str, Tuple[str, str]] = {
     ),
     "accessible_map": (
         "`get_accessible_routes_map`",
-        "`get_directions(..., accessible=\"true\")` and share the accessible-routes map at the end of its result",
+        "`get_directions (accessible=\"true\")` with no places (leave `from_place` and `to_place` blank) — returns "
+        "the accessible-routes map alone; share it",
     ),
     "bus_routes": (
         "`get_bus_locations` — where buses are now and how crowded; `list_bus_routes` / `get_bus_route` — "
         "what's running and a route's stops",
         "`get_bus_routes` — what's running (`running_only=true` for only the routes running now), or with "
-        "`route` (e.g. \"Gold Line\"), that route's stops plus where its buses are now and how crowded",
+        "`route` (e.g. \"Gold Line\"), that route's stops plus where its buses are now and how crowded; for "
+        "“where are all the buses” call `get_bus_routes (include_buses=True)` with no `route` — every route plus "
+        "where every running bus is now",
     ),
     "catalog_tools": (
         "search_catalog, search_by_field, get_item_details",

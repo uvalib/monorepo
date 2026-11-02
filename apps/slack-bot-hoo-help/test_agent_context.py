@@ -338,6 +338,10 @@ def test_v2_prompt_argument_guidance():
     assert " location" not in text.split("**Reservable spaces**", 1)[1].split("**Walking directions**", 1)[0]
     assert 'match="meaning"' in text and 'period=' in text
     assert "running_only" in text
+    # F3: restored guidance for "where are all the buses" and "send me the ADA map"
+    assert "get_bus_routes (include_buses=True)" in text and "no `route`" in text
+    assert 'get_directions (accessible="true")' in text and "with no places" in text
+    assert "get_bus_locations" not in text and "get_accessible_routes_map" not in text
     # live eval live-archives-nursing: v2 only ever ran the meaning search for institutional history
     assert 'search_archives (match="words") before search_site' in text
     assert "When a question has both a name and a topic, run both kinds." in text
@@ -359,6 +363,7 @@ def test_prompt_tool():
     assert prompt_tool("get_foot_traffic", True) == 'get_traffic (kind="foot")'
     assert prompt_tool("search_by_field", True) == "search_catalog"
     assert prompt_tool("get_accessible_routes_map", True) == 'get_directions (accessible="true")'
+    assert prompt_tool("get_bus_locations", True) == "get_bus_routes (include_buses=True)"
 
 
 def test_render_prompt_renames_legacy_arguments_on_v2():
@@ -383,6 +388,23 @@ def test_process_message_renders_prompt_for_the_offered_gateway():
     agent = make_agent()
     agent.process_message("thanks!")
     assert "get_foot_traffic" in agent.bedrock_runtime.requests[0]["system"][0]["text"]
+
+
+def test_search_tool_never_sent_to_bedrock():
+    from gateway_mcp_client import GatewayMCPClient
+
+    agent = make_agent()
+    client = GatewayMCPClient("https://gw/mcp")
+    client.list_tools = lambda force_refresh=False: [
+        {"name": n, "description": "d", "inputSchema": {"type": "object", "properties": {}}}
+        for n in ("Library___get_traffic", "x_amz_bedrock_agentcore_search", "Site___search_site")]
+    agent.gateway_client = client
+    agent.process_message("thanks!")
+    req = agent.bedrock_runtime.requests[0]
+    names = [t["toolSpec"]["name"] for t in req["toolConfig"]["tools"]]
+    assert "Library___get_traffic" in names and "Site___search_site" in names
+    assert "x_amz_bedrock_agentcore_search" not in names
+    assert 'get_traffic (kind="foot")' in req["system"][0]["text"]  # still rendered as the v2 toolset
 
 
 def test_force_tools_nudge_per_toolset():

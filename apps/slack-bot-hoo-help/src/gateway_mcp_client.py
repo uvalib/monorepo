@@ -25,6 +25,9 @@ DEFAULT_GATEWAY_URL = (
 TOOL_CALL_TIMEOUT_SEC = float(os.environ.get("GATEWAY_TOOL_TIMEOUT_SEC", "60"))
 
 
+SEARCH_TOOL = "x_amz_bedrock_agentcore_search"
+
+
 class GatewayMCPClient:
 
     def __init__(self, gateway_url: str = DEFAULT_GATEWAY_URL):
@@ -34,6 +37,9 @@ class GatewayMCPClient:
         # Gateway tool schemas can change (e.g. pagination fields). Don't pin
         # a Lambda container to a stale tools/list for the whole warm lifetime.
         self._tools_cache_ttl_s = 120.0
+        # A failed tools/list is remembered too, or every turn waits out the 15 s timeout while the gateway is down.
+        self._failure_ttl_s = 30.0
+        self._failed_at: Optional[float] = None
 
     def list_tools(self, force_refresh: bool = False) -> List[Dict[str, Any]]:
         """Fetch list of tools exposed on the AgentCore Gateway."""
@@ -44,6 +50,12 @@ class GatewayMCPClient:
         )
         if cache_fresh and not force_refresh:
             return self._tools_cache
+        if (
+            not force_refresh
+            and self._failed_at is not None
+            and (now - self._failed_at) < self._failure_ttl_s
+        ):
+            return self._tools_cache or []
 
         payload = {
             "jsonrpc": "2.0",
@@ -73,10 +85,12 @@ class GatewayMCPClient:
                     break
             self._tools_cache = tools
             self._tools_cache_at = time.monotonic()
+            self._failed_at = None
             logger.info("Loaded %s tools from AgentCore Gateway (%s)", len(tools), self.gateway_url)
             return tools
         except Exception as e:
-            logger.error("Failed to fetch tools from Gateway: %s", e)
+            self._failed_at = time.monotonic()
+            logger.error("Failed to fetch tools from Gateway (not retrying for %ss): %s", self._failure_ttl_s, e)
             return self._tools_cache or []
 
     def call_tool(self, name: str, arguments: Dict[str, Any]) -> str:
@@ -131,6 +145,8 @@ class GatewayMCPClient:
 
         for t in mcp_tools:
             raw_name = t.get("name", "")
+            if raw_name == SEARCH_TOOL:
+                continue  # shared with every public client (~25 calls/min); never offered to the model
             # Bedrock tool name: ^[a-zA-Z0-9_-]{1,64}$
             sanitized_name = raw_name.replace(":", "_")[:64]
             desc = t.get("description", "").strip() or f"Execute tool {sanitized_name}"
