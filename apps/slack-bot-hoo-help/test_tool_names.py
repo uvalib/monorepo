@@ -189,6 +189,16 @@ def test_find_spaces_equipment_and_space_routes():
     assert legacy_leaf("Library___find_equipment", {}) == "get_equipment_categories"
     assert legacy_leaf("Library___find_equipment", {"category": "c"}) == "get_equipment_category"
     assert legacy_leaf("Library___find_equipment", {"category": "c", "library": "l"}) == "list_equipment_items"
+    # library + availability (or only_available) lists items even without a category
+    assert legacy_leaf("Library___find_equipment", {"library": "RMC", "availability": "today"}) == "list_equipment_items"
+    assert legacy_leaf("Library___find_equipment", {"library": "RMC", "availability": "none"}) == "get_equipment_categories"
+    assert legacy_leaf("Library___find_equipment", {"library": "RMC", "only_available": "True"}) == "list_equipment_items"
+    assert legacy_leaf("Library___find_equipment", {"library": "RMC", "only_available": "false"}) == "get_equipment_categories"
+    assert legacy_leaf("Library___find_equipment", {"availability": "today"}) == "get_equipment_categories"
+    assert legacy_leaf("Library___find_equipment", {"category": "c", "availability": "today"}) == "get_equipment_category"
+    assert legacy_leaf("Library___find_spaces", {"library": "S", "only_available": "true"}) == "list_space_items"
+    assert legacy_leaf("Library___find_spaces", {"library": "S", "only_available": "false"}) == "get_space_categories"
+    assert legacy_leaf("Library___find_spaces", {"only_available": "true"}) == "get_space_categories"
 
 
 def test_is_catalog_tool():
