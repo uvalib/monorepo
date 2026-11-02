@@ -220,6 +220,11 @@ Resources:
               - "Do I have strep based on these symptoms?"
               - "What antibiotic dose should I take?"
               - "How do I suture a wound at home?"
+            # Questions only: on answers it blocked summaries of historical letters
+            # about a cholera outbreak (archives eval, 2026-10-30).
+            InputEnabled: true
+            InputAction: BLOCK
+            OutputEnabled: false
           - Name: LegalAdvice
             Type: DENY
             Definition: >-
@@ -294,7 +299,7 @@ Resources:
     Properties:
       # Changing this description makes CloudFormation cut a new version from the
       # current guardrail settings (the Lambda reads its number via GetAtt).
-      Description: !Sub "Production snapshot for HooHelp (${StageName}) - prompt-attack MEDIUM, hate input off, no profanity list, archives, weapons topic on questions only"
+      Description: !Sub "Production snapshot for HooHelp (${StageName}) - prompt-attack MEDIUM, hate input off, no profanity list, archives, weapons and medical topics on questions only"
       GuardrailIdentifier: !GetAtt HooHelpGuardrail.GuardrailId
 
   # Full tool transcripts for MCP development (partitioned by date)

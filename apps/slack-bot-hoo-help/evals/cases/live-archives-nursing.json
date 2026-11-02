@@ -7,7 +7,8 @@
   "expect": {},
   "live": {
     "tools_any": [
-      "search_archives"
+      "search_archives",
+      "search_archives_semantic"
     ],
     "max_seconds": 60
   }
