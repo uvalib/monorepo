@@ -41,19 +41,34 @@ def net(monkeypatch):
     return n
 
 
-def test_failure_cached_30s_then_retried(net, caplog):
+def test_cold_failure_cached_10s_then_retried(net, caplog):
+    # No good list yet (fresh container): a blip shouldn't leave every turn without tools for long.
     c = GatewayMCPClient("https://gw/mcp")
     with caplog.at_level(logging.ERROR):
         assert c.list_tools() == []
         assert net.calls == 1
-        net.clock["t"] += 29
+        net.clock["t"] += 9
         assert c.list_tools() == [] and net.calls == 1  # within the window: no request
-        assert c.list_tools(force_refresh=False) == [] and net.calls == 1
     assert len([r for r in caplog.records if r.levelno >= logging.ERROR]) == 1  # logged once per window
-    net.clock["t"] += 2  # 31 s after the failure
+    net.clock["t"] += 2  # 11 s after the failure
     assert c.list_tools() == [] and net.calls == 2  # retried (and failed again)
     net.clock["t"] += 5
     assert c.list_tools() == [] and net.calls == 2
+
+
+def test_warm_failure_cached_30s(net):
+    # With a good list in hand, serve it for 30 s rather than retrying every turn.
+    c = GatewayMCPClient("https://gw/mcp")
+    net.fail = False
+    c.list_tools()
+    net.fail = True
+    net.clock["t"] += 200  # success cache expired
+    assert [t["name"] for t in c.list_tools()] == ["Library___get_traffic"] and net.calls == 2
+    net.clock["t"] += 29
+    assert [t["name"] for t in c.list_tools()] == ["Library___get_traffic"] and net.calls == 2
+    net.clock["t"] += 2
+    c.list_tools()
+    assert net.calls == 3
 
 
 def test_success_clears_failure(net):

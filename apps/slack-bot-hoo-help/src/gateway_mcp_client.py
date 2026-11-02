@@ -38,7 +38,9 @@ class GatewayMCPClient:
         # a Lambda container to a stale tools/list for the whole warm lifetime.
         self._tools_cache_ttl_s = 120.0
         # A failed tools/list is remembered too, or every turn waits out the 15 s timeout while the gateway is down.
-        self._failure_ttl_s = 30.0
+        # Shorter when there is no good list to fall back on, so a blip on a fresh container clears quickly.
+        self._failure_ttl_s = 30
+        self._cold_failure_ttl_s = 10
         self._failed_at: Optional[float] = None
 
     def list_tools(self, force_refresh: bool = False) -> List[Dict[str, Any]]:
@@ -53,7 +55,7 @@ class GatewayMCPClient:
         if (
             not force_refresh
             and self._failed_at is not None
-            and (now - self._failed_at) < self._failure_ttl_s
+            and (now - self._failed_at) < self._failure_window()
         ):
             return self._tools_cache or []
 
@@ -90,8 +92,11 @@ class GatewayMCPClient:
             return tools
         except Exception as e:
             self._failed_at = time.monotonic()
-            logger.error("Failed to fetch tools from Gateway (not retrying for %ss): %s", self._failure_ttl_s, e)
+            logger.error("Failed to fetch tools from Gateway (not retrying for %ss): %s", self._failure_window(), e)
             return self._tools_cache or []
+
+    def _failure_window(self) -> int:
+        return self._failure_ttl_s if self._tools_cache else self._cold_failure_ttl_s
 
     def call_tool(self, name: str, arguments: Dict[str, Any]) -> str:
         """Invoke a tool on the AgentCore Gateway via tools/call."""
