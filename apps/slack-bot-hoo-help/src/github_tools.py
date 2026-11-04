@@ -16,6 +16,7 @@ tokens never appear in logs or tool output.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import logging
 import os
@@ -37,6 +38,58 @@ ALLOWED_TOOLS = frozenset({
     "list_pull_requests", "list_releases", "list_tags", "pull_request_read", "search_code", "search_commits",
     "search_issues", "search_pull_requests", "search_repositories",
 })
+# What the model reads about each tool: ours, fixed. GitHub's server-supplied descriptions are not
+# used (a changed or poisoned one could steer the model); see _check_server_descriptions.
+PINNED_DESCRIPTIONS: Dict[str, str] = {
+    "get_commit": "Get one commit in a uvalib repository by SHA, branch or tag: its message, author, date "
+                  "and changed files.",
+    "get_file_contents": "Read a file, or list a directory, in a uvalib repository at an optional branch, tag "
+                         "or SHA. Long files come in pages: pass startLine and endLine to read more.",
+    "get_label": "Get one label of a uvalib repository by name, with its color and description.",
+    "get_latest_release": "Get the latest published release of a uvalib repository.",
+    "get_release_by_tag": "Get the release of a uvalib repository that has the given tag name.",
+    "get_tag": "Get one git tag in a uvalib repository, with the commit it points to.",
+    "issue_read": "Read one issue in a uvalib repository by its number. The method argument picks what comes "
+                  "back: the issue itself, its comments, its sub-issues or its labels.",
+    "list_branches": "List the branches of a uvalib repository.",
+    "list_commits": "List the commits on a branch of a uvalib repository, newest first, with author and message.",
+    "list_issue_fields": "List the custom issue fields defined for the uvalib organization or one of its "
+                         "repositories.",
+    "list_issue_types": "List the issue types defined for the uvalib organization.",
+    "list_issues": "List the issues in a uvalib repository, filtered by state, labels or date. Use the cursor "
+                   "in the reply to get the next page.",
+    "list_pull_requests": "List the pull requests in a uvalib repository, filtered by state or branch. To find "
+                          "pull requests by author, use search_pull_requests.",
+    "list_releases": "List the releases of a uvalib repository, newest first.",
+    "list_tags": "List the git tags of a uvalib repository.",
+    "pull_request_read": "Read one pull request in a uvalib repository by its number. The method argument picks "
+                         "what comes back: details, diff, changed files, status checks, reviews or comments.",
+    "search_code": "Search code in uvalib repositories with GitHub code search syntax, for exact names, "
+                   "functions or text. Results list matching files with links.",
+    "search_commits": "Search commits in uvalib repositories by message, author or date with GitHub commit "
+                      "search syntax.",
+    "search_issues": "Search the issues of one uvalib repository, named with repo:uvalib/<name> or the owner "
+                     "and repo arguments. For issues across all uvalib repos, use search_pull_requests with "
+                     "is:issue in the query.",
+    "search_pull_requests": "Search pull requests in uvalib repositories with GitHub issue search syntax. Add "
+                            "is:issue to the query to search issues across all uvalib repos instead.",
+    "search_repositories": "Find uvalib repositories by name, description or topic. Search with one or two "
+                           "short keywords.",
+}
+
+# sha256 of GitHub's own description for each allowed tool when it was last reviewed. A description that
+# differs (or a tool with none recorded) is logged once per container, by hash only, so a change is
+# noticed; paste the logged hashes here after reviewing GitHub's new text.
+SERVER_DESCRIPTION_SHA256: Dict[str, str] = {}
+
+# Input schemas still come from the server (the model needs them for correct calls), cut down to these
+# keys, with descriptions (and string defaults) cut to MAX_SCHEMA_TEXT characters.
+SCHEMA_KEYS = frozenset({"type", "properties", "required", "items", "enum", "description", "minimum",
+                         "maximum", "default"})
+MAX_SCHEMA_TEXT = 300
+MAX_SCHEMA_DEPTH = 6
+_PROP_NAME = re.compile(r"^[A-Za-z0-9_.-]{1,64}$")
+
 SEARCH_TOOLS = frozenset({"search_code", "search_commits", "search_issues", "search_pull_requests",
                           "search_repositories"})
 
@@ -530,6 +583,63 @@ def render_result(result: Dict[str, Any], *, tool: str, args: Dict[str, Any],
 
 # ---- tool set ----------------------------------------------------------------
 
+def _scalar(value: Any) -> bool:
+    return value is None or isinstance(value, (str, int, float, bool))
+
+
+def _clean_schema(node: Any, depth: int = 0) -> Dict[str, Any]:
+    """A server input schema with only SCHEMA_KEYS, text cut to MAX_SCHEMA_TEXT (a poisoned description can
+    hide in a property)."""
+    if not isinstance(node, dict) or depth > MAX_SCHEMA_DEPTH:
+        return {}
+    out: Dict[str, Any] = {}
+    for key, value in node.items():
+        if key not in SCHEMA_KEYS:
+            continue
+        if key == "properties" and isinstance(value, dict):
+            out[key] = {name: _clean_schema(prop, depth + 1) for name, prop in value.items()
+                        if isinstance(name, str) and _PROP_NAME.match(name) and isinstance(prop, dict)}
+        elif key == "items" and isinstance(value, dict):
+            out[key] = _clean_schema(value, depth + 1)
+        elif key == "description" and isinstance(value, str):
+            out[key] = redact(value)[:MAX_SCHEMA_TEXT]
+        elif key == "required" and isinstance(value, list):
+            out[key] = [v for v in value if isinstance(v, str) and _PROP_NAME.match(v)]
+        elif key == "enum" and isinstance(value, list):
+            out[key] = [v[:MAX_SCHEMA_TEXT] if isinstance(v, str) else v for v in value if _scalar(v)]
+        elif key == "type" and (isinstance(value, str)
+                                or (isinstance(value, list) and all(isinstance(v, str) for v in value))):
+            out[key] = value
+        elif key in ("minimum", "maximum") and isinstance(value, (int, float)) and not isinstance(value, bool):
+            out[key] = value
+        elif key == "default" and _scalar(value):
+            out[key] = value[:MAX_SCHEMA_TEXT] if isinstance(value, str) else value
+    return out
+
+
+_DESCRIPTIONS_CHECKED = False
+
+
+def _check_server_descriptions(tools: List[Any]) -> None:
+    """Once per container: log (INFO, hashes only, never the text) allowed tools whose GitHub description
+    differs from SERVER_DESCRIPTION_SHA256."""
+    global _DESCRIPTIONS_CHECKED
+    if _DESCRIPTIONS_CHECKED:
+        return
+    _DESCRIPTIONS_CHECKED = True
+    changed = []
+    for t in tools or []:
+        name = t.get("name") if isinstance(t, dict) else None
+        if name not in ALLOWED_TOOLS:
+            continue
+        digest = hashlib.sha256(str(t.get("description") or "").encode("utf-8")).hexdigest()
+        if SERVER_DESCRIPTION_SHA256.get(name) != digest:
+            changed.append(f"{name}={digest[:12]}")
+    if changed:
+        logger.info("github tool descriptions differ from the reviewed hashes (pinned ones are used): %s",
+                    " ".join(sorted(changed)))
+
+
 class GitHubTools:
     def __init__(self, client):
         self.client = client
@@ -542,19 +652,20 @@ class GitHubTools:
         except BaseException as e:  # noqa: BLE001 — GitHub down (or a pyo3 panic): no GitHub tools, never a crash
             logger.warning("github tools/list failed: %s", type(e).__name__)
             return []
+        _check_server_descriptions(tools)
         specs = []
         for t in tools or []:
             name = t.get("name") if isinstance(t, dict) else None
             if name not in ALLOWED_TOOLS:
                 continue
-            schema = t.get("inputSchema")
-            schema = dict(schema) if isinstance(schema, dict) else {"type": "object", "properties": {}}
+            schema = _clean_schema(t.get("inputSchema"))
+            schema.setdefault("type", "object")
+            schema.setdefault("properties", {})
             if name == "get_file_contents":
-                props = schema.get("properties")
-                schema["properties"] = {**(props if isinstance(props, dict) else {}), **LINE_RANGE_PROPS}
+                schema["properties"] = {**schema["properties"], **LINE_RANGE_PROPS}
             specs.append({"toolSpec": {
                 "name": TOOL_PREFIX + name,
-                "description": redact(str(t.get("description") or name)) + DESCRIPTION_SUFFIX,
+                "description": PINNED_DESCRIPTIONS[name] + DESCRIPTION_SUFFIX,
                 "inputSchema": {"json": schema},
             }})
         return specs
@@ -599,8 +710,8 @@ _WARNED = False
 
 def _reset_cache() -> None:
     """Tests only."""
-    global _INSTANCE, _FAILED_AT, _WARNED
-    _INSTANCE, _FAILED_AT, _WARNED = None, 0.0, False
+    global _INSTANCE, _FAILED_AT, _WARNED, _DESCRIPTIONS_CHECKED
+    _INSTANCE, _FAILED_AT, _WARNED, _DESCRIPTIONS_CHECKED = None, 0.0, False, False
 
 
 def _boto3_ssm_get(name: str, decrypt: bool) -> str:

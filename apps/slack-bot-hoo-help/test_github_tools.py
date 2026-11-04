@@ -87,7 +87,7 @@ def test_only_allowed_tools_exposed_with_prefix_and_suffix():
     for s in specs:
         spec = s["toolSpec"]
         base = spec["name"][len(TOOL_PREFIX):]
-        assert spec["description"] == f"GitHub's {base}." + SUFFIX
+        assert spec["description"] == github_tools.PINNED_DESCRIPTIONS[base] + SUFFIX  # ours, not GitHub's
         assert spec["inputSchema"]["json"]["properties"]["owner"] == {"type": "string"}
     assert TOOL_PREFIX == "GitHub___"
     assert tools.handles("GitHub___search_code")
@@ -622,12 +622,12 @@ def test_redaction_linear_on_key_like_runs():
     assert time.time() - t0 < 1
 
 
-def test_descriptions_redacted():
+def test_server_descriptions_never_reach_the_model():  # was: redacted; now pinned descriptions replace them
     tool = _tool("search_code")
     tool["description"] = "Search code. token: ghp_" + "Q" * 30
     tools, _ = _gh(tools=[tool])
     desc = tools.tool_specs()[0]["toolSpec"]["description"]
-    assert "ghp_" not in desc and REDACTED in desc
+    assert "ghp_" not in desc and desc == github_tools.PINNED_DESCRIPTIONS["search_code"] + SUFFIX
 
 
 # ---- factory ---------------------------------------------------------------
