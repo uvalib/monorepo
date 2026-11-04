@@ -95,11 +95,41 @@ _WRAP_UP_NUDGE = (
 )
 
 
-def _needs_tools(user_message: str) -> bool:
+# A short message that starts like these, or is just a few words, gets its topic from the
+# thread ("Previous month?", "How about the Science Library?", "same for Clemons", "Shannon?").
+_FOLLOW_UP_MAX_WORDS = 10
+_FOLLOW_UP_BARE_WORDS = 3
+_FOLLOW_UP_RE = re.compile(
+    r"^\W*(and|or|also|plus|then|how about|what about|same|previous|prior|next|last|this|that|"
+    r"for|in|at|on|instead)\b",
+    re.I,
+)
+
+
+def _is_follow_up(user_message: str, words: List[str]) -> bool:
+    if not words or len(words) > _FOLLOW_UP_MAX_WORDS:
+        return False
+    return len(words) <= _FOLLOW_UP_BARE_WORDS or bool(_FOLLOW_UP_RE.search(user_message or ""))
+
+
+def _last_user_question(history: Optional[List[Dict[str, Any]]]) -> Tuple[str, List[Dict[str, Any]]]:
+    """The latest user turn's text in the thread history (tool results skipped), and the turns before it."""
+    history = history or []
+    for i in range(len(history) - 1, -1, -1):
+        msg = history[i]
+        if msg.get("role") != "user":
+            continue
+        text = " ".join(b["text"] for b in msg.get("content") or [] if isinstance(b, dict) and b.get("text"))
+        if text.strip():
+            return text, history[:i]
+    return "", []
+
+
+def _needs_tools(user_message: str, history: Optional[List[Dict[str, Any]]] = None) -> bool:
     """Must this turn call a tool before answering? (keyword check on the message)
 
-    Topic-free thread follow-ups ("Previous month?") are left to the model:
-    production MiniMax calls tools for them on its own (see evals).
+    A short thread follow-up inherits the need from the previous question: MiniMax
+    answered "Previous month?" from the thread with invented counts about 1 time in 6.
     """
     words = re.findall(r"[a-z']+", (user_message or "").lower())
     if words and all(w in _ACK_WORDS for w in words):
@@ -112,7 +142,16 @@ def _needs_tools(user_message: str) -> bool:
     # isn't (no @mention token), forcing "any tool" sends the model into unrelated lookups.
     if "slack" in words:
         return False
-    return bool(_FACTUAL_QUERY_RE.search(user_message or ""))
+    if _FACTUAL_QUERY_RE.search(user_message or ""):
+        return True
+    if not _is_follow_up(user_message, words):
+        return False
+    # The previous question may itself be a follow-up ("How about the Science Library?"),
+    # so it's judged against the turns before it, back to the question that started the thread.
+    previous, earlier = _last_user_question(history)
+    return bool(previous) and _needs_tools(previous, earlier)
+
+
 # Keep this bland: a stern "call tools now / that is not allowed" user turn
 # is classified as PROMPT_ATTACK by the library Guardrail (HIGH on input).
 _FORCE_TOOLS_NUDGE_TEMPLATE = (
@@ -610,6 +649,8 @@ class HooHelpAgent:
         )
         self.last_trace = trace
 
+        # Decided before the loop: `history` becomes the running message list below.
+        needs_lookup = _needs_tools(user_message, conversation_history)
         messages = history
         messages.append({"role": "user", "content": [{"text": user_message}]})
 
@@ -673,6 +714,9 @@ class HooHelpAgent:
                         force_tool_choice = False
                         continue
                     raise
+                # One forced request only: left on, every later request also demands a tool,
+                # so the model can never answer and loops to the step limit.
+                force_tool_choice = False
                 log_guardrail_trace(response, context="agent")
                 output_message = response.get("output", {}).get("message") or {
                     "role": "assistant",
@@ -711,7 +755,7 @@ class HooHelpAgent:
                     if (
                         not trace.steps
                         and not forced_tools
-                        and _needs_tools(user_message)
+                        and needs_lookup
                         and iteration < max_iterations
                     ):
                         logger.warning(

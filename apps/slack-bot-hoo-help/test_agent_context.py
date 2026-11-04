@@ -439,6 +439,51 @@ def test_process_message_forced_retry_names_v2_tools():
     assert not any("search_virgo_image_suggestions" in t for t in sent)
 
 
+def test_process_message_forces_a_lookup_for_a_thread_follow_up():
+    # 2026-11-03: "Previous month?" after a gate-count answer was answered from the thread
+    # with invented counts; the forced retry now covers short follow-ups to factual questions.
+    def nudges(history):
+        agent = make_agent()
+        agent.process_message("Previous month?", conversation_history=history)
+        sent = [b.get("text", "") for r in agent.bedrock_runtime.requests for m in r["messages"]
+                for b in m["content"] if isinstance(b, dict)]
+        return [t for t in sent if t.startswith("Please look that up")]
+
+    gate = [{"role": "user", "content": [{"text": "gate count report for Music library last month"}]},
+            {"role": "assistant", "content": [{"text": "Music had 689 entries in June."}]}]
+    history = list(gate)
+    assert nudges(history)
+    assert history == gate  # the caller's history isn't modified
+    assert not nudges([])
+
+class SkipsToolsThenLooksUp:
+    """Answers without tools, calls a tool when forced, then answers."""
+
+    def __init__(self):
+        self.requests = []
+
+    def converse(self, **kwargs):
+        self.requests.append(kwargs)
+        n = len(self.requests)
+        if n == 2:
+            return {"output": {"message": {"role": "assistant", "content": [
+                {"toolUse": {"toolUseId": "t1", "name": "get_library_hours", "input": {"library": "Clemons"}}}]}},
+                "stopReason": "tool_use", "usage": {}}
+        return {"output": {"message": {"role": "assistant", "content": [{"text": "Clemons is open 7am-2am."}]}},
+                "stopReason": "end_turn", "usage": {}}
+
+
+def test_forced_tool_choice_applies_to_one_request_only():
+    # 2026-11-03: once forced, every later request also said "any tool", so the model could
+    # never answer and looped to the step limit (thread-previous-month, ~200 s).
+    agent = make_agent()
+    agent.bedrock_runtime = SkipsToolsThenLooksUp()
+    result = agent.process_message("What are Clemons hours today?")
+    choices = [(r.get("toolConfig") or {}).get("toolChoice") for r in agent.bedrock_runtime.requests]
+    assert choices == [None, {"any": {}}, None]
+    assert result.text == "Clemons is open 7am-2am."
+    assert result.trace.stop_reason == "end_turn"
+
 if __name__ == "__main__":
     test_system_prompt_archival_routing_from_staff_testing()
     test_trace_records_each_model_call()
