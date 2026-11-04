@@ -196,6 +196,10 @@ def test_system_prompt_handles_half_remembered_authors():  # model comparison: e
     from agent import SYSTEM_PROMPT
 
     assert "half-remember" in SYSTEM_PROMPT and "every author" in SYSTEM_PROMPT
+    # 2026-11-04: Virgo ranks Kawakami's "Heaven" #44 of 17,444 title hits, so it's off the first
+    # page; the model then guessed spellings of "Natsuoko" until it ran out of steps.
+    assert "don't guess spellings" in SYSTEM_PROMPT
+    assert '"Heaven novel"' in SYSTEM_PROMPT and "start=20" in SYSTEM_PROMPT
 
 
 def test_system_prompt_routes_archival_questions():
