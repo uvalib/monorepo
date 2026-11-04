@@ -83,7 +83,7 @@ def test_schemeless_domain_with_query_is_dropped(probed, token):
 
 
 def test_schemeless_tokens_that_are_allowed_or_harmless_stay(probed):
-    reply = "Email pat@virginia.edu, see www.library.virginia.edu/hours?day=1 or example.org/page. v1.2 is out."
+    reply = "Email pat@virginia.edu, see www.library.virginia.edu/hours?day=1 or example.org. v1.2 is out."
     text, _ = HooHelpAgent._sanitize_links(None, reply, _trace(("search_slack", {}, "nothing")))
     assert text == reply
 

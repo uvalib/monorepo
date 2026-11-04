@@ -30,6 +30,7 @@ from guardrails import (
 from link_check import (
     drop_untrusted_in_blocks,
     drop_untrusted_urls,
+    echo_filter,
     extract_urls,
     sanitize_response_links,
     url_allowlist,
@@ -525,19 +526,23 @@ def _link_sources(trace: Any) -> Tuple[List[str], List[str], set, List[str]]:
         if name.startswith("GitHub___"):
             trusted.extend(u for u in extract_urls(str(out)) if u.startswith("https://github.com/uvalib/"))
             github_repos.update(r for r in (_uvalib_repo(u) for u in extract_urls(str(out))) if r)
-    echoed = url_keys(inputs)
-    trusted = [u for u in trusted if url_key(u) not in echoed]
+    excluded = echo_filter(inputs)
+    # uvalib GitHub links stay trusted (unprobed) even if a query named github.com: GitHub hosts them.
+    trusted = [u for u in trusted if not excluded(u) or _uvalib_repo(u)]
     return outputs, trusted, github_repos, inputs
 
 
 def reply_url_filter(trace: Any) -> Callable[[str], bool]:
-    """True for a URL the reply may carry: one in this turn's tool output but not in a tool's input, a
-    library host link, a link our prompt names, or a github.com/uvalib/<repo> link (any branch, file or
-    #L anchor) for a repo this turn's GitHub output names."""
+    """True for a URL the reply may carry: a library host link; a link our prompt names; one the person
+    pasted in this message (exact match; it may still be probed); one in this turn's tool output whose
+    host no tool input names (see link_check.echo_filter); or a github.com/uvalib/<repo> link (any
+    branch, file or #L anchor) for a repo this turn's GitHub output names."""
     outputs, trusted, github_repos, inputs = _link_sources(trace)
     prompt_ok = url_allowlist((), _PROMPT_URLS)
+    # Only the cleaned text of this event (trace.user_message), never thread history or snapshots.
+    user_keys = url_keys([getattr(trace, "user_message", "") or ""])
     from_tools = url_allowlist(outputs, trusted, exclude_texts=inputs)
-    base = lambda u: prompt_ok(u) or from_tools(u)  # noqa: E731
+    base = lambda u: prompt_ok(u) or url_key(u) in user_keys or from_tools(u)  # noqa: E731
     if not github_repos:
         return base
     return lambda u: base(u) or _uvalib_repo(u) in github_repos

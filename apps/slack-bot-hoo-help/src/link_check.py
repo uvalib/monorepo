@@ -162,24 +162,63 @@ def url_keys(texts: Iterable[str]) -> set:
     return keys
 
 
+# Domain names, Unicode labels included: "evil.com", "sub.evil.co.uk", "évil.com", "xn--e1afmkfd.xn--p1ai".
+_LABEL = r"[^\W_](?:[\w-]{0,61}[^\W_])?"
+_DOMAIN = _LABEL + r"(?:\." + _LABEL + r")*\.(?:[^\W\d_]{2,63}|xn--[a-z0-9-]{2,59})"
+_BARE_DOMAIN = re.compile(r"(?<![\w.-])(" + _DOMAIN + r")(?![\w-])", re.I)
+
+
+def input_hosts(texts: Iterable[str]) -> set:
+    """Every host named in texts, as a URL or a bare domain (lowercase)."""
+    hosts: set = set()
+    for t in texts or ():
+        if not t:
+            continue
+        t = str(t)
+        hosts.update(h for h in (url_host(u) for u in extract_urls(t)) if h)
+        hosts.update(m.group(1).lower().rstrip(".") for m in _BARE_DOMAIN.finditer(t))
+    return hosts
+
+
+def _host_related(host: str, hosts: Iterable[str]) -> bool:
+    return any(host == h or host.endswith("." + h) or h.endswith("." + host) for h in hosts)
+
+
+def echo_filter(input_texts: Iterable[str]) -> Callable[[str], bool]:
+    """True for a URL that tool output can't vouch for this turn: its host (or a parent / child of it)
+    is named in a tool input. Tools echo their query — quoted, escaped, lowercased or trimmed — so an
+    exact-URL match isn't enough: injected text could launder any URL on that host through a search.
+    Library hosts are never excluded."""
+    texts = list(input_texts or ())
+    keys = url_keys(texts)
+    hosts = {h for h in input_hosts(texts) if not is_library_url("https://" + h)}
+
+    def excluded(url: str) -> bool:
+        if is_library_url(url):
+            return False
+        return _url_key(url) in keys or (bool(hosts) and _host_related(url_host(url), hosts))
+
+    return excluded
+
+
 def url_allowlist(source_texts: Iterable[str], extra_urls: Iterable[str] = (),
                   exclude_texts: Iterable[str] = ()) -> Callable[[str], bool]:
     """A predicate: True for a URL that appears in source_texts (tool outputs) or extra_urls, or that
-    is on a library host. URLs found in exclude_texts (the tool inputs: a tool that echoes its query
-    would otherwise turn any URL the model wrote into "tool output") are not allowed from the sources."""
+    is on a library host. A URL whose host is named in exclude_texts (the tool inputs; see
+    ``echo_filter``) is not allowed from the sources."""
     keys = url_keys(source_texts)
     keys.update(_url_key(u) for u in extra_urls or ())
-    keys -= url_keys(exclude_texts)
     keys.discard("")
+    excluded = echo_filter(exclude_texts)
 
     def allowed(url: str) -> bool:
-        return is_library_url(url) or _url_key(url) in keys
+        return is_library_url(url) or (_url_key(url) in keys and not excluded(url))
 
     return allowed
 
 
 def _log_untrusted(url: str) -> None:
-    logger.warning("Link-check: dropped untrusted URL host=%s", url_host(url) or "?")
+    logger.warning("Link-check: dropped untrusted URL host=%s", (url_host(url) or "?")[:253])
 
 
 def drop_untrusted_urls(text: str, allowed: Callable[[str], bool]) -> Tuple[str, List[dict]]:
@@ -205,24 +244,35 @@ def drop_untrusted_urls(text: str, allowed: Callable[[str], bool]) -> Tuple[str,
     return _drop_schemeless(text, allowed, changes), changes
 
 
-# "evil.com/c?d=…" / "www.evil.example/?d=…": Slack may auto-link a domain with a path, and the query
-# can carry data. Such a token goes unless its host is allowed; one without a query string stays.
+# "evil.com/c?d=…", "evil.com/Q3-plan", "Evil.com/c#d=…": Slack may auto-link a domain followed by a
+# path, query or fragment, and any of them can carry data. Such a token goes unless the URL it names is
+# allowed. A bare domain ("example.org") stays, and so does a file-like name ("README.md#L3",
+# "Node.js/React") unless it has a query string.
 _SCHEMELESS = re.compile(
-    r"(?<![\w@/.:%-])((?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,63}(?::\d{1,5})?"
-    r"(?:/[^\s<>\[\]\"'|?]*)?\?[^\s<>\[\]\"'|]+)",
+    r"(?<![\w@/.:%-])(" + _DOMAIN + r"(?::\d{1,5})?[/?#][^\s<>\[\]\"'|]+)",
     re.I,
 )
+_FILE_TLDS = frozenset({
+    "js", "ts", "jsx", "tsx", "py", "md", "rb", "go", "rs", "sh", "pl", "php", "java", "kt", "cs", "json",
+    "yml", "yaml", "toml", "ini", "cfg", "xml", "html", "htm", "css", "scss", "txt", "csv", "tsv", "pdf",
+    "docx", "xlsx", "pptx", "png", "jpg", "jpeg", "gif", "svg", "log", "lock", "sql", "vue", "swift", "zip",
+})
 _FULL_URL = re.compile(r"https?://[^\s<>|]+", re.I)
 
 
 def _drop_schemeless(text: str, allowed: Callable[[str], bool], changes: List[dict]) -> str:
-    if "?" not in text:
+    if not any(c in text for c in "/?#"):
         return text
     masked = _FULL_URL.sub(lambda m: " " * len(m.group(0)), text)
     spans = []
     for m in _SCHEMELESS.finditer(masked):
         token = _normalize_url("https://" + m.group(1))[len("https://"):]
-        if token and not allowed("https://" + token):
+        if not token or len(token) == len(url_host("https://" + token)):
+            continue  # only trailing punctuation followed the domain
+        tld = url_host("https://" + token).rsplit(".", 1)[-1]
+        if tld in _FILE_TLDS and "?" not in token:
+            continue
+        if not allowed("https://" + token):
             spans.append((m.start(1), m.start(1) + len(token), token))
     for start, end, token in reversed(spans):
         text = text[:start] + text[end:]
