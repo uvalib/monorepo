@@ -222,6 +222,8 @@ def handle_user_query(
                 "occupancy, Virgo catalog searches, or library policies!"
             ),
             thread_ts=reply_thread_ts if force_thread else None,
+            unfurl_links=False,
+            unfurl_media=False,
         )
         return
 
@@ -378,6 +380,9 @@ def handle_user_query(
         "thread_ts": reply_thread_ts if force_thread else None,
         "text": fallback_text,
         "blocks": blocks,
+        # No link previews: a preview fetches the URL from Slack's servers (and shows its page).
+        "unfurl_links": False,
+        "unfurl_media": False,
     }
     posted = False
     try:
@@ -411,6 +416,8 @@ def handle_user_query(
                 say(
                     text=fallback_text,
                     thread_ts=reply_thread_ts if force_thread else None,
+                    unfurl_links=False,
+                    unfurl_media=False,
                 )
             except Exception as e2:
                 logger.error("Fallback Slack send also failed: %s", e2)
@@ -453,7 +460,8 @@ def handle_user_query(
 
 def _post_note(client, channel_id, thread_ts, text) -> None:
     try:
-        client.chat_postMessage(channel=channel_id, thread_ts=thread_ts, text=text)
+        client.chat_postMessage(channel=channel_id, thread_ts=thread_ts, text=text,
+                                unfurl_links=False, unfurl_media=False)
     except Exception:
         pass
 

@@ -16,7 +16,7 @@ import socket
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from typing import Any, Callable, Dict, Iterable, List, Optional, Sequence, Tuple
-from urllib.parse import parse_qs, urljoin, urlparse, urlsplit, urlunsplit
+from urllib.parse import parse_qs, quote, unquote, urljoin, urlparse, urlsplit, urlunsplit
 
 import requests
 
@@ -91,7 +91,7 @@ def _normalize_url(url: str) -> str:
         if u[-1] == ")" and u.count("(") >= u.count(")"):
             break
         u = u[:-1]
-    if not u.startswith(("http://", "https://")):
+    if not u.lower().startswith(("http://", "https://")):  # HTTPS://… is a link too; the text keeps its case
         return ""
     return u
 
@@ -102,6 +102,11 @@ def _normalize_url(url: str) -> str:
 # anything else is dropped before it is probed (a probe or a Slack unfurl would deliver the data).
 
 LIBRARY_DOMAIN = "virginia.edu"
+# Allowed without appearing in tool output: the University's front door, and the Library's own hosts
+# (library.virginia.edu, *.library.virginia.edu incl. proxy1, lib.virginia.edu, *.lib.virginia.edu).
+# Any other *.virginia.edu page (personal pages, other departments) must come from tool output.
+LIBRARY_EXACT_HOSTS = frozenset({"virginia.edu", "www.virginia.edu"})
+LIBRARY_HOST_SUFFIXES = ("library.virginia.edu", "lib.virginia.edu")
 
 
 def url_host(url: str) -> str:
@@ -113,7 +118,7 @@ def url_host(url: str) -> str:
 
 
 def is_library_url(url: str) -> bool:
-    """True for http(s) URLs on virginia.edu or a subdomain of it (dot boundary)."""
+    """True for http(s) URLs on a library host (LIBRARY_EXACT_HOSTS / LIBRARY_HOST_SUFFIXES, dot boundary)."""
     u = _normalize_url(url)
     if not u or "\\" in u:  # browsers read "\\" as "/": https://evil.com\\@virginia.edu goes to evil.com
         return False
@@ -124,12 +129,16 @@ def is_library_url(url: str) -> bool:
     if "@" in netloc:  # userinfo hides the real host from a quick read
         return False
     host = url_host(u)
-    return host == LIBRARY_DOMAIN or host.endswith("." + LIBRARY_DOMAIN)
+    return host in LIBRARY_EXACT_HOSTS or any(host == s or host.endswith("." + s) for s in LIBRARY_HOST_SUFFIXES)
+
+
+_PATH_SAFE = "/!$&'()*+,;=:@-._~"
 
 
 def _url_key(url: str) -> str:
-    """Comparison form: Slack/HTML entity-escaped, markdown-wrapped or case/trailing-slash variants of
-    one link compare equal; anything that changes the query or path does not."""
+    """Comparison form: Slack/HTML entity-escaped, markdown-wrapped, http/https, scheme/host case,
+    percent-encoding and trailing-slash variants of one link compare equal; a different path, query
+    or fragment does not."""
     u = html.unescape(_normalize_url(url))
     u = u.rstrip("*_~`>")
     u = _normalize_url(u)
@@ -139,14 +148,28 @@ def _url_key(url: str) -> str:
         p = urlsplit(u)
     except Exception:
         return u
-    return urlunsplit((p.scheme.lower(), p.netloc.lower(), p.path.rstrip("/"), p.query, p.fragment))
+    path = quote(unquote(p.path), safe=_PATH_SAFE).rstrip("/")
+    return urlunsplit(("https", p.netloc.lower(), path, p.query, p.fragment))
 
 
-def url_allowlist(source_texts: Iterable[str], extra_urls: Iterable[str] = ()) -> Callable[[str], bool]:
+url_key = _url_key
+
+
+def url_keys(texts: Iterable[str]) -> set:
+    """Comparison keys of every URL in texts."""
+    keys = {_url_key(u) for t in texts or () if t for u in extract_urls(str(t))}
+    keys.discard("")
+    return keys
+
+
+def url_allowlist(source_texts: Iterable[str], extra_urls: Iterable[str] = (),
+                  exclude_texts: Iterable[str] = ()) -> Callable[[str], bool]:
     """A predicate: True for a URL that appears in source_texts (tool outputs) or extra_urls, or that
-    is on a library host."""
-    keys = {_url_key(u) for t in source_texts or () if t for u in extract_urls(str(t))}
+    is on a library host. URLs found in exclude_texts (the tool inputs: a tool that echoes its query
+    would otherwise turn any URL the model wrote into "tool output") are not allowed from the sources."""
+    keys = url_keys(source_texts)
     keys.update(_url_key(u) for u in extra_urls or ())
+    keys -= url_keys(exclude_texts)
     keys.discard("")
 
     def allowed(url: str) -> bool:
@@ -162,12 +185,12 @@ def _log_untrusted(url: str) -> None:
 def drop_untrusted_urls(text: str, allowed: Callable[[str], bool]) -> Tuple[str, List[dict]]:
     """Remove every URL ``allowed`` rejects (link text kept). Never fetches anything."""
     changes: List[dict] = []
-    if not text or "http" not in text.lower():
+    if not text:
         return text, changes
     for _ in range(5):  # a removal can, in principle, join text into a new URL: repeat until clean
         bad = [u for u in extract_urls(text) if not allowed(u)]
         if not bad:
-            return text, changes
+            break
         for u in bad:
             text = _replace_url_in_text(text, u, None)
             if u in text:
@@ -175,10 +198,41 @@ def drop_untrusted_urls(text: str, allowed: Callable[[str], bool]) -> Tuple[str,
             if not any(c["url"] == u for c in changes):
                 changes.append({"url": u, "action": "removed", "reason": "untrusted", "replacement": None})
                 _log_untrusted(u)
-    # Still not clean: cut every remaining http(s) run that isn't allowed.
-    for u in [u for u in extract_urls(text) if not allowed(u)]:
-        text = text.replace(u, "")
-    return text, changes
+    else:
+        # Still not clean: cut every remaining http(s) run that isn't allowed.
+        for u in [u for u in extract_urls(text) if not allowed(u)]:
+            text = text.replace(u, "")
+    return _drop_schemeless(text, allowed, changes), changes
+
+
+# "evil.com/c?d=…" / "www.evil.example/?d=…": Slack may auto-link a domain with a path, and the query
+# can carry data. Such a token goes unless its host is allowed; one without a query string stays.
+_SCHEMELESS = re.compile(
+    r"(?<![\w@/.:%-])((?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,63}(?::\d{1,5})?"
+    r"(?:/[^\s<>\[\]\"'|?]*)?\?[^\s<>\[\]\"'|]+)",
+    re.I,
+)
+_FULL_URL = re.compile(r"https?://[^\s<>|]+", re.I)
+
+
+def _drop_schemeless(text: str, allowed: Callable[[str], bool], changes: List[dict]) -> str:
+    if "?" not in text:
+        return text
+    masked = _FULL_URL.sub(lambda m: " " * len(m.group(0)), text)
+    spans = []
+    for m in _SCHEMELESS.finditer(masked):
+        token = _normalize_url("https://" + m.group(1))[len("https://"):]
+        if token and not allowed("https://" + token):
+            spans.append((m.start(1), m.start(1) + len(token), token))
+    for start, end, token in reversed(spans):
+        text = text[:start] + text[end:]
+        if not any(c["url"] == token for c in changes):
+            changes.append({"url": token, "action": "removed", "reason": "untrusted", "replacement": None})
+            _log_untrusted("https://" + token)
+    if spans:
+        text = re.sub(r"[ \t]+([.,;:!?])", r"\1", text)
+        text = re.sub(r"[ \t]{2,}", " ", text)
+    return text
 
 
 def drop_untrusted_in_blocks(blocks: List[Dict[str, Any]], allowed: Callable[[str], bool]) -> List[Dict[str, Any]]:
@@ -192,17 +246,36 @@ def drop_untrusted_in_blocks(blocks: List[Dict[str, Any]], allowed: Callable[[st
                 return True
         return False
 
+    gone = object()  # a container emptied by the gate (Slack rejects an actions block with no elements)
+
     def walk(obj: Any) -> Any:
         if isinstance(obj, str):
-            return drop_untrusted_urls(obj, allowed)[0] if "http" in obj.lower() else obj
+            return drop_untrusted_urls(obj, allowed)[0] if ("http" in obj.lower() or "?" in obj) else obj
         if isinstance(obj, list):
-            return [walk(x) for x in obj if not (isinstance(x, dict) and bad_element(x))]
+            out_list = []
+            for x in obj:
+                if isinstance(x, dict) and bad_element(x):
+                    continue
+                y = walk(x)
+                if y is not gone:
+                    out_list.append(y)
+            return out_list
         if isinstance(obj, dict):
-            return {k: walk(v) for k, v in obj.items()}
+            out_dict = {}
+            for k, v in obj.items():
+                if isinstance(v, dict) and bad_element(v):  # e.g. a section's accessory button / image
+                    continue
+                y = walk(v)
+                if y is gone:
+                    continue
+                if k in ("elements", "fields") and isinstance(v, list) and v and not y:
+                    return gone
+                out_dict[k] = y
+            return out_dict
         return obj
 
-    out = walk(blocks or [])
-    return [b for b in out if not (isinstance(b, dict) and bad_element(b))]
+    out = walk(list(blocks or []))
+    return out if isinstance(out, list) else []
 
 
 # ---- the checker refuses private addresses -------------------------------------
@@ -536,18 +609,21 @@ def sanitize_response_links(
 
     Returns (new_text, list of change records for logging/traces).
     """
-    if not text or "http" not in text.lower():
+    if not text:
         return text, []
 
     # Trusted URLs are data the reply reproduces (e.g. links people shared in Slack):
     # never probe them (intranet hosts, one-time links) or swap them for another.
     trusted = set(trusted_urls or ())
     changes: List[dict] = []
+
     def may_use(u: str) -> bool:
         return allowed is None or u in trusted or allowed(u)
 
     if allowed is not None:
         text, changes = drop_untrusted_urls(text, may_use)
+    if "http" not in text.lower():
+        return text, changes
 
     pool_parts = [text]
     if candidate_texts:

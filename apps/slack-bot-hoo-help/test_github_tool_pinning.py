@@ -112,7 +112,8 @@ def test_changed_server_description_logged_once_by_hash_only(monkeypatch, caplog
     lines = [r for r in caplog.records if "description" in r.getMessage()]
     assert len(lines) == 1 and lines[0].levelno == logging.INFO
     msg = lines[0].getMessage()
-    assert "search_code" in msg and _sha(POISON)[:12] in msg
+    assert "search_code=" + _sha(POISON) in msg  # the full hash, ready to paste
+    assert "1 of 2" in msg or "1 allowed" in msg
     assert "list_tags" not in msg  # unchanged
     assert "IGNORE" not in msg and "evil.example" not in msg
 

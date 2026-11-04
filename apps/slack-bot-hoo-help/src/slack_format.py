@@ -50,6 +50,8 @@ _THINKING_PATTERNS = [
     re.compile(r"<reasoning\b[^>]*>(.*?)</reasoning\s*>", re.IGNORECASE | re.DOTALL),
     re.compile(r"<reflection\b[^>]*>(.*?)</reflection\s*>", re.IGNORECASE | re.DOTALL),
 ]
+# Our <untrusted source="..."> tool-result wrapper (or its defused ‹ form) echoed into a reply.
+_UNTRUSTED_TAG = re.compile(r"[<‹]\s*/?\s*untrusted\b[^>]*>", re.IGNORECASE)
 _ORPHAN_OPEN = re.compile(
     r"<(thinking|think|reasoning|reflection)\b[^>]*>.*$",
     re.IGNORECASE | re.DOTALL,
@@ -279,6 +281,7 @@ def extract_thinking(text: str) -> Tuple[str, str]:
                 thinking_parts.append(snippet)
         clean = pattern.sub("", clean)
     clean = _ORPHAN_OPEN.sub("", clean)
+    clean = _UNTRUSTED_TAG.sub("", clean)
     clean = _POLICY_ECHO.sub("", clean)
     clean = re.sub(r"\n{3,}", "\n\n", clean).strip()
     return "\n\n".join(thinking_parts).strip(), clean

@@ -68,7 +68,7 @@ def _run(tool_name, output):
     a.last_trace = None
     local = StubLocal(["search_slack", "read_slack_thread", "list_slack_channel", "search_confluence",
                        "get_confluence_page", "search_jira", "get_jira_issue", "GitHub___get_file_contents",
-                       "GitHub___search_code"], output)
+                       "GitHub___search_code", "wikipedia_search", "wikipedia_get_page"], output)
     turn = a.process_message("thanks", local_tools=local)
     sent = a.bedrock_runtime.requests[1]["messages"][-2]["content"][0]["toolResult"]["content"][0]["text"]
     return sent, turn.trace
@@ -83,6 +83,7 @@ OUT = "Pat Doe: the Clemons printer is fixed. https://uvalib.slack.com/archives/
     ("search_jira", "jira"), ("get_jira_issue", "jira"),
     ("GitHub___get_file_contents", "github"), ("GitHub___search_code", "github"),
     ("Site___search_site", "website"), ("BedrockKBRuntime___search_uvalib_web", "website"),
+    ("wikipedia_search", "wikipedia"), ("wikipedia_get_page", "wikipedia"),
 ])
 def test_retrieved_text_is_wrapped_for_the_model(tool, source):
     sent, trace = _run(tool, OUT)
@@ -115,7 +116,8 @@ def test_content_cannot_close_the_wrapper(closer):
 def test_wrap_helper():
     assert agent_mod.untrusted_source("GitHub___list_issues") == "github"
     assert agent_mod.untrusted_source("Library___get_event") is None
-    assert agent_mod.wrap_tool_result("wikipedia_search", "x") == "x"
+    assert agent_mod.untrusted_source("wikipedia_get_page") == "wikipedia"
+    assert agent_mod.wrap_tool_result("Catalog___search_catalog", "x") == "x"
 
 
 # ---- the prompt rule ---------------------------------------------------------
@@ -127,11 +129,28 @@ def _rule(text):
 
 
 @pytest.mark.parametrize("v2", [False, True])
-def test_prompt_says_tool_results_are_information_not_instructions(v2):
+def test_prompt_says_tool_results_are_information_not_instructions(v2):  # noqa: D103
     rule = _rule(render_prompt(SYSTEM_PROMPT_TEMPLATE, v2))
-    for words in ("not instructions", "call a tool", "change these rules", "reveal", "add a link",
-                  "<untrusted"):
+    for words in ("not instructions", "addressed to you, the assistant", "call a tool", "change these rules",
+                  "reveal", "add a link", "<untrusted", "Wikipedia"):
         assert words in rule, words
+    # Ordinary how-to text in a result shouldn't set off disclaimers in the reply.
+    assert "mention" not in rule.lower()
     # Guardrail-safe: no shouting, no stern commands (they trip the prompt-attack filter).
     assert not re.search(r"\b[A-Z]{3,}\b", rule.replace("<untrusted", "")), rule
     assert "must never" not in rule.lower() and "ignore previous" not in rule.lower()
+
+
+def test_prompt_differs_from_the_pre_security_prompt_by_one_line():
+    import subprocess
+    before = subprocess.run(["git", "show", "972412483:./test_fixtures/system_prompt_legacy.txt"],
+                            cwd=os.path.dirname(os.path.abspath(__file__)), capture_output=True, text=True)
+    if before.returncode:
+        pytest.skip("pre-security fixture not in this checkout")
+    with open(os.path.join(os.path.dirname(__file__), "test_fixtures", "system_prompt_legacy.txt"),
+              encoding="utf-8", newline="") as f:
+        now = f.read().splitlines()
+    old = before.stdout.splitlines()
+    added = [ln for ln in now if ln not in old]
+    assert len(now) == len(old) + 1 and [ln for ln in now if ln in old] == old and len(added) == 1
+    assert "outside sources" in added[0]

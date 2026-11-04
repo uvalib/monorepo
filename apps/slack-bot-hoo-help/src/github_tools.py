@@ -627,17 +627,18 @@ def _check_server_descriptions(tools: List[Any]) -> None:
     if _DESCRIPTIONS_CHECKED:
         return
     _DESCRIPTIONS_CHECKED = True
-    changed = []
+    changed, seen = [], 0
     for t in tools or []:
         name = t.get("name") if isinstance(t, dict) else None
         if name not in ALLOWED_TOOLS:
             continue
+        seen += 1
         digest = hashlib.sha256(str(t.get("description") or "").encode("utf-8")).hexdigest()
         if SERVER_DESCRIPTION_SHA256.get(name) != digest:
-            changed.append(f"{name}={digest[:12]}")
+            changed.append(f"{name}={digest}")  # the full hash: paste it into SERVER_DESCRIPTION_SHA256
     if changed:
-        logger.info("github tool descriptions differ from the reviewed hashes (pinned ones are used): %s",
-                    " ".join(sorted(changed)))
+        logger.info("github tool descriptions: %s of %s allowed tools differ from the reviewed hashes "
+                    "(pinned descriptions are used): %s", len(changed), seen, " ".join(sorted(changed)))
 
 
 class GitHubTools:
