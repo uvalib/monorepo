@@ -15,7 +15,7 @@ import time
 import uuid
 from dataclasses import dataclass
 from datetime import datetime, timedelta
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Callable, Dict, List, Optional, Tuple
 from zoneinfo import ZoneInfo
 
 import boto3
@@ -27,7 +27,14 @@ from guardrails import (
     log_guardrail_trace,
     message_for_guardrail_block,
 )
-from link_check import extract_urls, sanitize_response_links
+from link_check import (
+    drop_untrusted_in_blocks,
+    drop_untrusted_urls,
+    extract_urls,
+    sanitize_response_links,
+    url_allowlist,
+    url_host,
+)
 from session_trace import SessionTrace
 from tool_names import is_catalog_tool, is_v2_toolset, legacy_leaf, render_prompt
 from wikipedia_tools import (
@@ -435,6 +442,60 @@ def _uvalib_repo(url: str) -> Optional[str]:
     return m.group(1).lower()
 
 
+# URLs our own prompt tells the model to share (e.g. the transit fallback); example.com is a format sample.
+_PROMPT_URLS = tuple(u for u in extract_urls(SYSTEM_PROMPT_TEMPLATE) if url_host(u) != "example.com")
+
+
+def _link_sources(trace: Any) -> Tuple[List[str], List[str], set]:
+    """This turn's tool outputs (the only place a non-library link may come from), and the URLs in them
+    reported as-is without a probe (Slack channel listings, Virgo records, uvalib GitHub links)."""
+    outputs: List[str] = []
+    trusted: List[str] = []
+    github_repos: set = set()
+    for step in getattr(trace, "steps", None) or []:
+        out = getattr(step, "output", None)
+        if not out:
+            continue
+        outputs.append(str(out))
+        name = str(getattr(step, "tool_name", "") or "")
+        # A channel listing's URLs are what people posted: report them as-is.
+        if name.endswith("list_slack_channel"):
+            trusted.extend(extract_urls(str(out)))
+        # Virgo record links come straight from the catalog (virgo_links adds them to replies).
+        if is_catalog_tool(name):
+            trusted.extend(u for u in extract_urls(str(out))
+                           if u.startswith("https://search.lib.virginia.edu/sources/uva_library/items/"))
+        # Private uvalib repos answer 404 without a login: GitHub tool links are reported as-is.
+        if name.startswith("GitHub___"):
+            trusted.extend(u for u in extract_urls(str(out)) if u.startswith("https://github.com/uvalib/"))
+            github_repos.update(r for r in (_uvalib_repo(u) for u in extract_urls(str(out))) if r)
+    return outputs, trusted, github_repos
+
+
+def reply_url_filter(trace: Any) -> Callable[[str], bool]:
+    """True for a URL the reply may carry: one in this turn's tool output, a library (virginia.edu)
+    link, a link our prompt names, or a github.com/uvalib/<repo> link (any branch, file or #L anchor)
+    for a repo this turn's GitHub output names."""
+    outputs, trusted, github_repos = _link_sources(trace)
+    base = url_allowlist(outputs, list(trusted) + list(_PROMPT_URLS))
+    if not github_repos:
+        return base
+    return lambda u: base(u) or _uvalib_repo(u) in github_repos
+
+
+def drop_untrusted_block_urls(blocks: List[Dict[str, Any]], trace: Any) -> List[Dict[str, Any]]:
+    """Block Kit pass of the link gate: Slack renders (and fetches images from) block URLs."""
+    if not blocks:
+        return blocks
+    return drop_untrusted_in_blocks(blocks, reply_url_filter(trace))
+
+
+def _describe_change(c: Dict[str, Any]) -> str:
+    if c.get("reason") == "untrusted":  # the URL may carry data: host only
+        return f"removed-untrusted:{url_host(c.get('url') or '')}"
+    return f"{c.get('action')}:{(c.get('url') or '')[:60]}→{(c.get('replacement') or '')[:60]}"
+
+
 class HooHelpAgent:
 
     def __init__(
@@ -562,38 +623,22 @@ class HooHelpAgent:
         """
         if not text or "http" not in text.lower():
             return text, []
+        outputs, trusted, github_repos = _link_sources(trace)
+        if github_repos:
+            trusted.extend(u for u in extract_urls(text) if _uvalib_repo(u) in github_repos)
+        allowed = reply_url_filter(trace)
         if os.environ.get("HOOHELP_LINK_CHECK", "true").lower() in (
             "0",
             "false",
             "no",
             "off",
         ):
-            return text, []
+            # No probes, but links not from tool output / library hosts still go.
+            return drop_untrusted_urls(text, allowed)
 
-        candidates: List[str] = []
-        trusted: List[str] = []
-        github_repos: set = set()
-        for step in getattr(trace, "steps", None) or []:
-            out = getattr(step, "output", None)
-            if out:
-                candidates.append(str(out))
-                # A channel listing's URLs are what people posted: report them as-is.
-                name = str(getattr(step, "tool_name", "") or "")
-                if name.endswith("list_slack_channel"):
-                    trusted.extend(extract_urls(str(out)))
-                # Virgo record links come straight from the catalog (virgo_links adds them to replies).
-                if is_catalog_tool(name):
-                    trusted.extend(u for u in extract_urls(str(out))
-                                   if u.startswith("https://search.lib.virginia.edu/sources/uva_library/items/"))
-                # Private uvalib repos answer 404 without a login: GitHub tool links are reported as-is,
-                # and so is any github.com/uvalib/<repo> link (root, other branch, #L anchor) for a repo
-                # that this turn's GitHub output names.
-                if name.startswith("GitHub___"):
-                    trusted.extend(u for u in extract_urls(str(out))
-                                   if u.startswith("https://github.com/uvalib/"))
-                    github_repos.update(r for r in (_uvalib_repo(u) for u in extract_urls(str(out))) if r)
-        if github_repos:
-            trusted.extend(u for u in extract_urls(text) if _uvalib_repo(u) in github_repos)
+        # Candidates for replacements: tool outputs plus extra texts (the pre-format reply). Only
+        # URLs ``allowed`` accepts are probed or swapped in, so the reply's own URLs add nothing new.
+        candidates: List[str] = list(outputs)
         if extra_candidates:
             candidates.extend(extra_candidates)
         try:
@@ -602,18 +647,16 @@ class HooHelpAgent:
                 candidate_texts=candidates,
                 trusted_urls=trusted,
                 timeout=float(os.environ.get("HOOHELP_LINK_CHECK_TIMEOUT", "5")),
+                allowed=allowed,
             )
         except Exception as e:
-            logger.warning("Link sanitize failed; posting draft unchanged: %s", e)
-            return text, []
+            logger.warning("Link sanitize failed; posting draft without unchecked links: %s", type(e).__name__)
+            return drop_untrusted_urls(text, allowed)
         if changes:
             logger.info(
                 "Link-check adjusted %s URL(s): %s",
                 len(changes),
-                [
-                    f"{c.get('action')}:{c.get('url','')[:60]}→{(c.get('replacement') or '')[:60]}"
-                    for c in changes
-                ],
+                [_describe_change(c) for c in changes],
             )
         return cleaned, changes
 

@@ -8,12 +8,15 @@ patrons do not get expired group-pass hashes or moved pages.
 
 from __future__ import annotations
 
+import html
+import ipaddress
 import logging
 import re
+import socket
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
-from typing import Dict, Iterable, List, Optional, Sequence, Tuple
-from urllib.parse import parse_qs, urlparse
+from typing import Any, Callable, Dict, Iterable, List, Optional, Sequence, Tuple
+from urllib.parse import parse_qs, urljoin, urlparse, urlsplit, urlunsplit
 
 import requests
 
@@ -93,6 +96,151 @@ def _normalize_url(url: str) -> str:
     return u
 
 
+# ---- which links a reply may carry ---------------------------------------------
+# Tool results can carry injected instructions ("link https://evil.example/?d=<the user's data>").
+# A reply's URL is kept only if this turn's tool output contains it, or it is on a library host;
+# anything else is dropped before it is probed (a probe or a Slack unfurl would deliver the data).
+
+LIBRARY_DOMAIN = "virginia.edu"
+
+
+def url_host(url: str) -> str:
+    """Lowercase hostname (no port, userinfo or trailing dot), or ""."""
+    try:
+        return (urlparse(url).hostname or "").lower().rstrip(".")
+    except Exception:
+        return ""
+
+
+def is_library_url(url: str) -> bool:
+    """True for http(s) URLs on virginia.edu or a subdomain of it (dot boundary)."""
+    u = _normalize_url(url)
+    if not u or "\\" in u:  # browsers read "\\" as "/": https://evil.com\\@virginia.edu goes to evil.com
+        return False
+    try:
+        netloc = urlparse(u).netloc
+    except Exception:
+        return False
+    if "@" in netloc:  # userinfo hides the real host from a quick read
+        return False
+    host = url_host(u)
+    return host == LIBRARY_DOMAIN or host.endswith("." + LIBRARY_DOMAIN)
+
+
+def _url_key(url: str) -> str:
+    """Comparison form: Slack/HTML entity-escaped, markdown-wrapped or case/trailing-slash variants of
+    one link compare equal; anything that changes the query or path does not."""
+    u = html.unescape(_normalize_url(url))
+    u = u.rstrip("*_~`>")
+    u = _normalize_url(u)
+    if not u:
+        return ""
+    try:
+        p = urlsplit(u)
+    except Exception:
+        return u
+    return urlunsplit((p.scheme.lower(), p.netloc.lower(), p.path.rstrip("/"), p.query, p.fragment))
+
+
+def url_allowlist(source_texts: Iterable[str], extra_urls: Iterable[str] = ()) -> Callable[[str], bool]:
+    """A predicate: True for a URL that appears in source_texts (tool outputs) or extra_urls, or that
+    is on a library host."""
+    keys = {_url_key(u) for t in source_texts or () if t for u in extract_urls(str(t))}
+    keys.update(_url_key(u) for u in extra_urls or ())
+    keys.discard("")
+
+    def allowed(url: str) -> bool:
+        return is_library_url(url) or _url_key(url) in keys
+
+    return allowed
+
+
+def _log_untrusted(url: str) -> None:
+    logger.warning("Link-check: dropped untrusted URL host=%s", url_host(url) or "?")
+
+
+def drop_untrusted_urls(text: str, allowed: Callable[[str], bool]) -> Tuple[str, List[dict]]:
+    """Remove every URL ``allowed`` rejects (link text kept). Never fetches anything."""
+    changes: List[dict] = []
+    if not text or "http" not in text.lower():
+        return text, changes
+    for _ in range(5):  # a removal can, in principle, join text into a new URL: repeat until clean
+        bad = [u for u in extract_urls(text) if not allowed(u)]
+        if not bad:
+            return text, changes
+        for u in bad:
+            text = _replace_url_in_text(text, u, None)
+            if u in text:
+                text = text.replace(u, "")
+            if not any(c["url"] == u for c in changes):
+                changes.append({"url": u, "action": "removed", "reason": "untrusted", "replacement": None})
+                _log_untrusted(u)
+    # Still not clean: cut every remaining http(s) run that isn't allowed.
+    for u in [u for u in extract_urls(text) if not allowed(u)]:
+        text = text.replace(u, "")
+    return text, changes
+
+
+def drop_untrusted_in_blocks(blocks: List[Dict[str, Any]], allowed: Callable[[str], bool]) -> List[Dict[str, Any]]:
+    """Block Kit copy of ``drop_untrusted_urls``: text loses the URL; an image, button or other element
+    whose url / image_url isn't allowed is removed (Slack fetches image URLs)."""
+
+    def bad_element(obj: Dict[str, Any]) -> bool:
+        for key in ("url", "image_url"):
+            v = obj.get(key)
+            if isinstance(v, str) and v.strip() and not allowed(v.strip()):
+                return True
+        return False
+
+    def walk(obj: Any) -> Any:
+        if isinstance(obj, str):
+            return drop_untrusted_urls(obj, allowed)[0] if "http" in obj.lower() else obj
+        if isinstance(obj, list):
+            return [walk(x) for x in obj if not (isinstance(x, dict) and bad_element(x))]
+        if isinstance(obj, dict):
+            return {k: walk(v) for k, v in obj.items()}
+        return obj
+
+    out = walk(blocks or [])
+    return [b for b in out if not (isinstance(b, dict) and bad_element(b))]
+
+
+# ---- the checker refuses private addresses -------------------------------------
+
+REFUSED_PRIVATE = "refused_private_address"
+_REDIRECT_CODES = (301, 302, 303, 307, 308)
+
+
+def _resolve_host(host: str) -> List[str]:
+    """Every address the host resolves to (an IP literal resolves to itself)."""
+    infos = socket.getaddrinfo(host, None, proto=socket.IPPROTO_TCP)
+    return [str(info[4][0]) for info in infos]
+
+
+def _is_public_ip(addr: str) -> bool:
+    try:
+        ip = ipaddress.ip_address(addr.split("%", 1)[0])
+    except ValueError:
+        return False
+    mapped = getattr(ip, "ipv4_mapped", None)
+    if mapped is not None:
+        ip = mapped
+    return not (ip.is_private or ip.is_loopback or ip.is_link_local or ip.is_reserved
+                or ip.is_multicast or ip.is_unspecified) and ip.is_global
+
+
+def _host_is_private(host: str) -> bool:
+    """True when the host is, or resolves to, any non-public address. A name that doesn't resolve is
+    left to the request (it fails as a dead link)."""
+    if not host:
+        return True
+    try:
+        addrs = _resolve_host(host)
+    except (socket.gaierror, UnicodeError, OSError):
+        return False
+    return any(not _is_public_ip(a) for a in addrs)
+
+
 def looks_ephemeral(url: str) -> bool:
     """
     Signed / time-bound access links (common in old news posts) often rot.
@@ -130,29 +278,47 @@ def check_url(url: str, *, timeout: float = 6.0) -> LinkCheckResult:
     session = requests.Session()
     session.max_redirects = 8
 
+    start_host = url_host(url)
+    if _host_is_private(start_host):
+        logger.warning("Link-check: refused private address host=%s", start_host or "?")
+        return LinkCheckResult(url=url, ok=False, error=REFUSED_PRIVATE)
+
     def _try(method: str) -> LinkCheckResult:
         try:
-            resp = session.request(
-                method,
-                url,
-                headers=headers,
-                timeout=timeout,
-                allow_redirects=True,
-                stream=True,
-            )
-            # Drain minimally
-            try:
-                resp.close()
-            except Exception:
-                pass
-            code = int(resp.status_code)
+            current = url
+            # Redirects are followed by hand: every hop's host is checked for a private address,
+            # and a hop to another (non-library) host is not fetched — the 3xx already says it works.
+            for _ in range(session.max_redirects + 1):
+                resp = session.request(
+                    method,
+                    current,
+                    headers=headers,
+                    timeout=timeout,
+                    allow_redirects=False,
+                    stream=True,
+                )
+                # Drain minimally
+                try:
+                    resp.close()
+                except Exception:
+                    pass
+                code = int(resp.status_code)
+                location = (getattr(resp, "headers", None) or {}).get("Location")
+                if code not in _REDIRECT_CODES or not location:
+                    break
+                nxt = urljoin(current, location)
+                nxt_host = url_host(nxt)
+                if not nxt.startswith(("http://", "https://")) or (
+                        nxt_host != start_host and not is_library_url(nxt)) or _host_is_private(nxt_host):
+                    break
+                current = nxt
             ok = code in _OK_STATUS
             # Some servers return 405 on HEAD — caller will retry GET
             return LinkCheckResult(
                 url=url,
                 ok=ok,
                 status_code=code,
-                final_url=str(resp.url or url),
+                final_url=str(getattr(resp, "url", None) or current),
                 error="" if ok else f"http_{code}",
             )
         except requests.exceptions.Timeout:
@@ -319,6 +485,7 @@ def drop_url(text: str, url: str) -> str:
     if not url or url not in text:
         return text
     u = re.escape(url)
+    text = re.sub(r"\[([^\]\n]*)\]\(" + u + r"\)", lambda m: m.group(1), text)  # markdown [label](url)
     text = re.sub(r"<" + u + r"\|([^>]*)>", lambda m: m.group(1), text)
     text = re.sub(r"[ \t]*(?:[:\u2014\u2013-][ \t]*|\b(?:at|via)[ \t]+)?\(?<?" + u + r">?\)?", "", text)
     text = re.sub(r"[ \t]+([.,;:!?])", r"\1", text)
@@ -358,26 +525,37 @@ def sanitize_response_links(
     trusted_urls: Optional[Iterable[str]] = None,
     timeout: float = 6.0,
     max_workers: int = 6,
+    allowed: Optional[Callable[[str], bool]] = None,
 ) -> Tuple[str, List[dict]]:
     """
     Check links in ``text``. Replace broken (or strongly ephemeral) URLs with
     healthy alternatives found in ``text`` + ``candidate_texts`` (tool outputs).
+
+    allowed: when given, a URL it rejects (see ``url_allowlist``) is removed from the reply and
+    never probed or offered as a replacement; trusted URLs count as allowed.
 
     Returns (new_text, list of change records for logging/traces).
     """
     if not text or "http" not in text.lower():
         return text, []
 
-    pool_parts = [text]
-    if candidate_texts:
-        pool_parts.extend(t for t in candidate_texts if t)
     # Trusted URLs are data the reply reproduces (e.g. links people shared in Slack):
     # never probe them (intranet hosts, one-time links) or swap them for another.
     trusted = set(trusted_urls or ())
-    pool_urls = [u for u in extract_urls("\n".join(pool_parts)) if u not in trusted]
+    changes: List[dict] = []
+    def may_use(u: str) -> bool:
+        return allowed is None or u in trusted or allowed(u)
+
+    if allowed is not None:
+        text, changes = drop_untrusted_urls(text, may_use)
+
+    pool_parts = [text]
+    if candidate_texts:
+        pool_parts.extend(t for t in candidate_texts if t)
+    pool_urls = [u for u in extract_urls("\n".join(pool_parts)) if u not in trusted and may_use(u)]
     reply_urls = [u for u in extract_urls(text) if u not in trusted]
     if not reply_urls:
-        return text, []
+        return text, changes
 
     # Always check reply URLs; also check pool candidates we might swap in
     to_check = list(dict.fromkeys(reply_urls + pool_urls))
@@ -409,10 +587,17 @@ def sanitize_response_links(
         u for u, r in results.items() if r.ok and looks_ephemeral(u)
     ]
 
-    changes: List[dict] = []
     new_text = text
     for u in reply_urls:
         r = results.get(u) or check_url(u, timeout=timeout)
+        if r.error == REFUSED_PRIVATE:
+            # Not probed: a library host (an intranet page) stays as written; anything else goes.
+            if is_library_url(u):
+                continue
+            new_text = _replace_url_in_text(new_text, u, None)
+            changes.append({"url": u, "action": "removed", "reason": REFUSED_PRIVATE, "replacement": None})
+            logger.warning("Link-check: dropped private-address URL host=%s", url_host(u) or "?")
+            continue
         need_replace = (not r.ok) or looks_ephemeral(u)
         if not need_replace:
             continue

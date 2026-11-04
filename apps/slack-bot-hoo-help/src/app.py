@@ -27,7 +27,8 @@ from typing import Any, Dict, List, Optional, Tuple
 from slack_bolt import App
 from slack_bolt.adapter.aws_lambda import SlackRequestHandler
 
-from agent import HooHelpAgent
+from agent import HooHelpAgent, drop_untrusted_block_urls, reply_url_filter
+from link_check import drop_untrusted_urls, url_host
 from bedrock_params import DEFAULT_AGENT_MODEL_ID, DEFAULT_FORMAT_MODEL_ID
 from gateway_mcp_client import GatewayMCPClient
 from action_tokens import ActionTokenStore
@@ -338,7 +339,11 @@ def handle_user_query(
             extra_candidates=[raw_response] if raw_response else None,
         )
         if link_changes:
-            trace.link_changes = link_changes
+            # A dropped untrusted URL may carry data: the trace keeps only its host.
+            trace.link_changes = [
+                {**c, "url": "host:" + url_host(c.get("url") or "")} if c.get("reason") == "untrusted" else c
+                for c in link_changes
+            ]
         if cleaned != fallback_text:
             fallback_text = cleaned
             if link_changes:
@@ -346,7 +351,17 @@ def handle_user_query(
             if hasattr(trace, "final_text"):
                 trace.final_text = fallback_text
     except Exception as link_err:
-        logger.warning("Post-format link-check skipped: %s", link_err)
+        logger.warning("Post-format link-check skipped: %s", type(link_err).__name__)
+        try:
+            fallback_text = drop_untrusted_urls(fallback_text, reply_url_filter(trace))[0]
+        except Exception:
+            fallback_text = "Sorry — something went wrong on my end while answering that. Please try again."
+    # Block Kit carries URLs of its own (buttons, images Slack fetches): the same gate, failing closed.
+    try:
+        blocks = drop_untrusted_block_urls(blocks, trace)
+    except Exception as block_err:
+        logger.warning("Block link gate failed; posting text only: %s", type(block_err).__name__)
+        blocks = []
 
     logger.info(
         "Formatted Slack reply (%s chars, %s blocks) tools=%s duration_ms=%s followup=%s",

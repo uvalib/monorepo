@@ -45,12 +45,13 @@ def test_agent_trusts_urls_from_list_slack_channel_output():  # review: a 50-lin
     real = _no_network(calls)
     trace = SimpleNamespace(steps=[SimpleNamespace(tool_name="list_slack_channel", output=LISTING)])
     try:
-        HooHelpAgent._sanitize_links(None, REPLY, trace)
+        text, _ = HooHelpAgent._sanitize_links(None, REPLY, trace)
     finally:
         link_check.check_urls, link_check.check_url = real
     assert "https://intranet.example.org/doc?a=1" not in calls
     assert "https://uvalib.slack.com/archives/C1/p1" not in calls
-    assert "https://other.example.org/x" in calls  # everything else is still checked
+    # Not in any tool output: dropped without a probe (link gate).
+    assert "https://other.example.org/x" not in calls and "other.example.org" not in text
 
 
 def test_github_links_from_github_tools_are_trusted():  # private repos 404 without a login
@@ -62,15 +63,15 @@ def test_github_links_from_github_tools_are_trusted():  # private repos 404 with
     reply = ("README: https://github.com/uvalib/virgo4-client/blob/main/README.md and "
              "https://github.com/someoneelse/x/blob/main/a.md and https://other.example.org/x")
     try:
-        HooHelpAgent._sanitize_links(None, reply, trace)
+        text, _ = HooHelpAgent._sanitize_links(None, reply, trace)
+        first = list(calls)
         other = SimpleNamespace(steps=[SimpleNamespace(tool_name="search_uvalib_web", output=out)])
         HooHelpAgent._sanitize_links(None, reply, other)
     finally:
         link_check.check_urls, link_check.check_url = real
-    first = calls[:calls.index("https://other.example.org/x") + 1]
     assert "https://github.com/uvalib/virgo4-client/blob/main/README.md" not in first
-    assert "https://github.com/someoneelse/x/blob/main/a.md" in first
-    assert "https://other.example.org/x" in first
+    assert "https://github.com/someoneelse/x/blob/main/a.md" in first  # in tool output: allowed, probed
+    assert "https://other.example.org/x" not in calls and "other.example.org" not in text  # in no tool output
     assert "https://github.com/uvalib/virgo4-client/blob/main/README.md" in calls[len(first):]  # not from GitHub tool
 
 
@@ -159,9 +160,10 @@ def test_reshaped_uvalib_links_for_repos_in_github_output_are_trusted():  # priv
     assert "https://github.com/uvalib/Hold-Svc/blob/main/svc/a.go#L120" not in calls
     assert "https://github.com/uvalib/hold-svc," in text  # kept, not stripped
     assert "https://github.com/uvalib/Hold-Svc/blob/main/svc/a.go#L120" in text
-    assert "https://github.com/uvalib/other-repo/blob/main/x.go" in calls  # not in this turn's output
-    assert "https://github.com/uvalib/hold-svc-old" in calls
-    assert "https://github.com/someone/hold-svc" in calls
+    # Repos this turn's output doesn't name: not from a tool, so dropped without a probe (link gate).
+    for url in ("https://github.com/uvalib/other-repo/blob/main/x.go", "https://github.com/uvalib/hold-svc-old",
+                "https://github.com/someone/hold-svc"):
+        assert url not in calls and url not in text
 
 
 def test_uvalib_dot_segments_are_not_a_repo():  # final re-review minor 1: github.com/uvalib/../other must not be trusted

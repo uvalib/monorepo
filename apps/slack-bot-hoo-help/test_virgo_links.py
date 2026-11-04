@@ -157,10 +157,12 @@ def test_link_check_trusts_virgo_record_links_from_tool_output():
     link_check.check_url = lambda url, **kw: (calls.append(url), link_check.LinkCheckResult(url=url, ok=True))[1]
     try:
         trace = SimpleNamespace(steps=[SimpleNamespace(tool_name="VirgoCatalogRuntime___search_by_field", output=SEARCH_OUT)])
-        HooHelpAgent._sanitize_links(None, f"• x · [Virgo]({REC}u9587135) and https://other.example.org/y", trace)
+        text, _ = HooHelpAgent._sanitize_links(
+            None, f"• x · [Virgo]({REC}u9587135) and https://other.example.org/y", trace)
     finally:
         link_check.check_urls, link_check.check_url = real
-    assert f"{REC}u9587135" not in calls and "https://other.example.org/y" in calls
+    assert f"{REC}u9587135" not in calls and f"{REC}u9587135" in text
+    assert "https://other.example.org/y" not in calls and "other.example.org" not in text  # in no tool output
 
 
 if __name__ == "__main__":
