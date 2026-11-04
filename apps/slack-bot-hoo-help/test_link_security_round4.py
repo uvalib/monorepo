@@ -29,7 +29,7 @@ def test_unlabelled_link_with_whitespace_is_dropped():
 def test_control_characters_removed_but_lines_kept():
     got, _ = link_check.drop_untrusted_urls("Line one\x01\nLine\ttwo https://library.virginia.edu/x\n",
                                             link_check.is_library_url)
-    assert got == "Line one\nLinetwo https://library.virginia.edu/x\n"
+    assert got == "Line one\nLine    two https://library.virginia.edu/x\n"  # tabs become spaces
 
 
 def test_ordinary_library_links_unchanged():
@@ -50,3 +50,17 @@ def test_percent_in_host_is_unsafe(url, monkeypatch):
 @pytest.mark.parametrize("url", ["https://xn--vil-9la.lib.virginia.edu/x", "https://lib_x.virginia.edu/x"])
 def test_library_hosts_are_plain_ascii_names(url):
     assert link_check.is_library_url(url) is (url.startswith("https://xn--"))
+
+
+def test_tabs_become_spaces_so_code_and_rows_keep_their_shape():
+    # Review: deleting tabs flattened Go code from GitHub excerpts and ran TSV columns together.
+    code = "```\nfunc main() {\n\tif x {\n\t\tfmt.Println(\"hi\")\n\t}\n}\n```"
+    out, _ = link_check.drop_untrusted_urls(code, lambda u: False)
+    assert "\n    if x {\n        fmt.Println" in out and "\t" not in out
+    out, _ = link_check.drop_untrusted_urls("Call\tNumber\tStatus", lambda u: False)
+    assert out == "Call    Number    Status"
+
+
+def test_a_tab_turned_space_still_cannot_join_a_library_host_to_another():
+    out, _ = link_check.drop_untrusted_urls("see https://lib.virginia.edu\t.evil.com/c?d=S", link_check.is_library_url)
+    assert "evil.com/c?d=S" not in out.replace(" ", "")

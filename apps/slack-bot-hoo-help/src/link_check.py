@@ -272,7 +272,7 @@ def _log_untrusted(url: str) -> None:
     logger.warning("Link-check: dropped untrusted URL host=%s", (url_host(url) or "?")[:253])
 
 
-_CONTROL_CHARS = re.compile(r"[\x00-\x09\x0b-\x1f\x7f]")
+_CONTROL_CHARS = re.compile(r"[\x00-\x08\x0b-\x1f\x7f]")  # tab and newline handled separately
 _SPACED_SLACK_LINK = re.compile(r"<(https?://[^|>]*?\s[^|>]*)(?:\|([^>]*))?>", re.I)
 
 
@@ -282,9 +282,10 @@ def drop_untrusted_urls(text: str, allowed: Callable[[str], bool]) -> Tuple[str,
     if not text:
         return text, changes
     # Browsers strip tabs and newlines inside a URL, so "<https://lib.virginia.edu\t.evil.com/…>" opens
-    # lib.virginia.edu.evil.com while our patterns stop at the tab: control characters go (newlines
-    # stay), and a Slack link whose target holds any whitespace is dropped, keeping its label.
-    text = _CONTROL_CHARS.sub("", text)
+    # lib.virginia.edu.evil.com while our patterns stop at the tab: tabs become spaces (browsers keep
+    # spaces, and code and table rows keep their shape), other control characters go (newlines stay),
+    # and a Slack link whose target holds any whitespace is dropped, keeping its label.
+    text = _CONTROL_CHARS.sub("", text.replace("\t", "    "))
 
     def _spaced_link(m: re.Match) -> str:
         target = m.group(1)
@@ -316,7 +317,8 @@ def drop_untrusted_urls(text: str, allowed: Callable[[str], bool]) -> Tuple[str,
 # allowed. A bare domain ("example.org") stays, and so does a file-like name ("README.md#L3",
 # "Node.js/React") unless it has a query string.
 _SCHEMELESS = re.compile(
-    r"(?<![\w@/.:%-])(" + _DOMAIN + r"(?::\d{1,5})?[/?#][^\s<>\[\]\"'|]+)",
+    # An optional leading dot ("lib.virginia.edu<tab>.evil.com/…" once the tab is a space) is skipped.
+    r"(?<![\w@/.:%-])\.?(" + _DOMAIN + r"(?::\d{1,5})?[/?#][^\s<>\[\]\"'|]+)",
     re.I,
 )
 # File extensions that are also registrable TLDs: a name on one ("evil.zip/<data>") only keeps a
