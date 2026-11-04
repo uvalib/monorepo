@@ -13,12 +13,14 @@ import ipaddress
 import logging
 import re
 import socket
+import unicodedata
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from typing import Any, Callable, Dict, Iterable, List, Optional, Sequence, Tuple
 from urllib.parse import parse_qs, quote, unquote, urljoin, urlparse, urlsplit, urlunsplit
 
 import requests
+from urllib3.util import parse_url as _urllib3_parse_url
 
 logger = logging.getLogger(__name__)
 
@@ -109,12 +111,48 @@ LIBRARY_EXACT_HOSTS = frozenset({"virginia.edu", "www.virginia.edu"})
 LIBRARY_HOST_SUFFIXES = ("library.virginia.edu", "lib.virginia.edu")
 
 
-def url_host(url: str) -> str:
-    """Lowercase hostname (no port, userinfo or trailing dot), or ""."""
+_AUTHORITY = re.compile(r"^[a-z][a-z0-9+.-]*://([^/?#]*)", re.I)
+
+
+def has_backslash(url: str) -> bool:
+    """A backslash anywhere, or %5C in the authority: requests/urllib3 and browsers read "\\" as "/",
+    so the host they use isn't the one urlparse reports (https://evil.example\\@library.virginia.edu)."""
+    u = url or ""
+    if "\\" in u:
+        return True
+    m = _AUTHORITY.match(u)
+    return bool(m and "%5c" in m.group(1).lower())
+
+
+def _idna(host: str) -> str:
+    host = (host or "").strip().rstrip(".").lower()
+    if not host:
+        return ""
     try:
-        return (urlparse(url).hostname or "").lower().rstrip(".")
+        return host.encode("idna").decode("ascii").lower()
+    except (UnicodeError, ValueError):
+        return ""
+
+
+def url_host(url: str) -> str:
+    """Lowercase, IDNA-encoded hostname (no port, userinfo or trailing dot), or "" when the URL has a
+    backslash or urlparse and urllib3 (what requests uses) disagree on the host — such a URL is never
+    trusted or fetched."""
+    if not url or has_backslash(url):
+        return ""
+    try:
+        host = _idna(urlparse(url).hostname or "")
+        other = (_urllib3_parse_url(url).host or "").strip("[]").rstrip(".").lower()
     except Exception:
         return ""
+    if not host or host != other:
+        return ""
+    return host
+
+
+def url_is_safe(url: str) -> bool:
+    """True when the URL has a host every parser agrees on (see ``url_host``)."""
+    return bool(url_host(_normalize_url(url) or url))
 
 
 def is_library_url(url: str) -> bool:
@@ -174,9 +212,12 @@ def input_hosts(texts: Iterable[str]) -> set:
     for t in texts or ():
         if not t:
             continue
-        t = str(t)
+        t = unicodedata.normalize("NFKC", str(t))  # "e\u0301vil.com" and "évil.com" are one host
         hosts.update(h for h in (url_host(u) for u in extract_urls(t)) if h)
-        hosts.update(m.group(1).lower().rstrip(".") for m in _BARE_DOMAIN.finditer(t))
+        for m in _BARE_DOMAIN.finditer(t):
+            raw = m.group(1).lower().rstrip(".")
+            hosts.add(raw)
+            hosts.add(_idna(raw) or raw)
     return hosts
 
 
@@ -194,6 +235,8 @@ def echo_filter(input_texts: Iterable[str]) -> Callable[[str], bool]:
     hosts = {h for h in input_hosts(texts) if not is_library_url("https://" + h)}
 
     def excluded(url: str) -> bool:
+        if not url_is_safe(url):
+            return True
         if is_library_url(url):
             return False
         return _url_key(url) in keys or (bool(hosts) and _host_related(url_host(url), hosts))
@@ -212,6 +255,8 @@ def url_allowlist(source_texts: Iterable[str], extra_urls: Iterable[str] = (),
     excluded = echo_filter(exclude_texts)
 
     def allowed(url: str) -> bool:
+        if not url_is_safe(url):
+            return False
         return is_library_url(url) or (_url_key(url) in keys and not excluded(url))
 
     return allowed
@@ -252,6 +297,10 @@ _SCHEMELESS = re.compile(
     r"(?<![\w@/.:%-])(" + _DOMAIN + r"(?::\d{1,5})?[/?#][^\s<>\[\]\"'|]+)",
     re.I,
 )
+# File extensions that are also registrable TLDs: a name on one ("evil.zip/<data>") only keeps a
+# line-anchor fragment ("README.md#L3", "setup.py#L10-L20"), never a path or other fragment.
+_REAL_FILE_TLDS = frozenset({"md", "py", "rs", "sh", "pl", "zip", "java"})
+_LINE_ANCHOR = re.compile(r"#L\d+(?:-L\d+)?$")
 _FILE_TLDS = frozenset({
     "js", "ts", "jsx", "tsx", "py", "md", "rb", "go", "rs", "sh", "pl", "php", "java", "kt", "cs", "json",
     "yml", "yaml", "toml", "ini", "cfg", "xml", "html", "htm", "css", "scss", "txt", "csv", "tsv", "pdf",
@@ -267,10 +316,13 @@ def _drop_schemeless(text: str, allowed: Callable[[str], bool], changes: List[di
     spans = []
     for m in _SCHEMELESS.finditer(masked):
         token = _normalize_url("https://" + m.group(1))[len("https://"):]
-        if not token or len(token) == len(url_host("https://" + token)):
+        if not token or not any(c in token for c in "/?#"):
             continue  # only trailing punctuation followed the domain
-        tld = url_host("https://" + token).rsplit(".", 1)[-1]
-        if tld in _FILE_TLDS and "?" not in token:
+        host = url_host("https://" + token)
+        tld = host.rsplit(".", 1)[-1]
+        head, _, frag = token.partition("#")
+        if tld in _FILE_TLDS and "?" not in token and (
+                tld not in _REAL_FILE_TLDS or (_idna(head) == host and _LINE_ANCHOR.fullmatch("#" + frag))):
             continue
         if not allowed("https://" + token):
             spans.append((m.start(1), m.start(1) + len(token), token))
@@ -331,6 +383,8 @@ def drop_untrusted_in_blocks(blocks: List[Dict[str, Any]], allowed: Callable[[st
 # ---- the checker refuses private addresses -------------------------------------
 
 REFUSED_PRIVATE = "refused_private_address"
+REFUSED_UNRESOLVED = "refused_unresolved"  # DNS failed: not fetched (a library URL stays unprobed)
+_REFUSED = (REFUSED_PRIVATE, REFUSED_UNRESOLVED)
 _REDIRECT_CODES = (301, 302, 303, 307, 308)
 
 
@@ -352,16 +406,23 @@ def _is_public_ip(addr: str) -> bool:
                 or ip.is_multicast or ip.is_unspecified) and ip.is_global
 
 
-def _host_is_private(host: str) -> bool:
-    """True when the host is, or resolves to, any non-public address. A name that doesn't resolve is
-    left to the request (it fails as a dead link)."""
+def _host_status(host: str) -> str:
+    """"public", "private" (any non-public address, or no usable host) or "unresolved". Only a public
+    host is fetched: a DNS failure is not left to the request, which may resolve it differently."""
     if not host:
-        return True
+        return "private"
     try:
         addrs = _resolve_host(host)
-    except (socket.gaierror, UnicodeError, OSError):
-        return False
-    return any(not _is_public_ip(a) for a in addrs)
+    except (socket.gaierror, UnicodeError, OSError, ValueError):
+        return "unresolved"
+    if not addrs:
+        return "unresolved"
+    return "private" if any(not _is_public_ip(a) for a in addrs) else "public"
+
+
+def _host_is_private(host: str) -> bool:
+    """True unless the host resolves only to public addresses (fails closed)."""
+    return _host_status(host) != "public"
 
 
 def looks_ephemeral(url: str) -> bool:
@@ -402,8 +463,11 @@ def check_url(url: str, *, timeout: float = 6.0) -> LinkCheckResult:
     session.max_redirects = 8
 
     start_host = url_host(url)
-    if _host_is_private(start_host):
-        logger.warning("Link-check: refused private address host=%s", start_host or "?")
+    status = _host_status(start_host)
+    if status == "unresolved":
+        return LinkCheckResult(url=url, ok=False, error=REFUSED_UNRESOLVED)
+    if status != "public":
+        logger.warning("Link-check: refused private or unparsable address host=%s", (start_host or "?")[:253])
         return LinkCheckResult(url=url, ok=False, error=REFUSED_PRIVATE)
 
     def _try(method: str) -> LinkCheckResult:
@@ -668,7 +732,7 @@ def sanitize_response_links(
     changes: List[dict] = []
 
     def may_use(u: str) -> bool:
-        return allowed is None or u in trusted or allowed(u)
+        return allowed is None or (url_is_safe(u) and (u in trusted or allowed(u)))
 
     if allowed is not None:
         text, changes = drop_untrusted_urls(text, may_use)
@@ -716,13 +780,13 @@ def sanitize_response_links(
     new_text = text
     for u in reply_urls:
         r = results.get(u) or check_url(u, timeout=timeout)
-        if r.error == REFUSED_PRIVATE:
+        if r.error in _REFUSED:
             # Not probed: a library host (an intranet page) stays as written; anything else goes.
             if is_library_url(u):
                 continue
             new_text = _replace_url_in_text(new_text, u, None)
-            changes.append({"url": u, "action": "removed", "reason": REFUSED_PRIVATE, "replacement": None})
-            logger.warning("Link-check: dropped private-address URL host=%s", url_host(u) or "?")
+            changes.append({"url": u, "action": "removed", "reason": r.error, "replacement": None})
+            logger.warning("Link-check: dropped unfetchable URL (%s) host=%s", r.error, (url_host(u) or "?")[:253])
             continue
         need_replace = (not r.ok) or looks_ephemeral(u)
         if not need_replace:

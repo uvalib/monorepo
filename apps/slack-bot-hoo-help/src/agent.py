@@ -36,6 +36,7 @@ from link_check import (
     url_allowlist,
     url_host,
     url_key,
+    url_is_safe,
     url_keys,
 )
 from session_trace import SessionTrace
@@ -542,10 +543,10 @@ def reply_url_filter(trace: Any) -> Callable[[str], bool]:
     # Only the cleaned text of this event (trace.user_message), never thread history or snapshots.
     user_keys = url_keys([getattr(trace, "user_message", "") or ""])
     from_tools = url_allowlist(outputs, trusted, exclude_texts=inputs)
-    base = lambda u: prompt_ok(u) or url_key(u) in user_keys or from_tools(u)  # noqa: E731
+    base = lambda u: url_is_safe(u) and (prompt_ok(u) or url_key(u) in user_keys or from_tools(u))  # noqa: E731
     if not github_repos:
         return base
-    return lambda u: base(u) or _uvalib_repo(u) in github_repos
+    return lambda u: base(u) or (url_is_safe(u) and _uvalib_repo(u) in github_repos)
 
 
 def drop_untrusted_block_urls(blocks: List[Dict[str, Any]], trace: Any) -> List[Dict[str, Any]]:
