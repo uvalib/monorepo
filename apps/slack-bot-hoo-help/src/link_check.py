@@ -111,6 +111,7 @@ LIBRARY_EXACT_HOSTS = frozenset({"virginia.edu", "www.virginia.edu"})
 LIBRARY_HOST_SUFFIXES = ("library.virginia.edu", "lib.virginia.edu")
 
 
+_PLAIN_HOST = re.compile(r"[a-z0-9.-]+")
 _AUTHORITY = re.compile(r"^[a-z][a-z0-9+.-]*://([^/?#]*)", re.I)
 
 
@@ -141,7 +142,10 @@ def url_host(url: str) -> str:
     if not url or has_backslash(url):
         return ""
     try:
-        host = _idna(urlparse(url).hostname or "")
+        raw = urlparse(url).hostname or ""
+        if "%" in raw:  # percent-escapes in a host ("evil.com%40.lib…") read differently elsewhere
+            return ""
+        host = _idna(raw)
         other = (_urllib3_parse_url(url).host or "").strip("[]").rstrip(".").lower()
     except Exception:
         return ""
@@ -167,6 +171,8 @@ def is_library_url(url: str) -> bool:
     if "@" in netloc:  # userinfo hides the real host from a quick read
         return False
     host = url_host(u)
+    if not _PLAIN_HOST.fullmatch(host):
+        return False
     return host in LIBRARY_EXACT_HOSTS or any(host == s or host.endswith("." + s) for s in LIBRARY_HOST_SUFFIXES)
 
 
@@ -266,11 +272,27 @@ def _log_untrusted(url: str) -> None:
     logger.warning("Link-check: dropped untrusted URL host=%s", (url_host(url) or "?")[:253])
 
 
+_CONTROL_CHARS = re.compile(r"[\x00-\x09\x0b-\x1f\x7f]")
+_SPACED_SLACK_LINK = re.compile(r"<(https?://[^|>]*?\s[^|>]*)(?:\|([^>]*))?>", re.I)
+
+
 def drop_untrusted_urls(text: str, allowed: Callable[[str], bool]) -> Tuple[str, List[dict]]:
     """Remove every URL ``allowed`` rejects (link text kept). Never fetches anything."""
     changes: List[dict] = []
     if not text:
         return text, changes
+    # Browsers strip tabs and newlines inside a URL, so "<https://lib.virginia.edu\t.evil.com/…>" opens
+    # lib.virginia.edu.evil.com while our patterns stop at the tab: control characters go (newlines
+    # stay), and a Slack link whose target holds any whitespace is dropped, keeping its label.
+    text = _CONTROL_CHARS.sub("", text)
+
+    def _spaced_link(m: re.Match) -> str:
+        target = m.group(1)
+        changes.append({"url": target, "action": "removed", "reason": "untrusted", "replacement": None})
+        _log_untrusted(re.sub(r"\s+", "", target))
+        return m.group(2) or ""
+
+    text = _SPACED_SLACK_LINK.sub(_spaced_link, text)
     for _ in range(5):  # a removal can, in principle, join text into a new URL: repeat until clean
         bad = [u for u in extract_urls(text) if not allowed(u)]
         if not bad:
@@ -459,9 +481,6 @@ def check_url(url: str, *, timeout: float = 6.0) -> LinkCheckResult:
         "User-Agent": "HooHelp-linkcheck/1.0 (+https://library.virginia.edu)",
         "Accept": "text/html,application/xhtml+xml,application/json;q=0.9,*/*;q=0.8",
     }
-    session = requests.Session()
-    session.max_redirects = 8
-
     start_host = url_host(url)
     status = _host_status(start_host)
     if status == "unresolved":
@@ -469,6 +488,8 @@ def check_url(url: str, *, timeout: float = 6.0) -> LinkCheckResult:
     if status != "public":
         logger.warning("Link-check: refused private or unparsable address host=%s", (start_host or "?")[:253])
         return LinkCheckResult(url=url, ok=False, error=REFUSED_PRIVATE)
+    session = requests.Session()
+    session.max_redirects = 8
 
     def _try(method: str) -> LinkCheckResult:
         try:
