@@ -19,7 +19,7 @@ import requests
 logger = logging.getLogger(__name__)
 
 DEFAULT_BASE_URL = "https://analytics.lib.virginia.edu/index.php"
-TIMEOUT_SEC = 40
+TIMEOUT_SEC = 30
 CACHE_MAX_ENTRIES = 200
 # Params a caller may never set: they could put a credential in the URL or
 # override the request framing.
@@ -59,6 +59,10 @@ class MatomoAuthError(MatomoError):
         self.status = status
 
 
+class MatomoBusy(MatomoError):
+    """Matomo answered 502, 503 or 504: overloaded or down."""
+
+
 class MatomoTimeout(MatomoError):
     pass
 
@@ -91,12 +95,15 @@ class MatomoClient:
         full = {**params, "module": "API", "format": "JSON", "method": method}
         timeout = TIMEOUT_SEC if timeout is None else timeout
         resp = self._post(full, timeout)
-        if retry and (resp.status_code == 429 or resp.status_code >= 500):
+        # Only a rate limit is retried: a retry against an overloaded server (5xx) adds load.
+        if retry and resp.status_code == 429:
             logger.info("matomo retry method=%s status=%s", method, resp.status_code)
             resp = self._post(full, timeout)
         status = resp.status_code
         if status in (401, 403):
             raise MatomoAuthError(f"Matomo refused access (HTTP {status})", status)
+        if status in (502, 503, 504):
+            raise MatomoBusy(f"Matomo returned HTTP {status}")
         if status >= 400:
             raise MatomoError(f"Matomo returned HTTP {status}")
         try:

@@ -20,7 +20,7 @@ from typing import Any, Callable, Dict, List, Optional
 from zoneinfo import ZoneInfo
 
 from link_check import is_library_url
-from matomo_client import MatomoAuthError, MatomoClient, MatomoError, MatomoTimeout
+from matomo_client import MatomoAuthError, MatomoBusy, MatomoClient, MatomoError, MatomoTimeout
 from tool_names import gateway_name
 from virgo_access import classify_access, parse_item_details
 from matomo_report import (
@@ -54,7 +54,12 @@ OTHERS_SPLIT_NOTE = ("Per-page and per-item figures without automated sessions a
                      "include some automated views (Matomo groups less-viewed pages into “Others” separately "
                      "for each report); totals are exact.")
 IGNORE_WARNING = "⚠ These totals include likely automated sessions."
-OTHER_TIMEOUT = "Matomo didn't respond in time; try a shorter range or ask again shortly."
+# After a timeout or 502/503/504, no Matomo request for BUSY_PAUSE_SEC: retries (by the model, or
+# by another question) only add load to a struggling server.
+BUSY_PAUSE_SEC = 300
+OTHER_TIMEOUT = ("Matomo is overloaded or not responding, so Matomo lookups are paused for about 5 minutes. "
+                 "Don't call Matomo tools again for this question; tell the user Matomo is busy and to "
+                 "try again in a few minutes.")
 UNAVAILABLE = "Matomo isn't available right now."
 # Ranges are added up from monthly and daily reports (see archived_parts); each part keeps at
 # least this many top rows so pages ranked lower in one month still count.
@@ -316,6 +321,7 @@ class MatomoTools:
         self.automated_split = automated_split
         self.clock = clock
         self._disabled_at: Optional[float] = None
+        self._busy_at: Optional[float] = None
         # (site, period, date, segment) -> (when, "timeout" | "error"), kept SEGMENT_RETRY_SEC
         self._segment_timeouts: Dict[tuple, tuple] = {}
         self._segment_lock = threading.Lock()
@@ -387,6 +393,10 @@ class MatomoTools:
         args = args if isinstance(args, dict) else {}
         if self.handles(name) and self._disabled():
             return f"Error: {UNAVAILABLE}"
+        if self.handles(name) and self._busy_at is not None:
+            if self.clock() - self._busy_at < BUSY_PAUSE_SEC:
+                return f"Error: {OTHER_TIMEOUT}"
+            self._busy_at = None
         try:
             if name == TOOL_SITES:
                 return self.sites()
@@ -406,7 +416,9 @@ class MatomoTools:
             self._disabled_at = self.clock()
             logger.warning("matomo_auth_failed status=%s", e.status)
             return f"Error: {UNAVAILABLE}"
-        except MatomoTimeout:
+        except (MatomoTimeout, MatomoBusy) as e:
+            self._busy_at = self.clock()
+            logger.warning("matomo busy (%s); Matomo calls paused %ss", type(e).__name__, BUSY_PAUSE_SEC)
             return f"Error: {OTHER_TIMEOUT}"
         except MatomoError as e:
             return f"Error: {e}"

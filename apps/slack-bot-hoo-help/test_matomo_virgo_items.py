@@ -175,8 +175,7 @@ def test_virgo_items_pool_filter_and_errors():
     assert c.calls[0][1]["filter_pattern"] == "^/?sources/articles/items/"
     assert t.call(TOOL_VIRGO_ITEMS, {**ARGS, "pool": "bogus"}).startswith("Error:")
     t2, _ = make({("Actions.getPageUrls", None): MatomoTimeout("t")})
-    assert t2.call(TOOL_VIRGO_ITEMS, ARGS) == \
-        "Error: Matomo didn't respond in time; try a shorter range or ask again shortly."
+    assert t2.call(TOOL_VIRGO_ITEMS, ARGS).startswith("Error: Matomo is overloaded or not responding")
 
 
 def test_virgo_items_untrusted_title():

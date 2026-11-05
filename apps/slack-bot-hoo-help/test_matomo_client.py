@@ -8,7 +8,7 @@ import requests
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 
 from matomo_client import (  # noqa: E402
-    ALLOWED_METHODS, MatomoAuthError, MatomoClient, MatomoError, MatomoTimeout,
+    ALLOWED_METHODS, MatomoAuthError, MatomoBusy, MatomoClient, MatomoError, MatomoTimeout,
 )
 
 
@@ -84,15 +84,21 @@ def test_auth_statuses(status):
     assert len(http.calls) == 1  # never retried
 
 
-def test_retry_once_on_5xx_and_429():
-    c, http = make(Resp(503), Resp(200, {"ok": 1}))
-    assert c.api("VisitsSummary.get", idSite=1) == {"ok": 1}
-    assert len(http.calls) == 2
-    c, http = make(Resp(429), Resp(200, {"ok": 1}))
-    assert c.api("VisitsSummary.get", idSite=1) == {"ok": 1}
-    c, http = make(Resp(503), Resp(503))
+def test_no_retry_on_5xx_busy_error():
+    # A retry against an overloaded server only adds load.
+    for status in (502, 503, 504):
+        c, http = make(Resp(status), Resp(200, {"ok": 1}))
+        with pytest.raises(MatomoBusy):
+            c.api("VisitsSummary.get", idSite=1)
+        assert len(http.calls) == 1
+    c, http = make(Resp(500))
     with pytest.raises(MatomoError):
         c.api("VisitsSummary.get", idSite=1)
+
+
+def test_retry_once_on_429():
+    c, http = make(Resp(429), Resp(200, {"ok": 1}))
+    assert c.api("VisitsSummary.get", idSite=1) == {"ok": 1}
     assert len(http.calls) == 2
 
 
@@ -100,11 +106,11 @@ def test_timeout():
     c, http = make(requests.exceptions.Timeout("slow"))
     with pytest.raises(MatomoTimeout):
         c.api("VisitsSummary.get", idSite=1)
-    assert http.calls[0]["timeout"] == 40
+    assert http.calls[0]["timeout"] == 30
 
 
 def test_timeout_on_retry():
-    c, http = make(Resp(503), requests.exceptions.Timeout("slow"))
+    c, http = make(Resp(429), requests.exceptions.Timeout("slow"))
     with pytest.raises(MatomoTimeout):
         c.api("VisitsSummary.get", idSite=1)
     assert len(http.calls) == 2
@@ -279,7 +285,7 @@ def test_per_call_timeout():
     assert http.calls[0]["timeout"] == 20
     assert "timeout" not in http.calls[0]["params"]
     c.api("VisitsSummary.get", idSite=2, period="day", date="2026-10-01")
-    assert http.calls[1]["timeout"] == 40
+    assert http.calls[1]["timeout"] == 30
 
 
 # ---- re-review: thread-safe cache, stored_segment failure handling -------------

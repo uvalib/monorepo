@@ -8,7 +8,7 @@ import pytest
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 
 import matomo_tools  # noqa: E402
-from matomo_client import MatomoAuthError, MatomoError, MatomoTimeout  # noqa: E402
+from matomo_client import MatomoAuthError, MatomoBusy, MatomoError, MatomoTimeout  # noqa: E402
 from matomo_report import AUTOMATED_MIN_ACTIONS, AUTOMATED_MIN_SECONDS, AUTOMATED_SEGMENT  # noqa: E402
 from matomo_tools import (  # noqa: E402
     TOOL_PAGE, TOOL_SITES, TOOL_TOP_PAGES, TOOL_TRAFFIC, TOOL_VIRGO_ITEMS,
@@ -22,7 +22,9 @@ SITES = [
 ]
 TIMEOUT_SEGMENT = ("Matomo is still preparing the automated-session breakdown for this "
                    "period; ask again in about 10 minutes.")
-TIMEOUT_OTHER = "Matomo didn't respond in time; try a shorter range or ask again shortly."
+TIMEOUT_OTHER = ("Matomo is overloaded or not responding, so Matomo lookups are paused for about 5 minutes. "
+                 "Don't call Matomo tools again for this question; tell the user Matomo is busy and to "
+                 "try again in a few minutes.")
 
 VISITS = {"nb_visits": 1000, "nb_uniq_visitors": 800, "nb_actions": 5000,
           "bounce_rate": "40%", "bounce_count": 400, "sum_visit_length": 125000,
@@ -527,3 +529,26 @@ def test_for_env_retries_after_ten_minutes(monkeypatch):
     clock[0] += 600
     matomo_tools_for_env(env, ssm_get=ssm)
     assert len(calls) == 2
+
+
+@pytest.mark.parametrize("exc", [MatomoTimeout("t"), MatomoBusy("Matomo returned HTTP 504")])
+def test_busy_matomo_pauses_all_matomo_calls(exc):
+    clock = Clock()
+    c = FakeClient({("VisitsSummary.get", None): exc, ("Actions.get", None): ACTIONS})
+    t = MatomoTools(c, today=lambda: TODAY, clock=clock)
+    assert t.call(TOOL_TRAFFIC, OCT) == "Error: " + TIMEOUT_OTHER
+    calls = len(c.calls)
+    c.script[("VisitsSummary.get", None)] = VISITS
+    for name, args in ((TOOL_TRAFFIC, OCT), (TOOL_TOP_PAGES, OCT), (TOOL_SITES, {})):
+        assert t.call(name, args) == "Error: " + TIMEOUT_OTHER
+    assert len(c.calls) == calls  # no Matomo request while paused
+    clock.t += 301
+    assert not t.call(TOOL_TRAFFIC, OCT).startswith("Error")
+
+
+def test_ordinary_matomo_error_does_not_pause():
+    c = FakeClient({("VisitsSummary.get", None): MatomoError("Invalid date"), ("Actions.get", None): ACTIONS})
+    t = MatomoTools(c, today=lambda: TODAY, clock=Clock())
+    assert t.call(TOOL_TRAFFIC, OCT) == "Error: Invalid date"
+    c.script[("VisitsSummary.get", None)] = VISITS
+    assert not t.call(TOOL_TRAFFIC, OCT).startswith("Error")
