@@ -207,3 +207,73 @@ def test_other_error_body_not_auth():
     with pytest.raises(MatomoError) as e:
         c.api("VisitsSummary.get", idSite=1)
     assert not isinstance(e.value, MatomoAuthError)
+
+
+# ---- final fix round: stored segments, per-call timeout -------------------------
+
+AUTO_DEF = "visitDuration>=3600;actions>=1000"
+
+
+def _seg(definition, auto="1", only="0", **kw):
+    return {"idsegment": "7", "name": "Automated", "definition": definition,
+            "auto_archive": auto, "enable_only_idsite": only, **kw}
+
+
+def test_segment_editor_getall_allowed_and_no_visitor_methods():
+    assert "SegmentEditor.getAll" in ALLOWED_METHODS
+    assert not any(m.startswith("Live.") for m in ALLOWED_METHODS)
+
+
+def test_stored_segment_found_encoded_and_plain():
+    for definition in (AUTO_DEF, "visitDuration%3E%3D3600;actions%3E%3D1000"):
+        c, http = make(Resp(200, [_seg("pageUrl=@x"), _seg(definition)]))
+        got = c.stored_segment(AUTO_DEF)
+        assert got is not None and got["definition"] == definition
+        assert http.calls[0]["params"]["method"] == "SegmentEditor.getAll"
+
+
+@pytest.mark.parametrize("seg", [
+    _seg(AUTO_DEF, auto="0"), _seg(AUTO_DEF, auto=0), _seg(AUTO_DEF, auto=""),
+    _seg(AUTO_DEF + ";x==1"), _seg("visitDuration>=3600"), _seg(AUTO_DEF, only="10"),
+])
+def test_stored_segment_not_usable(seg):
+    c, _ = make(Resp(200, [seg]))
+    assert c.stored_segment(AUTO_DEF) is None
+
+
+def test_stored_segment_site_scope():
+    c, _ = make(Resp(200, [_seg(AUTO_DEF, only="39")]))
+    assert c.stored_segment(AUTO_DEF, idsite=39) is not None
+    assert c.stored_segment(AUTO_DEF, idsite=10) is None
+    assert c.stored_segment(AUTO_DEF) is None  # site-only segment, no site asked
+    for only in (0, "", None):
+        c, _ = make(Resp(200, [_seg(AUTO_DEF, auto=1, only=only)]))
+        assert c.stored_segment(AUTO_DEF, idsite=10) is not None
+
+
+def test_stored_segment_list_cached_one_hour():
+    clock = Clock()
+    c, http = make(Resp(200, [_seg(AUTO_DEF)]), clock=clock)
+    c.stored_segment(AUTO_DEF)
+    clock.t += 3500
+    c.stored_segment(AUTO_DEF)
+    assert len(http.calls) == 1
+    clock.t += 200
+    c.stored_segment(AUTO_DEF)
+    assert len(http.calls) == 2
+
+
+def test_stored_segment_odd_body():
+    c, _ = make(Resp(200, {"weird": 1}))
+    assert c.stored_segment(AUTO_DEF) is None
+    c, _ = make(Resp(200, ["x", None, {"definition": None}]))
+    assert c.stored_segment(AUTO_DEF) is None
+
+
+def test_per_call_timeout():
+    c, http = make(Resp(200, {"nb_visits": 1}))
+    c.api("VisitsSummary.get", idSite=1, period="day", date="2026-10-01", timeout=20)
+    assert http.calls[0]["timeout"] == 20
+    assert "timeout" not in http.calls[0]["params"]
+    c.api("VisitsSummary.get", idSite=2, period="day", date="2026-10-01")
+    assert http.calls[1]["timeout"] == 40

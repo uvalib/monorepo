@@ -3,13 +3,14 @@ matomo_client.py — read-only, aggregate-only client for the Library's Matomo.
 
 Only methods in ALLOWED_METHODS are ever sent. The API token goes in the POST
 body (`token_auth`) and nowhere else: never in the URL, a log line or an
-exception message. Results are cached 10 minutes, the site list 1 hour.
+exception message. Results are cached 10 minutes, the site and segment lists 1 hour.
 """
 
 from __future__ import annotations
 
 import logging
 import time
+from urllib.parse import unquote
 from typing import Any, Callable, Dict, List, Optional, Tuple
 
 import requests
@@ -27,9 +28,12 @@ AUTH_MESSAGE_MARKERS = ("token_auth", "authenticate", "access", "permission")
 RESULT_TTL_SEC = 600
 SITES_TTL_SEC = 3600
 SITES_METHOD = "SitesManager.getSitesWithAtLeastViewAccess"
+# Lists stored segment definitions only (no visitor data).
+SEGMENTS_METHOD = "SegmentEditor.getAll"
 
 ALLOWED_METHODS = frozenset({
     SITES_METHOD,
+    SEGMENTS_METHOD,
     "VisitsSummary.get",
     "Actions.get",
     "Actions.getPageUrls",
@@ -63,10 +67,10 @@ class MatomoClient:
         self._clock = clock
         self._cache: Dict[Tuple, Tuple[float, Any, int]] = {}
 
-    def _post(self, params: Dict[str, Any]):
+    def _post(self, params: Dict[str, Any], timeout: float = TIMEOUT_SEC):
         try:
             return self._http.post(self._base_url, params=params,
-                                   data={"token_auth": self._token}, timeout=TIMEOUT_SEC)
+                                   data={"token_auth": self._token}, timeout=timeout)
         except requests.exceptions.Timeout:
             logger.warning("matomo timeout method=%s", params.get("method"))
             raise MatomoTimeout("Matomo did not respond in time") from None
@@ -74,7 +78,8 @@ class MatomoClient:
             logger.warning("matomo request failed method=%s type=%s", params.get("method"), type(e).__name__)
             raise MatomoError("Could not reach Matomo") from None
 
-    def _fetch(self, method: str, params: Dict[str, Any], ttl: int) -> Any:
+    def _fetch(self, method: str, params: Dict[str, Any], ttl: int,
+               timeout: Optional[float] = None) -> Any:
         key = (method, tuple(sorted((k, str(v)) for k, v in params.items())))
         now = self._clock()
         hit = self._cache.get(key)
@@ -82,10 +87,11 @@ class MatomoClient:
             return hit[1]
 
         full = {**params, "module": "API", "format": "JSON", "method": method}
-        resp = self._post(full)
+        timeout = TIMEOUT_SEC if timeout is None else timeout
+        resp = self._post(full, timeout)
         if resp.status_code == 429 or resp.status_code >= 500:
             logger.info("matomo retry method=%s status=%s", method, resp.status_code)
-            resp = self._post(full)
+            resp = self._post(full, timeout)
         status = resp.status_code
         if status in (401, 403):
             raise MatomoAuthError(f"Matomo refused access (HTTP {status})", status)
@@ -114,13 +120,30 @@ class MatomoClient:
         while len(self._cache) > CACHE_MAX_ENTRIES:
             del self._cache[next(iter(self._cache))]
 
-    def api(self, method: str, /, **params) -> Any:
+    def api(self, method: str, /, *, timeout: Optional[float] = None, **params) -> Any:
+        """One allow-listed report; `timeout` (seconds, per request) defaults to TIMEOUT_SEC."""
         if method not in ALLOWED_METHODS:
             raise MatomoError(f"Method not allowed: {method}")
         bad = sorted(k for k in params if k.lower() in RESERVED_PARAMS)
         if bad:
             raise MatomoError(f"Reserved parameter not allowed: {', '.join(bad)}")
-        return self._fetch(method, params, RESULT_TTL_SEC)
+        return self._fetch(method, params, RESULT_TTL_SEC, timeout)
+
+    def stored_segment(self, definition: str, idsite: Optional[int] = None) -> Optional[dict]:
+        """The stored segment with exactly this definition that Matomo pre-processes (auto_archive)
+        for all sites or for `idsite`; None when there isn't one. Never triggers processing."""
+        raw = self._fetch(SEGMENTS_METHOD, {}, SITES_TTL_SEC)
+        for seg in raw if isinstance(raw, list) else []:
+            if not isinstance(seg, dict) or not isinstance(seg.get("definition"), str):
+                continue
+            if unquote(seg["definition"]) != definition:
+                continue
+            if str(seg.get("auto_archive") or "0").strip() != "1":
+                continue
+            only = str(seg.get("enable_only_idsite") or "0").strip()
+            if only == "0" or (idsite is not None and only == str(idsite)):
+                return seg
+        return None
 
     def sites(self) -> List[dict]:
         raw = self._fetch(SITES_METHOD, {}, SITES_TTL_SEC)
