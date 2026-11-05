@@ -3,6 +3,9 @@
 
   python evals/run.py --offline [--case ID ...]   # replay recorded traces; exit 1 on any failure
   python evals/run.py --live [--case ID ...]      # real model + gateway; writes a report
+
+A full live run (no --case) costs real money, so it runs at most once a day;
+--force runs it again. Targeted --case runs are never limited.
 """
 
 from __future__ import annotations
@@ -12,6 +15,7 @@ import json
 import os
 import re
 import sys
+from datetime import date
 
 APP = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, APP)
@@ -21,6 +25,11 @@ from evals.case import CaseError, load_cases  # noqa: E402
 
 DEFAULT_CASES = os.path.join(os.path.dirname(os.path.abspath(__file__)), "cases")
 SAMCONFIG = os.path.join(APP, "samconfig.toml")
+REPORTS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "reports")
+
+
+def _today() -> date:
+    return date.today()
 
 
 def production_model_id(samconfig_path: str = SAMCONFIG) -> str | None:
@@ -179,6 +188,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--model", help="live tier: model id (default: production's BedrockModelId from samconfig.toml)")
     ap.add_argument("--gateway-url", help="live tier: gateway MCP URL to test (sets GATEWAY_URL)")
     ap.add_argument("--json-out", metavar="PATH", help='write {case_id: "PASS"|"FAIL"} for this run')
+    ap.add_argument("--force", action="store_true", help="live tier: allow a second full run today")
     args = ap.parse_args(argv)
     if args.gateway_url:
         os.environ["GATEWAY_URL"] = args.gateway_url
@@ -191,8 +201,17 @@ def main(argv: list[str] | None = None) -> int:
             known = sorted(c["id"] for c in load_cases(args.cases_dir) if isinstance(c, dict))
             print(f"Unknown case id(s): {', '.join(missing)}\nKnown: {', '.join(known)}")
             return 2
+    full_live = args.live and not args.cases
+    marker = os.path.join(REPORTS_DIR, f".full-live-run-{_today():%Y%m%d}")
+    if full_live and os.path.exists(marker) and not args.force:
+        print("The full live suite already ran today; it costs real money, so it runs once a day.\n"
+              "Run the affected cases with --case ID, or pass --force to run everything again.")
+        return 2
     outcomes: dict = {}
     rc = _offline(cases, outcomes) if args.offline else _live(cases, args.model, outcomes)
+    if full_live and rc != 2:
+        os.makedirs(REPORTS_DIR, exist_ok=True)
+        open(marker, "w").close()
     if args.json_out:
         with open(args.json_out, "w") as fh:
             json.dump(outcomes, fh, indent=2, sort_keys=True)
@@ -234,7 +253,7 @@ def _live(cases: list, model: str | None = None, outcomes: dict | None = None) -
         if outcomes is not None:
             outcomes[r.id] = "PASS" if r.passed else "FAIL"
         print(f"{'PASS' if r.passed else 'FAIL'} {r.id} ({r.seconds:.0f}s)" + ("" if r.passed else ": " + "; ".join(r.reasons)))
-    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "reports", f"live-{datetime.now():%Y%m%d-%H%M%S}.md")
+    path = os.path.join(REPORTS_DIR, f"live-{datetime.now():%Y%m%d-%H%M%S}.md")
     live.write_report(results, path)
     print(f"\n{sum(r.passed for r in results)}/{len(results)} passed — report: {path}")
     return 0

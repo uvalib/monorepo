@@ -237,3 +237,35 @@ def test_matomo_live_cases_check_the_split_or_warning():
         c = load_case(os.path.join(cases, name + ".json"))
         assert set(c["live"]["phrases_any"]) >= {"automated sessions", "can't be separated"}, name
         assert "isn't available right now" in c["live"]["forbid"], name
+
+
+def test_full_live_run_at_most_once_a_day(monkeypatch, tmp_path, capsys):
+    # 2026-11-05: live cases cost real money (about $0.02–0.07 each); a full suite runs once a day.
+    from datetime import date
+    from evals import run
+
+    calls = []
+    monkeypatch.setattr(run, "_live", lambda cases, model=None, outcomes=None: calls.append(len(cases)) or 0)
+    monkeypatch.setattr(run, "REPORTS_DIR", str(tmp_path))
+    monkeypatch.setattr(run, "_today", lambda: date(2026, 11, 5))
+
+    assert run.main(["--live"]) == 0 and len(calls) == 1          # first full run of the day
+    assert (tmp_path / ".full-live-run-20261105").exists()
+    assert run.main(["--live"]) == 2 and len(calls) == 1          # second is refused
+    assert "already ran today" in capsys.readouterr().out
+    assert run.main(["--live", "--force"]) == 0 and len(calls) == 2
+    assert run.main(["--live", "--case", "hours-rmc"]) == 0 and len(calls) == 3  # targeted runs unaffected
+    monkeypatch.setattr(run, "_today", lambda: date(2026, 11, 6))
+    assert run.main(["--live"]) == 0 and len(calls) == 4          # a new day
+
+
+def test_offline_and_targeted_runs_leave_no_marker(monkeypatch, tmp_path):
+    from datetime import date
+    from evals import run
+
+    monkeypatch.setattr(run, "_live", lambda cases, model=None, outcomes=None: 0)
+    monkeypatch.setattr(run, "REPORTS_DIR", str(tmp_path))
+    monkeypatch.setattr(run, "_today", lambda: date(2026, 11, 5))
+    run.main(["--live", "--case", "hours-rmc"])
+    run.main(["--offline", "--case", "hours-rmc"])
+    assert not list(tmp_path.glob(".full-live-run-*"))
