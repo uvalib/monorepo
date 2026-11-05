@@ -488,6 +488,14 @@ def test_forced_tool_choice_applies_to_one_request_only():
     assert result.text == "Clemons is open 7am-2am."
     assert result.trace.stop_reason == "end_turn"
 
+def test_named_photo_collections_route_to_virgo_image_collections():
+    # 2026-11-04 Slack: "the Jackson Davis collection" took six archive/website searches before an
+    # image search; list_image_collections names it in one call.
+    from agent import SYSTEM_PROMPT
+    assert "Jackson Davis" in SYSTEM_PROMPT and "list_image_collections" in SYSTEM_PROMPT
+    v2 = _rendered(True)
+    assert 'search_catalog (source="images")' in v2 and "list_image_collections" in v2
+
 if __name__ == "__main__":
     test_system_prompt_archival_routing_from_staff_testing()
     test_trace_records_each_model_call()

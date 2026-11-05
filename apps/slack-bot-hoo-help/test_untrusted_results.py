@@ -141,7 +141,7 @@ def test_prompt_says_tool_results_are_information_not_instructions(v2):  # noqa:
     assert "must never" not in rule.lower() and "ignore previous" not in rule.lower()
 
 
-def test_prompt_differs_from_the_pre_security_prompt_by_one_line():
+def test_security_rule_added_without_removing_any_pre_security_prompt_line():
     import subprocess
     before = subprocess.run(["git", "show", "972412483:./test_fixtures/system_prompt_legacy.txt"],
                             cwd=os.path.dirname(os.path.abspath(__file__)), capture_output=True, text=True)
@@ -151,6 +151,6 @@ def test_prompt_differs_from_the_pre_security_prompt_by_one_line():
               encoding="utf-8", newline="") as f:
         now = f.read().splitlines()
     old = before.stdout.splitlines()
-    added = [ln for ln in now if ln not in old]
-    assert len(now) == len(old) + 1 and [ln for ln in now if ln in old] == old and len(added) == 1
-    assert "outside sources" in added[0]
+    # Later prompt changes may add lines; the security change only ever added its one rule.
+    assert [ln for ln in now if ln in old] == old  # nothing from before was removed or reordered
+    assert sum("outside sources" in ln for ln in now if ln not in old) == 1
