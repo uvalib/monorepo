@@ -342,7 +342,8 @@ def test_others_rows_not_shown_as_pages():
             {"label": "/a", "nb_hits": 1, "nb_visits": 1}]
     t, _ = tools({("Actions.getPageUrls", None): rows})
     out = t.call(TOOL_TOP_PAGES, {"site": "10", **OCT_DATES})
-    assert "Other pages (grouped by Matomo)" in out and "- Others" not in out
+    assert "Other pages under /sources/uva_library/items/ (grouped by Matomo)" in out
+    assert "- Others" not in out
 
 
 @pytest.mark.parametrize("label", [
@@ -375,6 +376,37 @@ def test_limit_plus_one_for_more_rows():
     t, _ = tools({("Actions.getPageUrls", None): rows})
     out = t.call(TOOL_TOP_PAGES, {"site": "10", "limit": 3, **OCT_DATES})
     assert "more rows exist" in out and "/p3" not in out
+
+
+def test_two_grouped_rows_distinguishable_and_suspicious_dir_is_code():
+    rows = [{"label": "/a/ - Others", "nb_hits": 2, "nb_visits": 2},
+            {"label": "/b/ - Others", "nb_hits": 1, "nb_visits": 1},
+            {"label": "/x/https://evil.example/ - Others", "nb_hits": 1, "nb_visits": 1}]
+    t, _ = tools({("Actions.getPageUrls", None): rows})
+    out = t.call(TOOL_TOP_PAGES, {"site": "10", **OCT_DATES})
+    assert "Other pages under /a/ (grouped" in out and "Other pages under /b/ (grouped" in out
+    assert "Other pages under `/x/https://evil.example/` (grouped" in out
+
+
+def test_entry_exit_show_their_own_columns():
+    row = {"label": "/a", "nb_hits": 7, "nb_visits": 6, "entry_nb_visits": 55, "exit_nb_visits": 44,
+           "bounce_rate": "20%", "exit_rate": "10%", "avg_time_on_page": 65}
+    for report, method, head, val, rate in [
+            ("entry", "Actions.getEntryPageUrls", "| Page | Entries | Bounce rate | Pageviews |", "55", "20%"),
+            ("exit", "Actions.getExitPageUrls", "| Page | Exits | Exit rate | Pageviews |", "44", "10%")]:
+        t, _ = tools({(method, None): [row]})
+        out = t.call(TOOL_TOP_PAGES, {"site": "10", "report": report, **OCT_DATES})
+        assert head in out
+        assert f"| /a | {val} | {rate} | 7 |" in out
+
+
+def test_compare_capped_end_is_stated():
+    t = MatomoTools(PrevClient(_cmp_script()), today=lambda: datetime.date(2026, 10, 1))
+    args = {"site": "10", "automated": "ignore", "start_date": "2026-09-01", "end_date": "2026-09-30"}
+    assert "capped" not in t.call(TOOL_TRAFFIC, {**args, "compare_start_date": "2026-08-01",
+                                                  "compare_end_date": "2026-08-31"})
+    out = t.call(TOOL_TRAFFIC, {**args, "compare_start_date": "2026-09-01", "compare_end_date": "2026-10-31"})
+    assert "comparison end date was capped at yesterday" in out.lower()
 
 
 # ---- for_env ----------------------------------------------------------------

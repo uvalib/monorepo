@@ -122,7 +122,11 @@ def _suspicious(text: str) -> bool:
 def _display_label(label: Any) -> str:
     text = " ".join(str(label if label is not None else "").split())[:300]
     if text.endswith(" - Others"):
-        return OTHERS_LABEL
+        directory = text[: -len(" - Others")].strip()
+        if not directory:
+            return OTHERS_LABEL
+        shown = _code(directory) if _suspicious(directory) else directory
+        return f"Other pages under {shown} (grouped by Matomo)"
     m = _SCHEME_URL.match(text)
     if m:
         rest = m.group(1)
@@ -348,6 +352,8 @@ class MatomoTools:
         lines = [self._head(site, period, handling)]
         if compare is not None:
             lines.append(f"Compared with {compare.label}.")
+            if compare.capped:
+                lines.append("The comparison end date was capped at yesterday (the latest day with data).")
 
         def block(rows, key):
             return self._table(rows, cur[key], period, prev[key] if prev else None, compare)
@@ -418,13 +424,23 @@ class MatomoTools:
             lines.append("No rows.")
         else:
             rate_name = "Exit rate" if report == "exit" else "Bounce rate"
-            lines.append(f"| Page | Pageviews | Unique pageviews | Avg time | {rate_name} |")
-            lines.append("| --- | --- | --- | --- | --- |")
+            if report in ("entry", "exit"):
+                count_name, count_key = ("Entries", "entry_nb_visits") if report == "entry" \
+                    else ("Exits", "exit_nb_visits")
+                lines.append(f"| Page | {count_name} | {rate_name} | Pageviews | Unique pageviews | Avg time |")
+                lines.append("| --- | --- | --- | --- | --- | --- |")
+            else:
+                lines.append(f"| Page | Pageviews | Unique pageviews | Avg time | {rate_name} |")
+                lines.append("| --- | --- | --- | --- | --- |")
             for r in rows:
                 rate = r.get("exit_rate") if report == "exit" else r.get("bounce_rate")
                 label = _display_label(r.get("label")).replace("|", "/")
-                lines.append(f"| {label} | {_n(r.get('nb_hits'))} | {_n(r.get('nb_visits'))} | "
-                             f"{_mmss(r.get('avg_time_on_page'))} | {_rate(rate)} |")
+                if report in ("entry", "exit"):
+                    lines.append(f"| {label} | {_n(r.get(count_key))} | {_rate(rate)} | {_n(r.get('nb_hits'))} | "
+                                 f"{_n(r.get('nb_visits'))} | {_mmss(r.get('avg_time_on_page'))} |")
+                else:
+                    lines.append(f"| {label} | {_n(r.get('nb_hits'))} | {_n(r.get('nb_visits'))} | "
+                                 f"{_mmss(r.get('avg_time_on_page'))} | {_rate(rate)} |")
         if more:
             lines.append(f"Showing the top {limit}; more rows exist. Ask for a larger limit "
                          f"(max {MAX_LIMIT}) or use a path_prefix to narrow.")
