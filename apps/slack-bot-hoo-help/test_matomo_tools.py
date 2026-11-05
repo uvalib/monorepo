@@ -9,7 +9,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 
 import matomo_tools  # noqa: E402
 from matomo_client import MatomoAuthError, MatomoError, MatomoTimeout  # noqa: E402
-from matomo_report import AUTOMATED_SEGMENT  # noqa: E402
+from matomo_report import AUTOMATED_MIN_ACTIONS, AUTOMATED_MIN_SECONDS, AUTOMATED_SEGMENT  # noqa: E402
 from matomo_tools import (  # noqa: E402
     TOOL_PAGE, TOOL_SITES, TOOL_TOP_PAGES, TOOL_TRAFFIC, TOOL_VIRGO_ITEMS,
     MatomoTools, matomo_tools_for_env,
@@ -25,9 +25,10 @@ TIMEOUT_SEGMENT = ("Matomo is still preparing the automated-session breakdown fo
 TIMEOUT_OTHER = "Matomo didn't respond in time; try a shorter range or ask again shortly."
 
 VISITS = {"nb_visits": 1000, "nb_uniq_visitors": 800, "nb_actions": 5000,
-          "bounce_rate": "40%", "avg_time_on_site": 125}
+          "bounce_rate": "40%", "bounce_count": 400, "sum_visit_length": 125000,
+          "avg_time_on_site": 125}
 ACTIONS = {"nb_pageviews": 4000, "nb_searches": 300, "nb_downloads": 20, "nb_outlinks": 70}
-AUTO = {"nb_visits": 100, "nb_actions": 2500}
+AUTO = {"nb_visits": 100, "nb_actions": 2500, "bounce_count": 0, "sum_visit_length": 100000}
 
 
 class FakeClient:
@@ -113,6 +114,9 @@ def test_traffic_exclude():
     assert "excluding likely automated sessions" in out.splitlines()[0]
     assert "900" in out and "2,500" in out
     assert "1,000" not in out
+    assert "Pageviews, searches, downloads, outlinks and unique visitors aren't available "\
+           "without automated sessions." in out
+    assert "44.4%" in out and "0:28" in out  # (400-0)/900 ; (125000-100000)/900/... see below
 
 
 def test_traffic_compare():
@@ -169,29 +173,30 @@ def test_top_pages(report, method):
     out = t.call(TOOL_TOP_PAGES, {"site": "10", "start_date": "2026-10-01", "end_date": "2026-10-31",
                                   "report": report})
     (m, p), = c.calls
-    assert m == method and p["flat"] == 1 and p["filter_limit"] == 10
+    assert m == method and p["flat"] == 1 and p["filter_limit"] == 11
     assert "Library CMS" in out.splitlines()[0] and "2026-10-01 to 2026-10-31" in out.splitlines()[0]
     assert "1,234" in out and "1,000" in out and "1:05" in out and "/a" in out
 
 
 def test_top_pages_prefix_limit_more():
-    rows = [{"label": f"/sources/uva_library/{i}", "nb_hits": 5, "nb_visits": 4} for i in range(3)]
+    rows = [{"label": f"/sources/uva_library/{i}", "nb_hits": 5, "nb_visits": 4} for i in range(4)]
     t, c = tools({("Actions.getPageUrls", None): rows})
     out = t.call(TOOL_TOP_PAGES, {"site": "10", "start_date": "2026-10-01", "end_date": "2026-10-31",
                                   "path_prefix": "/sources/uva_library/", "limit": 3})
-    assert c.calls[0][1]["filter_pattern"] == "/sources/uva_library/"
+    assert c.calls[0][1]["filter_pattern"] == "^/?" + r"sources/uva_library/"
+    assert "/sources/uva_library/3" not in out
     assert "more rows exist" in out
     t, c = tools({("Actions.getPageUrls", None): []})
     t.call(TOOL_TOP_PAGES, {"site": "10", "start_date": "2026-10-01", "end_date": "2026-10-31",
                             "limit": 500})
-    assert c.calls[0][1]["filter_limit"] == 50
+    assert c.calls[0][1]["filter_limit"] == 51
 
 
 def test_top_pages_prefix_is_regex_escaped():
     t, c = tools({("Actions.getPageUrls", None): []})
     t.call(TOOL_TOP_PAGES, {"site": "10", "start_date": "2026-10-01", "end_date": "2026-10-31",
                             "path_prefix": "/a.b+c/"})
-    assert c.calls[0][1]["filter_pattern"] == r"/a\.b\+c/"
+    assert c.calls[0][1]["filter_pattern"] == r"^/?a\.b\+c/"
 
 
 def test_top_pages_show_paths_as_text():
@@ -202,9 +207,10 @@ def test_top_pages_show_paths_as_text():
     out = t.call(TOOL_TOP_PAGES, {"site": "10", "start_date": "2026-10-01", "end_date": "2026-10-31"})
     assert "/x?d=1" in out and "evil.example" not in out
     assert "https://www.library.virginia.edu/hours" in out
-    assert "<" not in out.replace("`<", "").replace("<`", "") or "`" in out
+    assert "<" not in out
     line = [ln for ln in out.splitlines() if "script" in ln][0]
-    assert "<script>" in line and line.index("`") < line.index("<script>")
+    assert "&lt;script&gt;" in line and line.index("`") < line.index("&lt;")
+    assert line.count("`") == 2
 
 
 def test_page():
@@ -224,7 +230,8 @@ def test_page_no_data():
     t, _ = tools({("Actions.getPageUrl", None): []})
     out = t.call(TOOL_PAGE, {"site": "10", "url_or_path": "/hours",
                              "start_date": "2026-10-01", "end_date": "2026-10-31"})
-    assert out == "No Matomo data for /hours in 2026-10-01 to 2026-10-31."
+    assert out.splitlines()[0].startswith("Library CMS, 2026-10-01 to 2026-10-31")
+    assert out.splitlines()[-1] == "No Matomo data for /hours in 2026-10-01 to 2026-10-31."
 
 
 def test_unknown_site_and_bad_dates_are_errors():
@@ -241,6 +248,133 @@ def test_capped_end_is_stated():
     t, _ = tools(PLAIN)
     out = t.call(TOOL_TRAFFIC, {"site": "10", "start_date": "2026-10-01"})
     assert "2026-11-04" in out and "yesterday" in out.lower()
+
+
+# ---- fix round 1 ------------------------------------------------------------------
+
+PREV_VISITS = {"nb_visits": 500, "nb_uniq_visitors": 400, "nb_actions": 2000,
+               "bounce_rate": "50%", "bounce_count": 250, "sum_visit_length": 50000}
+PREV_AUTO = {"nb_visits": 50, "nb_actions": 1000, "bounce_count": 0, "sum_visit_length": 25000}
+
+
+class PrevClient(FakeClient):
+    def api(self, method, /, **params):
+        prev = params.get("date") == "2026-09-01"
+        key = (method, params.get("segment"), prev)
+        self.calls.append((method, params))
+        r = self.script[key]
+        if isinstance(r, Exception):
+            raise r
+        return r
+
+
+def _cmp_script():
+    return {
+        ("VisitsSummary.get", None, False): VISITS, ("Actions.get", None, False): ACTIONS,
+        ("VisitsSummary.get", AUTOMATED_SEGMENT, False): AUTO,
+        ("VisitsSummary.get", None, True): PREV_VISITS, ("Actions.get", None, True): ACTIONS,
+        ("VisitsSummary.get", AUTOMATED_SEGMENT, True): PREV_AUTO,
+    }
+
+
+CMP = {"start_date": "2026-10-01", "end_date": "2026-10-31",
+       "compare_start_date": "2026-09-01", "compare_end_date": "2026-09-30"}
+
+
+def test_virgo_compare_shows_without_for_both_periods():
+    t = MatomoTools(PrevClient(_cmp_script()), today=lambda: TODAY)
+    out = t.call(TOOL_TRAFFIC, {"site": "Virgo", **CMP})
+    assert "without automated sessions" in out.lower()
+    # without: visits 900 vs 450 => +100.0%
+    assert "900" in out and "450" in out and "+100.0%" in out
+    assert "2026-09-01 to 2026-09-30" in out
+
+
+def test_exclude_with_compare():
+    t = MatomoTools(PrevClient(_cmp_script()), today=lambda: TODAY)
+    out = t.call(TOOL_TRAFFIC, {"site": "Virgo", "automated": "exclude", **CMP})
+    assert "excluding likely automated sessions" in out.splitlines()[0]
+    assert "900" in out and "450" in out and "+100.0%" in out
+    assert "| Visits | 900 | 450 |" in out and "Pageviews |" not in out
+    assert "2026-09-01 to 2026-09-30" in out
+    assert "aren't available without automated sessions" in out
+
+
+def test_derived_without_metrics():
+    t, _ = tools(VIRGO_SCRIPT)
+    out = t.call(TOOL_TRAFFIC, OCT)
+    # bounce (400-0)/900 = 44.4% ; avg (125000-100000)/900 = 27.8s -> 0:28
+    assert "44.4%" in out and "0:28" in out
+
+
+def test_top_pages_exclude_segment_and_timeout():
+    expected = f"visitDuration<{AUTOMATED_MIN_SECONDS},actions<{AUTOMATED_MIN_ACTIONS}"
+    assert matomo_tools.NOT_AUTOMATED_SEGMENT == expected
+    t, c = tools({("Actions.getPageUrls", expected): ROWS})
+    t.call(TOOL_TOP_PAGES, {"site": "10", "automated": "exclude", **OCT_DATES})
+    assert c.calls[0][1]["segment"] == expected
+    t, c = tools({("Actions.getPageUrls", expected): MatomoTimeout("t"), ("Actions.getPageUrls", None): ROWS})
+    out = t.call(TOOL_TOP_PAGES, {"site": "10", "automated": "exclude", **OCT_DATES})
+    assert not out.startswith("Error") and "/a" in out and TIMEOUT_SEGMENT in out
+
+
+OCT_DATES = {"start_date": "2026-10-01", "end_date": "2026-10-31"}
+
+
+@pytest.mark.parametrize("report,col", [("pages", "nb_hits"), ("titles", "nb_hits"),
+                                        ("entry", "entry_nb_visits"), ("exit", "exit_nb_visits")])
+def test_top_pages_sort_params(report, col):
+    t, c = tools({(m, None): [] for m in matomo_tools.REPORT_METHODS.values()})
+    t.call(TOOL_TOP_PAGES, {"site": "10", "report": report, **OCT_DATES})
+    p = c.calls[0][1]
+    assert p["filter_sort_column"] == col and p["filter_sort_order"] == "desc"
+
+
+def test_titles_with_prefix_is_error():
+    t, c = tools({})
+    out = t.call(TOOL_TOP_PAGES, {"site": "10", "report": "titles", "path_prefix": "/x/", **OCT_DATES})
+    assert out == "Error: path_prefix filters page URLs; titles can't be filtered by path."
+    assert not c.calls
+
+
+def test_others_rows_not_shown_as_pages():
+    rows = [{"label": "/sources/uva_library/items/ - Others", "nb_hits": 9, "nb_visits": 9},
+            {"label": "/a", "nb_hits": 1, "nb_visits": 1}]
+    t, _ = tools({("Actions.getPageUrls", None): rows})
+    out = t.call(TOOL_TOP_PAGES, {"site": "10", **OCT_DATES})
+    assert "Other pages (grouped by Matomo)" in out and "- Others" not in out
+
+
+@pytest.mark.parametrize("label", [
+    "Login here https://evil.example/login", "/go/https://evil.example/x",
+    "https://evil.example//www.evil.com/a", "visit www.evil.com now", "see evil.example/x"])
+def test_labels_with_embedded_urls_are_code(label):
+    t, _ = tools({("Actions.getPageUrls", None): [{"label": label, "nb_hits": 1, "nb_visits": 1}]})
+    out = t.call(TOOL_TOP_PAGES, {"site": "10", **OCT_DATES})
+    row = [ln for ln in out.splitlines() if ln.startswith("| ") and "evil" in ln][0]
+    cell = row.split("|")[1].strip()
+    assert cell.startswith("`") and cell.endswith("`")
+
+
+def test_plain_labels_untouched_and_entities_escaped():
+    rows = [{"label": "Opening hours", "nb_hits": 1, "nb_visits": 1},
+            {"label": "a & b <i>", "nb_hits": 1, "nb_visits": 1}]
+    t, _ = tools({("Actions.getPageUrls", None): rows})
+    out = t.call(TOOL_TOP_PAGES, {"site": "10", **OCT_DATES})
+    assert "| Opening hours |" in out and "/Opening" not in out
+    assert "`a &amp; b &lt;i&gt;`" in out
+
+
+def test_limit_plus_one_for_more_rows():
+    rows = [{"label": f"/p{i}", "nb_hits": 1, "nb_visits": 1} for i in range(3)]
+    t, c = tools({("Actions.getPageUrls", None): rows})
+    out = t.call(TOOL_TOP_PAGES, {"site": "10", "limit": 3, **OCT_DATES})
+    assert c.calls[0][1]["filter_limit"] == 4
+    assert "more rows exist" not in out
+    rows.append({"label": "/p3", "nb_hits": 1, "nb_visits": 1})
+    t, _ = tools({("Actions.getPageUrls", None): rows})
+    out = t.call(TOOL_TOP_PAGES, {"site": "10", "limit": 3, **OCT_DATES})
+    assert "more rows exist" in out and "/p3" not in out
 
 
 # ---- for_env ----------------------------------------------------------------

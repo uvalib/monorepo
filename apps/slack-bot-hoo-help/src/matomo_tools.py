@@ -21,7 +21,7 @@ from zoneinfo import ZoneInfo
 from link_check import is_library_url
 from matomo_client import MatomoAuthError, MatomoClient, MatomoError, MatomoTimeout
 from matomo_report import (
-    AUTOMATED_MIN_ACTIONS, AUTOMATED_SEGMENT, VIRGO_SITE_ID, Period, resolve_period, resolve_site,
+    AUTOMATED_MIN_ACTIONS, AUTOMATED_MIN_SECONDS, AUTOMATED_SEGMENT, VIRGO_SITE_ID, Period, resolve_period, resolve_site,
 )
 
 logger = logging.getLogger(__name__)
@@ -41,7 +41,11 @@ SEGMENT_TIMEOUT_NOTE = ("Matomo is still preparing the automated-session breakdo
 OTHER_TIMEOUT = "Matomo didn't respond in time; try a shorter range or ask again shortly."
 AUTOMATED_MODES = ("show", "exclude", "ignore")
 # Matomo's own negation (OR of the complements) for "everything but automated sessions".
-NOT_AUTOMATED_SEGMENT = f"visitDuration<3600,actions<{AUTOMATED_MIN_ACTIONS}"
+NOT_AUTOMATED_SEGMENT = f"visitDuration<{AUTOMATED_MIN_SECONDS},actions<{AUTOMATED_MIN_ACTIONS}"
+SORT_COLUMNS = {"pages": "nb_hits", "titles": "nb_hits",
+                "entry": "entry_nb_visits", "exit": "exit_nb_visits"}
+NOT_AVAILABLE_NOTE = ("Pageviews, searches, downloads, outlinks and unique visitors aren't "
+                      "available without automated sessions.")
 REPORT_METHODS = {
     "pages": "Actions.getPageUrls",
     "entry": "Actions.getEntryPageUrls",
@@ -97,19 +101,35 @@ def _rate(value: Any) -> str:
 
 
 def _code(text: str) -> str:
-    return "`" + " ".join(text.replace("`", "'").split()) + "`"
+    text = " ".join(text.replace("`", "").split())
+    text = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    return "`" + text + "`"
+
+
+_SCHEME_URL = re.compile(r"^[a-z][a-z0-9+.-]*://[^/?#]*(.*)$", re.I | re.S)
+_FILE_EXTS = ("html?|php|aspx?|jsp|pdf|js|css|png|jpe?g|gif|svg|ico|json|xml|txt|zip|csv|docx?|xlsx?|"
+              "pptx?|mp[34]|webp|woff2?")
+_DOMAIN_LIKE = re.compile(
+    rf"(?<![a-z0-9-])(?:[a-z0-9-]+\.)+(?!(?:{_FILE_EXTS})(?![a-z0-9]))[a-z]{{2,24}}(?![a-z0-9-])", re.I)
+OTHERS_LABEL = "Other pages (grouped by Matomo)"
+
+
+def _suspicious(text: str) -> bool:
+    return ("://" in text or "www." in text.lower() or "`" in text or "<" in text
+            or ">" in text or "&" in text or bool(_DOMAIN_LIKE.search(text)))
 
 
 def _display_label(label: Any) -> str:
     text = " ".join(str(label if label is not None else "").split())[:300]
-    if "://" in text:
-        if not is_library_url(text):
-            m = re.match(r"^[a-z][a-z0-9+.-]*://[^/?#]*(.*)$", text, re.I)
-            rest = m.group(1) if m else text
-            text = rest if rest.startswith("/") else "/" + rest
-    if "`" in text or "<" in text:
-        return _code(text)
-    return text
+    if text.endswith(" - Others"):
+        return OTHERS_LABEL
+    m = _SCHEME_URL.match(text)
+    if m:
+        rest = m.group(1)
+        if is_library_url(text):
+            return _code(text) if _suspicious(rest) else text
+        text = rest if rest.startswith("/") else "/" + rest
+    return _code(text) if _suspicious(text) else text
 
 
 def _metrics(visits: dict, actions: Optional[dict]) -> Dict[str, Any]:
@@ -258,6 +278,52 @@ class MatomoTools:
                   f" — {s['main_url'] or 'no URL'}" for s in sites]
         return "\n".join(lines)
 
+    _ROWS = [("visits", "Visits"), ("uniq", "Unique visitors"), ("pageviews", "Pageviews"),
+             ("searches", "Site searches"), ("downloads", "Downloads"), ("outlinks", "Outlinks"),
+             ("bounce", "Bounce rate"), ("avg", "Average visit")]
+    _WITHOUT_ROWS = [("visits", "Visits"), ("actions", "Actions"),
+                     ("bounce", "Bounce rate"), ("avg", "Average visit")]
+
+    @staticmethod
+    def _without(visits: dict, auto: dict) -> Dict[str, Any]:
+        v = _num(visits.get("nb_visits")) - _num(auto.get("nb_visits"))
+        a = _num(visits.get("nb_actions")) - _num(auto.get("nb_actions"))
+        out: Dict[str, Any] = {"visits": max(v, 0), "actions": max(a, 0), "bounce": None, "avg": None}
+        if v > 0:
+            if visits.get("bounce_count") is not None and auto.get("bounce_count") is not None:
+                b = (_num(visits["bounce_count"]) - _num(auto["bounce_count"])) / v * 100
+                out["bounce"] = f"{b:.1f}%"
+            if visits.get("sum_visit_length") is not None and auto.get("sum_visit_length") is not None:
+                out["avg"] = (float(visits["sum_visit_length"]) - float(auto["sum_visit_length"])) / v
+        return out
+
+    @staticmethod
+    def _fmt(key: str, value: Any) -> str:
+        return _mmss(value) if key == "avg" else _rate(value) if key == "bounce" else _n(value)
+
+    def _table(self, rows, cur: dict, period: Period, prev: Optional[dict] = None,
+               compare: Optional[Period] = None) -> List[str]:
+        if prev is None:
+            return [f"- {label}: {self._fmt(k, cur.get(k))}" for k, label in rows]
+        lines = [f"| Metric | {period.label} | {compare.label} | Change |", "| --- | --- | --- | --- |"]
+        for k, label in rows:
+            change = "—" if k == "bounce" else _pct_change(cur.get(k), prev.get(k))
+            lines.append(f"| {label} | {self._fmt(k, cur.get(k))} | {self._fmt(k, prev.get(k))} | {change} |")
+        return lines
+
+    def _gather(self, site: dict, period: Period, mode: str) -> dict:
+        visits, actions = self._plain(site, period)
+        auto, timed_out = None, False
+        if mode != "ignore":
+            try:
+                got = self._report(site, period, "VisitsSummary.get", segment=AUTOMATED_SEGMENT)
+                auto = got if isinstance(got, dict) else {}
+            except MatomoTimeout:
+                timed_out = True
+        return {"visits": visits, "actions": actions, "auto": auto, "timed_out": timed_out,
+                "plain": _metrics(visits, actions),
+                "without": self._without(visits, auto) if auto is not None else None}
+
     def traffic(self, args: Dict[str, Any]) -> str:
         site = self._site(args)
         period = self._period(args)
@@ -266,70 +332,44 @@ class MatomoTools:
         if args.get("compare_start_date") or args.get("compare_end_date"):
             compare = self._period(args, "compare_")
 
-        visits, actions = self._plain(site, period)
-        auto = None
-        note = ""
-        if mode != "ignore":
-            try:
-                auto = self._report(site, period, "VisitsSummary.get", segment=AUTOMATED_SEGMENT)
-                auto = auto if isinstance(auto, dict) else {}
-            except MatomoTimeout:
-                note = SEGMENT_TIMEOUT_NOTE
+        cur = self._gather(site, period, mode)
+        prev = self._gather(site, compare, mode) if compare is not None else None
+        note = SEGMENT_TIMEOUT_NOTE if cur["timed_out"] or (prev and prev["timed_out"]) else ""
+        have_auto = cur["auto"] is not None and (prev is None or prev["auto"] is not None)
 
-        if auto is None:
-            handling = ("Matomo's numbers as reported" if mode == "ignore"
-                        else "Matomo's numbers as reported; the automated-session breakdown is unavailable")
+        if mode == "ignore":
+            handling = "Matomo's numbers as reported"
+        elif not have_auto:
+            handling = "Matomo's numbers as reported; the automated-session breakdown is unavailable"
         elif mode == "exclude":
             handling = "excluding likely automated sessions"
         else:
             handling = "automated sessions shown separately"
         lines = [self._head(site, period, handling)]
+        if compare is not None:
+            lines.append(f"Compared with {compare.label}.")
 
-        if mode == "exclude" and auto is not None:
-            lines += self._without_lines(visits, auto)
+        def block(rows, key):
+            return self._table(rows, cur[key], period, prev[key] if prev else None, compare)
+
+        if mode == "exclude" and have_auto:
+            lines += block(self._WITHOUT_ROWS, "without")
+            lines.append(NOT_AVAILABLE_NOTE)
         else:
-            cur = _metrics(visits, actions)
-            if compare is not None:
-                pv, pa = self._plain(site, compare)
-                prev = _metrics(pv, pa)
-                lines.append(f"Compared with {compare.label}:")
-                lines.append(f"| Metric | {period.label} | {compare.label} | Change |")
-                lines.append("| --- | --- | --- | --- |")
-                for key, label in self._ROWS:
-                    c, p = cur[key], prev[key]
-                    if key == "avg":
-                        lines.append(f"| {label} | {_mmss(c)} | {_mmss(p)} | {_pct_change(c, p)} |")
-                    elif key == "bounce":
-                        lines.append(f"| {label} | {_rate(c)} | {_rate(p)} | — |")
-                    else:
-                        lines.append(f"| {label} | {_n(c)} | {_n(p)} | {_pct_change(c, p)} |")
-            else:
-                for key, label in self._ROWS:
-                    v = cur[key]
-                    shown = _mmss(v) if key == "avg" else _rate(v) if key == "bounce" else _n(v)
-                    lines.append(f"- {label}: {shown}")
-            if auto is not None:
+            lines += block(self._ROWS, "plain")
+            if have_auto:
+                auto, visits = cur["auto"], cur["visits"]
                 a_visits, a_actions = _num(auto.get("nb_visits")), _num(auto.get("nb_actions"))
                 total_actions = _num(visits.get("nb_actions"))
                 share = f"{a_actions / total_actions * 100:.0f}%" if total_actions else "—"
                 lines.append(
                     f"Likely automated: {a_visits:,} visits, {share} of actions "
                     f"(hours-long sessions with {AUTOMATED_MIN_ACTIONS:,}+ actions).")
-                lines += self._without_lines(visits, auto)
+                lines.append("Without automated sessions:")
+                lines += block(self._WITHOUT_ROWS, "without")
         if note:
             lines.append(note)
         return "\n".join(lines)
-
-    _ROWS = [("visits", "Visits"), ("uniq", "Unique visitors"), ("pageviews", "Pageviews"),
-             ("searches", "Site searches"), ("downloads", "Downloads"), ("outlinks", "Outlinks"),
-             ("bounce", "Bounce rate"), ("avg", "Average visit")]
-
-    @staticmethod
-    def _without_lines(visits: dict, auto: dict) -> List[str]:
-        v = max(_num(visits.get("nb_visits")) - _num(auto.get("nb_visits")), 0)
-        a = max(_num(visits.get("nb_actions")) - _num(auto.get("nb_actions")), 0)
-        return ["Without those automated sessions:",
-                f"- Visits: {v:,}", f"- Actions: {a:,}"]
 
     def top_pages(self, args: Dict[str, Any]) -> str:
         site = self._site(args)
@@ -343,37 +383,53 @@ class MatomoTools:
         except (TypeError, ValueError):
             limit = DEFAULT_LIMIT
         limit = max(1, min(limit, MAX_LIMIT))
-        extra: Dict[str, Any] = {"flat": 1, "filter_limit": limit}
+        # One extra row tells us whether more exist.
+        extra: Dict[str, Any] = {"flat": 1, "filter_limit": limit + 1,
+                                 "filter_sort_column": SORT_COLUMNS[report],
+                                 "filter_sort_order": "desc"}
         prefix = str(args.get("path_prefix") or "").strip()
         if prefix:
-            extra["filter_pattern"] = re.escape(prefix)
+            if report == "titles":
+                raise _Fail("path_prefix filters page URLs; titles can't be filtered by path.")
+            extra["filter_pattern"] = "^/?" + re.escape(prefix.lstrip("/"))
+        note = ""
         if mode == "exclude":
-            extra["segment"] = NOT_AUTOMATED_SEGMENT
             handling = "excluding likely automated sessions"
         elif mode == "show":
             handling = ("Matomo's numbers as reported, automated sessions included "
                         "(matomo_traffic shows the breakdown)")
         else:
             handling = "Matomo's numbers as reported"
-        rows = self._report(site, period, REPORT_METHODS[report], **extra)
-        rows = rows if isinstance(rows, list) else []
+        method = REPORT_METHODS[report]
+        if mode == "exclude":
+            try:
+                rows = self._report(site, period, method, segment=NOT_AUTOMATED_SEGMENT, **extra)
+            except MatomoTimeout:
+                note = SEGMENT_TIMEOUT_NOTE
+                handling = "Matomo's numbers as reported; the automated-session breakdown is unavailable"
+                rows = self._report(site, period, method, **extra)
+        else:
+            rows = self._report(site, period, method, **extra)
+        rows = [r for r in rows if isinstance(r, dict)] if isinstance(rows, list) else []
+        more = len(rows) > limit
+        rows = rows[:limit]
         lines = [self._head(site, period, handling) + f"; report: {report}"]
         if not rows:
             lines.append("No rows.")
-            return "\n".join(lines)
-        rate_name = "Exit rate" if report == "exit" else "Bounce rate"
-        lines.append(f"| Page | Pageviews | Unique pageviews | Avg time | {rate_name} |")
-        lines.append("| --- | --- | --- | --- | --- |")
-        for r in rows[:limit]:
-            if not isinstance(r, dict):
-                continue
-            rate = r.get("exit_rate") if report == "exit" else r.get("bounce_rate")
-            label = _display_label(r.get("label")).replace("|", "/")
-            lines.append(f"| {label} | {_n(r.get('nb_hits'))} | {_n(r.get('nb_visits'))} | "
-                         f"{_mmss(r.get('avg_time_on_page'))} | {_rate(rate)} |")
-        if len(rows) >= limit:
+        else:
+            rate_name = "Exit rate" if report == "exit" else "Bounce rate"
+            lines.append(f"| Page | Pageviews | Unique pageviews | Avg time | {rate_name} |")
+            lines.append("| --- | --- | --- | --- | --- |")
+            for r in rows:
+                rate = r.get("exit_rate") if report == "exit" else r.get("bounce_rate")
+                label = _display_label(r.get("label")).replace("|", "/")
+                lines.append(f"| {label} | {_n(r.get('nb_hits'))} | {_n(r.get('nb_visits'))} | "
+                             f"{_mmss(r.get('avg_time_on_page'))} | {_rate(rate)} |")
+        if more:
             lines.append(f"Showing the top {limit}; more rows exist. Ask for a larger limit "
                          f"(max {MAX_LIMIT}) or use a path_prefix to narrow.")
+        if note:
+            lines.append(note)
         return "\n".join(lines)
 
     def page(self, args: Dict[str, Any]) -> str:
@@ -389,8 +445,9 @@ class MatomoTools:
         data = self._report(site, period, "Actions.getPageUrl", pageUrl=url)
         row = data[0] if isinstance(data, list) and data else data if isinstance(data, dict) else None
         if not isinstance(row, dict) or not row.get("nb_hits"):
-            return f"No Matomo data for {target} in {period.label}."
-        shown = _code(target) if ("`" in target or "<" in target) else target
+            return (self._head(site, period, "Matomo's numbers as reported") +
+                    f"\nNo Matomo data for {target} in {period.label}.")
+        shown = _code(target) if _suspicious(target) and "://" not in target else target
         return "\n".join([
             self._head(site, period, "Matomo's numbers as reported") + f"; page: {shown}",
             f"- Pageviews: {_n(row.get('nb_hits'))}",
