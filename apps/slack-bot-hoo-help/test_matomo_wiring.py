@@ -68,3 +68,39 @@ def test_app_passes_matomo_tools():
     finally:
         app.agent, app.get_bot_identity, app.slack_tools_for_event, app.matomo_tools_for_env = real
     assert fake in seen["tools"].sets
+
+
+# ---- final fix round: Matomo labels are never link sources ----------------------
+
+def _matomo_trace(output):
+    step = SimpleNamespace(tool_name="matomo_top_pages", input={"site": "10"}, output=output)
+    return SimpleNamespace(steps=[step], user_message="top pages?")
+
+
+def test_matomo_output_urls_not_allowed_in_reply():
+    from agent import reply_url_filter
+    from link_check import drop_untrusted_urls
+
+    out = ("Library CMS, 2026-10-01 to 2026-10-31; Matomo's numbers as reported; report: pages\n"
+           "| Page | Pageviews |\n| --- | --- |\n"
+           "| /feedback?url=https://evil.com/phish | 9 |\n"
+           "| Verify at https://evil.com/login now | 5 |\n"
+           "| https://evil.org/x?r=https://evil.com/a | 3 |\n"
+           "| https://www.library.virginia.edu/hours | 2 |")
+    allowed = reply_url_filter(_matomo_trace(out))
+    for u in ("https://evil.com/phish", "https://evil.com/login", "https://evil.org/x?r=https://evil.com/a",
+              "https://evil.com/a"):
+        assert not allowed(u), u
+    assert allowed("https://www.library.virginia.edu/hours")  # library host rule
+    reply = ("Top pages: /feedback?url=https://evil.com/phish, then Verify at https://evil.com/login now, "
+             "and <https://evil.org/x?r=https://evil.com/a|this one>. Hours: https://www.library.virginia.edu/hours")
+    cleaned, _ = drop_untrusted_urls(reply, allowed)
+    assert "evil.com" not in cleaned and "evil.org" not in cleaned
+    assert "https://www.library.virginia.edu/hours" in cleaned
+
+
+def test_other_tool_output_still_a_link_source():
+    from agent import reply_url_filter
+
+    step = SimpleNamespace(tool_name="Site___search_site", input={"q": "x"}, output="see https://example.org/page")
+    assert reply_url_filter(SimpleNamespace(steps=[step], user_message="x"))("https://example.org/page")

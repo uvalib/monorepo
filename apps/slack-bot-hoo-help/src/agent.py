@@ -523,8 +523,12 @@ def _link_sources(trace: Any) -> Tuple[List[str], List[str], set, List[str]]:
         out = getattr(step, "output", None)
         if not out:
             continue
-        outputs.append(str(out))
         name = str(getattr(step, "tool_name", "") or "")
+        # Matomo labels are whatever anyone sent its public tracker: never a link source
+        # (library-host links are allowed anyway).
+        if name.startswith("matomo_"):
+            continue
+        outputs.append(str(out))
         # A channel listing's URLs are what people posted: report them as-is.
         if name.endswith("list_slack_channel"):
             trusted.extend(extract_urls(str(out)))
