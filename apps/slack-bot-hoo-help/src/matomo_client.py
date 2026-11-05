@@ -9,6 +9,7 @@ exception message. Results are cached 10 minutes, the site and segment lists 1 h
 from __future__ import annotations
 
 import logging
+import threading
 import time
 from urllib.parse import unquote
 from typing import Any, Callable, Dict, List, Optional, Tuple
@@ -24,9 +25,13 @@ CACHE_MAX_ENTRIES = 200
 # override the request framing.
 RESERVED_PARAMS = frozenset({"token_auth", "force_api_session", "module", "format", "method"})
 # Matomo reports auth problems as HTTP 200 with an error body; these phrases mark them.
-AUTH_MESSAGE_MARKERS = ("token_auth", "authenticate", "access", "permission")
+AUTH_MESSAGE_MARKERS = ("token_auth", "authenticate", "requires 'view' access")
 RESULT_TTL_SEC = 600
 SITES_TTL_SEC = 3600
+# The stored-segment list: short timeout, no retry; a failure or a missing segment is kept 10 minutes
+# (so a segment the admin adds is picked up), a found one 1 hour.
+SEGMENTS_TIMEOUT_SEC = 20
+SEGMENTS_MISS_TTL_SEC = 600
 SITES_METHOD = "SitesManager.getSitesWithAtLeastViewAccess"
 # Lists stored segment definitions only (no visitor data).
 SEGMENTS_METHOD = "SegmentEditor.getAll"
@@ -66,6 +71,9 @@ class MatomoClient:
         self._http = http if http is not None else requests.Session()
         self._clock = clock
         self._cache: Dict[Tuple, Tuple[float, Any, int]] = {}
+        # Tool calls run in parallel threads (comparison periods): every cache access holds this.
+        self._lock = threading.Lock()
+        self._segments: Optional[Tuple[float, Optional[list]]] = None  # (fetched at, list or None)
 
     def _post(self, params: Dict[str, Any], timeout: float = TIMEOUT_SEC):
         try:
@@ -78,18 +86,12 @@ class MatomoClient:
             logger.warning("matomo request failed method=%s type=%s", params.get("method"), type(e).__name__)
             raise MatomoError("Could not reach Matomo") from None
 
-    def _fetch(self, method: str, params: Dict[str, Any], ttl: int,
-               timeout: Optional[float] = None) -> Any:
-        key = (method, tuple(sorted((k, str(v)) for k, v in params.items())))
-        now = self._clock()
-        hit = self._cache.get(key)
-        if hit and now - hit[0] <= hit[2]:
-            return hit[1]
-
+    def _request(self, method: str, params: Dict[str, Any], timeout: Optional[float] = None,
+                 retry: bool = True) -> Any:
         full = {**params, "module": "API", "format": "JSON", "method": method}
         timeout = TIMEOUT_SEC if timeout is None else timeout
         resp = self._post(full, timeout)
-        if resp.status_code == 429 or resp.status_code >= 500:
+        if retry and (resp.status_code == 429 or resp.status_code >= 500):
             logger.info("matomo retry method=%s status=%s", method, resp.status_code)
             resp = self._post(full, timeout)
         status = resp.status_code
@@ -108,11 +110,24 @@ class MatomoClient:
                 # that switch off on auth failures treat it the same way.
                 raise MatomoAuthError(message, 401)
             raise MatomoError(message)
-        self._store(key, now, body, ttl)
         logger.debug("matomo ok method=%s", method)
         return body
 
+    def _fetch(self, method: str, params: Dict[str, Any], ttl: int,
+               timeout: Optional[float] = None) -> Any:
+        key = (method, tuple(sorted((k, str(v)) for k, v in params.items())))
+        now = self._clock()
+        with self._lock:
+            hit = self._cache.get(key)
+        if hit and now - hit[0] <= hit[2]:
+            return hit[1]
+        body = self._request(method, params, timeout)
+        with self._lock:
+            self._store(key, now, body, ttl)
+        return body
+
     def _store(self, key: Tuple, now: float, body: Any, ttl: int) -> None:
+        """Caller holds self._lock."""
         for k in [k for k, v in self._cache.items() if now - v[0] > v[2]]:
             del self._cache[k]
         self._cache.pop(key, None)
@@ -132,8 +147,27 @@ class MatomoClient:
     def stored_segment(self, definition: str, idsite: Optional[int] = None) -> Optional[dict]:
         """The stored segment with exactly this definition that Matomo pre-processes (auto_archive)
         for all sites or for `idsite`; None when there isn't one. Never triggers processing."""
-        raw = self._fetch(SEGMENTS_METHOD, {}, SITES_TTL_SEC)
-        for seg in raw if isinstance(raw, list) else []:
+        now = self._clock()
+        with self._lock:
+            cached = self._segments
+        if cached is not None:
+            age = now - cached[0]
+            found = self._match_segment(cached[1], definition, idsite)
+            if age < SEGMENTS_MISS_TTL_SEC or (found is not None and age < SITES_TTL_SEC):
+                return found
+        try:
+            raw = self._request(SEGMENTS_METHOD, {}, SEGMENTS_TIMEOUT_SEC, retry=False)
+        except MatomoAuthError:
+            raise
+        except MatomoError:
+            raw = None  # failed: treated as no stored segment for 10 minutes
+        with self._lock:
+            self._segments = (now, raw if isinstance(raw, list) else None)
+        return self._match_segment(raw if isinstance(raw, list) else None, definition, idsite)
+
+    @staticmethod
+    def _match_segment(raw: Optional[list], definition: str, idsite: Optional[int]) -> Optional[dict]:
+        for seg in raw or []:
             if not isinstance(seg, dict) or not isinstance(seg.get("definition"), str):
                 continue
             if unquote(seg["definition"]) != definition:

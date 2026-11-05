@@ -192,7 +192,6 @@ def test_reserved_params_refused(name):
     "You can't access this resource as it requires 'view' access for the website id = 39.",
     "token_auth is not valid",
     "Unable to authenticate you",
-    "You do not have permission",
 ])
 def test_auth_message_in_200_body_is_auth_error(msg):
     c, _ = make(Resp(200, {"result": "error", "message": msg}))
@@ -202,8 +201,12 @@ def test_auth_message_in_200_body_is_auth_error(msg):
     assert str(e.value) == msg
 
 
-def test_other_error_body_not_auth():
-    c, _ = make(Resp(200, {"result": "error", "message": "Invalid date"}))
+@pytest.mark.parametrize("msg", [
+    "Invalid date", "You do not have permission to do that", "The segment has no access to this report",
+    "Archiving is not allowed for this segment",
+])
+def test_other_error_body_not_auth(msg):
+    c, _ = make(Resp(200, {"result": "error", "message": msg}))
     with pytest.raises(MatomoError) as e:
         c.api("VisitsSummary.get", idSite=1)
     assert not isinstance(e.value, MatomoAuthError)
@@ -277,3 +280,113 @@ def test_per_call_timeout():
     assert "timeout" not in http.calls[0]["params"]
     c.api("VisitsSummary.get", idSite=2, period="day", date="2026-10-01")
     assert http.calls[1]["timeout"] == 40
+
+
+# ---- re-review: thread-safe cache, stored_segment failure handling -------------
+
+import threading  # noqa: E402
+
+
+class LockCheckedDict(dict):
+    """Fails the test if the cache is touched without the client's lock held."""
+
+    def __init__(self, lock):
+        super().__init__()
+        self.lock = lock
+
+    def _check(self):
+        assert self.lock.locked(), "cache used without the lock"
+
+    def get(self, *a):
+        self._check()
+        return super().get(*a)
+
+    def items(self):
+        self._check()
+        return super().items()
+
+    def __setitem__(self, k, v):
+        self._check()
+        super().__setitem__(k, v)
+
+    def __delitem__(self, k):
+        self._check()
+        super().__delitem__(k)
+
+    def pop(self, *a):
+        self._check()
+        return super().pop(*a)
+
+
+def test_cache_only_used_under_lock():
+    c, _ = make(Resp(200, [{"idsite": 1, "name": "a", "main_url": ""}]))
+    c._cache = LockCheckedDict(c._lock)
+    c.api("VisitsSummary.get", idSite=1)
+    c.api("VisitsSummary.get", idSite=1)
+    c.sites()
+    c.stored_segment(AUTO_DEF)
+
+
+def test_concurrent_stores_and_evictions():
+    import sys
+    old = sys.getswitchinterval()
+    sys.setswitchinterval(1e-6)
+    try:
+        clock = Clock()
+        c, _ = make(Resp(200, {"a": 1}), clock=clock)
+        errors = []
+
+        def worker(base):
+            try:
+                for i in range(400):
+                    c.api("VisitsSummary.get", idSite=base * 1000 + i)
+            except Exception as e:  # noqa: BLE001
+                errors.append(repr(e))
+        threads = [threading.Thread(target=worker, args=(n,)) for n in range(8)]
+        for t in threads:
+            t.start()
+        for t in threads:
+            t.join()
+    finally:
+        sys.setswitchinterval(old)
+    assert errors == [] and len(c._cache) <= 200
+
+
+def test_stored_segment_uses_segment_timeout_and_no_retry():
+    c, http = make(Resp(504))
+    assert c.stored_segment(AUTO_DEF) is None
+    assert len(http.calls) == 1  # no 5xx retry
+    assert http.calls[0]["timeout"] == 20
+
+
+def test_stored_segment_failure_cached_ten_minutes():
+    clock = Clock()
+    c, http = make(requests.exceptions.Timeout(), Resp(200, [_seg(AUTO_DEF)]), clock=clock)
+    assert c.stored_segment(AUTO_DEF) is None
+    clock.t += 599
+    assert c.stored_segment(AUTO_DEF) is None
+    assert len(http.calls) == 1
+    clock.t += 2
+    assert c.stored_segment(AUTO_DEF) is not None
+    assert len(http.calls) == 2
+
+
+def test_stored_segment_not_found_rechecked_after_ten_minutes():
+    clock = Clock()
+    c, http = make(Resp(200, []), Resp(200, [_seg(AUTO_DEF)]), clock=clock)
+    assert c.stored_segment(AUTO_DEF) is None
+    clock.t += 599
+    assert c.stored_segment(AUTO_DEF) is None
+    assert len(http.calls) == 1
+    clock.t += 2
+    assert c.stored_segment(AUTO_DEF) is not None  # the admin added it
+    assert len(http.calls) == 2
+    clock.t += 3000
+    assert c.stored_segment(AUTO_DEF) is not None and len(http.calls) == 2  # found: kept 1 hour
+
+
+def test_stored_segment_auth_error_raises_and_is_not_cached():
+    c, http = make(Resp(401), Resp(200, [_seg(AUTO_DEF)]))
+    with pytest.raises(MatomoAuthError):
+        c.stored_segment(AUTO_DEF)
+    assert c.stored_segment(AUTO_DEF) is not None
