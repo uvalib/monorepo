@@ -106,3 +106,26 @@ def test_resolve_site_errors():
         resolve_site(SITES, "999")
     with pytest.raises(ValueError, match="newsletter"):
         resolve_site(SITES, "newsletter")  # two sites match: listed, not guessed
+
+
+def test_capped_partial_month():
+    p = resolve_period("2026-11-01", "2026-11-30", today=TODAY)
+    assert p.period == "range" and p.end == D(2026, 11, 4) and p.capped
+    assert p.date == "2026-11-01,2026-11-04"
+
+
+def test_start_only_means_to_yesterday():
+    p = resolve_period("2026-10-01", today=TODAY)
+    assert p.start == D(2026, 10, 1) and p.end == D(2026, 11, 4) and p.capped
+    assert p.period == "range"
+
+
+def test_end_without_start_errors():
+    with pytest.raises(ValueError):
+        resolve_period(end_date="2026-10-31", today=TODAY)
+
+
+@pytest.mark.parametrize("q", ["100", "4", "7"])
+def test_digit_query_is_id_only(q):
+    with pytest.raises(ValueError, match="Unknown site"):
+        resolve_site(SITES, q)

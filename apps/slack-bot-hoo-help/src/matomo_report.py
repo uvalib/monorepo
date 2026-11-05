@@ -58,9 +58,11 @@ def resolve_period(start_date: str = "", end_date: str = "", fiscal_year: str = 
     if fiscal_year:
         start, end = _parse_fiscal_year(fiscal_year)
     elif has_dates:
-        if not (start_date and end_date):
-            raise ValueError("Give both a start date and an end date.")
-        start, end = _parse_date(start_date), _parse_date(end_date)
+        if not start_date:
+            raise ValueError("Give a start date along with the end date.")
+        start = _parse_date(start_date)
+        # A start with no end means "through yesterday".
+        end = _parse_date(end_date) if end_date else today
         if start > end:
             raise ValueError("The start date must be before the end date.")
     else:
@@ -106,6 +108,8 @@ def resolve_site(sites: list[dict], name_or_id: str) -> dict:
     # 1. numeric id
     if q.isdigit() and int(q) in by_id:
         return by_id[int(q)]
+    if q.isdigit():
+        raise unknown()  # digits are only ever a site id
     # 2. exact name
     for s in sites:
         if s["name"].lower() == q:
