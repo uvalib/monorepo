@@ -208,3 +208,32 @@ def test_json_out_written():
     path = os.path.join(tempfile.mkdtemp(), "out.json")
     assert run.main(["--offline", "--case", "catalog-heaven", "--json-out", path]) == 0
     assert json.load(open(path)) == {"catalog-heaven": "PASS"}
+
+
+def test_live_tools_any_fails_when_tool_only_errored():
+    class ErrTrace(FakeTrace):
+        def __init__(self):
+            super().__init__([])
+            self.steps = [{"tool_name": "matomo_virgo_items", "status": "error", "input": {},
+                           "output": "Error: Matomo returned HTTP 504"}]
+
+    class ErrAgent(FakeAgent):
+        def process_message(self, q, conversation_history=None):
+            return type("R", (), {"text": self.text, "trace": ErrTrace()})()
+
+    case = {"id": "m", "question": "q", "history": [], "expect": {},
+            "live": {"tools_any": ["matomo_virgo_items"], "phrases_any": ["format"]}}
+    r = live.run_live(case, ErrAgent("The tools appear to be unavailable; more information later.", []))
+    assert not r.passed
+    assert any("none of tools called" in x for x in r.reasons)
+    assert any("none of phrases" in x for x in r.reasons)
+
+
+def test_matomo_live_cases_check_the_split_or_warning():
+    cases = os.path.join(APP, "evals", "cases")
+    fy = load_case(os.path.join(cases, "live-matomo-fy-so-far.json"))
+    assert set(fy["live"]["phrases_any"]) >= {"2026-07-01", "July 1"}
+    for name in ("live-matomo-virgo-october", "live-matomo-virgo-items"):
+        c = load_case(os.path.join(cases, name + ".json"))
+        assert set(c["live"]["phrases_any"]) >= {"automated sessions", "can't be separated"}, name
+        assert "isn't available right now" in c["live"]["forbid"], name

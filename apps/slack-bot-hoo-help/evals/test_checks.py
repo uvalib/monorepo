@@ -66,6 +66,26 @@ def test_tools_any_and_phrases_any():
     assert checks.forbid("Main Library hours", ["main library"])
 
 
+def test_phrases_any_whole_words():
+    # "format" must not match inside "information" (a Matomo case passed on that)
+    assert checks.phrases_any("more information is unavailable", ["format"])
+    assert checks.phrases_any("The formats are EBook and Book.", ["format", "formats"]) == []
+    assert checks.phrases_any("AI tools", ["AI"]) == [] and checks.phrases_any("said", ["AI"])
+    assert checks.phrases_any("see VIRGONEW-123", ["VIRGONEW-"]) == []  # edge that isn't a word char
+    assert checks.phrases_any("github.com/uvalib/virgo4", ["github.com/uvalib/"]) == []
+    assert checks.phrases_any("*Gold Line*", ["Gold Line"]) == []
+    assert checks.phrases_any("since July 1st, 2026", ["July 1"]) == []
+    assert checks.phrases_any("since July 10", ["July 1"])
+
+
+def test_tools_any_ignores_failed_calls():
+    # A call that only returned an error isn't the tool answering the question.
+    assert checks.tools_any([("matomo_virgo_items", {}, "error")], ["matomo_virgo_items"])
+    assert checks.tools_any([("matomo_virgo_items", {}, "success")], ["matomo_virgo_items"]) == []
+    assert checks.tools_any(["matomo_traffic"], ["matomo_traffic"]) == []
+    assert checks.tools_any([], ["matomo_traffic"])
+
+
 CASE = {"id": "synthetic-entrance", "category": "occupancy", "question": "Clemons gate counts April by entrance in Excel",
         "recorded": {"model": "m", "final_text": "Here are the counts:\n\n| Entrance | In |\n| :--- | :--- |\n| Main | 73,469 |",
                      "steps": [{"tool_name": "OccupancyReportingRuntime___get_entrance_traffic", "status": "success", "input": {},
@@ -196,6 +216,8 @@ TESTS = [
     test_visible_text_reaches_tables_fields_cards,
     test_not_collapsed,
     test_tools_any_and_phrases_any,
+    test_phrases_any_whole_words,
+    test_tools_any_ignores_failed_calls,
     test_offline_replay_passes_and_builds_attachment,
     test_offline_listing_case_builds_json_attachment,
     test_offline_listing_case_builds_ris_attachment,

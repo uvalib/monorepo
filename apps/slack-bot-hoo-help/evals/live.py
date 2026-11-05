@@ -39,7 +39,7 @@ def run_live(case: dict, agent, local_tools=None) -> CaseResult:
         seconds = time.monotonic() - started
         trace = result.trace
         tools = list(trace.tools_used())
-        calls = [(_get(s, "tool_name"), _get(s, "input")) for s in trace.steps]
+        calls = [(_get(s, "tool_name"), _get(s, "input"), _get(s, "status")) for s in trace.steps]
         text, blocks = format_for_slack(result.text, use_llm=False, tool_steps=trace.steps)
     except Exception as e:  # one failing question must not stop the run
         return CaseResult(case["id"], False, [f"exception: {type(e).__name__}: {e}"],

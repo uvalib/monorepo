@@ -9,8 +9,12 @@
       "matomo_virgo_items"
     ],
     "phrases_any": [
-      "Format",
-      "format"
+      "automated sessions",
+      "can't be separated",
+      "can’t be separated"
+    ],
+    "forbid": [
+      "isn't available right now"
     ],
     "max_seconds": 90
   }

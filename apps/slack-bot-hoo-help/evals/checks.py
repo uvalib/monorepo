@@ -163,11 +163,25 @@ def phrases_all(text: str, phrases: list[str]) -> list[str]:
     return [f"missing phrase: {p!r}" for p in phrases or [] if normalize(p) not in hay]
 
 
+def _has_words(hay: str, phrase: str) -> bool:
+    """phrase in hay as whole words: an edge that is a letter or digit can't continue a word
+    ("format" isn't in "information"; "VIRGONEW-" still matches "VIRGONEW-12")."""
+    p = normalize(phrase)
+    if not p:
+        return False
+    left = r"(?<![a-z0-9])" if re.match(r"[a-z0-9]", p) else ""
+    if re.search(r"[0-9]$", p):
+        right = r"(?:st|nd|rd|th)?(?![a-z0-9])"  # "July 1" matches "July 1st", not "July 10"
+    else:
+        right = r"(?![a-z0-9])" if re.search(r"[a-z]$", p) else ""
+    return re.search(left + re.escape(p) + right, hay) is not None
+
+
 def phrases_any(text: str, phrases: list[str]) -> list[str]:
     if not phrases:
         return []
     hay = normalize(text)
-    if any(normalize(p) in hay for p in phrases):
+    if any(_has_words(hay, p) for p in phrases):
         return []
     return [f"none of phrases present: {list(phrases)!r}"]
 
@@ -178,10 +192,18 @@ def forbid(text: str, phrases: list[str]) -> list[str]:
 
 
 def tools_any(called: list, wanted: list[str]) -> list[str]:
-    """called: tool names, or (name, input) pairs so uvalib-mcp names map to the legacy leaf they route to."""
+    """called: tool names, or (name, input) pairs so uvalib-mcp names map to the legacy leaf they route to,
+    or (name, input, status) triples: a call whose status is "error" doesn't count (the tool didn't answer)."""
     if not wanted:
         return []
-    leaves = {legacy_leaf(*c) if isinstance(c, (tuple, list)) else legacy_leaf(c) for c in called or []}
+    leaves = set()
+    for c in called or []:
+        if isinstance(c, (tuple, list)):
+            if len(c) > 2 and c[2] == "error":
+                continue
+            leaves.add(legacy_leaf(*c[:2]))
+        else:
+            leaves.add(legacy_leaf(c))
     if leaves & set(wanted):
         return []
     return [f"none of tools called: {list(wanted)!r} (called: {sorted(leaves)!r})"]
