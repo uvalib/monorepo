@@ -176,3 +176,14 @@ if __name__ == "__main__":
     test_catalog_answer_posted_with_virgo_links()
     test_link_check_trusts_virgo_record_links_from_tool_output()
     print("ok")
+
+
+def test_no_second_link_when_the_reply_already_links_the_record():
+    # 2026-11-05 Slack: the model put the Virgo link on its own bullet under the call number, and
+    # the call-number line got a second "· [Virgo](…)" for the same record.
+    answer = ("*Nineteen Eighty-four*\n- Shannon — `PR6029.R8 N49 2021`\n"
+              f"- <{REC}u9587135>\n")
+    assert add_virgo_links(answer, STEPS) == answer
+
+    longer = answer.replace("u9587135", "u95871350")  # a different record whose id starts the same
+    assert f"· [Virgo]({REC}u9587135)" in add_virgo_links(longer, STEPS)

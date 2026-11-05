@@ -98,7 +98,8 @@ def add_virgo_links(text: str, steps: Optional[Iterable[Any]]) -> str:
     for rec in records:
         by_title.setdefault(_norm(rec.title), []).append(rec)
         by_base.setdefault(_base(rec.title), []).append(rec)
-    linked = set()
+    # A record the reply already links (often on its own bullet under the call number) isn't linked again.
+    linked = {rec.item_id for rec in records if re.search(re.escape(rec.url) + r"(?![\w-])", text)}
 
     def link_lines(chunk: str) -> str:
         out = []
