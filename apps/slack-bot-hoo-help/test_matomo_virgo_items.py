@@ -199,3 +199,33 @@ def test_virgo_items_one_item_without_details():
     t, _ = make(gateway=lambda n, a: "Error: x")
     out = t.call(TOOL_VIRGO_ITEMS, {**ARGS, "limit": 1})
     assert "1 item without details" in out and "1 items" not in out
+
+
+# ---- final fix round: gateway failures are missing details ----------------------
+
+import pytest  # noqa: E402
+
+GATEWAY_FAILURES = [
+    "Tool Error: Item not found",
+    "Gateway Tool Invocation Error (Catalog___get_item_details): 504 Server Error: Gateway Timeout",
+    "Tool Invocation Error (x): boom",
+    "{}",
+    "No record found for that id.",
+    "   ",
+]
+
+
+@pytest.mark.parametrize("text", GATEWAY_FAILURES)
+def test_gateway_failure_counts_as_missing(text):
+    t, _ = make(gateway=lambda n, a: text)
+    out = t.call(TOOL_VIRGO_ITEMS, {**ARGS, "limit": 1})
+    assert "details unavailable" in out and "1 item without details" in out
+    assert "Gateway" not in out and "Tool Error" not in out
+
+
+def test_image_record_found():
+    rows = [row("/sources/images/items/img5", 5)]
+    t, _ = make({("Actions.getPageUrls", None): rows},
+                gateway=lambda n, a: "# Image Record: Rotunda, north front\n- **Format**: Photograph\n")
+    out = t.call(TOOL_VIRGO_ITEMS, {**ARGS, "limit": 1})
+    assert "Rotunda, north front" in out and "Photograph" in out and "without details" not in out

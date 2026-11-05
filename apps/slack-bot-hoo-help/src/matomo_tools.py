@@ -58,6 +58,8 @@ VIRGO_BUDGET_SEC = 20.0
 PROVISIONAL_NOTE = ("Access types follow a provisional rule (pool and access-link host) "
                     "pending the annual-report definitions.")
 _ITEM_LABEL = re.compile(r"^(?:(?:[a-z][a-z0-9+.-]*://)?[^/?#\s]+)?/?sources/([^/\s]+)/items/(.*)$", re.I)
+# How gateway_mcp_client and the agent report a failed call.
+GATEWAY_ERROR_PREFIXES = ("Error", "Tool Error:", "Gateway Tool Invocation Error", "Tool Invocation Error")
 _ITEM_ID = re.compile(r"^[A-Za-z0-9_.:-]{1,100}$")
 REPORT_METHODS = {
     "pages": "Actions.getPageUrls",
@@ -525,9 +527,10 @@ class MatomoTools:
                 text = self.gateway_call(name, {"item_id": pick[1], "pool_id": pick[0]})
             except Exception:  # noqa: BLE001 — a failed lookup is just missing details
                 return None
-            if not isinstance(text, str) or not text.strip() or text.lstrip().startswith("Error"):
+            if not isinstance(text, str) or text.lstrip().startswith(GATEWAY_ERROR_PREFIXES):
                 return None
-            return parse_item_details(text)
+            details = parse_item_details(text)
+            return details if details.found else None
 
         out: Dict[tuple, Any] = {p: None for p in picks}
         if not picks:

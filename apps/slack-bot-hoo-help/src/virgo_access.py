@@ -36,13 +36,18 @@ class ItemDetails:
     location: str = ""
     access_urls: List[str] = field(default_factory=list)
 
+    @property
+    def found(self) -> bool:
+        """True when the text was a record: a title heading or at least one field."""
+        return bool(self.title or self.format or self.library or self.location or self.access_urls)
+
 
 def _clean(value: str) -> str:
     value = value.strip()
     return "" if value in ("—", "-", "–") else value
 
 
-_TITLE = re.compile(r"^#\s*Item Record:\s*(.*)$", re.M)
+_TITLE = re.compile(r"^#\s*(?:Item|Image) Record:\s*(.*)$", re.M)
 _URL = re.compile(r"https?://[^\s<>\[\]()]+", re.I)
 
 

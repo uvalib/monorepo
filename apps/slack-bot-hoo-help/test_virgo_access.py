@@ -94,3 +94,8 @@ def test_classify_access():
     assert classify_access("uva_library", fake) == "unknown"
     assert all(classify_access(p, None) in ACCESS_TYPES
                for p in ("uva_library", "articles", "hathitrust", "images", "x"))
+
+
+def test_image_record_heading():
+    d = parse_item_details("# Image Record: Rotunda, north front\n- **Format**: Photograph\n")
+    assert d.title == "Rotunda, north front" and d.format == "Photograph"
