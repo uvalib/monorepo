@@ -32,8 +32,9 @@ def test_prompt_routes_web_statistics():
     for v2 in (True, False):
         text = _rendered(v2)
         for needle in ("matomo_traffic", "matomo_virgo_items", "July–June", "FY26", "automated sessions",
-                       "approximate", "repeat its ⚠ warning"):
+                       "approximate", "starts with \"⚠\", repeat that line"):
             assert needle in text, (v2, needle)
+        assert "can't be separated, repeat" not in text  # the rule covers every ⚠ line
 
 
 def test_template_has_enable_matomo():
