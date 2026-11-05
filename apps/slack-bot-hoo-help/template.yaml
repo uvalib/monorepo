@@ -118,6 +118,14 @@ Parameters:
       When true, Hoo Helper can search and read uvalib GitHub code, issues and pull
       requests (read-only), using the GitHub App credentials in SSM /hoohelp/github/.
 
+  EnableMatomo:
+    Type: String
+    Default: "false"
+    AllowedValues: ["true", "false"]
+    Description: >
+      When true, Hoo Helper can answer questions about Library website statistics
+      (read-only, aggregate), using the Matomo token in SSM /hoohelp/matomo/.
+
   AtlassianTokenType:
     Type: String
     Default: "scoped"
@@ -357,6 +365,7 @@ Resources:
           # Confluence / Jira (read-only, Library spaces and projects only)
           ENABLE_ATLASSIAN: !Ref EnableAtlassian
           ENABLE_GITHUB: !Ref EnableGitHub
+          ENABLE_MATOMO: !Ref EnableMatomo
           ATLASSIAN_SITE: https://virginia-its.atlassian.net
           ATLASSIAN_CLOUD_ID: c417cfa5-aa30-4f3f-be7e-968c5845b5e9
           ATLASSIAN_TOKEN_TYPE: !Ref AtlassianTokenType
@@ -379,6 +388,7 @@ Resources:
                 - !Sub "arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/hoohelp/atlassian/jira-token"
                 - !Sub "arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/hoohelp/atlassian/confluence-token"
                 - !Sub "arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/hoohelp/github/*"
+                - !Sub "arn:${AWS::Partition}:ssm:${AWS::Region}:${AWS::AccountId}:parameter/hoohelp/matomo/*"
             - Effect: Allow
               Action:
                 - kms:Decrypt

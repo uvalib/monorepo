@@ -152,5 +152,6 @@ def test_security_rule_added_without_removing_any_pre_security_prompt_line():
         now = f.read().splitlines()
     old = before.stdout.splitlines()
     # Later prompt changes may add lines; the security change only ever added its one rule.
-    assert [ln for ln in now if ln in old] == old  # nothing from before was removed or reordered
+    # (blank spacer lines between added sections don't count)
+    assert [ln for ln in now if ln in old and ln.strip()] == [ln for ln in old if ln.strip()]  # nothing removed or reordered
     assert sum("outside sources" in ln for ln in now if ln not in old) == 1

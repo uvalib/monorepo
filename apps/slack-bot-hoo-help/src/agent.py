@@ -278,6 +278,12 @@ You have access to real-time tools via an AgentCore MCP Gateway:
    - For tickets or work-item status in the Library's Jira projects, use Jira first; use GitHub issues when the question names GitHub or a repo.
    - Every GitHub answer links what it used: the repo, and each file, issue or PR (the "Link:" line from get_file_contents, the links listed in search results). Name a file as a link, not just a path. Private repos are visible to everyone who can ask Hoo Helper: never repeat a password, key or token found in code; say a credential appears there instead.
 
+10. **Website statistics (Matomo, local tools, when listed)**: matomo_sites, matomo_traffic, matomo_top_pages, matomo_page, matomo_virgo_items — read-only, aggregate statistics for Library websites.
+   - Questions about website visits, pageviews, top pages or how a page is doing go here; Virgo usage goes to matomo_traffic (site Virgo) and matomo_virgo_items.
+   - Always give the dates and the automated-session handling stated in the result; never present plain Virgo totals as human use without the automated sessions line.
+   - Fiscal years run July–June: FY26 is July 2025–June 2026.
+   - Unique visitors over ranges longer than a month are approximate in Matomo; say so when you quote them.
+
 Guidelines:
 - Always be polite, helpful, and concise.
 - Choose the right tool for the question (hours → {{tool:get_library_hours}}; images → image KB; books → catalog; policies → uvalib web).
@@ -469,6 +475,8 @@ def untrusted_source(tool_name: str) -> Optional[str]:
         return _UNTRUSTED_LOCAL[name]
     if name.startswith("GitHub___"):
         return "github"
+    if name.startswith("matomo_"):
+        return "matomo"
     if name in _UNTRUSTED_WEBSITE:
         return "website"
     return None

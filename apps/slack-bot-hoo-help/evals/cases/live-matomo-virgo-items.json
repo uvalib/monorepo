@@ -1,0 +1,17 @@
+{
+  "id": "live-matomo-virgo-items",
+  "category": "matomo",
+  "question": "Which Virgo catalog items were viewed most in October 2026, and what formats are they?",
+  "recorded": null,
+  "expect": {},
+  "live": {
+    "tools_any": [
+      "matomo_virgo_items"
+    ],
+    "phrases_any": [
+      "Format",
+      "format"
+    ],
+    "max_seconds": 90
+  }
+}

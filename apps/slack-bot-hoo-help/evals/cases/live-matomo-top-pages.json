@@ -1,0 +1,13 @@
+{
+  "id": "live-matomo-top-pages",
+  "category": "matomo",
+  "question": "What were the top 5 pages on the Library CMS site in October 2026?",
+  "recorded": null,
+  "expect": {},
+  "live": {
+    "tools_any": [
+      "matomo_top_pages"
+    ],
+    "max_seconds": 90
+  }
+}

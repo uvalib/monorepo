@@ -98,6 +98,37 @@ def _github_tools():
     return tools
 
 
+def production_matomo_enabled(samconfig_path: str = SAMCONFIG, env=None) -> bool:
+    """Live evals use Matomo when samconfig says EnableMatomo=true, or HOOHELP_EVAL_MATOMO=1 is set."""
+    env = os.environ if env is None else env
+    if str(env.get("HOOHELP_EVAL_MATOMO", "")).strip().lower() in ("1", "true", "yes"):
+        return True
+    try:
+        text = open(samconfig_path).read()
+    except OSError:
+        return False
+    m = re.search(r"\bEnableMatomo=([^\s\"']*)", text)
+    return bool(m) and m.group(1).lower() == "true"
+
+
+def _matomo_tools(gateway=None):
+    """Matomo tools as production builds them (token from SSM), or None with a note."""
+    if not production_matomo_enabled():
+        print("Matomo tools are switched off (samconfig EnableMatomo=false; set HOOHELP_EVAL_MATOMO=1 to try them).")
+        return None
+    try:
+        from matomo_tools import matomo_tools_for_env
+
+        gateway = gateway or gateway_client()
+        tools = matomo_tools_for_env({"ENABLE_MATOMO": "true"}, gateway_call=gateway.call_tool)
+    except Exception as e:  # live cases still run; Matomo cases will fail on tools_any
+        print(f"Matomo tools unavailable for live evals: {type(e).__name__}")
+        return None
+    if tools is None:
+        print("Matomo tools could not be set up for live evals (check SSM /hoohelp/matomo/*).")
+    return tools
+
+
 def combined_local_tools(*tool_sets):
     """One LocalTools over the tool sets that exist, or None when there are none."""
     from local_tools import LocalTools
@@ -188,8 +219,9 @@ def _live(cases: list, model: str | None = None, outcomes: dict | None = None) -
     from agent import HooHelpAgent
     from datetime import datetime
 
-    agent = HooHelpAgent(gateway_client=gateway_client())
-    local_tools = combined_local_tools(_atlassian_tools(), _github_tools())
+    gateway = gateway_client()
+    agent = HooHelpAgent(gateway_client=gateway)
+    local_tools = combined_local_tools(_atlassian_tools(), _github_tools(), _matomo_tools(gateway))
     results = []
     for c in cases:
         if isinstance(c, CaseError):

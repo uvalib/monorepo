@@ -35,6 +35,7 @@ from action_tokens import ActionTokenStore
 from identity import UserDirectory, identity_line, resolve_mentions
 from atlassian_tools import atlassian_tools_for_event
 from github_tools import github_tools_for_env
+from matomo_tools import matomo_tools_for_env
 from local_tools import LocalTools
 from slack_search import slack_tools_for_event
 from session_trace import SessionTrace
@@ -317,6 +318,7 @@ def handle_user_query(
                 confluence_token=ATLASSIAN_CONFLUENCE_TOKEN,
             ),
             github_tools_for_env(),
+            _matomo_tools(),
         ),
     )
     raw_response = turn.text
@@ -483,6 +485,12 @@ def _upload(client, channel_id, thread_ts, trace, content, filename, title) -> N
         if "missing_scope" in str(e):
             _post_note(client, channel_id, thread_ts,
                        "_I couldn't attach the file: the Slack app needs the `files:write` scope._")
+
+
+def _matomo_tools():
+    """Matomo statistics tools (None unless ENABLE_MATOMO=true); the instance is cached per container."""
+    gateway = getattr(agent, "gateway_client", None)
+    return matomo_tools_for_env(gateway_call=getattr(gateway, "call_tool", None), v2=_gateway_is_v2)
 
 
 def _gateway_is_v2() -> bool:
