@@ -236,8 +236,23 @@ _RECOMPUTED = ("bounce_rate", "avg_time_on_site", "nb_actions_per_visit", "avg_t
 _DROPPED = ("nb_uniq_visitors", "nb_users", "max_actions", "avg_time_generation", "avg_page_load_time")
 
 
+_NUMERIC_TEXT = re.compile(r"-?\d+(?:\.\d+)?")
+
+
+def _as_number(value: Any) -> Optional[float]:
+    """An int/float, or a count Matomo sent as text ("7"); None for anything else."""
+    if isinstance(value, bool):
+        return None
+    if isinstance(value, (int, float)):
+        return value
+    if isinstance(value, str) and _NUMERIC_TEXT.fullmatch(value.strip()):
+        text = value.strip()
+        return float(text) if "." in text else int(text)
+    return None
+
+
 def _additive(key: str, value: Any) -> bool:
-    return (isinstance(value, (int, float)) and not isinstance(value, bool)
+    return (_as_number(value) is not None
             and key not in _RECOMPUTED and key not in _DROPPED and "rate" not in key and "avg_" not in key)
 
 
@@ -248,7 +263,7 @@ def _div(part: Any, whole: Any) -> Optional[float]:
 def _sum_into(total: Dict[str, Any], item: dict) -> None:
     for k, v in item.items():
         if _additive(k, v):
-            total[k] = total.get(k, 0) + v
+            total[k] = (_as_number(total.get(k)) or 0) + _as_number(v)
         elif k not in total and k not in _RECOMPUTED and k not in _DROPPED:
             total[k] = v
 

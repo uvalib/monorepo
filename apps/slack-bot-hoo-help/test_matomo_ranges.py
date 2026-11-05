@@ -143,3 +143,16 @@ def test_single_month_unchanged():
     out = t.call(TOOL_TRAFFIC, {"site": "Library CMS", "start_date": "2026-10-01", "end_date": "2026-10-31"})
     assert "Unique visitors: 4" in out and UNIQ_RANGE_NOTE not in out
     assert [p["date"] for _, p in c.calls] == ["2026-10-01", "2026-10-01"]
+
+
+def test_counts_sent_as_text_in_some_months_still_add_up():
+    # Real Matomo: a field is an int in one month and a numeric string in another.
+    m = {"2025-07": [{"label": "sources/uva_library/items/u1", "nb_hits": 5, "nb_hits_following_search": "2",
+                      "sum_time_spent": 10, "nb_visits": 5, "url": "https://v4/u1"}],
+         "2025-08": [{"label": "sources/uva_library/items/u1", "nb_hits": "7", "nb_hits_following_search": 3,
+                      "sum_time_spent": "20", "nb_visits": 5, "url": "https://v4/u1"}]}
+    m.update({f"2025-{k:02d}": [] for k in range(9, 13)})
+    m.update({f"2026-{k:02d}": [] for k in range(1, 7)})
+    t, _ = make({("Actions.getPageUrls", "month"): m})
+    out = t.call(TOOL_VIRGO_ITEMS, {"fiscal_year": "FY26", "details": False})
+    assert "| `u1` | `uva_library` | 12 |" in out
