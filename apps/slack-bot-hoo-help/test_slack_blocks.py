@@ -741,3 +741,15 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+def test_bare_iiif_ids_become_renderable_images():
+    # 2026-11-04 Slack: "the images above just show as broken" — Virgo image search gives the IIIF
+    # base URI (a 303 to info.json), which Slack can't show; the image needs a size path.
+    from slack_blocks import parse_image_hits
+    out = ("## Image 1: Postcard\n- **Virgo record**: https://search.lib.virginia.edu/sources/images/items/uva-lib:333106\n"
+           "- **IIIF image**: https://iiif.lib.virginia.edu/iiif/uva-lib:333106\n")
+    hits = parse_image_hits(out)
+    assert hits[0]["image_url"] == "https://iiif.lib.virginia.edu/iiif/uva-lib:333106/full/!800,800/0/default.jpg"
+    full = "https://iiif.lib.virginia.edu/iiif/uva-lib:2141236/full/!600,600/0/default.jpg"
+    assert parse_image_hits(f"- **Image URL**: {full}\n")[0]["image_url"] == full  # already renderable: unchanged

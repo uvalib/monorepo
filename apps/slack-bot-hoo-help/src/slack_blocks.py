@@ -924,6 +924,17 @@ _IIIF_HIT = re.compile(
     r"https://iiif\.lib\.virginia\.edu/iiif/[^\s|>\]\)\"']+",
     re.I,
 )
+# A bare IIIF identifier ("…/iiif/uva-lib:333106") answers with a 303 to info.json, which Slack shows
+# as a broken image; the IIIF Image API path returns the picture itself.
+_IIIF_BARE = re.compile(r"^(https://iiif\.lib\.virginia\.edu/iiif/[^/\s]+)/?$", re.I)
+_IIIF_RENDER_PATH = "/full/!800,800/0/default.jpg"
+
+
+def renderable_iiif(url: str) -> str:
+    m = _IIIF_BARE.match(url or "")
+    return m.group(1) + _IIIF_RENDER_PATH if m else url
+
+
 _VIRGO_HIT = re.compile(
     r"https://search\.lib\.virginia\.edu/[^\s|>\]\)\"']+",
     re.I,
@@ -996,7 +1007,7 @@ def parse_image_hits(output: str) -> List[Dict[str, str]]:
                 {
                     "title": pending_title or "Library image",
                     "collection": pending_collection,
-                    "image_url": url,
+                    "image_url": renderable_iiif(url),
                     "virgo": pending_virgo,
                     "notes": pending_notes,
                 }
