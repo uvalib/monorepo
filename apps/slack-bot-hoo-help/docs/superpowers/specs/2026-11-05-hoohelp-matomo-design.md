@@ -48,6 +48,8 @@ lets us try the definitions.
     browser aren't caught.
   - Excluding these visits flips the pool picture: catalog item views outnumber article views
     about 18 to 1 instead of 1 to 20.
+  - The stricter rule chosen below (60+ minutes and 1,000+ actions) catches 120 of those 122
+    visits: 725,779 of their 726,894 actions and all 52,682 of their article-page hits.
 - **Speed:**
   - Plain reports are fast (under a second; Matomo pre-processes them).
   - A filtered (segmented) report is slow the first time for a period: 7 s for a month of a
