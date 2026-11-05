@@ -7,7 +7,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 
 from matomo_client import MatomoTimeout  # noqa: E402
 from matomo_report import AUTOMATED_SEGMENT  # noqa: E402
-from matomo_tools import NOT_AUTOMATED_SEGMENT, TOOL_VIRGO_ITEMS, MatomoTools  # noqa: E402
+from matomo_tools import TOOL_VIRGO_ITEMS, MatomoTools  # noqa: E402
 from test_virgo_access import ARTICLE, BOOK, PROXY  # noqa: E402
 
 TODAY = datetime.date(2026, 11, 5)
@@ -38,12 +38,17 @@ AUTO_ROWS = [row("/sources/uva_library/items/u1", 40), row("/sources/articles/it
 
 
 class FakeClient:
+    stored = True  # an auto-archived automated-sessions segment exists
+
     def __init__(self, script):
         self.script = script
         self.calls = []
 
     def sites(self):
         return SITES
+
+    def stored_segment(self, definition, idsite=None):
+        return {"definition": definition, "auto_archive": "1"} if self.stored else None
 
     def api(self, method, /, **params):
         self.calls.append((method, params))
@@ -125,7 +130,7 @@ def test_virgo_items_automated_show():
     script = {("Actions.getPageUrls", None): ROWS, ("Actions.getPageUrls", AUTOMATED_SEGMENT): AUTO_ROWS}
     t, c = make(script, gateway=lambda n, a: "Error: x")
     out = t.call(TOOL_VIRGO_ITEMS, {"start_date": "2026-10-01", "end_date": "2026-10-31", "limit": 2})
-    assert [p.get("segment") for _, p in c.calls] == [None, AUTOMATED_SEGMENT]
+    assert sorted(str(p.get("segment")) for _, p in c.calls) == sorted(["None", AUTOMATED_SEGMENT])
     assert "automated sessions shown separately" in out.splitlines()[0]
     lines = out.splitlines()
     cat = next(ln for ln in lines if "Catalog" in ln)
@@ -139,12 +144,15 @@ def test_virgo_items_automated_show():
 
 
 def test_virgo_items_automated_exclude():
-    script = {("Actions.getPageUrls", NOT_AUTOMATED_SEGMENT): [row("/sources/uva_library/items/u1", 10)]}
+    script = {("Actions.getPageUrls", None): ROWS, ("Actions.getPageUrls", AUTOMATED_SEGMENT): AUTO_ROWS}
     t, c = make(script, gateway=lambda n, a: "Error: x")
-    out = t.call(TOOL_VIRGO_ITEMS, {**ARGS, "automated": "exclude"})
-    assert [p.get("segment") for _, p in c.calls] == [NOT_AUTOMATED_SEGMENT]
+    out = t.call(TOOL_VIRGO_ITEMS, {**ARGS, "automated": "exclude", "limit": 2})
+    assert sorted(str(p.get("segment")) for _, p in c.calls) == sorted([AUTOMATED_SEGMENT, "None"])
     assert "excluding likely automated sessions" in out.splitlines()[0]
-    assert "Catalog" in out and "u1" in out
+    art = next(ln for ln in out.splitlines() if ln.startswith("| Articles"))
+    assert art == "| Articles | 25 |"
+    items_part = out.split("Top items")[-1]
+    assert items_part.index("a9h_2") < items_part.index("u3") and "u1" not in items_part
 
 
 def test_virgo_items_segment_timeout_falls_back():

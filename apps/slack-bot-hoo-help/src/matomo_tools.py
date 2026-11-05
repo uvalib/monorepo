@@ -24,7 +24,7 @@ from matomo_client import MatomoAuthError, MatomoClient, MatomoError, MatomoTime
 from tool_names import gateway_name
 from virgo_access import classify_access, parse_item_details
 from matomo_report import (
-    AUTOMATED_MIN_ACTIONS, AUTOMATED_MIN_SECONDS, AUTOMATED_SEGMENT, VIRGO_SITE_ID, Period, resolve_period, resolve_site,
+    AUTOMATED_MIN_ACTIONS, AUTOMATED_SEGMENT, VIRGO_SITE_ID, Period, resolve_period, resolve_site,
 )
 
 logger = logging.getLogger(__name__)
@@ -39,13 +39,21 @@ SSM_TOKEN_NAME = "/hoohelp/matomo/token"
 RETRY_AFTER_SEC = 600
 MAX_LIMIT = 50
 DEFAULT_LIMIT = 10
-SEGMENT_TIMEOUT_NOTE = ("Matomo is still preparing the automated-session breakdown for this "
-                        "period; ask again in a few minutes.")
+SEGMENT_TIMEOUT_NOTE = ("Matomo is still preparing the automated-session breakdown for {when}; "
+                        "ask again in a few minutes.")
+# Only a stored, pre-processed (auto-archived) segment is ever used; these calls must stay short.
+SEGMENT_TIMEOUT_SEC = 20
+SEGMENT_RETRY_SEC = 600
+NOT_SEPARATED = "automated sessions not separated"
+SPLIT_WARNING = ("⚠ Likely automated sessions can't be separated for {when}, so these totals include "
+                 "automated traffic.")
+VIRGO_WARNING = (" On a sample day automated sessions were 94% of Virgo activity and 98% of article-page "
+                 "views — don't treat these numbers as human use.")
+OTHERS_SPLIT_NOTE = ("Rows Matomo grouped into \"Others\" can't be split exactly, so their figures without "
+                     "automated sessions are approximate.")
 OTHER_TIMEOUT = "Matomo didn't respond in time; try a shorter range or ask again shortly."
 UNAVAILABLE = "Matomo isn't available right now."
 AUTOMATED_MODES = ("show", "exclude", "ignore")
-# Matomo's own negation (OR of the complements) for "everything but automated sessions".
-NOT_AUTOMATED_SEGMENT = f"visitDuration<{AUTOMATED_MIN_SECONDS},actions<{AUTOMATED_MIN_ACTIONS}"
 SORT_COLUMNS = {"pages": "nb_hits", "titles": "nb_hits",
                 "entry": "entry_nb_visits", "exit": "exit_nb_visits"}
 NOT_AVAILABLE_NOTE = ("Pageviews, searches, downloads, outlinks and unique visitors aren't "
@@ -55,7 +63,7 @@ POOL_NAMES = {"uva_library": "Catalog", "articles": "Articles", "hathitrust": "H
               "images": "Images"}
 VIRGO_DEFAULT_LIMIT = 10
 VIRGO_MAX_LIMIT = 20
-VIRGO_BUDGET_SEC = 20.0
+VIRGO_BUDGET_SEC = 15.0
 PROVISIONAL_NOTE = ("Access types follow a provisional rule (pool and access-link host) "
                     "pending the annual-report definitions.")
 _ITEM_LABEL = re.compile(r"^(?:(?:[a-z][a-z0-9+.-]*://)?[^/?#\s]+)?/?sources/([^/\s]+)/items/(.*)$", re.I)
@@ -152,6 +160,56 @@ def _display_label(label: Any) -> str:
     return _code(text) if _suspicious(text) else text
 
 
+def _cell(text: Any) -> str:
+    """Catalog text (title, format, library) for a table cell: as written, or in code formatting
+    when it has markup or a URL. Unlike page labels, " - Others" means nothing here."""
+    text = " ".join(str(text if text is not None else "").split())[:300]
+    if not text:
+        return "—"
+    return (_code(text) if _suspicious(text) else text).replace("|", "/")
+
+
+def _ratio(part: Any, whole: Any) -> Optional[str]:
+    w = _num(whole)
+    return f"{_num(part) / w * 100:.1f}%" if w > 0 else None
+
+
+def _when(periods: List[Period], compare: bool) -> str:
+    return " and ".join(p.label for p in periods) if compare else "this period"
+
+
+# Count columns of an Actions report row that can be subtracted label by label.
+_ROW_COUNTS = ("nb_hits", "nb_visits", "entry_nb_visits", "entry_bounce_count", "exit_nb_visits")
+
+
+def _subtract_rows(plain: Any, auto: Any, sort_key: str) -> List[dict]:
+    """Rows without automated sessions: plain - automated per label (floored at 0), re-ranked by
+    sort_key. Rates are recomputed from the counts; average time can't be and is left out."""
+    autos: Dict[str, Dict[str, int]] = {}
+    for r in auto if isinstance(auto, list) else []:
+        if isinstance(r, dict):
+            a = autos.setdefault(str(r.get("label")), {})
+            for k in _ROW_COUNTS:
+                a[k] = a.get(k, 0) + _num(r.get(k))
+    out: List[dict] = []
+    for r in plain if isinstance(plain, list) else []:
+        if not isinstance(r, dict):
+            continue
+        a = autos.get(str(r.get("label")), {})
+        row: Dict[str, Any] = {"label": r.get("label")}
+        for k in _ROW_COUNTS:
+            if r.get(k) is not None:
+                row[k] = max(_num(r.get(k)) - a.get(k, 0), 0)
+        if r.get("entry_bounce_count") is not None:
+            row["bounce_rate"] = _ratio(row.get("entry_bounce_count"), row.get("entry_nb_visits"))
+        if r.get("exit_nb_visits") is not None:
+            row["exit_rate"] = _ratio(row.get("exit_nb_visits"), row.get("nb_visits"))
+        if _num(row.get(sort_key)) > 0:
+            out.append(row)
+    out.sort(key=lambda x: (-_num(x.get(sort_key)), str(x.get("label"))))
+    return out
+
+
 def _metrics(visits: dict, actions: Optional[dict]) -> Dict[str, Any]:
     actions = actions or {}
     return {
@@ -179,6 +237,8 @@ class MatomoTools:
         self.client = client
         self.clock = clock
         self._disabled_at: Optional[float] = None
+        self._segment_timeouts: Dict[tuple, float] = {}
+        self._segment_lock = threading.Lock()
         self.budget = budget
         self.gateway_call = gateway_call
         self.v2 = v2
@@ -295,11 +355,75 @@ class MatomoTools:
         return mode
 
     @staticmethod
-    def _head(site: dict, period: Period, handling: str) -> str:
-        text = f"{site['name']}, {period.label}; {handling}"
+    def _head(site: dict, period: Period, handling: str, suffix: str = "", warning: str = "") -> str:
+        """First line (site, dates, automated-session handling), then any warning, then the cap note."""
+        lines = [f"{site['name']}, {period.label}; {handling}{suffix}"]
+        if warning:
+            lines.append(warning)
         if period.capped:
-            text += "\nThe end date was capped at yesterday (the latest day with data)."
-        return text
+            lines.append("The end date was capped at yesterday (the latest day with data).")
+        return "\n".join(lines)
+
+    @staticmethod
+    def _warning(site: dict, periods: List[Period], compare: bool = False) -> str:
+        text = SPLIT_WARNING.format(when=_when(periods, compare))
+        return text + VIRGO_WARNING if site["idsite"] == VIRGO_SITE_ID else text
+
+    def _stored_segment(self, site: dict) -> Optional[str]:
+        """The stored, pre-processed automated-sessions segment to send, or None (then no segment
+        call is made: an ad-hoc segment makes Matomo process data on request)."""
+        try:
+            seg = self.client.stored_segment(AUTOMATED_SEGMENT, idsite=site["idsite"])
+        except MatomoAuthError:
+            raise
+        except MatomoError:
+            return None
+        if not isinstance(seg, dict) or not isinstance(seg.get("definition"), str):
+            return None
+        return seg["definition"]
+
+    def _automated(self, site: dict, jobs: List[tuple]) -> List[tuple]:
+        """Automated-sessions reports for jobs [(period, method, extra)], current and comparison in
+        parallel. Each result is (status, data): "ok", "absent" (no stored segment), "timeout" or
+        "error". A timeout or error is remembered for 10 minutes for that site, period and segment."""
+        seg = self._stored_segment(site)
+        if seg is None:
+            return [("absent", None)] * len(jobs)
+
+        def run(job):
+            period, method, extra = job
+            key = (site["idsite"], period.period, period.date, seg)
+            with self._segment_lock:
+                now = self.clock()
+                for k in [k for k, t in self._segment_timeouts.items() if now - t >= SEGMENT_RETRY_SEC]:
+                    del self._segment_timeouts[k]
+                if key in self._segment_timeouts:
+                    return "timeout", None
+            try:
+                got = self._report(site, period, method, segment=seg, timeout=SEGMENT_TIMEOUT_SEC, **extra)
+            except MatomoAuthError:
+                raise
+            except MatomoError as e:
+                with self._segment_lock:
+                    self._segment_timeouts[key] = self.clock()
+                logger.info("matomo segment unavailable site=%s period=%s (%s)",
+                            site["idsite"], period.date, type(e).__name__)
+                return ("timeout" if isinstance(e, MatomoTimeout) else "error"), None
+            return "ok", got
+
+        if len(jobs) == 1:
+            return [run(jobs[0])]
+        with ThreadPoolExecutor(max_workers=2) as ex:
+            return list(ex.map(run, jobs))
+
+    def _split_notes(self, site: dict, results: List[tuple], periods: List[Period],
+                     compare: bool) -> tuple:
+        """(warning, timeout note) for the periods whose automated split isn't available."""
+        missing = [p for (status, _), p in zip(results, periods) if status != "ok"]
+        timed = [p for (status, _), p in zip(results, periods) if status == "timeout"]
+        warning = self._warning(site, missing, compare) if missing else ""
+        note = SEGMENT_TIMEOUT_NOTE.format(when=_when(timed, compare)) if timed else ""
+        return warning, note
 
     def _report(self, site: dict, period: Period, method: str, **extra) -> Any:
         return self.client.api(method, idSite=site["idsite"], period=period.period,
@@ -354,18 +478,20 @@ class MatomoTools:
             lines.append(f"| {label} | {self._fmt(k, cur.get(k))} | {self._fmt(k, prev.get(k))} | {change} |")
         return lines
 
-    def _gather(self, site: dict, period: Period, mode: str) -> dict:
-        visits, actions = self._plain(site, period)
-        auto, timed_out = None, False
-        if mode != "ignore":
-            try:
-                got = self._report(site, period, "VisitsSummary.get", segment=AUTOMATED_SEGMENT)
-                auto = got if isinstance(got, dict) else {}
-            except MatomoTimeout:
-                timed_out = True
-        return {"visits": visits, "actions": actions, "auto": auto, "timed_out": timed_out,
+    def _gather(self, period: Period, plain: tuple, auto: Optional[dict]) -> dict:
+        visits, actions = plain
+        return {"visits": visits, "actions": actions, "auto": auto,
                 "plain": _metrics(visits, actions),
                 "without": self._without(visits, auto) if auto is not None else None}
+
+    @staticmethod
+    def _share_line(auto: dict, visits: dict, label: str = "") -> str:
+        a_visits, a_actions = _num(auto.get("nb_visits")), _num(auto.get("nb_actions"))
+        total_actions = _num(visits.get("nb_actions"))
+        share = f"{a_actions / total_actions * 100:.0f}%" if total_actions else "—"
+        where = f", {label}" if label else ""
+        return (f"Likely automated{where}: {a_visits:,} visits, {share} of actions "
+                f"(hours-long sessions with {AUTOMATED_MIN_ACTIONS:,}+ actions).")
 
     def traffic(self, args: Dict[str, Any]) -> str:
         site = self._site(args)
@@ -374,21 +500,29 @@ class MatomoTools:
         compare = None
         if args.get("compare_start_date") or args.get("compare_end_date"):
             compare = self._period(args, "compare_")
+        periods = [period] + ([compare] if compare is not None else [])
 
-        cur = self._gather(site, period, mode)
-        prev = self._gather(site, compare, mode) if compare is not None else None
-        note = SEGMENT_TIMEOUT_NOTE if cur["timed_out"] or (prev and prev["timed_out"]) else ""
-        have_auto = cur["auto"] is not None and (prev is None or prev["auto"] is not None)
+        plains = [self._plain(site, p) for p in periods]
+        warning = note = ""
+        if mode == "ignore":
+            autos: List[Optional[dict]] = [None] * len(periods)
+        else:
+            results = self._automated(site, [(p, "VisitsSummary.get", {}) for p in periods])
+            autos = [(d if isinstance(d, dict) else {}) if st == "ok" else None for st, d in results]
+            warning, note = self._split_notes(site, results, periods, compare is not None)
+        cur = self._gather(period, plains[0], autos[0])
+        prev = self._gather(compare, plains[1], autos[1]) if compare is not None else None
+        have_auto = all(a is not None for a in autos)
 
         if mode == "ignore":
             handling = "Matomo's numbers as reported"
         elif not have_auto:
-            handling = "Matomo's numbers as reported; the automated-session breakdown is unavailable"
+            handling = NOT_SEPARATED
         elif mode == "exclude":
             handling = "excluding likely automated sessions"
         else:
             handling = "automated sessions shown separately"
-        lines = [self._head(site, period, handling)]
+        lines = [self._head(site, period, handling, warning=warning)]
         if compare is not None:
             lines.append(f"Compared with {compare.label}.")
             if compare.capped:
@@ -402,14 +536,10 @@ class MatomoTools:
             lines.append(NOT_AVAILABLE_NOTE)
         else:
             lines += block(self._ROWS, "plain")
-            if have_auto:
-                auto, visits = cur["auto"], cur["visits"]
-                a_visits, a_actions = _num(auto.get("nb_visits")), _num(auto.get("nb_actions"))
-                total_actions = _num(visits.get("nb_actions"))
-                share = f"{a_actions / total_actions * 100:.0f}%" if total_actions else "—"
-                lines.append(
-                    f"Likely automated: {a_visits:,} visits, {share} of actions "
-                    f"(hours-long sessions with {AUTOMATED_MIN_ACTIONS:,}+ actions).")
+            for p, g in zip(periods, [cur] + ([prev] if prev else [])):
+                if g["auto"] is not None:
+                    lines.append(self._share_line(g["auto"], g["visits"], p.label if compare else ""))
+            if have_auto and mode != "ignore":
                 lines.append("Without automated sessions:")
                 lines += block(self._WITHOUT_ROWS, "without")
         if note:
@@ -437,28 +567,31 @@ class MatomoTools:
             if report == "titles":
                 raise _Fail("path_prefix filters page URLs; titles can't be filtered by path.")
             extra["filter_pattern"] = "^/?" + re.escape(prefix.lstrip("/"))
-        note = ""
-        if mode == "exclude":
-            handling = "excluding likely automated sessions"
-        elif mode == "show":
+        warning = note = ""
+        subtracted = False
+        method = REPORT_METHODS[report]
+        if mode == "show":
             handling = ("Matomo's numbers as reported, automated sessions included "
                         "(matomo_traffic shows the breakdown)")
         else:
             handling = "Matomo's numbers as reported"
-        method = REPORT_METHODS[report]
+        rows: Any = None
         if mode == "exclude":
-            try:
-                rows = self._report(site, period, method, segment=NOT_AUTOMATED_SEGMENT, **extra)
-            except MatomoTimeout:
-                note = SEGMENT_TIMEOUT_NOTE
-                handling = "Matomo's numbers as reported; the automated-session breakdown is unavailable"
-                rows = self._report(site, period, method, **extra)
-        else:
+            # Without automated sessions = plain - automated, label by label, over all rows Matomo keeps.
+            every = {**extra, "filter_limit": -1}
+            (status, auto), = self._automated(site, [(period, method, every)])
+            if status == "ok":
+                rows = _subtract_rows(self._report(site, period, method, **every), auto, SORT_COLUMNS[report])
+                handling, subtracted = "excluding likely automated sessions", True
+            else:
+                warning, note = self._split_notes(site, [(status, None)], [period], False)
+                handling = NOT_SEPARATED
+        if rows is None:
             rows = self._report(site, period, method, **extra)
         rows = [r for r in rows if isinstance(r, dict)] if isinstance(rows, list) else []
         more = len(rows) > limit
         rows = rows[:limit]
-        lines = [self._head(site, period, handling) + f"; report: {report}"]
+        lines = [self._head(site, period, handling, f"; report: {report}", warning)]
         if not rows:
             lines.append("No rows.")
         else:
@@ -483,6 +616,8 @@ class MatomoTools:
         if more:
             lines.append(f"Showing the top {limit}; more rows exist. Ask for a larger limit "
                          f"(max {MAX_LIMIT}) or use a path_prefix to narrow.")
+        if subtracted:
+            lines.append(OTHERS_SPLIT_NOTE)
         if note:
             lines.append(note)
         return "\n".join(lines)
@@ -503,14 +638,30 @@ class MatomoTools:
             return (self._head(site, period, "Matomo's numbers as reported") +
                     f"\nNo Matomo data for {target} in {period.label}.")
         shown = _code(target) if _suspicious(target) and "://" not in target else target
-        return "\n".join([
-            self._head(site, period, "Matomo's numbers as reported") + f"; page: {shown}",
+        handling, warning, note, auto_lines = "Matomo's numbers as reported", "", "", []
+        if site["idsite"] == VIRGO_SITE_ID:
+            (status, auto), = self._automated(site, [(period, "Actions.getPageUrl", {"pageUrl": url})])
+            if status == "ok":
+                arow = auto[0] if isinstance(auto, list) and auto else auto if isinstance(auto, dict) else {}
+                a_hits = _num(arow.get("nb_hits")) if isinstance(arow, dict) else 0
+                handling = "automated sessions shown separately"
+                auto_lines = [f"- Likely automated pageviews: {a_hits:,}",
+                              f"- Pageviews without automated sessions: {max(_num(row.get('nb_hits')) - a_hits, 0):,}"]
+            else:
+                warning, note = self._split_notes(site, [(status, None)], [period], False)
+                handling = NOT_SEPARATED
+        lines = [
+            self._head(site, period, handling, f"; page: {shown}", warning),
             f"- Pageviews: {_n(row.get('nb_hits'))}",
+            *auto_lines,
             f"- Unique pageviews: {_n(row.get('nb_visits'))}",
             f"- Average time on page: {_mmss(row.get('avg_time_on_page'))}",
             f"- Entries: {_n(row.get('entry_nb_visits'))}",
             f"- Exits: {_n(row.get('exit_nb_visits'))}",
-        ])
+        ]
+        if note:
+            lines.append(note)
+        return "\n".join(lines)
 
 
     # ---- Virgo items ---------------------------------------------------------------
@@ -583,35 +734,30 @@ class MatomoTools:
             "flat": 1, "filter_limit": -1, "filter_sort_column": "nb_hits", "filter_sort_order": "desc",
             "filter_pattern": f"^/?sources/{pool or '[^/]+'}/items/"}
         method = "Actions.getPageUrls"
-        note = ""
-        plain = auto = without = None  # (pool totals, item totals)
-        if mode == "exclude":
-            try:
-                without = self._tally(self._report(site, period, method, segment=NOT_AUTOMATED_SEGMENT, **extra))
-            except MatomoTimeout:
-                note = SEGMENT_TIMEOUT_NOTE
-        if without is None:
-            plain = self._tally(self._report(site, period, method, **extra))
-            if mode == "show":
-                try:
-                    auto = self._tally(self._report(site, period, method, segment=AUTOMATED_SEGMENT, **extra))
-                except MatomoTimeout:
-                    note = SEGMENT_TIMEOUT_NOTE
-                else:
-                    wp = {k: max(v - auto[0].get(k, 0), 0) for k, v in plain[0].items()}
-                    wi = {k: max(v - auto[1].get(k, 0), 0) for k, v in plain[1].items()}
-                    without = (wp, wi)
+        warning = note = ""
+        auto = without = None  # (pool totals, item totals)
+        if mode != "ignore":
+            (status, auto_rows), = self._automated(site, [(period, method, extra)])
+            if status == "ok":
+                auto = self._tally(auto_rows)
+            else:
+                warning, note = self._split_notes(site, [(status, None)], [period], False)
+        plain = self._tally(self._report(site, period, method, **extra))
+        if auto is not None:
+            wp = {k: max(v - auto[0].get(k, 0), 0) for k, v in plain[0].items()}
+            wi = {k: max(v - auto[1].get(k, 0), 0) for k, v in plain[1].items()}
+            without = (wp, wi)
         if mode == "ignore":
             handling = "Matomo's numbers as reported"
-        elif mode == "exclude" and without is not None:
-            handling = "excluding likely automated sessions"
         elif without is None:
-            handling = "Matomo's numbers as reported; the automated-session breakdown is unavailable"
+            handling = NOT_SEPARATED
+        elif mode == "exclude":
+            handling = "excluding likely automated sessions"
         else:
             handling = "automated sessions shown separately"
 
         shown = without if without is not None else plain
-        lines = [self._head(site, period, handling) + "; report: Virgo item views"]
+        lines = [self._head(site, period, handling, "; report: Virgo item views", warning)]
 
         def pool_label(key: str) -> str:
             return POOL_NAMES.get(key, "Other")
@@ -657,9 +803,6 @@ class MatomoTools:
                 lines += ["| Item | Pool | Views |", "| --- | --- | --- |"]
             missing = 0
 
-            def cell(text: str) -> str:
-                return (_display_label(text).replace("|", "/") if text else "—")
-
             for hits, (p, item_id) in ranked:
                 base = f"{_code(item_id)} | {_code(p)} | {_n(hits)}"
                 if not details_on:
@@ -671,13 +814,15 @@ class MatomoTools:
                     lines.append(f"| {base} | details unavailable | — | {classify_access(p, None)} |")
                     continue
                 where = " / ".join(x for x in (d.library, d.location) if x)
-                lines.append(f"| {cell(d.title)} ({_code(item_id)}) | {_code(p)} | {_n(hits)} | "
-                             f"{cell(d.format)} | {cell(where)} | {classify_access(p, d)} |")
+                lines.append(f"| {_cell(d.title)} ({_code(item_id)}) | {_code(p)} | {_n(hits)} | "
+                             f"{_cell(d.format)} | {_cell(where)} | {classify_access(p, d)} |")
             if details_on:
                 if missing:
                     lines.append(f"{missing} item{'s' if missing != 1 else ''} without details "
                                  "(the catalog lookup failed or timed out).")
                 lines.append(PROVISIONAL_NOTE)
+        if without is not None:
+            lines.append(OTHERS_SPLIT_NOTE)
         if note:
             lines.append(note)
         return "\n".join(lines)

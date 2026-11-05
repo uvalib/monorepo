@@ -32,12 +32,17 @@ AUTO = {"nb_visits": 100, "nb_actions": 2500, "bounce_count": 0, "sum_visit_leng
 
 
 class FakeClient:
+    stored = True  # an auto-archived automated-sessions segment exists
+
     def __init__(self, script):
         self.script = script
         self.calls = []
 
     def sites(self):
         return SITES
+
+    def stored_segment(self, definition, idsite=None):
+        return {"definition": definition, "auto_archive": "1"} if self.stored else None
 
     def api(self, method, /, **params):
         self.calls.append((method, params))
@@ -307,13 +312,14 @@ def test_derived_without_metrics():
     assert "44.4%" in out and "0:28" in out
 
 
-def test_top_pages_exclude_segment_and_timeout():
-    expected = f"visitDuration<{AUTOMATED_MIN_SECONDS},actions<{AUTOMATED_MIN_ACTIONS}"
-    assert matomo_tools.NOT_AUTOMATED_SEGMENT == expected
-    t, c = tools({("Actions.getPageUrls", expected): ROWS})
-    t.call(TOOL_TOP_PAGES, {"site": "10", "automated": "exclude", **OCT_DATES})
-    assert c.calls[0][1]["segment"] == expected
-    t, c = tools({("Actions.getPageUrls", expected): MatomoTimeout("t"), ("Actions.getPageUrls", None): ROWS})
+def test_top_pages_exclude_subtracts_stored_segment_and_timeout():
+    assert not hasattr(matomo_tools, "NOT_AUTOMATED_SEGMENT")
+    t, c = tools({("Actions.getPageUrls", None): ROWS,
+                  ("Actions.getPageUrls", AUTOMATED_SEGMENT): [{"label": "/a", "nb_hits": 234, "nb_visits": 100}]})
+    out = t.call(TOOL_TOP_PAGES, {"site": "10", "automated": "exclude", **OCT_DATES})
+    assert [p.get("segment") for _, p in c.calls] == [AUTOMATED_SEGMENT, None]
+    assert "| /a | 1,000 | 900 |" in out
+    t, c = tools({("Actions.getPageUrls", AUTOMATED_SEGMENT): MatomoTimeout("t"), ("Actions.getPageUrls", None): ROWS})
     out = t.call(TOOL_TOP_PAGES, {"site": "10", "automated": "exclude", **OCT_DATES})
     assert not out.startswith("Error") and "/a" in out and TIMEOUT_SEGMENT in out
 
