@@ -114,7 +114,7 @@ class MatomoClient:
         while len(self._cache) > CACHE_MAX_ENTRIES:
             del self._cache[next(iter(self._cache))]
 
-    def api(self, method: str, **params) -> Any:
+    def api(self, method: str, /, **params) -> Any:
         if method not in ALLOWED_METHODS:
             raise MatomoError(f"Method not allowed: {method}")
         bad = sorted(k for k in params if k.lower() in RESERVED_PARAMS)
