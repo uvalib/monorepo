@@ -14,7 +14,7 @@ TODAY = datetime.date(2026, 11, 5)
 SITES = [{"idsite": 10, "name": "Library CMS", "main_url": "http://www.library.virginia.edu"},
          {"idsite": 39, "name": "Virgo 4-prod", "main_url": "https://v4.lib.virginia.edu"}]
 SEG_TIMEOUT = ("Matomo is still preparing the automated-session breakdown for this "
-               "period; ask again in a few minutes.")
+               "period; ask again in about 10 minutes.")
 PROVISIONAL = ("Access types follow a provisional rule (pool and access-link host) "
                "pending the annual-report definitions.")
 

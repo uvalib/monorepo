@@ -123,7 +123,8 @@ All tools take `start_date`/`end_date` (YYYY-MM-DD) or `fiscal_year` (e.g. "FY26
   - The Matomo admin sets up a stored segment with exactly this definition, pre-processed
     ("auto archive"), for all sites or for the site asked about.
   - Before any automated-sessions report, the tools read the stored segment definitions
-    (`SegmentEditor.getAll`, definitions only, cached 1 hour). They use the segment only when
+    (`SegmentEditor.getAll`, definitions only; 20 s timeout, no retry; a found segment is kept
+    1 hour, a failed or not-found lookup 10 minutes, so a newly added segment is picked up). They use the segment only when
     one matches the definition exactly (after URL-decoding), is auto-archived and applies to
     all sites or the site asked; they send its stored definition. Otherwise they make no
     segment call. Hoo Helper never creates or changes a segment.
@@ -131,14 +132,17 @@ All tools take `start_date`/`end_date` (YYYY-MM-DD) or `fiscal_year` (e.g. "FY26
   automated sessions), `"ignore"` (plain Matomo numbers only; default for other sites).
 - **Show:** the plain totals, the automated share ("Likely automated: 122 visits, 94% of
   actions (hours-long sessions with 1,000+ actions)") and the totals without them. With a
-  comparison period, the share is given for each period, labelled with its dates.
+  comparison period, the share is given for each period, labelled with its dates. Top pages in
+  show mode add a "… without automated" column next to the ranked count.
 - **Exclude is a subtraction:** plain report − automated report, floored at 0:
   - traffic: per metric (visits, actions; bounce rate and average visit from `bounce_count` and
     `sum_visit_length`);
   - top pages: per row label, re-ranked by the figures without automated sessions (all rows
     Matomo keeps are fetched for both reports); rates are recomputed, average time isn't;
   - Virgo items: per pool and per item.
-  - Rows Matomo grouped into "Others" can't be split exactly; the answer says so.
+  - The answer adds: "Per-page and per-item figures without automated sessions are approximate
+    and may still include some automated views (Matomo groups less-viewed pages into “Others”
+    separately for each report); totals are exact."
 - `matomo_page` on Virgo also gives the page's likely automated pageviews and the pageviews
   without them.
 - **When the split isn't available** (no stored segment, the segment report timed out or
@@ -150,9 +154,13 @@ All tools take `start_date`/`end_date` (YYYY-MM-DD) or `fiscal_year` (e.g. "FY26
   article-page views — don't treat these numbers as human use."
   Other sites (with `automated="show"` or `"exclude"`) get the first sentence only. In compare
   mode the warning names the period(s) it applies to instead of "this period".
+- **Virgo with `automated="ignore"`** keeps the plain numbers but adds "⚠ These totals include
+  likely automated sessions." and the sample-day sentence.
 - **Speed:** segment requests time out after 20 s; the current and comparison periods are
   requested in parallel. A timeout adds "Matomo is still preparing the automated-session
-  breakdown for this period; ask again in a few minutes."
+  breakdown for this period; ask again in about 10 minutes." A timeout or other error is
+  remembered with its kind for 10 minutes: a remembered timeout repeats that note, a remembered
+  error repeats the warning only.
 
 ### Tools (`src/matomo_tools.py`, a LocalTools set)
 

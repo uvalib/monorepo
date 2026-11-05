@@ -27,7 +27,12 @@ WARN_VIRGO = ("⚠ Likely automated sessions can't be separated for this period,
 WARN_OTHER = ("⚠ Likely automated sessions can't be separated for this period, so these totals include "
               "automated traffic.")
 NOT_SEPARATED = "automated sessions not separated"
-OTHERS_NOTE = "grouped into \"Others\" can't be split exactly"
+OTHERS_NOTE = ("Per-page and per-item figures without automated sessions are approximate and may still "
+               "include some automated views (Matomo groups less-viewed pages into “Others” separately "
+               "for each report); totals are exact.")
+IGNORE_WARN_VIRGO = ("⚠ These totals include likely automated sessions. On a sample day automated sessions "
+                     "were 94% of Virgo activity and 98% of article-page views — don't treat these numbers "
+                     "as human use.")
 
 VISITS = {"nb_visits": 1000, "nb_uniq_visitors": 800, "nb_actions": 5000, "bounce_rate": "40%",
           "bounce_count": 400, "sum_visit_length": 125000, "avg_time_on_site": 125}
@@ -185,7 +190,7 @@ def test_timeout_remembered_for_ten_minutes():
     t, c = make(script, clock=clock)
     out = t.call(TOOL_TRAFFIC, {"site": "Virgo", **OCT})
     assert out.splitlines()[1] == WARN_VIRGO
-    assert "still preparing the automated-session breakdown for this period" in out
+    assert "still preparing the automated-session breakdown for this period; ask again in about 10 minutes." in out
     assert len(segments(c)) == 1
     clock.t += 599
     out = t.call(TOOL_TRAFFIC, {"site": "Virgo", **OCT})
@@ -381,3 +386,80 @@ def test_catalog_cells_plain_escaped_not_display_label():
     assert "grouped by Matomo" not in out
     line = next(ln for ln in out.splitlines() if "u2" in ln)
     assert "`Visit https://evil.com/x &lt;b&gt;now&lt;/b&gt;`" in line and "<b>" not in line
+
+
+# ---- re-review --------------------------------------------------------------
+
+def test_remembered_error_repeats_warning_not_preparing_note():
+    clock = Clock()
+    script = {**TRAFFIC, ("VisitsSummary.get", AUTOMATED_SEGMENT): MatomoError("Matomo returned HTTP 504")}
+    t, c = make(script, clock=clock)
+    for _ in range(2):
+        out = t.call(TOOL_TRAFFIC, {"site": "Virgo", **OCT})
+        assert out.splitlines()[1] == WARN_VIRGO and "still preparing" not in out
+    assert len(segments(c)) == 1
+
+
+def test_remembered_timeout_repeats_preparing_note():
+    clock = Clock()
+    script = {**TRAFFIC, ("VisitsSummary.get", AUTOMATED_SEGMENT): MatomoTimeout("t")}
+    t, c = make(script, clock=clock)
+    t.call(TOOL_TRAFFIC, {"site": "Virgo", **OCT})
+    clock.t += 300
+    out = t.call(TOOL_TRAFFIC, {"site": "Virgo", **OCT})
+    assert len(segments(c)) == 1
+    assert out.splitlines()[1] == WARN_VIRGO
+    assert out.splitlines()[-1] == ("Matomo is still preparing the automated-session breakdown for this "
+                                    "period; ask again in about 10 minutes.")
+
+
+@pytest.mark.parametrize("tool,args", [
+    (TOOL_TRAFFIC, {"site": "Virgo"}), (TOOL_TOP_PAGES, {"site": "Virgo"}), (TOOL_VIRGO_ITEMS, {"details": False}),
+])
+def test_virgo_ignore_warns(tool, args):
+    script = {**TRAFFIC, ("Actions.getPageUrls", None): PAGE_ROWS}
+    t, c = make(script)
+    out = t.call(tool, {**args, "automated": "ignore", **OCT})
+    lines = out.splitlines()
+    assert "Matomo's numbers as reported" in lines[0]
+    assert lines[1] == IGNORE_WARN_VIRGO
+    assert segments(c) == [] and c.segment_lists == 0
+
+
+def test_other_site_ignore_has_no_warning():
+    t, _ = make({("Actions.getPageUrls", None): PAGE_ROWS})
+    assert "⚠" not in t.call(TOOL_TOP_PAGES, {"site": "10", "automated": "ignore", **OCT})
+
+
+def test_top_pages_virgo_show_with_stored_segment_adds_without_column():
+    script = {("Actions.getPageUrls", None): PAGE_ROWS, ("Actions.getPageUrls", AUTOMATED_SEGMENT): AUTO_PAGE_ROWS}
+    t, c = make(script)
+    out = t.call(TOOL_TOP_PAGES, {"site": "Virgo", **OCT})
+    lines = out.splitlines()
+    assert lines[0] == f"Virgo 4-prod, {OCT_LABEL}; automated sessions shown separately; report: pages"
+    assert "| Page | Pageviews | Pageviews without automated | Unique pageviews | Avg time | Bounce rate |" in out
+    rows = [ln for ln in lines if ln.startswith("| /") or ln.startswith("| Other")]
+    # ranked by plain pageviews; without = plain - automated (floored at 0)
+    assert [r.split("|")[1].strip() for r in rows][:3] == ["/a", "/b", "/c"]
+    assert rows[0].startswith("| /a | 100 | 5 | 80 |")
+    assert rows[1].startswith("| /b | 90 | 0 | 70 |")
+    assert rows[2].startswith("| /c | 60 | 60 | 60 |")
+    assert OTHERS_NOTE in out
+    assert [p.get("segment") for _, p in c.calls].count(AUTOMATED_SEGMENT) == 1
+
+
+def test_top_pages_entry_show_without_column():
+    script = {("Actions.getEntryPageUrls", None): PAGE_ROWS,
+              ("Actions.getEntryPageUrls", AUTOMATED_SEGMENT): AUTO_PAGE_ROWS}
+    t, _ = make(script)
+    out = t.call(TOOL_TOP_PAGES, {"site": "Virgo", "report": "entry", **OCT})
+    assert "| Page | Entries | Entries without automated | Bounce rate |" in out
+    assert any(ln.startswith("| /a | 50 | 5 | ") for ln in out.splitlines())
+
+
+def test_top_pages_virgo_show_without_stored_segment_warns():
+    t, c = make({("Actions.getPageUrls", None): PAGE_ROWS}, stored=False)
+    out = t.call(TOOL_TOP_PAGES, {"site": "Virgo", **OCT})
+    lines = out.splitlines()
+    assert lines[0].endswith(f"{NOT_SEPARATED}; report: pages") and lines[1] == WARN_VIRGO
+    assert segments(c) == [] and "without automated" not in out

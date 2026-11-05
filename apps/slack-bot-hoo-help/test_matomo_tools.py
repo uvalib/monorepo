@@ -21,7 +21,7 @@ SITES = [
     {"idsite": 39, "name": "Virgo 4-prod", "main_url": "https://v4.lib.virginia.edu"},
 ]
 TIMEOUT_SEGMENT = ("Matomo is still preparing the automated-session breakdown for this "
-                   "period; ask again in a few minutes.")
+                   "period; ask again in about 10 minutes.")
 TIMEOUT_OTHER = "Matomo didn't respond in time; try a shorter range or ask again shortly."
 
 VISITS = {"nb_visits": 1000, "nb_uniq_visitors": 800, "nb_actions": 5000,
