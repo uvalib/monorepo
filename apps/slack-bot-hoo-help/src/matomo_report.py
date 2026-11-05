@@ -85,6 +85,40 @@ def resolve_period(start_date: str = "", end_date: str = "", fiscal_year: str = 
     return Period("range", f"{start.isoformat()},{end.isoformat()}", start, end, capped)
 
 
+def archived_parts(period: Period) -> list[tuple[str, str]]:
+    """The (period, date) requests that cover `period` from reports Matomo has already processed.
+
+    A month or calendar year is one request. Any other range becomes whole months (one
+    multi-date month request) plus the leftover days (multi-date day requests): Matomo builds a
+    period=range report on request, which for big reports (a fiscal year of Virgo page URLs)
+    can take minutes and overload the server.
+    """
+    if period.period != "range":
+        return [(period.period, period.date)]
+    start, end = period.start, period.end
+    first_month = start if start.day == 1 else _next_month(start)
+    end_of_end_month = datetime.date(end.year, end.month, calendar.monthrange(end.year, end.month)[1])
+    last_month = datetime.date(end.year, end.month, 1) if end == end_of_end_month \
+        else datetime.date(end.year, end.month, 1) - datetime.timedelta(days=1)
+    last_month = datetime.date(last_month.year, last_month.month, 1)
+    if first_month > last_month:
+        return [("day", f"{start.isoformat()},{end.isoformat()}")]
+    parts: list[tuple[str, str]] = []
+    if start < first_month:
+        parts.append(("day", f"{start.isoformat()},{(first_month - datetime.timedelta(days=1)).isoformat()}"))
+    months = first_month.isoformat() if first_month == last_month \
+        else f"{first_month.isoformat()},{last_month.isoformat()}"
+    parts.append(("month", months))
+    after = _next_month(last_month)
+    if after <= end:
+        parts.append(("day", f"{after.isoformat()},{end.isoformat()}"))
+    return parts
+
+
+def _next_month(d: datetime.date) -> datetime.date:
+    return datetime.date(d.year + (d.month == 12), d.month % 12 + 1, 1)
+
+
 def _host(value: str) -> str:
     value = value.strip().lower()
     parsed = urlparse(value if "//" in value else "//" + value)

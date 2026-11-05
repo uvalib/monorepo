@@ -24,7 +24,8 @@ from matomo_client import MatomoAuthError, MatomoClient, MatomoError, MatomoTime
 from tool_names import gateway_name
 from virgo_access import classify_access, parse_item_details
 from matomo_report import (
-    AUTOMATED_MIN_ACTIONS, AUTOMATED_SEGMENT, VIRGO_SITE_ID, Period, resolve_period, resolve_site,
+    AUTOMATED_MIN_ACTIONS, AUTOMATED_SEGMENT, VIRGO_SITE_ID, Period, archived_parts, resolve_period,
+    resolve_site,
 )
 
 logger = logging.getLogger(__name__)
@@ -55,6 +56,13 @@ OTHERS_SPLIT_NOTE = ("Per-page and per-item figures without automated sessions a
 IGNORE_WARNING = "⚠ These totals include likely automated sessions."
 OTHER_TIMEOUT = "Matomo didn't respond in time; try a shorter range or ask again shortly."
 UNAVAILABLE = "Matomo isn't available right now."
+# Ranges are added up from monthly and daily reports (see archived_parts); each part keeps at
+# least this many top rows so pages ranked lower in one month still count.
+RANGE_ROWS = 500
+RANGE_NOTE = ("These figures are added up from Matomo's monthly and daily reports. Matomo keeps only "
+              "each month's top pages (the rest are grouped into “Others”), so lower-ranked pages may "
+              "be undercounted.")
+UNIQ_RANGE_NOTE = "Unique visitors can't be added up across months, so they aren't shown for this range."
 AUTOMATED_MODES = ("show", "exclude", "ignore")
 SORT_COLUMNS = {"pages": "nb_hits", "titles": "nb_hits",
                 "entry": "entry_nb_visits", "exit": "exit_nb_visits"}
@@ -216,6 +224,65 @@ def _subtract_rows(plain: Any, auto: Any, sort_key: str) -> List[dict]:
             out.append(row)
     out.sort(key=lambda x: (-_num(x.get(sort_key)), str(x.get("label"))))
     return out
+
+
+# Not additive across months and days: recomputed from summed counts, or dropped.
+_RECOMPUTED = ("bounce_rate", "avg_time_on_site", "nb_actions_per_visit", "avg_time_on_page", "exit_rate")
+_DROPPED = ("nb_uniq_visitors", "nb_users", "max_actions", "avg_time_generation", "avg_page_load_time")
+
+
+def _additive(key: str, value: Any) -> bool:
+    return (isinstance(value, (int, float)) and not isinstance(value, bool)
+            and key not in _RECOMPUTED and key not in _DROPPED and "rate" not in key and "avg_" not in key)
+
+
+def _div(part: Any, whole: Any) -> Optional[float]:
+    return part / whole if isinstance(part, (int, float)) and whole else None
+
+
+def _sum_into(total: Dict[str, Any], item: dict) -> None:
+    for k, v in item.items():
+        if _additive(k, v):
+            total[k] = total.get(k, 0) + v
+        elif k not in total and k not in _RECOMPUTED and k not in _DROPPED:
+            total[k] = v
+
+
+def _merge_parts(values: List[Any], sort_column: Optional[str] = None, limit: Any = None) -> Any:
+    """One report from several months' and days' reports: counts summed, rates and averages
+    recomputed from the sums, unique visitors dropped. Rows are matched by label and re-ranked."""
+    if any(isinstance(v, list) and v for v in values):
+        rows: Dict[str, Dict[str, Any]] = {}
+        for v in values:
+            for r in v if isinstance(v, list) else []:
+                if isinstance(r, dict):
+                    _sum_into(rows.setdefault(str(r.get("label")), {}), r)
+        out = list(rows.values())
+        for r in out:
+            r["avg_time_on_page"] = _div(r.get("sum_time_spent"), r.get("nb_visits"))
+            r["bounce_rate"] = _ratio(r.get("entry_bounce_count"), r.get("entry_nb_visits"))
+            r["exit_rate"] = _ratio(r.get("exit_nb_visits"), r.get("nb_visits"))
+        if sort_column:
+            out.sort(key=lambda r: -_num(r.get(sort_column)))
+        try:
+            n = int(limit)
+        except (TypeError, ValueError):
+            n = -1
+        return out[:n] if n > 0 else out
+    total: Dict[str, Any] = {}
+    for v in values:
+        if isinstance(v, dict):
+            _sum_into(total, v)
+    if not total:
+        return {}
+    visits = total.get("nb_visits")
+    if "bounce_count" in total:
+        total["bounce_rate"] = _ratio(total["bounce_count"], visits)
+    if "sum_visit_length" in total:
+        total["avg_time_on_site"] = _div(total["sum_visit_length"], visits)
+    if "nb_actions" in total:
+        total["nb_actions_per_visit"] = _div(total["nb_actions"], visits)
+    return total
 
 
 def _metrics(visits: dict, actions: Optional[dict]) -> Dict[str, Any]:
@@ -445,8 +512,22 @@ class MatomoTools:
         return warning, note
 
     def _report(self, site: dict, period: Period, method: str, **extra) -> Any:
-        return self.client.api(method, idSite=site["idsite"], period=period.period,
-                               date=period.date, **extra)
+        """One report for `period`; a range is added up from processed months and days,
+        never requested as period=range (see archived_parts)."""
+        if period.period != "range":
+            return self.client.api(method, idSite=site["idsite"], period=period.period,
+                                   date=period.date, **extra)
+        part_extra = dict(extra)
+        if _num(part_extra.get("filter_limit")) > 0:
+            part_extra["filter_limit"] = max(_num(part_extra["filter_limit"]), RANGE_ROWS)
+        values: List[Any] = []
+        for p, d in archived_parts(period):
+            got = self.client.api(method, idSite=site["idsite"], period=p, date=d, **part_extra)
+            if "," in d:
+                values += list(got.values()) if isinstance(got, dict) else []
+            else:
+                values.append(got)
+        return _merge_parts(values, extra.get("filter_sort_column"), extra.get("filter_limit"))
 
     def _plain(self, site: dict, period: Period) -> tuple:
         visits = self._report(site, period, "VisitsSummary.get")
@@ -561,6 +642,8 @@ class MatomoTools:
             if have_auto and mode != "ignore":
                 lines.append("Without automated sessions:")
                 lines += block(self._WITHOUT_ROWS, "without")
+            if any(p.period == "range" for p in periods):
+                lines.append(UNIQ_RANGE_NOTE)
         if note:
             lines.append(note)
         return "\n".join(lines)
@@ -650,6 +733,8 @@ class MatomoTools:
                          f"(max {MAX_LIMIT}) or use a path_prefix to narrow.")
         if subtracted:
             lines.append(OTHERS_SPLIT_NOTE)
+        if period.period == "range":
+            lines.append(RANGE_NOTE)
         if note:
             lines.append(note)
         return "\n".join(lines)
@@ -855,6 +940,8 @@ class MatomoTools:
                 lines.append(PROVISIONAL_NOTE)
         if without is not None:
             lines.append(OTHERS_SPLIT_NOTE)
+        if period.period == "range":
+            lines.append(RANGE_NOTE)
         if note:
             lines.append(note)
         return "\n".join(lines)
