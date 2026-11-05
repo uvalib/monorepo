@@ -241,8 +241,12 @@ class MatomoTools:
                  v2: Callable[[], bool] = lambda: True,
                  today: Callable[[], datetime.date] = _today_ny,
                  budget: float = VIRGO_BUDGET_SEC,
-                 clock: Callable[[], float] = time.monotonic):
+                 clock: Callable[[], float] = time.monotonic,
+                 automated_split: bool = True):
         self.client = client
+        # False: never look up or query the automated-sessions segment (every answer gets the
+        # warning). Used until Matomo pre-processes the segment without browser-triggered archiving.
+        self.automated_split = automated_split
         self.clock = clock
         self._disabled_at: Optional[float] = None
         # (site, period, date, segment) -> (when, "timeout" | "error"), kept SEGMENT_RETRY_SEC
@@ -400,7 +404,7 @@ class MatomoTools:
         """Automated-sessions reports for jobs [(period, method, extra)], current and comparison in
         parallel. Each result is (status, data): "ok", "absent" (no stored segment), "timeout" or
         "error". A timeout or error is remembered for 10 minutes for that site, period and segment."""
-        seg = self._stored_segment(site)
+        seg = self._stored_segment(site) if self.automated_split else None
         if seg is None:
             return [("absent", None)] * len(jobs)
 
@@ -896,7 +900,9 @@ def matomo_tools_for_env(env=None, *, ssm_get=None, http=None, gateway_call=None
                 raise LookupError("Matomo token missing in SSM")
             # No Matomo call here: the first auth failure in a tool call switches the tools off.
             client = MatomoClient(token, http=http)
-            kw: Dict[str, Any] = {"gateway_call": gateway_call}
+            kw: Dict[str, Any] = {"gateway_call": gateway_call,
+                                  "automated_split": str(env.get("MATOMO_AUTOMATED_SPLIT", "false"))
+                                  .strip().lower() == "true"}
             if v2 is not None:
                 kw["v2"] = v2
             _INSTANCE = MatomoTools(client, **kw)

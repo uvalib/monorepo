@@ -43,7 +43,11 @@ def test_template_has_enable_matomo():
     assert m and 'Default: "false"' in m.group(0) and 'AllowedValues: ["true", "false"]' in m.group(0)
     assert "ENABLE_MATOMO: !Ref EnableMatomo" in t
     assert "parameter/hoohelp/matomo/*" in t
-    assert "EnableMatomo=false" in _read("samconfig.toml")
+    assert "MATOMO_AUTOMATED_SPLIT: !Ref MatomoAutomatedSplit" in t
+    m = re.search(r"\n  MatomoAutomatedSplit:\n(?:    .*\n)+", t)
+    assert m and 'Default: "false"' in m.group(0)
+    # Production: Matomo on, automated split off until the segment is pre-processed.
+    assert "EnableMatomo=true MatomoAutomatedSplit=false" in _read("samconfig.toml")
 
 
 def test_app_passes_matomo_tools():

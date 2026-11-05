@@ -463,3 +463,31 @@ def test_top_pages_virgo_show_without_stored_segment_warns():
     lines = out.splitlines()
     assert lines[0].endswith(f"{NOT_SEPARATED}; report: pages") and lines[1] == WARN_VIRGO
     assert segments(c) == [] and "without automated" not in out
+
+
+# ---- split switched off: no segment lookup or call, the warning instead --------
+
+@pytest.mark.parametrize("mode", ["show", "exclude"])
+def test_split_off_makes_no_segment_calls(mode):
+    c = Client(TRAFFIC, stored=True)
+    t = MatomoTools(c, today=lambda: TODAY, clock=Clock(), automated_split=False,
+                    gateway_call=lambda n, a: "Tool Error: none")
+    out = t.call(TOOL_TRAFFIC, {"site": "Virgo", "automated": mode, **OCT})
+    assert out.splitlines()[1] == WARN_VIRGO
+    assert segments(c) == [] and c.segment_lists == 0
+    assert "1,000" in out
+
+
+def test_split_switch_from_env(monkeypatch):
+    seen = {}
+
+    class Fake:
+        def __init__(self, client, **kw):
+            seen.update(kw)
+    monkeypatch.setattr(matomo_tools, "MatomoTools", Fake)
+    monkeypatch.setattr(matomo_tools, "MatomoClient", lambda token, **kw: object())
+    for env, want in (({}, False), ({"MATOMO_AUTOMATED_SPLIT": "true"}, True)):
+        matomo_tools._reset_cache()
+        matomo_tools.matomo_tools_for_env({"ENABLE_MATOMO": "true", **env}, ssm_get=lambda n, d: "tok")
+        assert seen["automated_split"] is want
+    matomo_tools._reset_cache()

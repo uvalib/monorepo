@@ -126,6 +126,16 @@ Parameters:
       When true, Hoo Helper can answer questions about Library website statistics
       (read-only, aggregate), using the Matomo token in SSM /hoohelp/matomo/.
 
+  MatomoAutomatedSplit:
+    Type: String
+    Default: "false"
+    AllowedValues: ["true", "false"]
+    Description: >
+      When true, Matomo answers separate likely automated sessions using the stored
+      pre-processed segment. Keep false until Matomo's browser-triggered archiving is
+      off or the segment is backfilled: until then each query makes Matomo process the
+      segment on demand. When false, every answer carries the automated-traffic warning.
+
   AtlassianTokenType:
     Type: String
     Default: "scoped"
@@ -366,6 +376,7 @@ Resources:
           ENABLE_ATLASSIAN: !Ref EnableAtlassian
           ENABLE_GITHUB: !Ref EnableGitHub
           ENABLE_MATOMO: !Ref EnableMatomo
+          MATOMO_AUTOMATED_SPLIT: !Ref MatomoAutomatedSplit
           ATLASSIAN_SITE: https://virginia-its.atlassian.net
           ATLASSIAN_CLOUD_ID: c417cfa5-aa30-4f3f-be7e-968c5845b5e9
           ATLASSIAN_TOKEN_TYPE: !Ref AtlassianTokenType
