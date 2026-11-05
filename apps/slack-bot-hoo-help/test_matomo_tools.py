@@ -430,18 +430,57 @@ def test_for_env_missing_token(caplog):
     assert any("matomo tools off" in r.message for r in caplog.records)
 
 
-def test_for_env_auth_failure(caplog, monkeypatch):
-    class Bad:
+def test_for_env_makes_no_matomo_call(monkeypatch):
+    class NoNetwork:
         def __init__(self, token, **kw):
             pass
 
         def sites(self):
-            raise MatomoAuthError("denied", 401)
-    monkeypatch.setattr(matomo_tools, "MatomoClient", Bad)
+            raise AssertionError("setup must not call Matomo")
+
+        def api(self, *a, **k):
+            raise AssertionError("setup must not call Matomo")
+    monkeypatch.setattr(matomo_tools, "MatomoClient", NoNetwork)
+    t = matomo_tools_for_env({"ENABLE_MATOMO": "true"}, ssm_get=lambda n, d: "tok")
+    assert isinstance(t, MatomoTools) and t.tool_specs()
+
+
+class Clock:
+    def __init__(self):
+        self.t = 5000.0
+
+    def __call__(self):
+        return self.t
+
+
+def test_auth_failure_disables_tools_for_ten_minutes(caplog):
+    class Bad(FakeClient):
+        def sites(self):
+            self.calls.append(("sites", {}))
+            raise MatomoAuthError("denied", 403)
+    clock = Clock()
+    c = Bad({})
+    t = MatomoTools(c, today=lambda: TODAY, clock=clock)
     with caplog.at_level(logging.INFO):
-        assert matomo_tools_for_env({"ENABLE_MATOMO": "true"}, ssm_get=lambda n, d: "tok") is None
-    assert any("matomo_auth_failed status=401" in r.message for r in caplog.records)
-    assert not any("tok" == r.message for r in caplog.records)
+        assert t.call(TOOL_TRAFFIC, OCT) == "Error: Matomo isn't available right now."
+        assert t.tool_specs() == []
+        assert t.call(TOOL_SITES, {}) == "Error: Matomo isn't available right now."
+    assert len(c.calls) == 1  # no further Matomo calls while disabled
+    logged = [r.message for r in caplog.records if "matomo_auth_failed" in r.message]
+    assert logged == ["matomo_auth_failed status=403"]
+    assert "denied" not in caplog.text
+    clock.t += 599
+    assert t.tool_specs() == []
+    clock.t += 2
+    assert t.tool_specs()
+    assert t.call(TOOL_SITES, {}) == "Error: Matomo isn't available right now."
+    assert len(c.calls) == 2
+
+
+def test_auth_failure_in_report_disables():
+    t, _ = tools({("VisitsSummary.get", None): MatomoAuthError("x", 401), ("Actions.get", None): ACTIONS})
+    assert t.call(TOOL_TRAFFIC, {**OCT, "site": "10"}) == "Error: Matomo isn't available right now."
+    assert t.tool_specs() == []
 
 
 def test_for_env_success_and_retry_window(monkeypatch):

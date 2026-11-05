@@ -42,6 +42,7 @@ DEFAULT_LIMIT = 10
 SEGMENT_TIMEOUT_NOTE = ("Matomo is still preparing the automated-session breakdown for this "
                         "period; ask again in a few minutes.")
 OTHER_TIMEOUT = "Matomo didn't respond in time; try a shorter range or ask again shortly."
+UNAVAILABLE = "Matomo isn't available right now."
 AUTOMATED_MODES = ("show", "exclude", "ignore")
 # Matomo's own negation (OR of the complements) for "everything but automated sessions".
 NOT_AUTOMATED_SEGMENT = f"visitDuration<{AUTOMATED_MIN_SECONDS},actions<{AUTOMATED_MIN_ACTIONS}"
@@ -173,8 +174,11 @@ class MatomoTools:
     def __init__(self, client, *, gateway_call: Optional[Callable[[str, dict], str]] = None,
                  v2: Callable[[], bool] = lambda: True,
                  today: Callable[[], datetime.date] = _today_ny,
-                 budget: float = VIRGO_BUDGET_SEC):
+                 budget: float = VIRGO_BUDGET_SEC,
+                 clock: Callable[[], float] = time.monotonic):
         self.client = client
+        self.clock = clock
+        self._disabled_at: Optional[float] = None
         self.budget = budget
         self.gateway_call = gateway_call
         self.v2 = v2
@@ -182,7 +186,17 @@ class MatomoTools:
 
     # ---- tool surface ------------------------------------------------------------
 
+    def _disabled(self) -> bool:
+        if self._disabled_at is None:
+            return False
+        if self.clock() - self._disabled_at < RETRY_AFTER_SEC:
+            return True
+        self._disabled_at = None
+        return False
+
     def tool_specs(self) -> List[Dict[str, Any]]:
+        if self._disabled():
+            return []  # Matomo refused the token: offer nothing until the retry window passes
         site = {"type": "string", "description": "Site name or id, e.g. Virgo, Library CMS, 10, or a host"}
         start = {"type": "string", "description": "YYYY-MM-DD"}
         end = {"type": "string", "description": "YYYY-MM-DD (default: yesterday)"}
@@ -231,6 +245,8 @@ class MatomoTools:
 
     def call(self, name: str, args: Dict[str, Any]) -> str:
         args = args if isinstance(args, dict) else {}
+        if self.handles(name) and self._disabled():
+            return f"Error: {UNAVAILABLE}"
         try:
             if name == TOOL_SITES:
                 return self.sites()
@@ -246,6 +262,10 @@ class MatomoTools:
                 return self.virgo_items(args)
         except (_Fail, ValueError) as e:
             return f"Error: {e}"
+        except MatomoAuthError as e:
+            self._disabled_at = self.clock()
+            logger.warning("matomo_auth_failed status=%s", e.status)
+            return f"Error: {UNAVAILABLE}"
         except MatomoTimeout:
             return f"Error: {OTHER_TIMEOUT}"
         except MatomoError as e:
@@ -686,7 +706,8 @@ def _boto3_ssm_get(name: str, decrypt: bool) -> str:
 
 def matomo_tools_for_env(env=None, *, ssm_get=None, http=None, gateway_call=None,
                          v2=None) -> Optional[MatomoTools]:
-    """Matomo tools for this container, or None when switched off or not working."""
+    """Matomo tools for this container (switch on and token in SSM), or None. Makes no Matomo call:
+    a token Matomo refuses switches the tools off from the first tool call (MatomoTools.call)."""
     global _INSTANCE, _FAILED_AT, _WARNED
     env = os.environ if env is None else env
     if str(env.get("ENABLE_MATOMO", "false")).strip().lower() != "true":
@@ -700,8 +721,8 @@ def matomo_tools_for_env(env=None, *, ssm_get=None, http=None, gateway_call=None
             token = (ssm_get or _boto3_ssm_get)(SSM_TOKEN_NAME, True)
             if not token:
                 raise LookupError("Matomo token missing in SSM")
+            # No Matomo call here: the first auth failure in a tool call switches the tools off.
             client = MatomoClient(token, http=http)
-            client.sites()  # proves the token works
             kw: Dict[str, Any] = {"gateway_call": gateway_call}
             if v2 is not None:
                 kw["v2"] = v2
@@ -712,8 +733,6 @@ def matomo_tools_for_env(env=None, *, ssm_get=None, http=None, gateway_call=None
             raise
         except BaseException as e:  # noqa: BLE001 — any setup failure switches Matomo off
             _FAILED_AT = time.monotonic()
-            if isinstance(e, MatomoAuthError):
-                logger.warning("matomo_auth_failed status=%s", e.status)
             # Log the exception type only: messages could echo request details.
             if not _WARNED:
                 _WARNED = True
