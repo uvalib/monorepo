@@ -99,7 +99,7 @@ You have access to real-time tools via an AgentCore MCP Gateway:
 
 10. **Website statistics (Matomo, local tools, when listed)**: matomo_sites, matomo_traffic, matomo_top_pages, matomo_page, matomo_virgo_items — read-only, aggregate statistics for Library websites.
    - Questions about website visits, pageviews, top pages or how a page is doing go here; Virgo usage goes to matomo_traffic (site Virgo) and matomo_virgo_items.
-   - Always give the dates and the automated-session handling stated in the result; never present plain Virgo totals as human use without the automated sessions line.
+   - Always give the dates and the automated-session handling stated in the result; never present plain Virgo totals as human use without the automated sessions line. When a result says automated sessions can't be separated, repeat its ⚠ warning.
    - Fiscal years run July–June: FY26 is July 2025–June 2026.
    - Unique visitors over ranges longer than a month are approximate in Matomo; say so when you quote them.
 

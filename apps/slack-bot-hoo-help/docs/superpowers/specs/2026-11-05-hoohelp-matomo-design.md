@@ -75,20 +75,21 @@ lets us try the definitions.
   access logs or Hoo Helper's own logs.
 - **IAM:** the Lambda role gets `ssm:GetParameter` on `/hoohelp/matomo/*`.
 - **Switch:** `ENABLE_MATOMO` (template parameter `EnableMatomo`, default false). If it is off,
-  the token is missing, or the first call fails with 401/403, the tools aren't offered; this is
-  logged once per container.
+  or the token is missing, the tools aren't offered (logged once per container). Setup makes no
+  Matomo call; the first 401/403 in a tool call switches the tools off for 10 minutes.
 
 ### Client (`src/matomo_client.py`, new)
 
 - `api(method, **params) -> Any`:
   - POSTs to `index.php?module=API&method=…&format=JSON`.
   - The method must be on the allow-list below; anything else raises before any request.
-  - Timeout: 40 s per call.
+  - Timeout: 40 s per call (20 s for segment reports).
   - One retry on 429/5xx.
   - A Matomo error body (`{"result": "error", "message": …}`) becomes a `MatomoError` with the
     message.
 - **Allow-list (read-only, aggregate):**
   - `SitesManager.getSitesWithAtLeastViewAccess`
+  - `SegmentEditor.getAll` (stored segment definitions only; see Automated sessions)
   - `VisitsSummary.get`
   - `Actions.get`, `Actions.getPageUrls`, `Actions.getPageUrl`, `Actions.getEntryPageUrls`,
     `Actions.getExitPageUrls`, `Actions.getPageTitles`
@@ -115,19 +116,43 @@ All tools take `start_date`/`end_date` (YYYY-MM-DD) or `fiscal_year` (e.g. "FY26
 - Constants:
   - `AUTOMATED_MIN_SECONDS = 3600`
   - `AUTOMATED_MIN_ACTIONS = 1000`
-  - Segment `visitDuration>=3600;actions>=1000` (URL-encoded once, as Matomo expects).
-- For **Virgo**, `matomo_traffic` and `matomo_virgo_items` run the plain report and the
-  automated-sessions report. The answer shows the totals, the automated share ("122 visits,
-  94% of actions, look automated: hours-long sessions with 1,000+ actions"), and the totals
-  without them. Other sites show the plain report unless asked (`automated="show"`).
-- `automated` argument: `"show"` (default for Virgo), `"exclude"` (only the totals without
+  - Segment definition `visitDuration>=3600;actions>=1000`.
+- **Only a stored, pre-processed segment is used (option A, decided 2026-11-05).** A segment
+  Matomo hasn't pre-processed makes it process visit data on request: on first use that took
+  21–120+ s, and the server then returned 504s. So Hoo Helper never asks for an ad-hoc segment.
+  - The Matomo admin sets up a stored segment with exactly this definition, pre-processed
+    ("auto archive"), for all sites or for the site asked about.
+  - Before any automated-sessions report, the tools read the stored segment definitions
+    (`SegmentEditor.getAll`, definitions only, cached 1 hour). They use the segment only when
+    one matches the definition exactly (after URL-decoding), is auto-archived and applies to
+    all sites or the site asked; they send its stored definition. Otherwise they make no
+    segment call. Hoo Helper never creates or changes a segment.
+- **`automated` argument:** `"show"` (default for Virgo), `"exclude"` (only the figures without
   automated sessions), `"ignore"` (plain Matomo numbers only; default for other sites).
-- **Slow first use.** If the segment report times out (40 s), the answer gives the plain
-  numbers and says: "Matomo is still preparing the automated-session breakdown for this
-  period; ask again in a few minutes."
-- **Recommendation for the Matomo admin (outside this code):** a stored, pre-processed segment
-  with this definition makes these reports instant for any period. The spec's code works with
-  or without it: it calls the same segment string either way.
+- **Show:** the plain totals, the automated share ("Likely automated: 122 visits, 94% of
+  actions (hours-long sessions with 1,000+ actions)") and the totals without them. With a
+  comparison period, the share is given for each period, labelled with its dates.
+- **Exclude is a subtraction:** plain report − automated report, floored at 0:
+  - traffic: per metric (visits, actions; bounce rate and average visit from `bounce_count` and
+    `sum_visit_length`);
+  - top pages: per row label, re-ranked by the figures without automated sessions (all rows
+    Matomo keeps are fetched for both reports); rates are recomputed, average time isn't;
+  - Virgo items: per pool and per item.
+  - Rows Matomo grouped into "Others" can't be split exactly; the answer says so.
+- `matomo_page` on Virgo also gives the page's likely automated pageviews and the pageviews
+  without them.
+- **When the split isn't available** (no stored segment, the segment report timed out or
+  failed, or it did so for the same site, period and segment in the last 10 minutes), the
+  answer gives the plain numbers, the first line says "automated sessions not separated", and
+  the next line warns:
+  "⚠ Likely automated sessions can't be separated for this period, so these totals include
+  automated traffic. On a sample day automated sessions were 94% of Virgo activity and 98% of
+  article-page views — don't treat these numbers as human use."
+  Other sites (with `automated="show"` or `"exclude"`) get the first sentence only. In compare
+  mode the warning names the period(s) it applies to instead of "this period".
+- **Speed:** segment requests time out after 20 s; the current and comparison periods are
+  requested in parallel. A timeout adds "Matomo is still preparing the automated-session
+  breakdown for this period; ask again in a few minutes."
 
 ### Tools (`src/matomo_tools.py`, a LocalTools set)
 
@@ -156,7 +181,7 @@ with `matomo_`.
   `get_item_details` (`Catalog___get_item_details` on uvalib-mcp; the name comes from
   `tool_names.gateway_name`) with `item_id` and `pool_id`.
   - The tool is reached through the agent's gateway client, passed into `MatomoTools`.
-  - Calls run 4 at a time, with a 20 s budget overall. Items not looked up in time are listed
+  - Calls run 4 at a time, with a 15 s budget overall. Items not looked up in time are listed
     without details, and the answer says so.
 - **Access type**, a provisional rule to be confirmed by the ticket answers:
   - `articles` pool → **licensed (EDS)**.
@@ -201,10 +226,11 @@ A short "Website statistics (Matomo)" section:
 | Case | Behaviour |
 | --- | --- |
 | Feature off, or token missing | Tools not offered; logged once |
-| 401/403 | Tools not offered for the container; `matomo_auth_failed` logged with the status |
+| 401/403 | "Matomo isn't available right now."; tools not offered for 10 minutes; `matomo_auth_failed` logged with the status |
 | Unknown site | Error listing the sites |
 | Dates invalid, reversed, or in the future | Error naming the problem; future end dates are capped |
-| Segment report timeout | Plain numbers plus the "still preparing" note |
+| No stored segment | Plain numbers, "automated sessions not separated" and the ⚠ warning; no segment call |
+| Segment report timeout or error | Plain numbers, the ⚠ warning (plus the "still preparing" note for a timeout); remembered 10 minutes |
 | Other timeout or 5xx after retry | "Matomo didn't respond in time; try a shorter range or ask again shortly." |
 | Matomo error message | Returned as `Error: <Matomo's message>` |
 | Virgo lookup fails for an item | Item listed without details; the count of missing details is stated |
@@ -237,7 +263,8 @@ A short "Website statistics (Matomo)" section:
 
 1. Deploy with `EnableMatomo=false`, then switch it on. Approve before each deploy.
 2. Run the live evals.
-3. Ask the Matomo admin about a stored, pre-processed automated-sessions segment.
+3. The Matomo admin sets up the stored, pre-processed automated-sessions segment; until then
+   answers carry the ⚠ warning.
 4. Share findings with the ticket owner, with the Virgo-items tool as a way to check
    definitions.
 
