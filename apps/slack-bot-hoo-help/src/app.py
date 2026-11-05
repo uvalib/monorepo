@@ -21,13 +21,15 @@ from __future__ import annotations
 import json
 import logging
 import os
+import threading
+import time
 import uuid
 from typing import Any, Dict, List, Optional, Tuple
 
 from slack_bolt import App
 from slack_bolt.adapter.aws_lambda import SlackRequestHandler
 
-from agent import HooHelpAgent, drop_untrusted_block_urls, reply_url_filter
+from agent import TOO_SLOW_REPLY, AgentTurnResult, HooHelpAgent, drop_untrusted_block_urls, reply_url_filter
 from link_check import drop_untrusted_urls, url_host
 from bedrock_params import DEFAULT_AGENT_MODEL_ID, DEFAULT_FORMAT_MODEL_ID
 from gateway_mcp_client import GatewayMCPClient
@@ -185,6 +187,33 @@ def _new_request_id(context: Any = None) -> str:
 
 # Set on each Lambda invocation so lazy listeners can correlate traces
 _CURRENT_REQUEST_ID: Optional[str] = None
+# time.monotonic() when this Lambda invocation times out (None outside Lambda)
+_INVOCATION_DEADLINE: Optional[float] = None
+# Left after the answer for formatting, link checks and posting to Slack.
+REPLY_RESERVE_SEC = 10.0
+
+
+def _run_with_deadline(fn, deadline: Optional[float]):
+    """fn() if it finishes before `deadline` (time.monotonic()), else None. A late fn keeps
+    running in its thread, but its result is never used; errors are re-raised."""
+    if deadline is None:
+        return fn()
+    box: Dict[str, Any] = {}
+
+    def work():
+        try:
+            box["result"] = fn()
+        except BaseException as e:  # noqa: BLE001 — handed back to the caller below
+            box["error"] = e
+
+    worker = threading.Thread(target=work, daemon=True)
+    worker.start()
+    worker.join(max(deadline - time.monotonic(), 0.0))
+    if worker.is_alive():
+        return None
+    if "error" in box:
+        raise box["error"]
+    return box["result"]
 
 
 def handle_user_query(
@@ -302,8 +331,8 @@ def handle_user_query(
         file_context_line(file_fmt),
     ] + slack_lines
 
-    turn = agent.process_message(
-        cleaned_text,
+    reply_deadline = (_INVOCATION_DEADLINE - REPLY_RESERVE_SEC) if _INVOCATION_DEADLINE else None
+    agent_kwargs: Dict[str, Any] = dict(
         conversation_history=conversation_history,
         request_id=request_id,
         slack_context=slack_context,
@@ -321,6 +350,13 @@ def handle_user_query(
             _matomo_tools(),
         ),
     )
+    if reply_deadline is not None:
+        agent_kwargs["deadline"] = reply_deadline
+    # A tool call can block past the agent's own deadline checks; never leave the question unanswered.
+    turn = _run_with_deadline(lambda: agent.process_message(cleaned_text, **agent_kwargs), reply_deadline)
+    if turn is None:
+        logger.warning("Answer not ready before the reply deadline request_id=%s", request_id)
+        turn = AgentTurnResult(text=TOO_SLOW_REPLY, trace=SessionTrace(request_id=request_id))
     raw_response = turn.text
     # Link each catalog item the reply names, so "those" can be tied to exact items later.
     raw_response = add_virgo_links(raw_response, getattr(turn.trace, "steps", None))
@@ -688,8 +724,13 @@ def handler(event, context):
     - GET /health → simple JSON health check (mapped in template.yaml)
     - Async self-invokes from Bolt lazy listeners are also handled here
     """
-    global _CURRENT_REQUEST_ID
+    global _CURRENT_REQUEST_ID, _INVOCATION_DEADLINE
     _CURRENT_REQUEST_ID = _new_request_id(context)
+    remaining_ms = getattr(context, "get_remaining_time_in_millis", None)
+    try:
+        _INVOCATION_DEADLINE = time.monotonic() + remaining_ms() / 1000.0 if remaining_ms else None
+    except Exception:  # noqa: BLE001 — no deadline is the old behaviour
+        _INVOCATION_DEADLINE = None
 
     # Health check (API Gateway HTTP API v2 format)
     request_context = event.get("requestContext") or {}

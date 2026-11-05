@@ -98,6 +98,19 @@ def _error_reply(exc: Exception, request_id: str) -> str:
     )
 
 
+# Deadline handling (process_message(deadline=...)): with less than WRAP_UP_RESERVE_SEC left, no
+# new lookup round starts and the model writes its answer; with less than MIN_WRAP_UP_SEC left there
+# is no time for that model call either, so the reply is TOO_SLOW_REPLY.
+WRAP_UP_RESERVE_SEC = 30.0
+MIN_WRAP_UP_SEC = 12.0
+TOO_SLOW_REPLY = (
+    "Sorry — that took longer than I can spend on one question (a service I was using was slow "
+    "to respond). Please try again in a few minutes, or ask about something smaller, like a "
+    "shorter date range."
+)
+_now = time.monotonic
+
+
 # Bland on purpose: stern "stop now" turns trip the guardrail's prompt-attack filter.
 _WRAP_UP_NUDGE = (
     "You've reached the limit of lookups for this question. Please write the best answer you can "
@@ -750,9 +763,13 @@ class HooHelpAgent:
         slack_context: Optional[Dict[str, Any]] = None,
         extra_context: Optional[List[str]] = None,
         local_tools: Optional[Any] = None,
+        deadline: Optional[float] = None,
     ) -> AgentTurnResult:
         """
         Process a user prompt through Bedrock Converse API with tool calling loop.
+
+        ``deadline`` (a time.monotonic() value) is when the reply must be ready: close to it
+        the model answers from what it has found, and past it the reply is TOO_SLOW_REPLY.
 
         Returns AgentTurnResult(text, trace). Callers that only need text can use
         ``result.text``; ``result.trace`` is ready for SessionTrace.emit().
@@ -786,7 +803,11 @@ class HooHelpAgent:
         force_tool_choice = False
         include_top_p = True
 
+        out_of_time = False
         while iteration < max_iterations:
+            if deadline is not None and deadline - _now() < WRAP_UP_RESERVE_SEC:
+                out_of_time = True
+                break
             iteration += 1
 
             try:
@@ -984,11 +1005,18 @@ class HooHelpAgent:
                 )
                 return AgentTurnResult(text=text, trace=trace)
 
-        text = self._wrap_up(messages, system_instruction, tool_config, include_top_p, trace)
+        stop = "deadline" if out_of_time else "max_iterations"
+        if out_of_time:
+            logger.warning("Close to the reply deadline; wrapping up request_id=%s iteration=%s",
+                           trace.request_id, iteration)
+        if out_of_time and deadline - _now() < MIN_WRAP_UP_SEC:
+            text = TOO_SLOW_REPLY
+        else:
+            text = self._wrap_up(messages, system_instruction, tool_config, include_top_p, trace)
         trace.finish(
             final_text=text,
-            stop_reason="max_iterations",
+            stop_reason=stop,
             iterations=iteration,
-            error="max_iterations",
+            error=stop,
         )
         return AgentTurnResult(text=text, trace=trace)

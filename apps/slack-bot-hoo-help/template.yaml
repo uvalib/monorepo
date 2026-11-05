@@ -345,6 +345,11 @@ Resources:
     Properties:
       FunctionName: !Sub "hoohelp-slack-bot-${StageName}"
       Description: HooHelp Slack Events API handler (Bolt + Bedrock + MCP Gateway)
+      # Slack questions run as async self-invokes. Lambda's default 2 retries re-ran a timed-out
+      # question from scratch (doubling the load that caused the timeout); the user gets the
+      # "took too long" reply instead.
+      EventInvokeConfig:
+        MaximumRetryAttempts: 0
       CodeUri: src/
       Handler: app.handler
       Environment:
