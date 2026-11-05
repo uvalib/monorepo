@@ -32,7 +32,6 @@ ROWS = [
     row("/sources/weird_pool/items/w6", 3),
     row("/sources/uva_library/items/ - Others", 11),
     row("/feedback?url=/sources/uva_library/items/u9", 99),
-    row("/sources/uva_library/items/bad id", 98),
 ]
 AUTO_ROWS = [row("/sources/uva_library/items/u1", 40), row("/sources/articles/items/a9h_2", 5),
              row("/sources/uva_library/items/ - Others", 100)]
@@ -77,7 +76,7 @@ def test_virgo_items_pool_totals():
     # catalog 50+20+11 (grouped Others counted), articles 30, hathitrust 7, images 5, other 3
     for pool, n in (("Catalog", 81), ("Articles", 30), ("HathiTrust", 7), ("Images", 5), ("Other", 3)):
         assert any(pool in ln and f"| {n} |" in ln.replace("  ", " ") for ln in out.splitlines()), (pool, out)
-    assert "feedback" not in out and "bad id" not in out and "Others" not in out.split("Top items")[-1]
+    assert "feedback" not in out and "Others" not in out.split("Top items")[-1]
     items_part = out.split("Top items")[-1]
     assert "u1" in items_part and "a9h_2" in items_part and "u3" not in items_part  # limit 2, by hits
     assert items_part.index("u1") < items_part.index("a9h_2")
@@ -95,7 +94,6 @@ def test_virgo_items_details():
     out = t.call(TOOL_VIRGO_ITEMS, {**ARGS, "limit": 3})
     assert sorted((a["item_id"], a["pool_id"]) for _, a in calls) == [
         ("a9h_2", "articles"), ("u1", "uva_library"), ("u3", "uva_library")]
-    assert all(n == "Catalog___get_item_details" or n for n, _ in calls)
     from tool_names import gateway_name
     assert {n for n, _ in calls} == {gateway_name("get_item_details", True)}
     assert all(set(a) == {"item_id", "pool_id"} for _, a in calls)
@@ -119,7 +117,7 @@ def test_virgo_items_partial_details():
     out = t.call(TOOL_VIRGO_ITEMS, {**ARGS, "limit": 2})
     release.set()
     assert out.count("details unavailable") == 2
-    assert "2 items without details" in out
+    assert "2 items without details" in out and "2 item without" not in out
     assert "u1" in out and "a9h_2" in out
 
 
@@ -178,3 +176,26 @@ def test_virgo_items_untrusted_title():
     t, _ = make(gateway=lambda n, a: evil)
     out = t.call(TOOL_VIRGO_ITEMS, {**ARGS, "limit": 1})
     assert "<b>" not in out and "&lt;b&gt;" in out
+
+
+def test_virgo_items_unrankable_rows_count_in_pool_total():
+    rows = [row("/sources/hathitrust/items/hvd$32044", 40), row("/sources/hathitrust/items/a%2Fb", 30),
+            row("/sources/hathitrust/items/x/y", 20), row("/sources/hathitrust/items/hvd_ok", 1),
+            row("/feedback?url=/sources/hathitrust/items/z", 500)]
+    calls = []
+
+    def gw(name, args):
+        calls.append(args["item_id"])
+        return BOOK
+
+    t, _ = make({("Actions.getPageUrls", None): rows}, gateway=gw)
+    out = t.call(TOOL_VIRGO_ITEMS, {**ARGS, "limit": 20})
+    assert any("HathiTrust" in ln and "| 91 |" in ln for ln in out.splitlines()), out
+    assert calls == ["hvd_ok"]
+    assert "hvd$32044" not in out
+
+
+def test_virgo_items_one_item_without_details():
+    t, _ = make(gateway=lambda n, a: "Error: x")
+    out = t.call(TOOL_VIRGO_ITEMS, {**ARGS, "limit": 1})
+    assert "1 item without details" in out and "1 items" not in out

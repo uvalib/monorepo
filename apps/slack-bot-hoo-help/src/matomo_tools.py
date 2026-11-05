@@ -171,10 +171,9 @@ class MatomoTools:
     def __init__(self, client, *, gateway_call: Optional[Callable[[str, dict], str]] = None,
                  v2: Callable[[], bool] = lambda: True,
                  today: Callable[[], datetime.date] = _today_ny,
-                 budget: float = VIRGO_BUDGET_SEC, clock: Callable[[], float] = time.monotonic):
+                 budget: float = VIRGO_BUDGET_SEC):
         self.client = client
         self.budget = budget
-        self.clock = clock
         self.gateway_call = gateway_call
         self.v2 = v2
         self.today = today
@@ -511,9 +510,9 @@ class MatomoTools:
             if label.endswith(" - Others") and rest.strip() == "- Others":
                 pools[pool] = pools.get(pool, 0) + hits  # grouped summary: pool total only
                 continue
-            if "/" in rest or not _ITEM_ID.match(rest):
-                continue
             pools[pool] = pools.get(pool, 0) + hits
+            if "/" in rest or not _ITEM_ID.match(rest):
+                continue  # counted in the pool total, but can't be ranked or looked up
             items[(pool, rest)] = items.get((pool, rest), 0) + hits
         return pools, items
 
@@ -653,7 +652,8 @@ class MatomoTools:
                              f"{cell(d.format)} | {cell(where)} | {classify_access(p, d)} |")
             if details_on:
                 if missing:
-                    lines.append(f"{missing} items without details (the catalog lookup failed or timed out).")
+                    lines.append(f"{missing} item{'s' if missing != 1 else ''} without details "
+                                 "(the catalog lookup failed or timed out).")
                 lines.append(PROVISIONAL_NOTE)
         if note:
             lines.append(note)
