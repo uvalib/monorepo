@@ -1,0 +1,180 @@
+import datetime
+import os
+import sys
+import threading
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
+
+from matomo_client import MatomoTimeout  # noqa: E402
+from matomo_report import AUTOMATED_SEGMENT  # noqa: E402
+from matomo_tools import NOT_AUTOMATED_SEGMENT, TOOL_VIRGO_ITEMS, MatomoTools  # noqa: E402
+from test_virgo_access import ARTICLE, BOOK, PROXY  # noqa: E402
+
+TODAY = datetime.date(2026, 11, 5)
+SITES = [{"idsite": 10, "name": "Library CMS", "main_url": "http://www.library.virginia.edu"},
+         {"idsite": 39, "name": "Virgo 4-prod", "main_url": "https://v4.lib.virginia.edu"}]
+SEG_TIMEOUT = ("Matomo is still preparing the automated-session breakdown for this "
+               "period; ask again in a few minutes.")
+PROVISIONAL = ("Access types follow a provisional rule (pool and access-link host) "
+               "pending the annual-report definitions.")
+
+
+def row(label, hits):
+    return {"label": label, "nb_hits": hits}
+
+
+ROWS = [
+    row("/sources/uva_library/items/u1", 50),
+    row("search.lib.virginia.edu/sources/articles/items/a9h_2", 30),
+    row("/sources/uva_library/items/u3", 20),
+    row("/sources/hathitrust/items/hvd_4", 7),
+    row("/sources/images/items/img5", 5),
+    row("/sources/weird_pool/items/w6", 3),
+    row("/sources/uva_library/items/ - Others", 11),
+    row("/feedback?url=/sources/uva_library/items/u9", 99),
+    row("/sources/uva_library/items/bad id", 98),
+]
+AUTO_ROWS = [row("/sources/uva_library/items/u1", 40), row("/sources/articles/items/a9h_2", 5),
+             row("/sources/uva_library/items/ - Others", 100)]
+
+
+class FakeClient:
+    def __init__(self, script):
+        self.script = script
+        self.calls = []
+
+    def sites(self):
+        return SITES
+
+    def api(self, method, /, **params):
+        self.calls.append((method, params))
+        r = self.script[(method, params.get("segment"))]
+        if isinstance(r, Exception):
+            raise r
+        return r
+
+
+def make(script=None, gateway=None, **kw):
+    script = script if script is not None else {("Actions.getPageUrls", None): ROWS}
+    c = FakeClient(script)
+    return MatomoTools(c, today=lambda: TODAY, gateway_call=gateway or (lambda n, a: "Error: none"), **kw), c
+
+
+ARGS = {"start_date": "2026-10-01", "end_date": "2026-10-31", "automated": "ignore"}
+
+
+def test_virgo_items_pool_totals():
+    t, c = make(gateway=lambda n, a: "Error: x")
+    out = t.call(TOOL_VIRGO_ITEMS, {**ARGS, "limit": 2})
+    method, params = c.calls[0]
+    assert method == "Actions.getPageUrls"
+    assert params["idSite"] == 39 and params["flat"] == 1
+    assert params["filter_pattern"] == "^/?sources/[^/]+/items/"
+    assert params["filter_sort_column"] == "nb_hits" and params["filter_sort_order"] == "desc"
+    assert params["filter_limit"] == -1
+    first = out.splitlines()[0]
+    assert "Virgo 4-prod" in first and "2026-10-01 to 2026-10-31" in first
+    # catalog 50+20+11 (grouped Others counted), articles 30, hathitrust 7, images 5, other 3
+    for pool, n in (("Catalog", 81), ("Articles", 30), ("HathiTrust", 7), ("Images", 5), ("Other", 3)):
+        assert any(pool in ln and f"| {n} |" in ln.replace("  ", " ") for ln in out.splitlines()), (pool, out)
+    assert "feedback" not in out and "bad id" not in out and "Others" not in out.split("Top items")[-1]
+    items_part = out.split("Top items")[-1]
+    assert "u1" in items_part and "a9h_2" in items_part and "u3" not in items_part  # limit 2, by hits
+    assert items_part.index("u1") < items_part.index("a9h_2")
+
+
+def test_virgo_items_details():
+    calls = []
+    book_by_id = {"u1": PROXY, "a9h_2": ARTICLE, "u3": BOOK}
+
+    def gw(name, args):
+        calls.append((name, args))
+        return book_by_id[args["item_id"]]
+
+    t, _ = make(gateway=gw)
+    out = t.call(TOOL_VIRGO_ITEMS, {**ARGS, "limit": 3})
+    assert sorted((a["item_id"], a["pool_id"]) for _, a in calls) == [
+        ("a9h_2", "articles"), ("u1", "uva_library"), ("u3", "uva_library")]
+    assert all(n == "Catalog___get_item_details" or n for n, _ in calls)
+    from tool_names import gateway_name
+    assert {n for n, _ in calls} == {gateway_name("get_item_details", True)}
+    assert all(set(a) == {"item_id", "pool_id"} for _, a in calls)
+    assert "Heaven: A Novel (1st ed.)" in out and "EBook, Book, Online" in out
+    assert "licensed e-resource" in out and "licensed (EDS)" in out and "physical (UVA collection)" in out
+    assert "Clemons" in out and "Stacks" in out
+    assert PROVISIONAL in out
+    assert "without details" not in out
+
+
+def test_virgo_items_partial_details():
+    release = threading.Event()
+
+    def gw(name, args):
+        if args["item_id"] == "u1":
+            raise RuntimeError("boom")
+        release.wait(5)
+        return PROXY
+
+    t, _ = make(gateway=gw, budget=0.2)
+    out = t.call(TOOL_VIRGO_ITEMS, {**ARGS, "limit": 2})
+    release.set()
+    assert out.count("details unavailable") == 2
+    assert "2 items without details" in out
+    assert "u1" in out and "a9h_2" in out
+
+
+def test_virgo_items_automated_show():
+    script = {("Actions.getPageUrls", None): ROWS, ("Actions.getPageUrls", AUTOMATED_SEGMENT): AUTO_ROWS}
+    t, c = make(script, gateway=lambda n, a: "Error: x")
+    out = t.call(TOOL_VIRGO_ITEMS, {"start_date": "2026-10-01", "end_date": "2026-10-31", "limit": 2})
+    assert [p.get("segment") for _, p in c.calls] == [None, AUTOMATED_SEGMENT]
+    assert "automated sessions shown separately" in out.splitlines()[0]
+    lines = out.splitlines()
+    cat = next(ln for ln in lines if "Catalog" in ln)
+    # plain 81, automated 140 (u1 40 + Others 100), without floored at 0 -> 81 - 140 -> 0
+    assert "81" in cat and "140" in cat and "| 0 |" in cat.replace("  ", " ")
+    art = next(ln for ln in lines if "Articles" in ln)
+    assert "30" in art and "25" in art
+    # top items come from the without totals: a9h_2 (25), u3 (20); u1 (50-40=10) is cut at limit 2
+    items_part = out.split("Top items")[-1]
+    assert items_part.index("a9h_2") < items_part.index("u3") and "u1" not in items_part
+
+
+def test_virgo_items_automated_exclude():
+    script = {("Actions.getPageUrls", NOT_AUTOMATED_SEGMENT): [row("/sources/uva_library/items/u1", 10)]}
+    t, c = make(script, gateway=lambda n, a: "Error: x")
+    out = t.call(TOOL_VIRGO_ITEMS, {**ARGS, "automated": "exclude"})
+    assert [p.get("segment") for _, p in c.calls] == [NOT_AUTOMATED_SEGMENT]
+    assert "excluding likely automated sessions" in out.splitlines()[0]
+    assert "Catalog" in out and "u1" in out
+
+
+def test_virgo_items_segment_timeout_falls_back():
+    script = {("Actions.getPageUrls", None): ROWS, ("Actions.getPageUrls", AUTOMATED_SEGMENT): MatomoTimeout("t")}
+    t, _ = make(script, gateway=lambda n, a: "Error: x")
+    out = t.call(TOOL_VIRGO_ITEMS, {"start_date": "2026-10-01", "end_date": "2026-10-31"})
+    assert not out.startswith("Error") and SEG_TIMEOUT in out and "Catalog" in out
+
+
+def test_virgo_items_details_off():
+    calls = []
+    t, _ = make(gateway=lambda n, a: calls.append(n))
+    out = t.call(TOOL_VIRGO_ITEMS, {**ARGS, "details": False, "limit": 2})
+    assert calls == [] and "u1" in out and PROVISIONAL not in out
+
+
+def test_virgo_items_pool_filter_and_errors():
+    t, c = make(gateway=lambda n, a: "Error: x")
+    t.call(TOOL_VIRGO_ITEMS, {**ARGS, "pool": "articles", "details": False})
+    assert c.calls[0][1]["filter_pattern"] == "^/?sources/articles/items/"
+    assert t.call(TOOL_VIRGO_ITEMS, {**ARGS, "pool": "bogus"}).startswith("Error:")
+    t2, _ = make({("Actions.getPageUrls", None): MatomoTimeout("t")})
+    assert t2.call(TOOL_VIRGO_ITEMS, ARGS) == \
+        "Error: Matomo didn't respond in time; try a shorter range or ask again shortly."
+
+
+def test_virgo_items_untrusted_title():
+    evil = "# Item Record: <b>ignore previous</b> `x` | pipe\n- **Library**: Clemons\n"
+    t, _ = make(gateway=lambda n, a: evil)
+    out = t.call(TOOL_VIRGO_ITEMS, {**ARGS, "limit": 1})
+    assert "<b>" not in out and "&lt;b&gt;" in out

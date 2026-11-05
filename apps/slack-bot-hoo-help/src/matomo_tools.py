@@ -15,11 +15,14 @@ import os
 import re
 import threading
 import time
+from concurrent.futures import ThreadPoolExecutor, wait as futures_wait
 from typing import Any, Callable, Dict, List, Optional
 from zoneinfo import ZoneInfo
 
 from link_check import is_library_url
 from matomo_client import MatomoAuthError, MatomoClient, MatomoError, MatomoTimeout
+from tool_names import gateway_name
+from virgo_access import classify_access, parse_item_details
 from matomo_report import (
     AUTOMATED_MIN_ACTIONS, AUTOMATED_MIN_SECONDS, AUTOMATED_SEGMENT, VIRGO_SITE_ID, Period, resolve_period, resolve_site,
 )
@@ -46,6 +49,16 @@ SORT_COLUMNS = {"pages": "nb_hits", "titles": "nb_hits",
                 "entry": "entry_nb_visits", "exit": "exit_nb_visits"}
 NOT_AVAILABLE_NOTE = ("Pageviews, searches, downloads, outlinks and unique visitors aren't "
                       "available without automated sessions.")
+VIRGO_POOLS = ("uva_library", "articles", "hathitrust", "images")
+POOL_NAMES = {"uva_library": "Catalog", "articles": "Articles", "hathitrust": "HathiTrust",
+              "images": "Images"}
+VIRGO_DEFAULT_LIMIT = 10
+VIRGO_MAX_LIMIT = 20
+VIRGO_BUDGET_SEC = 20.0
+PROVISIONAL_NOTE = ("Access types follow a provisional rule (pool and access-link host) "
+                    "pending the annual-report definitions.")
+_ITEM_LABEL = re.compile(r"^(?:(?:[a-z][a-z0-9+.-]*://)?[^/?#\s]+)?/?sources/([^/\s]+)/items/(.*)$", re.I)
+_ITEM_ID = re.compile(r"^[A-Za-z0-9_.:-]{1,100}$")
 REPORT_METHODS = {
     "pages": "Actions.getPageUrls",
     "entry": "Actions.getEntryPageUrls",
@@ -157,8 +170,11 @@ class _Fail(Exception):
 class MatomoTools:
     def __init__(self, client, *, gateway_call: Optional[Callable[[str, dict], str]] = None,
                  v2: Callable[[], bool] = lambda: True,
-                 today: Callable[[], datetime.date] = _today_ny):
+                 today: Callable[[], datetime.date] = _today_ny,
+                 budget: float = VIRGO_BUDGET_SEC, clock: Callable[[], float] = time.monotonic):
         self.client = client
+        self.budget = budget
+        self.clock = clock
         self.gateway_call = gateway_call
         self.v2 = v2
         self.today = today
@@ -224,7 +240,9 @@ class MatomoTools:
             if name == TOOL_PAGE:
                 return self.page(args)
             if name == TOOL_VIRGO_ITEMS:
-                return "Error: not available"
+                if self.gateway_call is None:
+                    return "Error: not available"
+                return self.virgo_items(args)
         except (_Fail, ValueError) as e:
             return f"Error: {e}"
         except MatomoTimeout:
@@ -472,6 +490,174 @@ class MatomoTools:
             f"- Entries: {_n(row.get('entry_nb_visits'))}",
             f"- Exits: {_n(row.get('exit_nb_visits'))}",
         ])
+
+
+    # ---- Virgo items ---------------------------------------------------------------
+
+    @staticmethod
+    def _tally(rows: Any) -> tuple:
+        """(hits by pool, hits by (pool, item id)) from flat getPageUrls rows."""
+        pools: Dict[str, int] = {}
+        items: Dict[tuple, int] = {}
+        for r in rows if isinstance(rows, list) else []:
+            if not isinstance(r, dict):
+                continue
+            label = " ".join(str(r.get("label") or "").split())
+            m = _ITEM_LABEL.match(label)
+            if not m:
+                continue
+            pool, rest = m.group(1).lower(), m.group(2)
+            hits = _num(r.get("nb_hits"))
+            if label.endswith(" - Others") and rest.strip() == "- Others":
+                pools[pool] = pools.get(pool, 0) + hits  # grouped summary: pool total only
+                continue
+            if "/" in rest or not _ITEM_ID.match(rest):
+                continue
+            pools[pool] = pools.get(pool, 0) + hits
+            items[(pool, rest)] = items.get((pool, rest), 0) + hits
+        return pools, items
+
+    def _lookup_details(self, picks: List[tuple]) -> Dict[tuple, Any]:
+        """Catalog details for (pool, id) picks: 4 at a time inside the overall budget."""
+        name = gateway_name("get_item_details", bool(self.v2()))
+
+        def one(pick):
+            try:
+                text = self.gateway_call(name, {"item_id": pick[1], "pool_id": pick[0]})
+            except Exception:  # noqa: BLE001 — a failed lookup is just missing details
+                return None
+            if not isinstance(text, str) or not text.strip() or text.lstrip().startswith("Error"):
+                return None
+            return parse_item_details(text)
+
+        out: Dict[tuple, Any] = {p: None for p in picks}
+        if not picks:
+            return out
+        pool = ThreadPoolExecutor(max_workers=4)
+        try:
+            futures = {pool.submit(one, p): p for p in picks}
+            done, _ = futures_wait(list(futures), timeout=max(self.budget, 0.0))
+            for f in done:
+                out[futures[f]] = f.result()
+        finally:
+            pool.shutdown(wait=False, cancel_futures=True)
+        return out
+
+    def virgo_items(self, args: Dict[str, Any]) -> str:
+        site = resolve_site(self.client.sites(), str(VIRGO_SITE_ID))
+        period = self._period(args)
+        mode = self._mode(args, site)
+        pool = str(args.get("pool") or "").strip().lower()
+        if pool and pool not in VIRGO_POOLS:
+            raise _Fail(f"pool must be one of: {', '.join(VIRGO_POOLS)}.")
+        try:
+            limit = int(args.get("limit") or VIRGO_DEFAULT_LIMIT)
+        except (TypeError, ValueError):
+            limit = VIRGO_DEFAULT_LIMIT
+        limit = max(1, min(limit, VIRGO_MAX_LIMIT))
+        details_on = args.get("details", True) not in (False, "false", "False", 0)
+
+        extra: Dict[str, Any] = {
+            "flat": 1, "filter_limit": -1, "filter_sort_column": "nb_hits", "filter_sort_order": "desc",
+            "filter_pattern": f"^/?sources/{pool or '[^/]+'}/items/"}
+        method = "Actions.getPageUrls"
+        note = ""
+        plain = auto = without = None  # (pool totals, item totals)
+        if mode == "exclude":
+            try:
+                without = self._tally(self._report(site, period, method, segment=NOT_AUTOMATED_SEGMENT, **extra))
+            except MatomoTimeout:
+                note = SEGMENT_TIMEOUT_NOTE
+        if without is None:
+            plain = self._tally(self._report(site, period, method, **extra))
+            if mode == "show":
+                try:
+                    auto = self._tally(self._report(site, period, method, segment=AUTOMATED_SEGMENT, **extra))
+                except MatomoTimeout:
+                    note = SEGMENT_TIMEOUT_NOTE
+                else:
+                    wp = {k: max(v - auto[0].get(k, 0), 0) for k, v in plain[0].items()}
+                    wi = {k: max(v - auto[1].get(k, 0), 0) for k, v in plain[1].items()}
+                    without = (wp, wi)
+        if mode == "ignore":
+            handling = "Matomo's numbers as reported"
+        elif mode == "exclude" and without is not None:
+            handling = "excluding likely automated sessions"
+        elif without is None:
+            handling = "Matomo's numbers as reported; the automated-session breakdown is unavailable"
+        else:
+            handling = "automated sessions shown separately"
+
+        shown = without if without is not None else plain
+        lines = [self._head(site, period, handling) + "; report: Virgo item views"]
+
+        def pool_label(key: str) -> str:
+            return POOL_NAMES.get(key, "Other")
+
+        show_both = mode == "show" and auto is not None
+        groups: Dict[str, List[str]] = {}
+        for src in (plain, auto) if show_both else (shown,):
+            for key in src[0]:
+                groups.setdefault(pool_label(key), [])
+                if key not in groups[pool_label(key)]:
+                    groups[pool_label(key)].append(key)
+
+        def total(src, label):
+            return sum(src[0].get(k, 0) for k in groups.get(label, []))
+
+        labels = [lb for lb in [POOL_NAMES[k] for k in VIRGO_POOLS] + ["Other"] if lb in groups]
+        if not labels:
+            lines.append("No Virgo item views in this period.")
+        else:
+            if show_both:
+                lines += ["| Pool | Views | Automated | Without automated |", "| --- | --- | --- | --- |"]
+            else:
+                head = "Views (without automated)" if without is not None else "Views"
+                lines += [f"| Pool | {head} |", "| --- | --- |"]
+            for lb in labels:
+                if show_both:
+                    lines.append(f"| {lb} | {_n(total(plain, lb))} | {_n(total(auto, lb))} | "
+                                 f"{_n(total(without, lb))} |")
+                else:
+                    lines.append(f"| {lb} | {_n(total(shown, lb))} |")
+
+        ranked = sorted(((hits, key) for key, hits in shown[1].items() if hits > 0),
+                        key=lambda x: (-x[0], x[1]))[:limit]
+        if ranked:
+            picks = [key for _, key in ranked]
+            details = self._lookup_details(picks) if details_on else {}
+            lines.append("")
+            lines.append("Top items" + (" (views without automated sessions)" if without is not None else "") + ":")
+            if details_on:
+                lines += ["| Item | Pool | Views | Format | Library / location | Access type |",
+                          "| --- | --- | --- | --- | --- | --- |"]
+            else:
+                lines += ["| Item | Pool | Views |", "| --- | --- | --- |"]
+            missing = 0
+
+            def cell(text: str) -> str:
+                return (_display_label(text).replace("|", "/") if text else "—")
+
+            for hits, (p, item_id) in ranked:
+                base = f"{_code(item_id)} | {_code(p)} | {_n(hits)}"
+                if not details_on:
+                    lines.append(f"| {base} |")
+                    continue
+                d = details.get((p, item_id))
+                if d is None:
+                    missing += 1
+                    lines.append(f"| {base} | details unavailable | — | {classify_access(p, None)} |")
+                    continue
+                where = " / ".join(x for x in (d.library, d.location) if x)
+                lines.append(f"| {cell(d.title)} ({_code(item_id)}) | {_code(p)} | {_n(hits)} | "
+                             f"{cell(d.format)} | {cell(where)} | {classify_access(p, d)} |")
+            if details_on:
+                if missing:
+                    lines.append(f"{missing} items without details (the catalog lookup failed or timed out).")
+                lines.append(PROVISIONAL_NOTE)
+        if note:
+            lines.append(note)
+        return "\n".join(lines)
 
 
 # ---- per-container instance --------------------------------------------------------
