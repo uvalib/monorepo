@@ -9,11 +9,11 @@
       "matomo_traffic"
     ],
     "phrases_any": [
-      "automated sessions",
-      "can't be separated",
-      "can’t be separated"
+      "October"
     ],
     "forbid": [
+      "94%",
+      "don't treat these numbers as human use",
       "isn't available right now"
     ],
     "max_seconds": 90

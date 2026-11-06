@@ -46,15 +46,13 @@ SEGMENT_TIMEOUT_NOTE = ("Matomo is still preparing the automated-session breakdo
 # Only a stored, pre-processed (auto-archived) segment is ever used; these calls must stay short.
 SEGMENT_TIMEOUT_SEC = 20
 SEGMENT_RETRY_SEC = 600
-NOT_SEPARATED = "automated sessions not separated"
-SPLIT_WARNING = ("⚠ Likely automated sessions can't be separated for {when}, so these totals include "
-                 "automated traffic.")
-VIRGO_WARNING = (" On a sample day automated sessions were 94% of Virgo activity and 98% of article-page "
-                 "views — don't treat these numbers as human use.")
+# Without the automated split, numbers are given as Matomo reports them, with no warning: they are
+# the numbers the Library has always reported, and automated access (intermediaries, harvesters)
+# is part of how the content is used (2026-11-06).
+NOT_SEPARATED = "Matomo's numbers as reported"
 OTHERS_SPLIT_NOTE = ("Per-page and per-item figures without automated sessions are approximate and may still "
                      "include some automated views (Matomo groups less-viewed pages into “Others” separately "
                      "for each report); totals are exact.")
-IGNORE_WARNING = "⚠ These totals include likely automated sessions."
 # After a timeout or 502/503/504, no Matomo request for BUSY_PAUSE_SEC: retries (by the model, or
 # by another question) only add load to a struggling server.
 BUSY_PAUSE_SEC = 300
@@ -496,16 +494,6 @@ class MatomoTools:
             lines.append("The end date was capped at yesterday (the latest day with data).")
         return "\n".join(lines)
 
-    @staticmethod
-    def _warning(site: dict, periods: List[Period], compare: bool = False) -> str:
-        text = SPLIT_WARNING.format(when=_when(periods, compare))
-        return text + VIRGO_WARNING if site["idsite"] == VIRGO_SITE_ID else text
-
-    @staticmethod
-    def _ignore_warning(site: dict, mode: str) -> str:
-        """Virgo numbers asked for as reported still get the warning: most Virgo activity is automated."""
-        return IGNORE_WARNING + VIRGO_WARNING if mode == "ignore" and site["idsite"] == VIRGO_SITE_ID else ""
-
     def _stored_segment(self, site: dict) -> Optional[str]:
         """The stored, pre-processed automated-sessions segment to send, or None (then no segment
         call is made: an ad-hoc segment makes Matomo process data on request)."""
@@ -556,12 +544,10 @@ class MatomoTools:
 
     def _split_notes(self, site: dict, results: List[tuple], periods: List[Period],
                      compare: bool) -> tuple:
-        """(warning, timeout note) for the periods whose automated split isn't available."""
-        missing = [p for (status, _), p in zip(results, periods) if status != "ok"]
+        """("", timeout note) for the periods whose automated split isn't available; no warning."""
         timed = [p for (status, _), p in zip(results, periods) if status == "timeout"]
-        warning = self._warning(site, missing, compare) if missing else ""
         note = SEGMENT_TIMEOUT_NOTE.format(when=_when(timed, compare)) if timed else ""
-        return warning, note
+        return "", note
 
     def _report(self, site: dict, period: Period, method: str, **extra) -> Any:
         """One report for `period`; a range is added up from processed months and days,
@@ -655,7 +641,7 @@ class MatomoTools:
         periods = [period] + ([compare] if compare is not None else [])
 
         plains = [self._plain(site, p) for p in periods]
-        warning, note = self._ignore_warning(site, mode), ""
+        warning, note = "", ""
         if mode == "ignore":
             autos: List[Optional[dict]] = [None] * len(periods)
         else:
@@ -721,7 +707,7 @@ class MatomoTools:
             if report == "titles":
                 raise _Fail("path_prefix filters page URLs; titles can't be filtered by path.")
             extra["filter_pattern"] = "^/?" + re.escape(prefix.lstrip("/"))
-        warning, note = self._ignore_warning(site, mode), ""
+        warning, note = "", ""
         subtracted = False
         method = REPORT_METHODS[report]
         sort_key = SORT_COLUMNS[report]
@@ -908,8 +894,7 @@ class MatomoTools:
         more = len(ranked) > limit
         ranked = ranked[:limit]
         what = "Virgo item views" if items else "Virgo collection views"
-        lines = [self._head(site, period, NOT_SEPARATED, f"; report: {what} (Virgo events)",
-                            self._warning(site, [period]))]
+        lines = [self._head(site, period, NOT_SEPARATED, f"; report: {what} (Virgo events)")]
         if not ranked:
             lines.append("No views in this period.")
         elif items:
@@ -1002,7 +987,7 @@ class MatomoTools:
             "flat": 1, "filter_limit": -1, "filter_sort_column": "nb_hits", "filter_sort_order": "desc",
             "filter_pattern": f"^/?sources/{pool or '[^/]+'}/items/"}
         method = "Actions.getPageUrls"
-        warning, note = self._ignore_warning(site, mode), ""
+        warning, note = "", ""
         auto = without = None  # (pool totals, item totals)
         if mode != "ignore":
             (status, auto_rows), = self._automated(site, [(period, method, extra)])

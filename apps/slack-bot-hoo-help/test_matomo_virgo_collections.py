@@ -72,7 +72,7 @@ def test_collections_fiscal_year_ranked_by_visits_with_kinds():
     assert rows[3] == "| Kanopy Online Video Collection | 150 | 160 | licensed |"
     assert rows[4].startswith("| Chiricahua and Mescalero Apache Texts | 10 |")
     assert out.splitlines()[0].startswith("Virgo 4-prod, 2025-07-01 to 2026-06-30")
-    assert "⚠" in out  # automated sessions can't be separated for events
+    assert "⚠" not in out and "Matomo's numbers as reported" in out.splitlines()[0]  # no bot warning
     (_, p), = c.calls
     assert p["date"] == "2025-07-01,2026-06-01" and p["filter_pattern"] == "^COLLECTION_ITEM_VIEWED - "
 

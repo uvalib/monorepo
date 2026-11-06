@@ -31,10 +31,12 @@ def test_matomo_results_are_untrusted():
 def test_prompt_routes_web_statistics():
     for v2 in (True, False):
         text = _rendered(v2)
-        for needle in ("matomo_traffic", "matomo_virgo_items", "matomo_virgo_collections", "July–June", "FY26", "automated sessions",
-                       "approximate", "starts with \"⚠\", repeat that line"):
+        for needle in ("matomo_traffic", "matomo_virgo_items", "matomo_virgo_collections", "July–June", "FY26",
+                       "approximate", "Report the numbers as Matomo gives them",
+                       "don't add caveats about bots or automated traffic"):
             assert needle in text, (v2, needle)
-        assert "can't be separated, repeat" not in text  # the rule covers every ⚠ line
+        # 2026-11-06: no bot warning on Matomo numbers (they are what the Library has always reported).
+        assert "never present plain Virgo totals as human use" not in text
 
 
 def test_template_has_enable_matomo():

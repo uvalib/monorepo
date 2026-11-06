@@ -229,14 +229,14 @@ def test_live_tools_any_fails_when_tool_only_errored():
     assert any("none of phrases" in x for x in r.reasons)
 
 
-def test_matomo_live_cases_check_the_split_or_warning():
+def test_matomo_live_cases_have_no_bot_warning():
     cases = os.path.join(APP, "evals", "cases")
     fy = load_case(os.path.join(cases, "live-matomo-fy-so-far.json"))
     assert set(fy["live"]["phrases_any"]) >= {"2026-07-01", "July 1"}
     for name in ("live-matomo-virgo-october", "live-matomo-virgo-items"):
         c = load_case(os.path.join(cases, name + ".json"))
-        assert set(c["live"]["phrases_any"]) >= {"automated sessions", "can't be separated"}, name
-        assert "isn't available right now" in c["live"]["forbid"], name
+        assert "October" in c["live"]["phrases_any"], name
+        assert {"isn't available right now", "94%"} <= set(c["live"]["forbid"]), name
 
 
 def test_full_live_run_at_most_once_a_day(monkeypatch, tmp_path, capsys):

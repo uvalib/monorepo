@@ -1,6 +1,6 @@
 """Option A: Hoo Helper only reads a stored, pre-processed automated-sessions segment.
 
-No stored segment means no segment call at all, and a strong warning instead of a split.
+No stored segment means no segment call at all, and Matomo's numbers as reported (no bot warning).
 """
 import datetime
 import os
@@ -21,18 +21,10 @@ from matomo_tools import (  # noqa: E402
 TODAY = datetime.date(2026, 11, 5)
 SITES = [{"idsite": 10, "name": "Library CMS", "main_url": "http://www.library.virginia.edu"},
          {"idsite": 39, "name": "Virgo 4-prod", "main_url": "https://v4.lib.virginia.edu"}]
-WARN_VIRGO = ("⚠ Likely automated sessions can't be separated for this period, so these totals include "
-              "automated traffic. On a sample day automated sessions were 94% of Virgo activity and 98% of "
-              "article-page views — don't treat these numbers as human use.")
-WARN_OTHER = ("⚠ Likely automated sessions can't be separated for this period, so these totals include "
-              "automated traffic.")
-NOT_SEPARATED = "automated sessions not separated"
+NOT_SEPARATED = "Matomo's numbers as reported"
 OTHERS_NOTE = ("Per-page and per-item figures without automated sessions are approximate and may still "
                "include some automated views (Matomo groups less-viewed pages into “Others” separately "
                "for each report); totals are exact.")
-IGNORE_WARN_VIRGO = ("⚠ These totals include likely automated sessions. On a sample day automated sessions "
-                     "were 94% of Virgo activity and 98% of article-page views — don't treat these numbers "
-                     "as human use.")
 
 VISITS = {"nb_visits": 1000, "nb_uniq_visitors": 800, "nb_actions": 5000, "bounce_rate": "40%",
           "bounce_count": 400, "sum_visit_length": 125000, "avg_time_on_site": 125}
@@ -109,7 +101,7 @@ CMP_TRAFFIC = {("VisitsSummary.get", None, "2026-10-01"): VISITS, ("Actions.get"
                ("VisitsSummary.get", AUTOMATED_SEGMENT, "2026-09-01"): PREV_AUTO}
 
 
-# ---- A2/A4: no stored segment -> no segment call, strong warning -----------------
+# ---- A2/A4: no stored segment -> no segment call, no warning -----------------
 
 @pytest.mark.parametrize("mode", ["show", "exclude"])
 def test_traffic_virgo_without_stored_segment(mode):
@@ -117,7 +109,7 @@ def test_traffic_virgo_without_stored_segment(mode):
     out = t.call(TOOL_TRAFFIC, {"site": "Virgo", "automated": mode, **OCT})
     lines = out.splitlines()
     assert lines[0] == f"Virgo 4-prod, {OCT_LABEL}; {NOT_SEPARATED}"
-    assert lines[1] == WARN_VIRGO
+    assert "⚠" not in out
     assert segments(c) == []
     assert "1,000" in out and "4,000" in out
     assert "Without automated" not in out and "Likely automated:" not in out
@@ -126,15 +118,15 @@ def test_traffic_virgo_without_stored_segment(mode):
 def test_traffic_virgo_default_without_stored_segment():
     t, c = make(TRAFFIC, stored=False)
     out = t.call(TOOL_TRAFFIC, {"site": "Virgo", **OCT})
-    assert out.splitlines()[1] == WARN_VIRGO and segments(c) == []
+    assert "⚠" not in out and segments(c) == []
 
 
 @pytest.mark.parametrize("mode", ["show", "exclude"])
-def test_traffic_other_site_warning_has_no_virgo_sentence(mode):
+def test_traffic_other_site_has_no_warning(mode):
     t, c = make(TRAFFIC, stored=False)
     out = t.call(TOOL_TRAFFIC, {"site": "10", "automated": mode, **OCT})
     assert out.splitlines()[0].endswith(NOT_SEPARATED)
-    assert out.splitlines()[1] == WARN_OTHER
+    assert "⚠" not in out
     assert "Virgo" not in out and segments(c) == []
 
 
@@ -144,17 +136,17 @@ def test_ignore_makes_no_segment_lookup():
     assert "⚠" not in out and c.segment_lists == 0
 
 
-def test_warning_comes_before_capped_note():
+def test_no_warning_before_capped_note():
     t, _ = make(TRAFFIC, stored=False)
     out = t.call(TOOL_TRAFFIC, {"site": "Virgo", "start_date": "2026-10-01"})
     lines = out.splitlines()
-    assert lines[1] == WARN_VIRGO and "capped" in lines[2]
+    assert "⚠" not in out and "capped" in lines[1]
 
 
 def test_segment_list_failure_means_not_separated():
     t, c = make(TRAFFIC, stored=MatomoError("HTTP 504"))
     out = t.call(TOOL_TRAFFIC, {"site": "Virgo", **OCT})
-    assert out.splitlines()[1] == WARN_VIRGO and segments(c) == []
+    assert "⚠" not in out and segments(c) == []
 
 
 def test_stored_definition_is_what_is_sent():
@@ -169,7 +161,7 @@ def test_segment_error_is_not_separated_not_an_error():
     script = {**TRAFFIC, ("VisitsSummary.get", AUTOMATED_SEGMENT): MatomoError("Matomo returned HTTP 504")}
     t, _ = make(script)
     out = t.call(TOOL_TRAFFIC, {"site": "Virgo", **OCT})
-    assert not out.startswith("Error") and out.splitlines()[1] == WARN_VIRGO
+    assert not out.startswith("Error") and "⚠" not in out
 
 
 # ---- C: segment timeout 20 s, remembered 10 minutes, parallel --------------------
@@ -189,12 +181,12 @@ def test_timeout_remembered_for_ten_minutes():
     script = {**TRAFFIC, ("VisitsSummary.get", AUTOMATED_SEGMENT): MatomoTimeout("t")}
     t, c = make(script, clock=clock)
     out = t.call(TOOL_TRAFFIC, {"site": "Virgo", **OCT})
-    assert out.splitlines()[1] == WARN_VIRGO
+    assert "⚠" not in out
     assert "still preparing the automated-session breakdown for this period; ask again in about 10 minutes." in out
     assert len(segments(c)) == 1
     clock.t += 599
     out = t.call(TOOL_TRAFFIC, {"site": "Virgo", **OCT})
-    assert out.splitlines()[1] == WARN_VIRGO and len(segments(c)) == 1  # skipped straight to the warning
+    assert "⚠" not in out and len(segments(c)) == 1  # skipped straight to the plain numbers
     # another period, or another site, is not affected
     t.call(TOOL_TRAFFIC, {"site": "Virgo", "start_date": "2026-09-01", "end_date": "2026-09-30"})
     assert len(segments(c)) == 2
@@ -241,7 +233,7 @@ def test_compare_one_period_unavailable_names_it():
     out = t.call(TOOL_TRAFFIC, {"site": "Virgo", **CMP})
     lines = out.splitlines()
     assert lines[0].endswith(NOT_SEPARATED)
-    assert lines[1] == WARN_VIRGO.replace("this period", SEP_LABEL)
+    assert "⚠" not in out
     assert f"still preparing the automated-session breakdown for {SEP_LABEL};" in out
     assert f"Likely automated, {OCT_LABEL}: 100 visits" in out
     assert f"Likely automated, {SEP_LABEL}" not in out
@@ -251,7 +243,7 @@ def test_compare_one_period_unavailable_names_it():
 def test_compare_no_stored_segment_names_both_periods():
     t, c = make(CMP_TRAFFIC, stored=False)
     out = t.call(TOOL_TRAFFIC, {"site": "Virgo", **CMP})
-    assert out.splitlines()[1] == WARN_VIRGO.replace("this period", f"{OCT_LABEL} and {SEP_LABEL}")
+    assert "⚠" not in out
     assert segments(c) == []
 
 
@@ -300,11 +292,11 @@ def test_top_pages_exclude_entry_report_rates():
     assert b.startswith("| /b | 10 | 50.0% |")
 
 
-def test_top_pages_exclude_without_stored_segment_is_plain_with_warning():
+def test_top_pages_exclude_without_stored_segment_is_plain():
     t, c = make({("Actions.getPageUrls", None): PAGE_ROWS}, stored=False)
     out = t.call(TOOL_TOP_PAGES, {"site": "Virgo", "automated": "exclude", "limit": 2, **OCT})
     lines = out.splitlines()
-    assert lines[0].endswith(f"{NOT_SEPARATED}; report: pages") and lines[1] == WARN_VIRGO
+    assert lines[0].endswith(f"{NOT_SEPARATED}; report: pages") and "⚠" not in out
     assert segments(c) == [] and c.calls[0][1]["filter_limit"] == 3
     assert "more rows exist" in out
 
@@ -337,7 +329,7 @@ def test_virgo_items_without_stored_segment(mode):
                 stored=False)
     out = t.call(TOOL_VIRGO_ITEMS, {**OCT, "automated": mode, "details": False})
     lines = out.splitlines()
-    assert lines[0].endswith(f"{NOT_SEPARATED}; report: Virgo item views") and lines[1] == WARN_VIRGO
+    assert lines[0].endswith(f"{NOT_SEPARATED}; report: Virgo item views") and "⚠" not in out
     assert segments(c) == [] and "| Articles | 300 |" in out
 
 
@@ -359,11 +351,11 @@ def test_page_virgo_shows_automated_hits():
     assert seg_call["pageUrl"] == "https://v4.lib.virginia.edu/sources/uva_library/items/u1"
 
 
-def test_page_virgo_without_stored_segment_warns():
+def test_page_virgo_without_stored_segment_has_no_warning():
     t, c = make({("Actions.getPageUrl", None): PAGE}, stored=False)
     out = t.call(TOOL_PAGE, {"site": "Virgo", "url_or_path": "/x", **OCT})
     lines = out.splitlines()
-    assert lines[0].startswith(f"Virgo 4-prod, {OCT_LABEL}; {NOT_SEPARATED}") and lines[1] == WARN_VIRGO
+    assert lines[0].startswith(f"Virgo 4-prod, {OCT_LABEL}; {NOT_SEPARATED}") and "⚠" not in out
     assert segments(c) == [] and "- Pageviews: 100" in out
 
 
@@ -390,13 +382,13 @@ def test_catalog_cells_plain_escaped_not_display_label():
 
 # ---- re-review --------------------------------------------------------------
 
-def test_remembered_error_repeats_warning_not_preparing_note():
+def test_remembered_error_no_preparing_note():
     clock = Clock()
     script = {**TRAFFIC, ("VisitsSummary.get", AUTOMATED_SEGMENT): MatomoError("Matomo returned HTTP 504")}
     t, c = make(script, clock=clock)
     for _ in range(2):
         out = t.call(TOOL_TRAFFIC, {"site": "Virgo", **OCT})
-        assert out.splitlines()[1] == WARN_VIRGO and "still preparing" not in out
+        assert "⚠" not in out and "still preparing" not in out
     assert len(segments(c)) == 1
 
 
@@ -408,7 +400,7 @@ def test_remembered_timeout_repeats_preparing_note():
     clock.t += 300
     out = t.call(TOOL_TRAFFIC, {"site": "Virgo", **OCT})
     assert len(segments(c)) == 1
-    assert out.splitlines()[1] == WARN_VIRGO
+    assert "⚠" not in out
     assert out.splitlines()[-1] == ("Matomo is still preparing the automated-session breakdown for this "
                                     "period; ask again in about 10 minutes.")
 
@@ -416,13 +408,13 @@ def test_remembered_timeout_repeats_preparing_note():
 @pytest.mark.parametrize("tool,args", [
     (TOOL_TRAFFIC, {"site": "Virgo"}), (TOOL_TOP_PAGES, {"site": "Virgo"}), (TOOL_VIRGO_ITEMS, {"details": False}),
 ])
-def test_virgo_ignore_warns(tool, args):
+def test_virgo_ignore_has_no_warning(tool, args):
     script = {**TRAFFIC, ("Actions.getPageUrls", None): PAGE_ROWS}
     t, c = make(script)
     out = t.call(tool, {**args, "automated": "ignore", **OCT})
     lines = out.splitlines()
     assert "Matomo's numbers as reported" in lines[0]
-    assert lines[1] == IGNORE_WARN_VIRGO
+    assert "⚠" not in out
     assert segments(c) == [] and c.segment_lists == 0
 
 
@@ -457,15 +449,15 @@ def test_top_pages_entry_show_without_column():
     assert any(ln.startswith("| /a | 50 | 5 | ") for ln in out.splitlines())
 
 
-def test_top_pages_virgo_show_without_stored_segment_warns():
+def test_top_pages_virgo_show_without_stored_segment_has_no_warning():
     t, c = make({("Actions.getPageUrls", None): PAGE_ROWS}, stored=False)
     out = t.call(TOOL_TOP_PAGES, {"site": "Virgo", **OCT})
     lines = out.splitlines()
-    assert lines[0].endswith(f"{NOT_SEPARATED}; report: pages") and lines[1] == WARN_VIRGO
+    assert lines[0].endswith(f"{NOT_SEPARATED}; report: pages") and "⚠" not in out
     assert segments(c) == [] and "without automated" not in out
 
 
-# ---- split switched off: no segment lookup or call, the warning instead --------
+# ---- split switched off: no segment lookup or call, no warning --------
 
 @pytest.mark.parametrize("mode", ["show", "exclude"])
 def test_split_off_makes_no_segment_calls(mode):
@@ -473,7 +465,7 @@ def test_split_off_makes_no_segment_calls(mode):
     t = MatomoTools(c, today=lambda: TODAY, clock=Clock(), automated_split=False,
                     gateway_call=lambda n, a: "Tool Error: none")
     out = t.call(TOOL_TRAFFIC, {"site": "Virgo", "automated": mode, **OCT})
-    assert out.splitlines()[1] == WARN_VIRGO
+    assert "⚠" not in out
     assert segments(c) == [] and c.segment_lists == 0
     assert "1,000" in out
 
