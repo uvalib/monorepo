@@ -6,7 +6,8 @@
   "expect": {},
   "live": {
     "tools_any": [
-      "matomo_virgo_items"
+      "matomo_virgo_items",
+      "matomo_virgo_collections"
     ],
     "phrases_any": [
       "2025-07-01",

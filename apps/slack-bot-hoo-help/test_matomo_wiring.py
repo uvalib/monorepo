@@ -31,7 +31,7 @@ def test_matomo_results_are_untrusted():
 def test_prompt_routes_web_statistics():
     for v2 in (True, False):
         text = _rendered(v2)
-        for needle in ("matomo_traffic", "matomo_virgo_items", "July–June", "FY26", "automated sessions",
+        for needle in ("matomo_traffic", "matomo_virgo_items", "matomo_virgo_collections", "July–June", "FY26", "automated sessions",
                        "approximate", "starts with \"⚠\", repeat that line"):
             assert needle in text, (v2, needle)
         assert "can't be separated, repeat" not in text  # the rule covers every ⚠ line

@@ -22,7 +22,7 @@ from zoneinfo import ZoneInfo
 from link_check import is_library_url
 from matomo_client import MatomoAuthError, MatomoBusy, MatomoClient, MatomoError, MatomoTimeout
 from tool_names import gateway_name
-from virgo_access import classify_access, parse_item_details
+from virgo_access import classify_access, parse_item_details, pool_for_item_id
 from matomo_report import (
     AUTOMATED_MIN_ACTIONS, AUTOMATED_SEGMENT, VIRGO_SITE_ID, Period, archived_parts, resolve_period,
     resolve_site,
@@ -35,6 +35,7 @@ TOOL_TRAFFIC = "matomo_traffic"
 TOOL_TOP_PAGES = "matomo_top_pages"
 TOOL_PAGE = "matomo_page"
 TOOL_VIRGO_ITEMS = "matomo_virgo_items"
+TOOL_VIRGO_COLLECTIONS = "matomo_virgo_collections"
 
 SSM_TOKEN_NAME = "/hoohelp/matomo/token"
 RETRY_AFTER_SEC = 600
@@ -79,6 +80,17 @@ POOL_NAMES = {"uva_library": "Catalog", "articles": "Articles", "hathitrust": "H
 VIRGO_DEFAULT_LIMIT = 10
 VIRGO_MAX_LIMIT = 20
 VIRGO_BUDGET_SEC = 15.0
+COLLECTIONS_DEFAULT_LIMIT = 15
+COLLECTIONS_MAX_LIMIT = 50
+# Virgo's own tracking events (the annual-report method): the event name is the collection, or the item id.
+EVENT_ACTIONS = {"collections": "COLLECTION_ITEM_VIEWED", "items": "ITEM_DETAIL_VIEWED"}
+EVENTS_NOTE = ("Visits are sessions in which an item was viewed, counted per month and added up, so "
+               "someone who comes back in another month counts again; item views count every view.")
+KIND_NOTE = ("Kinds follow a provisional rule by collection name: purchase funds are bookplate funds "
+             "(items bought with a fund), not collections.")
+_LICENSED_COLLECTIONS = ("kanopy", "swank", "proquest", "viva ", "getty publications", "streaming content",
+                         "alexander street", "films on demand")
+_FUND = re.compile(r"\b(?:fund|endowment|monographs|serials)\b", re.I)
 PROVISIONAL_NOTE = ("Access types follow a provisional rule (pool and access-link host) "
                     "pending the annual-report definitions.")
 _ITEM_LABEL = re.compile(r"^(?:(?:[a-z][a-z0-9+.-]*://)?[^/?#\s]+)?/?sources/([^/\s]+)/items/(.*)$", re.I)
@@ -390,6 +402,16 @@ class MatomoTools:
                    "end_date": end, "fiscal_year": fy},
                   ["site", "url_or_path"]),
         ]
+        specs.append(_spec(
+            TOOL_VIRGO_COLLECTIONS,
+            "Virgo collections (report=collections, default) or items (report=items) ranked by visits, "
+            "from Virgo's own view events — the annual-report method. Collections are labelled UVA "
+            "collection, licensed, HathiTrust or purchase fund; items get catalog title, format and "
+            "access type.",
+            {"start_date": start, "end_date": end, "fiscal_year": fy,
+             "report": {"type": "string", "enum": list(EVENT_ACTIONS)},
+             "limit": {"type": "integer"}, "details": {"type": "boolean"}},
+            []))
         if self.gateway_call is not None:
             specs.append(_spec(
                 TOOL_VIRGO_ITEMS,
@@ -402,7 +424,8 @@ class MatomoTools:
         return specs
 
     def handles(self, name: str) -> bool:
-        return name in (TOOL_SITES, TOOL_TRAFFIC, TOOL_TOP_PAGES, TOOL_PAGE, TOOL_VIRGO_ITEMS)
+        return name in (TOOL_SITES, TOOL_TRAFFIC, TOOL_TOP_PAGES, TOOL_PAGE, TOOL_VIRGO_ITEMS,
+                        TOOL_VIRGO_COLLECTIONS)
 
     def call(self, name: str, args: Dict[str, Any]) -> str:
         args = args if isinstance(args, dict) else {}
@@ -425,6 +448,8 @@ class MatomoTools:
                 if self.gateway_call is None:
                     return "Error: not available"
                 return self.virgo_items(args)
+            if name == TOOL_VIRGO_COLLECTIONS:
+                return self.virgo_collections(args)
         except (_Fail, ValueError) as e:
             return f"Error: {e}"
         except MatomoAuthError as e:
@@ -832,6 +857,105 @@ class MatomoTools:
                 continue  # counted in the pool total, but can't be ranked or looked up
             items[(pool, rest)] = items.get((pool, rest), 0) + hits
         return pools, items
+
+    @staticmethod
+    def _collection_kind(name: str) -> str:
+        low = name.lower()
+        if "hathi" in low:
+            return "HathiTrust (external)"
+        if any(k in low for k in _LICENSED_COLLECTIONS):
+            return "licensed"
+        if _FUND.search(name):
+            return "purchase fund"
+        return "UVA collection"
+
+    def virgo_collections(self, args: Dict[str, Any]) -> str:
+        site = resolve_site(self.client.sites(), str(VIRGO_SITE_ID))
+        period = self._period(args)
+        report = str(args.get("report") or "collections").strip().lower()
+        if report not in EVENT_ACTIONS:
+            raise _Fail(f"report must be one of: {', '.join(EVENT_ACTIONS)}.")
+        items = report == "items"
+        default, cap = (VIRGO_DEFAULT_LIMIT, VIRGO_MAX_LIMIT) if items else \
+            (COLLECTIONS_DEFAULT_LIMIT, COLLECTIONS_MAX_LIMIT)
+        try:
+            limit = int(args.get("limit") or default)
+        except (TypeError, ValueError):
+            limit = default
+        limit = max(1, min(limit, cap))
+        details_on = items and self.gateway_call is not None and \
+            args.get("details", True) not in (False, "false", "False", 0)
+        action = EVENT_ACTIONS[report]
+        rows = self._report(site, period, "Events.getAction", flat=1, filter_limit=-1,
+                            filter_pattern=f"^{action} - ", filter_sort_column="nb_visits",
+                            filter_sort_order="desc")
+        counts: Dict[str, List[int]] = {}
+        others = 0
+        for r in rows if isinstance(rows, list) else []:
+            if not isinstance(r, dict):
+                continue
+            label = str(r.get("label") or "")
+            name = str(r.get("Events_EventName") or label.split(" - ", 1)[-1]).strip()
+            if not label.startswith(action) or not name:
+                continue
+            if name == "Others":
+                others += _num(r.get("nb_visits"))
+                continue
+            c = counts.setdefault(name, [0, 0])
+            c[0] += _num(r.get("nb_visits"))
+            c[1] += _num(r.get("nb_events"))
+        ranked = sorted(counts.items(), key=lambda kv: (-kv[1][0], -kv[1][1], kv[0]))
+        more = len(ranked) > limit
+        ranked = ranked[:limit]
+        what = "Virgo item views" if items else "Virgo collection views"
+        lines = [self._head(site, period, NOT_SEPARATED, f"; report: {what} (Virgo events)",
+                            self._warning(site, [period]))]
+        if not ranked:
+            lines.append("No views in this period.")
+        elif items:
+            picks = [(pool_for_item_id(n) or "uva_library", n) for n, _ in ranked]
+            details = self._lookup_details(picks) if details_on else {}
+            lines.append("Top items:")
+            if details_on:
+                lines += ["| Item | Visits | Item views | Format | Library / location | Access type |",
+                          "| --- | --- | --- | --- | --- | --- |"]
+            else:
+                lines += ["| Item | Visits | Item views |", "| --- | --- | --- |"]
+            missing = 0
+            for (name, (visits, events)), pick in zip(ranked, picks):
+                base = f"{_n(visits)} | {_n(events)}"
+                if not details_on:
+                    lines.append(f"| {_code(name)} | {base} |")
+                    continue
+                d = details.get(pick)
+                if d is None:
+                    missing += 1
+                    lines.append(f"| {_code(name)} | {base} | details unavailable | — | "
+                                 f"{classify_access(pool_for_item_id(name) or '', None)} |")
+                    continue
+                where = " / ".join(x for x in (d.library, d.location) if x)
+                lines.append(f"| {_cell(d.title)} ({_code(name)}) | {base} | {_cell(d.format)} | "
+                             f"{_cell(where)} | {classify_access(pick[0], d)} |")
+            if details_on:
+                if missing:
+                    lines.append(f"{missing} item{'s' if missing != 1 else ''} without details "
+                                 "(not in the catalog now, or the lookup failed).")
+                lines.append(PROVISIONAL_NOTE)
+        else:
+            lines += ["| Collection | Visits | Item views | Kind |", "| --- | --- | --- | --- |"]
+            for name, (visits, events) in ranked:
+                lines.append(f"| {_cell(name)} | {_n(visits)} | {_n(events)} | {self._collection_kind(name)} |")
+            lines.append(KIND_NOTE)
+        if more:
+            lines.append(f"Showing the top {limit}; more {'items' if items else 'collections'} exist "
+                         f"(max limit {cap}).")
+        if others:
+            lines.append(f"{others:,} visits are grouped by Matomo as “Others” (it keeps only each "
+                         "month's top items), so lower-ranked items are undercounted.")
+        lines.append(EVENTS_NOTE)
+        if items and period.period == "range":
+            lines.append(RANGE_NOTE)
+        return "\n".join(lines)
 
     def _lookup_details(self, picks: List[tuple]) -> Dict[tuple, Any]:
         """Catalog details for (pool, id) picks: 4 at a time inside the overall budget."""

@@ -99,3 +99,57 @@ def test_classify_access():
 def test_image_record_heading():
     d = parse_item_details("# Image Record: Rotunda, north front\n- **Format**: Photograph\n")
     assert d.title == "Rotunda, north front" and d.format == "Photograph"
+
+
+# ---- annual-report audit fixes (2026-11-05) ----------------------------------------
+
+CORKS = """# Item Record: Corks and Curls
+## Availability & access
+- **Availability**: Online
+- **Library**: Ivy
+- **Location / shelf**: 4th Floor Reference Room - UVA and Local History (CHECKED OUT)
+- **Call number**: `LD5687.C7 (123 volumes)`
+- **Virgo Catalog URL**: https://search.lib.virginia.edu/sources/uva_library/items/u126747
+## Bibliographic details
+- **Format**: Journal/Magazine, Online
+"""
+SWANK = """# Item Record: Rear Window
+## Availability & access
+- **Availability**: Unknown
+- **Library**: —
+- **Location / shelf**: Internet materials
+- **Access online**: https://digitalcampus.swankmp.net/uva296909/watch/1D9BC2E482A3960F?referrer=marc
+## Bibliographic details
+- **Format**: Video, Streaming Video, Online
+"""
+KANOPY = """# Item Record: Passion of Joan of Arc
+## Availability & access
+- **Availability**: Unknown
+- **Library**: —
+- **Access online**: https://proxy1.library.virginia.edu/login?url=https://virginia.kanopy.com/node/112974
+"""
+
+
+def test_online_with_no_access_link_is_uva_digital():
+    # Corks and Curls: digitized in Virgo, print run at Ivy; it was labelled physical.
+    d = parse_item_details(CORKS)
+    assert d.availability == "Online"
+    assert classify_access("uva_library", d) == "UVA digital"
+
+
+def test_printed_book_still_physical():
+    assert classify_access("uva_library", parse_item_details(BOOK)) == "physical (UVA collection)"
+
+
+def test_swank_and_kanopy_are_licensed():
+    assert classify_access("uva_library", parse_item_details(SWANK)) == "licensed e-resource"
+    assert classify_access("uva_library", parse_item_details(KANOPY)) == "licensed e-resource"
+
+
+def test_pool_for_item_id():
+    from virgo_access import pool_for_item_id
+    assert pool_for_item_id("u126747") == "uva_library"
+    assert pool_for_item_id("kan1112973") == "uva_library"
+    assert pool_for_item_id("swank_0004090") == "uva_library"
+    assert pool_for_item_id("uva-lib:2137307") == "images"
+    assert pool_for_item_id("bth_20203436") is None  # EDS and HathiTrust ids can't be told apart

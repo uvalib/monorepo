@@ -19,7 +19,7 @@ ACCESS_TYPES = ("physical (UVA collection)", "UVA digital", "licensed e-resource
 LICENSED_HOSTS = (
     "proxy1.library.virginia.edu", "ebookcentral.proquest.com", "serialssolutions.com",
     "kanopy.com", "ebscohost.com", "jstor.org", "oreilly.com", "sciencedirect.com",
-    "springer.com", "wiley.com", "tandfonline.com", "taylorfrancis.com",
+    "springer.com", "wiley.com", "tandfonline.com", "taylorfrancis.com", "swankmp.net",
 )
 UVA_DIGITAL_HOSTS = (
     "avalon.lib.virginia.edu", "iiif.lib.virginia.edu", "libra2.lib.virginia.edu",
@@ -34,6 +34,7 @@ class ItemDetails:
     format: str = ""
     library: str = ""
     location: str = ""
+    availability: str = ""
     access_urls: List[str] = field(default_factory=list)
 
     @property
@@ -64,7 +65,7 @@ def parse_item_details(text: str) -> ItemDetails:
         urls += _URL.findall(line)
     return ItemDetails(title=_clean(m.group(1)) if m else "", format=first("Format"),
                        library=first("Library"), location=first("Location / shelf"),
-                       access_urls=urls)
+                       availability=first("Availability"), access_urls=urls)
 
 
 def _host_matches(host: str, suffixes) -> bool:
@@ -98,6 +99,23 @@ def classify_access(pool: str, details: Optional[ItemDetails]) -> str:
         return "licensed e-resource"
     if any(_host_matches(h, UVA_DIGITAL_HOSTS) for h in hosts):
         return "UVA digital"
+    if not details.access_urls and details.availability.lower() == "online":
+        # Online in Virgo with no outside link: digitized here (Corks and Curls), even with a print run.
+        return "UVA digital"
     if not details.access_urls and details.library not in _NO_LIBRARY:
         return "physical (UVA collection)"
     return "unknown"
+
+
+_CATALOG_ID = re.compile(r"^(?:u\d+|kan\d+|swank_\w+)$")
+
+
+def pool_for_item_id(item_id: str) -> Optional[str]:
+    """The Virgo pool of an item id from Matomo events (they carry no pool), or None when the id
+    doesn't say: EDS article and HathiTrust ids look alike (prefix_number)."""
+    item_id = (item_id or "").strip()
+    if item_id.startswith("uva-lib:"):
+        return "images"
+    if _CATALOG_ID.match(item_id):
+        return "uva_library"
+    return None

@@ -46,6 +46,7 @@ ALLOWED_METHODS = frozenset({
     "Actions.getEntryPageUrls",
     "Actions.getExitPageUrls",
     "Actions.getPageTitles",
+    "Events.getAction",
 })
 
 
