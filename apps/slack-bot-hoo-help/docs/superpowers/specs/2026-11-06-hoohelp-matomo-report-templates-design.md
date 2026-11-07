@@ -88,8 +88,8 @@ Matomo text is untrusted: collection names and page labels go into table cells a
 - CSV or spreadsheet export of the report. The existing attachment feature could add this later.
 - Bot-traffic filtering in the report. The segments only have data from July 2026 (raw logs are kept 3 months); they could become an optional column in FY27.
 
-## Open questions
+## Decisions on the open questions (2026-11-07)
 
-1. The collections chart shows only "UVA collection" kinds, and the table shows every kind. Is that the split the report wants?
-2. Should Libra ETD count as a UVA collection in the chart? (It currently does, and it ranks first.)
-3. Records: the top 10, or the top 20?
+1. Collections chart: "UVA collection" kinds only; the table shows all kinds. Try it and gather feedback.
+2. Libra ETD counts as a UVA collection.
+3. Records: the top 20 (catalog lookups run 5 at a time within the 15-second budget).
