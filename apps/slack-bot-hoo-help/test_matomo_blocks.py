@@ -34,8 +34,15 @@ def coll_data(rows):
 
 def test_annual_report_layout():
     b = matomo_blocks_for_step("matomo_annual_report", annual(), 2)
-    assert types(b) == ["header", "table", "data_visualization", "data_visualization", "table", "table", "context"]
+    # Slack allows one table block per message: collections is the table; records are preformatted.
+    assert types(b) == ["header", "section", "data_visualization", "data_visualization", "table", "section",
+                        "context"]
     assert b[0]["block_id"] == MATOMO_BLOCK_ID == "matomo_report"
+    fields = [f["text"] for f in b[1]["fields"]]
+    assert fields[0] == "*Visits*\n802,627 (FY25 44,741, +1693.9%)" and len(fields) == 4
+    assert cells(b[4])[0] == ["Collection", "FY26 visits", "FY25 visits", "Item views", "Kind"]
+    rec = b[5]["text"]["text"]
+    assert rec.startswith("*Top records*\n```") and "Corks and Curls (u126747)" in rec and rec.endswith("```")
     line = charts(b)[0]["chart"]
     assert line["type"] == "line" and [s["name"] for s in line["series"]] == ["FY26", "FY25"]
     assert line["axis_config"]["categories"][0] == "Jul" and len(line["axis_config"]["categories"]) == 12
@@ -56,7 +63,7 @@ def test_viz_budget_respected():
     one = matomo_blocks_for_step("matomo_annual_report", annual(), 1)
     assert len(charts(one)) == 1 and charts(one)[0]["chart"]["type"] == "line"
     none = matomo_blocks_for_step("matomo_annual_report", annual(), 0)
-    assert charts(none) == [] and types(none).count("table") == 3
+    assert charts(none) == [] and types(none).count("table") == 1
 
 
 def test_in_progress_year_chart_like_for_like():
@@ -69,17 +76,27 @@ def test_unavailable_section_still_renders_others():
     from matomo_client import MatomoError
     out = annual(fail={("Events.getAction", "month", A.COLL): MatomoError("Invalid segment")})
     b = matomo_blocks_for_step("matomo_annual_report", out, 2)
-    assert types(b) == ["header", "table", "data_visualization", "table", "context"]
+    # No collections table, so records get the one native table.
+    assert types(b) == ["header", "section", "data_visualization", "table", "context"]
     assert "Unavailable: Invalid segment" in b[-1]["elements"][0]["text"]
 
 
 def test_untrusted_names_plain():
     b = matomo_blocks_for_step("matomo_annual_report", annual(coll_data([("<https://evil|click> *bold*", 50)])), 2)
-    table = [x for x in b if x["type"] == "table"][1]
+    table = [x for x in b if x["type"] == "table"][0]
     assert ["<https://evil/click> *bold*", "50", "0", "50", "UVA collection"] in cells(table)
     mrkdwn = [e["text"] for x in b if x["type"] == "context" for e in x["elements"]]
     mrkdwn += [x["text"]["text"] for x in b if x["type"] == "section" and "text" in x]
     assert not any("evil" in m for m in mrkdwn)
+
+
+def test_untrusted_record_title_stays_literal_in_preformatted():
+    from test_virgo_access import CORKS
+    evil = CORKS.replace("Corks and Curls", "<https://evil.example|Click> <!channel> *x*")
+    t, _, _ = A.make(gateway={"u126747": evil})
+    rec = [x for x in matomo_blocks_for_step("matomo_annual_report", A.report(t), 2)
+           if x["type"] == "section" and "text" in x][0]["text"]["text"]
+    assert "<" not in rec and ">" not in rec and "&lt;!channel&gt;" in rec
 
 
 def test_long_duplicate_labels():
@@ -90,7 +107,7 @@ def test_long_duplicate_labels():
     cats = bar["axis_config"]["categories"]
     assert len(set(cats)) == 2 and all(len(c) <= 20 for c in cats)
     assert [d["value"] for d in bar["series"][0]["data"]] == [90.0, 80.0]
-    table = [x for x in blocks if x["type"] == "table"][1]
+    table = [x for x in blocks if x["type"] == "table"][0]
     assert [a, "90", "0", "90", "UVA collection"] in cells(table)
 
 
@@ -173,3 +190,12 @@ def test_non_matomo_and_error_outputs_empty():
 
 def test_blocks_are_valid_json():
     json.dumps(matomo_blocks_for_step("matomo_annual_report", annual(), 2))
+
+
+def test_at_most_one_native_table():
+    two = ITEMS.replace("Top items:", "| Pool | Views |\n| --- | --- |\n| Catalog | 9 |\nTop items:")
+    b = matomo_blocks_for_step("matomo_virgo_items", two, 2)
+    assert types(b).count("table") == 1 and "section" in types(b)
+    for name, out in (("matomo_annual_report", annual()), ("matomo_traffic", TRAFFIC_COMPARE),
+                      ("matomo_virgo_collections", COLLECTIONS), ("matomo_top_pages", TOP_PAGES)):
+        assert types(matomo_blocks_for_step(name, out, 2)).count("table") <= 1, name

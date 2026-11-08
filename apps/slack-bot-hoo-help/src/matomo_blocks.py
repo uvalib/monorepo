@@ -76,6 +76,40 @@ def _table(headers: Sequence[str], rows: Sequence[Sequence[str]]) -> Optional[Di
     return table_block([_plain(h) for h in headers], [[_plain(c) for c in r] for r in rows])
 
 
+PRE_CELL = 60  # characters per preformatted cell
+MAX_SECTION = 3000
+
+
+def _preformatted(title: str, headers: Sequence[str], rows: Sequence[Sequence[str]]) -> Dict[str, Any]:
+    """A table as aligned monospace text in a section: Slack allows only one table block per
+    message. Cells are escaped, so Matomo or catalog text can't become a link or mention."""
+    grid = [[_escape(_plain(c))[:PRE_CELL] for c in r] for r in [list(headers)] + [list(r) for r in rows]]
+    widths = [max(len(r[i]) if i < len(r) else 0 for r in grid) for i in range(len(grid[0]))]
+    lines = ["  ".join(c.ljust(widths[i]) for i, c in enumerate(r)).rstrip() for r in grid]
+    lead = f"*{title}*\n```\n" if title else "```\n"
+    body = ""
+    for ln in lines:
+        if len(lead) + len(body) + len(ln) + 5 > MAX_SECTION:
+            break
+        body += ln + "\n"
+    return {"type": "section", "text": {"type": "mrkdwn", "text": lead + body.rstrip("\n") + "\n```"}}
+
+
+def _native_then_preformatted(tables, titles: Optional[Sequence[str]] = None) -> List[Dict[str, Any]]:
+    """The first table as a Slack table, the rest as preformatted text (one table block per message)."""
+    out: List[Dict[str, Any]] = []
+    native = True
+    for i, (hdr, rows) in enumerate(tables):
+        title = titles[i] if titles and i < len(titles) else ""
+        block = _table(hdr, rows) if native else None
+        if block:
+            out.append(block)
+            native = False
+        elif rows:
+            out.append(_preformatted(title, hdr, rows))
+    return out
+
+
 def _context(lines: Sequence[str]) -> List[Dict[str, Any]]:
     return [context_mrkdwn(_escape("\n".join(lines)))] if lines else []
 
@@ -138,11 +172,18 @@ def _annual(text: str, charts: _Charts) -> List[Dict[str, Any]]:
             bar = charts.make("bar", "Top UVA collections", [("Visits", [(_plain(r[0]), _number(r[1])) for r in uva])],
                               y_label="Visits")
     blocks = [header_block(head.strip())]
-    _add(blocks, _table(*summary) if summary else None)
+    if summary:
+        hdr, rows = summary
+        prev = hdr[2] if len(hdr) > 2 else "previous year"
+        _add(blocks, section_fields([(r[0], _escape(f"{r[1]} ({prev} {r[2]}, {r[3]})")) for r in rows if len(r) >= 4]))
     _add(blocks, line)
     _add(blocks, bar)
-    _add(blocks, _table(*colls) if colls else None)
-    _add(blocks, _table(*records) if records else None)
+    # Slack allows one table block per message: collections is the table, records are preformatted.
+    if colls:
+        blocks += _native_then_preformatted([colls], ["Top collections"])
+    if records:
+        blocks += _native_then_preformatted([records], ["Top records"]) if not colls else \
+            [_preformatted("Top records", *records)]
     return blocks + _context(notes)
 
 
@@ -185,8 +226,7 @@ def _collections(text: str, charts: _Charts) -> List[Dict[str, Any]]:
         _add(blocks, charts.make("bar", "Top collections",
                                  [("Visits", [(_plain(r[0]), _number(r[1])) for r in rows[:CHART_ROWS]])],
                                  y_label="Visits"))
-    for t in tables:
-        _add(blocks, _table(*t))
+    blocks += _native_then_preformatted(tables)
     return blocks + _context(_texts(segs))
 
 
@@ -196,9 +236,7 @@ def _tables_only(text: str, charts: _Charts) -> List[Dict[str, Any]]:
     tables = _tables(segs)
     if not tables:
         return []
-    blocks = [header_block(head.strip())]
-    for t in tables:
-        _add(blocks, _table(*t))
+    blocks = [header_block(head.strip())] + _native_then_preformatted(tables)
     return blocks + _context(_texts(segs))
 
 
