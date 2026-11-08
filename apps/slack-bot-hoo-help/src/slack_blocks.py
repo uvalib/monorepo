@@ -1161,6 +1161,7 @@ def blocks_from_tool_steps(
     occupancy: List[OccupancyReport] = []
     foot: List[FootTraffic] = []
     image_pages: List[List[Dict[str, str]]] = []
+    matomo_steps: List[Tuple[str, str]] = []
     for step in steps:
         name = step_leaf(step)
         text = _usable_output(step)
@@ -1179,6 +1180,8 @@ def blocks_from_tool_steps(
                 parsed_f = parse_foot_traffic(text)
                 if parsed_f:
                     foot.append(parsed_f)
+            elif name.startswith("matomo_"):
+                matomo_steps.append((name, text))
             elif "image" in name:
                 hits = parse_image_hits(text)
                 if hits:
@@ -1232,6 +1235,18 @@ def blocks_from_tool_steps(
         if blocks:
             blocks.append(divider_block())
         blocks.extend(foot_traffic_blocks(foot, viz_budget=max(0, viz_left)))
+
+    if matomo_steps:
+        from matomo_blocks import matomo_blocks_for_step  # here: matomo_blocks imports this module
+
+        for name, text in matomo_steps:
+            mb = matomo_blocks_for_step(name, text, max(0, viz_left))
+            if mb:
+                if blocks:
+                    blocks.append(divider_block())
+                viz_left -= sum(1 for b in mb if b.get("type") == "data_visualization")
+                blocks.extend(mb)
+                break  # one Matomo report per message
 
     if images:
         if blocks:

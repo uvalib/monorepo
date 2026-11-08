@@ -1298,7 +1298,17 @@ _RAW_OCCUPANCY_DUMP = re.compile(
 )
 
 
-def _layout_owned(extra: List[Dict[str, Any]]) -> Tuple[bool, bool, bool]:
+def _is_matomo(block: Dict[str, Any]) -> bool:
+    return str(block.get("block_id") or "").startswith("matomo_")
+
+
+_MD_TABLE_LINE = re.compile(r"(?m)^[ \t]*\|.*(?:\n|$)")
+
+
+def _layout_owned(extra: List[Dict[str, Any]]) -> Tuple[bool, bool, bool, bool]:
+    """(occupancy, hours, images, matomo): which code-built layouts the extra blocks hold."""
+    matomo_owned = any(b.get("block_id") == "matomo_report" for b in extra)
+    extra = [b for b in extra if not _is_matomo(b)]
     occ_owned = any(
         b.get("type") == "data_visualization"
         or (
@@ -1314,7 +1324,7 @@ def _layout_owned(extra: List[Dict[str, Any]]) -> Tuple[bool, bool, bool]:
         for b in extra
     ) and any(b.get("type") == "table" for b in extra)
     img_owned = any(b.get("type") in ("carousel", "card") for b in extra)
-    return occ_owned, hours_owned, img_owned
+    return occ_owned, hours_owned, img_owned, matomo_owned
 
 
 def format_for_slack(
@@ -1371,15 +1381,15 @@ def format_for_slack(
             fallback = tool_fallback_text(tool_steps)
         except Exception:
             fallback = ""
-    occ_owned, hours_owned, img_owned = _layout_owned(extra)
+    occ_owned, hours_owned, img_owned, matomo_owned = _layout_owned(extra)
     image_titles = _card_titles(extra) + image_hit_titles(tool_steps)
     if img_owned and _answer_rejects_images(answer, image_titles):
         # "Didn't find any…" over unrelated pictures misleads; show the answer only.
         extra = [b for b in extra if b.get("type") not in ("carousel", "card")]
-        occ_owned, hours_owned, img_owned = _layout_owned(extra)
+        occ_owned, hours_owned, img_owned, matomo_owned = _layout_owned(extra)
     # Hours / occupancy / image carousels are code-owned. Skip the formatter
     # LLM — it was adding 5–15s and then being discarded.
-    skip_formatter = bool(occ_owned or hours_owned or img_owned)
+    skip_formatter = bool(occ_owned or hours_owned or img_owned or matomo_owned)
 
     formatted = ""
     llm_blocks: Optional[List[Dict[str, Any]]] = None
@@ -1462,6 +1472,12 @@ def format_for_slack(
             else:
                 formatted = _local_markdown_cleanup(answer)
                 prose_mrkdwn = formatted
+        elif matomo_owned:
+            # Code owns the Matomo tables and charts: keep the model's summary, drop any
+            # markdown table it wrote so the numbers aren't shown twice.
+            formatted = _local_markdown_cleanup(_MD_TABLE_LINE.sub("", answer)).strip()
+            llm_blocks = None
+            prose_mrkdwn = formatted
         elif hours_owned:
             # Code owns the Date/Day/Hours table. Drop the LLM day-by-day list
             # so Slack does not show the same schedule twice.

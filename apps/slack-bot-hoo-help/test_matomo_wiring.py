@@ -33,7 +33,8 @@ def test_prompt_routes_web_statistics():
         text = _rendered(v2)
         for needle in ("matomo_traffic", "matomo_virgo_items", "matomo_virgo_collections", "July–June", "FY26",
                        "approximate", "Report the numbers as Matomo gives them",
-                       "don't add caveats about bots or automated traffic"):
+                       "don't add caveats about bots or automated traffic", "matomo_annual_report",
+                       "don't repeat the tables"):
             assert needle in text, (v2, needle)
         # 2026-11-06: no bot warning on Matomo numbers (they are what the Library has always reported).
         assert "never present plain Virgo totals as human use" not in text

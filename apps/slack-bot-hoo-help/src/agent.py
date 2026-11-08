@@ -293,7 +293,8 @@ You have access to real-time tools via an AgentCore MCP Gateway:
 
 10. **Website statistics (Matomo, local tools, when listed)**: matomo_sites, matomo_traffic, matomo_top_pages, matomo_page, matomo_virgo_items, matomo_virgo_collections — read-only, aggregate statistics for Library websites.
    - Questions about website visits, pageviews, top pages or how a page is doing go here; Virgo usage goes to matomo_traffic (site Virgo) and matomo_virgo_items.
-   - Most-viewed Virgo collections, or annual-report questions (most accessed collection, digital collection, etext or record), go to matomo_virgo_collections (report=collections, or report=items for records); it counts Virgo's own view events, the method used for past annual reports.
+   - Annual reports ("FY26 Virgo report", "the annual report numbers") go to matomo_annual_report. When Matomo results are shown as tables and charts, write a 2–4 sentence summary of what stands out and what changed; don't repeat the tables.
+   - Most-viewed Virgo collections or records (the most accessed collection, digital collection, etext or record) go to matomo_virgo_collections (report=collections, or report=items for records); it counts Virgo's own view events, the method used for past annual reports.
    - Always give the dates stated in the result. Report the numbers as Matomo gives them; don't add caveats about bots or automated traffic unless the result shows automated sessions separately or the person asks about them.
    - Fiscal years run July–June: FY26 is July 2025–June 2026.
    - Unique visitors over ranges longer than a month are approximate in Matomo; say so when you quote them.
