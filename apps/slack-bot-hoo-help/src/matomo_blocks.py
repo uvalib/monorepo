@@ -99,16 +99,16 @@ def _preformatted(title: str, headers: Sequence[str], rows: Sequence[Sequence[st
     return {"type": "section", "text": {"type": "mrkdwn", "text": lead + body.rstrip("\n") + "\n```"}}
 
 
-def _native_then_preformatted(tables, titles: Optional[Sequence[str]] = None) -> List[Dict[str, Any]]:
-    """The first table as a Slack table, the rest as preformatted text (one table block per message)."""
+def _native_then_preformatted(tables, charts: "_Charts", titles: Optional[Sequence[str]] = None) -> List[Dict[str, Any]]:
+    """The first table as a Slack table unless the message already has one, the rest as
+    preformatted text: Slack allows one table block per message."""
     out: List[Dict[str, Any]] = []
-    native = True
     for i, (hdr, rows) in enumerate(tables):
         title = titles[i] if titles and i < len(titles) else ""
-        block = _table(hdr, rows) if native else None
+        block = _table(hdr, rows) if not charts.table_used else None
         if block:
             out.append(block)
-            native = False
+            charts.table_used = True
         elif rows:
             out.append(_preformatted(title, hdr, rows))
     return out
@@ -119,19 +119,22 @@ def _context(lines: Sequence[str]) -> List[Dict[str, Any]]:
 
 
 class _Charts:
-    """Hands out at most `budget` charts, each tagged matomo_chart_<n>."""
+    """The message's budgets: at most `budget` charts (each tagged matomo_chart_<n>), and whether
+    its one table block is already taken."""
 
-    def __init__(self, budget: int):
+    def __init__(self, budget: int, table_used: bool = False):
         self.budget, self.n = max(0, budget), 0
+        self.table_used = table_used
 
     def make(self, kind: str, title: str, series: Sequence[Tuple[str, Sequence[Tuple[str, float]]]],
              **axes) -> Optional[Dict[str, Any]]:
         if self.n >= self.budget or not series or not series[0][1]:
             return None
         # Labels made unique and short here, so long names sharing 20 characters keep their values.
+        # Renamed by position: two rows can share a label once tidied ("A  B" and "A B").
         labels = _unique_labels([lab for lab, _ in series[0][1]])
-        rename = {lab: labels[i] for i, (lab, _) in enumerate(series[0][1])}
-        fixed = [(name, [(rename.get(lab, lab), val) for lab, val in pts]) for name, pts in series]
+        fixed = [(name, [(labels[i] if i < len(labels) else lab, val) for i, (lab, val) in enumerate(pts)])
+                 for name, pts in series]
         chart = (line_chart if kind == "line" else bar_chart)(title, fixed, **axes)
         if chart is None:
             return None
@@ -182,12 +185,11 @@ def _annual(text: str, charts: _Charts) -> List[Dict[str, Any]]:
         _add(blocks, section_fields([(r[0], _escape(f"{r[1]} ({prev} {r[2]}, {r[3]})")) for r in rows if len(r) >= 4]))
     _add(blocks, line)
     _add(blocks, bar)
-    # Slack allows one table block per message: collections is the table, records are preformatted.
+    # Slack allows one table block per message: collections gets it, records are preformatted.
     if colls:
-        blocks += _native_then_preformatted([colls], ["Top collections"])
+        blocks += _native_then_preformatted([colls], charts, ["Top collections"])
     if records:
-        blocks += _native_then_preformatted([records], ["Top records"]) if not colls else \
-            [_preformatted("Top records", *records)]
+        blocks += _native_then_preformatted([records], charts, ["Top records"])
     return blocks + _context(notes)
 
 
@@ -199,7 +201,7 @@ def _traffic(text: str, charts: _Charts) -> List[Dict[str, Any]]:
     if tables:
         hdr, rows = tables[0]
         wanted = [r for r in rows if r[0] in ("Visits", "Pageviews")]
-        _add(blocks, _table(hdr, rows))
+        blocks += _native_then_preformatted([(hdr, rows)], charts)
         _add(blocks, charts.make("bar", "Visits and pageviews",
                                  [(hdr[i], [(r[0], _number(r[i])) for r in wanted]) for i in (1, 2)]))
         return blocks + _context(_texts(segs))
@@ -230,7 +232,7 @@ def _collections(text: str, charts: _Charts) -> List[Dict[str, Any]]:
         _add(blocks, charts.make("bar", "Top collections",
                                  [("Visits", [(_plain(r[0]), _number(r[1])) for r in rows[:CHART_ROWS]])],
                                  y_label="Visits"))
-    blocks += _native_then_preformatted(tables)
+    blocks += _native_then_preformatted(tables, charts)
     return blocks + _context(_texts(segs))
 
 
@@ -240,7 +242,7 @@ def _tables_only(text: str, charts: _Charts) -> List[Dict[str, Any]]:
     tables = _tables(segs)
     if not tables:
         return []
-    blocks = [header_block(head.strip())] + _native_then_preformatted(tables)
+    blocks = [header_block(head.strip())] + _native_then_preformatted(tables, charts)
     return blocks + _context(_texts(segs))
 
 
@@ -254,14 +256,16 @@ _RENDERERS: Dict[str, Callable[[str, _Charts], List[Dict[str, Any]]]] = {
 }
 
 
-def matomo_blocks_for_step(tool_name: str, output: str, viz_budget: int) -> List[Dict[str, Any]]:
-    """Block Kit for one Matomo tool result, or [] (not a Matomo report, an error, or unparseable)."""
+def matomo_blocks_for_step(tool_name: str, output: str, viz_budget: int,
+                           table_used: bool = False) -> List[Dict[str, Any]]:
+    """Block Kit for one Matomo tool result, or [] (not a Matomo report, an error, or unparseable).
+    `table_used`: the message already has its one table block, so tables become preformatted."""
     render = _RENDERERS.get(tool_name or "")
     text = (output or "").strip()
     if render is None or not text or text.startswith("Error"):
         return []
     try:
-        blocks = render(text, _Charts(viz_budget))
+        blocks = render(text, _Charts(viz_budget, table_used))
     except Exception:  # noqa: BLE001 — the model's text answer still stands
         logger.warning("Matomo Block Kit skipped for %s", tool_name, exc_info=True)
         return []

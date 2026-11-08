@@ -1234,19 +1234,28 @@ def blocks_from_tool_steps(
     elif foot:
         if blocks:
             blocks.append(divider_block())
-        blocks.extend(foot_traffic_blocks(foot, viz_budget=max(0, viz_left)))
+        foot_blocks = foot_traffic_blocks(foot, viz_budget=max(0, viz_left))
+        viz_left -= sum(1 for b in foot_blocks if b.get("type") == "data_visualization")
+        blocks.extend(foot_blocks)
 
     if matomo_steps:
         from matomo_blocks import matomo_blocks_for_step  # here: matomo_blocks imports this module
 
+        # Every Matomo result is shown (the model's own tables are dropped from its text), sharing
+        # the message's two charts and one table block; repeated identical calls render once.
+        table_used = any(b.get("type") == "table" for b in blocks)
+        seen: set = set()
         for name, text in matomo_steps:
-            mb = matomo_blocks_for_step(name, text, max(0, viz_left))
+            if (name, text) in seen:
+                continue
+            seen.add((name, text))
+            mb = matomo_blocks_for_step(name, text, max(0, viz_left), table_used)
             if mb:
                 if blocks:
                     blocks.append(divider_block())
                 viz_left -= sum(1 for b in mb if b.get("type") == "data_visualization")
+                table_used = table_used or any(b.get("type") == "table" for b in mb)
                 blocks.extend(mb)
-                break  # one Matomo report per message
 
     if images:
         if blocks:
