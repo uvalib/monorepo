@@ -16,7 +16,7 @@ import re
 import threading
 import time
 from concurrent.futures import ThreadPoolExecutor, wait as futures_wait
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional, Tuple
 from zoneinfo import ZoneInfo
 
 from link_check import is_library_url
@@ -36,6 +36,7 @@ TOOL_TOP_PAGES = "matomo_top_pages"
 TOOL_PAGE = "matomo_page"
 TOOL_VIRGO_ITEMS = "matomo_virgo_items"
 TOOL_VIRGO_COLLECTIONS = "matomo_virgo_collections"
+TOOL_ANNUAL_REPORT = "matomo_annual_report"
 
 SSM_TOKEN_NAME = "/hoohelp/matomo/token"
 RETRY_AFTER_SEC = 600
@@ -78,6 +79,8 @@ POOL_NAMES = {"uva_library": "Catalog", "articles": "Articles", "hathitrust": "H
 VIRGO_DEFAULT_LIMIT = 10
 VIRGO_MAX_LIMIT = 20
 VIRGO_BUDGET_SEC = 15.0
+ANNUAL_COLLECTIONS = 15
+ANNUAL_RECORDS = 20
 COLLECTIONS_DEFAULT_LIMIT = 15
 COLLECTIONS_MAX_LIMIT = 50
 # Virgo's own tracking events (the annual-report method): the event name is the collection, or the item id.
@@ -329,6 +332,51 @@ def _metrics(visits: dict, actions: Optional[dict]) -> Dict[str, Any]:
     }
 
 
+def _year_earlier(d: datetime.date) -> datetime.date:
+    try:
+        return d.replace(year=d.year - 1)
+    except ValueError:  # Feb 29
+        return d.replace(year=d.year - 1, day=28)
+
+
+def _long_date(d: datetime.date) -> str:
+    return f"{d:%B} {d.day}, {d.year}"
+
+
+def _month_starts(period: Period) -> List[datetime.date]:
+    """First days of the whole months in `period` (a month still in progress is left out)."""
+    out: List[datetime.date] = []
+    d = datetime.date(period.start.year, period.start.month, 1)
+    while True:
+        nxt = datetime.date(d.year + (d.month == 12), d.month % 12 + 1, 1)
+        if nxt - datetime.timedelta(days=1) > period.end:
+            return out
+        out.append(d)
+        d = nxt
+
+
+def _gap_ranges(days: List[datetime.date]) -> List[str]:
+    """Consecutive days as readable ranges: "Nov 9, 2025", "Nov 9–11, 2025",
+    "Nov 30 – Dec 1, 2025", "Dec 31, 2025 – Jan 1, 2026"."""
+    runs: List[List[datetime.date]] = []
+    for d in sorted(set(days)):
+        if runs and d - runs[-1][1] == datetime.timedelta(days=1):
+            runs[-1][1] = d
+        else:
+            runs.append([d, d])
+    out = []
+    for a, b in runs:
+        if a == b:
+            out.append(f"{a:%b} {a.day}, {a.year}")
+        elif (a.year, a.month) == (b.year, b.month):
+            out.append(f"{a:%b} {a.day}–{b.day}, {a.year}")
+        elif a.year == b.year:
+            out.append(f"{a:%b} {a.day} – {b:%b} {b.day}, {a.year}")
+        else:
+            out.append(f"{a:%b} {a.day}, {a.year} – {b:%b} {b.day}, {b.year}")
+    return out
+
+
 class _Fail(Exception):
     """A user-facing failure; call() returns it as 'Error: <message>'."""
 
@@ -401,6 +449,13 @@ class MatomoTools:
                   ["site", "url_or_path"]),
         ]
         specs.append(_spec(
+            TOOL_ANNUAL_REPORT,
+            "The standard Virgo annual report for a fiscal year (July–June), compared with the previous "
+            "year: summary, monthly visits, top collections and top records. Use it for annual-report "
+            "requests.",
+            {"fiscal_year": fy},
+            ["fiscal_year"]))
+        specs.append(_spec(
             TOOL_VIRGO_COLLECTIONS,
             "Virgo collections (report=collections, default) or items (report=items) ranked by visits, "
             "from Virgo's own view events — the annual-report method. Collections are labelled UVA "
@@ -423,7 +478,7 @@ class MatomoTools:
 
     def handles(self, name: str) -> bool:
         return name in (TOOL_SITES, TOOL_TRAFFIC, TOOL_TOP_PAGES, TOOL_PAGE, TOOL_VIRGO_ITEMS,
-                        TOOL_VIRGO_COLLECTIONS)
+                        TOOL_VIRGO_COLLECTIONS, TOOL_ANNUAL_REPORT)
 
     def call(self, name: str, args: Dict[str, Any]) -> str:
         args = args if isinstance(args, dict) else {}
@@ -448,6 +503,8 @@ class MatomoTools:
                 return self.virgo_items(args)
             if name == TOOL_VIRGO_COLLECTIONS:
                 return self.virgo_collections(args)
+            if name == TOOL_ANNUAL_REPORT:
+                return self.annual_report(args)
         except (_Fail, ValueError) as e:
             return f"Error: {e}"
         except MatomoAuthError as e:
@@ -871,26 +928,7 @@ class MatomoTools:
         limit = max(1, min(limit, cap))
         details_on = items and self.gateway_call is not None and \
             args.get("details", True) not in (False, "false", "False", 0)
-        action = EVENT_ACTIONS[report]
-        rows = self._report(site, period, "Events.getAction", flat=1, filter_limit=-1,
-                            filter_pattern=f"^{action} - ", filter_sort_column="nb_visits",
-                            filter_sort_order="desc")
-        counts: Dict[str, List[int]] = {}
-        others = 0
-        for r in rows if isinstance(rows, list) else []:
-            if not isinstance(r, dict):
-                continue
-            label = str(r.get("label") or "")
-            name = str(r.get("Events_EventName") or label.split(" - ", 1)[-1]).strip()
-            if not label.startswith(action) or not name:
-                continue
-            if name == "Others":
-                others += _num(r.get("nb_visits"))
-                continue
-            c = counts.setdefault(name, [0, 0])
-            c[0] += _num(r.get("nb_visits"))
-            c[1] += _num(r.get("nb_events"))
-        ranked = sorted(counts.items(), key=lambda kv: (-kv[1][0], -kv[1][1], kv[0]))
+        ranked, others = self._event_counts(site, period, EVENT_ACTIONS[report])
         more = len(ranked) > limit
         ranked = ranked[:limit]
         what = "Virgo item views" if items else "Virgo collection views"
@@ -942,6 +980,145 @@ class MatomoTools:
             lines.append(RANGE_NOTE)
         return "\n".join(lines)
 
+    def _event_counts(self, site: dict, period: Period, action: str) -> Tuple[List[tuple], int]:
+        """Virgo view events for `action`: ([(name, (visits, events))] ranked by visits, then
+        events, then name; visits Matomo grouped as "Others")."""
+        rows = self._report(site, period, "Events.getAction", flat=1, filter_limit=-1,
+                            filter_pattern=f"^{action} - ", filter_sort_column="nb_visits",
+                            filter_sort_order="desc")
+        counts: Dict[str, List[int]] = {}
+        others = 0
+        for r in rows if isinstance(rows, list) else []:
+            if not isinstance(r, dict):
+                continue
+            label = str(r.get("label") or "")
+            name = str(r.get("Events_EventName") or label.split(" - ", 1)[-1]).strip()
+            if not label.startswith(action) or not name:
+                continue
+            if name == "Others":
+                others += _num(r.get("nb_visits"))
+                continue
+            c = counts.setdefault(name, [0, 0])
+            c[0] += _num(r.get("nb_visits"))
+            c[1] += _num(r.get("nb_events"))
+        ranked = sorted(((n, (v, e)) for n, (v, e) in counts.items()), key=lambda kv: (-kv[1][0], -kv[1][1], kv[0]))
+        return ranked, others
+
+    # ---- annual report -------------------------------------------------------------
+
+    def _report_by_part(self, site: dict, period: Period, method: str, **extra) -> Dict[str, Any]:
+        """Like _report, but the month and day values keyed by date ("YYYY-MM" for months,
+        "YYYY-MM-DD" for days), not added up."""
+        if period.period != "range":
+            parts = [(period.period, period.date)]
+        else:
+            parts = archived_parts(period)
+        out: Dict[str, Any] = {}
+        for p, d in parts:
+            got = self.client.api(method, idSite=site["idsite"], period=p, date=d, **extra)
+            if "," in d:
+                if isinstance(got, dict):
+                    out.update({str(k): v for k, v in got.items()})
+            else:
+                out[d[:7] if p == "month" else d] = got
+        return out
+
+    def annual_report(self, args: Dict[str, Any]) -> str:
+        fy = str(args.get("fiscal_year") or "").strip()
+        if not fy:
+            raise _Fail("Give a fiscal year, e.g. FY26.")
+        site = resolve_site(self.client.sites(), str(VIRGO_SITE_ID))
+        cur = resolve_period(fiscal_year=fy, today=self.today())
+        n = cur.start.year + 1
+        label, prev_label = f"FY{n % 100:02d}", f"FY{(n - 1) % 100:02d}"
+        # The year before over the same dates: a whole year, or the same stretch of a year in progress.
+        prev_end = _year_earlier(cur.end)
+        prev = resolve_period(_year_earlier(cur.start).isoformat(), prev_end.isoformat(), today=self.today())
+        head = (f"Virgo annual report — {label} ({_long_date(cur.start)} – {_long_date(cur.end)}), compared with "
+                f"{prev_label} ({_long_date(prev.start)} – {_long_date(prev.end)})")
+        lines = [head]
+        notes: List[str] = []
+        state: Dict[str, Any] = {}
+        periods = (("cur", cur), ("prev", prev))
+
+        def add(title: str, build) -> None:
+            lines.append(f"## {title}")
+            try:
+                lines.extend(build())
+            except (MatomoTimeout, MatomoBusy, MatomoAuthError):
+                raise  # the breaker and auth handling in call()
+            except (MatomoError, ValueError, _Fail) as e:
+                lines.append(f"Unavailable: {e}")
+
+        def summary() -> List[str]:
+            vis = {k: self._report_by_part(site, p, "VisitsSummary.get") for k, p in periods}
+            state["visits"] = vis
+            act = {k: _merge_parts(list(self._report_by_part(site, p, "Actions.get").values())) for k, p in periods}
+            tot = {k: _merge_parts(list(vis[k].values())) for k, _ in periods}
+            out = [f"| Metric | {label} | {prev_label} | Change |", "| --- | --- | --- | --- |"]
+            for name, src, key in (("Visits", tot, "nb_visits"), ("Pageviews", act, "nb_pageviews"),
+                                   ("Site searches", act, "nb_searches"), ("Downloads", act, "nb_downloads")):
+                c, p = src["cur"].get(key), src["prev"].get(key)
+                out.append(f"| {name} | {_n(c)} | {_n(p)} | {_pct_change(c, p)} |")
+            return out
+
+        def monthly() -> List[str]:
+            vis = state.get("visits") or {k: self._report_by_part(site, p, "VisitsSummary.get") for k, p in periods}
+            out = [f"| Month | {label} visits | {prev_label} visits |", "| --- | --- | --- |"]
+            for first in _month_starts(cur):
+                key, pkey = f"{first:%Y-%m}", f"{_year_earlier(first):%Y-%m}"
+                c, p = vis["cur"].get(key), vis["prev"].get(pkey)
+                out.append(f"| {first:%b} | {_n(c.get('nb_visits') if isinstance(c, dict) else 0)} | "
+                           f"{_n(p.get('nb_visits') if isinstance(p, dict) else 0)} |")
+            return out
+
+        def collections() -> List[str]:
+            action = EVENT_ACTIONS["collections"]
+            ranked, _ = self._event_counts(site, cur, action)
+            before = dict(self._event_counts(site, prev, action)[0])
+            out = [f"| Collection | {label} visits | {prev_label} visits | Item views | Kind |",
+                   "| --- | --- | --- | --- | --- |"]
+            for name, (visits, events) in ranked[:ANNUAL_COLLECTIONS]:
+                out.append(f"| {_cell(name)} | {_n(visits)} | {_n(before.get(name, (0, 0))[0])} | {_n(events)} | "
+                           f"{self._collection_kind(name)} |")
+            return out
+
+        def records() -> List[str]:
+            if self.gateway_call is None:
+                raise _Fail("catalog lookups are not available")
+            ranked, others = self._event_counts(site, cur, EVENT_ACTIONS["items"])
+            if others:
+                notes.append(f"{others:,} record visits are grouped by Matomo as “Others” "
+                             "(it keeps only each month's top items).")
+            ranked = ranked[:ANNUAL_RECORDS]
+            picks = [(pool_for_item_id(name) or "uva_library", name) for name, _ in ranked]
+            details = self._lookup_details(picks)
+            out = ["| Record | Visits | Item views | Format | Access type |", "| --- | --- | --- | --- | --- |"]
+            for (name, (visits, events)), pick in zip(ranked, picks):
+                d = details.get(pick)
+                title = f"{_cell(d.title)} ({_code(name)})" if d is not None else _code(name)
+                fmt = _cell(d.format) if d is not None else "details unavailable"
+                out.append(f"| {title} | {_n(visits)} | {_n(events)} | {fmt} | {classify_access(pick[0], d)} |")
+            notes.append(PROVISIONAL_NOTE)
+            return out
+
+        def gaps() -> List[str]:
+            got = self.client.api("VisitsSummary.get", idSite=site["idsite"], period="day",
+                                  date=f"{cur.start.isoformat()},{cur.end.isoformat()}")
+            empty = sorted(datetime.date.fromisoformat(k) for k, v in (got.items() if isinstance(got, dict) else [])
+                           if not (isinstance(v, dict) and _num(v.get("nb_visits")) > 0))
+            out = []
+            if empty:
+                out.append(f"No visits were recorded on: {'; '.join(_gap_ranges(empty))} (likely tracking gaps).")
+            return out + notes[:1] + [KIND_NOTE] + notes[1:]
+
+        add("Summary", summary)
+        add("Monthly visits", monthly)
+        add("Top collections", collections)
+        add("Top records", records)
+        add("Notes", gaps)
+        return "\n".join(lines)
+
     def _lookup_details(self, picks: List[tuple]) -> Dict[tuple, Any]:
         """Catalog details for (pool, id) picks: 4 at a time inside the overall budget."""
         name = gateway_name("get_item_details", bool(self.v2()))
@@ -959,7 +1136,7 @@ class MatomoTools:
         out: Dict[tuple, Any] = {p: None for p in picks}
         if not picks:
             return out
-        pool = ThreadPoolExecutor(max_workers=4)
+        pool = ThreadPoolExecutor(max_workers=5)  # 20 annual-report records within the budget
         try:
             futures = {pool.submit(one, p): p for p in picks}
             done, _ = futures_wait(list(futures), timeout=max(self.budget, 0.0))

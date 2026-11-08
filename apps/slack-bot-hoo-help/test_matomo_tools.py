@@ -70,7 +70,8 @@ OCT = {"site": "Virgo", "start_date": "2026-10-01", "end_date": "2026-10-31"}
 def test_specs_and_handles():
     t, _ = tools({})
     specs = {s["toolSpec"]["name"]: s["toolSpec"] for s in t.tool_specs()}
-    assert set(specs) == {TOOL_SITES, TOOL_TRAFFIC, TOOL_TOP_PAGES, TOOL_PAGE, "matomo_virgo_collections"}
+    assert set(specs) == {TOOL_SITES, TOOL_TRAFFIC, TOOL_TOP_PAGES, TOOL_PAGE, "matomo_virgo_collections",
+                          "matomo_annual_report"}
     for s in specs.values():
         assert s["inputSchema"]["json"]["type"] == "object"
         assert len(s["description"]) <= 600
