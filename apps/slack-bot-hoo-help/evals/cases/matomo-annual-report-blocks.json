@@ -1,0 +1,37 @@
+{
+  "id": "matomo-annual-report-blocks",
+  "category": "matomo",
+  "question": "@HooHelp give me the FY26 Virgo annual report",
+  "history": [],
+  "recorded": {
+    "model": "minimax.minimax-m2.5",
+    "steps": [
+      {
+        "tool_name": "matomo_annual_report",
+        "status": "success",
+        "input": {
+          "fiscal_year": "FY26"
+        },
+        "output": "Virgo annual report — FY26 (July 1, 2025 – June 30, 2026), compared with FY25 (July 1, 2024 – June 30, 2025)\n## Summary\n| Metric | FY26 | FY25 | Change |\n| --- | --- | --- | --- |\n| Visits | 802,627 | 44,741 | +1693.9% |\n| Pageviews | 120 | 120 | +0.0% |\n| Site searches | 24 | 24 | +0.0% |\n| Downloads | 12 | 12 | +0.0% |\n## Monthly visits\n| Month | FY26 visits | FY25 visits |\n| --- | --- | --- |\n| Jul | 100 | 100 |\n| Aug | 100 | 100 |\n| Sep | 100 | 100 |\n| Oct | 100 | 100 |\n| Nov | 801,527 | 43,641 |\n| Dec | 100 | 100 |\n| Jan | 100 | 100 |\n| Feb | 100 | 100 |\n| Mar | 100 | 100 |\n| Apr | 100 | 100 |\n| May | 100 | 100 |\n| Jun | 100 | 100 |\n## Top collections\n| Collection | FY26 visits | FY25 visits | Item views | Kind |\n| --- | --- | --- | --- | --- |\n| Hathi Trust Digital Library | 51,131 | 0 | 93,392 | HathiTrust (external) |\n| Libra ETD Repository | 8,405 | 0 | 14,955 | UVA collection |\n| University of Virginia Visual History Collection | 2,475 | 2,284 | 10,491 | UVA collection |\n## Top records\n| Record | Visits | Item views | Format | Access type |\n| --- | --- | --- | --- | --- |\n| Corks and Curls (`u126747`) | 1,141 | 1,782 | Journal/Magazine, Online | UVA digital |\n| Passion of Joan of Arc (`kan1112973`) | 900 | 950 | — | licensed e-resource |\n## Notes\n5,000 record visits are grouped by Matomo as “Others” (it keeps only each month's top items).\nKinds follow a provisional rule by collection name: purchase funds are bookplate funds (items bought with a fund), not collections.\nAccess types follow a provisional rule (pool and access-link host) pending the annual-report definitions."
+      }
+    ],
+    "final_text": "Here's the FY26 Virgo annual report. Visual History is again the most-viewed UVA collection, and Corks and Curls is the top record. Visits jumped in November.\n\n| Metric | FY26 | FY25 | Change |\n| --- | --- | --- | --- |\n| Visits | 802,627 | 44,741 | +1693.9% |"
+  },
+  "expect": {
+    "phrases": [
+      "Virgo annual report",
+      "Corks and Curls"
+    ],
+    "forbid": [
+      "| Metric |"
+    ],
+    "attachment": false,
+    "allow_condensed": true,
+    "blocks": [
+      "header",
+      "table",
+      "data_visualization"
+    ]
+  },
+  "live": null
+}

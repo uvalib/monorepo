@@ -1,0 +1,22 @@
+{
+  "id": "live-matomo-annual-report",
+  "category": "matomo",
+  "question": "Give me the FY26 Virgo annual report.",
+  "recorded": null,
+  "expect": {},
+  "live": {
+    "tools_any": [
+      "matomo_annual_report"
+    ],
+    "phrases_any": [
+      "FY26"
+    ],
+    "forbid": [
+      "isn't available right now",
+      "overloaded or not responding",
+      "took longer than I can spend",
+      "94%"
+    ],
+    "max_seconds": 90
+  }
+}
