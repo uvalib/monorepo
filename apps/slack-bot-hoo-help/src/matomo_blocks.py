@@ -76,14 +76,18 @@ def _table(headers: Sequence[str], rows: Sequence[Sequence[str]]) -> Optional[Di
     return table_block([_plain(h) for h in headers], [[_plain(c) for c in r] for r in rows])
 
 
-PRE_CELL = 60  # characters per preformatted cell
+PRE_FIRST, PRE_CELL = 36, 20  # preformatted cell widths (first column, others), so lines fit Slack
 MAX_SECTION = 3000
 
 
 def _preformatted(title: str, headers: Sequence[str], rows: Sequence[Sequence[str]]) -> Dict[str, Any]:
     """A table as aligned monospace text in a section: Slack allows only one table block per
     message. Cells are escaped, so Matomo or catalog text can't become a link or mention."""
-    grid = [[_escape(_plain(c))[:PRE_CELL] for c in r] for r in [list(headers)] + [list(r) for r in rows]]
+    def fit(text: str, width: int) -> str:
+        return text if len(text) <= width else text[: width - 1] + "…"
+
+    grid = [[fit(_escape(_plain(c)), PRE_FIRST if i == 0 else PRE_CELL) for i, c in enumerate(r)]
+            for r in [list(headers)] + [list(r) for r in rows]]
     widths = [max(len(r[i]) if i < len(r) else 0 for r in grid) for i in range(len(grid[0]))]
     lines = ["  ".join(c.ljust(widths[i]) for i, c in enumerate(r)).rstrip() for r in grid]
     lead = f"*{title}*\n```\n" if title else "```\n"

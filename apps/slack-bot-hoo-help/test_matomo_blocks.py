@@ -96,7 +96,7 @@ def test_untrusted_record_title_stays_literal_in_preformatted():
     t, _, _ = A.make(gateway={"u126747": evil})
     rec = [x for x in matomo_blocks_for_step("matomo_annual_report", A.report(t), 2)
            if x["type"] == "section" and "text" in x][0]["text"]["text"]
-    assert "<" not in rec and ">" not in rec and "&lt;!channel&gt;" in rec
+    assert "<" not in rec and ">" not in rec and "&lt;https://evil.example/Click&gt;" in rec
 
 
 def test_long_duplicate_labels():
@@ -199,3 +199,12 @@ def test_at_most_one_native_table():
     for name, out in (("matomo_annual_report", annual()), ("matomo_traffic", TRAFFIC_COMPARE),
                       ("matomo_virgo_collections", COLLECTIONS), ("matomo_top_pages", TOP_PAGES)):
         assert types(matomo_blocks_for_step(name, out, 2)).count("table") <= 1, name
+
+
+def test_preformatted_records_fit_slack_width():
+    from test_virgo_access import CORKS
+    long = CORKS.replace("Corks and Curls", "A" * 90).replace("Journal/Magazine, Online", "B" * 60)
+    t, _, _ = A.make(gateway={"u126747": long})
+    rec = [x for x in matomo_blocks_for_step("matomo_annual_report", A.report(t), 2)
+           if x["type"] == "section" and "text" in x][0]["text"]["text"]
+    assert max(len(ln) for ln in rec.splitlines()) <= 100
