@@ -40,6 +40,8 @@ from link_check import (
     url_keys,
 )
 from session_trace import SessionTrace
+from routing import (ALWAYS_OFFERED, DOMAINS, ENABLE_GITHUB_TOOL, MORE_TOOLS, Route, domain_guidance,
+                     more_tools_spec, tool_domain)
 from tool_names import is_catalog_tool, is_v2_toolset, legacy_leaf, render_prompt
 from wikipedia_tools import (
     bedrock_tool_specs as wikipedia_bedrock_tool_specs,
@@ -770,20 +772,33 @@ class HooHelpAgent:
         parts.extend(line for line in extra_context or [] if line)
         return "\n\n".join(parts)
 
-    def _merged_tool_config(self, local_tools: Optional[Any] = None) -> Dict[str, Any]:
-        """Per-turn local tools (Slack search), in-process Wikipedia tools, then gateway MCP tools."""
+    def _merged_tool_config(self, local_tools: Optional[Any] = None, route: Optional[Any] = None) -> Dict[str, Any]:
+        """Per-turn local tools (Slack search), in-process Wikipedia tools, then gateway MCP tools.
+        With a route (routing.py) only its domains' tools, plus more_tools to widen it."""
         gateway_cfg = self.gateway_client.get_bedrock_tool_config() or {}
         tools = list(gateway_cfg.get("tools") or [])
         # Local tools first so the model sees them clearly among many gateway tools
         tools = wikipedia_bedrock_tool_specs() + tools
         if local_tools is not None:
             tools = list(local_tools.tool_specs()) + tools
+        if route is not None and not route.is_all:
+            keep = set(route.domains)
+            tools = [t for t in tools
+                     if (t.get("toolSpec") or {}).get("name") in ALWAYS_OFFERED
+                     or tool_domain((t.get("toolSpec") or {}).get("name") or "") & keep]
+            tools.append(more_tools_spec())
         return {"tools": tools}
 
     def _dispatch_tool(
-        self, tool_name: str, tool_input: Dict[str, Any], local_tools: Optional[Any] = None
+        self, tool_name: str, tool_input: Dict[str, Any], local_tools: Optional[Any] = None,
+        route: Optional[Any] = None,
     ) -> str:
         """Route to per-turn local tools, Wikipedia tools, or the AgentCore MCP gateway."""
+        if (route is not None and not route.is_all and tool_name not in ALWAYS_OFFERED
+                and not tool_domain(tool_name) & set(route.domains)):
+            wanted = ", ".join(sorted(tool_domain(tool_name)))
+            return (f"Error: {tool_name} isn't available for this question. Call more_tools with the domain "
+                    f"you need ({wanted}).")
         if local_tools is not None and local_tools.handles(tool_name):
             return local_tools.call(tool_name, tool_input if isinstance(tool_input, dict) else {})
         if is_wikipedia_tool(tool_name):
@@ -902,6 +917,7 @@ class HooHelpAgent:
         extra_context: Optional[List[str]] = None,
         local_tools: Optional[Any] = None,
         deadline: Optional[float] = None,
+        route: Optional[Any] = None,
     ) -> AgentTurnResult:
         """
         Process a user prompt through Bedrock Converse API with tool calling loop.
@@ -912,9 +928,9 @@ class HooHelpAgent:
         Returns AgentTurnResult(text, trace). Callers that only need text can use
         ``result.text``; ``result.trace`` is ready for SessionTrace.emit().
         """
-        tool_config = self._merged_tool_config(local_tools)
+        tool_config = self._merged_tool_config(local_tools, route=route)
         offered = [(t.get("toolSpec") or {}).get("name") or "" for t in tool_config.get("tools") or []]
-        system_prompt = self._system_prompt(extra_context, tool_names=offered)
+        system_prompt = self._system_prompt(extra_context, tool_names=offered, route=route)
         v2 = is_v2_toolset(offered)
         history = list(conversation_history) if conversation_history else []
         trace = SessionTrace(request_id=request_id or str(uuid.uuid4()))
@@ -949,7 +965,7 @@ class HooHelpAgent:
         out_of_time = False
         while iteration < max_iterations:
             # Rebuilt each step: a tool can turn on more tools (enable_github_tools).
-            tool_config = self._merged_tool_config(local_tools)
+            tool_config = self._merged_tool_config(local_tools, route=route)
             if deadline is not None and deadline - _now() < WRAP_UP_RESERVE_SEC:
                 out_of_time = True
                 break
@@ -1088,7 +1104,18 @@ class HooHelpAgent:
                         tool_status = "success"
                         tool_error: Optional[str] = None
                         try:
-                            tool_output_str = self._dispatch_tool(tool_name, tool_input, local_tools)
+                            if tool_name == MORE_TOOLS and route is not None:
+                                # Widen this turn's route (routing.py); the guidance comes with it.
+                                asked = tool_input.get("domains") if isinstance(tool_input, dict) else None
+                                added = [d for d in (asked or []) if d in DOMAINS]
+                                route = Route(frozenset(set(route.domains) | set(added)), route.source)
+                                tool_output_str = (f"Tools added for: {', '.join(added)}.\n\n"
+                                                   + domain_guidance(added, v2)) if added else \
+                                    f"Error: name one or more of: {', '.join(DOMAINS)}."
+                            else:
+                                if tool_name == ENABLE_GITHUB_TOOL and route is not None:
+                                    route = Route(frozenset(set(route.domains) | {"github"}), route.source)
+                                tool_output_str = self._dispatch_tool(tool_name, tool_input, local_tools, route=route)
                         except Exception as tool_exc:
                             tool_status = "error"
                             tool_error = str(tool_exc)

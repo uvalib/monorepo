@@ -310,7 +310,7 @@ _DOMAIN_OPEN = re.compile(r"^<!--domain:([a-z,]+)-->$")
 _DOMAIN_CLOSE = "<!--/domain-->"
 
 
-def select_domains(template: str, domains=None) -> str:
+def select_domains(template: str, domains=None, blocks_only: bool = False) -> str:
     """The template with <!--domain:a,b--> … <!--/domain--> blocks kept only for the chosen domains
     (routing.py); unmarked text is the core. domains=None keeps every block (today's prompt)."""
     keep = None if domains is None else set(domains)
@@ -323,15 +323,17 @@ def select_domains(template: str, domains=None) -> str:
         if line == _DOMAIN_CLOSE:
             inside = None
             continue
+        if blocks_only and inside is None:
+            continue
         if inside is None or keep is None or inside & keep:
             out.append(line)
     return "\n".join(out)
 
 
-def render_prompt(template: str, v2: bool, domains=None) -> str:
+def render_prompt(template: str, v2: bool, domains=None, blocks_only: bool = False) -> str:
     """Fill {{tool:<legacy leaf>}} and {{phrase:<key>}}; on v2 also rename legacy arguments (`location` -> `library`).
     `domains`: render the core plus those domains' blocks (None: everything)."""
-    template = select_domains(template, domains)
+    template = select_domains(template, domains, blocks_only)
     text = _PLACEHOLDER.sub(
         lambda m: prompt_tool(m.group(2), v2) if m.group(1) == "tool" else prompt_phrase(m.group(2), v2), template)
     if v2:

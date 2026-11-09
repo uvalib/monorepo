@@ -96,3 +96,118 @@ class GatedGitHubTools:
             names = ", ".join(s["toolSpec"]["name"] for s in self.inner.tool_specs())
             return f"GitHub tools are on for this question: {names}.\n\n{self.guidance}".strip()
         return self.inner.call(name, args)
+
+
+
+# ---- Phase 2: keyword rules, tool domains, more_tools ------------------------------------
+
+MORE_TOOLS = "more_tools"
+
+_LIBRARY_NAMES = (r"clemons|shannon|alderman|fine arts|music library|brown (?:library|science)|rmc|robertson|"
+                  r"harrison|small special|special collections library|health sciences|law library|darden")
+_RULES = {
+    "library": re.compile(
+        r"(?i)\b(?:hours?|open(?:s|ing)?|closed?|closing|busy|occupancy|crowded|gate counts?|foot traffic|"
+        r"(?:study )?rooms?|study spaces?|reserve a room|equipment|events?|directions|accessib\w*|wayfinding|"
+        r"" + _LIBRARY_NAMES + r")\b"),
+    "transit": re.compile(r"(?i)\b(?:bus(?:es)?|routes?|uts|cat bus|bus stops?|shuttle)\b"),
+    "catalog": re.compile(
+        r"(?i)\b(?:books?|title|author|call numbers?|isbn|virgo record|checked out|available to borrow|"
+        r"citations?|bibliograph\w*|reading list|(?:does|do) uva have|does the library have)\b"),
+    "images": re.compile(r"(?i)\b(?:photos?|pictures?|images?|postcards?|show me)\b"),
+    "site": re.compile(
+        r"(?i)\b(?:polic(?:y|ies)|fines|overdue|printing|print|cd-?roms?|renew\w*|interlibrary loan|ill|guides?|"
+        r"how do i|borrowing rules)\b"),
+    "archives": re.compile(r"(?i)\b(?:papers|finding aids?|manuscripts?|archives?|archival)\b"),
+    "wikipedia": re.compile(r"(?i)\b(?:wikipedia|bestsellers?|best-sellers?|award winners?|list of)\b"),
+    "slack": re.compile(r"(?i)\b(?:slack|channel|thread|conversation)\b"),
+    "atlassian": re.compile(r"(?i)\b(?:jira|confluence|tickets?|wiki pages?)\b"),
+    "stats": re.compile(
+        r"(?i)\b(?:visits|visitors|pageviews?|page views?|matomo|analytics|top pages|most (?:accessed|viewed|visited)|"
+        r"web(?:site)? traffic|virgo (?:traffic|usage|stats|statistics)|fy\d{2}\b.*\breport|report\b.*\bfy\d{2}|"
+        r"virgo annual report|annual report\b.*\bvirgo)"),
+}
+# Weak catalog phrases ("do we have …"): they don't count when an archives word names the material.
+_WEAK_CATALOG = re.compile(r"(?i)\b(?:do we have|does \w+ have)\b")
+_CITED_LINE = re.compile(r"\b(?:1[5-9]\d\d|20\d\d)\b")
+
+
+def _rule_domains(text: str) -> set:
+    found = {d for d, rx in _RULES.items() if rx.search(text or "")}
+    if wants_github(text or "", []):
+        found.add("github")
+    if "archives" not in found and _WEAK_CATALOG.search(text or ""):
+        found.add("catalog")
+    lines = [ln for ln in (text or "").splitlines() if ln.strip()]
+    if sum(1 for ln in lines if _CITED_LINE.search(ln)) >= 3:
+        found.add("catalog")  # a pasted citation list
+    return found
+
+
+def route_by_rules(message: str, history: Optional[List[Dict[str, Any]]] = None) -> Optional["Route"]:
+    """Domains from keywords; a short follow-up (or "yes" to an offer) inherits the latest earlier user
+    question that had any. None when nothing matches, or more than MAX_DOMAINS do."""
+    found = _rule_domains(message)
+    source = "rules"
+    if not found:
+        from agent import _accepts_offer, _is_follow_up  # here: agent imports this module's users
+
+        words = re.findall(r"[a-z']+", (message or "").lower())
+        if _is_follow_up(message, words) or _accepts_offer(message, history):
+            for msg in reversed(history or []):
+                if msg.get("role") != "user":
+                    continue
+                text = " ".join(b.get("text", "") for b in msg.get("content") or [] if isinstance(b, dict))
+                found = _rule_domains(text)
+                if found:
+                    source = "history"
+                    break
+    if not found or len(found) > MAX_DOMAINS:
+        return None
+    return Route(frozenset(found), source)
+
+
+_TOOL_DOMAINS = (
+    ("Library___", {"library"}), ("Transit___", {"transit"}), ("Catalog___", {"catalog", "images"}),
+    ("Site___get_suggestions", {"catalog", "images"}), ("Site___", {"site"}), ("Collections___", {"archives"}),
+    ("wikipedia_", {"wikipedia"}), ("GitHub___", {"github"}), ("matomo_", {"stats"}),
+)
+_NAMED = {
+    "search_slack": {"slack"}, "read_slack_thread": {"slack"}, "list_slack_channel": {"slack"},
+    "search_confluence": {"atlassian"}, "get_confluence_page": {"atlassian"}, "search_jira": {"atlassian"},
+    "get_jira_issue": {"atlassian"}, "check_citations": {"catalog"}, ENABLE_GITHUB_TOOL: {"github"},
+}
+# Always offered while routed: the ways to widen a route.
+ALWAYS_OFFERED = frozenset({MORE_TOOLS, ENABLE_GITHUB_TOOL})
+
+
+def tool_domain(name: str) -> set:
+    """The domains a tool belongs to; an unknown tool belongs to all (it's never filtered out)."""
+    if name in _NAMED:
+        return set(_NAMED[name])
+    for prefix, domains in _TOOL_DOMAINS:
+        if name.startswith(prefix):
+            return set(domains)
+    return set(DOMAINS)
+
+
+def more_tools_spec() -> Dict[str, Any]:
+    return {"toolSpec": {
+        "name": MORE_TOOLS,
+        "description": ("Add tools for another topic when this question needs them and they aren't listed: "
+                        "library (hours, occupancy, spaces, events, directions), transit (buses), catalog "
+                        "(books, citations), images (photos), site (library website, policies), archives "
+                        "(finding aids), wikipedia, slack, atlassian (Jira, Confluence), github (code), stats "
+                        "(website and Virgo statistics)."),
+        "inputSchema": {"json": {"type": "object", "properties": {
+            "domains": {"type": "array", "items": {"type": "string", "enum": list(DOMAINS)}}},
+            "required": ["domains"]}},
+    }}
+
+
+def domain_guidance(domains, v2: bool) -> str:
+    """The prompt blocks for these domains (no core), handed over by more_tools."""
+    from agent import SYSTEM_PROMPT_TEMPLATE
+    from tool_names import render_prompt
+
+    return render_prompt(SYSTEM_PROMPT_TEMPLATE, v2, domains=list(domains), blocks_only=True).strip()
