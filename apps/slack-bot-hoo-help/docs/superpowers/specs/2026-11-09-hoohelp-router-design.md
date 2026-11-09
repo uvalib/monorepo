@@ -121,8 +121,16 @@ If Bedrock's prompt caching (cache points in Converse) works for `minimax.minima
 - Caching or reusing answers.
 - Changing what each tool does.
 
-## Open questions
+## Decisions on the open questions (2026-11-09)
 
-1. Phase 0 (gating GitHub) is small and gives most of the tool savings. Ship it first, alone?
-2. Which small model for the router fallback? The Gemma model already used for formatting, or another Bedrock option?
-3. Should Slack search tools (per-event, used for "find that conversation") be routed too, or always offered when the event allows?
+1. **Phase 0** (the GitHub gate) shipped on its own: −35% input tokens on non-code questions; GitHub live cases 5/5.
+2. **The router's model is the chime-in model, in the same call.**
+   - Gemma 3 12B (`google.gemma-3-12b-it`, ~0.23 s, 3 s timeout) is already used to decide whether to reply in group threads.
+   - When that check runs, one call answers both: `{"reply": true|false, "domains": [...]}`.
+   - For other messages the keyword rules can't settle (DMs, @mentions), the same model answers routing only: `{"domains": [...]}`.
+   - It's never more than one small-model call per message, and none when the rules decide.
+   - Defaults stay separate: an unreadable or timed-out answer means *don't reply* (chime-in), and *all domains* (routing).
+3. **Slack search is routed like any other domain**, and always included when the message mentions Slack, a channel, a thread or "conversation".
+4. **The gain is quality as well as cost.** Fewer tools means fewer wrong-tool choices; a shorter prompt means fewer competing rules. The routing eval compares pass rates, not only tokens.
+5. **Routing ships behind a switch** (`ENABLE_ROUTING`, default off). It's switched on after one full live-suite comparison.
+6. **Routing applies only on the v2 gateway** (uvalib-mcp). The legacy gateway retires after 2026-11-30 and keeps the full prompt.
