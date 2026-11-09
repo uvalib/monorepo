@@ -26,7 +26,7 @@ def _get(step, key):
     return step.get(key) if isinstance(step, dict) else getattr(step, key, None)
 
 
-def run_live(case: dict, agent, local_tools=None) -> CaseResult:
+def run_live(case: dict, agent, local_tools=None, route=None) -> CaseResult:
     spec = case.get("live") or {}
     started = time.monotonic()
     try:
@@ -35,6 +35,8 @@ def run_live(case: dict, agent, local_tools=None) -> CaseResult:
             kwargs["extra_context"] = case["extra_context"]  # e.g. "Slack search is unavailable…"
         if local_tools is not None:
             kwargs["local_tools"] = local_tools  # Confluence/Jira, as production passes them
+        if route is not None:
+            kwargs["route"] = route  # router Phase 2, as production computes it
         result = agent.process_message(case["question"], **kwargs)
         seconds = time.monotonic() - started
         trace = result.trace
@@ -55,7 +57,9 @@ def run_live(case: dict, agent, local_tools=None) -> CaseResult:
     stop = getattr(trace, "stop_reason", None)
     if stop and stop != "end_turn":
         reasons.append(f"stop_reason: {stop}")
-    return CaseResult(case["id"], not reasons, reasons, seconds=seconds, tools=tools, slack_text=text)
+    tokens = sum(int((c or {}).get("input_tokens") or 0) for c in getattr(trace, "model_calls", None) or [])
+    return CaseResult(case["id"], not reasons, reasons, seconds=seconds, tools=tools, slack_text=text,
+                      input_tokens=tokens)
 
 
 def write_report(results: list[CaseResult], path: str) -> None:
@@ -65,14 +69,14 @@ def write_report(results: list[CaseResult], path: str) -> None:
         "",
         f"Model: `{os.environ.get('BEDROCK_MODEL_ID', 'default')}` · "
         f"Guardrail: {os.environ.get('BEDROCK_GUARDRAIL_ID') or 'off (production runs with one)'} · "
-        f"{passed}/{len(results)} passed",
+        f"{passed}/{len(results)} passed · input tokens {sum(r.input_tokens for r in results):,}",
         "",
-        "| case | result | seconds | tools |",
-        "| :--- | :--- | ---: | :--- |",
+        "| case | result | seconds | input tokens | tools |",
+        "| :--- | :--- | ---: | ---: | :--- |",
     ]
     for r in results:
         tools = ", ".join(t.split("___")[-1] for t in r.tools) or "—"
-        lines.append(f"| {r.id} | {'PASS' if r.passed else 'FAIL'} | {r.seconds:.0f} | {tools} |")
+        lines.append(f"| {r.id} | {'PASS' if r.passed else 'FAIL'} | {r.seconds:.0f} | {r.input_tokens:,} | {tools} |")
     for r in results:
         lines += ["", f"## {r.id} — {'PASS' if r.passed else 'FAIL'}"]
         if r.reasons:

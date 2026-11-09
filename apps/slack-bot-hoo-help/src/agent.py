@@ -943,6 +943,8 @@ class HooHelpAgent:
             slack=slack_context,
         )
         self.last_trace = trace
+        if route is not None:
+            trace.route = {"domains": sorted(route.domains), "source": route.source, "more_tools": []}
 
         # Decided before the loop: `history` becomes the running message list below.
         needs_lookup = _needs_tools(user_message, conversation_history)
@@ -1109,6 +1111,8 @@ class HooHelpAgent:
                                 asked = tool_input.get("domains") if isinstance(tool_input, dict) else None
                                 added = [d for d in (asked or []) if d in DOMAINS]
                                 route = Route(frozenset(set(route.domains) | set(added)), route.source)
+                                if getattr(trace, "route", None):
+                                    trace.route["more_tools"].extend(added)
                                 tool_output_str = (f"Tools added for: {', '.join(added)}.\n\n"
                                                    + domain_guidance(added, v2)) if added else \
                                     f"Error: name one or more of: {', '.join(DOMAINS)}."

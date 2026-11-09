@@ -120,14 +120,17 @@ def production_matomo_enabled(samconfig_path: str = SAMCONFIG, env=None) -> bool
     return bool(m) and m.group(1).lower() == "true"
 
 
-def _gate_github(github, case):
+def _gate_github(github, case, route=None):
     """The case's GitHub tools behind the production gate (routing.wants_github)."""
     if github is None:
         return None
     from agent import github_prompt_section
     from routing import GatedGitHubTools, wants_github
-    return GatedGitHubTools(github, enabled=wants_github(case.get("question") or "", case.get("history") or []),
-                            guidance=github_prompt_section(True))
+    if route is not None and not route.is_all:
+        enabled = "github" in route.domains
+    else:
+        enabled = wants_github(case.get("question") or "", case.get("history") or [])
+    return GatedGitHubTools(github, enabled=enabled, guidance=github_prompt_section(True))
 
 
 def _citation_tools(gateway):
@@ -216,9 +219,12 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--gateway-url", help="live tier: gateway MCP URL to test (sets GATEWAY_URL)")
     ap.add_argument("--json-out", metavar="PATH", help='write {case_id: "PASS"|"FAIL"} for this run')
     ap.add_argument("--force", action="store_true", help="live tier: allow a second full run today")
+    ap.add_argument("--routing", choices=("on", "off"), default="off",
+                    help="live tier: route each question to its domains, as production does with ENABLE_ROUTING")
     args = ap.parse_args(argv)
     if args.gateway_url:
         os.environ["GATEWAY_URL"] = args.gateway_url
+    os.environ["ENABLE_ROUTING"] = "true" if args.routing == "on" else "false"
 
     cases = load_cases(args.cases_dir, args.cases)
     if args.cases:
@@ -276,9 +282,15 @@ def _live(cases: list, model: str | None = None, outcomes: dict | None = None) -
             continue
         if not c.get("live"):
             continue
-        # GitHub gated per question, as production does (routing.py).
-        local_tools = combined_local_tools(atlassian, _gate_github(github, c), matomo, citations)
-        r = live.run_live(c, agent, local_tools=local_tools)
+        # Routed per question, as production does (routing.py; off unless --routing on).
+        from routing import route_question
+        history = c.get("history") or []
+        route = route_question(c.get("question") or "", history,
+                               transcript=[(m.get("role") or "", " ".join(b.get("text", "") for b in m.get("content") or []))
+                                           for m in history[-4:]],
+                               enabled=os.environ.get("ENABLE_ROUTING") == "true", v2=True)
+        local_tools = combined_local_tools(atlassian, _gate_github(github, c, route), matomo, citations)
+        r = live.run_live(c, agent, local_tools=local_tools, route=route)
         results.append(r)
         if outcomes is not None:
             outcomes[r.id] = "PASS" if r.passed else "FAIL"

@@ -41,7 +41,7 @@ from atlassian_tools import atlassian_tools_for_event
 from github_tools import github_tools_for_env
 from matomo_tools import matomo_tools_for_env
 from citation_check import citation_tools_for_env
-from routing import GatedGitHubTools, wants_github
+from routing import GatedGitHubTools, route_question, wants_github
 from local_tools import LocalTools
 from slack_search import slack_tools_for_event
 from session_trace import SessionTrace
@@ -266,6 +266,7 @@ def handle_user_query(
 
     # Load prior turns when we are already inside a thread
     if not conversation_history and reply_thread_ts and channel_id:
+        route_domains = history_meta.get("route_domains")  # from the group chime-in call
         conversation_history, _is_ours, history_meta = extract_thread_history(
             client,
             channel_id,
@@ -275,6 +276,8 @@ def handle_user_query(
             current_ts=ts,
             directory=directory,
         )
+        if route_domains:
+            history_meta["route_domains"] = route_domains
 
     logger.info(
         "Received query from user %s in channel %s (thread %s): %r "
@@ -344,11 +347,23 @@ def handle_user_query(
     ] + slack_lines
 
     reply_deadline = (_INVOCATION_DEADLINE - REPLY_RESERVE_SEC) if _INVOCATION_DEADLINE else None
+    # Router Phase 2 (routing.py, off unless ENABLE_ROUTING=true): the prompt blocks and tools this
+    # question needs; only the routed local tool sets are built.
+    route = route_question(
+        cleaned_text, conversation_history,
+        transcript=[(m.get("role") or "", _turn_text(m)) for m in conversation_history[-4:]],
+        hint=(history_meta or {}).get("route_domains"),
+        enabled=_routing_enabled(), v2=_gateway_is_v2())
+
+    def wanted(domain: str) -> bool:
+        return route.is_all or domain in route.domains
+
     agent_kwargs: Dict[str, Any] = dict(
         conversation_history=conversation_history,
         request_id=request_id,
         slack_context=slack_context,
         extra_context=extra_context,
+        route=route,
         local_tools=LocalTools(
             slack_tools,
             atlassian_tools_for_event(
@@ -357,11 +372,12 @@ def handle_user_query(
                 email=ATLASSIAN_EMAIL,
                 jira_token=ATLASSIAN_JIRA_TOKEN,
                 confluence_token=ATLASSIAN_CONFLUENCE_TOKEN,
-            ),
-            _gated_github(cleaned_text, conversation_history),
-            _matomo_tools(),
+            ) if wanted("atlassian") else None,
+            _gated_github(cleaned_text, conversation_history,
+                          open_gate=None if route.is_all else "github" in route.domains),
+            _matomo_tools() if wanted("stats") else None,
             citation_tools_for_env(gateway_call=getattr(getattr(agent, "gateway_client", None), "call_tool", None),
-                                   v2=_gateway_is_v2, deadline=reply_deadline),
+                                   v2=_gateway_is_v2, deadline=reply_deadline) if wanted("catalog") else None,
         ),
     )
     if reply_deadline is not None:
@@ -564,13 +580,22 @@ def _post_pieces(client, say, pieces, *, channel, thread_ts, first_text: str, tr
             return  # the answer itself didn't go out with blocks; don't post its continuations
 
 
-def _gated_github(text: str, history):
-    """GitHub tools for this turn: all of them for a code question, else only enable_github_tools."""
+def _gated_github(text: str, history, open_gate=None):
+    """GitHub tools for this turn: all of them for a code question, else only enable_github_tools.
+    open_gate: the router's decision (None: decide from the message, as Phase 0 does)."""
     tools = github_tools_for_env()
     if tools is None:
         return None
-    return GatedGitHubTools(tools, enabled=wants_github(text, history),
-                            guidance=github_prompt_section(_gateway_is_v2()))
+    enabled = wants_github(text, history) if open_gate is None else open_gate
+    return GatedGitHubTools(tools, enabled=enabled, guidance=github_prompt_section(_gateway_is_v2()))
+
+
+def _routing_enabled() -> bool:
+    return os.environ.get("ENABLE_ROUTING", "false").strip().lower() == "true"
+
+
+def _turn_text(msg) -> str:
+    return " ".join(b.get("text", "") for b in msg.get("content") or [] if isinstance(b, dict))
 
 
 def _matomo_tools():
@@ -646,6 +671,15 @@ def _attach_file(client, channel_id, thread_ts, trace, fmt, listing_tables, call
 # ---------------------------------------------------------------------------
 
 
+def _chime_in(text: str, sender: str, snap):
+    """Should Hoo Helper reply in a group thread? With routing on, the same small-model call also
+    names the question's domains."""
+    if _routing_enabled():
+        return chime_in.should_reply_routed(text, sender, snap, judge=chime_in.llm_judge_and_route)
+    ok, reason = chime_in.should_reply(text, sender, snap, judge=chime_in.llm_judge)
+    return ok, reason, None
+
+
 def _ack(ack):
     ack()
 
@@ -702,11 +736,12 @@ def _lazy_message(event, say, client):
     # Group DMs: several people — same etiquette as multi-person threads
     if channel_type == "mpim":
         snap = _group_dm_snapshot(client, channel_id, thread_ts, ts, bot_user_id, bot_app_bot_id)
-        ok, reason = chime_in.should_reply(text, event.get("user") or "", snap, judge=chime_in.llm_judge)
+        ok, reason, domains = _chime_in(text, event.get("user") or "", snap)
         if not ok:
             logger.info("Group DM %s: not replying (%s)", channel_id, reason)
             return
-        handle_user_query(event, say, client, force_thread=True)
+        handle_user_query(event, say, client, force_thread=True,
+                          known_meta={"route_domains": domains} if domains else None)
         return
 
     # Thread follow-ups in channels / private channels (no new @mention)
@@ -722,7 +757,9 @@ def _lazy_message(event, say, client):
         )
         if is_our_thread:
             snap = meta.get("snapshot") or chime_in.Snapshot()
-            ok, reason = chime_in.should_reply(text, event.get("user") or "", snap, judge=chime_in.llm_judge)
+            ok, reason, domains = _chime_in(text, event.get("user") or "", snap)
+            if domains:
+                meta["route_domains"] = domains  # the chime-in call routed the question too
             if not ok:
                 logger.info("Thread %s in %s: not replying (%s)", thread_ts, channel_id, reason)
                 return

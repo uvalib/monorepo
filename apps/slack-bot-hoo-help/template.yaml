@@ -118,6 +118,14 @@ Parameters:
       When true, Hoo Helper can search and read uvalib GitHub code, issues and pull
       requests (read-only), using the GitHub App credentials in SSM /hoohelp/github/.
 
+  EnableRouting:
+    Type: String
+    Default: "false"
+    AllowedValues: ["true", "false"]
+    Description: >
+      When true, each question gets only the prompt sections and tools of the 1–3 topics it needs
+      (keyword rules, else the chime-in model), with a fall back to everything when unsure.
+
   EnableMatomo:
     Type: String
     Default: "false"
@@ -381,6 +389,7 @@ Resources:
           ENABLE_ATLASSIAN: !Ref EnableAtlassian
           ENABLE_GITHUB: !Ref EnableGitHub
           ENABLE_MATOMO: !Ref EnableMatomo
+          ENABLE_ROUTING: !Ref EnableRouting
           MATOMO_AUTOMATED_SPLIT: !Ref MatomoAutomatedSplit
           ATLASSIAN_SITE: https://virginia-its.atlassian.net
           ATLASSIAN_CLOUD_ID: c417cfa5-aa30-4f3f-be7e-968c5845b5e9

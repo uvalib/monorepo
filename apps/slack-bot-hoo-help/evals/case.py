@@ -26,6 +26,7 @@ class CaseResult:
     tools: list[str] = field(default_factory=list)
     slack_text: str = ""
     skipped: bool = False
+    input_tokens: int = 0
 
 
 def load_case(path: str) -> dict:

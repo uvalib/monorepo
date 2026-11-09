@@ -287,6 +287,10 @@ class SessionTrace:
             "s3_uri": self.s3_uri,
             "emit_mode": self.emit_mode,
         }
+        route = getattr(self, "route", None)
+        if route:
+            # Router Phase 2: which domains this question was given, and how they were chosen.
+            payload["route"] = dict(route)
         link_changes = getattr(self, "link_changes", None)
         if link_changes:
             # Links the gate swapped or removed (the original URL is otherwise lost).
