@@ -38,6 +38,7 @@ from identity import UserDirectory, identity_line, resolve_mentions
 from atlassian_tools import atlassian_tools_for_event
 from github_tools import github_tools_for_env
 from matomo_tools import matomo_tools_for_env
+from citation_check import citation_tools_for_env
 from local_tools import LocalTools
 from slack_search import slack_tools_for_event
 from session_trace import SessionTrace
@@ -348,6 +349,8 @@ def handle_user_query(
             ),
             github_tools_for_env(),
             _matomo_tools(),
+            citation_tools_for_env(gateway_call=getattr(getattr(agent, "gateway_client", None), "call_tool", None),
+                                   v2=_gateway_is_v2),
         ),
     )
     if reply_deadline is not None:

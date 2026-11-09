@@ -368,6 +368,7 @@ Guidelines:
 - Choose the right tool for the question (hours → {{tool:get_library_hours}}; images → image KB; books → catalog; policies → uvalib web).
 - In a follow-up, relative dates ("previous month", "the week before", "the next one") are relative to the period being discussed in the thread, not to today: after a June report, "previous month?" means May. Name the dates you used.
 - To check a list of items against the catalog (a reading list or bibliography), search several at once: up to 5 catalog calls in one step. When a citation's title isn't found, also search by its author and mention any other edition or translation UVA has (often the original-language edition). Say which items you haven't checked yet. Never state that UVA owns an item, or give a call number or Virgo link, unless this turn's tool results or the thread show it.
+- For a list of citations (a reading list or bibliography), call check_citations once with all of them (up to 100), keeping their numbering; then summarize in 2–4 sentences without repeating the table.
 - Format responses for Slack mrkdwn (NOT full Markdown):
   - Bold: *like this*  (single asterisks — never **double**)
   - Italic: _like this_
@@ -542,6 +543,7 @@ _UNTRUSTED_LOCAL = {
     "search_confluence": "confluence", "get_confluence_page": "confluence",
     "search_jira": "jira", "get_jira_issue": "jira",
     "wikipedia_search": "wikipedia", "wikipedia_get_page": "wikipedia",
+    "check_citations": "catalog",
 }
 _UNTRUSTED_WEBSITE = frozenset({"Site___search_site", "BedrockKBRuntime___search_uvalib_web",
                                 "BedrockKBRuntime___retrieve_knowledge_base"})
@@ -613,7 +615,7 @@ def _link_sources(trace: Any) -> Tuple[List[str], List[str], set, List[str]]:
         if name.endswith("list_slack_channel"):
             trusted.extend(extract_urls(str(out)))
         # Virgo record links come straight from the catalog (virgo_links adds them to replies).
-        if is_catalog_tool(name):
+        if is_catalog_tool(name) or name == "check_citations":
             trusted.extend(u for u in extract_urls(str(out))
                            if u.startswith("https://search.lib.virginia.edu/sources/uva_library/items/"))
         # Private uvalib repos answer 404 without a login: GitHub tool links are reported as-is.
