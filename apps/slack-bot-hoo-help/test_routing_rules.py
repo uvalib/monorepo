@@ -14,13 +14,20 @@ TABLE = [
     ("Give me the FY26 Virgo annual report", {"stats"}),
     ("Which Virgo collections were most accessed in FY26?", {"stats"}),
     ("next bus to the Rotunda", {"transit"}),
-    ("what do we have in the Susan Oberman papers", {"archives"}),
+    ("what do we have in the Susan Oberman papers", {"archives", "catalog"}),
     ("Is there a Jira ticket about the annual report?", {"atlassian"}),
     ("I'm looking for a conversation where a user suggested cataloging something differently", {"slack"}),
     ("What's in the README of virgo4-client?", {"github"}),
     ("show me photos of the Lawn in snow", {"images"}),
     ("Where can I use a CD-Rom", {"site"}),
     ("Is Clemons busy and does it have The Miracle of Haitian Art?", {"library", "catalog"}),
+    # 2026-11-09 routing comparison: these were misrouted
+    ("Do we have the president's private correspondence from 2024?", {"catalog", "archives"}),
+    ("do we have any nursing school records from the 1920s?", {"catalog", "archives"}),
+    ("Do we have letters describing a cholera outbreak?", {"catalog", "archives"}),
+    ("How crowded is the Gold Line right now?", {"library", "transit"}),
+    ("How do I handle an Aeon print request?", {"site", "atlassian"}),
+    ("Where's the doc on hold policies?", {"site", "atlassian"}),
 ]
 
 

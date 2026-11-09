@@ -113,18 +113,23 @@ _RULES = {
         r"(?i)\b(?:hours?|open(?:s|ing)?|closed?|closing|busy|occupancy|crowded|gate counts?|foot traffic|"
         r"(?:study )?rooms?|study spaces?|reserve a room|equipment|events?|directions|accessib\w*|wayfinding|"
         r"" + _LIBRARY_NAMES + r")\b"),
-    "transit": re.compile(r"(?i)\b(?:bus(?:es)?|routes?|uts|cat bus|bus stops?|shuttle)\b"),
+    "transit": re.compile(r"(?i)\b(?:bus(?:es)?|routes?|uts|cat bus|bus stops?|shuttle|"
+                          r"(?:gold|silver|orange|green|purple|blue|red|crimson|inner|outer) line)\b"),
     "catalog": re.compile(
         r"(?i)\b(?:books?|title|author|call numbers?|isbn|virgo record|checked out|available to borrow|"
         r"citations?|bibliograph\w*|reading list|(?:does|do) uva have|does the library have)\b"),
     "images": re.compile(r"(?i)\b(?:photos?|pictures?|images?|postcards?|show me)\b"),
     "site": re.compile(
         r"(?i)\b(?:polic(?:y|ies)|fines|overdue|printing|print|cd-?roms?|renew\w*|interlibrary loan|ill|guides?|"
-        r"how do i|borrowing rules)\b"),
-    "archives": re.compile(r"(?i)\b(?:papers|finding aids?|manuscripts?|archives?|archival)\b"),
+        r"how do i|borrowing rules|docs?|documentation|procedures?|workflows?)\b"),
+    "archives": re.compile(
+        r"(?i)\b(?:papers|finding aids?|manuscripts?|archives?|archival|correspondence|letters|diar(?:y|ies)|"
+        r"scrapbooks?|oral histor(?:y|ies)|(?:\w+ )?records from the (?:1[5-9]|20)\d0s)\b"),
     "wikipedia": re.compile(r"(?i)\b(?:wikipedia|bestsellers?|best-sellers?|award winners?|list of)\b"),
     "slack": re.compile(r"(?i)\b(?:slack|channel|thread|conversation)\b"),
-    "atlassian": re.compile(r"(?i)\b(?:jira|confluence|tickets?|wiki pages?)\b"),
+    "atlassian": re.compile(
+        r"(?i)\b(?:jira|confluence|tickets?|wiki pages?|docs?|documentation|procedures?|workflows?|"
+        r"polic(?:y|ies)|how do i (?:handle|process)|aeon)\b"),
     "stats": re.compile(
         r"(?i)\b(?:visits|visitors|pageviews?|page views?|matomo|analytics|top pages|most (?:accessed|viewed|visited)|"
         r"web(?:site)? traffic|virgo (?:traffic|usage|stats|statistics)|fy\d{2}\b.*\breport|report\b.*\bfy\d{2}|"
@@ -139,8 +144,12 @@ def _rule_domains(text: str) -> set:
     found = {d for d, rx in _RULES.items() if rx.search(text or "")}
     if wants_github(text or "", []):
         found.add("github")
-    if "archives" not in found and _WEAK_CATALOG.search(text or ""):
-        found.add("catalog")
+    if _WEAK_CATALOG.search(text or ""):
+        # "Do we have …" is the catalog and/or special collections: give it both unless another
+        # domain explains it (Clemons + "does it have" = a book).
+        # Holdings can be in the catalog and in special collections: always the catalog, and the
+        # archives too when nothing else explains the question.
+        found |= {"catalog"} if found else {"catalog", "archives"}
     lines = [ln for ln in (text or "").splitlines() if ln.strip()]
     if sum(1 for ln in lines if _CITED_LINE.search(ln)) >= 3:
         found.add("catalog")  # a pasted citation list
