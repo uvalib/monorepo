@@ -120,6 +120,16 @@ def production_matomo_enabled(samconfig_path: str = SAMCONFIG, env=None) -> bool
     return bool(m) and m.group(1).lower() == "true"
 
 
+def _gate_github(github, case):
+    """The case's GitHub tools behind the production gate (routing.wants_github)."""
+    if github is None:
+        return None
+    from agent import github_prompt_section
+    from routing import GatedGitHubTools, wants_github
+    return GatedGitHubTools(github, enabled=wants_github(case.get("question") or "", case.get("history") or []),
+                            guidance=github_prompt_section(True))
+
+
 def _citation_tools(gateway):
     """check_citations as production builds it: the gateway's catalog search, v2 gateway only."""
     try:
@@ -257,8 +267,8 @@ def _live(cases: list, model: str | None = None, outcomes: dict | None = None) -
 
     gateway = gateway_client()
     agent = HooHelpAgent(gateway_client=gateway)
-    local_tools = combined_local_tools(_atlassian_tools(), _github_tools(), _matomo_tools(gateway),
-                                       _citation_tools(gateway))
+    atlassian, github, matomo, citations = (_atlassian_tools(), _github_tools(), _matomo_tools(gateway),
+                                            _citation_tools(gateway))
     results = []
     for c in cases:
         if isinstance(c, CaseError):
@@ -266,6 +276,8 @@ def _live(cases: list, model: str | None = None, outcomes: dict | None = None) -
             continue
         if not c.get("live"):
             continue
+        # GitHub gated per question, as production does (routing.py).
+        local_tools = combined_local_tools(atlassian, _gate_github(github, c), matomo, citations)
         r = live.run_live(c, agent, local_tools=local_tools)
         results.append(r)
         if outcomes is not None:

@@ -180,6 +180,20 @@ _ITEM_URL = re.compile(r"https?://search\.lib\.virginia\.edu/sources/[\w-]+/item
 _CALL_NUMBER = re.compile(r"\b[A-Z]{1,3}\d{1,5}(?:\.\d+)?\s?\.[A-Z]\d+")
 
 
+_GITHUB_SECTION = re.compile(r"\n9\. \*\*GitHub \(uvalib code.*?(?=\n\n10\. \*\*)", re.S)
+
+
+def github_prompt_section(v2: bool) -> str:
+    """The prompt's GitHub guidance (section 9), handed over when enable_github_tools is called."""
+    base = render_prompt(SYSTEM_PROMPT_TEMPLATE, v2) if v2 else SYSTEM_PROMPT
+    m = _GITHUB_SECTION.search(base)
+    return m.group(0).strip() if m else ""
+
+
+def _without_github_section(prompt: str) -> str:
+    return _GITHUB_SECTION.sub("", prompt, count=1)
+
+
 def _ungrounded_catalog_claims(text: str, known_texts: List[str]) -> bool:
     """Does the draft name catalog records (Virgo item links, call numbers) found nowhere in the
     thread or this turn's tool results? Then it came from the model's memory."""
@@ -713,7 +727,11 @@ class HooHelpAgent:
         gateway's are those, else (or when unknown) the legacy ones.
         """
         v2 = is_v2_toolset(tool_names or [])
-        parts = [render_prompt(SYSTEM_PROMPT_TEMPLATE, v2) if v2 else SYSTEM_PROMPT, _current_date_context()]
+        base = render_prompt(SYSTEM_PROMPT_TEMPLATE, v2) if v2 else SYSTEM_PROMPT
+        if "enable_github_tools" in (tool_names or []):
+            # GitHub is gated off this turn (routing.py): its section comes with enable_github_tools.
+            base = _without_github_section(base)
+        parts = [base, _current_date_context()]
         parts.extend(line for line in extra_context or [] if line)
         return "\n\n".join(parts)
 
@@ -895,6 +913,8 @@ class HooHelpAgent:
 
         out_of_time = False
         while iteration < max_iterations:
+            # Rebuilt each step: a tool can turn on more tools (enable_github_tools).
+            tool_config = self._merged_tool_config(local_tools)
             if deadline is not None and deadline - _now() < WRAP_UP_RESERVE_SEC:
                 out_of_time = True
                 break

@@ -30,7 +30,8 @@ from typing import Any, Dict, List, Optional, Tuple
 from slack_bolt import App
 from slack_bolt.adapter.aws_lambda import SlackRequestHandler
 
-from agent import TOO_SLOW_REPLY, AgentTurnResult, HooHelpAgent, drop_untrusted_block_urls, reply_url_filter
+from agent import (TOO_SLOW_REPLY, AgentTurnResult, HooHelpAgent, drop_untrusted_block_urls, github_prompt_section,
+                   reply_url_filter)
 from link_check import drop_untrusted_urls, url_host
 from bedrock_params import DEFAULT_AGENT_MODEL_ID, DEFAULT_FORMAT_MODEL_ID
 from gateway_mcp_client import GatewayMCPClient
@@ -40,6 +41,7 @@ from atlassian_tools import atlassian_tools_for_event
 from github_tools import github_tools_for_env
 from matomo_tools import matomo_tools_for_env
 from citation_check import citation_tools_for_env
+from routing import GatedGitHubTools, wants_github
 from local_tools import LocalTools
 from slack_search import slack_tools_for_event
 from session_trace import SessionTrace
@@ -356,7 +358,7 @@ def handle_user_query(
                 jira_token=ATLASSIAN_JIRA_TOKEN,
                 confluence_token=ATLASSIAN_CONFLUENCE_TOKEN,
             ),
-            github_tools_for_env(),
+            _gated_github(cleaned_text, conversation_history),
             _matomo_tools(),
             citation_tools_for_env(gateway_call=getattr(getattr(agent, "gateway_client", None), "call_tool", None),
                                    v2=_gateway_is_v2, deadline=reply_deadline),
@@ -560,6 +562,15 @@ def _post_pieces(client, say, pieces, *, channel, thread_ts, first_text: str, tr
             trace.error = f"slack_send_fallback: {e2}"
         if i == 0:
             return  # the answer itself didn't go out with blocks; don't post its continuations
+
+
+def _gated_github(text: str, history):
+    """GitHub tools for this turn: all of them for a code question, else only enable_github_tools."""
+    tools = github_tools_for_env()
+    if tools is None:
+        return None
+    return GatedGitHubTools(tools, enabled=wants_github(text, history),
+                            guidance=github_prompt_section(_gateway_is_v2()))
 
 
 def _matomo_tools():
