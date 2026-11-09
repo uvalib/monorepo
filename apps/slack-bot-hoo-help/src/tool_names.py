@@ -306,8 +306,32 @@ _PLACEHOLDER = re.compile(r"\{\{(tool|phrase):([a-z_]+)\}\}")
 _RENAMED_ARG = re.compile(r"(?<=`)(" + "|".join(RENAMED_ARGS) + r")(?=`)|\b(" + "|".join(RENAMED_ARGS) + r")(?==)")
 
 
-def render_prompt(template: str, v2: bool) -> str:
-    """Fill {{tool:<legacy leaf>}} and {{phrase:<key>}}; on v2 also rename legacy arguments (`location` -> `library`)."""
+_DOMAIN_OPEN = re.compile(r"^<!--domain:([a-z,]+)-->$")
+_DOMAIN_CLOSE = "<!--/domain-->"
+
+
+def select_domains(template: str, domains=None) -> str:
+    """The template with <!--domain:a,b--> … <!--/domain--> blocks kept only for the chosen domains
+    (routing.py); unmarked text is the core. domains=None keeps every block (today's prompt)."""
+    keep = None if domains is None else set(domains)
+    out, inside = [], None
+    for line in template.split("\n"):
+        m = _DOMAIN_OPEN.match(line)
+        if m:
+            inside = set(m.group(1).split(","))
+            continue
+        if line == _DOMAIN_CLOSE:
+            inside = None
+            continue
+        if inside is None or keep is None or inside & keep:
+            out.append(line)
+    return "\n".join(out)
+
+
+def render_prompt(template: str, v2: bool, domains=None) -> str:
+    """Fill {{tool:<legacy leaf>}} and {{phrase:<key>}}; on v2 also rename legacy arguments (`location` -> `library`).
+    `domains`: render the core plus those domains' blocks (None: everything)."""
+    template = select_domains(template, domains)
     text = _PLACEHOLDER.sub(
         lambda m: prompt_tool(m.group(2), v2) if m.group(1) == "tool" else prompt_phrase(m.group(2), v2), template)
     if v2:

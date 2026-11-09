@@ -10,9 +10,29 @@ question costs one step, not a wrong answer. See docs/superpowers/specs/2026-11-
 from __future__ import annotations
 
 import re
-from typing import Any, Dict, List, Optional
+from dataclasses import dataclass
+from typing import Any, Dict, FrozenSet, List, Optional
 
 ENABLE_GITHUB_TOOL = "enable_github_tools"
+
+# Router Phase 2: a question gets the prompt blocks and tools of at most 3 domains (see the design).
+DOMAINS = ("library", "transit", "catalog", "images", "site", "archives", "wikipedia", "slack", "atlassian",
+           "github", "stats")
+MAX_DOMAINS = 3
+
+
+@dataclass(frozen=True)
+class Route:
+    domains: FrozenSet[str]
+    source: str  # "rules" | "model" | "history" | "fallback" | "off"
+
+    @staticmethod
+    def all(source: str = "fallback") -> "Route":
+        return Route(frozenset(DOMAINS), source)
+
+    @property
+    def is_all(self) -> bool:
+        return set(DOMAINS) <= set(self.domains)
 
 _CODE = re.compile(
     r"(?i)\b(?:github|git|repos?|repositor(?:y|ies)|code(?:base)?|source code|readme|pull requests?|"
