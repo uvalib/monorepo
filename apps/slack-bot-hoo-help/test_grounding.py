@@ -103,4 +103,5 @@ def test_prompt_batches_list_lookups_and_forbids_unsourced_holdings():
     for v2 in (True, False):
         text = _rendered(v2)
         assert "up to 5 catalog calls in one step" in text
+        assert "also search by its author and mention any other edition or translation" in text
         assert "Never state that UVA owns an item, or give a call number or Virgo link" in text

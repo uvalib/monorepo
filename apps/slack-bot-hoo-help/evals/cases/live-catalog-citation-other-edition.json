@@ -1,0 +1,23 @@
+{
+  "id": "live-catalog-citation-other-edition",
+  "category": "catalog",
+  "question": "Does UVA have this book? Hurbon, Laënnec. Voodoo: Search for the Spirit. Translated by Lory Frankel. New York: Harry N. Abrams, 1995.",
+  "recorded": null,
+  "expect": {},
+  "live": {
+    "tools_any": [
+      "search_catalog",
+      "search_by_field"
+    ],
+    "phrases_any": [
+      "Mystères du Vaudou",
+      "Mysteres du Vaudou",
+      "Mystères du vaudou"
+    ],
+    "forbid": [
+      "u1108985",
+      "BL2530.V6 H8713"
+    ],
+    "max_seconds": 60
+  }
+}
