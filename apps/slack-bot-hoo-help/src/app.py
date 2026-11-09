@@ -276,7 +276,7 @@ def handle_user_query(
             current_ts=ts,
             directory=directory,
         )
-        if route_domains:
+        if route_domains is not None:
             history_meta["route_domains"] = route_domains
 
     logger.info(
@@ -348,15 +348,12 @@ def handle_user_query(
 
     reply_deadline = (_INVOCATION_DEADLINE - REPLY_RESERVE_SEC) if _INVOCATION_DEADLINE else None
     # Router Phase 2 (routing.py, off unless ENABLE_ROUTING=true): the prompt blocks and tools this
-    # question needs; only the routed local tool sets are built.
+    # question needs.
     route = route_question(
         cleaned_text, conversation_history,
         transcript=[(m.get("role") or "", _turn_text(m)) for m in conversation_history[-4:]],
         hint=(history_meta or {}).get("route_domains"),
         enabled=_routing_enabled(), v2=_gateway_is_v2())
-
-    def wanted(domain: str) -> bool:
-        return route.is_all or domain in route.domains
 
     agent_kwargs: Dict[str, Any] = dict(
         conversation_history=conversation_history,
@@ -372,12 +369,13 @@ def handle_user_query(
                 email=ATLASSIAN_EMAIL,
                 jira_token=ATLASSIAN_JIRA_TOKEN,
                 confluence_token=ATLASSIAN_CONFLUENCE_TOKEN,
-            ) if wanted("atlassian") else None,
+            ),
             _gated_github(cleaned_text, conversation_history,
                           open_gate=None if route.is_all else "github" in route.domains),
-            _matomo_tools() if wanted("stats") else None,
+            # Every tool set is built; the route filters what's offered, so more_tools can add any back.
+            _matomo_tools(),
             citation_tools_for_env(gateway_call=getattr(getattr(agent, "gateway_client", None), "call_tool", None),
-                                   v2=_gateway_is_v2, deadline=reply_deadline) if wanted("catalog") else None,
+                                   v2=_gateway_is_v2, deadline=reply_deadline),
         ),
     )
     if reply_deadline is not None:
@@ -741,7 +739,7 @@ def _lazy_message(event, say, client):
             logger.info("Group DM %s: not replying (%s)", channel_id, reason)
             return
         handle_user_query(event, say, client, force_thread=True,
-                          known_meta={"route_domains": domains} if domains else None)
+                          known_meta={"route_domains": domains} if domains is not None else None)
         return
 
     # Thread follow-ups in channels / private channels (no new @mention)
@@ -758,7 +756,7 @@ def _lazy_message(event, say, client):
         if is_our_thread:
             snap = meta.get("snapshot") or chime_in.Snapshot()
             ok, reason, domains = _chime_in(text, event.get("user") or "", snap)
-            if domains:
+            if domains is not None:
                 meta["route_domains"] = domains  # the chime-in call routed the question too
             if not ok:
                 logger.info("Thread %s in %s: not replying (%s)", thread_ts, channel_id, reason)

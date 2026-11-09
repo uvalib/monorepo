@@ -183,6 +183,8 @@ def should_reply_routed(text: str, sender: str, snap: Snapshot, *, judge=llm_jud
         logger.warning("Chime-in judge failed (%s); staying silent", e)
         return False, f"judge error: {type(e).__name__}", None
     ok, domains = verdict if isinstance(verdict, tuple) else (bool(verdict), None)
+    # [] (not None): the small model was asked, so routing won't ask it again.
+    domains = list(domains) if domains else ([] if isinstance(verdict, tuple) else None)
     return (True, "judge: yes", domains) if ok else (False, "judge: no", domains)
 
 

@@ -52,7 +52,9 @@ def test_route_question_order():
     assert r.source == "rules" and calls == []
     r = route_question("can you help me with something", [], enabled=True, v2=True, model=model)
     assert set(r.domains) == {"site"} and calls == ["can you help me with something"]
-    assert route_question("x", [], hint=["bogus"], enabled=True, v2=True, model=model).source == "model"
+    # the chime-in call already asked the model: an invalid hint routes everything, no second call
+    r = route_question("x", [], hint=["bogus"], enabled=True, v2=True, model=model)
+    assert r.is_all and r.source == "fallback" and calls == ["can you help me with something"]
 
 
 def test_combined_chime_in(monkeypatch):

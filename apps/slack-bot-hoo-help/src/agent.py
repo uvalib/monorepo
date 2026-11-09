@@ -40,7 +40,7 @@ from link_check import (
     url_keys,
 )
 from session_trace import SessionTrace
-from routing import (ALWAYS_OFFERED, DOMAINS, ENABLE_GITHUB_TOOL, MORE_TOOLS, Route, domain_guidance,
+from routing import (ALWAYS_OFFERED, DOMAINS, ENABLE_GITHUB_TOOL, MORE_TOOLS, GatedGitHubTools, Route, domain_guidance,
                      more_tools_spec, tool_domain)
 from tool_names import is_catalog_tool, is_v2_toolset, legacy_leaf, render_prompt
 from wikipedia_tools import (
@@ -943,7 +943,7 @@ class HooHelpAgent:
             slack=slack_context,
         )
         self.last_trace = trace
-        if route is not None:
+        if route is not None and route.source != "off":
             trace.route = {"domains": sorted(route.domains), "source": route.source, "more_tools": []}
 
         # Decided before the loop: `history` becomes the running message list below.
@@ -1109,7 +1109,13 @@ class HooHelpAgent:
                             if tool_name == MORE_TOOLS and route is not None:
                                 # Widen this turn's route (routing.py); the guidance comes with it.
                                 asked = tool_input.get("domains") if isinstance(tool_input, dict) else None
-                                added = [d for d in (asked or []) if d in DOMAINS]
+                                if isinstance(asked, str):
+                                    asked = [a.strip() for a in asked.split(",")]
+                                added = [d for d in (asked or []) if isinstance(d, str) and d in DOMAINS]
+                                if "github" in added:
+                                    for tool_set in getattr(local_tools, "sets", None) or []:
+                                        if isinstance(tool_set, GatedGitHubTools):
+                                            tool_set.enabled = True
                                 route = Route(frozenset(set(route.domains) | set(added)), route.source)
                                 if getattr(trace, "route", None):
                                     trace.route["more_tools"].extend(added)

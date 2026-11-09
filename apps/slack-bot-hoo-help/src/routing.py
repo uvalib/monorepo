@@ -159,21 +159,20 @@ def _rule_domains(text: str) -> set:
 def route_by_rules(message: str, history: Optional[List[Dict[str, Any]]] = None) -> Optional["Route"]:
     """Domains from keywords; a short follow-up (or "yes" to an offer) inherits the latest earlier user
     question that had any. None when nothing matches, or more than MAX_DOMAINS do."""
+    from agent import _accepts_offer, _is_follow_up  # here: agent imports this module's users
+
     found = _rule_domains(message)
     source = "rules"
-    if not found:
-        from agent import _accepts_offer, _is_follow_up  # here: agent imports this module's users
-
-        words = re.findall(r"[a-z']+", (message or "").lower())
-        if _is_follow_up(message, words) or _accepts_offer(message, history):
-            for msg in reversed(history or []):
-                if msg.get("role") != "user":
-                    continue
-                text = " ".join(b.get("text", "") for b in msg.get("content") or [] if isinstance(b, dict))
-                found = _rule_domains(text)
-                if found:
-                    source = "history"
-                    break
+    words = re.findall(r"[a-z']+", (message or "").lower())
+    if _is_follow_up(message, words) or _accepts_offer(message, history):
+        # A follow-up keeps the latest question's domains, plus any of its own ("and for Shannon?"
+        # after a pageviews question: stats and library). Only the latest question: an older one is stale.
+        latest = next((m for m in reversed(history or []) if m.get("role") == "user"), None)
+        text = " ".join(b.get("text", "") for b in (latest or {}).get("content") or [] if isinstance(b, dict))
+        inherited = _rule_domains(text)
+        if inherited and not found:
+            source = "history"
+        found = found | inherited
     if not found or len(found) > MAX_DOMAINS:
         return None
     return Route(frozenset(found), source)
@@ -302,10 +301,11 @@ def route_question(message: str, history=None, *, transcript=(), hint=None, enab
     rules (with follow-ups); else the small model (which fails open)."""
     if not enabled or not v2:
         return Route.all("off")
-    hinted = valid_domains(hint) if hint is not None else None
-    if hinted:
-        return Route(frozenset(hinted), "model")
     by_rules = route_by_rules(message, history)
     if by_rules is not None:
         return by_rules
+    if hint is not None:
+        # The chime-in call already asked the small model: use its domains, or everything.
+        hinted = valid_domains(hint)
+        return Route(frozenset(hinted), "model") if hinted else Route.all("fallback")
     return model(message, transcript)

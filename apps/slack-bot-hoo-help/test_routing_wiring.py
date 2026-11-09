@@ -49,7 +49,8 @@ def test_switch_off_is_all(monkeypatch):
 def test_routed_turn_builds_fewer_tools(monkeypatch):
     seen, built = run_query(monkeypatch, "what are the hours for fine arts today?", routing=True)
     assert set(seen["route"].domains) == {"library"} and seen["route"].source == "rules"
-    assert built == []
+    # every tool set is built (the route filters them), so more_tools can bring any back
+    assert set(built) == {"matomo", "atlassian", "citations"}
 
 
 def test_trace_records_route():
