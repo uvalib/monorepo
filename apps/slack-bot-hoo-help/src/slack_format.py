@@ -1307,7 +1307,7 @@ _MD_TABLE_LINE = re.compile(r"(?m)^[ \t]*\|.*(?:\n|$)")
 
 def _layout_owned(extra: List[Dict[str, Any]]) -> Tuple[bool, bool, bool, bool]:
     """(occupancy, hours, images, matomo): which code-built layouts the extra blocks hold."""
-    matomo_owned = any(b.get("block_id") == "matomo_report" for b in extra)
+    matomo_owned = any(str(b.get("block_id") or "").startswith("matomo_report") for b in extra)
     extra = [b for b in extra if not _is_matomo(b)]
     occ_owned = any(
         b.get("type") == "data_visualization"

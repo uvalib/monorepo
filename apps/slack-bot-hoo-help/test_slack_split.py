@@ -156,3 +156,33 @@ def test_failed_continuation_falls_back_to_text():
                      first_text="first", trace=SimpleNamespace(error=None))
     assert len(client.posts) + len(said) == 2
     assert "Corks and Curls" in (client.posts[1:] or said)[0]["text"]
+
+
+# ---- 2026-11-09 log review: replies Slack rejected ----------------------------------
+
+def test_block_ids_unique_within_each_message():
+    # Two Matomo traffic reports in one message both carried block_id matomo_report (invalid_blocks).
+    from test_matomo_blocks import TRAFFIC_SINGLE
+    from slack_blocks import blocks_from_tool_steps
+    steps = [SimpleNamespace(tool_name="matomo_traffic", output=TRAFFIC_SINGLE, status="success", input={}),
+             SimpleNamespace(tool_name="matomo_traffic", output=TRAFFIC_SINGLE.replace("2026-10", "2025-10"),
+                             status="success", input={})]
+    for piece in split_messages(blocks_from_tool_steps(steps)):
+        ids = [b["block_id"] for b in piece if b.get("block_id")]
+        assert len(ids) == len(set(ids)) and len(ids) >= 2
+
+
+def test_long_section_split_under_3000():
+    lines = "\n".join(f"{i}    Some citation title number {i}    Not found    -" for i in range(120))
+    pieces = split_messages([sec("Here's the raw TSV:"), sec("```\n" + lines + "\n```")])
+    texts = [b["text"]["text"] for p in pieces for b in p if b["type"] == "section"]
+    assert all(len(t) <= 3000 for t in texts) and len(texts) >= 3
+    code = [t for t in texts[1:]]
+    assert all(t.startswith("```") and t.endswith("```") for t in code)
+    assert "119    Some citation title number 119" in "".join(code)
+
+
+def test_long_plain_section_split_on_lines():
+    pieces = split_messages([sec("\n".join("word " * 20 for _ in range(60)))])
+    texts = [b["text"]["text"] for p in pieces for b in p]
+    assert all(len(t) <= 3000 for t in texts) and len(texts) == 3

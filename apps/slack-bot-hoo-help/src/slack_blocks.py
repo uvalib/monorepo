@@ -1355,10 +1355,73 @@ def _trim_dividers(piece: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     return piece
 
 
+_SECTION_MAX = 2900  # Slack: section text under 3001 characters; leaves room for code fences
+
+
+def _split_text(text: str, limit: int = _SECTION_MAX) -> List[str]:
+    """Text in pieces of at most `limit` characters, cut at line breaks where possible. A code
+    block that spans pieces is closed and reopened, so each piece renders on its own."""
+    fenced = text.startswith("```") and text.rstrip().endswith("```") and len(text) > 6
+    body = text.strip()[3:-3].strip("\n") if fenced else text
+    room = limit - (8 if fenced else 0)
+    out: List[str] = []
+    buf = ""
+    for line in body.split("\n"):
+        while len(line) > room:
+            if buf:
+                out.append(buf)
+                buf = ""
+            out.append(line[:room])
+            line = line[room:]
+        candidate = f"{buf}\n{line}" if buf else line
+        if len(candidate) > room:
+            out.append(buf)
+            buf = line
+        else:
+            buf = candidate
+    if buf or not out:
+        out.append(buf)
+    return [f"```\n{p}\n```" for p in out] if fenced else out
+
+
+def _fit_sections(blocks: Sequence[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """Sections over Slack's text limit become several sections (e.g. a pasted TSV in a code block)."""
+    out: List[Dict[str, Any]] = []
+    for b in blocks:
+        text = (b.get("text") or {}).get("text") if b.get("type") == "section" and isinstance(b.get("text"), dict) else None
+        if not isinstance(text, str) or len(text) <= 3000:
+            out.append(b)
+            continue
+        for i, piece in enumerate(_split_text(text)):
+            nb = {k: v for k, v in b.items() if k not in ("text", "block_id", "accessory", "fields")}
+            nb["text"] = {**b["text"], "text": piece}
+            if i == 0:
+                nb.update({k: b[k] for k in ("block_id", "accessory", "fields") if k in b})
+            out.append(nb)
+    return out
+
+
+def _unique_block_ids(piece: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """Slack rejects a message whose blocks repeat a block_id (two Matomo reports in one message)."""
+    seen: Dict[str, int] = {}
+    out = []
+    for b in piece:
+        bid = b.get("block_id")
+        if isinstance(bid, str) and bid:
+            n = seen.get(bid, 0) + 1
+            seen[bid] = n
+            if n > 1:
+                b = {**b, "block_id": f"{bid}_{n}"[:255]}
+        out.append(b)
+    return out
+
+
 def split_messages(blocks: Sequence[Dict[str, Any]], *, max_blocks: int = MAX_BLOCKS, max_viz: int = MAX_VIZ,
                    max_messages: int = MAX_MESSAGES) -> List[List[Dict[str, Any]]]:
     """The reply's blocks as one or more messages, each within Slack's limits (one table, two charts,
-    50 blocks). A table or chart that starts a new message takes the blocks that introduce it along."""
+    50 blocks, 3000-character sections, unique block ids). A table or chart that starts a new message
+    takes the blocks that introduce it along."""
+    blocks = _fit_sections(blocks)
     pieces: List[List[Dict[str, Any]]] = []
     cur: List[Dict[str, Any]] = []
     tables = charts = 0
@@ -1389,7 +1452,7 @@ def split_messages(blocks: Sequence[Dict[str, Any]], *, max_blocks: int = MAX_BL
     cur = _trim_dividers(cur)
     if cur:
         pieces.append(cur)
-    return pieces
+    return [_unique_block_ids(p) for p in pieces]
 
 
 def blocks_plain_text(piece: Sequence[Dict[str, Any]]) -> str:
