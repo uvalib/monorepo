@@ -1172,7 +1172,7 @@ def blocks_from_tool_steps(
     foot: List[FootTraffic] = []
     image_pages: List[List[Dict[str, str]]] = []
     matomo_steps: List[Tuple[str, str]] = []
-    citation_output = ""
+    citation_outputs: List[str] = []
     for step in steps:
         name = step_leaf(step)
         text = _usable_output(step)
@@ -1194,7 +1194,8 @@ def blocks_from_tool_steps(
             elif name.startswith("matomo_"):
                 matomo_steps.append((name, text))
             elif name == "check_citations":
-                citation_output = text  # the last one: a retry replaces the first
+                if text not in citation_outputs:  # an exact repeat renders once
+                    citation_outputs.append(text)
             elif "image" in name:
                 hits = parse_image_hits(text)
                 if hits:
@@ -1269,14 +1270,16 @@ def blocks_from_tool_steps(
                 viz_left -= sum(1 for b in mb if b.get("type") == "data_visualization")
                 blocks.extend(mb)
 
-    if citation_output:
+    if citation_outputs:
         from citation_blocks import citation_blocks
 
-        cb = citation_blocks(citation_output)
-        if cb:
-            if blocks:
-                blocks.append(divider_block())
-            blocks.extend(cb)
+        # Every check in the turn (rows 1–100 and 101–150): the model's own tables are dropped.
+        for output in citation_outputs:
+            cb = citation_blocks(output)
+            if cb:
+                if blocks:
+                    blocks.append(divider_block())
+                blocks.extend(cb)
 
     if images:
         if blocks:

@@ -367,7 +367,7 @@ Guidelines:
 - Always be polite, helpful, and concise.
 - Choose the right tool for the question (hours → {{tool:get_library_hours}}; images → image KB; books → catalog; policies → uvalib web).
 - In a follow-up, relative dates ("previous month", "the week before", "the next one") are relative to the period being discussed in the thread, not to today: after a June report, "previous month?" means May. Name the dates you used.
-- To check a list of items against the catalog (a reading list or bibliography), search several at once: up to 5 catalog calls in one step. When a citation's title isn't found, also search by its author and mention any other edition or translation UVA has (often the original-language edition). Say which items you haven't checked yet. Never state that UVA owns an item, or give a call number or Virgo link, unless this turn's tool results or the thread show it.
+- When check_citations isn't available, search several at once to check a list of items against the catalog (a reading list or bibliography): up to 5 catalog calls in one step. When a citation's title isn't found, also search by its author and mention any other edition or translation UVA has (often the original-language edition). Say which items you haven't checked yet. Never state that UVA owns an item, or give a call number or Virgo link, unless this turn's tool results or the thread show it.
 - For a list of citations (a reading list or bibliography), call check_citations once with all of them (up to 100), keeping their numbering; then summarize in 2–4 sentences without repeating the table, naming any other edition or translation it lists.
 - Never paste CSV, TSV or JSON data as text: when someone wants a file, it is attached automatically from Hoo Helper's tables.
 - Format responses for Slack mrkdwn (NOT full Markdown):
@@ -591,6 +591,18 @@ def _input_strings(value: Any, depth: int = 0) -> List[str]:
     return []
 
 
+def _citation_check_links(output: str) -> List[str]:
+    """Virgo record links from a check_citations table's "Virgo link" column."""
+    from slack_blocks import parse_markdown_table
+
+    headers, rows = parse_markdown_table(output)
+    if "Virgo link" not in headers:
+        return []
+    col = headers.index("Virgo link")
+    return [r[col] for r in rows if col < len(r)
+            and r[col].startswith("https://search.lib.virginia.edu/sources/uva_library/items/")]
+
+
 def _link_sources(trace: Any) -> Tuple[List[str], List[str], set, List[str]]:
     """This turn's tool outputs (the only place a non-library link may come from); the URLs in them
     reported as-is without a probe (Slack channel listings, Virgo records, uvalib GitHub links); the
@@ -616,7 +628,10 @@ def _link_sources(trace: Any) -> Tuple[List[str], List[str], set, List[str]]:
         if name.endswith("list_slack_channel"):
             trusted.extend(extract_urls(str(out)))
         # Virgo record links come straight from the catalog (virgo_links adds them to replies).
-        if is_catalog_tool(name) or name == "check_citations":
+        if name == "check_citations":
+            # Only the Virgo link column: the Citation column is the person's own text.
+            trusted.extend(_citation_check_links(str(out)))
+        elif is_catalog_tool(name):
             trusted.extend(u for u in extract_urls(str(out))
                            if u.startswith("https://search.lib.virginia.edu/sources/uva_library/items/"))
         # Private uvalib repos answer 404 without a login: GitHub tool links are reported as-is.

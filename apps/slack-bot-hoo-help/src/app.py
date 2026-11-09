@@ -21,6 +21,7 @@ from __future__ import annotations
 import json
 import logging
 import os
+import re
 import threading
 import time
 import uuid
@@ -330,11 +331,14 @@ def handle_user_query(
     # tools posted in the thread; a bare request with no such table can't be met.
     asks_file_now = bool(file_format(cleaned_text))
     thread_tables = (history_meta.get("data_tables") or []) if asks_file_now else []
-    bare_request = asks_file_now and len(cleaned_text.split()) <= 6
+    bare_request = asks_file_now and _bare_file_request(cleaned_text)
+    # A citation check's Slack table shows short citations and record ids: rerun it for the full data.
+    rerun_citations = bool(thread_tables) and thread_tables[-1].title == "Citation check"
     extra_context = [
         identity_line(directory.get(user_id)),
         unanswered_turns_line(history_meta.get("unanswered_turns") or []),
-        file_context_line(file_fmt, available=bool(thread_tables) or not bare_request),
+        file_context_line(file_fmt, available=bool(thread_tables) or not bare_request,
+                          rerun_citations=rerun_citations),
     ] + slack_lines
 
     reply_deadline = (_INVOCATION_DEADLINE - REPLY_RESERVE_SEC) if _INVOCATION_DEADLINE else None
@@ -355,7 +359,7 @@ def handle_user_query(
             github_tools_for_env(),
             _matomo_tools(),
             citation_tools_for_env(gateway_call=getattr(getattr(agent, "gateway_client", None), "call_tool", None),
-                                   v2=_gateway_is_v2),
+                                   v2=_gateway_is_v2, deadline=reply_deadline),
         ),
     )
     if reply_deadline is not None:
@@ -490,6 +494,18 @@ def _upload(client, channel_id, thread_ts, trace, content, filename, title) -> N
         if "missing_scope" in str(e):
             _post_note(client, channel_id, thread_ts,
                        "_I couldn't attach the file: the Slack app needs the `files:write` scope._")
+
+
+_FILE_REQUEST_WORDS = frozenset(
+    "csv tsv excel xlsx json ris zotero file files spreadsheet download please pls can could would i you "
+    "me get give want need a an the as in it this that of yes yeah ok okay sure to send make export them "
+    "those these thanks thank tab separated".split())
+
+
+def _bare_file_request(text: str) -> bool:
+    """Does the message only ask for a file ("csv please"), with nothing about what data to use?"""
+    words = re.findall(r"[a-z']+", (text or "").lower())
+    return bool(words) and all(w in _FILE_REQUEST_WORDS for w in words)
 
 
 def _post_one(client, kwargs: Dict[str, Any], trace) -> bool:

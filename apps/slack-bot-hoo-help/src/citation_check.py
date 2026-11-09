@@ -38,6 +38,9 @@ _GATEWAY_ERRORS = ("Error", "Tool Error", "Gateway Tool Invocation Error", "Tool
 
 EXACT, LIKELY, LIKELY_WITH_AUTHOR = 0.80, 0.50, 0.40
 MIN_WORDS_WITHOUT_AUTHOR = 4  # results carry no year: a short title alone can't be "exact"
+# Auction houses reuse sale titles every season and results carry no sale number: at most "likely".
+_AUCTION = re.compile(r"(?i)\b(?:sale|lot|auction|sotheby'?s|christie'?s|phillips|bonhams)\b")
+DEADLINE_RESERVE_SEC = 25.0  # left after the check for the model's summary and posting
 STOPWORDS = frozenset("the a an of and or de la le les du des el y in on for to with".split())
 
 _YEAR = re.compile(r"\b(1[5-9]\d\d|20\d\d)\b")
@@ -165,6 +168,8 @@ def match(cite: Citation, rec: Record) -> str:
     surname = significant_words(cite.surname)
     author_ok = bool(surname) and surname <= significant_words(rec.author)
     if full >= EXACT:
+        if _AUCTION.search(cite.text):
+            return "likely"
         if (cite.surname and author_ok) or (not cite.surname and len(words) >= MIN_WORDS_WITHOUT_AUTHOR):
             return "exact"
         return "likely"
@@ -200,8 +205,12 @@ class CitationTools:
     """check_citations: the whole list in one call; catalog searches in parallel within a budget."""
 
     def __init__(self, gateway_call: Callable[[str, dict], str], v2: Callable[[], bool],
-                 clock: Callable[[], float] = time.monotonic, budget: float = BUDGET_SEC):
+                 clock: Callable[[], float] = time.monotonic, budget: float = BUDGET_SEC,
+                 deadline: Optional[float] = None):
+        """`deadline` (time.monotonic()): when the reply must be ready; the check stops early enough
+        to leave DEADLINE_RESERVE_SEC for the summary."""
         self.gateway_call, self.v2, self.clock, self.budget = gateway_call, v2, clock, budget
+        self.deadline = deadline
 
     def tool_specs(self) -> List[Dict[str, Any]]:
         if not self.v2():
@@ -235,6 +244,8 @@ class CitationTools:
         extra = max(len(cites) - MAX_CITATIONS, 0)
         cites = cites[:MAX_CITATIONS]
         rows = self._check_all([parse_citation(c) for c in cites])
+        if all(r.match == "search failed" for r in rows):
+            return "Error: the catalog search isn't responding; try again in a few minutes."
         counts = {v: sum(1 for r in rows if r.verdict == v) for v in ("Yes", "Likely — check", "No", "Not checked")}
         lines = [f"Citation check — {len(cites)} citations: {counts['Yes']} held, {counts['Likely — check']} likely "
                  f"(check), {counts['No']} not found, {counts['Not checked']} not checked", "", HEADER,
@@ -293,7 +304,10 @@ class CitationTools:
         pool = ThreadPoolExecutor(max_workers=WORKERS)
         try:
             futures = [pool.submit(self._check_one, c) for c in cites]
-            done, _ = futures_wait(futures, timeout=max(self.budget, 0.0))
+            budget = self.budget
+            if self.deadline is not None:
+                budget = min(budget, self.deadline - time.monotonic() - DEADLINE_RESERVE_SEC)
+            done, _ = futures_wait(futures, timeout=max(budget, 0.5))
             rows = []
             for f in futures:
                 if f in done:
@@ -312,9 +326,9 @@ class CitationTools:
             pool.shutdown(wait=False, cancel_futures=True)
 
 
-def citation_tools_for_env(env=None, *, gateway_call=None, v2=None) -> Optional[CitationTools]:
+def citation_tools_for_env(env=None, *, gateway_call=None, v2=None, deadline=None) -> Optional[CitationTools]:
     """The citation check for this turn, or None (switched off with ENABLE_CITATION_CHECK=false, or no gateway)."""
     env = os.environ if env is None else env
     if str(env.get("ENABLE_CITATION_CHECK", "true")).strip().lower() == "false" or gateway_call is None:
         return None
-    return CitationTools(gateway_call, v2=v2 or (lambda: True))
+    return CitationTools(gateway_call, v2=v2 or (lambda: True), deadline=deadline)

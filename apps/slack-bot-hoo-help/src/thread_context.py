@@ -280,6 +280,7 @@ def extract_thread_history(
         seen_image_urls: List[str] = []
         from spreadsheet import tables_from_blocks  # here: spreadsheet imports slack_format
         data_tables: List[Any] = []
+        last_was_bot = False
 
         for m in messages:
             m_ts = m.get("ts")
@@ -298,10 +299,19 @@ def extract_thread_history(
             ):
                 is_our_thread = True
                 seen_image_urls.extend(image_urls_from_slack_message(m))
-                data_tables.extend(tables_from_blocks(m.get("blocks") or []))
+                for table in tables_from_blocks(m.get("blocks") or []):
+                    # One citation check posted as several messages is one table.
+                    prev = data_tables[-1] if data_tables else None
+                    if (prev is not None and last_was_bot and prev.title == table.title == "Citation check"
+                            and prev.headers == table.headers):
+                        prev.rows.extend(table.rows)
+                    else:
+                        data_tables.append(table)
             elif text_mentions_bot(m.get("text") or "", bot_user_id):
                 is_our_thread = True
 
+            from_bot = is_from_our_bot(m, bot_user_id=bot_user_id, bot_app_bot_id=bot_app_bot_id)
+            last_was_bot = from_bot
             txt = strip_mention_prefix(m.get("text") or "", bot_user_id)
             if not txt:
                 continue

@@ -66,9 +66,13 @@ def requested_format(user_text: str, history: Optional[Iterable[Dict[str, Any]]]
     return None
 
 
-def file_context_line(fmt: Optional[str], available: bool = True) -> str:
+def file_context_line(fmt: Optional[str], available: bool = True, rerun_citations: bool = False) -> str:
     """One system-prompt line so the model never claims a file that won't come (or denies one that will).
     `available=False`: there is no tool-built table to make the file from (see app.handle_user_query)."""
+    if fmt and rerun_citations:
+        return (f"They want a {FORMAT_NAMES[fmt]} file of the citation check in this thread: call "
+                "check_citations again with the same citations (from the thread, keeping their numbering) so "
+                "the file has the full citations and links. The file is attached automatically; then say so.")
     if fmt and not available:
         return (f"They want a {FORMAT_NAMES[fmt]} file, but there is no table from Hoo Helper's tools in this "
                 "thread to build it from. Say so, and don't paste the data as CSV or TSV text.")

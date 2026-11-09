@@ -186,5 +186,11 @@ def tables_from_blocks(blocks: Iterable[Dict[str, Any]]) -> List[SheetTable]:
         else:
             name = "Citation check" if citations else (title or "HooHelp data")
             tables.append(SheetTable(name, rows[0], rows[1:], plain=not bid.startswith("data_table")))
+        if citations and "Virgo link" in rows[0]:
+            # The Slack table shows record ids; files get the full Virgo link.
+            col = rows[0].index("Virgo link")
+            for row in tables[-1].rows:
+                if col < len(row) and re.fullmatch(r"[\w.:-]+", row[col] or "") and row[col] != "—":
+                    row[col] = f"https://search.lib.virginia.edu/sources/uva_library/items/{row[col]}"
         last_citations = citations
     return tables

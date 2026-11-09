@@ -44,6 +44,8 @@ def citation_blocks(output: str) -> List[Dict[str, Any]]:
             r[1] = _short(r[1])
         if len(r) > 5:
             r[5] = _item_id(r[5])
+        if len(r) > 6:
+            r[6] = _short(r[6])
         shown.append(r)
     blocks: List[Dict[str, Any]] = [{**header_block(head), "block_id": "citations_report"}]
     for n, start in enumerate(range(0, len(shown), TABLE_ROWS), 1):
