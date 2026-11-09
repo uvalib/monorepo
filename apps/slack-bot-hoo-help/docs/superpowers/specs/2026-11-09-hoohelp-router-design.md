@@ -67,6 +67,11 @@ If Bedrock's prompt caching (cache points in Converse) works for `minimax.minima
 - **Experiment:** one Converse call with a `cachePoint` after the system prompt, then the same call again. Read `usage.cacheReadInputTokens`.
 - **If caching isn't supported,** routing alone carries the savings.
 
+**Result (2026-11-09):** not supported.
+- Converse with a `cachePoint` after the system prompt, or after the tools, returns `AccessDeniedException: You invoked an unsupported model or your request did not allow prompt caching` for `minimax.minimax-m2.5`.
+- The account itself allows caching: the same request to `us.amazon.nova-lite-v1:0` succeeded, with `cacheWriteInputTokens: 7454`.
+- Routing (Phase 0 shipped: GitHub gate, −35% input tokens on non-code questions; then Phase 2) carries the savings. Caching would need a different model (e.g. Claude or Nova), which is a separate decision.
+
 ### Phase 2: the router
 
 - **Keyword rules first.** Clear signals pick domains directly: hours/open/occupancy/busy → `library`; book/title/author/call number/Virgo/"does UVA have" or a pasted citation list → `catalog`; visits/pageviews/Matomo/annual report → `stats`; bus/route → `transit`; finding aid/papers/collection → `archives`; Jira/Confluence/ticket/page → `atlassian`; Slack/thread/channel → `slack`.
