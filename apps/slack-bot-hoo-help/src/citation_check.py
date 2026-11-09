@@ -26,6 +26,10 @@ MAX_CITATIONS = 100
 WORKERS = 8
 BUDGET_SEC = 60.0
 OTHER_WORKS_MAX = 2
+# Another work by the author is shown only when its title shares a word's consonant outline with
+# the citation's (cognates: voodoo/vaudou "vd", spirit/esprit "sprt", peintres "pntrs"). Letter
+# likeness was too noisy on real data (spirit/saint scored above voodoo/vaudou).
+MIN_WORD = 5
 HEADER = ("| # | Citation | UVA has it? | Match | Location / call number | Virgo link | "
           "Other editions or works by author |")
 NOTE = ('Auction catalogs, journal articles and single journal issues usually aren\'t catalogued as their own '
@@ -50,6 +54,7 @@ class Citation:
     surname: str
     title: str
     year: str
+    given: str = ""  # the author's first name, when the citation has "Surname, Given"
 
 
 @dataclass
@@ -97,10 +102,15 @@ def parse_citation(text: str) -> Citation:
     else:
         end = _author_end(rest)
         title = rest[:end] if end > 0 else rest
-    surname = ""
+    surname = given = ""
     if author:
-        surname = author.split(",")[0].strip() if "," in author else author.split()[-1]
-    return Citation(text=text, author=author, surname=surname, title=_clean_title(title), year=year)
+        if "," in author:
+            surname, _, rest_name = author.partition(",")
+            surname = surname.strip()
+            given = (rest_name.split() or [""])[0].strip(".,")
+        else:
+            surname = author.split()[-1]
+    return Citation(text=text, author=author, surname=surname, title=_clean_title(title), year=year, given=given)
 
 
 def parse_results(text: str) -> List[Record]:
@@ -125,6 +135,17 @@ def parse_results(text: str) -> List[Record]:
 def significant_words(text: str) -> Set[str]:
     plain = "".join(c for c in unicodedata.normalize("NFKD", text or "") if not unicodedata.combining(c))
     return {w for w in re.findall(r"[a-z0-9]+", plain.lower()) if w not in STOPWORDS}
+
+
+def _outlines(title: str) -> Set[str]:
+    return {o for o in (re.sub(r"[aeiouy]", "", w) for w in significant_words(title)
+                        if len(w) >= MIN_WORD and not w.isdigit()) if len(o) >= 2}
+
+
+def related_titles(a: str, b: str) -> bool:
+    """Do two titles share a word's consonant outline? Catches a translation's cognates
+    ('Voodoo' / 'Vaudou') and shared words, not chance letter overlaps."""
+    return bool(_outlines(a) & _outlines(b))
 
 
 def _contained(part: Set[str], whole: Set[str]) -> float:
@@ -243,14 +264,21 @@ class CitationTools:
                 by_author = self._search(cite.surname, "author")
                 best, quality = self._best(cite, by_author)
                 if best is None:
-                    others = [f"{r.title} ({r.item_id})" if r.item_id else r.title
-                              for r in by_author[:OTHER_WORKS_MAX]]
+                    others = self._other_works(cite, by_author)
         except _SearchFailed:
             return _Row(match="search failed")
         if best is None:
             return _Row(verdict="No", match="none", others=others)
         location = ", ".join(x for x in (best.location or best.library, best.call_number) if x)
         return _Row(verdict=_VERDICTS[quality], match=quality, location=location, link=best.url)
+
+    @staticmethod
+    def _other_works(cite: Citation, records: List[Record]) -> List[str]:
+        """Up to 2 related works by the same author (an original or translation, another edition)."""
+        given = significant_words(cite.given)
+        keep = [r for r in records
+                if (not given or given <= significant_words(r.author)) and related_titles(cite.title, r.title)]
+        return [f"{r.title} ({r.item_id})" if r.item_id else r.title for r in keep[:OTHER_WORKS_MAX]]
 
     @staticmethod
     def _best(cite: Citation, records: List[Record]):

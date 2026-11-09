@@ -120,6 +120,23 @@ def production_matomo_enabled(samconfig_path: str = SAMCONFIG, env=None) -> bool
     return bool(m) and m.group(1).lower() == "true"
 
 
+def _citation_tools(gateway):
+    """check_citations as production builds it: the gateway's catalog search, v2 gateway only."""
+    try:
+        from citation_check import citation_tools_for_env
+        from tool_names import is_v2_toolset
+
+        def v2() -> bool:
+            try:
+                return is_v2_toolset(t.get("name") or "" for t in gateway.list_tools())
+            except Exception:
+                return False
+        return citation_tools_for_env(gateway_call=gateway.call_tool, v2=v2)
+    except Exception as e:  # live cases still run; citation cases will fail on tools_any
+        print(f"Citation tools unavailable for live evals: {type(e).__name__}")
+        return None
+
+
 def _matomo_tools(gateway=None):
     """Matomo tools as production builds them (token from SSM), or None with a note."""
     if not production_matomo_enabled():
@@ -240,7 +257,8 @@ def _live(cases: list, model: str | None = None, outcomes: dict | None = None) -
 
     gateway = gateway_client()
     agent = HooHelpAgent(gateway_client=gateway)
-    local_tools = combined_local_tools(_atlassian_tools(), _github_tools(), _matomo_tools(gateway))
+    local_tools = combined_local_tools(_atlassian_tools(), _github_tools(), _matomo_tools(gateway),
+                                       _citation_tools(gateway))
     results = []
     for c in cases:
         if isinstance(c, CaseError):

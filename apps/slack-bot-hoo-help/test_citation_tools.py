@@ -146,3 +146,48 @@ def test_untrusted_and_trusted_links():
     trusted = _link_sources(SimpleNamespace(steps=[step]))[1]
     assert "https://search.lib.virginia.edu/sources/uva_library/items/u877894" in trusted
     assert not any("u999" in u for u in trusted)
+
+
+# ---- live eval 2026-11-09: "other works" listed the first author results, not related ones ----
+
+NOISY_AUTHOR = """## Matching items
+
+### 0. L'insurrection des Esclaves de Saint-Domingue, 22-23 Août 1791: Actes de la Table Ronde Internationale
+- **Author**: Hurbon, Laënnec
+- **Item ID**: `u3543443`
+
+### 1. Religions et Lien Social: l'église et l'état Moderne En Haïti
+- **Author**: Hurbon, Laënnec
+- **Item ID**: `u4031680`
+
+### 2. Le Barbare Imaginaire
+- **Author**: Hurbon, Laënnec
+- **Item ID**: `u2`
+
+### 3. Les Mystères du Vaudou
+- **Author**: Hurbon, Laënnec
+- **Item ID**: `u2160012`
+"""
+OTHER_RODMAN = """## Matching items
+
+### 1. Arms Transfers to Israel
+- **Author**: Rodman, David
+- **Item ID**: `u460473`
+"""
+
+
+def test_other_works_are_related_titles_by_the_same_author():
+    results = dict(RESULTS)
+    results[("author", "Hurbon")] = NOISY_AUTHOR
+    t, _ = make(Gateway(results))
+    r = rows(t.call(TOOL_CHECK_CITATIONS, {"citations": [HURBON]}))[0]
+    assert r.rstrip(" |").endswith("Les Mystères du Vaudou (u2160012)")
+    assert "Religions" not in r and "Barbare" not in r and "insurrection" not in r
+
+
+def test_other_works_skip_a_different_person_with_the_surname():
+    joy = "Rodman, Selden. _Where Art Is Joy: Haitian Art, the First Forty Years_. 1988."
+    results = {("author", "Rodman"): OTHER_RODMAN}
+    t, _ = make(Gateway(results))
+    r = rows(t.call(TOOL_CHECK_CITATIONS, {"citations": [joy]}))[0]
+    assert "Arms Transfers" not in r and r.rstrip().endswith("| — |")

@@ -1,0 +1,22 @@
+{
+  "id": "live-citation-check",
+  "category": "catalog",
+  "question": "Does UVA have these?\n1. Rodman, Selden. _The Miracle of Haitian Art_. Garden City, NY: Doubleday, 1974.\n2. Hurbon, Laënnec. _Voodoo: Search for the Spirit_. Translated by Lory Frankel. New York: Harry N. Abrams, 1995.\n3. _Latin American Art_. Sotheby's Sale 6301. November 1990.\n4. Rodman, Selden. _Where Art Is Joy: Haitian Art, the First Forty Years_. New York: Ruggles de Latour, 1988.\n5. Sullivan, Edward J., ed. _Continental Shifts: The Art of Edouard Duval-Carrié_. Miami: American Art Corporation, 2007.\n6. Drewal, Henry John, ed. _Mami Wata: Arts for Water Spirits in Africa and Its Diasporas_. Los Angeles: Fowler Museum, 2008.\n7. Malraux, André. _L'Intemporel_. Vol. 3 of _La métamorphose des dieux_. Paris: Gallimard, 1976.\n8. Lerebours, Michel Philippe. _Haïti et ses peintres de 1804 à 1980_. 2 vols. Port-au-Prince, 1989.\n9. Nicholls, David. _From Dessalines to Duvalier: Race, Colour and National Independence in Haiti_. New Brunswick: Rutgers University Press, 1996.\n10. Wolfe, Linda. _The Cooking of the Caribbean Islands_. New York: Time-Life Books, 1970.",
+  "recorded": null,
+  "expect": {},
+  "live": {
+    "tools_any": [
+      "check_citations"
+    ],
+    "phrases_any": [
+      "Mystères du Vaudou",
+      "Mysteres du Vaudou",
+      "Mystères du vaudou"
+    ],
+    "forbid": [
+      "u1108985",
+      "BL2530.V6 H8713"
+    ],
+    "max_seconds": 75
+  }
+}
