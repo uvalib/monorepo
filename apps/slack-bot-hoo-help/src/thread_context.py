@@ -278,6 +278,8 @@ def extract_thread_history(
         is_our_thread = False
         raw_history: List[Dict[str, Any]] = []
         seen_image_urls: List[str] = []
+        from spreadsheet import tables_from_blocks  # here: spreadsheet imports slack_format
+        data_tables: List[Any] = []
 
         for m in messages:
             m_ts = m.get("ts")
@@ -296,6 +298,7 @@ def extract_thread_history(
             ):
                 is_our_thread = True
                 seen_image_urls.extend(image_urls_from_slack_message(m))
+                data_tables.extend(tables_from_blocks(m.get("blocks") or []))
             elif text_mentions_bot(m.get("text") or "", bot_user_id):
                 is_our_thread = True
 
@@ -358,6 +361,7 @@ def extract_thread_history(
             messages, bot_user_id=bot_user_id, bot_app_bot_id=bot_app_bot_id, current_ts=current_ts
         )
         meta["seen_image_urls"] = uniq_seen
+        meta["data_tables"] = data_tables
         meta["reason"] = "ok" if is_our_thread else "bot_not_in_thread"
         return history, is_our_thread, meta
 

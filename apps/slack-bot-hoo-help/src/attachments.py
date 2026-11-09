@@ -17,6 +17,7 @@ from spreadsheet import SheetTable, build_xlsx, spreadsheet_filename
 
 _JSON = re.compile(r"(?i)\bjson\b")
 _CSV = re.compile(r"(?i)\bcsv\b")
+_TSV = re.compile(r"(?i)\btsv\b|\btab[- ]separated\b")
 _XLSX = re.compile(r"(?i)\b(?:excel|spreadsheets?|xlsx)\b")
 _RIS = re.compile(r"(?i)\b(?:ris|zotero|citation\s+file)\b")
 _FORMULA_START = ("=", "+", "-", "@", "\t", "\r")
@@ -36,15 +37,15 @@ def _requested(pattern: "re.Pattern[str]", text: str) -> bool:
 
 
 def file_format(user_text: str) -> Optional[str]:
-    """'ris' | 'json' | 'csv' | 'xlsx' when the question asks for a file, else None."""
+    """'ris' | 'json' | 'tsv' | 'csv' | 'xlsx' when the question asks for a file, else None."""
     text = user_text or ""
-    for fmt, pattern in (("ris", _RIS), ("json", _JSON), ("csv", _CSV), ("xlsx", _XLSX)):
+    for fmt, pattern in (("ris", _RIS), ("json", _JSON), ("tsv", _TSV), ("csv", _CSV), ("xlsx", _XLSX)):
         if _requested(pattern, text):
             return fmt
     return None
 
 
-FORMAT_NAMES = {"ris": "RIS (Zotero)", "json": "JSON", "csv": "CSV", "xlsx": "Excel"}
+FORMAT_NAMES = {"ris": "RIS (Zotero)", "json": "JSON", "csv": "CSV", "tsv": "TSV", "xlsx": "Excel"}
 
 
 def requested_format(user_text: str, history: Optional[Iterable[Dict[str, Any]]] = None) -> Optional[str]:
@@ -65,8 +66,12 @@ def requested_format(user_text: str, history: Optional[Iterable[Dict[str, Any]]]
     return None
 
 
-def file_context_line(fmt: Optional[str]) -> str:
-    """One system-prompt line so the model never claims a file that won't come (or denies one that will)."""
+def file_context_line(fmt: Optional[str], available: bool = True) -> str:
+    """One system-prompt line so the model never claims a file that won't come (or denies one that will).
+    `available=False`: there is no tool-built table to make the file from (see app.handle_user_query)."""
+    if fmt and not available:
+        return (f"They want a {FORMAT_NAMES[fmt]} file, but there is no table from Hoo Helper's tools in this "
+                "thread to build it from. Say so, and don't paste the data as CSV or TSV text.")
     if not fmt:
         return ("No file will be attached to this reply (they haven't asked for one), so don't say one is "
                 "attached. For long lists, offer the full list as a CSV, JSON, Excel or RIS (Zotero) file — it won't be "
@@ -78,12 +83,18 @@ def file_context_line(fmt: Optional[str]) -> str:
                 "catalog item your searches return this turn). list_slack_channel links or files go in too. "
                 "Then say the file is attached and how many items it covers.")
     return (f"They want a {FORMAT_NAMES[fmt]} file: it is attached automatically, built from this turn's "
-            "table tools (list_slack_channel, gate counts). Call the tool for the data they want in this turn, "
-            "then say the file is attached.")
+            "table tools (list_slack_channel, gate counts, check_citations) or, when none runs, from the latest "
+            "table Hoo Helper's tools posted in this thread. Call the tool for the data they want if it isn't "
+            "in the thread yet, then say the file is attached.")
 
 
 def _records(table: SheetTable) -> List[dict]:
     return [dict(zip(table.headers, row)) for row in table.rows]
+
+
+def _tsv_cell(value) -> str:
+    """One TSV cell: tabs and line breaks become spaces, so every row stays one line."""
+    return " ".join(str(value if value is not None else "").split())
 
 
 def _csv_row(table: SheetTable, row: List[str]) -> List[str]:
@@ -149,6 +160,17 @@ def build_file(fmt: str, tables: List[SheetTable]) -> Tuple[bytes, str, str]:
         docs = [{"title": t.title, "rows": _records(t)} for t in tables]
         payload = docs[0] if len(docs) == 1 else docs
         return json.dumps(payload, indent=2, ensure_ascii=False).encode("utf-8"), f"{stem}.json", title
+    if fmt == "tsv":
+        buf = io.StringIO()
+        writer = csv.writer(buf, delimiter="\t", lineterminator="\n", quoting=csv.QUOTE_MINIMAL)
+        for i, table in enumerate(tables):
+            if len(tables) > 1:
+                if i:
+                    writer.writerow([])
+                writer.writerow([_tsv_cell(table.title)])
+            writer.writerow([_tsv_cell(h) for h in table.headers])
+            writer.writerows([_tsv_cell(v) for v in _csv_row(table, row)] for row in table.rows)
+        return buf.getvalue().encode("utf-8-sig"), f"{stem}.tsv", title
     if fmt == "csv":
         buf = io.StringIO()
         writer = csv.writer(buf)

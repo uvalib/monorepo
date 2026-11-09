@@ -13,7 +13,7 @@ import io
 import re
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Any, Iterable, List, Optional
+from typing import Any, Dict, Iterable, List, Optional
 
 from slack_blocks import parse_markdown_table
 from tool_names import legacy_leaf
@@ -21,8 +21,10 @@ from slack_format import split_markdown_tables
 
 # Tools whose output tables are worth exporting (hours/spaces are not).
 TABLE_TOOLS = frozenset(
-    {"get_traffic_by_period", "get_entrance_traffic", "get_occupancy_report"}
+    {"get_traffic_by_period", "get_entrance_traffic", "get_occupancy_report", "check_citations"}
 )
+# Code-built Slack table blocks that may become files later in the thread (never the model's tables).
+DATA_BLOCK_PREFIXES = ("data_table", "citations_table", "matomo_")
 
 _WANTS = re.compile(r"(?i)\b(?:excel|spreadsheets?|xlsx|csv)\b")
 _NUMBER = re.compile(r"^-?[\d,]+(?:\.\d+)?$")
@@ -59,6 +61,13 @@ def tables_from_steps(steps: Optional[Iterable[Any]]) -> List[SheetTable]:
         if legacy_leaf(_step_attr(step, "tool_name") or "", _step_attr(step, "input")) not in TABLE_TOOLS:
             continue
         output = str(_step_attr(step, "output") or "")
+        leaf = legacy_leaf(_step_attr(step, "tool_name") or "", _step_attr(step, "input"))
+        if leaf == "check_citations":
+            headers, rows = parse_markdown_table(output)
+            if headers and rows:
+                # People's text: cells stay exact strings, never numbers or formulas.
+                tables.append(SheetTable("Citation check", headers, rows, plain=True))
+            continue
         title = ""
         for line in output.splitlines():
             if line.startswith("#"):
@@ -149,3 +158,33 @@ def spreadsheet_filename(tables: List[SheetTable]) -> str:
     title = tables[0].title if tables else "hoohelp-data"
     slug = re.sub(r"[^a-z0-9]+", "-", title.lower()).strip("-")[:80] or "hoohelp-data"
     return f"{slug}.xlsx"
+
+
+
+def tables_from_blocks(blocks: Iterable[Dict[str, Any]]) -> List[SheetTable]:
+    """Tables Hoo Helper's code posted (block_id data_table*, citations_table*, matomo_*), for a file
+    asked for later in the thread. Consecutive citations_table blocks (one check split into messages)
+    become one table. The model's own tables carry no such id and are never included."""
+    tables: List[SheetTable] = []
+    title = ""
+    last_citations = False
+    for b in blocks or []:
+        if not isinstance(b, dict):
+            continue
+        if b.get("type") == "header":
+            title = str((b.get("text") or {}).get("text") or "")
+            continue
+        bid = str(b.get("block_id") or "")
+        if b.get("type") != "table" or not bid.startswith(DATA_BLOCK_PREFIXES):
+            continue
+        rows = [[str(c.get("text") or "") for c in row] for row in b.get("rows") or []]
+        if len(rows) < 2:
+            continue
+        citations = bid.startswith("citations_table")
+        if citations and last_citations and tables and tables[-1].headers == rows[0]:
+            tables[-1].rows.extend(rows[1:])
+        else:
+            name = "Citation check" if citations else (title or "HooHelp data")
+            tables.append(SheetTable(name, rows[0], rows[1:], plain=not bid.startswith("data_table")))
+        last_citations = citations
+    return tables

@@ -45,7 +45,7 @@ from session_trace import SessionTrace
 from slack_blocks import blocks_plain_text, flatten_carousels, split_messages
 import chime_in
 from slack_format import format_for_slack, rewrite_urls_in_blocks
-from attachments import build_file, citable_tables, file_context_line, requested_format
+from attachments import build_file, citable_tables, file_context_line, file_format, requested_format
 from tool_names import is_v2_toolset
 from virgo_citations import MAX_ITEMS as MAX_CITED, virgo_ris
 from virgo_links import add_virgo_links
@@ -326,10 +326,15 @@ def handle_user_query(
     )
     # "as a CSV" earlier in the thread still applies to "now all of them".
     file_fmt = requested_format(cleaned_text, conversation_history)
+    # A file asked for in this message ("csv please") can come from the latest table Hoo Helper's
+    # tools posted in the thread; a bare request with no such table can't be met.
+    asks_file_now = bool(file_format(cleaned_text))
+    thread_tables = (history_meta.get("data_tables") or []) if asks_file_now else []
+    bare_request = asks_file_now and len(cleaned_text.split()) <= 6
     extra_context = [
         identity_line(directory.get(user_id)),
         unanswered_turns_line(history_meta.get("unanswered_turns") or []),
-        file_context_line(file_fmt),
+        file_context_line(file_fmt, available=bool(thread_tables) or not bare_request),
     ] + slack_lines
 
     reply_deadline = (_INVOCATION_DEADLINE - REPLY_RESERVE_SEC) if _INVOCATION_DEADLINE else None
@@ -434,6 +439,7 @@ def handle_user_query(
                 [l.table for l in getattr(slack_tools, "listings", None) or []][-1:],
                 history=conversation_history,
                 user_text=cleaned_text,
+                thread_tables=thread_tables,
             )
     finally:
         if reacted and channel_id and ts:
@@ -581,12 +587,14 @@ def _attach_ris(client, channel_id, thread_ts, trace, tables, call_tool, history
 
 
 def _attach_file(client, channel_id, thread_ts, trace, fmt, listing_tables, call_tool=None,
-                 history=None, user_text="") -> None:
+                 history=None, user_text="", thread_tables=None) -> None:
     """Upload this turn's tool tables (Slack listings, gate counts) as the file the user asked for.
 
     call_tool: a gateway tool caller (default: the bot's own) for Virgo citations in RIS files.
     """
     tables = list(listing_tables or []) + tables_from_steps(getattr(trace, "steps", None))
+    if not tables and thread_tables:
+        tables = list(thread_tables)[-1:]  # the latest table Hoo Helper's tools posted in the thread
     if fmt == "ris":
         if call_tool is None:
             call_tool = getattr(getattr(agent, "gateway_client", None), "call_tool", None)

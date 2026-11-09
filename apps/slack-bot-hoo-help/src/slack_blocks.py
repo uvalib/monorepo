@@ -1149,6 +1149,16 @@ def image_hit_titles(steps: Optional[Iterable[Any]]) -> List[str]:
     return [t for t in titles if t]
 
 
+def _tag_data_tables(blocks: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """Code-built data tables carry block_id data_table_<n>, so a file can be made from them later."""
+    n = 0
+    for b in blocks:
+        if b.get("type") == "table" and not b.get("block_id"):
+            n += 1
+            b["block_id"] = f"data_table_{n}"
+    return blocks
+
+
 def blocks_from_tool_steps(
     steps: Optional[Iterable[Any]],
     *,
@@ -1231,13 +1241,13 @@ def blocks_from_tool_steps(
     if occupancy:
         if blocks:
             blocks.append(divider_block())
-        occ_blocks = occupancy_blocks(occupancy, viz_budget=viz_left)
+        occ_blocks = _tag_data_tables(occupancy_blocks(occupancy, viz_budget=viz_left))
         viz_left -= sum(1 for b in occ_blocks if b.get("type") == "data_visualization")
         blocks.extend(occ_blocks)
     elif foot:
         if blocks:
             blocks.append(divider_block())
-        foot_blocks = foot_traffic_blocks(foot, viz_budget=max(0, viz_left))
+        foot_blocks = _tag_data_tables(foot_traffic_blocks(foot, viz_budget=max(0, viz_left)))
         viz_left -= sum(1 for b in foot_blocks if b.get("type") == "data_visualization")
         blocks.extend(foot_blocks)
 
