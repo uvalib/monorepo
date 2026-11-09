@@ -9,9 +9,12 @@ question costs one step, not a wrong answer. See docs/superpowers/specs/2026-11-
 
 from __future__ import annotations
 
+import logging
 import re
 from dataclasses import dataclass
 from typing import Any, Dict, FrozenSet, List, Optional
+
+logger = logging.getLogger(__name__)
 
 ENABLE_GITHUB_TOOL = "enable_github_tools"
 
@@ -211,3 +214,89 @@ def domain_guidance(domains, v2: bool) -> str:
     from tool_names import render_prompt
 
     return render_prompt(SYSTEM_PROMPT_TEMPLATE, v2, domains=list(domains), blocks_only=True).strip()
+
+
+# ---- Phase 2: the model fallback (the chime-in model) -----------------------------------
+
+ROUTER_TIMEOUT_SEC = 3.0
+ROUTER_SYSTEM = (
+    "You route a question for a UVA Library assistant to the topics it needs. Topics: "
+    "library (hours, occupancy, rooms, equipment, events, directions), transit (buses), catalog (books, "
+    "media, citations, holdings), images (photos, pictures), site (library website, policies, services), "
+    "archives (special collections finding aids), wikipedia (general lists, bestsellers), slack (past "
+    "Slack conversations), atlassian (Jira tickets, Confluence pages), github (Library code, repos), "
+    "stats (website and Virgo usage statistics). Reply with JSON only: "
+    '{"domains": [up to 3 topic names], "confident": true or false}. When unsure, say confident false.')
+_JSON = re.compile(r"\{.*\}", re.S)
+
+
+def valid_domains(domains) -> Optional[List[str]]:
+    """1–MAX_DOMAINS known domain names, or None."""
+    if not isinstance(domains, list) or not domains or len(domains) > MAX_DOMAINS:
+        return None
+    if not all(isinstance(d, str) and d in DOMAINS for d in domains):
+        return None
+    return list(dict.fromkeys(domains))
+
+
+def parse_json_answer(text: str) -> Optional[Dict[str, Any]]:
+    import json
+
+    m = _JSON.search(text or "")
+    if not m:
+        return None
+    try:
+        value = json.loads(m.group(0))
+    except ValueError:
+        return None
+    return value if isinstance(value, dict) else None
+
+
+def route_by_model(message: str, transcript=(), *, client=None, model_id: Optional[str] = None,
+                   timeout: float = ROUTER_TIMEOUT_SEC) -> "Route":
+    """The small model's route; everything (Route.all, "fallback") on any problem or doubt."""
+    import os
+    from concurrent.futures import ThreadPoolExecutor
+
+    import chime_in
+
+    model_id = model_id or os.environ.get("ROUTER_MODEL_ID", chime_in.DEFAULT_CHIME_IN_MODEL_ID)
+    convo = "\n".join(f"{who}: {line}" for who, line in (transcript or [])[-4:])
+    prompt = (f"Recent thread:\n{convo}\n\n" if convo else "") + f"Question: {message}"
+
+    def ask() -> str:
+        c = client or chime_in._bedrock_client()
+        resp = c.converse(modelId=model_id, system=[{"text": ROUTER_SYSTEM}],
+                          messages=[{"role": "user", "content": [{"text": prompt}]}],
+                          **{**chime_in._request_settings(model_id), "inferenceConfig": {"maxTokens": 60, "temperature": 0}})
+        blocks = resp.get("output", {}).get("message", {}).get("content", []) or []
+        return " ".join(b.get("text", "") for b in blocks if isinstance(b, dict))
+
+    pool = ThreadPoolExecutor(max_workers=1)
+    try:
+        answer = pool.submit(ask).result(timeout=timeout)
+    except Exception as e:  # noqa: BLE001 — fail open
+        logger.info("router model unavailable (%s); routing everything", type(e).__name__)
+        return Route.all("fallback")
+    finally:
+        pool.shutdown(wait=False)
+    data = parse_json_answer(answer)
+    domains = valid_domains((data or {}).get("domains"))
+    if not data or domains is None or data.get("confident") is not True:
+        return Route.all("fallback")
+    return Route(frozenset(domains), "model")
+
+
+def route_question(message: str, history=None, *, transcript=(), hint=None, enabled: bool, v2: bool,
+                   model=route_by_model) -> "Route":
+    """The route for one question: off → everything; a valid hint from the chime-in call; keyword
+    rules (with follow-ups); else the small model (which fails open)."""
+    if not enabled or not v2:
+        return Route.all("off")
+    hinted = valid_domains(hint) if hint is not None else None
+    if hinted:
+        return Route(frozenset(hinted), "model")
+    by_rules = route_by_rules(message, history)
+    if by_rules is not None:
+        return by_rules
+    return model(message, transcript)

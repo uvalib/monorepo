@@ -137,17 +137,56 @@ def llm_judge(transcript: List[Tuple[str, str]], sender: str, text: str) -> bool
     return answer.startswith("YES")
 
 
-def should_reply(text: str, sender: str, snap: Snapshot, *, judge: Judge = llm_judge) -> Tuple[bool, str]:
+JUDGE_ROUTE_SYSTEM = JUDGE_SYSTEM.rsplit("Reply with exactly one word", 1)[0] + (
+    "Also name the topics a reply would need (library, transit, catalog, images, site, archives, wikipedia, "
+    "slack, atlassian, github, stats; at most 3). Reply with JSON only: "
+    '{"reply": true or false, "domains": [topics]}.')
+
+
+def llm_judge_and_route(transcript: List[Tuple[str, str]], sender: str, text: str) -> Tuple[bool, Optional[List[str]]]:
+    """The chime-in decision and the router's domains in one small-model call. Unreadable or no
+    answer: don't reply (and no domains, so routing sends everything)."""
+    from routing import parse_json_answer, valid_domains
+
+    try:
+        client = _bedrock_client()
+        convo = "\n".join(f"{speaker}: {line}" for speaker, line in transcript)
+        prompt = f"Thread so far:\n{convo}\n\nLAST message — {sender}: {text}\n\nShould Hoo Helper reply?"
+        model_id = os.environ.get("CHIME_IN_MODEL_ID", DEFAULT_CHIME_IN_MODEL_ID)
+        resp = client.converse(modelId=model_id, system=[{"text": JUDGE_ROUTE_SYSTEM}],
+                               messages=[{"role": "user", "content": [{"text": prompt}]}],
+                               **{**_request_settings(model_id), "inferenceConfig": {"maxTokens": 60, "temperature": 0}})
+        blocks = resp.get("output", {}).get("message", {}).get("content", []) or []
+        answer = " ".join(b.get("text", "") for b in blocks if isinstance(b, dict)).strip()
+    except Exception as e:  # noqa: BLE001
+        logger.warning("Chime-in judge failed (%s); staying silent", type(e).__name__)
+        return False, None
+    data = parse_json_answer(answer)
+    if data is None:
+        return answer.upper().startswith("YES"), None  # the old one-word format
+    return data.get("reply") is True, valid_domains(data.get("domains"))
+
+
+def should_reply_routed(text: str, sender: str, snap: Snapshot, *, judge=llm_judge_and_route):
+    """(reply?, reason, domains from the judge or None). The judge may return bool or (bool, domains)."""
     humans = set(snap.participants) | ({sender} if sender else set())
     if len(humans) <= 1:
-        return True, "one-on-one"
+        return True, "one-on-one", None
     if _ADDRESSED.search(text or ""):
-        return True, "addressed by name"
+        return True, "addressed by name", None
     if snap.last_from_bot and snap.bot_answered and snap.bot_answered == sender:
-        return True, "reply to bot"
+        return True, "reply to bot", None
     transcript, who = _labelled(snap.transcript, sender)
     try:
-        return (True, "judge: yes") if judge(transcript, who, text) else (False, "judge: no")
+        verdict = judge(transcript, who, text)
     except Exception as e:
         logger.warning("Chime-in judge failed (%s); staying silent", e)
-        return False, f"judge error: {type(e).__name__}"
+        return False, f"judge error: {type(e).__name__}", None
+    ok, domains = verdict if isinstance(verdict, tuple) else (bool(verdict), None)
+    return (True, "judge: yes", domains) if ok else (False, "judge: no", domains)
+
+
+def should_reply(text: str, sender: str, snap: Snapshot, *, judge: Judge = llm_judge) -> Tuple[bool, str]:
+    ok, reason, _ = should_reply_routed(text, sender, snap, judge=judge)
+    return ok, reason
+
