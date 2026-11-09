@@ -149,12 +149,75 @@ def _last_user_question(history: Optional[List[Dict[str, Any]]]) -> Tuple[str, L
     return "", []
 
 
+# "Yes" to Hoo Helper's own offer to keep looking ("Want me to continue with items 26–35?") is a
+# lookup: answered from memory, it invented holdings, call numbers and Virgo links (2026-11-09).
+_CONTINUE_RE = re.compile(
+    r"(?i)^\W*(?:yes|yeah|yep|yup|sure|ok(?:ay)?|please|go ahead|go for it|continue|keep going|proceed|"
+    r"next|do it|do that|do the next)\b")
+_OFFER_RE = re.compile(
+    r"(?i)\b(?:continue|next|search|check|look (?:up|for|into)|find|query|want me to|shall i|should i|"
+    r"would you like me to)\b")
+_CONTINUE_MAX_WORDS = 8
+
+
+def _turn_text(msg: Dict[str, Any]) -> str:
+    return " ".join(b["text"] for b in msg.get("content") or [] if isinstance(b, dict) and b.get("text"))
+
+
+def _accepts_offer(user_message: str, history: Optional[List[Dict[str, Any]]]) -> bool:
+    """A short "yes / go ahead / continue" answering an offer, in the last bot turn, to look more up."""
+    if len((user_message or "").split()) > _CONTINUE_MAX_WORDS or not _CONTINUE_RE.search(user_message or ""):
+        return False
+    for msg in reversed(history or []):
+        if msg.get("role") == "assistant":
+            text = _turn_text(msg)
+            return "?" in text and bool(_OFFER_RE.search(text))
+    return False
+
+
+_ITEM_URL = re.compile(r"https?://search\.lib\.virginia\.edu/sources/[\w-]+/items/([\w.:-]+)")
+# LC call numbers as catalog answers write them: N6606.R63, BL2530.V6 H8713 1995, LD5687.C7
+_CALL_NUMBER = re.compile(r"\b[A-Z]{1,3}\d{1,5}(?:\.\d+)?\s?\.[A-Z]\d+")
+
+
+def _ungrounded_catalog_claims(text: str, known_texts: List[str]) -> bool:
+    """Does the draft name catalog records (Virgo item links, call numbers) found nowhere in the
+    thread or this turn's tool results? Then it came from the model's memory."""
+    known = " ".join(t for t in known_texts if t)
+    squashed = re.sub(r"\s+", "", known)
+    for item_id in _ITEM_URL.findall(text or ""):
+        if item_id not in known:
+            return True
+    return any(re.sub(r"\s+", "", c) not in squashed for c in _CALL_NUMBER.findall(text or ""))
+
+
+def _drop_unseen_item_links(text: str, known_texts: List[str]) -> str:
+    """Virgo record links whose id isn't in the thread or this turn's tool results become plain text
+    (a link the catalog never returned points at another record, or nowhere)."""
+    if "search.lib.virginia.edu" not in (text or ""):
+        return text
+    known = " ".join(t for t in known_texts if t)
+
+    def unseen(url: str) -> bool:
+        m = _ITEM_URL.match(url)
+        return bool(m) and m.group(1).rstrip(".,;:)") not in known
+
+    text = re.sub(r"<(https?://[^|>\s]+)\|([^>]*)>", lambda m: m.group(2) if unseen(m.group(1)) else m.group(0), text)
+    text = re.sub(r"\[([^\]]*)\]\((https?://[^)\s]+)\)",
+                  lambda m: m.group(1) if unseen(m.group(2)) else m.group(0), text)
+    text = re.sub(r"<(https?://[^>\s]+)>", lambda m: "" if unseen(m.group(1)) else m.group(0), text)
+    return re.sub(r"(?<![<(|])https?://search\.lib\.virginia\.edu/sources/[\w-]+/items/[\w.:-]+",
+                  lambda m: "" if unseen(m.group(0)) else m.group(0), text)
+
+
 def _needs_tools(user_message: str, history: Optional[List[Dict[str, Any]]] = None) -> bool:
     """Must this turn call a tool before answering? (keyword check on the message)
 
     A short thread follow-up inherits the need from the previous question: MiniMax
     answered "Previous month?" from the thread with invented counts about 1 time in 6.
     """
+    if _accepts_offer(user_message, history):
+        return True
     words = re.findall(r"[a-z']+", (user_message or "").lower())
     if words and all(w in _ACK_WORDS for w in words):
         return False
@@ -794,6 +857,11 @@ class HooHelpAgent:
 
         # Decided before the loop: `history` becomes the running message list below.
         needs_lookup = _needs_tools(user_message, conversation_history)
+        known_texts = [_turn_text(m) for m in history] + [user_message]
+
+        def grounded(text: str) -> str:
+            outputs = [str(getattr(s, "output", "") or "") for s in trace.steps]
+            return _drop_unseen_item_links(text, known_texts + outputs)
         messages = history
         messages.append({"role": "user", "content": [{"text": user_message}]})
 
@@ -899,14 +967,18 @@ class HooHelpAgent:
                     return AgentTurnResult(text=text, trace=trace)
 
                 if stop_reason == "end_turn":
+                    draft = _assistant_visible_text(output_message.get("content", []))
+                    invented = (not trace.steps and not forced_tools
+                                and _ungrounded_catalog_claims(draft, known_texts))
                     if (
                         not trace.steps
                         and not forced_tools
-                        and needs_lookup
+                        and (needs_lookup or invented)
                         and iteration < max_iterations
                     ):
                         logger.warning(
-                            "Model answered without tools for factual query; forcing tool use request_id=%s",
+                            "Model answered without tools (%s); forcing tool use request_id=%s",
+                            "catalog records not in the thread" if invented else "factual query",
                             trace.request_id,
                         )
                         forced_tools = True
@@ -917,7 +989,7 @@ class HooHelpAgent:
                         continue
                     # Raw model text — Slack-facing cleanup + link-check in app.py
                     # MiniMax returns reasoningContent before text; skip it here.
-                    text = _assistant_visible_text(output_message.get("content", []))
+                    text = grounded(_assistant_visible_text(output_message.get("content", [])))
                     trace.finish(
                         final_text=text,
                         stop_reason=stop_reason,
@@ -1014,7 +1086,7 @@ class HooHelpAgent:
         if out_of_time and deadline - _now() < MIN_WRAP_UP_SEC:
             text = TOO_SLOW_REPLY
         else:
-            text = self._wrap_up(messages, system_instruction, tool_config, include_top_p, trace)
+            text = grounded(self._wrap_up(messages, system_instruction, tool_config, include_top_p, trace))
         trace.finish(
             final_text=text,
             stop_reason=stop,
