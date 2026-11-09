@@ -96,3 +96,11 @@ def test_grounding_check_alone_forces_a_lookup():
     a.process_message("make that a chart", conversation_history=thread(("user", "chart please"),
                                                                        ("assistant", "Here is the list.")))
     assert a.bedrock_runtime.requests[1]["toolConfig"]["toolChoice"] == {"any": {}}
+
+
+def test_prompt_batches_list_lookups_and_forbids_unsourced_holdings():
+    from test_agent_context import _rendered
+    for v2 in (True, False):
+        text = _rendered(v2)
+        assert "up to 5 catalog calls in one step" in text
+        assert "Never state that UVA owns an item, or give a call number or Virgo link" in text

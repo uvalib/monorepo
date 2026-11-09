@@ -695,6 +695,10 @@ class MatomoTools:
         compare = None
         if args.get("compare_start_date") or args.get("compare_end_date"):
             compare = self._period(args, "compare_")
+            # "Change" always reads the later period against the earlier one, whichever way round
+            # the model passed them (it said "4.4% fewer" for a 4.2% drop once).
+            if compare.start > period.start:
+                period, compare = compare, period
         periods = [period] + ([compare] if compare is not None else [])
 
         plains = [self._plain(site, p) for p in periods]

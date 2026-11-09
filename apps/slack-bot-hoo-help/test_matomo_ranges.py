@@ -156,3 +156,26 @@ def test_counts_sent_as_text_in_some_months_still_add_up():
     t, _ = make({("Actions.getPageUrls", "month"): m})
     out = t.call(TOOL_VIRGO_ITEMS, {"fiscal_year": "FY26", "details": False})
     assert "| `u1` | `uva_library` | 12 |" in out
+
+
+def test_compare_always_reads_later_against_earlier():
+    # 2026-11-09 live eval: asked Oct 2025 vs Oct 2026 the model's way round, "Change" read +4.4%
+    # and the answer said "4.4% fewer visits" (it was 4.2% fewer).
+    v25 = {"nb_visits": 258035, "nb_uniq_visitors": 1, "nb_actions": 1}
+    v26 = {"nb_visits": 247159, "nb_uniq_visitors": 1, "nb_actions": 1}
+
+    class C(Client):
+        def api(self, method, /, **params):
+            self.calls.append((method, params))
+            if method == "VisitsSummary.get":
+                return v25 if params["date"].startswith("2025") else v26
+            return {"nb_pageviews": 1}
+    c = C({})
+    t = MatomoTools(c, today=lambda: TODAY, automated_split=False)
+    for args in ({"start_date": "2025-10-01", "end_date": "2025-10-31",
+                  "compare_start_date": "2026-10-01", "compare_end_date": "2026-10-31"},
+                 {"start_date": "2026-10-01", "end_date": "2026-10-31",
+                  "compare_start_date": "2025-10-01", "compare_end_date": "2025-10-31"}):
+        out = t.call(TOOL_TRAFFIC, {"site": "Library CMS", **args})
+        assert "| Visits | 247,159 | 258,035 | -4.2% |" in out
+        assert "Compared with 2025-10-01 to 2025-10-31." in out

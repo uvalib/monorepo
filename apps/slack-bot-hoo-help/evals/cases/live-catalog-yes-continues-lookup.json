@@ -1,0 +1,40 @@
+{
+  "id": "live-catalog-yes-continues-lookup",
+  "category": "catalog",
+  "question": "Yes.",
+  "recorded": null,
+  "expect": {},
+  "history": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "text": "Does UVA have these? 1. Rodman, Selden. The Miracle of Haitian Art. 1974. 2. Hurbon, Laënnec. Voodoo: Search for the Spirit. Abrams, 1995."
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "text": "Item 1: yes, *The Miracle of Haitian Art* is in the Fine Arts Library. Want me to continue with item 2?"
+        }
+      ]
+    }
+  ],
+  "live": {
+    "tools_any": [
+      "search_catalog",
+      "search_by_field"
+    ],
+    "phrases_any": [
+      "Voodoo",
+      "Hurbon"
+    ],
+    "forbid": [
+      "u1108985",
+      "BL2530.V6 H8713"
+    ],
+    "max_seconds": 60
+  }
+}
