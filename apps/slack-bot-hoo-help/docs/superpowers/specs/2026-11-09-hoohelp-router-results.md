@@ -40,3 +40,15 @@ Cases that pass both ways use 43–68% fewer input tokens. One misrouted case we
 - **Pass rate:** the six routing-caused failures pass after the rule fixes. The two remaining failures fail the same way without routing.
 - **Recommendation:** run **tomorrow's full live suite with `--routing on`**, as that day's one full run. If it reaches at least the routing-off pass rate (42/44, with the same two known failures), set `EnableRouting=true` and deploy, with approval.
 - **Until then, routing stays off** (`EnableRouting=false`). Merging and deploying this branch changes nothing for users.
+
+## Full routed run after the review fixes (2026-11-09, `live-20261109-164215`)
+
+**41/44 passed; 904,429 input tokens (about 20,600 per case).**
+
+| Failure | Also fails with routing off? | Notes |
+| --- | --- | --- |
+| live-hours-health-sciences | yes | The model's tool choice; known failure. |
+| live-jira-virgo4-recent | yes | A phrase is missing; known failure. |
+| live-confluence-aeon | no (passed once with routing off) | Routed correctly to Confluence, then hit the 8-step limit after many searches. It passed 3 of 4 routed runs today, and with routing off it used the most tokens of any case (89,269), so it's a long-search case at the edge of the step limit. |
+
+**Result:** no misroutes remain. On the 13 cases run both ways today, routing used 51% fewer input tokens. A full routing-off run wasn't repeated today.
