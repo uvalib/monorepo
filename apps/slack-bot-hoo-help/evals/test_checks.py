@@ -22,9 +22,10 @@ def test_universal_passes_clean_output():
 
 
 def test_universal_limits():
-    assert any("table" in r for r in checks.universal("x", [TABLE, TABLE]))
+    # Two tables or 51 blocks are fine: the app sends them as separate messages (split_messages).
+    assert not any("table" in r for r in checks.universal("x", [TABLE, TABLE]))
+    assert not any("blocks" in r for r in checks.universal("x", [SEC("a")] * 51))
     assert any("3000" in r for r in checks.universal("x", [SEC("a" * 3001)]))
-    assert any("50" in r for r in checks.universal("x", [SEC("a")] * 51))
     assert any("rich_text" in r for r in checks.universal("x", [{"type": "rich_text"}]))
 
 

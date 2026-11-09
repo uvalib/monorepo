@@ -7,7 +7,7 @@ from types import SimpleNamespace
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 
 from slack_format import _layout_owned, format_for_slack  # noqa: E402
-from slack_blocks import blocks_from_tool_steps  # noqa: E402
+from slack_blocks import blocks_from_tool_steps, split_messages  # noqa: E402
 import test_matomo_annual_report as A  # noqa: E402
 from evals.checks import visible_text  # noqa: E402
 
@@ -87,13 +87,14 @@ def test_every_matomo_result_renders():
                                                 _step("matomo_top_pages", TOP_PAGES)])
     shown = visible_text(blocks)
     assert "/hours" in shown and "247,159" in shown
-    assert sum(1 for b in blocks if b["type"] == "table") <= 1
+    assert all(sum(1 for b in p if b["type"] == "table") <= 1 for p in split_messages(blocks))
     assert sum(1 for b in blocks if b.get("block_id") == "matomo_report") == 2
 
 
 def test_occupancy_plus_matomo_one_table_block():
     blocks = blocks_from_tool_steps(occupancy_steps() + [annual_step()])
-    assert sum(1 for b in blocks if b["type"] == "table") <= 1
+    pieces = split_messages(blocks)
+    assert len(pieces) > 1 and all(sum(1 for b in p if b["type"] == "table") <= 1 for p in pieces)
 
 
 def test_foot_traffic_charts_count_against_budget():
@@ -101,4 +102,4 @@ def test_foot_traffic_charts_count_against_budget():
     foot = [s for s in occupancy_steps() if "foot" in s.tool_name]
     blocks = blocks_from_tool_steps(foot + [annual_step()])
     assert sum(1 for b in blocks if b["type"] == "data_visualization") <= 2
-    assert sum(1 for b in blocks if b["type"] == "table") <= 1
+    assert all(sum(1 for b in p if b["type"] == "table") <= 1 for p in split_messages(blocks))

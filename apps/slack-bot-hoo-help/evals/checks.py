@@ -94,11 +94,16 @@ def normalize(text: str) -> str:
 def universal(fallback_text: str, blocks: list[dict]) -> list[str]:
     reasons: list[str] = []
     blocks = blocks or []
-    if len(blocks) > MAX_BLOCKS:
-        reasons.append(f"{len(blocks)} blocks (max {MAX_BLOCKS})")
-    tables = sum(1 for b in blocks if b.get("type") == "table")
-    if tables > MAX_TABLES:
-        reasons.append(f"{tables} table blocks (max {MAX_TABLES})")
+    # The app posts a reply as several messages when it needs more (slack_blocks.split_messages);
+    # Slack's limits apply to each message.
+    from slack_blocks import split_messages
+    for i, piece in enumerate(split_messages(blocks) or [blocks]):
+        where = f" in message {i + 1}" if i else ""
+        if len(piece) > MAX_BLOCKS:
+            reasons.append(f"{len(piece)} blocks{where} (max {MAX_BLOCKS})")
+        tables = sum(1 for b in piece if b.get("type") == "table")
+        if tables > MAX_TABLES:
+            reasons.append(f"{tables} table blocks{where} (max {MAX_TABLES})")
     for b in blocks:
         btype = b.get("type")
         if btype not in ALLOWED_BLOCK_TYPES:

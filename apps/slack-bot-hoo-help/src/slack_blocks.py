@@ -1241,20 +1241,19 @@ def blocks_from_tool_steps(
     if matomo_steps:
         from matomo_blocks import matomo_blocks_for_step  # here: matomo_blocks imports this module
 
-        # Every Matomo result is shown (the model's own tables are dropped from its text), sharing
-        # the message's two charts and one table block; repeated identical calls render once.
-        table_used = any(b.get("type") == "table" for b in blocks)
+        # Every Matomo result is shown (the model's own tables are dropped from its text), within
+        # the reply's two charts; repeated identical calls render once. Several tables are fine:
+        # split_messages sends them as separate messages.
         seen: set = set()
         for name, text in matomo_steps:
             if (name, text) in seen:
                 continue
             seen.add((name, text))
-            mb = matomo_blocks_for_step(name, text, max(0, viz_left), table_used)
+            mb = matomo_blocks_for_step(name, text, max(0, viz_left))
             if mb:
                 if blocks:
                     blocks.append(divider_block())
                 viz_left -= sum(1 for b in mb if b.get("type") == "data_visualization")
-                table_used = table_used or any(b.get("type") == "table" for b in mb)
                 blocks.extend(mb)
 
     if images:
@@ -1293,3 +1292,120 @@ def tool_fallback_text(steps: Optional[Iterable[Any]]) -> str:
         ]
         parts.append("Occupancy: " + "; ".join(bits) + ".")
     return "\n\n".join(parts)
+
+
+# ---------------------------------------------------------------------------
+# Splitting a reply into several messages
+# ---------------------------------------------------------------------------
+
+# Slack allows one table block and (in practice) two charts per message, and 50 blocks. A reply
+# that needs more goes out as up to MAX_MESSAGES messages in the thread; past that, extra tables
+# become preformatted text in the last message.
+MAX_MESSAGES = 4
+MAX_TABLES_PER_MESSAGE = 1
+MAX_TEXT = 3000
+_PRE_FIRST, _PRE_CELL = 36, 20
+_ENTITY = re.compile(r"&(?!(?:lt|gt|amp);)")
+
+
+def _escape_text(text: str) -> str:
+    """Escape &, <, > for mrkdwn, leaving entities that are already escaped."""
+    return _ENTITY.sub("&amp;", text or "").replace("<", "&lt;").replace(">", "&gt;")
+
+
+def _fit(text: str, width: int) -> str:
+    return text if len(text) <= width else text[: width - 1] + "…"
+
+
+def table_as_text(block: Dict[str, Any]) -> Dict[str, Any]:
+    """A table block as aligned monospace text in a section (cells escaped: no links or mentions)."""
+    grid = [[_fit(str(c.get("text") or ""), _PRE_FIRST if i == 0 else _PRE_CELL) for i, c in enumerate(row)]
+            for row in block.get("rows") or []]
+    if not grid:
+        return {"type": "section", "text": {"type": "mrkdwn", "text": " "}}
+    widths = [max(len(r[i]) if i < len(r) else 0 for r in grid) for i in range(len(grid[0]))]
+    lines = ["  ".join(c.ljust(widths[i]) for i, c in enumerate(r)).rstrip() for r in grid]
+    body = ""
+    for ln in lines:
+        ln = _escape_text(ln)
+        if len(body) + len(ln) + 8 > MAX_TEXT:
+            break
+        body += ln + "\n"
+    return {"type": "section", "text": {"type": "mrkdwn", "text": "```\n" + body.rstrip("\n") + "\n```"}}
+
+
+def _carry_start(piece: List[Dict[str, Any]]) -> int:
+    """Where the blocks that introduce the next table or chart start: after the last table or chart,
+    or from the last divider after it (a divider separates two reports)."""
+    anchor = 0
+    for i, b in enumerate(piece):
+        if b.get("type") in ("table", "data_visualization"):
+            anchor = i + 1
+    for i in range(len(piece) - 1, anchor - 1, -1):
+        if piece[i].get("type") == "divider":
+            return i
+    return anchor
+
+
+def _trim_dividers(piece: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    while piece and piece[0].get("type") == "divider":
+        piece = piece[1:]
+    while piece and piece[-1].get("type") == "divider":
+        piece = piece[:-1]
+    return piece
+
+
+def split_messages(blocks: Sequence[Dict[str, Any]], *, max_blocks: int = MAX_BLOCKS, max_viz: int = MAX_VIZ,
+                   max_messages: int = MAX_MESSAGES) -> List[List[Dict[str, Any]]]:
+    """The reply's blocks as one or more messages, each within Slack's limits (one table, two charts,
+    50 blocks). A table or chart that starts a new message takes the blocks that introduce it along."""
+    pieces: List[List[Dict[str, Any]]] = []
+    cur: List[Dict[str, Any]] = []
+    tables = charts = 0
+    for b in blocks:
+        kind = b.get("type")
+        last = len(pieces) >= max_messages - 1
+        full = ((kind == "table" and tables >= MAX_TABLES_PER_MESSAGE)
+                or (kind == "data_visualization" and charts >= max_viz))
+        if last:
+            if kind == "table" and tables >= MAX_TABLES_PER_MESSAGE:
+                b, kind = table_as_text(b), "section"
+            elif kind == "data_visualization" and charts >= max_viz:
+                continue
+            if len(cur) >= max_blocks:
+                break
+        elif (full or len(cur) >= max_blocks) and cur:
+            cut = _carry_start(cur) if full else len(cur)
+            head, carry = cur[:cut], cur[cut:]
+            if not _trim_dividers(head):
+                head, carry = cur, []
+            pieces.append(_trim_dividers(head))
+            cur = _trim_dividers(carry)
+            tables = sum(1 for x in cur if x.get("type") == "table")
+            charts = sum(1 for x in cur if x.get("type") == "data_visualization")
+        cur.append(b)
+        tables += kind == "table"
+        charts += kind == "data_visualization"
+    cur = _trim_dividers(cur)
+    if cur:
+        pieces.append(cur)
+    return pieces
+
+
+def blocks_plain_text(piece: Sequence[Dict[str, Any]]) -> str:
+    """A message's blocks as plain text: its notification text, and what thread history reads back."""
+    lines: List[str] = []
+    for b in piece:
+        kind = b.get("type")
+        if kind in ("header", "section") and isinstance(b.get("text"), dict):
+            lines.append(str(b["text"].get("text") or ""))
+        if kind == "section":
+            lines += [str(f.get("text") or "") for f in b.get("fields") or []]
+        elif kind == "table":
+            lines += [" | ".join(str(c.get("text") or "") for c in row) for row in b.get("rows") or []]
+        elif kind == "context":
+            lines += [str(e.get("text") or "") for e in b.get("elements") or []]
+        elif kind == "data_visualization":
+            lines.append(str(b.get("title") or ""))
+    text = _escape_text("\n".join(x for x in lines if x.strip()).replace("*", "").replace("```", ""))
+    return text[:MAX_TEXT]

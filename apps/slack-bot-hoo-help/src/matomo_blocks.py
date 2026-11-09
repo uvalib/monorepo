@@ -76,42 +76,13 @@ def _table(headers: Sequence[str], rows: Sequence[Sequence[str]]) -> Optional[Di
     return table_block([_plain(h) for h in headers], [[_plain(c) for c in r] for r in rows])
 
 
-PRE_FIRST, PRE_CELL = 36, 20  # preformatted cell widths (first column, others), so lines fit Slack
-MAX_SECTION = 3000
-
-
-def _preformatted(title: str, headers: Sequence[str], rows: Sequence[Sequence[str]]) -> Dict[str, Any]:
-    """A table as aligned monospace text in a section: Slack allows only one table block per
-    message. Cells are escaped, so Matomo or catalog text can't become a link or mention."""
-    def fit(text: str, width: int) -> str:
-        return text if len(text) <= width else text[: width - 1] + "…"
-
-    grid = [[fit(_escape(_plain(c)), PRE_FIRST if i == 0 else PRE_CELL) for i, c in enumerate(r)]
-            for r in [list(headers)] + [list(r) for r in rows]]
-    widths = [max(len(r[i]) if i < len(r) else 0 for r in grid) for i in range(len(grid[0]))]
-    lines = ["  ".join(c.ljust(widths[i]) for i, c in enumerate(r)).rstrip() for r in grid]
-    lead = f"*{title}*\n```\n" if title else "```\n"
-    body = ""
-    for ln in lines:
-        if len(lead) + len(body) + len(ln) + 5 > MAX_SECTION:
-            break
-        body += ln + "\n"
-    return {"type": "section", "text": {"type": "mrkdwn", "text": lead + body.rstrip("\n") + "\n```"}}
-
-
-def _native_then_preformatted(tables, charts: "_Charts", titles: Optional[Sequence[str]] = None) -> List[Dict[str, Any]]:
-    """The first table as a Slack table unless the message already has one, the rest as
-    preformatted text: Slack allows one table block per message."""
-    out: List[Dict[str, Any]] = []
-    for i, (hdr, rows) in enumerate(tables):
-        title = titles[i] if titles and i < len(titles) else ""
-        block = _table(hdr, rows) if not charts.table_used else None
-        if block:
-            out.append(block)
-            charts.table_used = True
-        elif rows:
-            out.append(_preformatted(title, hdr, rows))
-    return out
+def _titled_table(title: str, table) -> List[Dict[str, Any]]:
+    """A section title and the table. Slack allows one table block per message, so the reply is
+    split into several messages (slack_blocks.split_messages); the title travels with its table."""
+    block = _table(*table)
+    if not block:
+        return []
+    return ([{"type": "section", "text": {"type": "mrkdwn", "text": f"*{_escape(title)}*"}}] if title else []) + [block]
 
 
 def _context(lines: Sequence[str]) -> List[Dict[str, Any]]:
@@ -119,12 +90,10 @@ def _context(lines: Sequence[str]) -> List[Dict[str, Any]]:
 
 
 class _Charts:
-    """The message's budgets: at most `budget` charts (each tagged matomo_chart_<n>), and whether
-    its one table block is already taken."""
+    """Hands out at most `budget` charts, each tagged matomo_chart_<n>."""
 
-    def __init__(self, budget: int, table_used: bool = False):
+    def __init__(self, budget: int):
         self.budget, self.n = max(0, budget), 0
-        self.table_used = table_used
 
     def make(self, kind: str, title: str, series: Sequence[Tuple[str, Sequence[Tuple[str, float]]]],
              **axes) -> Optional[Dict[str, Any]]:
@@ -185,11 +154,10 @@ def _annual(text: str, charts: _Charts) -> List[Dict[str, Any]]:
         _add(blocks, section_fields([(r[0], _escape(f"{r[1]} ({prev} {r[2]}, {r[3]})")) for r in rows if len(r) >= 4]))
     _add(blocks, line)
     _add(blocks, bar)
-    # Slack allows one table block per message: collections gets it, records are preformatted.
     if colls:
-        blocks += _native_then_preformatted([colls], charts, ["Top collections"])
+        blocks += _titled_table("Top collections", colls)
     if records:
-        blocks += _native_then_preformatted([records], charts, ["Top records"])
+        blocks += _titled_table("Top records", records)
     return blocks + _context(notes)
 
 
@@ -201,7 +169,7 @@ def _traffic(text: str, charts: _Charts) -> List[Dict[str, Any]]:
     if tables:
         hdr, rows = tables[0]
         wanted = [r for r in rows if r[0] in ("Visits", "Pageviews")]
-        blocks += _native_then_preformatted([(hdr, rows)], charts)
+        _add(blocks, _table(hdr, rows))
         _add(blocks, charts.make("bar", "Visits and pageviews",
                                  [(hdr[i], [(r[0], _number(r[i])) for r in wanted]) for i in (1, 2)]))
         return blocks + _context(_texts(segs))
@@ -232,7 +200,8 @@ def _collections(text: str, charts: _Charts) -> List[Dict[str, Any]]:
         _add(blocks, charts.make("bar", "Top collections",
                                  [("Visits", [(_plain(r[0]), _number(r[1])) for r in rows[:CHART_ROWS]])],
                                  y_label="Visits"))
-    blocks += _native_then_preformatted(tables, charts)
+    for t in tables:
+        blocks += _titled_table("", t)
     return blocks + _context(_texts(segs))
 
 
@@ -242,7 +211,9 @@ def _tables_only(text: str, charts: _Charts) -> List[Dict[str, Any]]:
     tables = _tables(segs)
     if not tables:
         return []
-    blocks = [header_block(head.strip())] + _native_then_preformatted(tables, charts)
+    blocks = [header_block(head.strip())]
+    for t in tables:
+        blocks += _titled_table("", t)
     return blocks + _context(_texts(segs))
 
 
@@ -256,16 +227,14 @@ _RENDERERS: Dict[str, Callable[[str, _Charts], List[Dict[str, Any]]]] = {
 }
 
 
-def matomo_blocks_for_step(tool_name: str, output: str, viz_budget: int,
-                           table_used: bool = False) -> List[Dict[str, Any]]:
-    """Block Kit for one Matomo tool result, or [] (not a Matomo report, an error, or unparseable).
-    `table_used`: the message already has its one table block, so tables become preformatted."""
+def matomo_blocks_for_step(tool_name: str, output: str, viz_budget: int) -> List[Dict[str, Any]]:
+    """Block Kit for one Matomo tool result, or [] (not a Matomo report, an error, or unparseable)."""
     render = _RENDERERS.get(tool_name or "")
     text = (output or "").strip()
     if render is None or not text or text.startswith("Error"):
         return []
     try:
-        blocks = render(text, _Charts(viz_budget, table_used))
+        blocks = render(text, _Charts(viz_budget))
     except Exception:  # noqa: BLE001 — the model's text answer still stands
         logger.warning("Matomo Block Kit skipped for %s", tool_name, exc_info=True)
         return []

@@ -41,7 +41,7 @@ from matomo_tools import matomo_tools_for_env
 from local_tools import LocalTools
 from slack_search import slack_tools_for_event
 from session_trace import SessionTrace
-from slack_blocks import flatten_carousels
+from slack_blocks import blocks_plain_text, flatten_carousels, split_messages
 import chime_in
 from slack_format import format_for_slack, rewrite_urls_in_blocks
 from attachments import build_file, citable_tables, file_context_line, requested_format
@@ -413,53 +413,13 @@ def handle_user_query(
     )
     trace.set_slack_reply(fallback_text, blocks)
 
-    post_kwargs = {
-        "channel": channel_id,
-        "thread_ts": reply_thread_ts if force_thread else None,
-        "text": fallback_text,
-        "blocks": blocks,
-        # No link previews: a preview fetches the URL from Slack's servers (and shows its page).
-        "unfurl_links": False,
-        "unfurl_media": False,
-    }
-    posted = False
     try:
-        try:
-            client.chat_postMessage(**post_kwargs)
-            posted = True
-        except Exception as e:
-            logger.error("Failed to send Slack response with blocks: %s", e)
-            if not trace.error:
-                trace.error = f"slack_send: {e}"
-            # Newest block types first: drop charts, then flatten carousel → image blocks.
-            no_viz = [b for b in blocks if b.get("type") != "data_visualization"]
-            retries = []
-            if no_viz and no_viz != blocks:
-                retries.append(("without charts", no_viz))
-            flat = flatten_carousels(no_viz or blocks)
-            if flat != (no_viz or blocks):
-                retries.append(("carousel flattened to images", flat))
-            for label, retry_blocks in retries:
-                if posted:
-                    break
-                try:
-                    post_kwargs["blocks"] = retry_blocks
-                    client.chat_postMessage(**post_kwargs)
-                    logger.warning("Posted Slack reply %s", label)
-                    posted = True
-                except Exception as e_retry:
-                    logger.error("Retry %s also failed: %s", label, e_retry)
-        if not posted:
-            try:
-                say(
-                    text=fallback_text,
-                    thread_ts=reply_thread_ts if force_thread else None,
-                    unfurl_links=False,
-                    unfurl_media=False,
-                )
-            except Exception as e2:
-                logger.error("Fallback Slack send also failed: %s", e2)
-                trace.error = f"slack_send_fallback: {e2}"
+        pieces = split_messages(blocks) or [[]]
+        if len(pieces) > 1:
+            logger.info("Reply split into %s messages (Slack: one table, two charts per message)", len(pieces))
+        _post_pieces(client, say, pieces, channel=channel_id,
+                     thread_ts=reply_thread_ts if force_thread else None,
+                     first_text=fallback_text, trace=trace)
         if file_fmt:
             _attach_file(
                 client,
@@ -521,6 +481,60 @@ def _upload(client, channel_id, thread_ts, trace, content, filename, title) -> N
         if "missing_scope" in str(e):
             _post_note(client, channel_id, thread_ts,
                        "_I couldn't attach the file: the Slack app needs the `files:write` scope._")
+
+
+def _post_one(client, kwargs: Dict[str, Any], trace) -> bool:
+    """chat_postMessage, retrying with the newest block types removed; True when it posted."""
+    blocks = kwargs.get("blocks") or []
+    try:
+        client.chat_postMessage(**kwargs)
+        return True
+    except Exception as e:
+        logger.error("Failed to send Slack response with blocks: %s", e)
+        if not trace.error:
+            trace.error = f"slack_send: {e}"
+    # Newest block types first: drop charts, then flatten carousel → image blocks.
+    no_viz = [b for b in blocks if b.get("type") != "data_visualization"]
+    retries = []
+    if no_viz and no_viz != blocks:
+        retries.append(("without charts", no_viz))
+    flat = flatten_carousels(no_viz or blocks)
+    if flat != (no_viz or blocks):
+        retries.append(("carousel flattened to images", flat))
+    for label, retry_blocks in retries:
+        try:
+            client.chat_postMessage(**{**kwargs, "blocks": retry_blocks})
+            logger.warning("Posted Slack reply %s", label)
+            return True
+        except Exception as e_retry:
+            logger.error("Retry %s also failed: %s", label, e_retry)
+    return False
+
+
+def _post_pieces(client, say, pieces, *, channel, thread_ts, first_text: str, trace) -> None:
+    """Post a reply that may span several messages (see split_messages). The first carries the
+    answer text; each later one its own plain text, which thread history reads back. A message
+    whose blocks Slack refuses is sent as text, so nothing is silently lost."""
+    for i, piece in enumerate(pieces):
+        text = first_text if i == 0 else (blocks_plain_text(piece) or "(continued)")
+        kwargs = {
+            "channel": channel,
+            "thread_ts": thread_ts,
+            "text": text,
+            "blocks": piece,
+            # No link previews: a preview fetches the URL from Slack's servers (and shows its page).
+            "unfurl_links": False,
+            "unfurl_media": False,
+        }
+        if _post_one(client, kwargs, trace):
+            continue
+        try:
+            say(text=text, thread_ts=thread_ts, unfurl_links=False, unfurl_media=False)
+        except Exception as e2:
+            logger.error("Fallback Slack send also failed: %s", e2)
+            trace.error = f"slack_send_fallback: {e2}"
+        if i == 0:
+            return  # the answer itself didn't go out with blocks; don't post its continuations
 
 
 def _matomo_tools():
