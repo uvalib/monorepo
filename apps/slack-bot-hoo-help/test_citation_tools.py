@@ -9,7 +9,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 from citation_check import TOOL_CHECK_CITATIONS, CitationTools, citation_tools_for_env  # noqa: E402
 from test_citation_check import HURBON, MIRACLE_RESULTS, RODMAN  # noqa: E402
 
-HEADER = ("| # | Citation | UVA has it? | Match | Location / call number | Virgo link | "
+HEADER = ("| # | Author | Title | Citation | UVA has it? | Match | Location / call number | Virgo link | "
           "Other editions or works by author |")
 NONE = "**Total Hits**: 0 item(s) found (showing 0).\n\nNo records matched your search query."
 HURBON_AUTHOR = """## Matching items
@@ -118,7 +118,7 @@ def test_start_number():
 def test_cells_cleaned():
     t, _ = make()
     r = rows(t.call(TOOL_CHECK_CITATIONS, {"citations": ["Odd | title\twith\nbreaks. 2000."]}))
-    assert len(r) == 1 and r[0].count("|") == 8
+    assert len(r) == 1 and r[0].count("|") == 10
 
 
 def test_empty_and_bad_input():
@@ -191,3 +191,12 @@ def test_other_works_skip_a_different_person_with_the_surname():
     t, _ = make(Gateway(results))
     r = rows(t.call(TOOL_CHECK_CITATIONS, {"citations": [joy]}))[0]
     assert "Arms Transfers" not in r and r.rstrip().endswith("| — |")
+
+
+
+def test_author_and_title_columns():
+    # 2026-11-09: "The first column should only include the author, the second the title".
+    t, _ = make()
+    r = rows(t.call(TOOL_CHECK_CITATIONS, {"citations": [RODMAN, AUCTION]}))
+    assert r[0].startswith("| 1 | Rodman, Selden | The Miracle of Haitian Art | Rodman, Selden. _The Miracle")
+    assert r[1].startswith("| 2 | — | Latin American Art | _Latin American Art_.")

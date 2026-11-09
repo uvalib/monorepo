@@ -14,6 +14,9 @@ from slack_blocks import context_mrkdwn, header_block, parse_markdown_table, tab
 
 TABLE_ROWS = 25
 CITATION_CELL = 120
+AUTHOR_CELL = 60
+SHOWN = ("#", "Author", "Title", "UVA has it?", "Match", "Location / call number", "Virgo link",
+         "Other editions or works by author")  # the full Citation stays in files
 
 
 def _escape(text: str) -> str:
@@ -37,16 +40,19 @@ def citation_blocks(output: str) -> List[Dict[str, Any]]:
     headers, rows = parse_markdown_table(text)
     if not headers or not rows:
         return []
+    cols = [headers.index(h) for h in SHOWN if h in headers]
     shown = []
     for r in rows:
-        r = list(r)
-        if len(r) > 1:
-            r[1] = _short(r[1])
-        if len(r) > 5:
-            r[5] = _item_id(r[5])
-        if len(r) > 6:
-            r[6] = _short(r[6])
-        shown.append(r)
+        cells = {h: (r[headers.index(h)] if headers.index(h) < len(r) else "") for h in SHOWN if h in headers}
+        if "Author" in cells:
+            cells["Author"] = _short(cells["Author"], AUTHOR_CELL)
+        for h in ("Title", "Citation", "Other editions or works by author"):
+            if h in cells:
+                cells[h] = _short(cells[h])
+        if "Virgo link" in cells:
+            cells["Virgo link"] = _item_id(cells["Virgo link"])
+        shown.append([cells[h] for h in SHOWN if h in headers])
+    headers = [headers[i] for i in cols]
     blocks: List[Dict[str, Any]] = [{**header_block(head), "block_id": "citations_report"}]
     for n, start in enumerate(range(0, len(shown), TABLE_ROWS), 1):
         table = table_block(headers, shown[start:start + TABLE_ROWS])

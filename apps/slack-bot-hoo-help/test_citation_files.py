@@ -41,9 +41,9 @@ def test_same_turn_check_citations_file():
                            input={})
     tables = tables_from_steps([step])
     assert len(tables) == 1 and tables[0].title == "Citation check" and tables[0].plain
-    assert tables[0].headers == ["#", "Citation", "UVA has it?", "Match", "Location / call number", "Virgo link",
-                                 "Other editions or works by author"]
-    assert len(tables[0].rows[0][1]) > 200  # full citation, not the 120-character table cell
+    assert tables[0].headers == ["#", "Author", "Title", "Citation", "UVA has it?", "Match", "Location / call number",
+                                 "Virgo link", "Other editions or works by author"]
+    assert len(tables[0].rows[0][3]) > 200  # the full citation is in the file
 
 
 def bot_msg(blocks, text="report"):
@@ -117,7 +117,7 @@ def test_attach_file_uses_thread_table():
     assert up["filename"].endswith(".csv")
     rows = list(csv.reader(io.StringIO(up["content"].decode("utf-8-sig") if isinstance(up["content"], bytes)
                                        else up["content"])))
-    assert rows[0][:3] == ["#", "Citation", "UVA has it?"] and len(rows) == 3
+    assert rows[0][:4] == ["#", "Author", "Title", "UVA has it?"] and len(rows) == 3
 
 
 def test_no_table_no_file_line():

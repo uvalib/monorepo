@@ -30,7 +30,9 @@ OTHER_WORKS_MAX = 2
 # the citation's (cognates: voodoo/vaudou "vd", spirit/esprit "sprt", peintres "pntrs"). Letter
 # likeness was too noisy on real data (spirit/saint scored above voodoo/vaudou).
 MIN_WORD = 5
-HEADER = ("| # | Citation | UVA has it? | Match | Location / call number | Virgo link | "
+# Author and Title are read from the citation (people asked for them as separate columns); the full
+# Citation goes in files, the Slack table leaves it out.
+HEADER = ("| # | Author | Title | Citation | UVA has it? | Match | Location / call number | Virgo link | "
           "Other editions or works by author |")
 NOTE = ('Auction catalogs, journal articles and single journal issues usually aren\'t catalogued as their own '
         'records: "No" for those means check the journal or database.')
@@ -94,7 +96,11 @@ def parse_citation(text: str) -> Citation:
     rest = text
     if not starts_with_title:
         end = _author_end(text)
-        if end > 0:
+        # An italic or quoted title ends the author even after an initial ("Smith, J. _Title_").
+        marked = re.search(r"\s[_*\"“]", text)
+        if marked and (end < 0 or marked.start() < end):
+            author, rest = text[:marked.start()].strip().rstrip(".,"), text[marked.start():].strip()
+        elif end > 0:
             author, rest = text[:end].strip(), text[end + 1:].strip()
     quoted = _QUOTED.search(rest)
     italic = _ITALIC.search(rest)
@@ -243,16 +249,17 @@ class CitationTools:
             start = 1
         extra = max(len(cites) - MAX_CITATIONS, 0)
         cites = cites[:MAX_CITATIONS]
-        rows = self._check_all([parse_citation(c) for c in cites])
+        parsed = [parse_citation(c) for c in cites]
+        rows = self._check_all(parsed)
         if all(r.match == "search failed" for r in rows):
             return "Error: the catalog search isn't responding; try again in a few minutes."
         counts = {v: sum(1 for r in rows if r.verdict == v) for v in ("Yes", "Likely — check", "No", "Not checked")}
         lines = [f"Citation check — {len(cites)} citations: {counts['Yes']} held, {counts['Likely — check']} likely "
                  f"(check), {counts['No']} not found, {counts['Not checked']} not checked", "", HEADER,
-                 "| --- | --- | --- | --- | --- | --- | --- |"]
-        for i, (text, r) in enumerate(zip(cites, rows)):
-            lines.append(f"| {start + i} | {_cell(text)} | {r.verdict} | {r.match} | {_cell(r.location)} | "
-                         f"{_cell(r.link)} | {_cell('; '.join(r.others))} |")
+                 "| --- | --- | --- | --- | --- | --- | --- | --- | --- |"]
+        for i, (text, cite, r) in enumerate(zip(cites, parsed, rows)):
+            lines.append(f"| {start + i} | {_cell(cite.author)} | {_cell(cite.title)} | {_cell(text)} | {r.verdict} | "
+                         f"{r.match} | {_cell(r.location)} | {_cell(r.link)} | {_cell('; '.join(r.others))} |")
         lines += ["", NOTE]
         if extra:
             lines.append(f"{extra} more not checked (limit {MAX_CITATIONS})")

@@ -100,3 +100,10 @@ def test_exact_needs_author_when_citation_has_one():
 def test_accents_and_punctuation_ignored():
     c = parse_citation("Lerebours, Michel Philippe. _Haïti et ses peintres_. 2 vols. 1989.")
     assert match(c, rec("Haiti et ses peintres : de 1804 à 1980", "Lerebours, Michel-Philippe")) == "exact"
+
+
+def test_author_stops_where_an_italic_or_quoted_title_starts():
+    c = parse_citation("Smith, J. _The Art of Haiti_. New York: Praeger, 1980.")
+    assert (c.author, c.surname, c.title) == ("Smith, J", "Smith", "The Art of Haiti")
+    q = parse_citation('Price-Mars, J. "Ainsi parla l\'oncle." Port-au-Prince, 1928.')
+    assert q.surname == "Price-Mars" and q.title == "Ainsi parla l'oncle"

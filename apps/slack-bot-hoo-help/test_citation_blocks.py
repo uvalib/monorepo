@@ -33,13 +33,15 @@ def test_55_citations_three_tables():
 
 
 def test_cells_plain_and_short():
-    evil = "<https://evil|x> @channel *b* " + "y" * 200 + ". 2000."
+    evil = "Evil, A. _<https://evil|x> @channel *b* " + "y" * 200 + "_. 2000."
     b = citation_blocks(output([evil, RODMAN]))
     table = [x for x in b if x["type"] == "table"][0]
+    head = [c["text"] for c in table["rows"][0]]
     first = [c["text"] for c in table["rows"][1]]
+    assert "Citation" not in head and head[:3] == ["#", "Author", "Title"]
     assert all(c["type"] == "raw_text" for c in table["rows"][1])
-    assert len(first[1]) <= 120 and first[1].endswith("…")
-    assert [c["text"] for c in table["rows"][2]][5] == "u877894"
+    assert len(first[2]) <= 120 and first[2].endswith("…")
+    assert [c["text"] for c in table["rows"][2]][head.index("Virgo link")] == "u877894"
     mrkdwn = [e["text"] for x in b if x["type"] == "context" for e in x["elements"]]
     assert not any("evil" in m for m in mrkdwn)
 

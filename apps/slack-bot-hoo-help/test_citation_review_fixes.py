@@ -35,7 +35,8 @@ def test_thread_tables_join_across_messages_with_full_links():
     _, _, meta = extract_thread_history(C(), "D1", "1.0", bot_user_id="UBOT", bot_app_bot_id="B1", current_ts="9.0")
     tables = meta["data_tables"]
     assert len(tables) == 1 and len(tables[0].rows) == 31
-    assert tables[0].rows[0][5] == "https://search.lib.virginia.edu/sources/uva_library/items/u877894"
+    link = tables[0].headers.index("Virgo link")
+    assert tables[0].rows[0][link] == "https://search.lib.virginia.edu/sources/uva_library/items/u877894"
 
 
 def test_file_line_asks_to_rerun_a_citation_check():
