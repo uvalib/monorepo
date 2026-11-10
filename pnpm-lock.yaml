@@ -671,8 +671,6 @@ importers:
         specifier: workspace:*
         version: link:../../packages/tsconfig
 
-  apps/slack-bot-hoo-help: {}
-
   packages/11ty-template:
     devDependencies:
       '@uvalib/cdn-builds':
