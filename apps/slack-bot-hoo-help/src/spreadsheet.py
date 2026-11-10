@@ -20,9 +20,12 @@ from tool_names import legacy_leaf
 from slack_format import split_markdown_tables
 
 # Tools whose output tables are worth exporting (hours/spaces are not).
+# Matomo reports: their tables become files too (collection names are untrusted text: plain cells).
+MATOMO_TABLE_TOOLS = frozenset({"matomo_annual_report", "matomo_virgo_collections", "matomo_virgo_items",
+                                "matomo_top_pages", "matomo_traffic"})
 TABLE_TOOLS = frozenset(
     {"get_traffic_by_period", "get_entrance_traffic", "get_occupancy_report", "check_citations"}
-)
+) | MATOMO_TABLE_TOOLS
 # Code-built Slack table blocks that may become files later in the thread (never the model's tables).
 DATA_BLOCK_PREFIXES = ("data_table", "citations_table", "matomo_")
 
@@ -68,8 +71,9 @@ def tables_from_steps(steps: Optional[Iterable[Any]]) -> List[SheetTable]:
                 # People's text: cells stay exact strings, never numbers or formulas.
                 tables.append(SheetTable("Citation check", headers, rows, plain=True))
             continue
-        title = ""
-        for line in output.splitlines():
+        matomo = leaf in MATOMO_TABLE_TOOLS
+        title = (output.splitlines() or [""])[0].strip() if matomo else ""
+        for line in output.splitlines() if not matomo else []:
             if line.startswith("#"):
                 title = line.lstrip("#").strip()
                 break
@@ -78,7 +82,9 @@ def tables_from_steps(steps: Optional[Iterable[Any]]) -> List[SheetTable]:
                 continue
             headers, rows = parse_markdown_table(chunk)
             if headers and rows:
-                tables.append(SheetTable(title or "HooHelp data", headers, rows))
+                if matomo:
+                    rows = [[c.replace("`", "") for c in r] for r in rows]
+                tables.append(SheetTable(title or "HooHelp data", headers, rows, plain=matomo))
     return tables
 
 

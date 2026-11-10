@@ -240,4 +240,7 @@ def matomo_blocks_for_step(tool_name: str, output: str, viz_budget: int) -> List
         return []
     if blocks:
         blocks[0]["block_id"] = MATOMO_BLOCK_ID
+        # Code-built tables carry an id, so "csv please" later in the thread can export them.
+        for n, b in enumerate((b for b in blocks if b.get("type") == "table"), 1):
+            b["block_id"] = f"matomo_table_{n}"
     return blocks
