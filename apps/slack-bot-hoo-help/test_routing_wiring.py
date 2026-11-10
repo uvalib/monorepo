@@ -75,7 +75,7 @@ def test_template_switch():
     m = re.search(r"\n  EnableRouting:\n(?:    .*\n)+", t)
     assert m and 'Default: "false"' in m.group(0)
     assert "ENABLE_ROUTING: !Ref EnableRouting" in t
-    assert "EnableRouting=false" in open(os.path.join(HERE, "samconfig.toml")).read()
+    assert "EnableRouting=true" in open(os.path.join(HERE, "samconfig.toml")).read()  # switched on 2026-11-09
 
 
 def test_report_has_token_column(tmp_path):
