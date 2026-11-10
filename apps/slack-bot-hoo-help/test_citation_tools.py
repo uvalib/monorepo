@@ -85,7 +85,7 @@ def test_author_search_only_when_title_not_found():
     t, g = make()
     t.call(TOOL_CHECK_CITATIONS, {"citations": [RODMAN, HURBON, AUCTION]})
     author_calls = [a["query"] for _, a in g.calls if a["field"] == "author"]
-    assert author_calls == ["Hurbon"]
+    assert author_calls == ["Hurbon, Laënnec", "Hurbon"]  # full name, then the surname (2026-11-10)
     assert len(g.calls) <= 2 * 3
 
 

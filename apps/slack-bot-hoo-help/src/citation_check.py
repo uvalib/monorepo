@@ -50,6 +50,8 @@ _QUOTED = re.compile(r"[\"“]([^\"”]+)[\"”]")
 _ITALIC = re.compile(r"(?<![\w])_([^_]+)_(?![\w])|\*([^*]+)\*")
 _FIELD = re.compile(r"^\s*-\s*\*\*([^*]+)\*\*:\s*(.*)$", re.M)
 _HEADING = re.compile(r"^### \d+\.\s*(.*)$", re.M)
+_PARALLEL = re.compile(r"\s+[/=]\s+")  # "La peinture haïtienne / Haitian Painters"
+_QUERY_PUNCT = re.compile(r"\s*[/=—–]\s*")
 
 
 @dataclass
@@ -161,16 +163,38 @@ def _contained(part: Set[str], whole: Set[str]) -> float:
     return len(part & whole) / len(part) if part else 0.0
 
 
+def bilingual_sides(title: str) -> List[str]:
+    """The sides of a parallel title ("La peinture haïtienne / Haitian Painters"); [] when there's one."""
+    sides = [s.strip() for s in _PARALLEL.split(title or "") if s.strip()]
+    return sides if len(sides) > 1 else []
+
+
+def _main_and_subtitle(title: str):
+    main, _, sub = (title or "").partition(":")
+    return significant_words(main), significant_words(sub)
+
+
+def _main_title_matches(cite_title: str, rec_title: str) -> bool:
+    """The citation's main title (before ":") is the record's main title, and their subtitles don't
+    disagree. (2026-11-10: "Haiti: Three Visions" matched the film "Haiti: Dreams of Democracy".)"""
+    cite_main, cite_sub = _main_and_subtitle(cite_title)
+    rec_main, rec_sub = _main_and_subtitle(rec_title)
+    if not cite_main or _contained(cite_main, rec_main) < EXACT:
+        return False
+    return not (cite_sub and rec_sub and not cite_sub & rec_sub)
+
+
 def match(cite: Citation, rec: Record) -> str:
     """"exact" | "likely" | "none": the citation's title words contained in the record's title.
     "exact" also needs the author's surname in the record (or, without an author, a title of 4+
-    significant words); a match on the main title alone (before ":") is at most "likely"."""
+    significant words); either side of a bilingual title counts as the whole title. A match on the
+    main title alone (before ":") is at most "likely"."""
     words = significant_words(cite.title)
     if not words:
         return "none"
     title_words = significant_words(rec.title)
-    full = _contained(words, title_words)
-    main = _contained(significant_words(cite.title.split(":")[0]), title_words)
+    full = max([_contained(words, title_words)]
+               + [_contained(significant_words(s), title_words) for s in bilingual_sides(cite.title)])
     surname = significant_words(cite.surname)
     author_ok = bool(surname) and surname <= significant_words(rec.author)
     if full >= EXACT:
@@ -179,9 +203,24 @@ def match(cite: Citation, rec: Record) -> str:
         if (cite.surname and author_ok) or (not cite.surname and len(words) >= MIN_WORDS_WITHOUT_AUTHOR):
             return "exact"
         return "likely"
-    if full >= LIKELY or main >= EXACT or (full >= LIKELY_WITH_AUTHOR and author_ok):
+    if full >= LIKELY or _main_title_matches(cite.title, rec.title) or (full >= LIKELY_WITH_AUTHOR and author_ok):
         return "likely"
     return "none"
+
+
+def title_queries(cite: Citation) -> List[str]:
+    """Title searches to try, in order. Virgo's title search needs every word, and "/" or "—" in the
+    query finds nothing, so: the title without that punctuation, then each side of a bilingual title,
+    then the main title when it has 2+ significant words (one word, like "Haiti", is too broad)."""
+    def clean(text: str) -> str:
+        return " ".join(_QUERY_PUNCT.sub(" ", text).split())
+
+    out: List[str] = []
+    for q in [cite.title] + bilingual_sides(cite.title) + [cite.title.partition(":")[0] if ":" in cite.title else ""]:
+        q = clean(q)
+        if q and q not in out and (q == clean(cite.title) or len(significant_words(q)) >= 2):
+            out.append(q)
+    return out
 
 
 
@@ -201,6 +240,14 @@ class _Row:
 
 
 _VERDICTS = {"exact": "Yes", "likely": "Likely — check", "none": "No"}
+
+
+def _location(rec: Record) -> str:
+    """Library, shelf and call number; the library is left out when the shelf already names it
+    ("Fine Arts Stacks"). ("Interlibrary Lending" alone hid that Fine Arts owns the copy.)"""
+    lib, loc = rec.library.strip(), rec.location.strip()
+    parts = [loc] if lib and lib.lower() in loc.lower() else [lib, loc]
+    return ", ".join(x for x in parts + [rec.call_number] if x)
 
 
 def _cell(text: str) -> str:
@@ -276,10 +323,16 @@ class CitationTools:
 
     def _check_one(self, cite: Citation) -> _Row:
         try:
-            best, quality = self._best(cite, self._search(cite.title, "title") if cite.title else [])
+            found: List[Record] = []
+            best, quality = None, "none"
+            for q in title_queries(cite):  # stop at the first exact match
+                found += self._search(q, "title")
+                best, quality = self._best(cite, found)
+                if quality == "exact":
+                    break
             others: List[str] = []
             if best is None and cite.surname:
-                by_author = self._search(cite.surname, "author")
+                by_author = self._author_search(cite)
                 best, quality = self._best(cite, by_author)
                 if best is None:
                     others = self._other_works(cite, by_author)
@@ -287,8 +340,17 @@ class CitationTools:
             return _Row(match="search failed")
         if best is None:
             return _Row(verdict="No", match="none", others=others)
-        location = ", ".join(x for x in (best.location or best.library, best.call_number) if x)
-        return _Row(verdict=_VERDICTS[quality], match=quality, location=location, link=best.url)
+        return _Row(verdict=_VERDICTS[quality], match=quality, location=_location(best), link=best.url)
+
+    def _author_search(self, cite: Citation) -> List[Record]:
+        """"Surname, Given" when the citation has a given name and that finds the person; else the
+        surname. ("Rodman" alone is 20 other Rodmans; "Alexis, Gérald" finds Tocqueville.)"""
+        if cite.given:
+            want = significant_words(cite.surname) | significant_words(cite.given)
+            records = self._search(f"{cite.surname}, {cite.given}", "author")
+            if any(want <= significant_words(name) for r in records for name in r.author.split(";")):
+                return records
+        return self._search(cite.surname, "author")
 
     @staticmethod
     def _other_works(cite: Citation, records: List[Record]) -> List[str]:
