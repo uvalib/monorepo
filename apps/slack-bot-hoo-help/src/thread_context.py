@@ -322,6 +322,11 @@ def extract_thread_history(
                 m, bot_user_id=bot_user_id, bot_app_bot_id=bot_app_bot_id
             ):
                 role = "assistant"
+                # The answer's code-built tables (citation check, Matomo, gate counts) live in its
+                # blocks, not its text: give them to the model, or follow-ups re-search and guess.
+                tables_text = _code_tables_text(m.get("blocks") or [])
+                if tables_text:
+                    txt = f"{txt}\n\n{tables_text}"
             else:
                 # Skip other bots in the thread
                 if m.get("bot_id") or m.get("bot_profile"):
@@ -384,3 +389,26 @@ def extract_thread_history(
         )
         meta["reason"] = f"fetch_error: {e}"
         return [], False, meta
+
+
+_CODE_TABLE_PREFIXES = ("data_table", "citations_table", "matomo_table")
+MAX_TABLES_TEXT = 12000
+
+
+def _code_tables_text(blocks) -> str:
+    """Plain text of a bot message's code-built tables (with their header), for thread history."""
+    from slack_blocks import blocks_plain_text
+
+    if not any(isinstance(b, dict) and b.get("type") == "table"
+               and str(b.get("block_id") or "").startswith(_CODE_TABLE_PREFIXES) for b in blocks):
+        return ""
+    keep = [b for b in blocks if isinstance(b, dict) and (
+        b.get("type") == "header" or b.get("type") == "context"
+        or (b.get("type") == "table" and str(b.get("block_id") or "").startswith(_CODE_TABLE_PREFIXES)))]
+    lines = []
+    for b in keep:
+        if b.get("type") == "table":
+            lines += [" | ".join(str(c.get("text") or "") for c in row) for row in b.get("rows") or []]
+        else:
+            lines.append(blocks_plain_text([b]))
+    return "\n".join(x for x in lines if x.strip())[:MAX_TABLES_TEXT]

@@ -196,15 +196,20 @@ def _without_github_section(prompt: str) -> str:
     return _GITHUB_SECTION.sub("", prompt, count=1)
 
 
-def _ungrounded_catalog_claims(text: str, known_texts: List[str]) -> bool:
-    """Does the draft name catalog records (Virgo item links, call numbers) found nowhere in the
-    thread or this turn's tool results? Then it came from the model's memory."""
+def _unsupported_catalog_claims(text: str, known_texts: List[str]) -> List[str]:
+    """Catalog records the draft names (Virgo item ids, call numbers) found nowhere in the thread or
+    this turn's tool results: they came from the model's memory."""
     known = " ".join(t for t in known_texts if t)
     squashed = re.sub(r"\s+", "", known)
-    for item_id in _ITEM_URL.findall(text or ""):
-        if item_id not in known:
-            return True
-    return any(re.sub(r"\s+", "", c) not in squashed for c in _CALL_NUMBER.findall(text or ""))
+    out = [i for i in _ITEM_URL.findall(text or "") if i not in known]
+    for m in re.finditer(r"\b[A-Z]{1,3}\d{1,5}(?:\.\d+)?\s?\.[A-Z]\d+(?:\s[A-Z]\d+)?(?:\s\d{4})?", text or ""):
+        if re.sub(r"\s+", "", _CALL_NUMBER.match(m.group(0)).group(0)) not in squashed:
+            out.append(m.group(0))
+    return list(dict.fromkeys(out))
+
+
+def _ungrounded_catalog_claims(text: str, known_texts: List[str]) -> bool:
+    return bool(_unsupported_catalog_claims(text, known_texts))
 
 
 def _drop_unseen_item_links(text: str, known_texts: List[str]) -> str:
@@ -406,6 +411,7 @@ Guidelines:
 - When check_citations isn't available, search several at once to check a list of items against the catalog (a reading list or bibliography): up to 5 catalog calls in one step. When a citation's title isn't found, also search by its author and mention any other edition or translation UVA has (often the original-language edition). Say which items you haven't checked yet. Never state that UVA owns an item, or give a call number or Virgo link, unless this turn's tool results or the thread show it.
 <!--domain:catalog-->
 - For a list of citations (a reading list or bibliography), call check_citations once with all of them (up to 100), keeping their numbering; then summarize in 2–4 sentences without repeating the table, naming any other edition or translation it lists.
+- After check_citations, answer follow-ups about that list from its table (it is in the thread), and quote counts from its first line. To update or re-show the chart, call check_citations again with the same citations (start_number keeps the numbering); never rebuild it by hand, and don't re-search the items one by one unless asked to search a particular item another way.
 <!--/domain-->
 - Never paste CSV, TSV or JSON data as text: when someone wants a file, it is attached automatically from Hoo Helper's tables.
 - Format responses for Slack mrkdwn (NOT full Markdown):
@@ -965,6 +971,7 @@ class HooHelpAgent:
         include_top_p = True
 
         out_of_time = False
+        corrected = False  # one rewrite round for unsupported catalog records
         while iteration < max_iterations:
             # Rebuilt each step: a tool can turn on more tools (enable_github_tools).
             tool_config = self._merged_tool_config(local_tools, route=route)
@@ -1063,6 +1070,19 @@ class HooHelpAgent:
                     draft = _assistant_visible_text(output_message.get("content", []))
                     invented = (not trace.steps and not forced_tools
                                 and _ungrounded_catalog_claims(draft, known_texts))
+                    outputs_now = [str(getattr(s, "output", "") or "") for s in trace.steps]
+                    unsupported = (_unsupported_catalog_claims(draft, known_texts + outputs_now)
+                                   if trace.steps and not corrected and iteration < max_iterations else [])
+                    if unsupported:
+                        # Tools ran, but the draft names records no result shows: one rewrite.
+                        corrected = True
+                        logger.warning("Draft names catalog records not in the results (%s); asking for a rewrite "
+                                       "request_id=%s", ", ".join(unsupported[:5]), trace.request_id)
+                        messages.append({"role": "user", "content": [{"text": (
+                            "Some call numbers or Virgo records in your draft don't appear in this turn's results "
+                            "or the thread: " + ", ".join(unsupported[:10]) + ". Please rewrite the answer using "
+                            "only what the results and the thread show, and leave out anything they don't.")}]})
+                        continue
                     if (
                         not trace.steps
                         and not forced_tools

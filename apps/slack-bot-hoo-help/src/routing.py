@@ -118,7 +118,7 @@ _RULES = {
     "catalog": re.compile(
         r"(?i)\b(?:books?|title|author|call numbers?|isbn|virgo record|checked out|available to borrow|"
         r"citations?|bibliograph\w*|reading list|(?:does|do) uva have|does the library have)\b"),
-    "images": re.compile(r"(?i)\b(?:photos?|pictures?|images?|postcards?|show me)\b"),
+    "images": re.compile(r"(?i)\b(?:photos?|photographs?|pictures?|images?|postcards?)\b"),
     "site": re.compile(
         r"(?i)\b(?:polic(?:y|ies)|fines|overdue|printing|print|cd-?roms?|renew\w*|interlibrary loan|ill|guides?|"
         r"how do i|borrowing rules|docs?|documentation|procedures?|workflows?)\b"),
